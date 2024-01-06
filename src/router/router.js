@@ -55,7 +55,7 @@ const routes = [
     {
         path: '/deteksi',
         name: 'user.views.deteksi',
-        component: () => import('../views/Deteksi_GIM/Deteksi.vue'),
+        component: () => import('../views/customers/deteksi_gim/deteksi.vue'),
         meta: {
             showNavbar: true
         },

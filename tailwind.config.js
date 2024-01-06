@@ -10,8 +10,14 @@ export default {
         // 'poppins': ['Poppins']
       },
       colors: {
-        'primary': '#52D3D8',
-        'secondary': '#3887BE',
+        'primary': '#4361ee',
+        'secondary': '#c3d1db',
+        'success': '#00ab55',
+        'info': '#2196f3',
+        'warning': '#e2a03f',
+        'danger': '#e7515a',
+        'light': '#f2f7fa',
+        'dark': '#3b3f5c',
         'accent': '#38419D',
         'options': '#200E3A'
       },
