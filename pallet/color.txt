@@ -1,0 +1,6 @@
+https://colorhunt.co/palette/52d3d83887be38419d200e3a
+
+primary => #52D3D8
+secondary => #3887BE
+accent => #38419D
+options => #200E3A

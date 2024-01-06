@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    @font-face {
+        font-family: 'Rethink';
+        src: url('./assets/font/RethinkSans-VariableFont_wght.woff') format('woff');
+    }
+    /* @font-face {
+        font-family: 'Poppins';
+        src: url('./assets/font/Poppins-Medium.woff') format('woff');
+    } */
+}
