@@ -110,7 +110,7 @@
             </div>
         </section>
 
-        <section v-else-if="userResultDetect.is_resulted == false" class="bg-gray-100 pb-16">
+        <section v-else-if="userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
             <div class="flex flex-col lg:flex-row justify-center mx-4 pt-8 gap-4">
                 <ProfileCard />
                 <div v-if="userData.is_detected == 'Belum'" class="lg:w-2/3">
