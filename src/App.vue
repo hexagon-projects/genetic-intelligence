@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import navbar from './components/navbar/navbar.vue'
+import navbar from './components/navbar/newNavbar.vue'
 import footerComp from './components/footer/footer.vue';
 import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
