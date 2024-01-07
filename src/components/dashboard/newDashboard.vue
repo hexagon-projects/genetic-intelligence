@@ -69,6 +69,10 @@
                     <!-- <li class="before:content-['/'] before:px-1.5"><a href="javascript:;" class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">UI Kit</a></li> -->
                 </ol>
             </div>
+            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+                <HeadingBelumDeteksi/>
+                <profile/>
+            </div>
         </section>
     </div>
 </template>
@@ -76,6 +80,7 @@
 <script>
 import profile from './profile/profile.vue';
 import HeadingDashboard from './heading/headingDashboard.vue'
+import HeadingBelumDeteksi from './heading/headingBelumDeteksi.vue'
 import SlideKelebihanKekurangan from './slide/KelebihanKekurangan.vue'
 import SlidePenddikanPekerjaan from './slide/PendidikanPekerjaan.vue'
 import kelebihanVue from './kelebihan/kelebihan.vue';
@@ -93,6 +98,7 @@ export default {
     components: {
         profile, 
         HeadingDashboard,
+        HeadingBelumDeteksi,
         SlideKelebihanKekurangan, 
         SlidePenddikanPekerjaan,
         kelebihanVue,

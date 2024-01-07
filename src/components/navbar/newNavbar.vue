@@ -1,7 +1,8 @@
 <template>
     <header v-if="userData" class="hidden lg:flex lg:flex-col lg:gap-4 bg-white sticky top-0 z-50 px-4 py-4">
     <nav class="mx-4 text-dark flex justify-between items-center gap-4">
-        <h1 class="font-myFont font-semibold text-xl">GIM Application</h1>
+        <!-- <h1 class="font-myFont font-semibold text-xl">GIM Application</h1> -->
+		<img class="h-10" src="../../assets/img/gim-logo.png" alt="GIM Application">
         <div class="relative flex justify-center items-center gap-4">
             <h2 class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
             <a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">

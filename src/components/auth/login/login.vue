@@ -1,5 +1,5 @@
 <template>
-<div class="flex flex-col lg:flex-row items-center justify-center lg:gap-4 h-screen bg-secondary">
+<div id="img-login" class="flex flex-col lg:flex-row items-center justify-center lg:gap-4 h-screen bg-secondary">
   <div class="-mt-36 p-8 sm:mb-4 lg:flex-col lg:-mt-0 text-white">
     <p class="text-2xl md:text-4xl lg:text-5xl font-semibold font-myFont italic mt-2 mb-2">Fokus Bahagia.</p>
     <h1 class="text-2xl md:text-4xl lg:text-5xl font-myFont font-semibold mb-4">Genetic Intelligence Mapping</h1>
@@ -151,6 +151,14 @@ export default {
     components: { RouterLink }
 }
 </script>
+
+<style scoped>
+#img-login {
+  min-height:100%;
+      background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(38, 173, 197, 0.3)), url("../../../assets/img/bg-login.jpg");
+      background-size:cover;
+}
+</style>
 
 <!-- <div class="bg-secondary h-screen">
   <div class="container mx-auto">
