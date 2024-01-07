@@ -38,6 +38,31 @@
         </nav>
     </header>
 </section> -->
+
+<!-- Bottom Nav -->
+<section id="bottom-navigation" class="block lg:hidden fixed inset-x-0 bottom-0 z-10 bg-white shadow">
+		<div id="tabs" class="flex justify-between">
+			<RouterLink :to="{name: 'views.dashboard'}" 
+				class="w-full flex flex-col justify-center text-center pt-2 pb-1"
+				:class="{'font-bold' : $route.name === 'views.dashboard'}"
+				>
+				<div class="self-center">
+					<PhHouse :size="28" />
+				</div>
+				<span class="tab tab-home block text-xs">Beranda</span>
+			</RouterLink>
+
+			<customerBotNav v-if="userRole == 'customer'"/>
+
+			<a @click="Logout" class="cursor-pointer w-full focus:text-secondary hover:text-secondary flex flex-col justify-center text-center pt-2 pb-1">
+				<div class="self-center">
+					<PhSignOut :size="28" />
+				</div>
+				<span class="tab tab-home block text-xs">Logout</span>
+			</a>
+		</div>
+	</section>
+
 </template>
 
 <script>

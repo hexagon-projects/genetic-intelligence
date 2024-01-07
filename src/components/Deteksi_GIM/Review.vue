@@ -1,5 +1,5 @@
 <template>
-  <div v-if="reviewImage" class="flex flex-col mt-20">  
+  <div v-if="reviewImage" class="flex flex-col lg:mt-20 lg:mb-0 mb-7">  
     <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
         <li v-if="!reviewImage" class="h-full w-full text-center flex flex-col items-center justify-center">
             <img class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />

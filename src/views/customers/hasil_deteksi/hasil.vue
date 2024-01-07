@@ -1,6 +1,6 @@
 <template>
   <!-- <navbar/> -->
-  <section v-if="userData" class="bg-gray-100 mb-14">
+  <section v-if="userData" class="bg-gray-100 pb-8">
       <div class="flex flex-col justify-center mx-7 py-8 gap-4">
           <div v-if="userData.is_detected == 'Belum'" class="lg:w-full">
               <BelumDeteksi />

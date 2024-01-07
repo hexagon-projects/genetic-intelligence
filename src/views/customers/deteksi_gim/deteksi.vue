@@ -1,5 +1,5 @@
 <template>
-    <section v-if="userData" class="bg-gray-100 pb-16 text-dark">
+    <section v-if="userData" class="bg-gray-100 text-dark pb-0">
         <div class="flex flex-col lg:flex-row justify-center mx-7 py-8 gap-4">
             <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
               <div class="mb-6 flex items-center">
@@ -34,7 +34,7 @@
                       <div>
                           <div v-if="activeTab === 1">
                               <Instruksi/>
-                              <div class="flex flex-col justify-items-start mb-10 mx-40">
+                              <div class="flex flex-col justify-items-start mb-10 lg:mx-40">
                                   <div class="relative flex">
                                       <div class="flex h-6 items-center">
                                           <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
@@ -63,18 +63,18 @@
 
             <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-full">
                 <div class="bg-white rounded-lg shadow-lg p-4">
-                    <div class="flex items-center">
-                        <div class="w-1/2">
+                    <div class="flex flex-col lg:flex-row items-center">
+                        <div class="lg:w-1/2">
                             <div class="flex flex-col justify-center">
                                 <img src="../../../assets/img/wait-deteksi-crop-2.png" class="w-96 self-center" alt="No Data Found">
                             </div>
                         </div>
-                        <div class="w-1/2">
+                        <div class="lg:w-1/2">
                             <div class="flex flex-col">
-                                <h1 class="font-myFont text-3xl text-start text-dark font-semibold">Tunggu ya...</h1>
-                                <h1 class="font-myFont text-3xl text-start text-dark font-semibold">Kamu baru saja melakukan deteksi GIM</h1>
+                                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Tunggu ya...</h1>
+                                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu baru saja melakukan deteksi GIM</h1>
                                 <p class="font-myFont text-start text-dark-500 text-sm mb-4">Deteksi GIM kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.</p>
-                                <RouterLink :to="{name: 'views.dashboard'}" class="px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'views.dashboard'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Kembali ke Beranda
                                 </RouterLink>
                             </div>
@@ -85,17 +85,17 @@
             
             <div v-else-if="userData.is_detected == 'Selesai Terdeteksi'" class="lg:w-full">
                 <div class="bg-white rounded-lg shadow-lg p-4">
-                    <div class="flex items-center">
-                        <div class="w-1/2">
+                    <div class="flex flex-col lg:flex-row items-center">
+                        <div class="lg:w-1/2">
                             <div class="flex flex-col justify-center">
                                 <img src="../../../assets/img/complete-deteksi-crop-2.png" class="w-96 self-center" alt="No Data Found">
                             </div>
                         </div>
-                        <div class="w-1/2">
+                        <div class="lg:w-1/2">
                             <div class="flex flex-col">
-                                <h1 class="font-myFont text-3xl text-start text-dark font-semibold">Deteksi GIM kamu sudah selesai!</h1>
+                                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Deteksi GIM kamu sudah selesai!</h1>
                                 <p class="font-myFont text-start text-gray-500 text-sm mb-4">Ayo lihat hasil deteksi GIM kamu sekarang</p>
-                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="mb-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Lihat Hasil
                                 </RouterLink>
                             </div>

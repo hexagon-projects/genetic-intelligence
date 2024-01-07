@@ -1,7 +1,7 @@
 <template>
   <navbar v-if="showNavbar"/>
   <router-view></router-view>
-  <!-- <footerComp/> -->
+  <footerComp/>
 </template>
 
 <script>
