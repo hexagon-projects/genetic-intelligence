@@ -42,7 +42,7 @@ const routes = [
     {
         path: '/',
         name: 'views.dashboard',
-        component: () => import('../views/dashboard/dashboard.vue'),
+        component: () => import('../components/dashboard/newDashboard.vue'),
         meta: {
             showNavbar: true
         },
@@ -81,6 +81,19 @@ const routes = [
     {
         path: '/user-profile',
         name: 'user.views.profile',
+        component: () => import('../views/user_profile/UserProfile.vue'),
+        meta: {
+            showNavbar: true
+        },
+        beforeEnter: (to, from, next) => {
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth) next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/reservasi',
+        name: 'user.views.reservasi',
         component: () => import('../views/user_profile/UserProfile.vue'),
         meta: {
             showNavbar: true

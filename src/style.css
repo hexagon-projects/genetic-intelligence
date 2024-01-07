@@ -7,8 +7,8 @@
         font-family: 'Rethink';
         src: url('./assets/font/RethinkSans-VariableFont_wght.woff') format('woff');
     }
-    /* @font-face {
+    @font-face {
         font-family: 'Poppins';
         src: url('./assets/font/Poppins-Medium.woff') format('woff');
-    } */
+    }
 }
