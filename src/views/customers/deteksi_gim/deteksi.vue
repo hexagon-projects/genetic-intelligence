@@ -1,6 +1,17 @@
 <template>
     <section v-if="userData" class="bg-gray-100 pb-16 text-dark">
-        <div class="flex flex-col lg:flex-row justify-center mx-7 py-8 gap-4">
+        <div class="mx-4 pt-4">
+            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-dark opacity-85 text-xl">
+                    Beranda
+                </RouterLink>
+                <span class="mx-2 text-xl">/</span>
+                <RouterLink :to="{name: 'user.views.deteksi'}" class="text-xl text-dark hover:text-dark/70">
+                    Deteksi GIM
+                </RouterLink>
+            </ol>
+        </div>
+        <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
             <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
               <div class="mb-6 flex items-center">
                 <h5 class="text-lg font-semibold dark:text-white-light">Tes Pendeteksian Genetic Intelligence Mapping</h5>
