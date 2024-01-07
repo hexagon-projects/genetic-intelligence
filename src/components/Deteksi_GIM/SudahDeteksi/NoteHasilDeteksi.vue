@@ -1,16 +1,20 @@
 <template>
-    <div v-if="userResultDetect" class="flex flex-col lg:flex-row justify-center gap-4 mx-4">
-        <div class="w-full lg:w-1/2">
-            <div class="w-full bg-white rounded-lg shadow-xl p-4">
-                <div class="flex justify-between items-center">
-                    <div class="flex flex-col">
-                        <h2 class="pl-8 font-myFont font-semibold text-xl text-start text-black">Catatan hasil deteksi GIM kamu</h2>
-                        <p class="pl-8 font-myFont text-start text-gray-500 text-sm mb-4">Catatan tentang diri kamu</p>
+    <div v-if="userResultDetect" class="flex justify-center w-full">
+        <div class="w-full">
+            <div class="lg:relative w-full min-h-44 note-gradient shadow-xl p-9 rounded-2xl">
+                <div class="flex flex-col lg:justify-between lg:items-center">
+                    <div class="w-12/12 lg:w-1/12">
+                        <img src="../../../assets/img/otak-note.png" alt="icon" class="w-72 lg:w-60 lg:absolute lg:-bottom-5 lg:-left-5">
                     </div>
-                    <img class="w-22 h-20 pr-8" src="../../../assets/img/note-crop.png">
+                    <div class="w-12/12 lg:w-11/12 lg:px-36">
+                        <div class="lg:flex lg:flex-col">
+                            <h1 class="font-myFont font-semibold text-lg text-start text-light">Hasil Graphologi Kamu</h1>
+                            <p class="font-myFont text-start text-light text-md mb-4">Catatan tentang Graphologi kamu saat ini.</p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="p-3 flex justify-start">
+                <div class="lg:p-1 lg:pt-0 lg:px-48 lg:flex lg:justify-start lg:absolute">
                     <!-- <div class="pt-12">
                         <div class="overflow-hidden w-24 h-24 -mt-16 mx-auto">
                             <img src="../../assets/img/note-crop.png" alt="Note">
@@ -18,29 +22,9 @@
                     </div> -->
                     <div class="w-full">
                         <!-- <div class="text-3xl font-myFont text-secondary text-left leading-tight h-3">“</div> -->
-                        <p class="text-sm text-gray-600 text-wrap text-start px-5">{{ userResultDetect.note }}</p>
+                        <p class="text-sm text-light text-wrap text-start lg:px-1">{{ userResultDetect.note }}</p>
                         <!-- <div class="text-3xl font-myFont text-secondary text-right leading-tight h-3 -mt-3">”</div> -->
                     </div>
-                </div>
-
-                <!-- <div class="flex flex-col -mt-6">
-                    <p class="mt-4 font-myFont text-center text-gray-500 text-sm mb-2">Ingin konsultasi lebih lanjut? klik tombol dibawah</p>
-                    <button class="px-2 py-2 w-1/2 lg:w-1/4 self-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">Konsultasi</button>
-                </div> -->
-            </div>
-        </div>
-        <div class="lg:w-1/2">
-            <div class="bg-white rounded-lg shadow-xl p-4 h-full">
-                <h2 class="font-myFont font-semibold text-xl text-center text-black">Konsultasi lebih lanjut</h2>
-                <p class="font-myFont text-center text-gray-500 text-sm mb-4">Konsultasi secara mendalam dengan konsultan</p>
-                
-                <div class="mt-8 flex justify-center mb-4">
-                    <img class="w-1/2" src="../../../assets/img/consul.png" alt="">
-                </div>
-
-                <div class="flex flex-col">
-                    <!-- <p class="mt-4 font-myFont text-center text-gray-500 text-sm mb-2">Ingin konsultasi lebih lanjut? klik tombol dibawah</p> -->
-                    <button class="px-2 py-2 w-1/2 lg:w-1/4 self-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">Konsultasi</button>
                 </div>
             </div>
         </div>
@@ -63,3 +47,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .note-gradient{
+        background: rgb(107,222,180);
+        background: linear-gradient(90deg, rgba(107,222,180,1) 19%, rgba(78,221,209,1) 66%, rgba(31,171,238,1) 97%);
+    }
+</style>

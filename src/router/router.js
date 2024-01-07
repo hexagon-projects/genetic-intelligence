@@ -68,7 +68,7 @@ const routes = [
     {
         path: '/hasil-deteksi',
         name: 'user.views.hasil_deteksi',
-        component: () => import('../views/hasil_deteksi/Hasil.vue'),
+        component: () => import('../views/customers/hasil_deteksi/hasil.vue'),
         meta: {
             showNavbar: true
         },

@@ -6,7 +6,8 @@ export const store = createStore({
       userRole: null,
       userEmail: null,
       userDatas: null,
-      userResultDetect: null
+      userResultDetect: null,
+      reviewImage: null
     }
   },
   mutations: {
@@ -21,12 +22,16 @@ export const store = createStore({
     },
     userResultDetect(state, userResultDetect){
       state.userResultDetect = userResultDetect
+    },
+    reviewImage(state, fileImage){
+      state.reviewImage = fileImage
     }
   },
   getters: {
     getUserData: (state) => state.userDatas,
     getUserRole: (state) => state.userRole,
     getUserEmail: (state) => state.userEmail,
-    getUserResultDetect: (state) => state.userResultDetect
+    getUserResultDetect: (state) => state.userResultDetect,
+    getReviewImage: (state) => state.reviewImage
   },
 })

@@ -110,7 +110,7 @@
             </div>
         </section>
 
-        <section v-else-if="userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
+        <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
             <div class="flex flex-col lg:flex-row justify-center mx-4 pt-8 gap-4">
                 <ProfileCard />
                 <div v-if="userData.is_detected == 'Belum'" class="lg:w-2/3">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
 
-                <div v-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-2/3">
+                <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-2/3">
                     <div class="bg-white rounded-lg shadow-lg p-4">
                         <div class="flex flex-col justify-center">
                             <h2 class="font-myFont text-center text-black font-semibold">Deteksi GIM kamu sedang di proses</h2>
