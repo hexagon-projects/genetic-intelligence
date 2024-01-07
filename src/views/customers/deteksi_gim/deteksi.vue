@@ -1,5 +1,5 @@
 <template>
-    <section v-if="userData" class="bg-gray-100 pb-16 text-dark">
+    <section v-if="userData" class="bg-gray-100 pb-8 text-dark">
         <div class="mx-4 pt-4">
             <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
                 <RouterLink :to="{name: 'views.dashboard'}" class="text-dark opacity-85 text-xl">
