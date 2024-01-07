@@ -1,76 +1,105 @@
 <template>
-    <section v-if="userData" class="bg-gray-100 pb-16">
+    <section v-if="userData" class="bg-gray-100 pb-16 text-dark">
         <div class="flex flex-col lg:flex-row justify-center mx-7 py-8 gap-4">
             <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
-              <div class="mb-5 flex items-center">
+              <div class="mb-6 flex items-center">
                 <h5 class="text-lg font-semibold dark:text-white-light">Tes Pendeteksian Genetic Intelligence Mapping</h5>
               </div>
-                <div class="mb-5" x-data="{ activeTab: 1}">
+              <hr>
+                <div class="my-6" x-data="{ activeTab: 1}">
                   <div class="inline-block w-full">
                       <div class="relative z-[1]">
                           <div class="bg-primary w-[15%] h-1 absolute ltr:left-0 rtl:right-0 top-[30px] m-auto -z-[1] transition-[width]" :class="{'w-[15%]' : activeTab === 1, 'w-[48%]' : activeTab === 2, 'w-[81%]' : activeTab === 3}"></div>
                           <ul class="mb-5 grid grid-cols-3">
                               <li class="mx-auto">
-                                  <a href="javascript:;" class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full" :class="{'!border-primary !bg-primary text-white': activeTab === 1}" @click="activeTab = 1">
-                                      <svg> ... </svg>
-                                  </a>
+                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-primary !bg-primary text-white': activeTab === 1, 'text-dark': activeTab !== 1}">
+                                      <PhVideo :size='25'/>
+                                  </button>
                                   <span class="text-center block mt-2" :class="{'text-primary' : activeTab === 1}">Instruksi</span>
                               </li>
                               <li class="mx-auto">
-                                  <a href="javascript:;" class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full" :class="{'!border-primary !bg-primary text-white': activeTab === 2}" @click="activeTab = 2">
-                                      <svg> ... </svg>
-                                  </a>
+                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-primary !bg-primary text-white': activeTab === 2, 'text-dark': activeTab !== 2}">
+                                      <PhFileArrowUp :size='25'/>
+                                  </button>
                                   <span class="text-center block mt-2" :class="{'text-primary' : activeTab === 2}">Upload</span>
                               </li>
                               <li class="mx-auto">
-                                  <a href="javascript:;" class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full" :class="{'!border-primary !bg-primary text-white': activeTab === 3}" @click="activeTab = 3">
-                                      <svg> ... </svg>
-                                  </a>
+                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-primary !bg-primary text-white': activeTab === 3 , 'text-dark': activeTab !== 3}">
+                                      <PhCheckFat :size='25'/>
+                                  </button>
                                   <span class="text-center block mt-2" :class="{'text-primary' : activeTab === 3}">Submit</span>
                               </li>
                           </ul>
                       </div>
                       <div>
-                          <template x-if="activeTab === 1">
-                              <p class="mb-5">Try the keyboard navigation by clicking arrow left or right!</p>
-                          </template>
-                          <template x-if="activeTab === 2">
-                              <p class="mb-5">The next and previous buttons help you to navigate through your content.</p>
-                          </template>
-                          <template x-if="activeTab === 3">
-                              <p class="mb-5">Wonderful transition effects.</p>
-                          </template>
+                          <div v-if="activeTab === 1">
+                              <Instruksi/>
+                              <div class="flex flex-col justify-items-start mb-10 mx-40">
+                                  <div class="relative flex">
+                                      <div class="flex h-6 items-center">
+                                          <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
+                                      </div>
+                                      <div class="text-sm leading-6">
+                                          <label for="check-yes" class="ml-2 text-sm text-success-600">Saya telah mengikuti instruksi dari video diatas sampai selesai</label>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div v-if="activeTab === 2">
+                              <FormUpload/>
+                          </div>
+                          <div v-if="activeTab === 3">
+                              <Review/>
+                          </div>
                       </div>
                       <div class="flex justify-between">
-                          <button type="button" :class="{'opacity-75': activeTab === 1}" class="font-myFont px-4 py-2 rounded-lg bg-primary text-light" :disabled="activeTab === 1" @click="activeTab--">Back</button>
-                          <button type="button" class="font-myFont px-4 py-2 rounded-lg bg-primary text-light" :disabled="activeTab === 3" @click="activeTab++">Next</button>
+                          <button type="button" :class="{'opacity-75': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-primary text-light" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/> Back</button>
+                          <button v-if="activeTab === 3" @click="submitForm()" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-success text-light">Submit</button>
+                          <button v-else-if="activeTab < 3" type="button" id="btn-next" :class="{'cursor-not-allowed': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-primary text-light" :disabled="activeTab === 3 || !checked" @click="activeTab++">Next <PhCaretRight weight="bold"/></button>
                       </div>
                   </div>
               </div>
             </div>
 
-            <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-2/3">
+            <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-full">
                 <div class="bg-white rounded-lg shadow-lg p-4">
-                    <div class="flex flex-col justify-center">
-                        <h2 class="font-myFont text-center text-black font-semibold">Deteksi GIM Dalam Proses</h2>
-                        <p class="font-myFont text-center text-gray-500 text-sm mb-4">Tunggu ya.. Deteksi GIM kamu sedang di proses</p>
-                        <RouterLink :to="{name: 'views.dashboard'}" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
-                            Kembali ke Beranda
-                        </RouterLink>
-                        <img src="../../assets/img/wait-deteksi-crop.png" class="w-96 self-center" alt="No Data Found">
+                    <div class="flex items-center">
+                        <div class="w-1/2">
+                            <div class="flex flex-col justify-center">
+                                <img src="../../../assets/img/wait-deteksi-crop-2.png" class="w-96 self-center" alt="No Data Found">
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <div class="flex flex-col">
+                                <h1 class="font-myFont text-3xl text-start text-dark font-semibold">Tunggu ya...</h1>
+                                <h1 class="font-myFont text-3xl text-start text-dark font-semibold">Kamu baru saja melakukan deteksi GIM</h1>
+                                <p class="font-myFont text-start text-dark-500 text-sm mb-4">Deteksi GIM kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.</p>
+                                <RouterLink :to="{name: 'views.dashboard'}" class="px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                    Kembali ke Beranda
+                                </RouterLink>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div v-else-if="userData.is_detected == 'Selesai Terdeteksi'" class="lg:w-2/3">
+            <div v-else-if="userData.is_detected == 'Selesai Terdeteksi'" class="lg:w-full">
                 <div class="bg-white rounded-lg shadow-lg p-4">
-                    <div class="flex flex-col justify-center">
-                        <h2 class="font-myFont text-center text-black font-semibold">Deteksi GIM kamu sudah selesai!</h2>
-                        <p class="font-myFont text-center text-gray-500 text-sm mb-4">Untuk lihat hasil deteksi GIM kamu klik tombol dibawah</p>
-                        <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="mb-4 px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
-                            Lihat Hasil
-                        </RouterLink>
-                        <img src="../../assets/img/complete-deteksi-crop.png" class="w-96 self-center" alt="No Data Found">
+                    <div class="flex items-center">
+                        <div class="w-1/2">
+                            <div class="flex flex-col justify-center">
+                                <img src="../../../assets/img/complete-deteksi-crop-2.png" class="w-96 self-center" alt="No Data Found">
+                            </div>
+                        </div>
+                        <div class="w-1/2">
+                            <div class="flex flex-col">
+                                <h1 class="font-myFont text-3xl text-start text-dark font-semibold">Deteksi GIM kamu sudah selesai!</h1>
+                                <p class="font-myFont text-start text-gray-500 text-sm mb-4">Ayo lihat hasil deteksi GIM kamu sekarang</p>
+                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="mb-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                    Lihat Hasil
+                                </RouterLink>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,19 +111,68 @@
 <script>
 import Instruksi from '../../../components/Deteksi_GIM/Instruksi.vue';
 import FormUpload from '../../../components/Deteksi_GIM/FormUpload.vue';
+import Review from '../../../components/Deteksi_GIM/Review.vue';
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import initAPI from '../../../api/api';
+import { PhPrinter, PhTarget, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight } from "@phosphor-icons/vue";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
   name: 'deteksi',
-   setup(){
+  components: {Instruksi, FormUpload, Review, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight},
+  setup(){
     const store = useStore()
     const userData = computed(() => store.getters.getUserData)
     const activeTab = ref(1)
+    const checked = ref(false)
+    const reviewImage = computed(() => store.getters.getReviewImage)
     
+    const submitForm = async () => {
+      const formData = new FormData();
+      formData.append('detection_image', reviewImage.value[0]);
+
+      const customerId = userData.value.id
+      const token = JSON.parse(localStorage.getItem('token'))
+
+      try {
+        if(reviewImage.value !== null){
+          const response = await initAPI(
+            'post','customers/gim-result/upload-test/'+customerId, formData, token
+          );
+          if(response.status == 200){
+            Swal.fire({
+              icon: 'success',
+              title: 'File di Upload',
+              text: 'Deteksi GIM akan segera di proses',
+              showConfirmButton: false,
+              timer: 2000
+            });
+          }
+          const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+          store.commit('user', updatedCustomer.data.data[0])
+        //   console.log('update', updatedCustomer.data.data[0])
+          // console.log('Response from API:', response.data);
+        } else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Upload Gagal',
+              text: 'Upload file terlebih dahulu',
+              showConfirmButton: false,
+              timer: 2000
+          });
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+      }
+    };
+
     return{
         userData,
-        activeTab
+        activeTab,
+        checked,
+        submitForm
     }
   }
 }

@@ -1,8 +1,7 @@
 <template>
-    <div class="flex flex-col justify-center items-center mb-8">
-        <h1 class="font-myFont text-black font-semibold mb-4">1. Intruksi Konsultan</h1>
+    <div class="flex flex-col justify-center items-center">
         <iframe
-            class="w-11/12 lg:w-3/4 mb-2"
+            class="w-11/12 lg:w-3/4 mb-2 rounded-md border-4"
             width="560"
             height="315"
             :src="'https://www.youtube.com/embed/jN0aELsVQFA?si=NgJw_7NvNQEk__08'"
