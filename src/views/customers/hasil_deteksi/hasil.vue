@@ -1,6 +1,17 @@
 <template>
   <!-- <navbar/> -->
-  <section v-if="userData" class="bg-gray-100 pb-8">
+  <section v-if="userData" class="bg-gray-100 mb-14">
+         <div class="mx-4 pt-4 mb-2">
+            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-xl">
+                    Beranda
+                </RouterLink>
+                <span class="mx-2 text-xl">/</span>
+                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-xl text-dark hover:text-dark/70">
+                    Hasil Deteksi
+                </RouterLink>
+            </ol>
+        </div>
       <div class="flex flex-col justify-center mx-7 py-8 gap-4">
           <div v-if="userData.is_detected == 'Belum'" class="lg:w-full">
               <BelumDeteksi />

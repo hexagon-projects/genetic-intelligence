@@ -5,7 +5,7 @@
         <div class="relative flex justify-center items-center gap-4">
             <h2 class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
             <a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
-                <img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/boy-mock.png">
+                <img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/profile-mock.png">
                 <img v-else-if="userData.image !== null" class="w-6 rounded-full" :src="'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image">
             </a>
         </div>

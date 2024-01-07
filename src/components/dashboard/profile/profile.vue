@@ -34,7 +34,7 @@
 
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
-                            <img class="mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-[#1fabee] border-2 border-white mb-2" src="../../../assets/img/boy-mock.png" alt="User Profile">
+                            <img class="mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-[#1fabee] border-2 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
                             <h2 class="font-myFont text-center font-semibold text-[#1fabee] my-2">{{ userData.name }}</h2>
                         </div>
                         

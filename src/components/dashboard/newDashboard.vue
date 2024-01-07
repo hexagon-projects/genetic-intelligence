@@ -57,6 +57,19 @@
                 </div>
             </div> -->
         </section>
+
+        <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
+            <div class="mx-4 pt-4">
+                <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                    <li class="before:px-1.5">
+                        <a class="text-dark text-xl cursor-default">
+                            Beranda
+                        </a>
+                    </li>
+                    <!-- <li class="before:content-['/'] before:px-1.5"><a href="javascript:;" class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">UI Kit</a></li> -->
+                </ol>
+            </div>
+        </section>
     </div>
 </template>
 
