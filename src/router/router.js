@@ -91,6 +91,19 @@ const routes = [
             else next()
         }
     },
+    {
+        path: '/reservasi',
+        name: 'user.views.reservasi',
+        component: () => import('../views/user_profile/UserProfile.vue'),
+        meta: {
+            showNavbar: true
+        },
+        beforeEnter: (to, from, next) => {
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth) next({ name: 'views.login' })
+            else next()
+        }
+    },
     // {
     //     path: '/cek-card',
     //     name: 'user.views.profile',

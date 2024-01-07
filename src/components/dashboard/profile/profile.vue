@@ -1,6 +1,6 @@
 <template>
     <div v-if="userData" class="lg:w-1/4">
-        <div class="bg-white rounded-2xl shadow-xl p-4 h-full">
+        <div class="bg-white rounded-2xl shadow-sm p-4 h-full">
             <div class="flex flex-col justify-center items-center">
                 <!-- <h2 class="mb-2 font-myFont text-xl text-center text-black font-semibold">Profile Kamu</h2>
                 
@@ -45,29 +45,29 @@
                         </div>
     
                         <div class="flex flex-col items-center gap-2">
-                            <div class="flex flex-col items-start">
-                                <a class="font-myFont flex items-center gap-4 lg:text-md text-dark">
+                            <div class="flex flex-col gap-1 items-start">
+                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                     <PhMapPin/>
                                     {{ userData.birth_place }}
                                 </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-md text-dark">
+                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                     <PhCalendar/>
                                     {{ userData.birth_date }}
                                 </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-md text-dark">
+                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                     <PhDna/>
                                     {{ userData.blood_group }}
                                 </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-md text-dark">
+                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                     <PhHandsPraying/>
                                     {{ userData.religion }}
                                 </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-md text-dark">
+                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                     <PhGenderMale v-if="userData.gender == 'Laki-laki'"/>
                                     <PhGenderFemale v-else-if="userData.gender == 'Perempuan'"/>
                                     {{ userData.gender }}
                                 </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-md text-dark">
+                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                     <PhUsers v-if="userData.status == 'Menikah'"/>
                                     <PhUser v-else-if="userData.status == 'Lajang'"/>
                                     {{ userData.status }}

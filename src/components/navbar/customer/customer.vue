@@ -19,12 +19,12 @@
         <PhFileText :size="24" weight="duotone" />
         Hasil Deteksi
     </RouterLink>
-    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
+    <RouterLink :to="{name: 'user.views.reservasi'}" 
     class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont text-dark
             hover:bg-secondary hover:text-light hover:rounded-lg hover:shadow-sm
             "
-        :class="{'bg-secondary px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi'}"
+        :class="{'bg-secondary px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.reservasi'}"
         >
         <PhCalendarCheck :size="24" weight="duotone" />
         Reservasi
