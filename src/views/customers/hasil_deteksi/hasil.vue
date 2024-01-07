@@ -7,7 +7,7 @@
           </div>
 
           <NoteHasilDeteksi v-if="userData.is_detected == 'Selesai Terdeteksi'"/>
-          <div class="flex flex-col lg:flex-row justify-center lg:gap-7 gap-4 lg:my-2">
+          <div class="flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
               <FileHasilDeteksi v-if="userData.is_detected == 'Selesai Terdeteksi'" />
     
               <VideoHasilDeteksi v-if="userData.is_detected == 'Selesai Terdeteksi'" />

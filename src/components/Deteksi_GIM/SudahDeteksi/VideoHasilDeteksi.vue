@@ -1,6 +1,6 @@
 <template>
     <div v-if="userResultDetect" class="lg:w-2/3 w-full">
-        <div class="flex flex-col gap-4 lg:gap-7">
+        <div class="flex flex-col gap-4 lg:gap-4">
             <div class="bg-white rounded-lg shadow-xl p-4 h-full overflow-hidden">
                 <div class="flex flex-col justify-center align-middle">
                     <h2 class="font-myFont text-start text-black font-semibold">Berikut adalah Penjelasan singkat hasil Deteksi GIM kamu</h2>

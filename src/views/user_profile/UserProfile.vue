@@ -1,14 +1,14 @@
 <template>
     <!-- <navbar/> -->
     <section v-if="userData" class="bg-gray-100 pb-16">
-        <div class="mx-4 pt-8">
+        <div class="mx-4 pt-5">
             <div class="bg-white rounded-lg shadow-xl p-4">
                 <div class="flex justify-around items-center">
                     <div class="mx-4 flex justify-center items-center gap-2">
                         <img v-if="profileImageUrl || userData.image !== null" class="w-24 h-24 rounded-full border-2 border-secondary" :src="profileImageUrl == '' ? 'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image : profileImageUrl" alt="Foto Profile">
                         <img v-else-if="!profileImageUrl && userData.image == null" class="w-24 h-24 rounded-full border-2 border-secondary" src="../../assets/img/boy-mock.png" alt="Foto Profile">
                         <div class="flex flex-col">
-                            <h2 class="font-myFont text-black text-2xl">{{ userData.name }}</h2>
+                            <h2 class="font-myFont text-dark text-2xl">{{ userData.name }}</h2>
                             <p class="font-myFont text-gray-500 text-sm">Foto Profile</p>
                         </div>
                     </div>
@@ -16,14 +16,14 @@
                     <div class="flex justify-center items-center gap-2">
                         <button @click="uploadFoto" v-if="profileImageUrl" class="
                            cursor-pointer px-2 py-1 rounded-lg font-myFont text-secondary border-2 border-secondary
-                            hover:text-white hover:bg-secondary hover:shadow-lg
+                            hover:text-light hover:bg-secondary hover:shadow-lg
                         ">
                             Upload Foto
                         </button>
 
                         <label for="fileInput" class="
                            cursor-pointer px-2 py-1 rounded-lg font-myFont text-secondary border-2 border-secondary
-                            hover:text-white hover:bg-secondary hover:shadow-lg
+                            hover:text-light hover:bg-secondary hover:shadow-lg
                         ">
                         Ubah Foto
                         </label>
@@ -40,55 +40,55 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row justify-center mx-4 pt-8 gap-4">
+        <div class="flex flex-col lg:flex-row justify-center mx-4 pt-5 gap-5">
             <div class="lg:w-1/2">
                 <div class="bg-white rounded-lg shadow-xl p-4 h-full">
-                    <h2 class="font-myFont text-black text-2xl mb-4">Informasi Pribadi</h2>
+                    <h2 class="font-myFont text-dark text-2xl mb-4">Informasi Pribadi</h2>
                     <div class="flex flex-col justify-center items-center">
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="nama_depan" class="block text-sm font-myFont font-medium text-gray-600">Nama Depan:</label>
+                                <label for="nama_depan" class="block text-sm font-myFont font-medium text-dark">Nama Depan:</label>
                                 <input v-model="namaDepan" type="text" name="nama_depan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="newPass" class="block text-sm font-myFont font-medium text-gray-600">Nama Belakang:</label>
+                                <label for="newPass" class="block text-sm font-myFont font-medium text-dark">Nama Belakang:</label>
                                 <input v-model="namaBelakang" type="text" id="nama_belakang" name="nama_belakang" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                         </div>
                         
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="email" class="block text-sm font-myFont font-medium text-gray-600">Email:</label>
+                                <label for="email" class="block text-sm font-myFont font-medium text-dark">Email:</label>
                                 <input v-model="emailVal" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
     
                             <div class="w-full mb-4">
-                                <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
+                                <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-dark">No Whatsapp:</label>
                                 <input v-model="noWhatsapp" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                         </div>
 
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="Tempat Lahir" class="block text-sm font-myFont font-medium text-gray-600">Tempat Lahir:</label>
+                                <label for="Tempat Lahir" class="block text-sm font-myFont font-medium text-dark">Tempat Lahir:</label>
                                 <input v-model="tempatLahir" type="text" id="tempat_lahir" name="tempat_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-gray-600">Tanggal Lahir:</label>
+                                <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-dark">Tanggal Lahir:</label>
                                 <input v-model="formattedDate" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                         </div>
                         
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-gray-600">Jenis Kelamin:</label>
+                                <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-dark">Jenis Kelamin:</label>
                                 <select v-model="jenisKelamin" name="jenis_kelamin" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary bg-white">
                                     <option value="Laki-laki">Laki - Laki</option>
                                     <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                             <div class="w-full mb-4">
-                                <label for="status_nikah" class="block text-sm font-myFont font-medium text-gray-600">Status Nikah:</label>
+                                <label for="status_nikah" class="block text-sm font-myFont font-medium text-dark">Status Nikah:</label>
                                 <select v-model="statusNikah" name="status_nikah" id="status_nikah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary bg-white">
                                     <option value="Menikah">Menikah</option>
                                     <option value="Lajang">Lajang</option>
@@ -98,32 +98,32 @@
 
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="provinsi" class="block text-sm font-myFont font-medium text-gray-600">Provinsi:</label>
+                                <label for="provinsi" class="block text-sm font-myFont font-medium text-dark">Provinsi:</label>
                                 <input v-model="provinsi" type="text" id="provinsi" name="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="kota" class="block text-sm font-myFont font-medium text-gray-600">Kota:</label>
+                                <label for="kota" class="block text-sm font-myFont font-medium text-dark">Kota:</label>
                                 <input v-model="kota" type="text" id="kota" name="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                         </div>
                         
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="kecamatan" class="block text-sm font-myFont font-medium text-gray-600">Kecamatan:</label>
+                                <label for="kecamatan" class="block text-sm font-myFont font-medium text-dark">Kecamatan:</label>
                                 <input v-model="kecamatan" type="text" id="kecamatan" name="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="kelurahan" class="block text-sm font-myFont font-medium text-gray-600">Kelurahan:</label>
+                                <label for="kelurahan" class="block text-sm font-myFont font-medium text-dark">Kelurahan:</label>
                                 <input v-model="kelurahan" type="text" id="kelurahan" name="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" />
                             </div>
                         </div>
 
                         <div class="w-full mb-4">
-                            <label for="alamat" class="block text-sm font-myFont font-medium text-gray-600">Alamat Lengkap:</label>
+                            <label for="alamat" class="block text-sm font-myFont font-medium text-dark">Alamat Lengkap:</label>
                             <textarea v-model="alamatLengkap" type="text" id="alamat" name="alamat" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary"></textarea>
                         </div>
 
-                        <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                        <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
                             Ubah Data
                         </button>
                     </div>
@@ -132,20 +132,20 @@
 
             <div class="lg:w-1/2">
                 <div class="bg-white rounded-lg shadow-lg p-4">
-                    <h2 class="font-myFont text-black text-2xl mb-4">Ubah Password</h2>
+                    <h2 class="font-myFont text-dark text-2xl mb-4">Ubah Password</h2>
                     <div class="flex flex-col justify-center items-center">
                         <div class="flex justify-center items-center w-full gap-2">
                             <div class="w-full mb-4">
-                                <label for="currPass" class="block text-sm font-myFont font-medium text-gray-600">Password Sekarang:</label>
+                                <label for="currPass" class="block text-sm font-myFont font-medium text-dark">Password Sekarang:</label>
                                 <input v-model="currPass" type="text" name="curPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" placeholder="Nama Depan" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="newPass" class="block text-sm font-myFont font-medium text-gray-600">Password Baru:</label>
+                                <label for="newPass" class="block text-sm font-myFont font-medium text-dark">Password Baru:</label>
                                 <input v-model="newPass" type="text" name="newPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-secondary focus:ring-2 focus:border-secondary" placeholder="Nama Belakang" />
                             </div>
                         </div>
 
-                        <button class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                        <button class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
                             Ubah Password
                         </button>
                     </div>
