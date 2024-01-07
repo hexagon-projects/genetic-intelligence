@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col">
-        <div class="mt-10 mx-8 mb-3">
+    <div class="flex flex-col mb-7">
+        <div class="mt-10 lg:mx-8 mb-3">
           <h5 class="text-lg font-semibold dark:text-white-light">Silahkan Upload Foto Hasil Test Anda</h5>
         </div>
         <article aria-label="File Upload Modal" class="h-full w-full flex flex-col">
             <!-- ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event); -->
-            <section class="h-full overflow-auto p-8 pt-0 w-full flex flex-col">
+            <section class="h-full overflow-auto lg:p-8 pt-0 w-full flex flex-col">
               <div class="flex items-center justify-center w-full">
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
