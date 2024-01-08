@@ -11,7 +11,7 @@
                     <span
                     v-for="(item, index) in listPendidikan"
                     :key="index"
-                    class="px-4 py-2 text-xs text-primary border rounded-full border-primary font-myFont"
+                    class="px-4 py-2 text-xs text-biru border rounded-full border-biru font-myFont"
                     >
                     {{ item }}
                     </span>

@@ -1,7 +1,7 @@
 <template>
     <div v-if="userResultDetect" class="flex justify-center w-full">
         <div class="w-full">
-            <div class="lg:relative w-full min-h-44 note-gradient shadow-xl p-9 rounded-2xl">
+            <div class="lg:relative w-full min-h-44 gradasi shadow-xl p-9 rounded-2xl">
                 <div class="flex flex-col lg:justify-between lg:items-center">
                     <div class="w-12/12 lg:w-1/12">
                         <img src="../../../assets/img/otak-note.png" alt="icon" class="w-72 lg:w-60 lg:absolute lg:-bottom-5 lg:-left-5">
@@ -51,5 +51,10 @@ export default {
     .note-gradient{
         background: rgb(107,222,180);
         background: linear-gradient(90deg, rgba(107,222,180,1) 19%, rgba(78,221,209,1) 66%, rgba(31,171,238,1) 97%);
+    }
+
+    .gradasi {
+        background: rgb(11,64,244);
+background: linear-gradient(162deg, rgba(11,64,244,1) 26%, rgba(2,178,255,1) 82%);
     }
 </style>

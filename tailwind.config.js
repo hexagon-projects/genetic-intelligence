@@ -19,7 +19,8 @@ export default {
         'light': '#f7fcfc',
         'dark': '#3b3f5c',
         'accent': '#38419D',
-        'options': '#200E3A'
+        'options': '#200E3A',
+        'biru': '#0b40f4'
       },
     },
   },

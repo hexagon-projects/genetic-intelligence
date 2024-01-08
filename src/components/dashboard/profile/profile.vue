@@ -23,7 +23,7 @@
                 <div class="self-center w-full">
                     <div class="flex flex-row justify-between items-center border-b mb-2">
                         <h2 class="mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-dark text-xl">Data Diri</h2>
-                        <RouterLink :to="{name: 'user.views.profile'}" class="bg-[#1fabee] p-2 lg:p-3 rounded-full mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-light text-xs md:text-lg lg:text-xl">
+                        <RouterLink :to="{name: 'user.views.profile'}" class="bg-biru p-2 lg:p-3 rounded-full mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-light text-xs md:text-lg lg:text-xl">
                             <PhPencilSimple/>
                         </RouterLink>
                         <!-- <RouterLink :to="{name: 'user.views.profile'}">
@@ -34,12 +34,12 @@
 
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
-                            <img class="mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-[#1fabee] border-2 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
-                            <h2 class="font-myFont text-center font-semibold text-[#1fabee] my-2">{{ userData.name }}</h2>
+                            <img class="mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-2 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
+                            <h2 class="font-myFont text-center font-semibold text-dark text-opa my-2">{{ userData.name }}</h2>
                         </div>
                         
                         <div v-else-if="userData.image !== null" class="self-center">
-                            <img class="w-28 h-28 rounded-full hover:border-secondary border-2 border-white mb-2" 
+                            <img class="w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
                             :src="'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image" alt="User Profile">
                             <h2 class="font-myFont text-center font-bold text-dark my-2">{{ userData.name }}</h2>
                         </div>

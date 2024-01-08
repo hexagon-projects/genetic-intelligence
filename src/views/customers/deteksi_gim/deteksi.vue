@@ -106,7 +106,7 @@
                             <div class="flex flex-col">
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Deteksi GIM kamu sudah selesai!</h1>
                                 <p class="font-myFont text-start text-gray-500 text-sm mb-4">Ayo lihat hasil deteksi GIM kamu sekarang</p>
-                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Lihat Hasil
                                 </RouterLink>
                             </div>
