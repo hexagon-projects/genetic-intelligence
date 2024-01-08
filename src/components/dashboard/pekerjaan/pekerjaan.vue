@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-2xl shadow-sm p-4 h-full">
+    <div v-if="userResultDetect" class="bg-white rounded-2xl shadow-sm p-4 h-full">
         <h2 class="font-myFont font-semibold text-xl text-start mx-12 lg:mx-4 text-dark">
             Pekerjaan yang optimal untukmu
         </h2>
@@ -22,12 +22,20 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import { ref, computed } from 'vue'
+
 export default {
     name: 'Pekerjaan',
     setup(){
-        const listPekerjaan = ['IT', 'Programmer', 'Kimia', 'Hukum', 'Kedokteran', 'Peternakan']
+        const store = useStore()
+        const listPekerjaan = ref([])
+        const userResultDetect = computed(() => store.getters.getUserResultDetect);
+        // const listPekerjaan = ['IT', 'Programmer', 'Kimia', 'Hukum', 'Kedokteran', 'Peternakan']
+        listPekerjaan.value = userResultDetect.value.gim.gim_details.jobs.data
         return{
-            listPekerjaan
+            userResultDetect,
+            listPekerjaan,
         }
     }
 }

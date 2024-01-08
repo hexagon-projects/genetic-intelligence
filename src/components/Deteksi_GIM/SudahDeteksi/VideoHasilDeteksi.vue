@@ -3,12 +3,12 @@
         <div class="flex flex-col gap-4 lg:gap-4">
             <div class="bg-white rounded-lg shadow-xl p-4 h-full overflow-hidden">
                 <div class="flex flex-col justify-center align-middle">
-                    <h2 class="font-myFont text-start text-black font-semibold">Berikut adalah Penjelasan singkat hasil Deteksi GIM kamu</h2>
+                    <h2 class="font-myFont text-start text-dark font-semibold">Berikut adalah Penjelasan singkat hasil Deteksi GIM kamu</h2>
                     <hr class="my-5">
                     <!-- <p class="font-myFont text-center text-gray-500 text-sm mb-6">Fahami diri kamu lewat hasil deteki GIM ini</p> -->
                     <div class="flex flex-col items-center gap-2">
                         <div class="w-full mx-auto items-center">
-                            <div class="hidden lg:flex lg:flex-row align-middle mb-1">
+                            <div class="hidden lg:flex lg:flex-row gap-1 items-center align-middle mb-1">
                                 <PhWarningCircle :size="24" color="#e81111"/><span class="text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</span>
                             </div>
                             <div class="lg:hidden flex flex-row align-middle mb-1">

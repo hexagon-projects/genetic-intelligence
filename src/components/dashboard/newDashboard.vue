@@ -4,7 +4,7 @@
             <div class="mx-4 pt-4">
                 <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
                     <li class="before:px-1.5">
-                        <a class="text-dark text-xl cursor-default">
+                        <a class="text-dark text-base cursor-default">
                             Beranda
                         </a>
                     </li>

@@ -1,11 +1,11 @@
 <template>
     <div class="lg:w-3/4">
-        <div class="gradasi shadow-sm flex flex-col md:flex-row lg:flex-row lg:justify-between items-center rounded-2xl gap-4 px-12 py-12">
+        <div class="min-h-full gradasi shadow-sm flex flex-col md:flex-row lg:flex-row lg:justify-between items-center rounded-2xl gap-4 px-12 py-12">
             <div class="w-full flex flex-col gap-2">
                 <img src="../../../assets/img/blogging-bro-crop.png" class="-mt-4 mx-auto lg:items-start w-9/12" alt="">
                 <div class="hidden lg:block">
-                    <h1 class="font-poppins font-normal text-start text-clip text-lg lg:text-3xl text-white">Selamat Datang</h1>
-                    <h1 class="font-poppins font-normal text-start text-clip text-lg lg:text-3xl text-white">Kembali,</h1>
+                    <h1 class="font-poppins font-normal text-start text-clip text-lg lg:text-xl text-white">Selamat Datang</h1>
+                    <h1 class="font-poppins font-normal text-start text-clip text-lg lg:text-xl text-white">Kembali !</h1>
                     <h1 class="font-poppins font-normal text-start text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
                 </div>
                 <div class="block lg:hidden">
@@ -28,10 +28,10 @@
                 <div class="w-full">
                     <h1 class="mb-2 font-myFont font-semibold text-xl lg:text-2xl text-white">Kata Kunci</h1>
                     <p class="mb-2 font-myFont font-light text-wrap text-sm lg:text-md text-light">{{ userResultDetect.gim.keyword }}</p>
-                    <button class="flex justiy-center items-center gap-2 px-4 py-2 bg-white bg-opacity-50 backdrop-blur-3xl rounded-lg font-myFont text-dark hover:text-light hover:bg-[#1fabee]">
+                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="w-1/2 md:w-3/5 lg:w-3/5 flex justiy-between items-center gap-2 px-4 py-2 bg-white bg-opacity-50 backdrop-blur-3xl rounded-lg font-myFont text-dark hover:text-light hover:bg-[#1fabee]">
                         Lihat Detail
                         <PhArrowRight/>
-                    </button>
+                    </RouterLink>
                 </div>
             </div>
         </div>

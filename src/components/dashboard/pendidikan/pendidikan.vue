@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-2xl shadow-sm p-4 h-full">
+    <div v-if="userResultDetect" class="bg-white rounded-2xl shadow-sm p-4 h-full">
         <h2 class="font-myFont font-semibold text-xl text-start mx-12 lg:mx-4 text-dark">
             Pendidikan yang optimal untukmu
         </h2>
@@ -22,12 +22,20 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { ref, computed } from 'vue'
+
 export default {
     name: 'Pendidikan',
     setup(){
-        const listPendidikan = ['Sistem Informasi', 'Management', 'Kimia', 'Hukum', 'Kedokteran', 'Hubungan Internasional']
+        const store = useStore()
+        const listPendidikan = ref([])
+        const userResultDetect = computed(() => store.getters.getUserResultDetect);
+        listPendidikan.value = userResultDetect.value.gim.gim_details.education.data
+        // const listPendidikan = ['Sistem Informasi', 'Management', 'Kimia', 'Hukum', 'Kedokteran', 'Hubungan Internasional']
         return{
-            listPendidikan
+            listPendidikan,
+            userResultDetect
         }
     }
 }

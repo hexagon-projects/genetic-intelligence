@@ -6,7 +6,7 @@
                 <div class="flex justify-around items-center">
                     <div class="mx-4 flex justify-center items-center gap-2">
                         <img v-if="profileImageUrl || userData.image !== null" class="w-24 h-24 rounded-full border-2 border-secondary" :src="profileImageUrl == '' ? 'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image : profileImageUrl" alt="Foto Profile">
-                        <img v-else-if="!profileImageUrl && userData.image == null" class="w-24 h-24 rounded-full border-2 border-secondary" src="../../assets/img/boy-mock.png" alt="Foto Profile">
+                        <img v-else-if="!profileImageUrl && userData.image == null" class="w-24 h-24 rounded-full border-2 border-secondary" src="../../assets/img/profile-mock.png" alt="Foto Profile">
                         <div class="flex flex-col">
                             <h2 class="font-myFont text-dark text-2xl">{{ userData.name }}</h2>
                             <p class="font-myFont text-gray-500 text-sm">Foto Profile</p>

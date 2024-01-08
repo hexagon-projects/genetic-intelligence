@@ -3,11 +3,11 @@
   <section v-if="userData" class="bg-gray-100 pb-8">
          <div class="mx-4 pt-4 mb-2">
             <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
-                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-xl">
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
                     Beranda
                 </RouterLink>
-                <span class="mx-2 text-xl">/</span>
-                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-xl text-dark hover:text-dark/70">
+                <span class="mx-2 text-base">/</span>
+                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-base text-dark hover:text-dark/70">
                     Hasil Deteksi
                 </RouterLink>
             </ol>

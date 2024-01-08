@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg shadow-lg p-4">
+    <div class="-mt-6 bg-white rounded-lg shadow-lg p-4">
         <div class="hidden lg:flex lg:flex-row items-center">
             <div class="lg:w-1/2">
                 <div class="flex flex-col mx-14">

@@ -7,7 +7,8 @@ const routes = [
         name: 'views.404notfound',
         component: () => import('../views/404notfound/notfound.vue'),
         meta: {
-            showNavbar: false
+            showNavbar: false,
+            showFooter: false
         }
     },
     {
@@ -15,7 +16,8 @@ const routes = [
         name: 'views.login',
         component: () => import('../components/auth/login/login.vue'),
         meta: {
-            showNavbar: false
+            showNavbar: false,
+            showFooter: false
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
@@ -28,7 +30,8 @@ const routes = [
         name: 'views.register',
         component: () => import('../components/auth/register/registernew.vue'),
         meta: {
-            showNavbar: false
+            showNavbar: false,
+            showFooter: false
         }
     },
     {
@@ -36,7 +39,8 @@ const routes = [
         name: 'views.forgot',
         component: () => import('../components/auth/forgot/forgot.vue'),
         meta: {
-            showNavbar: false
+            showNavbar: false,
+            showFooter: false
         }
     },
     {
@@ -44,7 +48,8 @@ const routes = [
         name: 'views.dashboard',
         component: () => import('../components/dashboard/newDashboard.vue'),
         meta: {
-            showNavbar: true
+            showNavbar: true,
+            showFooter: true
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
@@ -57,7 +62,8 @@ const routes = [
         name: 'user.views.deteksi',
         component: () => import('../views/customers/deteksi_gim/deteksi.vue'),
         meta: {
-            showNavbar: true
+            showNavbar: true,
+            showFooter: true
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
@@ -70,7 +76,8 @@ const routes = [
         name: 'user.views.hasil_deteksi',
         component: () => import('../views/customers/hasil_deteksi/hasil.vue'),
         meta: {
-            showNavbar: true
+            showNavbar: true,
+            showFooter: true
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
@@ -83,7 +90,8 @@ const routes = [
         name: 'user.views.profile',
         component: () => import('../views/user_profile/UserProfile.vue'),
         meta: {
-            showNavbar: true
+            showNavbar: true,
+            showFooter: true
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
@@ -94,9 +102,10 @@ const routes = [
     {
         path: '/reservasi',
         name: 'user.views.reservasi',
-        component: () => import('../views/user_profile/UserProfile.vue'),
+        component: () => import('../components/customer/reservasi/reservasi.vue'),
         meta: {
-            showNavbar: true
+            showNavbar: true,
+            showFooter: true
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))

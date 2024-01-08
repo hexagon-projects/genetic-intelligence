@@ -1,7 +1,7 @@
 <template>
   <navbar v-if="showNavbar"/>
   <router-view></router-view>
-  <footerComp/>
+  <footerComp v-if="showFooter"/>
 </template>
 
 <script>
@@ -15,14 +15,17 @@ export default {
   components: {navbar, footerComp},
   setup() {
     const showNavbar = ref(true);
+    const showFooter = ref(true);
     const router = useRoute()
 
     watchEffect(() => {
       showNavbar.value = router.meta.showNavbar !== false;
+      showFooter.value = router.meta.showFooter !== false;
     });
 
     return {
       showNavbar,
+      showFooter
     };
   },
 }

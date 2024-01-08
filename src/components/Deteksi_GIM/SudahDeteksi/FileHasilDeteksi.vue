@@ -2,7 +2,7 @@
     <div v-if="userResultDetect" class="lg:w-1/3 w-full">
         <div class="bg-white rounded-lg shadow-xl p-4 h-full">
             <div class="flex flex-col">
-                <h2 class="font-myFont flex justify-between text-black font-semibold align-middle">
+                <h2 class="font-myFont flex justify-between text-dark font-semibold align-middle">
                     {{ userResultDetect.gim_result !== null ? 'Hasil Deteksi GIM' : 'File Kamu Belum Tersedia' }}
                     <div v-if="userResultDetect.gim_result" class="flex flex-col lg:flex-row justify-end items-end">
                         <button @click="downloadImage" class="w-8 h-8 px-2 py-2 bg-secondary hover:opacity-75 hover:shadow-lg font-myFont text-light rounded-lg"><PhDownloadSimple/></button>
