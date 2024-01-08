@@ -1,6 +1,14 @@
 <template>
     <div v-if="userData" class="lg:w-1/4">
-        <div class="bg-white rounded-2xl shadow-sm p-4 h-full">
+        <div class="flex bg-gradient-primary rounded-lg rounded-bl-none rounded-br-none justify-between items-center py-1">
+            <h2 class="my-2 md:my-2 font-myFont font-bold text-center lg:text-start mx-4 text-white text-xl">
+                Data Diri
+            </h2>
+            <!-- <RouterLink :to="{name: 'user.views.profile'}" class="bg-light p-2 lg:p-3 rounded-full my-2 md:my-2 mx-4 font-myFont font-medium text-center lg:text-start text-dark text-xs md:text-lg lg:text-xl">
+                <PhPencilSimple/>
+            </RouterLink> -->
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4">
             <div class="flex flex-col justify-center items-center">
                 <!-- <h2 class="mb-2 font-myFont text-xl text-center text-black font-semibold">Profile Kamu</h2>
                 
@@ -21,26 +29,23 @@
                 
                 <!-- <hr class="w-full my-6 border-t border-gray-300"> -->
                 <div class="self-center w-full">
-                    <div class="flex flex-row justify-between items-center border-b mb-2">
-                        <h2 class="mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-dark text-xl">Data Diri</h2>
-                        <RouterLink :to="{name: 'user.views.profile'}" class="bg-gradient-primary p-2 lg:p-3 rounded-full mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-light text-xs md:text-lg lg:text-xl">
-                            <PhPencilSimple/>
-                        </RouterLink>
-                        <!-- <RouterLink :to="{name: 'user.views.profile'}">
-                            <PhPencilSimple/>
-                        </RouterLink> -->
-                    </div>
                     <div class="flex flex-row justify-around lg:flex-col">
 
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
                             <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                                Ubah Profil
+                            </RouterLink>
                             <h2 class="font-myFont text-center font-semibold text-dark text-opa my-2">{{ userData.name }}</h2>
                         </div>
                         
                         <div v-else-if="userData.image !== null" class="self-center">
                             <img class="w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
                             :src="'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image" alt="User Profile">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                                Ubah Profil
+                            </RouterLink>
                             <h2 class="font-myFont text-center font-bold text-dark my-2">{{ userData.name }}</h2>
                         </div>
     
@@ -64,12 +69,12 @@
                                         {{ userData.blood_group }}
                                     </a>
                                 </div>
-                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
+                                <!-- <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhHandsPraying/>
                                     <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                         {{ userData.religion }}
                                     </a>
-                                </div>
+                                </div> -->
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhGenderMale v-if="userData.gender == 'Laki-laki'"/>
                                     <PhGenderFemale v-else-if="userData.gender == 'Perempuan'"/>
@@ -77,13 +82,13 @@
                                         {{ userData.gender }}
                                     </a>
                                 </div>
-                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
+                                <!-- <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhUsers v-if="userData.status == 'Menikah'"/>
                                     <PhUser v-else-if="userData.status == 'Lajang'"/>
                                     <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                         {{ userData.status }}
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
