@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-2xl shadow-sm p-4 h-full">
+    <div class="bg-white rounded-lg shadow-sm p-4 h-full">
         <div class="w-full mb-4">
             <div class="flex justify-center gap-2 mt-2 mb-4 mx-auto">
                 <img src="../../../assets/img/minus-crop.png" class="w-8 h-8" alt="Negatif Icon">
