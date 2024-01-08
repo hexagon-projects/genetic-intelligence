@@ -22,6 +22,9 @@ export default {
         'options': '#200E3A',
         'biru': '#0b40f4'
       },
+      backgroundImage: (theme) => ({
+        'gradient-primary': 'linear-gradient(162deg, rgba(11,64,244,1) 26%, rgba(2,178,255,1) 82%)',
+      }),
     },
   },
   plugins: [],

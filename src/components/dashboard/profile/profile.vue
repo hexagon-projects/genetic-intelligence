@@ -23,7 +23,7 @@
                 <div class="self-center w-full">
                     <div class="flex flex-row justify-between items-center border-b mb-2">
                         <h2 class="mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-dark text-xl">Data Diri</h2>
-                        <RouterLink :to="{name: 'user.views.profile'}" class="bg-biru p-2 lg:p-3 rounded-full mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-light text-xs md:text-lg lg:text-xl">
+                        <RouterLink :to="{name: 'user.views.profile'}" class="bg-gradient-primary p-2 lg:p-3 rounded-full mb-4 md:mb-4 font-myFont font-medium text-center lg:text-start text-light text-xs md:text-lg lg:text-xl">
                             <PhPencilSimple/>
                         </RouterLink>
                         <!-- <RouterLink :to="{name: 'user.views.profile'}">
@@ -34,7 +34,7 @@
 
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
-                            <img class="mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-2 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
+                            <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
                             <h2 class="font-myFont text-center font-semibold text-dark text-opa my-2">{{ userData.name }}</h2>
                         </div>
                         
@@ -46,32 +46,44 @@
     
                         <div class="flex flex-col items-center gap-2">
                             <div class="flex flex-col gap-1 items-start">
-                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                <div class="font-myFont px-4 py-2 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhMapPin/>
-                                    {{ userData.birth_place }}
-                                </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                    <a class="lg:text-sm text-dark">
+                                        {{ userData.birth_place }}
+                                    </a>
+                                </div>
+                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhCalendar/>
-                                    {{ userData.birth_date }}
-                                </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                    <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                        {{ userData.birth_date }}
+                                    </a>
+                                </div>
+                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhDna/>
-                                    {{ userData.blood_group }}
-                                </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                    <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                        {{ userData.blood_group }}
+                                    </a>
+                                </div>
+                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhHandsPraying/>
-                                    {{ userData.religion }}
-                                </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                    <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                        {{ userData.religion }}
+                                    </a>
+                                </div>
+                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhGenderMale v-if="userData.gender == 'Laki-laki'"/>
                                     <PhGenderFemale v-else-if="userData.gender == 'Perempuan'"/>
-                                    {{ userData.gender }}
-                                </a>
-                                <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                    <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                        {{ userData.gender }}
+                                    </a>
+                                </div>
+                                <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <PhUsers v-if="userData.status == 'Menikah'"/>
                                     <PhUser v-else-if="userData.status == 'Lajang'"/>
-                                    {{ userData.status }}
-                                </a>
+                                    <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                        {{ userData.status }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,3 +156,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.round {
+    border: 2px solid transparent;
+    background: linear-gradient(#151515, #151515) padding-box,
+    linear-gradient(to top, rgba(11,64,244,1), rgba(2,178,255,1)) border-box;
+    border-radius: 50%;
+}
+</style>
