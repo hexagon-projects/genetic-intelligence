@@ -4,8 +4,8 @@
             <div class="w-full flex flex-col gap-2">
                 <img src="../../../assets/img/blogging-bro-crop.png" class="-mt-4 mx-auto lg:items-start w-full" alt="">
                 <div class="block lg:hidden">
-                    <h1 class="font-poppins font-normal text-center text-clip text-lg lg:text-3xl text-white">Selamat Datang Kembali!</h1>
-                    <h1 class="font-poppins font-normal text-center text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
+                    <h1 class="font-myFont font-normal text-center text-clip text-lg lg:text-3xl text-white">Selamat Datang Kembali!</h1>
+                    <h1 class="font-myFont font-normal text-center text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
                 </div>
             </div>
             <div class="w-full z-5 flex flex-col gap-1">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border-l mt-[56px] ml-8 -mr-8">
+            <div class="hidden lg:block border-l mt-[56px] ml-8 -mr-8">
                 <br>
                 <br>
                 <br>
@@ -35,7 +35,7 @@
                 <br>
             </div>
             <div class="w-full flex flex-col gap-4 lg:pl-6 ml-4">
-                <div class="w-full mt-[56px]">
+                <div class="w-full lg:mt-[56px]">
                     <h1 class="mb-2 font-myFont font-bold text-xl lg:text-base text-white">Kata Kunci</h1>
                     <p class="mb-2 font-myFont font-light text-wrap text-sm lg:text-sm text-light">{{ userResultDetect.gim.keyword }}</p>
                     <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-sm w-1/2 md:w-3/5 lg:w-3/5 flex justiy-between items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
