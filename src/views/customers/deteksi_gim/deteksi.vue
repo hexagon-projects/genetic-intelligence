@@ -20,22 +20,22 @@
                 <div class="my-6" x-data="{ activeTab: 1}">
                   <div class="inline-block w-full">
                       <div class="relative z-[1]">
-                          <div class="bg-secondary w-[15%] h-1 absolute ltr:left-0 rtl:right-0 top-[30px] m-auto -z-[1] transition-[width]" :class="{'w-[15%]' : activeTab === 1, 'w-[48%]' : activeTab === 2, 'w-[81%]' : activeTab === 3}"></div>
+                          <div class="bg-biru w-[15%] h-1 absolute ltr:left-0 rtl:right-0 top-[30px] m-auto -z-[1] transition-[width]" :class="{'w-[15%]' : activeTab === 1, 'w-[48%]' : activeTab === 2, 'w-[81%]' : activeTab === 3}"></div>
                           <ul class="mb-5 grid grid-cols-3">
                               <li class="mx-auto">
-                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-secondary !bg-secondary text-white': activeTab === 1, 'text-dark': activeTab !== 1}">
+                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 1, 'text-dark': activeTab !== 1}">
                                       <PhVideo :size='25'/>
                                   </button>
                                   <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 1}">Instruksi</span>
                               </li>
                               <li class="mx-auto">
-                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-secondary !bg-secondary text-white': activeTab === 2, 'text-dark': activeTab !== 2}">
+                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 2, 'text-dark': activeTab !== 2}">
                                       <PhFileArrowUp :size='25'/>
                                   </button>
                                   <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 2}">Upload</span>
                               </li>
                               <li class="mx-auto">
-                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-secondary !bg-secondary text-white': activeTab === 3 , 'text-dark': activeTab !== 3}">
+                                  <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 3 , 'text-dark': activeTab !== 3}">
                                       <PhCheckFat :size='25'/>
                                   </button>
                                   <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 3}">Submit</span>
@@ -48,7 +48,7 @@
                               <div class="flex flex-col justify-items-start mb-10 lg:mx-40">
                                   <div class="relative flex">
                                       <div class="flex h-6 items-center">
-                                          <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-secondary focus:secondary" />
+                                          <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-biru focus:biru" />
                                       </div>
                                       <div class="text-sm leading-6">
                                           <label for="check-yes" class="ml-2 text-sm text-success-600">Saya telah mengikuti instruksi dari video diatas sampai selesai</label>
@@ -64,9 +64,9 @@
                           </div>
                       </div>
                       <div class="flex justify-between">
-                          <button type="button" :class="{'opacity-75': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-secondary text-white" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/>Kembali</button>
+                          <button type="button" :class="{'opacity-75': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru text-white" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/>Kembali</button>
                           <button v-if="activeTab === 3" @click="submitForm()" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-success text-light">Submit</button>
-                          <button v-else-if="activeTab < 3" type="button" id="btn-next" :class="{'cursor-not-allowed': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-secondary bg-opacity-100 text-white" :disabled="activeTab === 3 || !checked" @click="activeTab++">Selanjutnya <PhCaretRight weight="bold"/></button>
+                          <button v-else-if="activeTab < 3" type="button" id="btn-next" :class="{'cursor-not-allowed': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru bg-opacity-100 text-white" :disabled="activeTab === 3 || !checked" @click="activeTab++">Selanjutnya <PhCaretRight weight="bold"/></button>
                       </div>
                   </div>
               </div>
@@ -85,7 +85,7 @@
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Tunggu ya...</h1>
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu baru saja melakukan deteksi GIM</h1>
                                 <p class="font-myFont text-start text-dark-500 text-sm mb-4">Deteksi GIM kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.</p>
-                                <RouterLink :to="{name: 'views.dashboard'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'views.dashboard'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Kembali ke Beranda
                                 </RouterLink>
                             </div>
@@ -106,7 +106,7 @@
                             <div class="flex flex-col">
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Deteksi GIM kamu sudah selesai!</h1>
                                 <p class="font-myFont text-start text-gray-500 text-sm mb-4">Ayo lihat hasil deteksi GIM kamu sekarang</p>
-                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Lihat Hasil
                                 </RouterLink>
                             </div>

@@ -76,7 +76,8 @@ export default {
     setup(){
 
         const clickTgl = async() => {
-            const response = await initAPI('get', 'consultants/available-schedule/2', null, null)
+            const token = JSON.parse(localStorage.getItem('token'))
+            const response = await initAPI('get', 'consultants/available-schedule/1', null, token)
             console.log(response)
         }
 

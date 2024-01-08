@@ -16,15 +16,15 @@
         </div>
     </nav>
     <hr>
-    <nav class="mx-4 text-dark flex justify-start items-center gap-7">
+    <nav class="mx-4 flex justify-start items-center gap-7">
         <RouterLink :to="{name: 'views.dashboard'}" 
             class="
-            flex justify-center items-end px-4 py-2 gap-1 font-myFont text-dark
-            hover:bg-secondary hover:text-light hover:rounded-lg hover:shadow-sm
+            flex justify-center items-end px-4 py-2 gap-1 font-myFont
+            hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
-            :class="{'bg-secondary px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'views.dashboard'}"
+            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'views.dashboard', 'text-dark bg-white': $route.name !== 'views.dashboard'}"
             >
-            <PhHouse :size="24" />
+            <PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru hover:text-light': $route.name !== 'views.dashboard'}" />
             Beranda
         </RouterLink>
         <customerNav/>

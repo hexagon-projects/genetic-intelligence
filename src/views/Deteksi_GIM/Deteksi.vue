@@ -31,7 +31,7 @@
                     <div class="flex flex-col justify-center">
                         <h2 class="font-myFont text-center text-black font-semibold">Deteksi GIM kamu sudah selesai!</h2>
                         <p class="font-myFont text-center text-gray-500 text-sm mb-4">Untuk lihat hasil deteksi GIM kamu klik tombol dibawah</p>
-                        <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="mb-4 px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                        <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="mb-4 px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                             Lihat Hasil
                         </RouterLink>
                         <img src="../../assets/img/complete-deteksi-crop.png" class="w-96 self-center" alt="No Data Found">

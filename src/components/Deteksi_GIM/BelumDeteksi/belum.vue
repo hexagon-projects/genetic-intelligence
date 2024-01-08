@@ -5,7 +5,7 @@
                 <div class="flex flex-col mx-14">
                     <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu belum melakukan deteksi GIM.</h1>
                     <p class="font-myFont text-start text-dark-500 text-sm mb-4">Ayo lakukan Tes Deteksi GIM sekarang juga!</p>
-                    <RouterLink :to="{name: 'user.views.deteksi'}" class="my-4 lg:mb-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-secondary font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                    <RouterLink :to="{name: 'user.views.deteksi'}" class="my-4 lg:mb-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                     Deteksi Sekarang
                 </RouterLink>
                 </div>
