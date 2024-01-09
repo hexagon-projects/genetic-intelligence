@@ -3,7 +3,7 @@
         <div class="flex flex-col lg:flex-row items-center">
             <div class="lg:w-1/2">
                 <div class="flex flex-col justify-center">
-                    <img src="../../../assets/img/wait-deteksi-crop-2.png" class="w-96 self-center" alt="No Data Found">
+                    <img src="../../../assets/img/wait-deteksi-crop-2.gif" class="w-96 self-center" alt="No Data Found">
                 </div>
             </div>
             <div class="lg:w-1/2">
