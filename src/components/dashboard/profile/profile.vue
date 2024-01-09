@@ -1,7 +1,7 @@
 <template>
     <div v-if="userData" class="lg:w-1/4">
         <div class="flex bg-gradient-primary rounded-lg rounded-bl-none rounded-br-none justify-between items-center py-1">
-            <h2 class="my-2 md:my-2 font-myFont font-bold text-center lg:text-start mx-4 text-white text-xl">
+            <h2 class="my-2 md:my-2 font-myFont font-bold text-center lg:text-start mx-4 text-white text-base">
                 Data Diri
             </h2>
             <!-- <RouterLink :to="{name: 'user.views.profile'}" class="bg-light p-2 lg:p-3 rounded-full my-2 md:my-2 mx-4 font-myFont font-medium text-center lg:text-start text-dark text-xs md:text-lg lg:text-xl">

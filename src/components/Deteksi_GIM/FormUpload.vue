@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col mb-7">
         <div class="mt-10 lg:mx-8 mb-3">
-          <h5 class="text-lg font-semibold dark:text-white-light">Silahkan Upload Foto Hasil Test Anda</h5>
+          <h5 class="text-lg font-semibold dark:text-white-light">Silahkan Upload Foto Tulisan Test Anda</h5>
         </div>
         <article aria-label="File Upload Modal" class="h-full w-full flex flex-col">
             <!-- ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event); -->

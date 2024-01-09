@@ -8,8 +8,8 @@
                     </div>
                     <div class="w-12/12 lg:w-11/12 lg:px-36">
                         <div class="lg:flex lg:flex-col">
-                            <h1 class="font-myFont font-semibold text-lg text-start text-light">Hasil Graphologi Kamu</h1>
-                            <p class="font-myFont text-start text-light text-md mb-4">Catatan tentang Graphologi kamu saat ini.</p>
+                            <h1 class="font-myFont font-semibold text-lg text-start text-light">Hasil Test Genetic Intelligence Mapping</h1>
+                            <p class="font-myFont text-start text-light text-md mb-4">catatan tentang hasil test kamu saat ini</p>
                         </div>
                     </div>
                 </div>

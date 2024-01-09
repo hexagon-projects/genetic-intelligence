@@ -7,7 +7,7 @@
             :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.deteksi', 'text-dark bg-white': $route.name !== 'user.views.deteksi'}"
         >
         <PhTarget :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.deteksi','text-biru hover:text-light': $route.name !== 'user.views.deteksi'}" />
-        Deteksi GIM
+        Test GIM
     </RouterLink>
     <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
          class="
@@ -17,7 +17,7 @@
             :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
         >
         <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
-        Hasil Deteksi
+        Hasil Test
     </RouterLink>
     <RouterLink :to="{name: 'user.views.reservasi'}" 
     class="

@@ -7,7 +7,7 @@
                 </RouterLink>
                 <span class="mx-2 text-base">/</span>
                 <RouterLink :to="{name: 'user.views.deteksi'}" class="text-base text-dark hover:text-dark/70">
-                    Deteksi GIM
+                    Test GIM
                 </RouterLink>
             </ol>
         </div>
@@ -83,8 +83,8 @@
                         <div class="lg:w-1/2">
                             <div class="flex flex-col">
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Tunggu ya...</h1>
-                                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu baru saja melakukan deteksi GIM</h1>
-                                <p class="font-myFont text-start text-dark-500 text-sm mb-4">Deteksi GIM kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.</p>
+                                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu baru saja melakukan test</h1>
+                                <p class="font-myFont text-start text-dark-500 text-sm mb-4">Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.</p>
                                 <RouterLink :to="{name: 'views.dashboard'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Kembali ke Beranda
                                 </RouterLink>

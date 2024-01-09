@@ -8,7 +8,7 @@
                 </RouterLink>
                 <span class="mx-2 text-base">/</span>
                 <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-base text-dark hover:text-dark/70">
-                    Hasil Deteksi
+                    Hasil Test
                 </RouterLink>
             </ol>
         </div>

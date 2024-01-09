@@ -3,7 +3,7 @@
         <div class="flex flex-col gap-4 lg:gap-4">
             <div class="bg-white rounded-lg shadow-xl p-4 h-full overflow-hidden">
                 <div class="flex flex-col justify-center align-middle">
-                    <h2 class="font-myFont text-start text-dark font-semibold">Berikut adalah Penjelasan singkat hasil Deteksi GIM kamu</h2>
+                    <h2 class="font-myFont text-start text-dark font-semibold">Hasil Test Genetic Intelligence Mapping</h2>
                     <hr class="my-5">
                     <!-- <p class="font-myFont text-center text-gray-500 text-sm mb-6">Fahami diri kamu lewat hasil deteki GIM ini</p> -->
                     <div class="flex flex-col items-center gap-2">

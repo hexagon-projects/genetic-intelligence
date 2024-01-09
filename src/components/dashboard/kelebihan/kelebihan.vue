@@ -1,7 +1,7 @@
 <template>
-    <div class="bg-white rounded-lg shadow-sm p-4 h-full">
-        <div class="w-full mb-4">
-            <div class="flex justify-center gap-2 mt-2 mb-4 mx-auto">
+    <div class="bg-white rounded-lg shadow-sm p-4">
+        <div class="w-full mb-2">
+            <div class="flex justify-center gap-2 mb-4 mx-auto">
                 <img src="../../../assets/img/plus-crop.png" class="w-8 h-8" alt="Negatif Icon">
                 <img src="../../../assets/img/plus-crop.png" class="w-8 h-8" alt="Negatif Icon">
                 <img src="../../../assets/img/plus-crop.png" class="w-8 h-8" alt="Negatif Icon">

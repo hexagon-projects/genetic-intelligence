@@ -1,11 +1,24 @@
 <template>
-<div id="img-login" class="flex flex-col lg:flex-row items-center justify-center lg:gap-4 h-screen bg-secondary">
-  <div class="-mt-36 p-8 sm:mb-4 lg:flex-col lg:-mt-0 text-white">
-    <p class="text-2xl md:text-4xl lg:text-5xl font-semibold font-myFont italic mt-2 mb-2">Fokus Bahagia.</p>
-    <h1 class="text-2xl md:text-4xl lg:text-5xl font-myFont font-semibold mb-4">Genetic Intelligence Mapping</h1>
+<div id="img-login" class="w-full flex flex-col lg:flex-row items-center justify-around lg:gap-4 h-screen bg-secondary">
+  <div class="-mt-36 sm:mb-4 w-1/2 lg:flex-col lg:-mt-0 text-white">
+    <p class="text-2xl md:text-4xl lg:text-5xl font-semibold font-myFont mt-2 mb-2">#FokusBahagia</p>
+    <h1 class="text-2xl md:text-4xl lg:text-5xl font-myFont font-semibold italic mb-4">Genetic Intelligence Mapping</h1>
+    <h1 class="text-2xl md:text-4xl lg:text-sm font-myFont font-light mb-4">
+      "Tes pemetaan kecerdasan secara 
+      genetika untuk mengidentifikasi sistem 
+      kecerdasan dan karakter manusia berdasarkan 
+      sistem operasi otak yang dominan dengan cara 
+      menganalisa hasil grafologi yang dinamakan GIM. 
+      Tes Genetic Intelligence Mapping dilakukan 
+      dengan cara menulis dalam sebuah kertas kosong untuk dianalisa oleh team ahli kami."
+    </h1>
   </div>
 
-  <div class="bg-white p-8 mx-4 rounded shadow-lg md:w-7/12 lg:w-96 lg:mr-4">
+  <div>
+
+  </div>
+
+  <div class="bg-white p-8 rounded shadow-lg md:w-7/12 lg:w-96 lg:mr-4">
     <!-- <h2 class="text-2xl font-semibold mb-6">Login</h2> -->
     <!-- <form> -->
       <h1 class="text-center text-2xl font-myFont font-bold mb-2">Masuk</h1>

@@ -15,26 +15,26 @@
                     <h1 class="font-myFont font-semibold text-start text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
                 </div>
                 <div class="w-full">
-                    <h1 v-if="userData.is_detected == 'Belum'" class="font-myFont font-bold text-xl lg:text-base text-white">
-                        Kamu belum melakukan deteksi GIM.
+                    <h1 v-if="userData.is_detected == 'Belum'" class="mb-3 font-myFont font-normal text-xl lg:text-base text-white">
+                        Saatnya sekarang kamu untuk melakukan test <span class="italic">Genetic Intelligence Mapping</span> agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu.
                     </h1>
                     <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'">
                         <h1 class="mb-2 font-myFont font-semibold text-xl lg:text-2xl text-white">
-                            Kamu baru saja melakukan deteksi GIM
+                            Kamu baru saja melakukan test <span class="italic">Genetic Intelligence Mapping</span>
                         </h1>
                     </div>
-                    <p v-if="userData.is_detected == 'Belum'" class="mb-2 font-myFont font-light text-wrap text-sm lg:text-md text-light">
-                        Ayo lakukan Tes Deteksi GIM sekarang juga!
+                    <p v-if="userData.is_detected == 'Belum'" class="mb-2 font-myFont font-bold text-wrap text-sm lg:text-lg text-light">
+                        Ayo lakukan test sekarang juga!
                     </p>
                     <p v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="mb-2 font-myFont font-light text-wrap text-sm lg:text-md text-light">
-                        Deteksi GIM kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.
+                        Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.
                     </p>
                     <RouterLink :to="{name: 'user.views.deteksi'}" v-if="userData.is_detected == 'Belum'" class="w-3/4 lg:w-1/2 flex justiy-center items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
                         Deteksi Sekarang
                         <PhArrowRight/>
                     </RouterLink>
-                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="w-1/2 lg:w-1/3 flex justiy-center items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-dark hover:text-light hover:bg-[#1fabee]">
-                        Cek Hasil
+                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="w-1/2 lg:w-1/3 flex justiy-center items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
+                        Cek Status
                         <PhArrowRight/>
                     </RouterLink>
                 </div>
