@@ -34,16 +34,18 @@
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
                             <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="flex items-center gap-1 p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                                <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>
                             <h2 class="font-myFont text-center font-semibold text-dark text-opa my-2">{{ userData.name }}</h2>
                         </div>
                         
                         <div v-else-if="userData.image !== null" class="self-center">
-                            <img class="w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
+                            <img class="mx-auto w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
                             :src="'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="flex items-center gap-1 p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                                <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>
                             <h2 class="font-myFont text-center font-bold text-dark my-2">{{ userData.name }}</h2>

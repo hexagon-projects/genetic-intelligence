@@ -19,8 +19,9 @@
                         Saatnya sekarang kamu untuk melakukan test <span class="italic">Genetic Intelligence Mapping</span> agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu.
                     </h1>
                     <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'">
-                        <h1 class="mb-2 font-myFont font-semibold text-xl lg:text-2xl text-white">
-                            Kamu baru saja melakukan test <span class="italic">Genetic Intelligence Mapping</span>
+                        <h1 class="mb-2 flex flex-col font-myFont font-normal text-xl lg:text-sm text-white">
+                            Kamu baru saja melakukan test 
+                            <span class="italic text-2xl">Genetic Intelligence Mapping</span>
                         </h1>
                     </div>
                     <p v-if="userData.is_detected == 'Belum'" class="mb-2 font-myFont font-bold text-wrap text-sm lg:text-lg text-light">

@@ -17,23 +17,23 @@
             </div>
 
             <div class="flex justify-center mx-4 gap-4">
-                <div class="w-[33%] flex flex-col gap-4">
-                    <div class="hidden lg:block w-full">
-                        <pekerjaan/>
-                    </div>
-                    <div class="hidden lg:block w-full">
-                        <pendidikan/>
-                    </div>
+                <div class="hidden lg:block w-1/4">
+                    <pekerjaan/>
                 </div>
+                <div class="hidden lg:block w-1/4">
+                    <pendidikan/>
+                </div>
+                <!-- <div class="w-[33%] flex flex-col gap-4">
+                </div> -->
 
-                <div class="w-[67%] flex flex-col gap-4">
-                    <div class="hidden lg:block w-full">
-                        <kelebihanVue/>
-                    </div>
-                    <div class="hidden lg:block w-full">
-                        <kekuranganVue/>
-                    </div>
+                <div class="hidden lg:block w-1/4">
+                    <kelebihanVue/>
                 </div>
+                <div class="hidden lg:block w-1/4">
+                    <kekuranganVue/>
+                </div>
+                <!-- <div class="w-[67%] flex flex-col gap-4">
+                </div> -->
 
             </div>
 
