@@ -4,7 +4,7 @@
             <div class="lg:relative w-full min-h-44 gradasi shadow-xl p-9 rounded-2xl">
                 <div class="flex flex-col lg:justify-between lg:items-center">
                     <div class="w-12/12 lg:w-1/12">
-                        <img src="../../../assets/img/otak-note.png" alt="icon" class="w-72 lg:w-60 lg:absolute lg:-bottom-5 lg:-left-5">
+                        <img src="../../../assets/img/otak-note.png" alt="icon" class="w-72 lg:w-64 lg:absolute lg:-bottom-8 lg:-left-5">
                     </div>
                     <div class="w-12/12 lg:w-11/12 lg:px-36">
                         <div class="lg:flex lg:flex-col">
