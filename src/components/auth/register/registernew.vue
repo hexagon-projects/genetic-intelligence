@@ -121,9 +121,9 @@
                             <div class="w-full mb-4">
                                 <label for="provinsi" class="block text-sm font-myFont font-medium text-gray-600">Provinsi:</label>
                                 <Select2 
+                                @select="getKota"
                                 v-model="provinsi" 
-                                :options="myOptions"
-                                :placeholder="placeholder"
+                                :options="provinceOptions"
                                 :settings="{width: '100%', placeholder: 'Pilih Provinsi'}"
                                 class="mt-1 p-[5px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white"
                                 />
@@ -208,10 +208,13 @@ export default{
     setup(){
         const $ = jQuery;
         window.$ = $;
-        const myOptions = {
-            id: 1,
-            provinsi: 'Jawa Barat'
-        }
+        const provinceOptions = ref([])
+        // const provinceOptions = [
+        //     {
+        //         id:1,
+        //         text: 'kanjut'
+        //     }
+        // ]
 
         const currForm = ref(1)
         const namaDepan = ref('')
@@ -234,10 +237,21 @@ export default{
 
         onMounted(async() => {
             const response = await initAPI('get', 'payment/methods', null, null)
-            console.log(response)
             paymentMethod.value = response.data.paymentFee
-            console.log(`metot`, paymentMethod.value)
+
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZ2ltLmFwcC5hcGkuaGV4YWdvbi5jby5pZC9hcGkvbG9naW4iLCJpYXQiOjE3MDUwNzI4MTYsImV4cCI6MTcwNTE1OTIxNiwibmJmIjoxNzA1MDcyODE2LCJqdGkiOiJVTjQ3OTF2aHJvU1NtQ25yIiwic3ViIjoiMyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.1fX36VbTetNV98YNlsQH1wm69iLIYzcGlsZEYHTfbOM'
+            const province = await initAPI('get', 'region/provinces', null, token)
+            console.log(province.data)
+            const formattedProvince = province.data.map(item => ({
+                id: item.id,
+                text: item.name
+            }));
+            provinceOptions.value = formattedProvince
         })
+
+        const getKota = () => {
+            console.log(`kota:`, provinsi.value)
+        }
 
         const pilihPayment = (payment, fee) => {
             console.log(`${payment} - ${fee}`)
@@ -347,7 +361,8 @@ export default{
             paymentType,
             totalFee,
             pilihPayment,
-            myOptions
+            provinceOptions,
+            getKota
         }
     }
 }
