@@ -113,6 +113,18 @@ const routes = [
             else next()
         }
     },
+    {
+        path: '/payment-status',
+        name: 'user.views.payment_status',
+        component: () => import('../components/customer/payment_status/payment.vue'),
+        meta: {
+            showNavbar: false,
+            showFooter: false
+        },
+    },
+    // {
+    //     path: '/payment-status?:merchantId&:reference'
+    // }
     // {
     //     path: '/cek-card',
     //     name: 'user.views.profile',

@@ -2,15 +2,15 @@
     <div class="lg:w-3/4">
         <div class="gradasi h-full shadow-sm flex flex-col md:flex-row lg:flex-row lg:justify-between items-center rounded-2xl gap-4 px-12 py-12">
             <div class="w-full h-full mt-2 flex flex-col gap-2">
-                <img src="../../../assets/img/welcome-bro(1).png" class="mx-auto lg:ml-4 lg:place-self-start w-3/4">
+                <img src="../../../assets/img/photo.png" class="lg:ml-4 self-center w-1/2">
                 <!-- <img src="../../../assets/img/lebih-lanjut.gif" class="mix-blend-multiply mt-4 mx-auto lg:ml-4 lg:place-self-start w-2/3"> -->
                 <div class="block lg:hidden">
-                    <h1 class="font-myFont font-normal text-center text-clip text-lg lg:text-3xl text-white">Selamat Datang Kembali!</h1>
-                    <h1 class="font-myFont font-normal text-center text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
+                    <h1 class="font-myFont font-normal text-center text-clip text-base lg:text-3xl text-white">Selamat Datang Kembali!</h1>
+                    <h1 class="font-myFont font-semibold text-center text-clip text-2xl lg:text-3xl text-white">{{ userData.name }}</h1>
                 </div>
             </div>
             <hr class="">
-            <div class="w-full flex flex-col gap-4 lg:border-l lg:pl-6 lg:-ml-8">
+            <div class="w-full flex flex-col gap-4 lg:border-l lg:pl-6 lg:-ml-2">
                 <div class="hidden lg:block">
                     <h1 class="font-myFont font-normal text-start text-clip text-lg lg:text-sm text-white">Selamat Datang !</h1>
                     <h1 class="font-myFont font-semibold text-start text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
@@ -20,7 +20,7 @@
                         Saatnya sekarang kamu untuk melakukan test <span class="italic">Genetic Intelligence Mapping</span> agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu.
                     </h1>
                     <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'">
-                        <h1 class="mb-2 flex flex-col font-myFont font-normal text-xl lg:text-sm text-white">
+                        <h1 class="mb-2 flex flex-col font-myFont font-normal text-sm lg:text-sm text-white">
                             Kamu baru saja melakukan test 
                             <span class="italic text-2xl">Genetic Intelligence Mapping</span>
                         </h1>
@@ -35,7 +35,7 @@
                         Deteksi Sekarang
                         <PhArrowRight/>
                     </RouterLink>
-                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="w-1/2 lg:w-1/3 flex justiy-center items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
+                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="w-1/2 lg:w-1/2 flex justiy-center items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
                         Cek Status
                         <PhArrowRight/>
                     </RouterLink>

@@ -33,40 +33,46 @@
 
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
-                            <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white mb-2" src="../../../assets/img/profile-mock.png" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="flex items-center gap-1 p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white" src="../../../assets/img/profile-mock.png" alt="User Profile">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="-mt-18 flex items-center gap-1 mb-2 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
                                 <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>
-                            <h2 class="font-myFont text-center font-semibold text-dark text-opa my-2">{{ userData.name }}</h2>
+                            <h2 class="-mt-2 font-myFont text-center font-semibold text-dark mb-1">{{ userData.name }}</h2>
                         </div>
                         
                         <div v-else-if="userData.image !== null" class="self-center">
-                            <img class="mx-auto w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
+                            <img class="round lg:mx-auto -ml-1 w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
                             :src="'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="flex items-center gap-1 p-2 lg:p-3 rounded-full my-1 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="flex items-center gap-1 p-2 lg:p-3 rounded-full md:my-2 lg:mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
                                 <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>
-                            <h2 class="font-myFont text-center font-bold text-dark my-2">{{ userData.name }}</h2>
+                            <h2 class="font-myFont text-center font-bold text-dark -mt-1 my-2">{{ userData.name }}</h2>
                         </div>
     
                         <div class="flex flex-col items-center gap-2">
-                            <div class="flex flex-col gap-1 items-start">
+                            <div class="flex flex-col gap-2 items-start pb-5">
                                 <div class="font-myFont px-4 py-2 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
-                                    <PhMapPin/>
+                                    <div class="bg-white p-1 rounded-full">
+                                        <PhMapPin/>
+                                    </div>
                                     <a class="lg:text-sm text-dark">
                                         {{ userData.birth_place }}
                                     </a>
                                 </div>
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
-                                    <PhCalendar/>
+                                    <div class="bg-white p-1 rounded-full">
+                                        <PhCalendar/>
+                                    </div>
                                     <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                         {{ userData.birth_date }}
                                     </a>
                                 </div>
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
-                                    <PhDna/>
+                                    <div class="bg-white p-1 rounded-full">
+                                        <PhDna/>
+                                    </div>
                                     <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                         {{ userData.blood_group }}
                                     </a>
@@ -78,9 +84,11 @@
                                     </a>
                                 </div> -->
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
-                                    <PhGenderMale v-if="userData.gender == 'Laki-laki'"/>
-                                    <PhGenderFemale v-else-if="userData.gender == 'Perempuan'"/>
-                                    <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
+                                    <div class="bg-white p-1 rounded-full">
+                                        <PhGenderMale v-if="userData.gender == 'Laki-laki'"/>
+                                        <PhGenderFemale v-else-if="userData.gender == 'Perempuan'"/>
+                                    </div>
+                                    <a class="pb-font-myFont flex items-center gap-4 lg:text-sm text-dark">
                                         {{ userData.gender }}
                                     </a>
                                 </div>

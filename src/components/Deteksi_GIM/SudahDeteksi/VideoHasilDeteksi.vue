@@ -22,14 +22,14 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg shadow-xl lg:p-4 h-full overflow-hidden">
-                <div class="flex lg:mx-auto lg:w-3/4">
-                    <div class="lg:block hidden lg:w-1/3">
-                        <img src="../../../assets/img/lebih-lanjut.gif" alt="icon" class="w-80">
+            <div class="bg-white rounded-lg shadow-xl lg:p-4 w-full h-full overflow-hidden">
+                <div class="flex flex-col lg:flex-row items-center lg:gap-4 lg:mx-auto lg:w-3/4">
+                    <div class="lg:block lg:w-1/3 -mb-3 pt-3 lg:-mb-0 lg:pt-0">
+                        <img src="../../../assets/img/note.png" alt="icon" class="mx-auto w-36">
                     </div>
                     <div class="lg:w-2/3 lg:p-0 px-4">
                         <div class="flex flex-col align-middle items-center my-7">
-                            <h1 class="font-myFont text-dark text-2xl lg:mb-2 mb-3">Ingin konsultasi lebih lanjut? Klik tombol dibawah untuk atur jadwalmu...</h1>
+                            <h1 class="font-myFont text-dark text-xl lg:mb-2 mb-3">Ingin kanjut konsultasi lebih lanjut? Klik tombol dibawah untuk atur jadwalmu...</h1>
                             <button class="px-2 py-2 w-1/2 self-start rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">Konsultasi</button>
                         </div>
                     </div>

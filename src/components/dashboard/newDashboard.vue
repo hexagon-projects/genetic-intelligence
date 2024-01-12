@@ -1,79 +1,64 @@
 <template>
-    <div v-if="userData && userResultDetect">
-        <section v-if="userResultDetect.is_resulted == true" class="bg-gray-100 pb-16">
-            <div class="mx-4 pt-4">
-                <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
-                    <li class="before:px-1.5">
-                        <a class="text-dark text-base cursor-default">
-                            Beranda
-                        </a>
-                    </li>
-                    <!-- <li class="before:content-['/'] before:px-1.5"><a href="javascript:;" class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">UI Kit</a></li> -->
-                </ol>
-            </div>
-            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
-                <HeadingDashboard/>
-                <profile/>
-            </div>
-
-            <div class="flex justify-center mx-4 gap-4">
-                <div class="hidden lg:block w-1/4">
-                    <pekerjaan/>
+    <div v-if="loading" class="preloader-overlay">
+        <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+    </div>
+    <div v-else>
+        <div v-if="userData && userResultDetect">
+            <section v-if="userResultDetect.is_resulted == true" class="bg-gray-100 pb-16">
+                <div class="mx-4 pt-4">
+                    <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                        <li class="before:px-1.5">
+                            <a class="text-dark text-base cursor-default">
+                                Beranda
+                            </a>
+                        </li>
+                    </ol>
                 </div>
-                <div class="hidden lg:block w-1/4">
-                    <pendidikan/>
+                <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+                    <HeadingDashboard/>
+                    <profile/>
                 </div>
-                <!-- <div class="w-[33%] flex flex-col gap-4">
-                </div> -->
-
-                <div class="hidden lg:block w-1/4">
-                    <kelebihanVue/>
+    
+                <div class="flex justify-center mx-4 gap-4">
+                    <div class="hidden lg:block w-1/4">
+                        <pekerjaan/>
+                    </div>
+                    <div class="hidden lg:block w-1/4">
+                        <pendidikan/>
+                    </div>
+    
+                    <div class="hidden lg:block w-1/4">
+                        <kelebihanVue/>
+                    </div>
+    
+                    <div class="hidden lg:block w-1/4">
+                        <kekuranganVue/>
+                    </div>
+    
                 </div>
-                <div class="hidden lg:block w-1/4">
-                    <kekuranganVue/>
+    
+                <div class="flex flex-col gap-4 mx-4">
+                    <SlideKelebihanKekurangan/>
+                    <SlidePenddikanPekerjaan/>
                 </div>
-                <!-- <div class="w-[67%] flex flex-col gap-4">
-                </div> -->
-
-            </div>
-
-            <div class="flex flex-col gap-4 mx-4">
-                <SlideKelebihanKekurangan/>
-                <SlidePenddikanPekerjaan/>
-                <!-- <SlidePenddikanPekerjaan/>
-                <SlidePenddikanPekerjaan/> -->
-                <!-- <SlideKelebihanKekurangan/> -->
-                <!-- <SlideKelebihanKekurangan/> -->
-                <!-- <div class="-mt-[12px] lg:-mt-[62px]">
-                </div> -->
-            </div>
-            
-            <!-- <div class="flex justify-center mx-4 mb-4 gap-4">
-                <div class="hidden lg:block w-1/2">
-                    <pekerjaan/>
+            </section>
+    
+            <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
+                <div class="mx-4 pt-4">
+                    <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                        <li class="before:px-1.5">
+                            <a class="text-dark text-xl cursor-default">
+                                Beranda
+                            </a>
+                        </li>
+                    </ol>
                 </div>
-                <div class="hidden lg:block w-1/2">
-                    <pendidikan/>
+                <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+                    <HeadingBelumDeteksi/>
+                    <profile/>
                 </div>
-            </div> -->
-        </section>
-
-        <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
-            <div class="mx-4 pt-4">
-                <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
-                    <li class="before:px-1.5">
-                        <a class="text-dark text-xl cursor-default">
-                            Beranda
-                        </a>
-                    </li>
-                    <!-- <li class="before:content-['/'] before:px-1.5"><a href="javascript:;" class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">UI Kit</a></li> -->
-                </ol>
-            </div>
-            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
-                <HeadingBelumDeteksi/>
-                <profile/>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
 </template>
 
@@ -108,12 +93,15 @@ export default {
         PhArrowRight
     },
     setup(){
+        const loading = ref(false);
         const store = useStore()
         const userData = computed(() => store.getters.getUserData)
         const userRole = computed(() => store.getters.getUserRole)
         const userResultDetect = computed(() => store.getters.getUserResultDetect);
 
+        loading.value = !loading.value
         onMounted(async() => {
+
             if (!userData.value && !userRole.value) {
                 const localStorageUserData = localStorage.getItem('userData')
                 const localStorageUserRole = localStorage.getItem('userRole')
@@ -136,9 +124,11 @@ export default {
             } else {
                 store.commit('userResultDetect', response.data)
             }
+            loading.value = !loading.value
         })
 
-        return { 
+        return {
+            loading, 
             userData,
             userRole,
             userResultDetect,
@@ -156,5 +146,33 @@ background: linear-gradient(90deg, rgba(107,222,180,1) 19%, rgba(78,221,209,1) 6
 .morphism {
     background-color: rgb(255 255 255 / 50%);
   /* backdrop-filter: blur(90px) */
+}
+
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 100%;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+.preloader-overlay.hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 </style>

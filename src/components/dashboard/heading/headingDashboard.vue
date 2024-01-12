@@ -1,8 +1,8 @@
 <template>
     <div class="lg:w-3/4">
-        <div class="min-h-full gradasi shadow-sm flex flex-col md:flex-row lg:flex-row lg:justify-between items-center rounded-2xl gap-4 px-12 py-12">
+        <div class="min-h-full gradasi shadow-sm flex flex-col md:flex-row lg:flex-row lg:justify-between items-center rounded-2xl gap-4 px-12 pt-12">
             <div class="w-full flex flex-col gap-2">
-                <img src="../../../assets/img/blogging-bro-crop.png" class="-mt-4 mx-auto lg:items-start w-full" alt="">
+                <img src="../../../assets/img/hi.png" class="-mt-4 mx-auto lg:items-start w-3/4" alt="">
                 <div class="block lg:hidden">
                     <h1 class="font-myFont font-normal text-center text-clip text-lg lg:text-3xl text-white">Selamat Datang Kembali!</h1>
                     <h1 class="font-myFont font-normal text-center text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
