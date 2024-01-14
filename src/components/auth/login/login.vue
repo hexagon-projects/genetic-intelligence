@@ -20,11 +20,11 @@
         <h1 class="text-center text-2xl font-myFont font-bold mb-2">Masuk</h1>
           <p class="text-center font-myFont text-gray-500">Silahkan masuk dengan akun anda.</p>
             <div class="my-5">
-              <input v-model="email" @keyup="handleFormEmail" type="email" name="email" class="font-myFont rounded-md border border-gray-300 w-full py-2 px-3" required placeholder="Email">
+              <input v-model="email" @keyup="handleFormEmail" @keydown.enter.prevent="Login" type="email" name="email" class="font-myFont rounded-md border border-gray-300 w-full py-2 px-3" required placeholder="Email">
               <a v-if="emailValidation && email.length < 1" class="text-xs text-red-500">Email tidak boleh kosong.</a>
             </div>
             <div class="my-5">
-              <input v-model="password" @keyup="handleFormPassword" type="password" name="password" class="font-myFont rounded-md border border-gray-300 w-full py-2 px-3" required placeholder="Password">
+              <input v-model="password" @keyup="handleFormPassword" @keydown.enter.prevent="Login" type="password" name="password" class="font-myFont rounded-md border border-gray-300 w-full py-2 px-3" required placeholder="Password">
               <a v-if="passwordValidation && password.length < 1" class="text-xs text-red-500">Password tidak boleh kosong.</a>
             </div>
             <div class="flex flex-col lg:flex-row justify-between items-center my-5 gap-4">
@@ -144,11 +144,15 @@ export default {
                   const response = await initApi('post', 'login', data, null)
                   const datas = response.data
                   if (datas.success == true) {
-                      localStorage.setItem('userData', JSON.stringify(datas.customer));
+                    let type
+                    if(datas.customer) type = datas.customer
+                    if(datas.consultant) type = datas.consultant
+                    console.log(datas)
+                      localStorage.setItem('userData', JSON.stringify(type));
                       localStorage.setItem('userRole', JSON.stringify(datas.user.role));
                       localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
                       localStorage.setItem('token', JSON.stringify(datas.token))
-                      store.commit('user', datas.customer);
+                      store.commit('user', type);
                       store.commit('userRole', datas.user.role);
                       store.commit('userEmail', datas.user.email);
                       router.push('/');
@@ -163,27 +167,7 @@ export default {
                       timer: 2000
                   });
                 }
-                 
-                // const response = await useAPI('post', 'login', data);
-                // const datas = await response.json();
-                // if (datas.success == true) {
-                //     localStorage.setItem('userData', JSON.stringify(datas.customer));
-                //     localStorage.setItem('userRole', JSON.stringify(datas.user.role));
-                //     localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
-                //     // localStorage.setItem('token', data.token)
-                //     store.commit('user', datas.customer);
-                //     store.commit('userRole', datas.user.role);
-                //     store.commit('userEmail', datas.user.email);
-                //     router.push('/');
-                // } else {
-                //   Swal.fire({
-                //       icon: 'error',
-                //       title: 'Login Gagal',
-                //       text: datas.message,
-                //       showConfirmButton: false,
-                //       timer: 2000
-                //   });
-                // }
+
                 isLoading.value = false
             }
         };

@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <div v-else-if="dataReservasi" class="flex flex-col md:flex-row lg:flex-row items-center">
+            <div v-else-if="dataReservasi && userData" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="w-full md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4">Reservasi kamu sudah terjadwal</p>
@@ -195,7 +195,7 @@ export default {
               fee: response.data.fee 
             }
             dataReservasi.value = data
-            console.log(`ajg`,dataReservasi.value.length)
+            console.log(`ajg`,dataReservasi.value)
         })
 
         const konfirReservasi = async() => {

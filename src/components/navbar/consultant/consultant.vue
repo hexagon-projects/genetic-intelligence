@@ -1,23 +1,23 @@
 <template>
-    <RouterLink :to="{name: 'user.views.deteksi'}" 
+    <RouterLink :to="{name: 'consultant.views.review'}" 
     class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
-            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.deteksi', 'text-dark bg-white': $route.name !== 'user.views.deteksi'}"
+            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'consultant.views.review', 'text-dark bg-white': $route.name !== 'consultant.views.review'}"
         >
-        <PhTarget :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.deteksi','text-biru hover:text-light': $route.name !== 'user.views.deteksi'}" />
-        Test GIM
+        <PhFileSearch :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.review','text-biru hover:text-light': $route.name !== 'consultant.views.review'}" />
+        Review Test
     </RouterLink>
-    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
+    <RouterLink :to="{name: 'consultant.views.review'}" 
          class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
             :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
         >
-        <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
-        Hasil Test
+        <PhCalendar :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+        Jadwal Reservasi
     </RouterLink>
     <RouterLink v-if="userData.is_detected == 'Selesai Terdeteksi'" :to="{name: 'user.views.reservasi'}" 
         class="
@@ -32,18 +32,15 @@
 </template>
 
 <script>
-import { PhTarget, PhFileText, PhUser, PhCalendarCheck, PhSignOut } from "@phosphor-icons/vue";
+import { PhFileSearch, PhCalendar } from "@phosphor-icons/vue";
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-    name: 'CustomerNav',
+    name: 'ConsultantNav',
     components: {
-        PhTarget,
-		PhFileText,
-		PhUser,
-        PhCalendarCheck,
-		PhSignOut
+        PhFileSearch,
+		PhCalendar
     },
     setup(){
         const store = useStore()

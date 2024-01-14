@@ -27,7 +27,8 @@
             <PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru hover:text-light': $route.name !== 'views.dashboard'}" />
             Beranda
         </RouterLink>
-        <customerNav/>
+        <customerNav v-if="userRole == 'customer'"/>
+        <consultantNav v-if="userRole == 'consultant'"/>
     </nav>
 </header>
 <!-- <section class="bg-primary py-6 text-dark">
@@ -73,6 +74,7 @@ import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { PhHouse, PhSignOut } from "@phosphor-icons/vue";
 import customerNav from './customer/customer.vue';
 import customerBotNav from './customer/customerBottom.vue'
+import consultantNav from './consultant/consultant.vue'
 
 export default{
     name: 'NavbarVue',
@@ -80,7 +82,8 @@ export default{
 		PhHouse,
 		PhSignOut,
 		customerNav,
-		customerBotNav
+		customerBotNav,
+		consultantNav
 	},
 	setup(){
 		const store = useStore()

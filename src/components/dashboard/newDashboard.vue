@@ -1,63 +1,69 @@
 <template>
-    <div v-if="loading" class="preloader-overlay">
-        <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+    <div v-if="userRole == 'consultant'">
+        <DashboardConsultant/>
     </div>
-    <div v-else>
-        <div v-if="userData && userResultDetect">
-            <section v-if="userResultDetect.is_resulted == true" class="bg-gray-100 pb-16">
-                <div class="mx-4 pt-4">
-                    <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
-                        <li class="before:px-1.5">
-                            <a class="text-dark text-base cursor-default">
-                                Beranda
-                            </a>
-                        </li>
-                    </ol>
-                </div>
-                <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
-                    <HeadingDashboard/>
-                    <profile/>
-                </div>
-    
-                <div class="flex justify-center mx-4 gap-4">
-                    <div class="hidden lg:block w-1/4">
-                        <pekerjaan/>
+
+    <div v-else-if="userRole == 'customer'">
+        <div v-if="loading" class="preloader-overlay">
+            <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+        </div>
+        <div v-else>
+            <div v-if="userData && userResultDetect">
+                <section v-if="userResultDetect.is_resulted == true" class="bg-gray-100 pb-16">
+                    <div class="mx-4 pt-4">
+                        <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                            <li class="before:px-1.5">
+                                <a class="text-dark text-base cursor-default">
+                                    Beranda
+                                </a>
+                            </li>
+                        </ol>
                     </div>
-                    <div class="hidden lg:block w-1/4">
-                        <pendidikan/>
+                    <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+                        <HeadingDashboard/>
+                        <profile/>
                     </div>
-    
-                    <div class="hidden lg:block w-1/4">
-                        <kelebihanVue/>
+        
+                    <div class="flex justify-center mx-4 gap-4">
+                        <div class="hidden lg:block w-1/4">
+                            <pekerjaan/>
+                        </div>
+                        <div class="hidden lg:block w-1/4">
+                            <pendidikan/>
+                        </div>
+        
+                        <div class="hidden lg:block w-1/4">
+                            <kelebihanVue/>
+                        </div>
+        
+                        <div class="hidden lg:block w-1/4">
+                            <kekuranganVue/>
+                        </div>
+        
                     </div>
-    
-                    <div class="hidden lg:block w-1/4">
-                        <kekuranganVue/>
+        
+                    <div class="flex flex-col gap-4 mx-4">
+                        <SlideKelebihanKekurangan/>
+                        <SlidePenddikanPekerjaan/>
                     </div>
-    
-                </div>
-    
-                <div class="flex flex-col gap-4 mx-4">
-                    <SlideKelebihanKekurangan/>
-                    <SlidePenddikanPekerjaan/>
-                </div>
-            </section>
-    
-            <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
-                <div class="mx-4 pt-4">
-                    <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
-                        <li class="before:px-1.5">
-                            <a class="text-dark text-xl cursor-default">
-                                Beranda
-                            </a>
-                        </li>
-                    </ol>
-                </div>
-                <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
-                    <HeadingBelumDeteksi/>
-                    <profile/>
-                </div>
-            </section>
+                </section>
+        
+                <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
+                    <div class="mx-4 pt-4">
+                        <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                            <li class="before:px-1.5">
+                                <a class="text-dark text-xl cursor-default">
+                                    Beranda
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+                        <HeadingBelumDeteksi/>
+                        <profile/>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 </template>
@@ -76,11 +82,13 @@ import { useStore } from 'vuex'
 import initAPI from '../../api/api'
 import { ref, computed, onMounted } from 'vue'
 import { PhArrowRight } from '@phosphor-icons/vue';
+import DashboardConsultant from '../consultant/dashboard/dashboard.vue'
 
 
 export default {
     name: 'NewDashboard',
     components: {
+        DashboardConsultant,
         profile, 
         HeadingDashboard,
         HeadingBelumDeteksi,
@@ -93,6 +101,22 @@ export default {
         PhArrowRight
     },
     setup(){
+        document.addEventListener('contextmenu', event=> event.preventDefault()); 
+            document.onkeydown = function(e) { 
+            if(event.keyCode == 123) { 
+            return false; 
+            } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ 
+            return false; 
+            } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ 
+            return false; 
+            } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ 
+            return false; 
+            } 
+        } 
+
         const loading = ref(false);
         const store = useStore()
         const userData = computed(() => store.getters.getUserData)

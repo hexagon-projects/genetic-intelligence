@@ -14,7 +14,7 @@
                             <div class="lg:hidden flex flex-row align-middle mb-1">
                                 <PhWarningCircle :size="18" color="#e81111"/><small class="text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>
                             </div>
-                            <iframe class="w-full hidden lg:block" height="415" :src="userResultDetect.gim.url" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                            <iframe class="w-full hidden lg:block" height="415" :src="userResultDetect.gim.url" sandbox="allow-same-origin allow-scripts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                             </iframe>
                             <iframe class="w-full lg:hidden" :src="userResultDetect.gim.url" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                             </iframe>
@@ -50,6 +50,22 @@ export default {
     setup(){
         const store = useStore()
         const userResultDetect = computed(() => store.getters.getUserResultDetect);
+
+        document.addEventListener('contextmenu', event=> event.preventDefault()); 
+            document.onkeydown = function(e) { 
+            if(event.keyCode == 123) { 
+            return false; 
+            } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ 
+            return false; 
+            } 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ 
+            return false; 
+            } 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ 
+            return false; 
+            } 
+        } 
 
         return {
             userResultDetect,

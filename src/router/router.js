@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { useStore } from 'vuex'
+import { computed } from "vue"
 
 const routes = [
     { 
@@ -109,7 +110,11 @@ const routes = [
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth) next({ name: 'views.login' })
+            const store = useStore()
+            const userData = computed(() => store.getters.getUserData)
+            console.log(`router`,userData.value)
+            const isDetected = userData.value.is_detected == 'Selesai Terdeteksi'
+            if(!isAuth || !isDetected) next({ name: 'views.login' })
             else next()
         }
     },
@@ -120,6 +125,15 @@ const routes = [
         meta: {
             showNavbar: false,
             showFooter: false
+        },
+    },
+    {
+        path: '/review-test',
+        name: 'consultant.views.review',
+        component: () => import('../components/consultant/review_test/review.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
         },
     },
     // {
