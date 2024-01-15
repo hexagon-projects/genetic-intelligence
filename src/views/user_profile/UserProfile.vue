@@ -190,7 +190,7 @@ export default {
                 formData.append('_method', 'PUT');
                 formData.append('image', file);
 
-                // console.log(formData)
+                console.log(formData)
 
                 const response = await initAPI('post','customers/'+customerId, formData, token)
                 if(response.status == 200){
@@ -203,6 +203,7 @@ export default {
                 });
                 const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
                 store.commit('user', updatedCustomer.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
                 }
             }
         }

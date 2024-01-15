@@ -9,6 +9,16 @@
         <PhFileSearch :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.review','text-biru hover:text-light': $route.name !== 'consultant.views.review'}" />
         Review Test
     </RouterLink>
+    <RouterLink :to="{name: 'consultant.views.permintaan_reservasi'}" 
+        class="
+            flex justify-center items-end px-4 py-2 gap-1 font-myFont
+            hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+            "
+            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'consultant.views.permintaan_reservasi', 'text-dark bg-white': $route.name !== 'consultant.views.permintaan_reservasi'}"
+        >
+        <PhCalendarPlus :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.permintaan_reservasi','text-biru hover:text-light': $route.name !== 'consultant.views.permintaan_reservasi'}" />
+        Permintaan Reservasi
+    </RouterLink>
     <RouterLink :to="{name: 'consultant.views.review'}" 
          class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
@@ -19,20 +29,10 @@
         <PhCalendar :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
         Jadwal Reservasi
     </RouterLink>
-    <RouterLink v-if="userData.is_detected == 'Selesai Terdeteksi'" :to="{name: 'user.views.reservasi'}" 
-        class="
-            flex justify-center items-end px-4 py-2 gap-1 font-myFont
-            hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
-            "
-            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.reservasi', 'text-dark bg-white': $route.name !== 'user.views.reservasi'}"
-        >
-        <PhCalendarCheck :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.reservasi','text-biru hover:text-light': $route.name !== 'user.views.reservasi'}" />
-        Reservasi
-    </RouterLink>
 </template>
 
 <script>
-import { PhFileSearch, PhCalendar } from "@phosphor-icons/vue";
+import { PhFileSearch, PhCalendar, PhCalendarPlus } from "@phosphor-icons/vue";
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -40,7 +40,8 @@ export default {
     name: 'ConsultantNav',
     components: {
         PhFileSearch,
-		PhCalendar
+		PhCalendar,
+        PhCalendarPlus
     },
     setup(){
         const store = useStore()

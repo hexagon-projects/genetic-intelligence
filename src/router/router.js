@@ -145,6 +145,15 @@ const routes = [
             showFooter: true
         },
       },
+    {
+        path: '/permintaan-reservasi',
+        name: 'consultant.views.permintaan_reservasi',
+        component: () => import('../components/consultant/reservasi/permintaan/permintaan.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+    },
     // {
     //     path: '/payment-status?:merchantId&:reference'
     // }

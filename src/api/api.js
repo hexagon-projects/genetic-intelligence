@@ -48,7 +48,7 @@ import axios from 'axios';
 
 const initAPI = async (method, endpoint, data, token) => {
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/')
-  // console.log(check)
+  console.log(check)
     const config = {
         method: method,
         maxBodyLength: Infinity,
