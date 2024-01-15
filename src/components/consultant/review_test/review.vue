@@ -1,5 +1,5 @@
 <template>
-    <section class="bg-gray-100 pb-16">
+    <section class="bg-gray-100 pb-28">
             <div class="mx-4 pt-4">
                 <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
                     <li class="before:px-1.5">
@@ -9,7 +9,7 @@
                     </li>
                 </ol>
             </div>
-            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
                 <div class="w-full px-7 mx-auto">
                     <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                         <h1 class="font-myFont text-dark text-lg mb-4">List Submit Test Grafologi</h1>
@@ -40,7 +40,7 @@
                                         <td class="py-4 px-6">{{ data.name }}</td>
                                         <td class="py-4 px-6">{{ data.customers_results.created_at }}</td>
                                         <td class="py-4 px-6">
-                                            <button class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button @click="review(data)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhFileSearch :size="22"/>
                                             </button>
                                         </td>
@@ -57,7 +57,7 @@
                                     <a @click="nextPages(nextPage)" class="cursor-pointer text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                         <PhCaretLeft :size="24"/>
                                     </a>
-                                    <span class="px-2 py-1 border">
+                                    <span class="px-2 py-1 border rounded-lg">
                                         {{ currPage }}
                                     </span>
                                     <a @click="prevPages(prevPage)" class="cursor-pointer text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
@@ -79,6 +79,8 @@ import { PhCaretLeft, PhCaretRight, PhFileSearch } from '@phosphor-icons/vue';
 import { onMounted,ref } from 'vue'
 import initAPI from '../../../api/api';
 import _debounce from 'lodash/debounce';
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex';
 
 export default {
     name: 'ReviewTest',
@@ -91,6 +93,9 @@ export default {
         const nextPage = ref(null)
         const prevPage = ref(null)
         const cari = ref(null)
+
+        const router = useRouter()
+        const store = useStore()
 
         onMounted(async() => {
             getAllData()
@@ -105,9 +110,8 @@ export default {
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
-            console.log(dataSubmit.value)
-            console.log(`response`,response.data)
             loading.value = !loading.value
+            console.log(`data`,dataSubmit.value)
         }
 
         const getSearchData = async() => {
@@ -128,6 +132,13 @@ export default {
 
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
+        const review = (data) => {
+            const id = data.id
+            store.commit('reviewGrafologi', data);
+            router.push({ name: 'consultant.views.review.detail', params: { id } })
+            localStorage.setItem('reviewData', JSON.stringify(data))
+        }
+
         const nextPages = async(url) => {
             console.log(url)
         }
@@ -144,10 +155,11 @@ export default {
             nextPage,
             prevPage,
             cari,
+            debouncedGetSearchData,
             nextPages,
             prevPages,
             getSearchData,
-            debouncedGetSearchData
+            review
         }
     }
 }

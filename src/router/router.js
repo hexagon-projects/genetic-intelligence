@@ -136,6 +136,15 @@ const routes = [
             showFooter: true
         },
     },
+    {
+        path: '/detail-review/:id',
+        name: 'consultant.views.review.detail',
+        component: () => import('../components/consultant/review_test/DetailReview.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+      },
     // {
     //     path: '/payment-status?:merchantId&:reference'
     // }

@@ -8,7 +8,8 @@ export const store = createStore({
       userDatas: null,
       userResultDetect: null,
       reviewImage: null,
-      reservasi: null
+      reservasi: null,
+      reviewDetail: null
     }
   },
   mutations: {
@@ -29,6 +30,9 @@ export const store = createStore({
     },
     setReservasi(state, jadwal){
       state.reservasi = jadwal
+    },
+    reviewGrafologi(state, data){
+      state.reviewDetail = data
     }
   },
   getters: {
@@ -37,6 +41,7 @@ export const store = createStore({
     getUserEmail: (state) => state.userEmail,
     getUserResultDetect: (state) => state.userResultDetect,
     getReviewImage: (state) => state.reviewImage,
-    getReservasi: (state) => state.reservasi
+    getReservasi: (state) => state.reservasi,
+    getReviewDetail: (state) => state.reviewDetail
   },
 })
