@@ -147,11 +147,10 @@ setup() {
             const gimId = datas.value.gim_id
             const note = notes.value
             const token = JSON.parse(localStorage.getItem('token'))
-            const data = JSON.stringify({
-                gim_id: gimId,
-                note: note
-            })
-            console.log(data)
+            const data = new FormData();
+                data.append('gim_id', gimId);
+                data.append('note', note);
+            console.log(`kirim nnote`,data)
             try {
                 const response = await initAPI('post', 'customers/gim-result/'+customer_id, data, token)
                 console.log(response.data)

@@ -69,7 +69,7 @@
                                             </button>
                                         </td>
                                         <td class="py-4">
-                                            <button @click="review(data)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhCheck :size="22"/>
                                             </button>
                                         </td>
@@ -135,6 +135,15 @@ export default{
             isModalOpen.value = !isModalOpen.value
         }
 
+        const approve = async(reservationId) => {
+            console.log(`ini id`, reservationId)
+            const token = JSON.parse(localStorage.getItem('token'))
+            const data = new FormData();
+            data.append('status', 1);
+            const response = await initAPI('post', 'reservations/change-status/'+reservationId, data, token)
+            console.log(response.data)
+        }
+
         onMounted(async() => {
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('get', 'customers/reservations?status=0', null, token)
@@ -143,7 +152,7 @@ export default{
             prevPage.value = response.data.prev_page_url
             dataPermintaan.value = response.data.data
             detailCustomers.value = response.data.data.customers 
-            console.log(response.data.data)
+            console.log(`response`,response.data.data)
             console.log(response.data.data[0].customers)
         })
 
@@ -158,7 +167,8 @@ export default{
             detailCustomers,
             isModalOpen,
             toggleModal,
-            clickDetail
+            clickDetail,
+            approve
         }
     }
 }
