@@ -147,6 +147,7 @@ export default {
                     let type
                     if(datas.customer) type = datas.customer
                     if(datas.consultant) type = datas.consultant
+                    if(!datas.consultant && !datas.customer) type = datas.user
                     console.log(datas)
                       localStorage.setItem('userData', JSON.stringify(type));
                       localStorage.setItem('userRole', JSON.stringify(datas.user.role));

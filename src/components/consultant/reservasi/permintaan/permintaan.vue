@@ -12,14 +12,101 @@
         <div class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
             :class="{'hidden': !isModalOpen, 'block': isModalOpen}"
         >
-            <div class="relative top-40 mx-auto shadow-xl rounded-md bg-white">
+            <div class="relative w-1/2 top-24 mx-auto shadow-xl rounded-md bg-white">
                 <!-- Modal body -->
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
+                <hr class="mt-4">
                 <div v-if="detailCustomers" class="w-full p-4">
-                    {{ detailCustomers }}
+                    <div class="flex flex-row gap-2">
+                        <div class="w-full">
+                            <div class="flex flex-col mb-4">
+                                <h1 class="font-myFont font-medium text-dark text-lg">
+                                    Nama
+                                </h1>
+                                <p class="font-myFont font-medium text-dark text-sm">
+                                    {{ detailCustomers.customers.first_name }} {{ detailCustomers.customers.last_name }}
+                                </p>
+                            </div>
+
+                            <div class="flex flex-row items-center gap-2 mb-4">
+                                <div class="flex flex-col mr-20">
+                                    <h1 class="font-myFont font-medium text-dark text-lg">
+                                        Tempat Lahir
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-sm">
+                                        {{ detailCustomers.customers.birth_place }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-col ml-20">
+                                    <h1 class="font-myFont font-medium text-dark text-lg">
+                                        Tanggal Lahir
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-sm">
+                                        {{ detailCustomers.customers.birth_date }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-row items-center gap-2 mb-4">
+                                <div class="flex flex-col mr-[78px]">
+                                    <h1 class="font-myFont font-medium text-dark text-lg">
+                                        Jenis Kelamin
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-sm">
+                                        {{ detailCustomers.customers.gender }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-col ml-[78px]">
+                                    <h1 class="font-myFont font-medium text-dark text-lg">
+                                        Golongan Darah
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-sm">
+                                        {{ detailCustomers.customers.blood_group }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-row items-center gap-2 mb-4">
+                                <div class="flex flex-col mr-[106px]">
+                                    <h1 class="font-myFont font-medium text-dark text-lg">
+                                        Agama
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-sm">
+                                        {{ detailCustomers.customers.religion }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-col ml-[106px]">
+                                    <h1 class="font-myFont font-medium text-dark text-lg">
+                                        Status
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-sm">
+                                        {{ detailCustomers.customers.status }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <h1 class="font-myFont font-medium text-dark text-lg">
+                                    Alamat
+                                </h1>
+                                <p class="font-myFont font-medium text-dark text-sm">
+                                    {{ detailCustomers.customers.address }}
+                                </p>
+                                <p class="font-myFont font-medium text-dark text-sm">
+                                    {{ detailCustomers.customers.region }}
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="w-1/2">
+                        </div>
+                    </div>
+                    
                 </div>
 
+                <hr class="pt-4">
                 <!-- Modal footer -->
-                <div class="px-4 py-2 border-t border-t-gray-500 flex justify-end items-center space-x-4">
+                <div class="px-4 py-2 flex justify-end items-center space-x-4">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
                 </div>
             </div>
@@ -104,9 +191,11 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import initAPI from '../../../../api/api'
 import { PhCaretLeft, PhCaretRight, PhEye, PhCheck } from '@phosphor-icons/vue'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default{
     name: 'PermintaanReservasi',
@@ -140,11 +229,42 @@ export default{
             const token = JSON.parse(localStorage.getItem('token'))
             const data = new FormData();
             data.append('status', 1);
-            const response = await initAPI('post', 'reservations/change-status/'+reservationId, data, token)
-            console.log(response.data)
+
+            try {
+                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                console.log(response.data)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                
+                const refetch = await initAPI('get', 'customers/reservations?status=0', null, token)
+                if(refetch){
+                    dataPermintaan.value = response.data.data
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi error saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error saat approve reservasi',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
         }
 
-        onMounted(async() => {
+        onBeforeMount(async() => {
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('get', 'customers/reservations?status=0', null, token)
             currPage.value = response.data.current_page

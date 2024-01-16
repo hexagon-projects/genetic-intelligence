@@ -128,6 +128,8 @@ export default {
         const userData = computed(() => store.getters.getUserData)
         const userRole = computed(() => store.getters.getUserRole)
         const userResultDetect = computed(() => store.getters.getUserResultDetect);
+        
+        console.log(`user yeuh`,userData.value)
 
         loading.value = !loading.value
         onMounted(async() => {

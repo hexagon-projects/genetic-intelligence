@@ -44,32 +44,32 @@ export default {
       try {
         console.log('form', formData)
         console.log('id', customerId)
-        // if(files.value.length > 0){
-        //   const response = await initAPI(
-        //     'post','customers/gim-result/upload-test/'+customerId, formData, token
-        //   );
-        //   if(response.status == 200){
-        //     Swal.fire({
-        //       icon: 'success',
-        //       title: 'File di Upload',
-        //       text: 'Deteksi GIM akan segera di proses',
-        //       showConfirmButton: false,
-        //       timer: 2000
-        //     });
-        //   }
-        //   const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-        //   store.commit('user', updatedCustomer.data.data[0])
-        //   console.log('update', updatedCustomer.data.data[0])
-        //   // console.log('Response from API:', response.data);
-        // } else {
-        //   Swal.fire({
-        //       icon: 'error',
-        //       title: 'Upload Gagal',
-        //       text: 'Upload file terlebih dahulu',
-        //       showConfirmButton: false,
-        //       timer: 2000
-        //   });
-        // }
+        if(files.value.length > 0){
+          const response = await initAPI(
+            'post','customers/gim-result/upload-test/'+customerId, formData, token
+          );
+          if(response.status == 200){
+            Swal.fire({
+              icon: 'success',
+              title: 'File di Upload',
+              text: 'Deteksi GIM akan segera di proses',
+              showConfirmButton: false,
+              timer: 2000
+            });
+          }
+          const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+          store.commit('user', updatedCustomer.data.data[0])
+          console.log('update', updatedCustomer.data.data[0])
+          // console.log('Response from API:', response.data);
+        } else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Upload Gagal',
+              text: 'Upload file terlebih dahulu',
+              showConfirmButton: false,
+              timer: 2000
+          });
+        }
       } catch (error) {
         console.error('Error submitting form:', error);
       }
