@@ -49,8 +49,7 @@ export default {
     name: 'FileHasilDeteksi',
     components: {PhDownloadSimple},
     setup(){
-        const store = useStore()
-        const userResultDetect = computed(() => store.getters.getUserResultDetect)
+        const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
 
         const showModal = ref(false)
         const imageRef = ref(null);

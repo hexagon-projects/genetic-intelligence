@@ -38,9 +38,7 @@ import { useStore } from 'vuex'
 export default {
     name: 'NoteHasilDeteksi',
     setup(){
-        const store = useStore()
-        const userResultDetect = computed(() => store.getters.getUserResultDetect);
-
+        const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
         return {
             userResultDetect,
         }

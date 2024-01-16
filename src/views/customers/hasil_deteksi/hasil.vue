@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeMount } from 'vue';
 import { useStore } from 'vuex'
 import initApi from '../../../api/api'
 import BelumDeteksi from '../../../components/Deteksi_GIM/BelumDeteksi/belum.vue'
@@ -90,16 +90,19 @@ export default {
   name: 'HasilDeteksi',
   components: {BelumDeteksi, FileHasilDeteksi, VideoHasilDeteksi, NoteHasilDeteksi, DalamProses},
   setup(){
-      const sudahTest = ref(true)
-      const showModal = ref(false);
+    const sudahTest = ref(true)
+    const showModal = ref(false);
 
-      const store = useStore()
+    const store = useStore()
 
-      const userData = computed(() => store.getters.getUserData);
-  const userRole = computed(() => store.getters.getUserRole);
-  const userResultDetect = computed(() => store.getters.getUserResultDetect);
+    // const userData = computed(() => store.getters.getUserData);
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    const userRole = computed(() => store.getters.getUserRole);
+    const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
+    console.log(userResultDetect)
+//   const userResultDetect = computed(() => store.getters.getUserResultDetect);
 
-      console.log(userResultDetect.value)
+    //   console.log(userResultDetect.value)
 
       // if (!userData.value && !userRole.value) {
       //     const localStorageUserData = localStorage.getItem('userData');
@@ -114,21 +117,23 @@ export default {
       //     }
       // }
 
-      onMounted(async() => {
-          if(userResultDetect.value == null) {
-              const accessToken = JSON.parse(localStorage.getItem('token'))
-              const userId = userData.value.id
+    //   const a = async() => {
+    //       if(userResultDetect.value == null) {
+    //           const accessToken = JSON.parse(localStorage.getItem('token'))
+    //           const userId = userData.value.id
   
-              const response = await initApi('get', 'customers/gim-result/'+userId, null, accessToken)
-              if(response.data.is_detected == true){
-                  // console.log('aya ajig')
-                  store.commit('userResultDetect', response.data)
-              } else {
-                  store.commit('userResultDetect', false)
-              }
-          }
+    //           const response = await initApi('get', 'customers/gim-result/'+userId, null, accessToken)
+    //           console.log(`di hasil`,response.data)
+    //           localStorage.setItem('userResult', JSON.stringify(response.data))
+            //   if(response.data.is_detected == true){
+            //       store.commit('userResultDetect', response.data)
+            //   } else {
+            //       store.commit('userResultDetect', false)
+            //   }
+        //   }
           // console.log(userResultDetect.value)
-      })
+    //   }
+    //   a()
 
 
       return {

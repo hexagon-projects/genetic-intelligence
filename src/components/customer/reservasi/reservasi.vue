@@ -14,11 +14,11 @@
 
         <div class="flex flex-col lg:flex-row justify-center mx-7 mb-4 pt-4 gap-4">
            <PilihHari/>
-           {{ userData }}
+           <!-- {{ userData }} -->
         </div>
 
         <div class="mx-7 bg-white rounded-lg shadow-lg p-4">
-            <div v-if="reservasiData && !dataReservasi" class="flex flex-col md:flex-row lg:flex-row items-center">
+            <div v-if="reservasiData && dataReservasi.length == 0" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-gray-500 text-base mb-4">Berikut adalah detail jadwal reservasi kamu</p>
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div v-else-if="dataReservasi && userData && userData.is_advance == 'Tidak'" class="flex flex-col md:flex-row lg:flex-row items-center">
+            <div v-else-if="dataReservasi && userData && userData.is_advance == 'Ya'" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="w-full md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4 lg:mb-0">Reservasi kamu sudah terjadwal</p>
@@ -183,22 +183,28 @@ export default {
         const dataReservasi = ref([])
 
         const userData = computed(() => store.getters.getUserData)
+        // const reservasiData = JSON.parse(localStorage.getItem('bookReservasi'))
         const reservasiData = computed(() => store.getters.getReservasi)
-        console.log(reservasiData.value)
+        console.log(reservasiData)
 
         onMounted(async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true`, null, token)
-            console.log(response)
-            const data = {
-              date: response.data.date,
-              day: response.data.day,
-              time: response.data.time,
-              fee: response.data.fee,
-              status: response.data.status 
+            const isReservasi = JSON.parse(localStorage.getItem('userData'))
+            if(isReservasi.is_advance == 'Ya'){
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true`, null, token)
+                console.log(response)
+                const data = {
+                  date: response.data.date,
+                  day: response.data.day,
+                  time: response.data.time,
+                  fee: response.data.fee,
+                  status: response.data.status 
+                }
+                dataReservasi.value = data
+                console.log(`ajg`,dataReservasi.value)
+            }else{
+                console.log('acan nyien reservasi')
             }
-            dataReservasi.value = data
-            console.log(`ajg`,dataReservasi.value)
         })
 
         const konfirReservasi = async() => {

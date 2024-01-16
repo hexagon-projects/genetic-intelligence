@@ -178,6 +178,9 @@ export default {
                 time: jam,
                 fee: 1000000
             }
+            console.log(datas)
+            console.log(`klik jam`, jam)
+            // localStorage.setItem('bookReservasi', JSON.stringify(datas))
 
             store.commit('setReservasi', datas)
 

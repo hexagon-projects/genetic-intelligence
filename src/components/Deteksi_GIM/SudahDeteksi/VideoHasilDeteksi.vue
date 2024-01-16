@@ -43,29 +43,51 @@
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex'
 import { PhWarningCircle } from "@phosphor-icons/vue";
+import initApi from '../../../api/api'
 
 export default {
     name: 'VideoHasilDeteksi',
     components: {PhWarningCircle},
     setup(){
-        const store = useStore()
-        const userResultDetect = computed(() => store.getters.getUserResultDetect);
+        const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
+        // const store = useStore()
+        // const userResultDetect = computed(() => store.getters.getUserResultDetect);
+        // console.log(`detect video`,userResultDetect.value)
+        // const a = async() => {
+        //   if(userResultDetect.value == null) {
+        //     let localStorageData = localStorage.getItem('userData');
+        //     let userDataObject = JSON.parse(localStorageData);
+        //     let userId = userDataObject.id;
+        //     console.log(`kosong ajig ie video`, userId)
+        //     const accessToken = JSON.parse(localStorage.getItem('token'))
+            // const userId = userData.value.id
 
-        document.addEventListener('contextmenu', event=> event.preventDefault()); 
-            document.onkeydown = function(e) { 
-            if(event.keyCode == 123) { 
-            return false; 
-            } 
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ 
-            return false; 
-            } 
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ 
-            return false; 
-            } 
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ 
-            return false; 
-            } 
-        } 
+            // const response = await initApi('get', 'customers/gim-result/'+userId, null, accessToken)
+            // console.log(`di video hasil`, response.data)
+            // if(response.data.is_detected == true){
+            //     store.commit('userResultDetect', response.data)
+            // } else {
+            //     store.commit('userResultDetect', false)
+            // }
+        //   }
+          // console.log(userResultDetect.value)
+    //   }
+    //   a()
+        // document.addEventListener('contextmenu', event=> event.preventDefault()); 
+        //     document.onkeydown = function(e) { 
+        //     if(event.keyCode == 123) { 
+        //     return false; 
+        //     } 
+        //     if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ 
+        //     return false; 
+        //     } 
+        //     if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ 
+        //     return false; 
+        //     } 
+        //     if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ 
+        //     return false; 
+        //     } 
+        // } 
 
         return {
             userResultDetect,
