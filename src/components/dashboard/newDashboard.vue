@@ -152,6 +152,7 @@ export default {
             if(response.data.is_detected == true){
                 // console.log('aya ajig')
                 store.commit('userResultDetect', response.data)
+                localStorage.setItem('userResult', JSON.stringify(response.data))
                 // console.log(userResultDetect.value)
             } else {
                 store.commit('userResultDetect', response.data)

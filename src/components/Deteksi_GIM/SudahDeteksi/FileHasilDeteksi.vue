@@ -1,6 +1,10 @@
 <template>
-    <div v-if="userResultDetect" class="lg:w-1/3 w-full">
-        <div class="bg-white rounded-lg shadow-xl p-4 h-full">
+    <div v-if="userResultDetect || stateUserResult" class="lg:w-1/3 w-full">
+        <div class="bg-white rounded-lg shadow-xl p-4 mb-4">
+            <h1 class="font-myFont font-semibold text-dark text-base mb-2">Tipe Kecerdasanmu</h1>
+            <h1 class="font-myFont text-dark text-lg">{{ userResultDetect.gim.name }}</h1>
+        </div>
+        <div class="bg-white rounded-lg shadow-xl p-4 lg:h-[689px]">
             <div class="flex flex-col">
                 <h2 class="font-myFont flex justify-between text-dark font-semibold align-middle">
                     {{ userResultDetect.gim_result !== null ? 'Hasil Test Genetic Intelligence Mapping' : 'File Kamu Belum Tersedia' }}
@@ -49,6 +53,8 @@ export default {
     name: 'FileHasilDeteksi',
     components: {PhDownloadSimple},
     setup(){
+        const store = useStore()
+        const stateUserResult = computed(() => store.getters.getUserResultDetect);
         const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
 
         const showModal = ref(false)
@@ -64,7 +70,9 @@ export default {
         };
 
         const downloadImage = async () => {
-            const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/results/' + userResultDetect.value.gim_result
+            console.log(`aisia`,userResultDetect.gim_result)
+            const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/results/' + userResultDetect.gim_result
+
 
             const response = await fetch(imageUrl)
             const blob = await response.blob()
@@ -74,7 +82,7 @@ export default {
             const link = document.createElement('a')
             link.href = url
             link.target = '_blank'
-            link.download = userResultDetect.value.gim_result
+            link.download = userResultDetect.gim_result
 
             link.click()
 
@@ -102,6 +110,7 @@ export default {
         });
 
         return {
+            stateUserResult,
             userResultDetect,
             showModal,
             imageRef,

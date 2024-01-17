@@ -1,5 +1,5 @@
 <template>
-    <div v-if="userResultDetect" class="flex justify-center w-full">
+    <div v-if="userResultDetect || stateUserResult" class="flex justify-center w-full">
         <div class="w-full">
             <div class="lg:relative w-full min-h-44 gradasi shadow-xl p-9 rounded-2xl">
                 <div class="flex flex-col lg:justify-between lg:items-center">
@@ -38,9 +38,12 @@ import { useStore } from 'vuex'
 export default {
     name: 'NoteHasilDeteksi',
     setup(){
+        const store = useStore()
+        const stateUserResult = computed(() => store.getters.getUserResultDetect);
         const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
+        console.log(`cikan`,userResultDetect)
         return {
-            userResultDetect,
+            userResultDetect, stateUserResult
         }
     }
 }
