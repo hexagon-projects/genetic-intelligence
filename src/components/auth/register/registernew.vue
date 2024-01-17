@@ -148,25 +148,37 @@
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-full mb-4">
                                 <label for="provinsi" class="block text-sm font-myFont font-medium text-gray-600">Provinsi:</label>
-                                <Select2 
+                                <select v-model="provinsi" @change="getKota" name="provinsi" id="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" selected>-- Pilih Provinsi --</option>
+                                    <option v-for="(option, index) in provinceOptions" :key="index" :value="option.id">
+                                        {{ option.text }}
+                                    </option>
+                                </select>
+                                <!-- <Select2 
                                 @select="getKota"
                                 v-model="provinsi" 
                                 :options="provinceOptions"
                                 :settings="{width: '100%', placeholder: 'Pilih Provinsi'}"
                                 class="mt-1 p-[5px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white"
-                                />
+                                /> -->
                                 <!-- <input v-model="provinsi" type="text" id="provinsi" name="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Provinsi" /> -->
                                 <!-- <a v-if="nameValidation && nameVal.length < 1" class="text-xs text-red-500">Nama depan tidak boleh kosong.</a> -->
                             </div>
                             <div class="w-full mb-4">
                                 <label for="kota" class="block text-sm font-myFont font-medium text-gray-600">Kota:</label>
-                                <Select2 
+                                <select v-model="kota" @change="getKecamatan" name="kota" id="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" selected>-- Pilih Kota --</option>
+                                    <option v-for="(option, index) in cityOptions" :key="index" :value="option.id">
+                                        {{ option.text }}
+                                    </option>
+                                </select>
+                                <!-- <Select2 
                                 @select="getKecamatan"
                                 v-model="kota" 
                                 :options="cityOptions"
                                 :settings="{width: '100%', placeholder: 'Pilih Kota'}"
                                 class="mt-1 p-[5px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white"
-                                />
+                                /> -->
                                 <!--<input v-model="kota" type="text" id="kota" name="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kota" />-->
                             </div>
                         </div>
@@ -174,24 +186,34 @@
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-full mb-4">
                                 <label for="kecamatan" class="block text-sm font-myFont font-medium text-gray-600">Kecamatan:</label>
-                                <Select2 
+                                <select v-model="kecamatan" @change="getKelurahan" name="kecamatan" id="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" selected>-- Pilih Kecamatan --</option>
+                                    <option v-for="(option, index) in districtsOptions" :key="index" :value="option.id">
+                                        {{ option.text }}
+                                    </option>
+                                </select>
+                                <!-- <Select2 
                                 @select="getKelurahan"
                                 v-model="kecamatan" 
                                 :options="districtsOptions"
                                 :settings="{width: '100%', placeholder: 'Pilih Kecamatan'}"
                                 class="mt-1 p-[5px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white"
-                                />
+                                /> -->
                                 <!-- <input v-model="kecamatan" type="text" id="kecamatan" name="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kecamatan" /> -->
                             </div>
                             <div class="w-full mb-4">
                                 <label for="kelurahan" class="block text-sm font-myFont font-medium text-gray-600">Kelurahan:</label>
-                                <Select2 
+                                <select v-model="kelurahan" @change="saveVillagesId" name="kelurahan" id="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" selected>Pilih Kelurahan</option>
+                                    <option v-for="(item, index) in villagesOptions" :value="item.id" :key="index">{{ item.text }}</option>
+                                </select>
+                                <!-- <Select2 
                                 @select="saveVillagesId"
                                 v-model="kelurahan" 
                                 :options="villagesOptions"
                                 :settings="{width: '100%', placeholder: 'Pilih Kelurahan'}"
                                 class="mt-1 p-[5px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white"
-                                />
+                                /> -->
                                 <!-- <input v-model="kelurahan" type="text" id="kelurahan" name="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kelurahan" /> -->
                             </div>
                         </div>
