@@ -29,7 +29,7 @@
                     </div>
                     <div class="lg:w-2/3 lg:p-0 px-4">
                         <div class="flex flex-col align-middle items-center my-7">
-                            <h1 class="font-myFont text-dark text-xl lg:mb-2 mb-3">Ingin kanjut konsultasi lebih lanjut? Klik tombol dibawah untuk atur jadwalmu...</h1>
+                            <h1 class="font-myFont text-dark text-xl lg:mb-2 mb-3">Ingin konsultasi lebih lanjut? Klik tombol dibawah untuk atur jadwalmu...</h1>
                             <button class="px-2 py-2 w-1/2 self-start rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">Konsultasi</button>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
                 <img src="../../../assets/img/photo.png" class="lg:ml-4 self-center w-1/2">
                 <!-- <img src="../../../assets/img/lebih-lanjut.gif" class="mix-blend-multiply mt-4 mx-auto lg:ml-4 lg:place-self-start w-2/3"> -->
                 <div class="block lg:hidden">
-                    <h1 class="font-myFont font-normal text-center text-clip text-base lg:text-3xl text-white">Selamat Datang Kembali!</h1>
+                    <h1 class="font-myFont font-normal text-center text-clip text-base lg:text-3xl text-white">Selamat Datang!</h1>
                     <h1 class="font-myFont font-semibold text-center text-clip text-2xl lg:text-3xl text-white">{{ userData.name }}</h1>
                 </div>
             </div>

@@ -116,7 +116,7 @@
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">List Permintaan Reservasi</h1>
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                        <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataPermintaan.length }}</span>
+                        <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataPermintaan.length }} <button @click="refresh">Refresh</button></span>
                         <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
@@ -196,6 +196,7 @@ import initAPI from '../../../../api/api'
 import { PhCaretLeft, PhCaretRight, PhEye, PhCheck } from '@phosphor-icons/vue'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import {useRouter} from 'vue-router'
 
 export default{
     name: 'PermintaanReservasi',
@@ -288,7 +289,7 @@ export default{
             isModalOpen,
             toggleModal,
             clickDetail,
-            approve
+            approve,
         }
     }
 }

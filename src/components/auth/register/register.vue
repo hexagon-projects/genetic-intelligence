@@ -127,7 +127,7 @@ export default {
     const handleButtonClick = () => {
     if (openTab.value === 3) {
       // hitApiBayar();
-      alert('goblog sia')
+      // alert('goblog sia')
     } else {
       toggleTabs(1);
     }

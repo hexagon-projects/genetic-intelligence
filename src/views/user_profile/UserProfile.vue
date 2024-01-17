@@ -8,21 +8,21 @@
                         <img v-if="profileImageUrl || userData.image !== null" class="w-24 h-24 rounded-full border-2 border-biru" :src="profileImageUrl == '' ? 'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image : profileImageUrl" alt="Foto Profile">
                         <img v-else-if="!profileImageUrl && userData.image == null" class="w-24 h-24 rounded-full border-2 border-biru" src="../../assets/img/profile-mock.png" alt="Foto Profile">
                         <div class="flex flex-col">
-                            <h2 class="font-myFont text-dark text-2xl">{{ userData.name }}</h2>
+                            <h2 class="font-myFont text-dark text-base md:text-xl lg:text-2xl">{{ userData.name }}</h2>
                             <p class="font-myFont text-gray-500 text-sm">Foto Profile</p>
                         </div>
                     </div>
 
                     <div class="flex justify-center items-center gap-2">
                         <button @click="uploadFoto" v-if="profileImageUrl" class="
-                           cursor-pointer px-2 py-1 rounded-lg font-myFont text-biru border-2 border-biru
+                           cursor-pointer text-sm md:text-lg lg:text-lg px-2 py-1 rounded-lg font-myFont text-biru border-2 border-biru
                             hover:text-light hover:bg-biru hover:shadow-lg
                         ">
                             Upload Foto
                         </button>
 
                         <label for="fileInput" class="
-                           cursor-pointer px-2 py-1 rounded-lg font-myFont text-biru border-2 border-biru
+                           cursor-pointer text-sm md:text-lg lg:text-lg px-2 py-1 rounded-lg font-myFont text-biru border-2 border-biru
                             hover:text-light hover:bg-biru hover:shadow-lg
                         ">
                         Ubah Foto

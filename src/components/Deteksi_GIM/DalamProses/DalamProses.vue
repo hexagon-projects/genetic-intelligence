@@ -31,6 +31,7 @@
 
 <script>
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import initAPI from '../../../api/api';
 import { computed, ref } from 'vue';
 
@@ -38,6 +39,7 @@ export default {
     name: 'DalamProsesDeteksi',
     setup(){
         const loading = ref(false)
+        const router = useRouter()
         const store = useStore()
         const userData = computed(() => store.getters.getUserData)
 
@@ -49,6 +51,10 @@ export default {
             console.log(refreshedCustomer.data.data[0])
             store.commit('user', refreshedCustomer.data.data[0])
             localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
+
+            const userResult = await initAPI('get', 'customers/gim-result/'+userId, null, token)
+            localStorage.setItem('userResult', JSON.stringify(userResult.data))
+            router.go()
             loading.value = !loading.value
         }
 

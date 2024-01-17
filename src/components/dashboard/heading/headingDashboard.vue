@@ -38,7 +38,7 @@
                 <div class="w-full lg:mt-[56px]">
                     <h1 class="mb-2 font-myFont font-bold text-xl lg:text-base text-white">Kata Kunci</h1>
                     <p class="mb-2 font-myFont font-light text-wrap text-sm lg:text-sm text-light">{{ userResultDetect.gim.keyword }}</p>
-                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-sm w-1/2 md:w-3/5 lg:w-3/5 flex justiy-between items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
+                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="mb-4 md:mb-0 lg:mb-0 text-sm w-1/2 md:w-3/5 lg:w-3/5 flex justiy-between items-center gap-2 px-4 py-2 bg-[#1fabee] bg-opacity-80 backdrop-blur-3xl rounded-lg font-myFont text-light hover:text-light hover:bg-[#1fabee]">
                         Lihat Detail
                         <PhArrowRight/>
                     </RouterLink>
