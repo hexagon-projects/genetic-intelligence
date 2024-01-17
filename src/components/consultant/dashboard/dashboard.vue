@@ -15,7 +15,7 @@
                 </ol>
             </div>
             <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
-                <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
+                <!-- <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
                 controls
                 preload="auto"
                 fluid="true"
@@ -24,7 +24,7 @@
                 <source
                     src="../../../video/wakwaw.m3u8"
                     type="application/x-mpegURL">
-                </video>
+                </video> -->
                 <!-- <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
                 controls
                 preload="auto"
