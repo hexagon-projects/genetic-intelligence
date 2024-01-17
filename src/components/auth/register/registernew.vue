@@ -276,7 +276,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 export default{
     name: 'RegisterPage',
-    components: {Select2},
+    // components: {Select2},
     setup(){
         const $ = jQuery;
         window.$ = $;
