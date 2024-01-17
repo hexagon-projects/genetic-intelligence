@@ -416,8 +416,9 @@ export default{
 
             try {
                 const response = await initAPI('post','register', data, null)
-                console.log(response)
+                console.log(`register nih`,response.data)
                 if (response.status === 200) {
+                    localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
                     console.log('Register berhasil:', response.data.data.paymentUrl)
                     const url = response.data.data.paymentUrl
                     let fixedUrl = ''
@@ -426,21 +427,13 @@ export default{
                         fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
                         refValue = url.split('ref=')[1]
                     }else if(url.includes('reference=')){
-                        console.log('ajg', url)
+                        console.log('reference', url)
                         fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
                         refValue = url.split('reference=')[1]
                     }
                     window.location.href = fixedUrl+refValue
                     console.log('ref',refValue)
                     console.log(`${fixedUrl}-${refValue}`)
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'Registrasi Berhasil!',
-                    //     text: 'Anda dapat masuk sekarang.',
-                    //     showConfirmButton: false,
-                    //     timer: 2000
-                    // });
-                    // router.push('/login')
                 }
             } catch (error) {
                 if (error.response) {
