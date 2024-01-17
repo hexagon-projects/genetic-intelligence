@@ -28,6 +28,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.29",
     "@vitejs/plugin-vue": "^4.5.2",
     "autoprefixer": "^10.4.16",
     "jquery": "^3.7.1",

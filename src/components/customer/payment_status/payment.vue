@@ -91,8 +91,8 @@ export default {
             loading.value = !loading.value
             const merchantId = JSON.parse(localStorage.getItem('merchantId'))
             if(merchantId){
-                const check = await initAPI('get', 'payment/check?merchant_order_id=65a4bfcf730a7', null, null)
-                // const check = await initAPI('get', 'payment/check?merchant_order_id='+merchantId, null, null)
+                // const check = await initAPI('get', 'payment/check?merchant_order_id=65a4bfcf730a7', null, null)
+                const check = await initAPI('get', 'payment/check?merchant_order_id='+merchantId, null, null)
                 console.log(`check status pembayaran`,check.data)
                 if(check.data.is_success == true){
                     isSuccess.value = check.data.is_success

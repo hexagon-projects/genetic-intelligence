@@ -248,7 +248,6 @@
 import { ref, computed, onMounted } from 'vue'
 import initAPI from '../../../api/api'
 import DOMPurify from 'dompurify'
-import Select2 from 'vue3-select2-component';
 import jQuery from "jquery";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
