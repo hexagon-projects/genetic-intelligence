@@ -68,7 +68,7 @@
                       <RouterLink :to="{name: 'user.views.deteksi'}" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                           Deteksi Sekarang
                       </RouterLink>
-                      <img src="../../assets/img/no-data-found.png" class="w-96 self-center" alt="No Data Found">
+                      <img src="../../../assets/img/no-data-found.png" class="w-96 self-center" alt="No Data Found">
                   </div>
               </div>
           </div>
