@@ -22,7 +22,7 @@
                 </div>
 
                 <div v-else-if="!userResultDetect.gim_result" class="self-center mb-4">
-                    <img class="w-3/4 mx-auto h-full rounded-lg mt-4" src="../../assets/img/hasil-not-found.png" alt="Data Not Found">
+                    <img class="w-3/4 mx-auto h-full rounded-lg mt-4" src="../../../assets/img/hasil-not-found.png" alt="Data Not Found">
                     <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
                 </div>
             </div>
