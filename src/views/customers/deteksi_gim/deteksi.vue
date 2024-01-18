@@ -17,62 +17,68 @@
             </div>
             <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
                 <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
-                  <div class="mb-6 flex items-center">
-                    <h5 class="text-lg font-semibold dark:text-white-light">Tes Pendeteksian Genetic Intelligence Mapping</h5>
+                  <div v-if="!loadingSubmit">
+                    <div class="mb-6 flex items-center">
+                      <h5 class="text-lg font-semibold dark:text-white-light">Tes Pendeteksian Genetic Intelligence Mapping</h5>
+                    </div>
+                    <hr>
+                      <div class="my-6" x-data="{ activeTab: 1}">
+                        <div class="inline-block w-full">
+                            <div class="relative z-[1]">
+                                <div class="bg-biru w-[15%] h-1 absolute ltr:left-0 rtl:right-0 top-[30px] m-auto -z-[1] transition-[width]" :class="{'w-[15%]' : activeTab === 1, 'w-[48%]' : activeTab === 2, 'w-[81%]' : activeTab === 3}"></div>
+                                <ul class="mb-5 grid grid-cols-3">
+                                    <li class="mx-auto">
+                                        <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 1, 'text-dark': activeTab !== 1}">
+                                            <PhVideo :size='25'/>
+                                        </button>
+                                        <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 1}">Instruksi</span>
+                                    </li>
+                                    <li class="mx-auto">
+                                        <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 2, 'text-dark': activeTab !== 2}">
+                                            <PhFileArrowUp :size='25'/>
+                                        </button>
+                                        <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 2}">Upload</span>
+                                    </li>
+                                    <li class="mx-auto">
+                                        <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 3 , 'text-dark': activeTab !== 3}">
+                                            <PhCheckFat :size='25'/>
+                                        </button>
+                                        <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 3}">Submit</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div v-if="activeTab === 1">
+                                    <Instruksi/>
+                                    <div class="flex flex-col justify-items-start mb-10 lg:mx-40">
+                                        <div class="relative flex">
+                                            <div class="flex h-6 items-center">
+                                                <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-biru focus:biru" />
+                                            </div>
+                                            <div class="text-sm leading-6">
+                                                <label for="check-yes" class="ml-2 text-sm text-success-600">Saya telah mengikuti instruksi dari video diatas sampai selesai</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="activeTab === 2">
+                                    <FormUpload/>
+                                </div>
+                                <div v-if="activeTab === 3">
+                                    <Review/>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <button type="button" :class="{'cursor-not-allowed bg-opacity-75 shadow-lg': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru text-white" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/>Kembali</button>
+                                <button v-if="activeTab === 3" @click="submitForm()" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-success text-light">Submit</button>
+                                <button v-else-if="activeTab < 3" type="button" id="btn-next" :class="{'cursor-not-allowed bg-opacity-75 shadow-lg': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru bg-opacity-100 text-white" :disabled="activeTab === 3 || !checked" @click="activeTab++">Selanjutnya <PhCaretRight weight="bold"/></button>
+                            </div>
+                        </div>
+                    </div>
                   </div>
-                  <hr>
-                    <div class="my-6" x-data="{ activeTab: 1}">
-                      <div class="inline-block w-full">
-                          <div class="relative z-[1]">
-                              <div class="bg-biru w-[15%] h-1 absolute ltr:left-0 rtl:right-0 top-[30px] m-auto -z-[1] transition-[width]" :class="{'w-[15%]' : activeTab === 1, 'w-[48%]' : activeTab === 2, 'w-[81%]' : activeTab === 3}"></div>
-                              <ul class="mb-5 grid grid-cols-3">
-                                  <li class="mx-auto">
-                                      <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 1, 'text-dark': activeTab !== 1}">
-                                          <PhVideo :size='25'/>
-                                      </button>
-                                      <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 1}">Instruksi</span>
-                                  </li>
-                                  <li class="mx-auto">
-                                      <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 2, 'text-dark': activeTab !== 2}">
-                                          <PhFileArrowUp :size='25'/>
-                                      </button>
-                                      <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 2}">Upload</span>
-                                  </li>
-                                  <li class="mx-auto">
-                                      <button class="border-[3px] border-[#f3f2ee] bg-white flex justify-center items-center w-16 h-16 rounded-full cursor-default" :class="{'!border-biru !bg-biru text-white': activeTab === 3 , 'text-dark': activeTab !== 3}">
-                                          <PhCheckFat :size='25'/>
-                                      </button>
-                                      <span class="text-center block mt-2" :class="{'text-dark' : activeTab === 3}">Submit</span>
-                                  </li>
-                              </ul>
-                          </div>
-                          <div>
-                              <div v-if="activeTab === 1">
-                                  <Instruksi/>
-                                  <div class="flex flex-col justify-items-start mb-10 lg:mx-40">
-                                      <div class="relative flex">
-                                          <div class="flex h-6 items-center">
-                                              <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-biru focus:biru" />
-                                          </div>
-                                          <div class="text-sm leading-6">
-                                              <label for="check-yes" class="ml-2 text-sm text-success-600">Saya telah mengikuti instruksi dari video diatas sampai selesai</label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div v-if="activeTab === 2">
-                                  <FormUpload/>
-                              </div>
-                              <div v-if="activeTab === 3">
-                                  <Review/>
-                              </div>
-                          </div>
-                          <div class="flex justify-between">
-                              <button type="button" :class="{'opacity-75': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru text-white" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/>Kembali</button>
-                              <button v-if="activeTab === 3" @click="submitForm()" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-success text-light">Submit</button>
-                              <button v-else-if="activeTab < 3" type="button" id="btn-next" :class="{'cursor-not-allowed': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru bg-opacity-100 text-white" :disabled="activeTab === 3 || !checked" @click="activeTab++">Selanjutnya <PhCaretRight weight="bold"/></button>
-                          </div>
-                      </div>
+
+                  <div v-else class="py-80">
+                    <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
                   </div>
                 </div>
     
@@ -144,6 +150,7 @@ export default {
   components: {Instruksi, FormUpload, Review, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight},
   setup(){
     const loading = ref(false);
+    const loadingSubmit = ref(false);
     const store = useStore()
     const userData = computed(() => store.getters.getUserData)
     const activeTab = ref(1)
@@ -151,44 +158,47 @@ export default {
     const reviewImage = computed(() => store.getters.getReviewImage)
 
     const submitForm = async () => {
-      const formData = new FormData();
-      formData.append('detection_image', reviewImage.value[0]);
-      console.log(`form yeuh`, formData)
+        loadingSubmit.value = !loadingSubmit.value
+        const formData = new FormData();
+        formData.append('detection_image', reviewImage.value[0]);
+        console.log(`form yeuh`, formData)
 
-      const customerId = userData.value.id
-      const token = JSON.parse(localStorage.getItem('token'))
+        const customerId = userData.value.id
+        const token = JSON.parse(localStorage.getItem('token'))
 
-      try {
-        if(reviewImage.value !== null){
-          const response = await initAPI(
-            'post','customers/gim-result/upload-test/'+customerId, formData, token
-          );
-          if(response.status == 200){
+        try {
+            if(reviewImage.value !== null){
+            const response = await initAPI(
+                'post','customers/gim-result/upload-test/'+customerId, formData, token
+            );
+            if(response.status == 200){
+                Swal.fire({
+                icon: 'success',
+                title: 'File di Upload',
+                text: 'Deteksi GIM akan segera di proses',
+                showConfirmButton: false,
+                timer: 2000
+                });
+            }
+            const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+            store.commit('user', updatedCustomer.data.data[0])
+            localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+            console.log('update', updatedCustomer.data.data[0])
+            console.log('Response from API:', response.data);
+            } else {
             Swal.fire({
-              icon: 'success',
-              title: 'File di Upload',
-              text: 'Deteksi GIM akan segera di proses',
-              showConfirmButton: false,
-              timer: 2000
+                icon: 'error',
+                title: 'Upload Gagal',
+                text: 'Upload file terlebih dahulu',
+                showConfirmButton: false,
+                timer: 2000
             });
-          }
-          const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-          store.commit('user', updatedCustomer.data.data[0])
-          localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-          console.log('update', updatedCustomer.data.data[0])
-          console.log('Response from API:', response.data);
-        } else {
-          Swal.fire({
-              icon: 'error',
-              title: 'Upload Gagal',
-              text: 'Upload file terlebih dahulu',
-              showConfirmButton: false,
-              timer: 2000
-          });
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
         }
-      } catch (error) {
-        console.error('Error submitting form:', error);
-      }
+
+        loadingSubmit.value = !loadingSubmit.value
     };
 
     const refreshData = async(userId) => {
@@ -206,6 +216,7 @@ export default {
     }
 
     return{
+        loadingSubmit,
         loading,
         userData,
         activeTab,
