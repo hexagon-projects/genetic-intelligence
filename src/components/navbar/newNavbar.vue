@@ -56,8 +56,9 @@
 			</RouterLink>
 
 			<customerBotNav v-if="userRole == 'customer'"/>
+			<consultantBotNav v-else-if="userRole == 'consultant'"/>
 
-			<a @click="Logout" class="cursor-pointer w-full focus:text-secondary hover:text-secondary flex flex-col justify-center text-center pt-2 pb-1">
+			<a @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
 				<div class="self-center">
 					<PhSignOut :size="28" />
 				</div>
@@ -76,6 +77,7 @@ import { PhHouse, PhSignOut } from "@phosphor-icons/vue";
 import customerNav from './customer/customer.vue';
 import customerBotNav from './customer/customerBottom.vue'
 import consultantNav from './consultant/consultant.vue'
+import consultantBotNav from './consultant/consultantBottom.vue'
 
 export default{
     name: 'NavbarVue',
@@ -84,7 +86,8 @@ export default{
 		PhSignOut,
 		customerNav,
 		customerBotNav,
-		consultantNav
+		consultantNav,
+		consultantBotNav
 	},
 	setup(){
 		const store = useStore()
