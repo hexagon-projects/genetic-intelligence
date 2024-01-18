@@ -42,13 +42,13 @@
                         </div>
                         
                         <div v-else-if="userData.image !== null" class="self-center">
-                            <img class="round lg:mx-auto -ml-1 w-28 h-28 rounded-full hover:border-biru border-2 border-white mb-2" 
+                            <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white" 
                             :src="'http://gim.app.api.hexagon.co.id/api/open/customers/'+userData.image" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="flex items-center gap-1 p-2 lg:p-3 rounded-full md:my-2 lg:mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="-mt-18 flex items-center gap-1 mb-2 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
                                 <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>
-                            <h2 class="font-myFont text-center font-bold text-dark -mt-1 my-2">{{ userData.name }}</h2>
+                            <h2 class="-mt-2 font-myFont text-center font-semibold text-dark mb-1">{{ userData.name }}</h2>
                         </div>
     
                         <div class="flex flex-col items-center gap-2">
