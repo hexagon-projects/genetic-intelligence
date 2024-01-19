@@ -137,15 +137,70 @@
                     >
                         Menunggu Approval
                     </button>
-                    <button @click="Bayar" v-else-if="dataReservasi.status == 'Approved'" class="mt-4 lg:ml-12 px-4 py-2 bg-biru text-light rounded-lg hover:opacity-75 hover:shadow-lg"
+                    <button @click="toggleModalBayar" v-else-if="dataReservasi.status == 'Approved'" class="mt-4 lg:ml-12 px-4 py-2 bg-biru text-light rounded-lg hover:opacity-75 hover:shadow-lg"
                     >
                         Bayar
                     </button>
+                    <button v-else-if="dataReservasi.status == 'Approved'" class="cursor-not-allowed mt-4 lg:ml-12 px-4 py-2 opacity-60 bg-biru text-light rounded-lg"
+                    >
+                        On Schedule
+                    </button>
                 </div>
 
+                <!-- Modal Pilih Payment -->
                 <div class="lg:w-1/2">
                     <div class="flex flex-col justify-center">
                         <img src="../../../assets/img/reservasi.png" class="w-1/4 lg:w-1/3 self-end md:self-center lg:self-center" alt="Sudah Reservasi">
+                    </div>
+                </div>
+
+                <div class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+                    :class="{'hidden': !isModalOpen, 'block': isModalOpen}"
+                >
+                    <div class="relative w-full lg:w-1/2 top-24 mx-auto shadow-xl rounded-md bg-white">
+                        <!-- Modal body -->
+                        <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Pilih Metode Pembayaran</h1>
+                        <hr class="mt-4">
+                        
+                        <div v-if="!modalLoading">
+                            <div class="hidden lg:flex flex-col gap-2 max-h-56">
+                                <span class="mt-1 px-2 text-xs font-myFont">*Pembayaran akan dikenakan biaya admin</span>
+                                <div class="flex flex-row px-2 gap-4 my-4">
+                                    <div class="w-1/2">
+                                        <label for="payment_method" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
+                                        <input v-model="feePaymentMethod" type="text" name="payment_method" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                    </div>
+                                    <div class="w-1/2">
+                                        <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
+                                        <input v-model="feePaymentCode" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                    </div>
+                                </div>
+                                <div class="py-2 px-2 grid grid-cols-4 gap-2 overflow-y-scroll w-full">
+                                    <a @click="pilihPayment(payment.paymentMethod, payment.paymentName, payment.totalFee)" v-for="(payment, index) in paymentMethod" :key="index" class="cursor-pointer hover:animate-wiggle bg-white border rounded-lg shadow-sm px-2 py-2">
+                                        <img :src="payment.paymentImage" :alt="payment.paymentName">
+                                    </a>
+                                </div>
+                            </div>
+    
+                            <div class="lg:hidden flex flex-col max-h-32 max-w-full">
+                                <div class="py-2 px-2 grid grid-cols-2 gap-2 overflow-y-scroll w-full">
+                                    <a @click="pilihPayment(payment.paymentMethod, payment.paymentName, payment.totalFee)" v-for="(payment, index) in paymentMethod" :key="index" class="cursor-pointer hover:animate-wiggle bg-white border rounded-lg shadow-sm px-2 py-2">
+                                        <img :src="payment.paymentImage" :alt="payment.paymentName">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-else class="py-4">
+                            <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+                        </div>
+
+                        <hr class="pt-4">
+                        <!-- Modal footer -->
+                        <div class="px-4 py-2 flex justify-between items-center space-x-4">
+                            <button class="font-myFont bg-light border text-dark px-4 py-2 rounded-md hover:bg-biru hover:text-white transition" @click="toggleModalBayar">Tutup</button>
+                            <button class="bg-biru text-white px-4 py-2 rounded-md hover:opacity-75 hover:shadow-lg transition" @click="konfirPembayaran">Submit</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,9 +235,16 @@ export default {
     name: 'Reservasi',
     components: {PhUser, PhTimer, PhCalendar, PilihHari},
     setup(){
+        const modalLoading = ref(false)
+        const isModalOpen = ref(false)
         const store = useStore()
         const dataReservasi = ref([])
         const statusReservasi = ref(null)
+        const paymentMethod = ref(null)
+
+        const feePaymentMethod = ref(null)
+        const feePaymentCode = ref(null)
+        const paymentForm = ref(null)        
 
         const userData = computed(() => store.getters.getUserData)
         // const reservasiData = JSON.parse(localStorage.getItem('bookReservasi'))
@@ -261,16 +323,64 @@ export default {
             }
         }
 
-        const Bayar = () => {
+        const toggleModalBayar = async() => {
+            modalLoading.value = !modalLoading.value
             console.log('siap bayar', dataReservasi.value)
+            isModalOpen.value = !isModalOpen.value
+            const response = await initAPI('get', 'payment/methods', null, null)
+            paymentMethod.value = response.data.paymentFee
+            modalLoading.value = !modalLoading.value
+        }
+
+        const pilihPayment = (method, name, feePayment) => {
+            feePaymentMethod.value = name
+            feePaymentCode.value = parseInt(dataReservasi.value.consultant.fee) + parseInt(feePayment)
+            const datas = {
+                customer_id: userData.value.id,
+                payment_method_code: method,
+                fee: parseInt(feePayment)
+            }
+            // console.log(`datas`,datas)
+            paymentForm.value = datas
+        }
+
+        const konfirPembayaran = async() => {
+            console.log(`payment form`, paymentForm.value)
+            const token = JSON.parse(localStorage.getItem('token'))
+            try {
+                const response = await initAPI('post', 'customers/reservations/payment', paymentForm.value, token)
+                console.log(response.data)
+                const url = response.data.data.paymentUrl
+                    let fixedUrl = ''
+                    let refValue = ''
+                    if(url.includes('ref=')){
+                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                        refValue = url.split('ref=')[1]
+                    }else if(url.includes('reference=')){
+                        console.log('reference', url)
+                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        refValue = url.split('reference=')[1]
+                    }
+                    window.location.href = fixedUrl+refValue
+            } catch (error) {
+                console.log(error)
+            }
+
         }
 
         return {
             userData,
             reservasiData,
             dataReservasi,
+            isModalOpen,
+            paymentMethod,
+            modalLoading,
+            feePaymentCode,
+            feePaymentMethod,
             konfirReservasi,
-            Bayar
+            toggleModalBayar,
+            pilihPayment,
+            konfirPembayaran
         }
     }
 }

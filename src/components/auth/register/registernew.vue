@@ -236,8 +236,8 @@
                                 <input v-model="totalFee" type="text" name="total_fee" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
                             </div>
                             <div class="w-1/3 mb-4">
-                                <label for="total_fee" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
-                                <input v-model="feePaymentMethod" type="text" name="total_fee" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
+                                <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
                             </div>
                         </div>
 
@@ -315,8 +315,7 @@ export default{
             const response = await initAPI('get', 'payment/methods', null, null)
             paymentMethod.value = response.data.paymentFee
 
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZ2ltLmFwcC5hcGkuaGV4YWdvbi5jby5pZC9hcGkvbG9naW4iLCJpYXQiOjE3MDUwNzI4MTYsImV4cCI6MTcwNTE1OTIxNiwibmJmIjoxNzA1MDcyODE2LCJqdGkiOiJVTjQ3OTF2aHJvU1NtQ25yIiwic3ViIjoiMyIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.1fX36VbTetNV98YNlsQH1wm69iLIYzcGlsZEYHTfbOM'
-            const province = await initAPI('get', 'region/provinces', null, token)
+            const province = await initAPI('get', 'region/provinces', null, null)
             console.log(province.data)
             const formattedProvince = province.data.map(item => ({
                 id: item.id,
