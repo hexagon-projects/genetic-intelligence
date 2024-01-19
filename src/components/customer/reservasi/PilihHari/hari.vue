@@ -85,6 +85,9 @@ export default {
         const splitMonth = month.slice(0, 3);
         const year = date.getFullYear();
 
+        const feeValue = ref(null)
+        const formattedFee = ref(null)
+
         const computedTgl = computed(() => dataTgl.value)
 
         onMounted(async() => {
@@ -92,6 +95,11 @@ export default {
             const response = await initAPI('get', 'consultants/available-schedule/1', null, token)
             const uniqueDays = Array.from(new Set(response.data.map(item => item.day)));
             dataHari.value = uniqueDays
+
+            const fee = await initAPI('get', 'consultants', null, token)
+            console.log(`harga fee`, fee.data.data[0])
+            formattedFee.value = fee.data.data[0].formatted_fee
+            feeValue.value = fee.data.data[0].fee
         })
 
         const handleClick = (index, hari) => {
@@ -163,7 +171,7 @@ export default {
             mockTgl.value = response.data.time
             loading.value = !loading.value
             // dataHari.value = response.data
-            // console.log('hari',dataHari.value)
+            console.log('hari',dataHari.value)
         }
 
         const store = useStore()
@@ -176,13 +184,15 @@ export default {
                 date: tglReservasi.value,
                 day: hariReservasi.value,
                 time: jam,
-                fee: 1000000
+                fee: feeValue.value,
+                formatted_fee: formattedFee.value
             }
             console.log(datas)
             console.log(`klik jam`, jam)
             // localStorage.setItem('bookReservasi', JSON.stringify(datas))
 
             store.commit('setReservasi', datas)
+            localStorage.setItem('setReservasi', JSON.stringify(datas))
 
             // console.log(datas)
             // const response = await initAPI('post', 'customers/reservations', datas, token)

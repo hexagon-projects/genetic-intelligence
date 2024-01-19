@@ -18,7 +18,7 @@
         </div>
 
         <div class="mx-7 bg-white rounded-lg shadow-lg p-4">
-            <div v-if="reservasiData && dataReservasi.length == 0" class="flex flex-col md:flex-row lg:flex-row items-center">
+            <div v-if="userData.is_advance == 'Tidak' && reservasiData" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-gray-500 text-base mb-4">Berikut adalah detail jadwal reservasi kamu</p>
@@ -51,7 +51,7 @@
                             <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 items-center">
-                                        Total: Rp. {{ reservasiData.fee }}
+                                        Total: {{ reservasiData.formatted_fee }}
                                     </span>
                                 </td>
                             </tr>
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div v-else-if="dataReservasi && userData && userData.is_advance == 'Ya'" class="flex flex-col md:flex-row lg:flex-row items-center">
+            <div v-else-if="dataReservasi && userData.is_advance == 'Ya'" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="w-full md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4 lg:mb-0">Reservasi kamu sudah terjadwal</p>
@@ -83,7 +83,7 @@
                                 </td>
                                 <td class="font-myFont py-4 px-6">
                                     <span class="flex gap-1 text-sm lg:text-base items-center">
-                                        <PhTimer/> {{ dataReservasi.time }}
+                                        <PhTimer/> {{ dataReservasi.time !== undefined ? dataReservasi.time : '' }}
                                     </span>
                                 </td>
                                 <td class="font-myFont py-4 px-6">
@@ -133,10 +133,11 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button class="mt-4 lg:ml-12 px-4 py-2 bg-biru text-light rounded-lg"
-                    :class="{
-                        'hover:bg-opacity-75 hover:shadow-lg': dataReservasi.status == 'Approved'
-                        }"
+                    <button v-if="dataReservasi.status == 'Requested'" class="cursor-not-allowed mt-4 lg:ml-12 px-4 py-2 opacity-60 bg-biru text-light rounded-lg"
+                    >
+                        Menunggu Approval
+                    </button>
+                    <button @click="Bayar" v-else-if="dataReservasi.status == 'Approved'" class="mt-4 lg:ml-12 px-4 py-2 bg-biru text-light rounded-lg hover:opacity-75 hover:shadow-lg"
                     >
                         Bayar
                     </button>
@@ -149,7 +150,7 @@
                 </div>
             </div>
 
-            <div v-else-if="!reservasiData && dataReservasi.length == 0" class="flex flex-col lg:flex-row items-center">
+            <div v-else-if="!reservasiData && userData.is_advance == 'Tidak'" class="flex flex-col lg:flex-row items-center">
                 <div class="lg:w-1/2">
                     <div class="lg:mx-10 lg:ml-20 flex flex-col">
                         <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu belum menentukan jadwal</h1>
@@ -168,7 +169,7 @@
 
 <script>
 import initAPI from '../../../api/api';
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { PhUser, PhTimer, PhCalendar } from '@phosphor-icons/vue';
 import PilihHari from './PilihHari/hari.vue'
 import { useStore } from 'vuex'
@@ -181,45 +182,73 @@ export default {
     setup(){
         const store = useStore()
         const dataReservasi = ref([])
+        const statusReservasi = ref(null)
 
         const userData = computed(() => store.getters.getUserData)
         // const reservasiData = JSON.parse(localStorage.getItem('bookReservasi'))
         const reservasiData = computed(() => store.getters.getReservasi)
-        console.log(reservasiData)
+        // const bookingReservasi = ref(JSON.parse(localStorage.getItem('setReservasi')))
+        // const reservasiData = computed(() => bookingReservasi.value)
 
-        onMounted(async() => {
-            const isReservasi = JSON.parse(localStorage.getItem('userData'))
-            if(isReservasi.is_advance == 'Ya'){
+        console.log(`reservasi data`,reservasiData.value)
+        console.log(`dataReservasi length`,dataReservasi.length)
+
+        const getDataReservasi = async() => {
+            try {
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true`, null, token)
-                console.log(response)
-                const data = {
-                  date: response.data.date,
-                  day: response.data.day,
-                  time: response.data.time,
-                  fee: response.data.fee,
-                  status: response.data.status 
-                }
-                dataReservasi.value = data
-                console.log(`ajg`,dataReservasi.value)
-            }else{
-                console.log('acan nyien reservasi')
+                console.log(`cek weh reservasina`,response.data)
+                dataReservasi.value = response.data
+                statusReservasi.value = response.data.status
+                // console.log(`status reservasi`, statusReservasi.value)
+                console.log(`ini data reservasi`, dataReservasi.value)
+            } catch (error) {
+                console.log(`error`, error)
             }
+
+        }
+
+        onMounted(() => {
+            getDataReservasi()
+            // const isReservasi = JSON.parse(localStorage.getItem('userData'))
+           
+            //     console.log(`cek weh reservasina`,response.data)
+            // if(isReservasi.is_advance == 'Ya'){
+            //     const token = JSON.parse(localStorage.getItem('token'))
+            //     const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true`, null, token)
+            //     console.log(`cek weh reservasina`,response.data)
+            //     const data = {
+            //       date: response.data.date,
+            //       day: response.data.day,
+            //       time: response.data.time,
+            //       fee: response.data.fee,
+            //       status: response.data.status 
+            //     }
+            //     dataReservasi.value = data
+            //     console.log(`ajg`,dataReservasi.value)
+            // }else{
+            //     console.log('acan nyien reservasi')
+            // }
         })
 
         const konfirReservasi = async() => {
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('post', 'customers/reservations', reservasiData.value, token)
-            console.log(response)
+            console.log(`konfir`,response.data)
             if(response.data.success == true){
                 Swal.fire({
                     icon: 'success',
                     title: 'Reservasi Berhasil',
                     text: response.data.message,
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 2500
                 });
                 store.commit('setReservasi', null)
+                localStorage.removeItem('setReservasi')
+
+                const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
+                store.commit('user', updatedCustomer.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
             }else{
                 Swal.fire({
                     icon: 'error',
@@ -231,11 +260,17 @@ export default {
                 store.commit('setReservasi', null)
             }
         }
+
+        const Bayar = () => {
+            console.log('siap bayar', dataReservasi.value)
+        }
+
         return {
             userData,
             reservasiData,
             dataReservasi,
-            konfirReservasi
+            konfirReservasi,
+            Bayar
         }
     }
 }

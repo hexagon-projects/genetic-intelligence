@@ -47,12 +47,14 @@ import axios from 'axios';
 // }
 
 const initAPI = async (method, endpoint, data, token) => {
+  const baseUrl = 'http://178.128.110.149/api/'
+  // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/')
   console.log(check)
     const config = {
         method: method,
         maxBodyLength: Infinity,
-        url: 'http://gim.app.api.hexagon.co.id/api/' + endpoint,
+        url: baseUrl + endpoint,
         headers: { 
           'Content-Type': check ? 'multipart/form-data' : 'application/json',
           'Authorization': token !== null ? `Bearer ${token}` : null

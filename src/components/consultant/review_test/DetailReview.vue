@@ -25,7 +25,8 @@
                             </div>
                             <hr class="my-5">
                             <div class="self-center my-1">
-                                <img :src="'http://gim.app.api.hexagon.co.id/api/open/detections/'+dataReview.customers_results.detection">
+                                <img :src="'http://178.128.110.149/api/open/detections/'+dataReview.customers_results.detection">
+                                <!-- <img :src="'http://gim.app.api.hexagon.co.id/api/open/detections/'+dataReview.customers_results.detection"> -->
                                 <!-- <img src="../../../assets/img/grafologi.jpg"> -->
                                 <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
                             </div>
@@ -124,7 +125,8 @@ setup() {
     })
 
     const downloadImage = async (imgUrl) => {
-            const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/detections/'+imgUrl
+            const imageUrl = 'http://178.128.110.149/api/open/detections/'+imgUrl
+            // const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/detections/'+imgUrl
             console.log(`url`,imageUrl)
             // const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/results/' + userResultDetect.value.gim_result
 

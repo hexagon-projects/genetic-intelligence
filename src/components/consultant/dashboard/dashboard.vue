@@ -25,16 +25,19 @@
                     src="../../../video/wakwaw.m3u8"
                     type="application/x-mpegURL">
                 </video> -->
-                <!-- <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
+                <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
                 controls
                 preload="auto"
                 fluid="true"
                 data-setup='{}'
                 >
                 <source
-                    src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+                    src="http://localhost/chunk/index.m3u8"
                     type="application/x-mpegURL">
-                </video> -->
+                <!-- <source
+                    src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+                    type="application/x-mpegURL"> -->
+                </video>
                 <!-- <iframe sandbox="allow-same-origin allow-scripts" src="https://drive.google.com/file/d/1Z1iQySVZe-YxN_S9c00wP-mjXTeODDfQ/preview" controls="none" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" width="640" height="320"></iframe> -->
             </div>
         </section>
@@ -53,7 +56,7 @@ export default {
     name: 'Dashboard',
     setup(){
         onMounted(() => {
-            var player = videojs('example-video');
+            const player = videojs('example-video');
             player.play();
             // // Inisialisasi Video.js
             // const player = videojs(videoPlayer.value);
