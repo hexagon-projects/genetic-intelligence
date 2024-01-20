@@ -17,7 +17,7 @@
                 <hr class="my-3">
 
                 <div v-if="userResultDetect.gim_result" class="self-center my-3">
-                    <img @click="showImage" class="w-3/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" :src="'http://178.128.110.149/api/open/results/'+userResultDetect.gim_result" alt="File Deteksi">
+                    <img @click="showImage" class="w-3/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" :src="import.meta.env.VITE_API_BASE_URL+'open/results/'+userResultDetect.gim_result" alt="File Deteksi">
                     <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
                 </div>
 
@@ -32,7 +32,7 @@
             <div class="flex flex-col items-center z-20 overflow-y-auto">
             <div @wheel.prevent="handleMouseWheel">
                 <img
-                :src="'http://178.128.110.149/api/open/results/' + userResultDetect.gim_result"
+                :src="import.meta.env.VITE_API_BASE_URL+'open/results/' + userResultDetect.gim_result"
                 alt="Detected Image"
                 class="z-90 mx-auto w-3/4 md:w-1/3 lg:w-2/6 rounded-lg shadow-xl"
                 ref="imageRef"
@@ -71,7 +71,7 @@ export default {
 
         const downloadImage = async () => {
             console.log(`aisia`,userResultDetect.gim_result)
-            const imageUrl = 'http://178.128.110.149/api/open/results/' + userResultDetect.gim_result
+            const imageUrl = import.meta.env.VITE_API_BASE_URL + 'open/results/' + userResultDetect.gim_result
 
 
             const response = await fetch(imageUrl)

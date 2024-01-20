@@ -3,7 +3,7 @@
     <div class="bg-white rounded-lg shadow-xl p-4">
         <div class="flex justify-around items-center">
             <div class="mx-4 flex justify-center items-center gap-2">
-                <img v-if="profileImageUrl || userData.image !== null" class="w-24 h-24 rounded-full border-2 border-biru" :src="profileImageUrl == '' ? 'http://178.128.110.149/api/open/consultant/'+userData.image : profileImageUrl" alt="Foto Profile">
+                <img v-if="profileImageUrl || userData.image !== null" class="w-24 h-24 rounded-full border-2 border-biru" :src="profileImageUrl == '' ? baseUrl+'open/consultant/'+userData.image : profileImageUrl" alt="Foto Profile">
                 <img v-else-if="!profileImageUrl && userData.image == null" class="w-24 h-24 rounded-full border-2 border-biru" src="../../assets/img/profile-mock.png" alt="Foto Profile">
                 <div class="flex flex-col">
                     <h2 class="font-myFont text-dark text-2xl">{{ userData.name }}</h2>
@@ -129,7 +129,8 @@ import 'sweetalert2/dist/sweetalert2.css';
 export default {
     name: 'customerProfile',
     setup(){
-      const store = useStore()
+        const baseUrl = import.meta.env.VITE_API_BASE_URL
+        const store = useStore()
         const userData = computed(() => store.getters.getUserData)
         const userRole = computed(() => store.getters.getUserRole)
 
@@ -264,7 +265,8 @@ export default {
 
 
         return {
-          currPass, 
+            baseUrl,
+            currPass, 
             userData,
             userRole,
             nama,

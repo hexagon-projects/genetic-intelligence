@@ -55,8 +55,8 @@
                                             <div class="flex h-6 items-center">
                                                 <input type="checkbox" v-model="checked" id="check-yes" class="h-4 w-4 rounded border-gray-300 text-biru focus:biru" />
                                             </div>
-                                            <div class="text-sm leading-6">
-                                                <label for="check-yes" class="ml-2 text-sm text-success-600">Saya telah mengikuti instruksi dari video diatas sampai selesai</label>
+                                            <div class="leading-6">
+                                                <label for="check-yes" class="ml-2 text-[10px] md:text-sm lg:text-sm text-success-600">Saya telah mengikuti instruksi dari video diatas sampai selesai</label>
                                             </div>
                                         </div>
                                     </div>

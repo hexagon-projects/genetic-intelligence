@@ -7,8 +7,8 @@
             <h2 class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
             <a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
                 <img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/profile-mock.png">
-                <img v-else-if="userData.image !== null && userRole == 'customer'" class="w-6 rounded-full" :src="'http://178.128.110.149/api/open/customers/'+userData.image">
-                <img v-else-if="userData.image !== null && userRole == 'consultant'" class="w-6 rounded-full" :src="'http://178.128.110.149/api/open/consultant/'+userData.image">
+                <img v-else-if="userData.image !== null && userRole == 'customer'" class="w-6 rounded-full" :src="baseUrl+'open/customers/'+userData.image">
+                <img v-else-if="userData.image !== null && userRole == 'consultant'" class="w-6 rounded-full" :src="baseUrl+'open/consultant/'+userData.image">
             </a>
         </div>
         <div v-if="showDropdown == true" class="bg-white w-36 absolute right-4 top-20 p-2 flex flex-col gap-2 rounded-lg shadow-xl">
@@ -90,6 +90,7 @@ export default{
 		consultantBotNav
 	},
 	setup(){
+		const baseUrl = import.meta.env.VITE_API_BASE_URL
 		const store = useStore()
 		const userData = computed(() => store.getters.getUserData);
 		const userRole = computed(() => store.getters.getUserRole);
@@ -140,7 +141,8 @@ export default{
 			router.push('/login')
 		}
 
-		return { 
+		return {
+			baseUrl, 
 			Logout,
 			userData,
 			userRole,
