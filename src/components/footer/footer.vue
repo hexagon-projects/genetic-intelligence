@@ -2,7 +2,7 @@
     <footer id="footer" class="bg-white pt-4 pb-4 lg:mb-0 mb-14">
          <div class="container mx-auto">
              <div class="flex justify-center container mx-auto w-full">
-                <p class="font-medium font-myFont text-xs lg:text-sm text-dark text-center">
+                <p class="font-medium font-myFont text-xs lg:text-sm text-neutral-400 text-center">
                     © {{ currentYear }} Genetic Intelligence Mapping. All Rights Reserved.
                 </p>
                 <!-- <p class="font-bold text-sm text-black text-center">

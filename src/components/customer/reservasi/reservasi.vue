@@ -141,9 +141,13 @@
                     >
                         Bayar
                     </button>
-                    <button v-else-if="dataReservasi.status == 'Approved'" class="cursor-not-allowed mt-4 lg:ml-12 px-4 py-2 opacity-60 bg-biru text-light rounded-lg"
+                    <button v-else-if="dataReservasi.status == 'Scheduled'" class="cursor-not-allowed mt-4 lg:ml-12 px-4 py-2 opacity-60 bg-biru text-light rounded-lg"
                     >
-                        On Schedule
+                        Menunggu Konsultasi Dimulai
+                    </button>
+                    <button v-else-if="dataReservasi.status == 'On Progress'" class="cursor-not-allowed mt-4 lg:ml-12 px-4 py-2 opacity-60 bg-biru text-light rounded-lg"
+                    >
+                        Konsultasi Sedang Berlangsung
                     </button>
                 </div>
 
@@ -252,8 +256,8 @@ export default {
         // const bookingReservasi = ref(JSON.parse(localStorage.getItem('setReservasi')))
         // const reservasiData = computed(() => bookingReservasi.value)
 
-        console.log(`reservasi data`,reservasiData.value)
-        console.log(`dataReservasi length`,dataReservasi.length)
+        // console.log(`reservasi data`,reservasiData.value)
+        // console.log(`dataReservasi length`,dataReservasi.value)
 
         const getDataReservasi = async() => {
             try {
@@ -309,6 +313,7 @@ export default {
                 localStorage.removeItem('setReservasi')
 
                 const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
+                dataReservasi.value = updatedCustomer.data.data[0]
                 store.commit('user', updatedCustomer.data.data[0])
                 localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
             }else{
@@ -325,7 +330,7 @@ export default {
 
         const toggleModalBayar = async() => {
             modalLoading.value = !modalLoading.value
-            console.log('siap bayar', dataReservasi.value)
+            // console.log('siap bayar', dataReservasi.value)
             isModalOpen.value = !isModalOpen.value
             const response = await initAPI('get', 'payment/methods', null, null)
             paymentMethod.value = response.data.paymentFee
@@ -338,9 +343,14 @@ export default {
             const datas = {
                 customer_id: userData.value.id,
                 payment_method_code: method,
-                fee: parseInt(feePayment)
+                fee: parseInt(feePayment),
+                is_register: 'false',
+                first_name: userData.value.first_name,
+                last_name: userData.value.last_name,
+                email: JSON.parse(localStorage.getItem('userEmail')),
+                number: userData.value.number
             }
-            // console.log(`datas`,datas)
+            console.log(`datas`,datas)
             paymentForm.value = datas
         }
 
@@ -348,20 +358,25 @@ export default {
             console.log(`payment form`, paymentForm.value)
             const token = JSON.parse(localStorage.getItem('token'))
             try {
+                modalLoading.value = !modalLoading.value
                 const response = await initAPI('post', 'customers/reservations/payment', paymentForm.value, token)
-                console.log(response.data)
+                console.log(`konfir pembayaran`,response.data)
                 const url = response.data.data.paymentUrl
-                    let fixedUrl = ''
-                    let refValue = ''
-                    if(url.includes('ref=')){
-                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
-                        refValue = url.split('ref=')[1]
-                    }else if(url.includes('reference=')){
-                        console.log('reference', url)
-                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
-                        refValue = url.split('reference=')[1]
-                    }
-                    window.location.href = fixedUrl+refValue
+                // let fixedUrl = ''
+                // let refValue = ''
+                // if(url.includes('ref=')){
+                //     fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                //     refValue = url.split('ref=')[1]
+                // }else if(url.includes('reference=')){
+                //     console.log('reference', url)
+                //     fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                //     refValue = url.split('reference=')[1]
+                // }
+                window.location.href = url
+                // window.location.href = fixedUrl+refValue
+                modalLoading.value = !modalLoading.value
+
+                await getDataReservasi()
             } catch (error) {
                 console.log(error)
             }
