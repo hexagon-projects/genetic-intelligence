@@ -14,7 +14,7 @@
                     </li>
                 </ol>
             </div>
-            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-1 pt-4 gap-4">
                 <!-- <div class="w-[321px] h-[145px] px-[15px] py-[14px] bg-white rounded-xl flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                         <div class="self-stretch justify-start items-start gap-4 inline-flex">
@@ -46,11 +46,32 @@
                     </div>
                 </div> -->
 
-                <div class="w-[321px] h-[145px] px-[15px] py-[11px] bg-white rounded-xl flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                         <div class="self-stretch justify-between items-center inline-flex">
                             <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                <PhHardDrives :size="28"/>
+                                <PhFileSearch :size="28"/>
+                            </span>
+                            <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                Lihat Detail
+                                <PhArrowRight/>
+                            </RouterLink>
+                        </div>
+                        <div class="self-stretch justify-start items-start gap-8 inline-flex">
+                            <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+                                <div class="text-neutral-400 text-sm font-normal font-myFont">Review Test</div>
+                                <div class="justify-center items-center gap-[7px] inline-flex">
+                                    <div class="text-biru text-xl font-medium font-poppins">50 Data</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+                    <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                        <div class="self-stretch justify-between items-center inline-flex">
+                            <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
+                                <PhCalendarPlus :size="28"/>
                             </span>
                             <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                                 Lihat Detail
@@ -67,7 +88,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-[321px] h-[145px] px-[15px] py-[11px] bg-white rounded-xl flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+                    <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                        <div class="self-stretch justify-between items-center inline-flex">
+                            <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
+                                <PhCalendarCheck size="28"/>
+                            </span>
+                            <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                Lihat Detail
+                                <PhArrowRight/>
+                            </RouterLink>
+                        </div>
+                        <div class="self-stretch justify-start items-start gap-8 inline-flex">
+                            <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+                                <div class="text-neutral-400 text-sm font-normal font-myFont">Reservasi Terjadwal</div>
+                                <div class="justify-center items-center gap-[7px] inline-flex">
+                                    <div class="text-biru text-xl font-medium font-poppins">50 Data</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                         <div class="self-stretch justify-between items-center inline-flex">
                             <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
@@ -80,7 +122,7 @@
                         </div>
                         <div class="self-stretch justify-start items-start gap-8 inline-flex">
                             <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                <div class="text-neutral-400 text-sm font-normal font-myFont">Permintaan Reservasi</div>
+                                <div class="text-neutral-400 text-sm font-normal font-myFont">Reservasi Terselesaikan</div>
                                 <div class="justify-center items-center gap-[7px] inline-flex">
                                     <div class="text-biru text-xl font-medium font-poppins">50 Data</div>
                                 </div>
@@ -88,49 +130,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-[321px] h-[145px] px-[15px] py-[11px] bg-white rounded-xl flex-col justify-start items-start gap-2.5 inline-flex">
-                    <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
-                        <div class="self-stretch justify-between items-center inline-flex">
-                            <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                <PhHardDrives :size="28"/>
-                            </span>
-                            <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
-                                Lihat Detail
-                                <PhArrowRight/>
-                            </RouterLink>
-                        </div>
-                        <div class="self-stretch justify-start items-start gap-8 inline-flex">
-                            <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                <div class="text-neutral-400 text-sm font-normal font-myFont">Permintaan Reservasi</div>
-                                <div class="justify-center items-center gap-[7px] inline-flex">
-                                    <div class="text-biru text-xl font-medium font-poppins">50 Data</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-[321px] h-[145px] px-[15px] py-[11px] bg-white rounded-xl flex-col justify-start items-start gap-2.5 inline-flex">
-                    <div class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
-                        <div class="self-stretch justify-between items-center inline-flex">
-                            <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                <PhHardDrives :size="28"/>
-                            </span>
-                            <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
-                                Lihat Detail
-                                <PhArrowRight/>
-                            </RouterLink>
-                        </div>
-                        <div class="self-stretch justify-start items-start gap-8 inline-flex">
-                            <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                <div class="text-neutral-400 text-sm font-normal font-myFont">Permintaan Reservasi</div>
-                                <div class="justify-center items-center gap-[7px] inline-flex">
-                                    <div class="text-biru text-xl font-medium font-poppins">50 Data</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
                 controls
                 preload="auto"
@@ -156,6 +155,15 @@
                 <!-- </video> -->
                 <!-- <iframe sandbox="allow-same-origin allow-scripts" src="https://drive.google.com/file/d/1Z1iQySVZe-YxN_S9c00wP-mjXTeODDfQ/preview" controls="none" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" width="640" height="320"></iframe> -->
             </div>
+
+            <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
+                <div class="w-1/2">
+                    <reviewReservasi/>
+                </div>
+                <div class="w-1/2">
+                    <reviewReservasi/>
+                </div>
+            </div>
         </section>
     </div>
 </template>
@@ -167,11 +175,19 @@ import 'video.js/dist/video-js.css';
 import '@videojs/http-streaming';
 import Hls from 'hls.js'
 import { onMounted } from 'vue'
-import { PhHardDrives, PhArrowRight } from '@phosphor-icons/vue';
+import { PhHardDrives, PhArrowRight, PhFileSearch, PhCalendarPlus, PhCalendarCheck } from '@phosphor-icons/vue';
+import reviewReservasi from './table_review/review.vue'
 
 export default {
     name: 'Dashboard',
-    components: {PhHardDrives, PhArrowRight},
+    components: {
+        PhHardDrives, 
+        PhArrowRight, 
+        PhFileSearch, 
+        reviewReservasi, 
+        PhCalendarPlus,
+        PhCalendarCheck
+    },
     setup(){
         onMounted(() => {
             // const player = videojs('example-video');
