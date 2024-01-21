@@ -111,14 +111,18 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const isAuth = JSON.parse(localStorage.getItem('userData'))
             const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
+            else next()
+            // const isAuth = JSON.parse(localStorage.getItem('userData'))
+            // const roleUser = JSON.parse(localStorage.getItem('userRole'))
             // const store = useStore()
             // const userData = computed(() => store.getters.getUserData)
             // console.log(`router`,userData.value)
             // const isDetected = userData.value.is_detected == 'Selesai Terdeteksi'
-            if(!isAuth || !roleUser !== 'customer') next({ name: 'views.login' })
-            else next()
+            // if(!isAuth || !roleUser !== 'customer') next({ name: 'views.login' })
+            // else next()
         }
     },
     {
