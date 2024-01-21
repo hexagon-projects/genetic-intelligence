@@ -53,7 +53,7 @@
                 <div class="flex justify-center items-center w-full gap-2">
                     <div class="w-full mb-4">
                         <label for="email" class="block text-sm font-myFont font-medium text-dark">Email:</label>
-                        <input v-model="emailVal" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                        <input v-model="emailVal" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" disabled readonly/>
                     </div>
   
                     <div class="w-full mb-4">
@@ -77,8 +77,8 @@
                     <div class="w-full mb-4">
                         <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-dark">Jenis Kelamin:</label>
                         <select v-model="jenisKelamin" name="jenis_kelamin" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                            <option value="Laki-laki">Laki - Laki</option>
-                            <option value="Perempuan">Perempuan</option>
+                            <option value="1">Laki - Laki</option>
+                            <option value="0">Perempuan</option>
                         </select>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                     <textarea v-model="alamatLengkap" type="text" id="alamat" name="alamat" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"></textarea>
                 </div>
   
-                <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
+                <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
                     Ubah Data
                 </button>
             </div>
@@ -96,23 +96,74 @@
     </div>
   
     <div class="lg:w-1/2">
-        <div class="bg-white rounded-lg shadow-lg p-4">
-            <h2 class="font-myFont text-dark text-2xl mb-4">Ubah Password</h2>
-            <div class="flex flex-col justify-center items-center">
-                <div class="flex justify-center items-center w-full gap-2">
-                    <div class="w-full mb-4">
-                        <label for="currPass" class="block text-sm font-myFont font-medium text-dark">Password Sekarang:</label>
-                        <input v-model="currPass" type="password" name="curPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password Lama Anda" />
+        <div class="flex flex-col gap-5">
+            <div class="bg-white rounded-lg shadow-lg p-4">
+                <h2 class="font-myFont text-dark text-2xl mb-4">Data Konsultasi</h2>
+                <div class="flex flex-col">
+                    <div class="flex w-full">
+                        <div class="w-1/2 mb-4">
+                            <label for="currPass" class="block text-sm font-myFont font-medium text-dark">Biaya Konsultasi :</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 start-0 -top-2 flex items-center ps-3.5 pointer-events-none">
+                                    <span class="w-4 h-4 text-dark font-semibold" aria-hidden="true">Rp.</span>
+                                </div>
+                                <input v-model="consultant_fee" type="number" class="mt-1 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru block ps-10 p-2" placeholder="1000000" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="w-full mb-4">
-                        <label for="newPass" class="block text-sm font-myFont font-medium text-dark">Password Baru:</label>
-                        <input v-model="newPass" type="password" name="newPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password Baru Anda" />
+                    <div class="w-1/2 mb-4">
+                        <label for="day" class="block text-sm font-myFont font-medium text-dark">Hari :</label>
+                        <select v-model="selected_day" @change="getAvailable(selected_day)" name="day" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option value="Monday">Senin</option>
+                            <option value="Tuesday">Selasa</option>
+                            <option value="Wednesday">Rabu</option>
+                            <option value="Thursday">Kamis</option>
+                            <option value="Friday">Jumat</option>
+                            <option value="Saturday">Sabtu</option>
+                            <option value="Sunday">Minggu</option>
+                        </select>
                     </div>
+                    <div class="w-3/4 mb-4">
+                        <label for="day" class="block text-sm font-myFont font-medium text-dark mb-1">Jam Kerja :</label>
+                        <div class="flex flex-row w-ful">
+                            <label class="inline-flex gap-2 w-1/3">
+                                <input type="checkbox" @click="changeKonsulData" class="form-checkbox" name="time" value="08:00 - 10:00" />
+                                <span class="w-full">08:00 - 10:00</span>
+                            </label>
+                            <label class="inline-flex gap-2 w-1/3">
+                                <input type="checkbox" @click="changeKonsulData" class="form-checkbox" name="time" value="11:00 - 13:00" />
+                                <span class="w-full">11:00 - 13:00</span>
+                            </label>
+                            <label class="inline-flex gap-2 w-1/3">
+                                <input type="checkbox" @click="changeKonsulData" class="form-checkbox" name="time" value="14:00 - 16:00" />
+                                <span class="w-full">14:00 - 16:00</span>
+                            </label>
+                        </div>
+                    </div>
+      
+                    <button @click="saveKonsulData" class="px-2 py-2 mt-3 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
+                        Ubah Data
+                    </button>
                 </div>
-  
-                <button @click="changePassword" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
-                    Ubah Password
-                </button>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-4">
+                <h2 class="font-myFont text-dark text-2xl mb-4">Ubah Password</h2>
+                <div class="flex flex-col justify-center items-center">
+                    <div class="flex justify-center items-center w-full gap-2">
+                        <div class="w-full mb-4">
+                            <label for="currPass" class="block text-sm font-myFont font-medium text-dark">Password Sekarang:</label>
+                            <input v-model="currPass" type="password" name="curPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password Lama Anda" />
+                        </div>
+                        <div class="w-full mb-4">
+                            <label for="newPass" class="block text-sm font-myFont font-medium text-dark">Password Baru:</label>
+                            <input v-model="newPass" type="password" name="newPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password Baru Anda" />
+                        </div>
+                    </div>
+      
+                    <button @click="changePassword" class="px-2 py-2 w-1/2 lg:w-1/4 self-start text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
+                        Ubah Password
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -127,9 +178,10 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
-    name: 'customerProfile',
+    name: 'consultantProfile',
     setup(){
         const baseUrl = import.meta.env.VITE_API_BASE_URL
+        const selected_day = ref('Monday')
         const store = useStore()
         const userData = computed(() => store.getters.getUserData)
         const userRole = computed(() => store.getters.getUserRole)
@@ -154,8 +206,6 @@ export default {
                 const formData = new FormData();
                 formData.append('_method', 'PUT');
                 formData.append('image', file);
-
-                console.log(formData)
 
                 const response = await initAPI('post','consultants/'+consultantId, formData, token)
                 if(response.status == 200){
@@ -183,6 +233,10 @@ export default {
         const alamatLengkap = ref(userData.value.address)
         const currPass = ref('')
         const newPass = ref('')
+        const consultant_fee = ref(parseFloat(userData.value.fee.replace('Rp. ', '').replace(/\./g, '')))
+
+        let available_on = ref(userData.value.available_on)
+        available_on = available_on.value
 
         const convertToInputDate = (tanggal) => {
             // console.log(tanggal)
@@ -204,6 +258,8 @@ export default {
 
             const tanggalForm = convertToInputDate(tglLahir.value);
             formattedDate.value = tanggalForm;
+
+            getAvailable('Monday');
         })
 
         const changePassword = async () => {
@@ -238,11 +294,12 @@ export default {
 
             const formData = new FormData();
             formData.append('_method', 'PUT');
-            formData.append('id', customerId);
             formData.append('name', nama.value);
+            formData.append('gender', jenisKelamin.value);
             formData.append('birth_place', tempatLahir.value);
             formData.append('birth_date', tglLahir.value);
             formData.append('address', alamatLengkap.value);
+            formData.append('number', noWhatsapp.value);
 
             const response = await initAPI(
                 'post','consultants/'+consultantId, formData, token
@@ -258,11 +315,93 @@ export default {
                 });
                 const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
                 store.commit('user', updatedConsultant.data.data[0])
+            }else{
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Failed',
+                    text: response.data.error,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             }
-
-            // console.log(response.data)
         }
 
+        const getAvailable = async (day) => {
+            let checks = document.getElementsByName("time")
+            checks.forEach(check => { check.checked = false });
+
+            let available = JSON.parse(available_on)
+            if(available[day]){
+                available[day]['time'].forEach(time => {
+                    let checks = document.getElementsByName("time")
+                    checks.forEach(check => {
+                        if(check.value == time){
+                            check.checked = true;
+                        }
+                    });
+                });
+            }
+        }
+
+        const changeKonsulData = async () => {
+            let available = JSON.parse(available_on)
+            let day = selected_day.value
+            let get_time = document.getElementsByName('time');
+            let time = []
+            for (let t = 0; t < get_time.length; t++) {
+                if(get_time[t].checked){
+                    time.push(get_time[t].value)
+                }
+            }
+
+            if(!available[day]){
+                available[day] = {
+                    data : day == 'Monday' ? 0 : day == 'Tuesday' ? 1 : day == 'Wednesday' ? 2 : day == 'Thursday' ? 3 : day == 'Friday' ? 4 : day == 'Saturday' ? 5 : 6,
+                    day : day
+                }
+            }
+
+            available[day]['time'] = time
+            available_on = JSON.stringify(available)
+        }
+
+        const saveKonsulData = async () => {
+            const consultantId = userData.value.id
+            const token = JSON.parse(localStorage.getItem('token'))
+
+            const formData = new FormData();
+            formData.append('_method', 'PUT');
+            formData.append('fee', parseInt(consultant_fee));
+            formData.append('available_on', available_on);
+
+            for (var pair of formData.entries()) {
+                console.log(pair); 
+            }
+
+            const response = await initAPI(
+                'post','consultants/'+consultantId, formData, token
+            );
+
+            if(response.status == 200){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                store.commit('user', updatedConsultant.data.data[0])
+            }else{
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Failed',
+                    text: response.data.error,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
 
         return {
             baseUrl,
@@ -276,14 +415,19 @@ export default {
             tglLahir,
             formattedDate,
             jenisKelamin,
+            consultant_fee,
             alamatLengkap,
             profileImageUrl,
             currPass,
             newPass,
+            selected_day,
             handleFileChange,
             ubahData,
             changePassword,
-            uploadFoto
+            uploadFoto,
+            getAvailable,
+            changeKonsulData,
+            saveKonsulData
         }
       }
     }
