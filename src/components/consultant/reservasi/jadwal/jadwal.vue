@@ -114,9 +114,12 @@
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="w-full px-7 mx-auto">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
-                    <h1 class="font-myFont text-dark text-lg mb-4">List Permintaan Reservasi</h1>
+                    <h1 class="font-myFont text-dark text-lg mb-4">List Jadwal Reservasi</h1>
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                        <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataPermintaan.length }}</span>
+                        <!-- <button class="font-myFont text-dark rounded-lg bg-white border border-gray-300 px-4 py-1">
+                            Sort
+                        </button> -->
+                        <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataJadwal.length }}</span>
                         <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
@@ -124,7 +127,7 @@
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
 
-                    <div v-else-if="dataPermintaan.length > 0 && !loading" class="overflow-x-auto">
+                    <div v-else-if="dataJadwal.length > 0 && !loading" class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -133,11 +136,11 @@
                                 <th scope="col" class="py-3 px-6">Jam</th>
                                 <th scope="col" class="py-3 px-6">Nama</th>
                                 <th scope="col" class="py-3 px-6">No Telp</th>
-                                <th scope="col" class="py-3 px-6">Customer Detail / Approve</th>
+                                <th scope="col" class="py-3 px-6">Detail / Cancel / Mulai</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(data, index) in dataPermintaan" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr v-for="(data, index) in dataJadwal" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td class="py-4 px-6">
                                         {{ index + 1 }}
                                     </td>
@@ -156,8 +159,13 @@
                                             </button>
                                         </td>
                                         <td class="py-4">
-                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                                <PhCheck :size="22"/>
+                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                                <PhProhibit :size="22"/>
+                                            </button>
+                                        </td>
+                                        <td class="py-4">
+                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                                <PhPlay :size="22"/>
                                             </button>
                                         </td>
                                     </div>
@@ -166,7 +174,7 @@
                         </table>
                     </div>
 
-                    <span v-else-if="dataPermintaan.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
+                    <span v-else-if="dataJadwal.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
                     <div class="self-end mt-4">
                         <a class="flex items-center font-myFont text-dark text-base">
                             Halaman
@@ -193,15 +201,15 @@
 <script>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import initAPI from '../../../../api/api'
-import { PhCaretLeft, PhCaretRight, PhEye, PhCheck } from '@phosphor-icons/vue'
+import { PhCaretLeft, PhCaretRight, PhEye, PhProhibit, PhPlay } from '@phosphor-icons/vue'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {useRouter} from 'vue-router'
 import _debounce from 'lodash/debounce';
 
 export default{
-    name: 'PermintaanReservasi',
-    components: {PhCaretLeft, PhCaretRight, PhEye, PhCheck},
+    name: 'JadwalReservasi',
+    components: {PhCaretLeft, PhCaretRight, PhEye, PhProhibit, PhPlay},
     setup(){
         const loading = ref(false)
         const totalHalaman = ref('')
@@ -210,14 +218,14 @@ export default{
         const prevPage = ref(null)
         const cari = ref(null)
 
-        const dataPermintaan = ref([])
+        const dataJadwal = ref([])
         const detailCustomers = ref([])
         const isModalOpen = ref(false)
 
         const clickDetail = (id) => {
             toggleModal()
             console.log(id)
-            const unik = dataPermintaan.value.find(item => item.id === id);
+            const unik = dataJadwal.value.find(item => item.id === id);
             console.log(`unik`,unik)
             detailCustomers.value = unik
         }
@@ -245,7 +253,7 @@ export default{
                 
                 const refetch = await initAPI('get', 'customers/reservations?status=0', null, token)
                 if(refetch){
-                    dataPermintaan.value = response.data.data
+                    dataJadwal.value = response.data.data
                 }else{
                     Swal.fire({
                         icon: 'error',
@@ -273,11 +281,11 @@ export default{
         const getAllData = async() => {
             loading.value = !loading.value
             const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=0', null, token)
+            const response = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest', null, token)
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
-            dataPermintaan.value = response.data.data
+            dataJadwal.value = response.data.data
             detailCustomers.value = response.data.data.customers 
             console.log(`response`,response.data.data)
             console.log(response.data.data[0].customers)
@@ -288,12 +296,12 @@ export default{
             if(cari.value !== '' && cari.value.length >= 2){
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
-                const query = await initAPI('get', 'customers/reservations?status=0&search='+cari.value, null, token)
+                const query = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest&search='+cari.value, null, token)
+                dataJadwal.value = query.data.data
+                totalHalaman.value = query.data.total
                 currPage.value = query.data.current_page
                 nextPage.value = query.data.next_page_url
                 prevPage.value = query.data.prev_page_url
-                dataPermintaan.value = query.data.data
-                detailCustomers.value = query.data.data.customers 
                 loading.value = !loading.value
             }else{
                 return getAllData() 
@@ -309,7 +317,7 @@ export default{
             nextPage,
             prevPage,
             cari,
-            dataPermintaan,
+            dataJadwal,
             detailCustomers,
             isModalOpen,
             debouncedGetSearchData,

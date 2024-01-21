@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col bg-white w-full p-3 rounded-lg">
+    <div class="flex flex-col bg-white w-full p-4 rounded-lg">
         <div class="flex justify-between items-center">
             <h1 class="font-myFont text-dark text-lg mb-4">List Test Grafologi Terbaru</h1>
             <RouterLink :to="{name: 'consultant.views.review'}" class="mb-4 text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
@@ -7,9 +7,9 @@
                 <PhArrowRight/>
             </RouterLink>
         </div>
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-end">
+        <!-- <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-end">
             <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-1 px-2" placeholder="Cari Data">
-        </div>
+        </div> -->
 
         <div class="flex justify-center w-full" v-if="loading" >
             <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>

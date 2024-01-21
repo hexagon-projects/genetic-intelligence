@@ -67,8 +67,9 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'user.views.deteksi' && !isAuth) next({ name: 'views.login' })
+            if(to.name == 'user.views.deteksi' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
             else next()
         }
     },
@@ -81,8 +82,9 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth) next({ name: 'views.login' })
+            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
             else next()
         }
     },
@@ -110,11 +112,12 @@ const routes = [
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            const store = useStore()
-            const userData = computed(() => store.getters.getUserData)
-            console.log(`router`,userData.value)
-            const isDetected = userData.value.is_detected == 'Selesai Terdeteksi'
-            if(!isAuth || !isDetected) next({ name: 'views.login' })
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            // const store = useStore()
+            // const userData = computed(() => store.getters.getUserData)
+            // console.log(`router`,userData.value)
+            // const isDetected = userData.value.is_detected == 'Selesai Terdeteksi'
+            if(!isAuth || !roleUser !== 'customer') next({ name: 'views.login' })
             else next()
         }
     },
@@ -135,6 +138,12 @@ const routes = [
             showNavbar: true,
             showFooter: true
         },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
+            else next()
+        }
     },
     {
         path: '/detail-review/:id',
@@ -144,15 +153,42 @@ const routes = [
             showNavbar: true,
             showFooter: true
         },
-      },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
+            else next()
+        }
+    },
     {
         path: '/permintaan-reservasi',
-        name: 'consultant.views.permintaan_reservasi',
+        name: 'consultant.views.permintaan',
         component: () => import('../components/consultant/reservasi/permintaan/permintaan.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
         },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/jadwal-reservasi',
+        name: 'consultant.views.jadwal',
+        component: () => import('../components/consultant/reservasi/jadwal/jadwal.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
+            else next()
+        }
     },
     // {
     //     path: '/payment-status?:merchantId&:reference'

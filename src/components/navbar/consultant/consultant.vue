@@ -9,24 +9,24 @@
         <PhFileSearch :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.review','text-biru hover:text-light': $route.name !== 'consultant.views.review'}" />
         Review Test
     </RouterLink>
-    <RouterLink :to="{name: 'consultant.views.permintaan_reservasi'}" 
-        class="
+    <RouterLink :to="{name: 'consultant.views.permintaan'}" 
+    class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
-            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'consultant.views.permintaan_reservasi', 'text-dark bg-white': $route.name !== 'consultant.views.permintaan_reservasi'}"
+            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'consultant.views.permintaan', 'text-dark bg-white': $route.name !== 'consultant.views.permintaan'}"
         >
-        <PhCalendarPlus :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.permintaan_reservasi','text-biru hover:text-light': $route.name !== 'consultant.views.permintaan_reservasi'}" />
+        <PhFileSearch :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.permintaan','text-biru hover:text-light': $route.name !== 'consultant.views.permintaan'}" />
         Permintaan Reservasi
     </RouterLink>
-    <RouterLink :to="{name: 'consultant.views.review'}" 
+    <RouterLink :to="{name: 'consultant.views.jadwal'}" 
          class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
-            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
+            :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'consultant.views.jadwal', 'text-dark bg-white': $route.name !== 'consultant.views.jadwal'}"
         >
-        <PhCalendar :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+        <PhCalendar :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.jadwal','text-biru hover:text-light': $route.name !== 'consultant.views.jadwal'}" />
         Jadwal Reservasi
     </RouterLink>
 </template>
