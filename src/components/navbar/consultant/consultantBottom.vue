@@ -11,7 +11,7 @@
 
     <button @click="toggleReservasi" ref="dropdownRef"
         class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-        :class="{'font-bold' : $route.name === 'consultant.views.permintaan_reservasi'}"
+        :class="{'font-bold' : $route.name === 'consultant.views.permintaan' || $route.name === 'consultant.views.jadwal'}"
         >
         <div class="self-center">
             <PhCalendar :size="28" />
@@ -19,12 +19,12 @@
         <span class="tab tab-home block text-xs">Reservasi</span>
     </button>
     <div v-if="showReservasi" class="absolute animate-pulse bg-white px-4 left-56 bottom-14 rounded-lg border shadow-lg">
-        <RouterLink :to="{name: 'consultant.views.permintaan_reservasi'}" 
+        <RouterLink :to="{name: 'consultant.views.jadwal'}" 
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
             >
             <span class="text-start font-myFont block text-sm">Jadwal</span>
         </RouterLink>
-        <RouterLink :to="{name: 'consultant.views.permintaan_reservasi'}" 
+        <RouterLink :to="{name: 'consultant.views.permintaan'}" 
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
             >
             <span class="text-start font-myFont block text-sm">Permintaan</span>

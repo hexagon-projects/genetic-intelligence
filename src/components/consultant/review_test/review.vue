@@ -14,7 +14,9 @@
                     <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                         <h1 class="font-myFont text-dark text-lg mb-4">List Submit Test Grafologi</h1>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                            <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataSubmit.length }}</span>
+                            <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                                {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ dataSubmit.length }} data.
+                            </span>
                             <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                         </div>
 
@@ -92,6 +94,8 @@ export default {
         const currPage = ref(null)
         const nextPage = ref(null)
         const prevPage = ref(null)
+        const totalDari = ref(null)
+        const totalKe = ref(null)
         const cari = ref(null)
 
         const router = useRouter()
@@ -105,11 +109,14 @@ export default {
             loading.value = !loading.value
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('get', 'customers?is_detected=1', null, token)
+            console.log(response.data)
             dataSubmit.value = response.data.data
             totalHalaman.value = response.data.total
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
             loading.value = !loading.value
             console.log(`data`,dataSubmit.value)
         }
@@ -154,6 +161,8 @@ export default {
             currPage,
             nextPage,
             prevPage,
+            totalDari,
+            totalKe,
             cari,
             debouncedGetSearchData,
             nextPages,

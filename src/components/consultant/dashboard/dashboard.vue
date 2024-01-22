@@ -46,7 +46,7 @@
                     </div>
                 </div> -->
 
-                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="w-full lg:w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="w-full lg:w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
 
-                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="w-full lg:w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <div class="w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="w-full lg:w-[321px] h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
                     <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
@@ -184,8 +184,19 @@
                     <DashboardReservasi/>
                     
                     <div class="bg-white h-[136px] rounded-lg p-4">
-                        <h1>Masih mikirin desgin nya</h1>
-
+                        <h1 class="font-myFont text-dark text-lg mb-4">Konsultasi Sedang berlangsung</h1>
+                        <div class="flex items-center gap-2 mt-5">
+                            <p class="text-dark text-base font-semibold">09:00</p>
+                            <div class="p-2.5 relative bg-biru rounded-full">
+                                <a class="w-11 h-11 text-light text-2xl rounded-full relative z-[1] mx-auto">
+                                    <PhHourglassHigh/>
+                                </a>
+                            </div>
+                            <p class="text-dark text-xs font-bold self-center mt-0">
+                                Proses Konsultasi Sedang Berlangsung
+                            </p>
+                            <!-- <p class="text-[#3b3f5c] dark:text-white-light font-semibold text-[13px] p-2.5">Conference call with Marketing Manager.</p> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -200,7 +211,7 @@ import 'video.js/dist/video-js.css';
 import '@videojs/http-streaming';
 import Hls from 'hls.js'
 import { onMounted, onBeforeMount } from 'vue'
-import { PhHardDrives, PhArrowRight, PhFileSearch, PhCalendarPlus, PhCalendarCheck } from '@phosphor-icons/vue';
+import { PhHardDrives, PhArrowRight, PhFileSearch, PhCalendarPlus, PhCalendarCheck, PhHourglassHigh } from '@phosphor-icons/vue';
 import reviewReservasi from './table_review/review.vue'
 import DashboardReservasi from './table_reservasi/reservasi.vue'
 import initAPI from '../../../api/api'
@@ -213,6 +224,7 @@ export default {
         PhFileSearch, 
         PhCalendarPlus,
         PhCalendarCheck,
+        PhHourglassHigh,
         reviewReservasi,
         DashboardReservasi 
     },
