@@ -116,7 +116,9 @@
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">List Permintaan Reservasi</h1>
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                        <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataPermintaan.length }}</span>
+                        <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                            {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
+                        </span>
                         <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
@@ -156,7 +158,7 @@
                                             </button>
                                         </td>
                                         <td class="py-4">
-                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhCheck :size="22"/>
                                             </button>
                                         </td>
@@ -204,10 +206,13 @@ export default{
     components: {PhCaretLeft, PhCaretRight, PhEye, PhCheck},
     setup(){
         const loading = ref(false)
-        const totalHalaman = ref('')
+        const totalHalaman = ref(null)
         const currPage = ref(null)
         const nextPage = ref(null)
         const prevPage = ref(null)
+        const totalDari = ref(null)
+        const totalKe = ref(null)
+        const totalData = ref(null)
         const cari = ref(null)
 
         const dataPermintaan = ref([])
@@ -274,9 +279,14 @@ export default{
             loading.value = !loading.value
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('get', 'customers/reservations?status=0', null, token)
+            console.log(response.data)
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
+            totalHalaman.value = response.data.last_page
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
             dataPermintaan.value = response.data.data
             detailCustomers.value = response.data.data.customers 
             console.log(`response`,response.data.data)
@@ -292,6 +302,10 @@ export default{
                 currPage.value = query.data.current_page
                 nextPage.value = query.data.next_page_url
                 prevPage.value = query.data.prev_page_url
+                totalDari.value = query.data.from
+                totalKe.value = query.data.to
+                totalData.value = query.data.total
+                totalHalaman.value = query.data.last_page
                 dataPermintaan.value = query.data.data
                 detailCustomers.value = query.data.data.customers 
                 loading.value = !loading.value
@@ -308,6 +322,9 @@ export default{
             currPage,
             nextPage,
             prevPage,
+            totalDari,
+            totalKe,
+            totalData,
             cari,
             dataPermintaan,
             detailCustomers,

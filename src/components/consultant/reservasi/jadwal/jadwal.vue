@@ -119,7 +119,9 @@
                         <!-- <button class="font-myFont text-dark rounded-lg bg-white border border-gray-300 px-4 py-1">
                             Sort
                         </button> -->
-                        <span class="font-myFont text-sm text-start lg:text-center text-dark">Total Data: {{ dataJadwal.length }}</span>
+                        <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                            {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
+                        </span>
                         <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
@@ -160,7 +162,7 @@
                                         </td>
                                         <td class="py-4">
                                             <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                                <PhProhibit :size="22"/>
+                                                <PhX :size="22"/>
                                             </button>
                                         </td>
                                         <td class="py-4">
@@ -201,7 +203,7 @@
 <script>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import initAPI from '../../../../api/api'
-import { PhCaretLeft, PhCaretRight, PhEye, PhProhibit, PhPlay } from '@phosphor-icons/vue'
+import { PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay } from '@phosphor-icons/vue'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {useRouter} from 'vue-router'
@@ -209,13 +211,16 @@ import _debounce from 'lodash/debounce';
 
 export default{
     name: 'JadwalReservasi',
-    components: {PhCaretLeft, PhCaretRight, PhEye, PhProhibit, PhPlay},
+    components: {PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay},
     setup(){
         const loading = ref(false)
         const totalHalaman = ref('')
         const currPage = ref(null)
         const nextPage = ref(null)
         const prevPage = ref(null)
+        const totalDari = ref(null)
+        const totalKe = ref(null)
+        const totalData = ref(null)
         const cari = ref(null)
 
         const dataJadwal = ref([])
@@ -285,6 +290,10 @@ export default{
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            totalHalaman.value = response.data.last_page
             dataJadwal.value = response.data.data
             detailCustomers.value = response.data.data.customers 
             console.log(`response`,response.data.data)
@@ -302,6 +311,10 @@ export default{
                 currPage.value = query.data.current_page
                 nextPage.value = query.data.next_page_url
                 prevPage.value = query.data.prev_page_url
+                totalDari.value = query.data.from
+                totalKe.value = query.data.to
+                totalData.value = query.data.total
+                totalHalaman.value = query.data.last_page
                 loading.value = !loading.value
             }else{
                 return getAllData() 
@@ -316,6 +329,9 @@ export default{
             currPage,
             nextPage,
             prevPage,
+            totalDari,
+            totalKe,
+            totalData,
             cari,
             dataJadwal,
             detailCustomers,
