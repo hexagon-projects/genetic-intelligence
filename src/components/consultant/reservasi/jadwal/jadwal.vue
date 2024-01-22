@@ -116,12 +116,27 @@
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">List Jadwal Reservasi</h1>
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                        <!-- <button class="font-myFont text-dark rounded-lg bg-white border border-gray-300 px-4 py-1">
-                            Sort
-                        </button> -->
-                        <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                        <div class="relative inline-block text-left">
+                            <div class="flex items-center gap-1">
+                                <button @click="toggleFilter" ref="dropdownRef" type="button" class="font-myFont inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                Filter Data
+                                <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                </svg>
+                                </button>
+                                <button v-if="isFilter" @click="resetFilter" class="text-light p-[2px] bg-danger rounded-md"><PhX/></button>
+                            </div>
+                            <div v-if="showFilter" class="absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div class="py-1" role="none">
+                                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                <a @click="filterData('terjadwal')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Terjadwal</a>
+                                <a @click="filterData('onProses')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Dalam Proses</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <span class="font-myFont text-sm text-start lg:text-center text-dark">
                             {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
-                        </span>
+                        </span> -->
                         <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
@@ -138,7 +153,7 @@
                                 <th scope="col" class="py-3 px-6">Jam</th>
                                 <th scope="col" class="py-3 px-6">Nama</th>
                                 <th scope="col" class="py-3 px-6">No Telp</th>
-                                <th scope="col" class="py-3 px-6">Detail / Cancel / Mulai</th>
+                                <th scope="col" class="py-3 px-6">Detail / Cancel / Mulai atau Selesai</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -161,13 +176,16 @@
                                             </button>
                                         </td>
                                         <td class="py-4">
-                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button @click="cancel(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhX :size="22"/>
                                             </button>
                                         </td>
                                         <td class="py-4">
-                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button v-if="data.status == 'Scheduled'" @click="mulai(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhPlay :size="22"/>
+                                            </button>
+                                            <button v-if="data.status == 'On Progress'" @click="selesai(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                                <PhCheck :size="22"/>
                                             </button>
                                         </td>
                                     </div>
@@ -177,7 +195,10 @@
                     </div>
 
                     <span v-else-if="dataJadwal.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
-                    <div class="self-end mt-4">
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                            {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
+                        </span>
                         <a class="flex items-center font-myFont text-dark text-base">
                             Halaman
                             <div class="mx-2 flex items-center gap-1">
@@ -201,9 +222,9 @@
 </template>
 
 <script>
-import { ref, onMounted, onBeforeMount } from 'vue'
+import { ref, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import initAPI from '../../../../api/api'
-import { PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay } from '@phosphor-icons/vue'
+import { PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay, PhFunnel, PhCheck } from '@phosphor-icons/vue'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {useRouter} from 'vue-router'
@@ -211,7 +232,7 @@ import _debounce from 'lodash/debounce';
 
 export default{
     name: 'JadwalReservasi',
-    components: {PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay},
+    components: {PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay, PhFunnel, PhCheck},
     setup(){
         const loading = ref(false)
         const totalHalaman = ref('')
@@ -227,6 +248,99 @@ export default{
         const detailCustomers = ref([])
         const isModalOpen = ref(false)
 
+        const showFilter = ref(false)
+        const isFilter = ref(false)
+
+        const resetFilter = () => {
+            isFilter.value = !isFilter.value
+            getAllData()
+        }
+
+        const toggleFilter = () => {
+            showFilter.value = !showFilter.value
+        }
+
+        const dropdownRef = ref(null);
+
+        const closeDropdown = (e) => {
+            if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
+                showFilter.value = false;
+            }
+        };
+
+        onMounted(() => {
+            document.body.addEventListener('click', closeDropdown);
+        });
+
+        onBeforeUnmount(() => {
+            document.body.removeEventListener('click', closeDropdown);
+        });
+
+        const getOnProcessData = async() => {
+            isFilter.value = true
+            loading.value = !loading.value
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
+                console.log('filter proses', response.data)
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+            } catch (error) {
+                Swal.fire({
+                    title: "Gagal",
+                    text: "Terjadi error saat filter data On Process.",
+                    icon: "error",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+            loading.value = !loading.value
+        }
+
+        const getScheduledData = async() => {
+            isFilter.value = true
+            loading.value = !loading.value
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest', null, token)
+                console.log('filter scheduled', response.data)
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+            } catch (error) {
+                Swal.fire({
+                    title: "Gagal",
+                    text: "Terjadi error saat filter data Scheduled.",
+                    icon: "error",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+            loading.value = !loading.value
+        }
+
+        const filterData = async(params) => {
+            if(params == 'onProses'){
+                await getOnProcessData()
+            } else {
+                await getScheduledData()
+            }
+
+        }
+
         const clickDetail = (id) => {
             toggleModal()
             console.log(id)
@@ -239,44 +353,111 @@ export default{
             isModalOpen.value = !isModalOpen.value
         }
 
-        const approve = async(reservationId) => {
-            console.log(`ini id`, reservationId)
-            const token = JSON.parse(localStorage.getItem('token'))
-            const data = new FormData();
-            data.append('status', 1);
+        const cancel = async(reservationId) => {
+            console.log(`cancel`, reservationId)
+            Swal.fire({
+            title: "Batalkan Reservasi?",
+            text: "Reservasi untuk user ini akan di batalkan.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#e7515a",
+            cancelButtonColor: "#3b3f5c",
+            confirmButtonText: "Ya, batalkan",
+            cancelButtonText: "Tutup"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    requestCancel(reservationId)
+                }
+            });
+        }
 
+        const requestCancel = async(id) => {
             try {
-                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                const data = { status: 99 }
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('post', 'customers/reservations/change-status/'+id, data, token)
                 console.log(response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                
-                const refetch = await initAPI('get', 'customers/reservations?status=0', null, token)
-                if(refetch){
-                    dataJadwal.value = response.data.data
-                }else{
+                if(response.data.success == true){
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Terjadi error saat mengambil data',
-                        showConfirmButton: false,
-                        timer: 2000
+                        title: "Berhasil",
+                        text: "Reservasi telah dibatalkan.",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false
                     });
+
+                    await getAllData()
                 }
             } catch (error) {
+                console.log(error)
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error saat approve reservasi',
-                    showConfirmButton: false,
-                    timer: 2000
+                    title: "Gagal",
+                    text: "Terjadi error saat membatalkan reservasi.",
+                    icon: "error",
+                    timer: 2000,
+                    showConfirmButton: false
                 });
             }
+        }
+
+        const mulai = async(reservationId) => {
+            console.log(`ini id mulai`, reservationId)
+            const token = JSON.parse(localStorage.getItem('token'))
+            const data = new FormData();
+            data.append('status', 3);
+
+            // try {
+            //     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+            //     console.log(response.data)
+            //     Swal.fire({
+            //         icon: 'success',
+            //         title: 'Berhasil!',
+            //         text: response.data.message,
+            //         showConfirmButton: false,
+            //         timer: 2000
+            //     });
+                
+            //     getAllData()
+
+            // } catch (error) {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Error',
+            //         text: 'Error saat update status ke On Progress',
+            //         showConfirmButton: false,
+            //         timer: 2000
+            //     });
+            // }
+        }
+
+        const selesai = async(reservationId) => {
+            console.log(`ini id selesai`, reservationId)
+            const token = JSON.parse(localStorage.getItem('token'))
+            const data = new FormData();
+            data.append('status', 3);
+
+            // try {
+            //     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+            //     console.log(response.data)
+            //     Swal.fire({
+            //         icon: 'success',
+            //         title: 'Berhasil!',
+            //         text: response.data.message,
+            //         showConfirmButton: false,
+            //         timer: 2000
+            //     });
+                
+            //     getAllData()
+
+            // } catch (error) {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Error',
+            //         text: 'Error saat update status ke On Progress',
+            //         showConfirmButton: false,
+            //         timer: 2000
+            //     });
+            // }
         }
 
         onBeforeMount(async() => {
@@ -336,10 +517,18 @@ export default{
             dataJadwal,
             detailCustomers,
             isModalOpen,
+            showFilter,
+            isFilter,
+            dropdownRef,
             debouncedGetSearchData,
             toggleModal,
             clickDetail,
-            approve,
+            mulai,
+            selesai,
+            cancel,
+            toggleFilter,
+            filterData,
+            resetFilter
         }
     }
 }
