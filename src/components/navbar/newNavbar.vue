@@ -30,6 +30,7 @@
         </RouterLink>
         <customerNav v-if="userRole == 'customer'"/>
         <consultantNav v-if="userRole == 'consultant'"/>
+        <adminNav v-if="userRole == 'admin'"/>
     </nav>
 </header>
 <!-- <section class="bg-primary py-6 text-dark">
@@ -57,6 +58,7 @@
 
 			<customerBotNav v-if="userRole == 'customer'"/>
 			<consultantBotNav v-else-if="userRole == 'consultant'"/>
+			<adminBotNav v-else-if="userRole == 'admin'"/>
 
 			<a @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
 				<div class="self-center">
@@ -78,6 +80,8 @@ import customerNav from './customer/customer.vue';
 import customerBotNav from './customer/customerBottom.vue'
 import consultantNav from './consultant/consultant.vue'
 import consultantBotNav from './consultant/consultantBottom.vue'
+import adminNav from './admin/admin.vue'
+import adminBotNav from './admin/adminBottom.vue'
 
 export default{
     name: 'NavbarVue',
@@ -87,7 +91,9 @@ export default{
 		customerNav,
 		customerBotNav,
 		consultantNav,
-		consultantBotNav
+		consultantBotNav,
+		adminNav,
+		adminBotNav
 	},
 	setup(){
 		const baseUrl = import.meta.env.VITE_API_BASE_URL

@@ -56,18 +56,6 @@
                 
                 <div class="flex justify-center items-center w-full gap-2">
                     <div class="w-full mb-4">
-                        <label for="email" class="block text-sm font-myFont font-medium text-dark">Email:</label>
-                        <input v-model="emailVal" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
-                    </div>
-  
-                    <div class="w-full mb-4">
-                        <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-dark">No Whatsapp:</label>
-                        <input v-model="noWhatsapp" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
-                    </div>
-                </div>
-  
-                <div class="flex justify-center items-center w-full gap-2">
-                    <div class="w-full mb-4">
                         <label for="Tempat Lahir" class="block text-sm font-myFont font-medium text-dark">Tempat Lahir:</label>
                         <input v-model="tempatLahir" type="text" id="tempat_lahir" name="tempat_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
                     </div>
@@ -96,23 +84,76 @@
   
                 <div class="flex justify-center items-center w-full gap-2">
                     <div class="w-full mb-4">
+                        <label for="golongan_darah" class="block text-sm font-myFont font-medium text-dark">Golongan Darah:</label>
+                        <select v-model="golonganDarah" name="golongan_darah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="AB">AB</option>
+                            <option value="O">O</option>
+                        </select>
+                    </div>
+                    <div class="w-full mb-4">
+                        <label for="agama" class="block text-sm font-myFont font-medium text-dark">Agama:</label>
+                        <select v-model="agama" name="agama" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option value="Islam">Islam</option>
+                            <option value="Kristen">Kristen</option>
+                            <option value="Katholik">Katholik</option>
+                            <option value="Hindu">Hindu</option>
+                            <option value="Buddha">Buddha</option>
+                            <option value="Lainya">Lainya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center w-full gap-2">
+                    <div class="w-full mb-4">
+                        <label for="email" class="block text-sm font-myFont font-medium text-dark">Email:</label>
+                        <input v-model="emailVal" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                    </div>
+  
+                    <div class="w-full mb-4">
+                        <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-dark">No Whatsapp:</label>
+                        <input v-model="noWhatsapp" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                    </div>
+                </div>
+  
+                <div class="flex justify-center items-center w-full gap-2">
+                    <div class="w-full mb-4">
                         <label for="provinsi" class="block text-sm font-myFont font-medium text-dark">Provinsi:</label>
-                        <input v-model="provinsi" type="text" id="provinsi" name="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                        <!-- <input v-model="provinsi" type="text" id="provinsi" name="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
+                        <select v-model="provinsi" @change="getKota" name="provinsi" id="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option v-for="(option, index) in provinceOptions" :key="index" :value="option.id">
+                                {{ option.text }}
+                            </option>
+                        </select>
                     </div>
                     <div class="w-full mb-4">
                         <label for="kota" class="block text-sm font-myFont font-medium text-dark">Kota:</label>
-                        <input v-model="kota" type="text" id="kota" name="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                        <!-- <input v-model="kota" type="text" id="kota" name="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
+                        <select v-model="kota" @change="getKecamatan" name="kota" id="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option v-for="(option, index) in cityOptions" :key="index" :value="option.id">
+                                {{ option.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 
                 <div class="flex justify-center items-center w-full gap-2">
                     <div class="w-full mb-4">
                         <label for="kecamatan" class="block text-sm font-myFont font-medium text-dark">Kecamatan:</label>
-                        <input v-model="kecamatan" type="text" id="kecamatan" name="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                        <!-- <input v-model="kecamatan" type="text" id="kecamatan" name="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
+                        <select v-model="kecamatan" @change="getKelurahan" name="kecamatan" id="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option v-for="(option, index) in districtsOptions" :key="index" :value="option.id">
+                                {{ option.text }}
+                            </option>
+                        </select>
                     </div>
                     <div class="w-full mb-4">
                         <label for="kelurahan" class="block text-sm font-myFont font-medium text-dark">Kelurahan:</label>
-                        <input v-model="kelurahan" type="text" id="kelurahan" name="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                        <!-- <input v-model="kelurahan" type="text" id="kelurahan" name="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
+                        <select v-model="kelurahan" @change="saveVillagesId" name="kelurahan" id="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                            <option v-for="(item, index) in villagesOptions" :value="item.id" :key="index">{{ item.text }}</option>
+                        </select>
                     </div>
                 </div>
   
@@ -135,15 +176,15 @@
                 <div class="flex justify-center items-center w-full gap-2">
                     <div class="w-full mb-4">
                         <label for="currPass" class="block text-sm font-myFont font-medium text-dark">Password Sekarang:</label>
-                        <input v-model="currPass" type="text" name="curPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Depan" />
+                        <input v-model="currPass" type="password" name="curPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password anda saat ini" />
                     </div>
                     <div class="w-full mb-4">
                         <label for="newPass" class="block text-sm font-myFont font-medium text-dark">Password Baru:</label>
-                        <input v-model="newPass" type="text" name="newPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Belakang" />
+                        <input v-model="newPass" type="password" name="newPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password baru anda" />
                     </div>
                 </div>
   
-                <button class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
+                <button @click="changePassword" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
                     Ubah Password
                 </button>
             </div>
@@ -206,6 +247,11 @@ export default {
             }
         }
 
+        const provinceOptions = ref([])
+        const cityOptions = ref([])
+        const districtsOptions = ref([])
+        const villagesOptions = ref([])
+
         const namaDepan = ref(userData.value.first_name)
         const namaBelakang = ref(userData.value.last_name)
         const emailVal = ref(JSON.parse(localStorage.getItem('userEmail')))
@@ -215,11 +261,15 @@ export default {
         const formattedDate = ref('')
         const jenisKelamin = ref(userData.value.gender)
         const statusNikah = ref(userData.value.status)
-        const provinsi = ref(userData.value.village.district.regency.province.name)
-        const kota = ref(userData.value.village.district.regency.name)
-        const kecamatan = ref(userData.value.village.district.name)
-        const kelurahan = ref(userData.value.village.name)
+        const provinsi = ref(userData.value.village.district.regency.province.id)
+        const kota = ref(userData.value.village.district.regency.id)
+        const kecamatan = ref(userData.value.village.district.id)
+        const kelurahan = ref(userData.value.village.id)
         const alamatLengkap = ref(userData.value.address)
+        const golonganDarah = ref(userData.value.blood_group)
+        const agama = ref(userData.value.religion)
+        const currPass = ref('')
+        const newPass = ref('')
         
         const convertToInputDate = (tanggal) => {
             // console.log(tanggal)
@@ -227,7 +277,7 @@ export default {
             return `${year}-${month}-${day}`;
         };
 
-        onMounted(() => {
+        onMounted(async () => {
             if (!userData.value && !userRole.value && !userEmail) {
                 const localStorageUserData = localStorage.getItem('userData')
                 const localStorageUserRole = localStorage.getItem('userRole')
@@ -241,7 +291,55 @@ export default {
 
             const tanggalForm = convertToInputDate(tglLahir.value);
             formattedDate.value = tanggalForm;
+
+            const province = await initAPI('get', 'region/provinces', null, null)
+            const formattedProvince = province.data.map(item => ({
+                id: item.id,
+                text: item.name
+            }));
+            provinceOptions.value = formattedProvince
+
+            getKota()
+            getKecamatan()
+            getKelurahan()
         })
+
+        const getKota = async() => {
+            console.log(`kota:`, provinsi.value)
+            const kota = await initAPI('get', 'region/regencies?province_id='+provinsi.value, null, null)
+            console.log(`kota`, kota)
+            const formattedKota = kota.data.map(item => ({
+                id: item.id,
+                text: item.name
+            }));
+            cityOptions.value = formattedKota
+        }
+
+        const getKecamatan = async() => {
+            console.log(`kecataman:`, kota.value)
+            const kecamatan = await initAPI('get', 'region/districts?regency_id='+kota.value, null, null)
+            console.log(`kecamatan`, kecamatan)
+            const formattedKecamatan = kecamatan.data.map(item => ({
+                id: item.id,
+                text: item.name
+            }));
+            districtsOptions.value = formattedKecamatan
+        }
+
+        const getKelurahan = async() => {
+            console.log(`kelurahan yeuh:`, kecamatan.value)
+            const kelurahan = await initAPI('get', 'region/villages?district_id='+kecamatan.value, null, null)
+            console.log(`kelurahan`, kelurahan)
+            const formattedKelurahan = kelurahan.data.map(item => ({
+                id: item.id,
+                text: item.name
+            }));
+            villagesOptions.value = formattedKelurahan
+        }
+
+        const saveVillagesId = () => {
+            console.log(`ie yeuh villagena`, kelurahan.value)
+        }
 
         const ubahData = async() => {
             const customerId = userData.value.id
@@ -252,13 +350,59 @@ export default {
             formData.append('id', customerId);
             formData.append('first_name', namaDepan.value);
             formData.append('last_name', namaBelakang.value);
+            formData.append('number', noWhatsapp.value);
             formData.append('birth_place', tempatLahir.value);
             formData.append('birth_date', tglLahir.value);
+            formData.append('gender', jenisKelamin.value == 'Laki-laki' ? 1 : 2);
+            formData.append('status', statusNikah.value == 'Lajang' ? 0 : 1);
+            formData.append('village_id', kelurahan.value);
             formData.append('address', alamatLengkap.value);
-            formData.append('status', '0');
+
+            // for (var pair of formData.entries()) {
+            //     console.log(pair); 
+            // }
+
+            try{
+                const response = await initAPI(
+                    'post','customers/'+customerId, formData, token
+                );
+    
+                if(response.status == 200){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                    store.commit('user', updatedCustomer.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                }
+            }catch(err){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Gagal mengubah data.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+
+            // console.log(response.data)
+        }
+
+        const changePassword = async () => {
+            const userId = userData.value.user_id
+            const token = JSON.parse(localStorage.getItem('token'))
+
+            const data = JSON.stringify({
+                current_password: currPass.value,
+                new_password: newPass.value,
+            })
 
             const response = await initAPI(
-                'post','customers/'+customerId, formData, token
+                'put','change-password/'+userId, data, token
             );
 
             if(response.status == 200){
@@ -273,10 +417,7 @@ export default {
                 store.commit('user', updatedCustomer.data.data[0])
                 localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
             }
-
-            // console.log(response.data)
         }
-
 
         return { 
             baseUrl,
@@ -296,10 +437,23 @@ export default {
             kelurahan,
             kota,
             alamatLengkap,
+            golonganDarah,
+            agama,
             profileImageUrl,
+            newPass,
+            currPass,
+            provinceOptions,
+            cityOptions,
+            districtsOptions,
+            villagesOptions,
             handleFileChange,
             ubahData,
-            uploadFoto
+            uploadFoto,
+            changePassword,
+            getKota,
+            getKecamatan,
+            getKelurahan,
+            saveVillagesId,
         }
       }
     }

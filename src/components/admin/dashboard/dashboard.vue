@@ -15,7 +15,7 @@
                 </ol>
             </div>
             <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
-                <iframe sandbox="allow-same-origin allow-scripts" src="https://drive.google.com/file/d/1Z1iQySVZe-YxN_S9c00wP-mjXTeODDfQ/preview" controls="none" frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" width="640" height="320"></iframe>
+                
             </div>
         </section>
     </div>

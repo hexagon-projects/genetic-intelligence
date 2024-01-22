@@ -217,6 +217,7 @@ export default {
                     timer: 2000
                 });
                 const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
                 store.commit('user', updatedConsultant.data.data[0])
                 localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
                 }
@@ -233,7 +234,7 @@ export default {
         const alamatLengkap = ref(userData.value.address)
         const currPass = ref('')
         const newPass = ref('')
-        const consultant_fee = ref(parseFloat(userData.value.fee.replace('Rp. ', '').replace(/\./g, '')))
+        const consultant_fee = ref(userData.value.fee)
 
         let available_on = ref(userData.value.available_on)
         available_on = available_on.value
@@ -284,6 +285,7 @@ export default {
                     timer: 2000
                 });
                 const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
                 store.commit('user', updatedConsultant.data.data[0])
             }
         }
@@ -314,7 +316,9 @@ export default {
                     timer: 2000
                 });
                 const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
                 store.commit('user', updatedConsultant.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
             }else{
                 Swal.fire({
                     icon: 'danger',
@@ -371,32 +375,32 @@ export default {
 
             const formData = new FormData();
             formData.append('_method', 'PUT');
-            formData.append('fee', parseInt(consultant_fee));
+            formData.append('fee', parseInt(consultant_fee.value));
             formData.append('available_on', available_on);
 
-            for (var pair of formData.entries()) {
-                console.log(pair); 
-            }
-
-            const response = await initAPI(
-                'post','consultants/'+consultantId, formData, token
-            );
-
-            if(response.status == 200){
+            try{
+                const response = await initAPI(
+                    'post','consultants/'+consultantId, formData, token
+                );
+    
+                if(response.status == 200){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                    updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
+                    store.commit('user', updatedConsultant.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
+                }
+            }catch(error){
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
-                store.commit('user', updatedConsultant.data.data[0])
-            }else{
-                Swal.fire({
-                    icon: 'danger',
+                    icon: 'error',
                     title: 'Failed',
-                    text: response.data.error,
+                    text: 'Gagal mengubah data.',
                     showConfirmButton: false,
                     timer: 2000
                 });
