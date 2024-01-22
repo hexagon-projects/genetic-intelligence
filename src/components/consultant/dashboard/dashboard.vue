@@ -183,26 +183,7 @@
                 <div class="w-full lg:w-1/2">
                     <DashboardReservasi/>
                     
-                    <div class="bg-white h-[136px] rounded-lg p-4">
-                        <h1 class="font-myFont text-dark text-lg mb-4">Konsultasi Sedang berlangsung</h1>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="p-2.5 relative bg-biru rounded-full">
-                                    <a class="w-11 h-11 text-light text-2xl rounded-full relative z-[1] mx-auto">
-                                        <PhHourglassHigh/>
-                                    </a>
-                                </div>
-                                <div class="flex flex-col">
-                                    <p class="text-dark text-base font-semibold">09:00</p>
-                                    <p class="text-dark text-xs font-bold self-center mt-0">
-                                        Proses Konsultasi Sedang Berlangsung
-                                    </p>
-                                </div>
-                                <!-- <p class="text-[#3b3f5c] dark:text-white-light font-semibold text-[13px] p-2.5">Conference call with Marketing Manager.</p> -->
-                            </div>
-                            <button class="font-myFont bg-white hover:bg-biru hover:text-light text-biru border border-biru px-4 py-1 rounded-md">Selesai</button>
-                        </div>
-                    </div>
+                    <ReservasiOnProgressDashboard/>
                 </div>
             </div>
         </section>
@@ -219,6 +200,7 @@ import { onMounted, onBeforeMount } from 'vue'
 import { PhHardDrives, PhArrowRight, PhFileSearch, PhCalendarPlus, PhCalendarCheck, PhHourglassHigh } from '@phosphor-icons/vue';
 import reviewReservasi from './table_review/review.vue'
 import DashboardReservasi from './table_reservasi/reservasi.vue'
+import ReservasiOnProgressDashboard from './reservasi_on_progress/onprogress.vue'
 import initAPI from '../../../api/api'
 
 export default {
@@ -231,7 +213,8 @@ export default {
         PhCalendarCheck,
         PhHourglassHigh,
         reviewReservasi,
-        DashboardReservasi 
+        DashboardReservasi,
+        ReservasiOnProgressDashboard 
     },
     setup(){
         const loading = ref(false)

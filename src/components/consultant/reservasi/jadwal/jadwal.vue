@@ -118,7 +118,7 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
                         <div class="relative inline-block text-left">
                             <div class="flex items-center gap-1">
-                                <button @click="toggleFilter" ref="dropdownRef" type="button" class="font-myFont inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                <button @click="toggleFilter" ref="dropdownRef" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                 Filter Data
                                 <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
@@ -196,20 +196,20 @@
 
                     <span v-else-if="dataJadwal.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
                     <div class="flex justify-between items-center mt-4">
-                        <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                        <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
                             {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
                         </span>
-                        <a class="flex items-center font-myFont text-dark text-base">
+                        <a class="flex items-center font-myFont text-dark text-xs lg:text-base">
                             Halaman
                             <div class="mx-2 flex items-center gap-1">
-                                <a @click="nextPages(nextPage)" class="cursor-pointer text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
-                                    <PhCaretLeft :size="24"/>
+                                <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                    <PhCaretLeft/>
                                 </a>
                                 <span class="px-2 py-1 border rounded-lg">
                                     {{ currPage }}
                                 </span>
-                                <a @click="prevPages(prevPage)" class="cursor-pointer text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
-                                    <PhCaretRight :size="24"/>
+                                <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                    <PhCaretRight/>
                                 </a>
                             </div> 
                             Dari {{ totalHalaman }}

@@ -14,7 +14,7 @@
                     <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                         <h1 class="font-myFont text-dark text-lg mb-4">List Submit Test Grafologi</h1>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                            <span class="font-myFont text-sm text-start lg:text-center text-dark">
+                            <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
                                 {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
                             </span>
                             <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
@@ -53,17 +53,17 @@
 
                         <span v-else-if="dataSubmit.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
                         <div class="self-end mt-4">
-                            <a class="flex items-center font-myFont text-dark text-base">
+                            <a class="flex items-center font-myFont text-dark text-xs lg:text-base">
                                 Halaman
                                 <div class="mx-2 flex items-center gap-1">
-                                    <a @click="nextPages(nextPage)" class="cursor-pointer text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
-                                        <PhCaretLeft :size="24"/>
+                                    <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                        <PhCaretLeft/>
                                     </a>
                                     <span class="px-2 py-1 border rounded-lg">
                                         {{ currPage }}
                                     </span>
-                                    <a @click="prevPages(prevPage)" class="cursor-pointer text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
-                                        <PhCaretRight :size="24"/>
+                                    <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                        <PhCaretRight/>
                                     </a>
                                 </div> 
                                 Dari {{ totalHalaman }}
