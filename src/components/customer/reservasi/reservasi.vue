@@ -17,8 +17,12 @@
            <!-- {{ userData }} -->
         </div>
 
-        <div class="mx-7 bg-white rounded-lg shadow-lg p-4">
-            <div v-if="userData.is_advance == 'Tidak' && reservasiData" class="flex flex-col md:flex-row lg:flex-row items-center">
+        <div v-if="userData && dataReservasi" class="mx-7 bg-white rounded-lg shadow-lg p-4">
+            <div class="flex justify-center w-full" v-if="loading" >
+                <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+            </div>
+
+            <div v-if="userData.is_advance == 'Tidak' && reservasiData && !dataReservasi && !loading" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-gray-500 text-base mb-4">Berikut adalah detail jadwal reservasi kamu</p>
@@ -68,7 +72,7 @@
                 </div>
             </div>
 
-            <div v-else-if="dataReservasi && userData.is_advance == 'Ya'" class="flex flex-col md:flex-row lg:flex-row items-center">
+            <div v-if="dataReservasi && userData.is_advance == 'Ya' && !loading" class="flex flex-col md:flex-row lg:flex-row items-center">
                 <div class="w-full md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4 lg:mb-0">Reservasi kamu sudah terjadwal</p>
@@ -83,7 +87,7 @@
                                 </td>
                                 <td class="font-myFont py-4 px-6">
                                     <span class="flex gap-1 text-sm lg:text-base items-center">
-                                        <PhTimer/> {{ dataReservasi.time !== undefined ? dataReservasi.time : '' }}
+                                        <PhTimer/> {{ dataReservasi.time }}
                                     </span>
                                 </td>
                                 <td class="font-myFont py-4 px-6">
@@ -137,7 +141,7 @@
                     >
                         Menunggu Approval
                     </button>
-                    <button @click="toggleModalBayar" v-else-if="dataReservasi.status == 'Approved'" class="mt-4 lg:ml-12 px-4 py-2 bg-biru text-light rounded-lg hover:opacity-75 hover:shadow-lg"
+                    <button @click="toggleModalBayar" v-else-if="dataReservasi.status == 'Approved' || dataReservasi.status == 'Canceled'" class="mt-4 lg:ml-12 px-4 py-2 bg-biru text-light rounded-lg hover:opacity-75 hover:shadow-lg"
                     >
                         Bayar
                     </button>
@@ -209,7 +213,7 @@
                 </div>
             </div>
 
-            <div v-else-if="!reservasiData && userData.is_advance == 'Tidak'" class="flex flex-col lg:flex-row items-center">
+            <div v-else-if="!reservasiData && userData.is_advance == 'Tidak' && !loading" class="flex flex-col lg:flex-row items-center">
                 <div class="lg:w-1/2">
                     <div class="lg:mx-10 lg:ml-20 flex flex-col">
                         <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu belum menentukan jadwal</h1>
@@ -228,21 +232,25 @@
 
 <script>
 import initAPI from '../../../api/api';
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeMount, watch } from 'vue'
 import { PhUser, PhTimer, PhCalendar } from '@phosphor-icons/vue';
 import PilihHari from './PilihHari/hari.vue'
 import { useStore } from 'vuex'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'Reservasi',
     components: {PhUser, PhTimer, PhCalendar, PilihHari},
     setup(){
+        const router = useRouter()
+
+        const loading = ref(false)
         const modalLoading = ref(false)
         const isModalOpen = ref(false)
         const store = useStore()
-        const dataReservasi = ref([])
+        const dataReservasi = ref(null)
         const statusReservasi = ref(null)
         const paymentMethod = ref(null)
 
@@ -260,6 +268,7 @@ export default {
         // console.log(`dataReservasi length`,dataReservasi.value)
 
         const getDataReservasi = async() => {
+            loading.value = !loading.value
             try {
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true`, null, token)
@@ -271,11 +280,39 @@ export default {
             } catch (error) {
                 console.log(`error`, error)
             }
-
+            loading.value = !loading.value
         }
 
-        onMounted(() => {
+        const getDataCustomer = async() => {
+            loading.value = !loading.value
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+                const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
+                dataReservasi.value = updatedCustomer.data.data[0]
+                store.commit('user', updatedCustomer.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+            } catch (error) {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Terjadi',
+                    text: 'Terjadi error sistem',
+                    showConfirmButton: false,
+                    timer: 3500
+                });
+            }
+            loading.value = !loading.value
+        }
+
+        onBeforeMount(() => {
             getDataReservasi()
+            getDataCustomer()
+        })
+
+        onMounted(() => {
+            if(dataReservasi.value == null){
+                getDataReservasi()
+            }
             // const isReservasi = JSON.parse(localStorage.getItem('userData'))
            
             //     console.log(`cek weh reservasina`,response.data)
@@ -298,6 +335,7 @@ export default {
         })
 
         const konfirReservasi = async() => {
+            loading.value = !loading.value
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('post', 'customers/reservations', reservasiData.value, token)
             console.log(`konfir`,response.data)
@@ -306,16 +344,18 @@ export default {
                     icon: 'success',
                     title: 'Reservasi Berhasil',
                     text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2500
+                    confirmButtonColor: "#0b40f4",
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.go()
+                    }
                 });
                 store.commit('setReservasi', null)
                 localStorage.removeItem('setReservasi')
 
-                const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
-                dataReservasi.value = updatedCustomer.data.data[0]
-                store.commit('user', updatedCustomer.data.data[0])
-                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                // getDataReservasi()
+                // getDataCustomer()
             }else{
                 Swal.fire({
                     icon: 'error',
@@ -326,6 +366,7 @@ export default {
                 });
                 store.commit('setReservasi', null)
             }
+            loading.value = !loading.value
         }
 
         const toggleModalBayar = async() => {
@@ -384,6 +425,7 @@ export default {
         }
 
         return {
+            loading,
             userData,
             reservasiData,
             dataReservasi,

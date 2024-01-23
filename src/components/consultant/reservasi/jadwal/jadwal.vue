@@ -119,7 +119,7 @@
                         <div class="relative inline-block text-left">
                             <div class="flex items-center gap-1">
                                 <button @click="toggleFilter" ref="dropdownRef" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                Filter Data
+                                {{ labelFilter }}
                                 <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                 </svg>
@@ -129,8 +129,8 @@
                             <div v-if="showFilter" class="absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                 <div class="py-1" role="none">
                                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                <a @click="filterData('terjadwal')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Terjadwal</a>
-                                <a @click="filterData('onProses')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Dalam Proses</a>
+                                <a @click="filterData('Terjadwal')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Terjadwal</a>
+                                <a @click="filterData('Dalam Proses')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Dalam Proses</a>
                                 </div>
                             </div>
                         </div>
@@ -250,8 +250,10 @@ export default{
 
         const showFilter = ref(false)
         const isFilter = ref(false)
+        const labelFilter = ref('Filter Data')
 
         const resetFilter = () => {
+            labelFilter.value = 'Filter Data'
             isFilter.value = !isFilter.value
             getAllData()
         }
@@ -333,7 +335,8 @@ export default{
         }
 
         const filterData = async(params) => {
-            if(params == 'onProses'){
+            labelFilter.value = params
+            if(params == 'Dalam Proses'){
                 await getOnProcessData()
             } else {
                 await getScheduledData()
@@ -401,63 +404,102 @@ export default{
         }
 
         const mulai = async(reservationId) => {
-            console.log(`ini id mulai`, reservationId)
-            const token = JSON.parse(localStorage.getItem('token'))
-            const data = new FormData();
-            data.append('status', 3);
+            console.log(`mulai`, reservationId)
+            Swal.fire({
+            title: "Mulai Reservasi?",
+            text: "Reservasi untuk user ini akan di mulai.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#00ab55",
+            cancelButtonColor: "#3b3f5c",
+            confirmButtonText: "Ya, mulai",
+            cancelButtonText: "Tutup"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    confirmMulai(reservationId)
+                }
+            });
+        }
 
-            // try {
-            //     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-            //     console.log(response.data)
-            //     Swal.fire({
-            //         icon: 'success',
-            //         title: 'Berhasil!',
-            //         text: response.data.message,
-            //         showConfirmButton: false,
-            //         timer: 2000
-            //     });
+        const confirmMulai = async(reservationId) => {
+            try {
+                console.log(`ini id mulai`, reservationId)
+                const token = JSON.parse(localStorage.getItem('token'))
+                const data = new FormData();
+                data.append('status', 3);
+
+                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                console.log(response.data)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
                 
-            //     getAllData()
-
-            // } catch (error) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Error',
-            //         text: 'Error saat update status ke On Progress',
-            //         showConfirmButton: false,
-            //         timer: 2000
-            //     });
-            // }
+                getAllData()
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error saat memulai reservasi',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
         }
 
         const selesai = async(reservationId) => {
+            console.log(`selesai`, reservationId)
+            Swal.fire({
+            title: "Selesaikan Reservasi?",
+            text: "Reservasi untuk user ini akan diselesaikan.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#00ab55",
+            cancelButtonColor: "#3b3f5c",
+            confirmButtonText: "Ya, selesai",
+            cancelButtonText: "Tutup"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    confirmSelesai(reservationId)
+                }
+            });
+        }
+
+        const confirmSelesai = async(reservationId) => {
             console.log(`ini id selesai`, reservationId)
             const token = JSON.parse(localStorage.getItem('token'))
             const data = new FormData();
-            data.append('status', 3);
+            data.append('status', 4);
 
-            // try {
-            //     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-            //     console.log(response.data)
-            //     Swal.fire({
-            //         icon: 'success',
-            //         title: 'Berhasil!',
-            //         text: response.data.message,
-            //         showConfirmButton: false,
-            //         timer: 2000
-            //     });
+            try {
+                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                console.log(response.data)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
                 
-            //     getAllData()
+                if(isFilter.value == true && labelFilter.value !== 'Filter Data'){
+                    resetFilter()
+                }
+                
+                getAllData()
 
-            // } catch (error) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Error',
-            //         text: 'Error saat update status ke On Progress',
-            //         showConfirmButton: false,
-            //         timer: 2000
-            //     });
-            // }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error saat update status ke Selesai',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
         }
 
         onBeforeMount(async() => {
@@ -519,6 +561,7 @@ export default{
             isModalOpen,
             showFilter,
             isFilter,
+            labelFilter,
             dropdownRef,
             debouncedGetSearchData,
             toggleModal,

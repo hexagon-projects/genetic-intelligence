@@ -158,6 +158,11 @@
                                             </button>
                                         </td>
                                         <td class="py-4">
+                                            <button @click="notApprove(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                                <PhProhibit :size="22"/>
+                                            </button>
+                                        </td>
+                                        <td class="py-4">
                                             <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhCheck :size="22"/>
                                             </button>
@@ -195,7 +200,7 @@
 <script>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import initAPI from '../../../../api/api'
-import { PhCaretLeft, PhCaretRight, PhEye, PhCheck } from '@phosphor-icons/vue'
+import { PhCaretLeft, PhCaretRight, PhEye, PhCheck, PhProhibit } from '@phosphor-icons/vue'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {useRouter} from 'vue-router'
@@ -203,7 +208,7 @@ import _debounce from 'lodash/debounce';
 
 export default{
     name: 'PermintaanReservasi',
-    components: {PhCaretLeft, PhCaretRight, PhEye, PhCheck},
+    components: {PhCaretLeft, PhCaretRight, PhEye, PhCheck, PhProhibit},
     setup(){
         const loading = ref(false)
         const totalHalaman = ref(null)
@@ -215,8 +220,8 @@ export default{
         const totalData = ref(null)
         const cari = ref(null)
 
-        const dataPermintaan = ref([])
-        const detailCustomers = ref([])
+        const dataPermintaan = ref(null)
+        const detailCustomers = ref(null)
         const isModalOpen = ref(false)
 
         const clickDetail = (id) => {
@@ -269,6 +274,54 @@ export default{
                     timer: 2000
                 });
             }
+        }
+
+        const confirmNotApprove = async(reservationId) => {
+            console.log(reservationId)
+            try {
+                const data = { status: 99 }
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                console.log(response.data)
+                if(response.data.success == true){
+                    Swal.fire({
+                        title: "Berhasil",
+                        text: "Permintaan telah dibatalkan.",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                    await getAllData()
+                }
+            } catch (error) {
+                console.log(error)
+                Swal.fire({
+                    title: "Gagal",
+                    text: "Terjadi error saat membatalkan permintaan.",
+                    icon: "error",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        }
+
+        const notApprove = async(reservationId) => {
+            Swal.fire({
+            title: "Batalkan Permintaan?",
+            text: "Permintaan reservasi untuk user ini akan di batalkan.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#e7515a",
+            cancelButtonColor: "#3b3f5c",
+            confirmButtonText: "Ya, batalkan",
+            cancelButtonText: "Tutup"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    confirmNotApprove(reservationId)
+                    // requestCancel(reservationId)
+                }
+            });
         }
 
         onBeforeMount(async() => {
@@ -333,6 +386,8 @@ export default{
             toggleModal,
             clickDetail,
             approve,
+            notApprove,
+            confirmNotApprove
         }
     }
 }
