@@ -5,7 +5,7 @@
             <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
         </div>
         <div v-else-if="dataReservasi == null && !loading" class="flex justify-center">
-            <span class="font-myFont text-center text-dark text-base mt-4">Tidak ada jadwal untuk hari ini</span>
+            <span class="font-myFont text-center text-dark text-sm lg:text-lg mt-4">Tidak ada jadwal untuk hari ini</span>
         </div>
         <div v-else-if="dataReservasi !== null && !loading" class="flex justify-between items-center">
             <div class="flex items-center gap-2">
