@@ -55,7 +55,7 @@ const initAPI = async (method, endpoint, data, token) => {
     const config = {
         method: method,
         maxBodyLength: Infinity,
-        url: baseUrl + endpoint,
+        url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
         headers: { 
           'Content-Type': check ? 'multipart/form-data' : 'application/json',
           'Authorization': token !== null ? `Bearer ${token}` : null

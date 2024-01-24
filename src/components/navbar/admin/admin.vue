@@ -1,12 +1,12 @@
 <template>
-  <RouterLink :to="{name: 'user.views.deteksi'}" 
+  <RouterLink :to="{name: 'admin.views.customers'}" 
   class="
           flex justify-center items-end px-4 py-2 gap-1 font-myFont
           hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
           "
-          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.deteksi', 'text-dark bg-white': $route.name !== 'user.views.deteksi'}"
+          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'admin.views.customers', 'text-dark bg-white': $route.name !== 'admin.views.customers'}"
       >
-      <PhTarget :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.deteksi','text-biru hover:text-light': $route.name !== 'user.views.deteksi'}" />
+      <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.customers','text-biru hover:text-light': $route.name !== 'admin.views.customers'}" />
       Data Customer
   </RouterLink>
   <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
@@ -16,7 +16,7 @@
           "
           :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
       >
-      <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+      <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
       Data Konsultan
   </RouterLink>
   <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
@@ -26,7 +26,7 @@
           "
           :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
       >
-      <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+      <PhFolders :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
       Data Reservasi
   </RouterLink>
   <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
@@ -36,25 +36,25 @@
           "
           :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
       >
-      <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+      <PhMoney :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
       Riwayat Pembayaran
   </RouterLink>
 </template>
 
 <script>
-import { PhTarget, PhFileText, PhUser, PhCalendarCheck, PhSignOut } from "@phosphor-icons/vue";
+import { PhFolderUser, PhUser, PhFolders, PhSignOut, PhMoney } from "@phosphor-icons/vue";
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'CustomerNav',
   components: {
-      PhTarget,
-  PhFileText,
-  PhUser,
-      PhCalendarCheck,
-  PhSignOut
-  },
+    PhFolderUser,
+    PhUser,
+    PhFolders,
+    PhSignOut,
+    PhMoney
+},
   setup(){
       const store = useStore()
       const userData = computed(() => store.getters.getUserData);

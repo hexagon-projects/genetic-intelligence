@@ -23,21 +23,21 @@
                         <!-- <div class="min-h-[190px] bg-gradient-to-r from-[#4361ee] to-[#160f6b] p-6"> -->
                         <div class="min-h-[190px] bg-gradient-primary p-6">
                             <div class="mb-6 flex items-center justify-between">
-                                <div class="flex items-center rounded-lg bg-dark/50 p-2 font-semibold text-white pr-3">
+                                <div class="flex items-center rounded-lg bg-[#1fabee] bg-opacity-40 backdrop-blur-3xl p-2 font-myFont font-medium text-white">
                                     Profit
                                 </div>
-                                <button type="button" class="flex h-9 w-9 items-center justify-center rounded-md bg-dark/50 text-white hover:bg-dark/75 ml-auto">
+                                <button type="button" class="flex h-9 w-9 items-center justify-center rounded-md bg-[#1fabee] bg-opacity-40 backdrop-blur-3xl text-white hover:bg-opacity-60 ml-auto">
                                     <PhArrowRight/>
                                 </button>
                             </div>
                             <div class="flex items-center justify-between text-white">
-                                <p class="text-xl">Total</p>
+                                <p class="text-2xl font-myFont">Total</p>
                                 <h5 class="text-2xl ltr:ml-auto rtl:mr-auto">Rp. <span class="font-semibold">50.000.000,00</span></h5>
                             </div>
                         </div>
                         <div class="-mt-12 grid grid-cols-2 gap-2 px-8">
                             <div class="rounded-md bg-white px-4 py-2.5 shadow">
-                                <span class="mb-4 flex items-center justify-between">Registrasi
+                                <span class="font-myFont mb-4 flex items-center justify-between">Registrasi
                                     <svg class="h-4 w-4 text-success" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M19 15L12 9L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="rounded-md bg-white px-4 py-2.5 shadow">
-                                <span class="mb-4 flex items-center justify-between">Konsultasi
+                                <span class="font-myFont mb-4 flex items-center justify-between">Konsultasi
                                     <svg class="h-4 w-4 text-success" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M19 15L12 9L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="p-5">
                             <div class="mb-5">
-                                <span class="rounded-full bg-[#1b2e4b] px-4 py-1.5 text-xs text-white mr-2">Detail</span>
+                                <span class="font-myFont rounded-full bg-slate-200 px-4 py-1.5 text-sm text-dark mr-2">Detail</span>
                             </div>
                             <div class="mb-5 space-y-1">
                                 <div class="flex items-center justify-between">
@@ -87,7 +87,7 @@
                         <div v-if="!loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                             <div class="self-stretch justify-between items-center inline-flex">
                                 <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                    <PhCalendarPlus :size="28"/>
+                                    <PhUsers :size="28"/>
                                 </span>
                                 <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                                     Lihat Detail
@@ -96,9 +96,39 @@
                             </div>
                             <div class="self-stretch justify-start items-start gap-8 inline-flex">
                                 <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Permintaan Reservasi</div>
+                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Konsultan</div>
                                     <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <!-- <div class="text-biru text-xl font-medium font-poppins">{{ countDashboard.totalPermintaan }} Data</div> -->
+                                        <div class="text-biru text-xl font-medium font-myFont">
+                                            7 Konsultan
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
+                        <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
+                            <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                        </div>
+    
+                        <div v-if="!loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                            <div class="self-stretch justify-between items-center inline-flex">
+                                <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
+                                    <PhUserList size="28"/>
+                                </span>
+                                <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                    Lihat Detail
+                                    <PhArrowRight/>
+                                </RouterLink>
+                            </div>
+                            <div class="self-stretch justify-start items-start gap-8 inline-flex">
+                                <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Customer</div>
+                                    <div class="justify-center items-center gap-[7px] inline-flex">
+                                        <div class="text-biru text-xl font-medium font-myFont">
+                                            700 Customer
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -109,10 +139,10 @@
                             <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                         </div>
     
-                        <div v-if="!loadingData && countDashboard" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                        <div v-if="!loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                             <div class="self-stretch justify-between items-center inline-flex">
                                 <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                    <PhCalendarPlus :size="28"/>
+                                    <PhFiles :size="28"/>
                                 </span>
                                 <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                                     Lihat Detail
@@ -121,34 +151,9 @@
                             </div>
                             <div class="self-stretch justify-start items-start gap-8 inline-flex">
                                 <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Permintaan Reservasi</div>
+                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Reservasi</div>
                                     <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <div class="text-biru text-xl font-medium font-poppins">{{ countDashboard.totalPermintaan }} Data</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
-                        <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
-                            <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
-                        </div>
-    
-                        <div v-if="!loadingData && countDashboard" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
-                            <div class="self-stretch justify-between items-center inline-flex">
-                                <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                    <PhCalendarPlus :size="28"/>
-                                </span>
-                                <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
-                                    Lihat Detail
-                                    <PhArrowRight/>
-                                </RouterLink>
-                            </div>
-                            <div class="self-stretch justify-start items-start gap-8 inline-flex">
-                                <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Permintaan Reservasi</div>
-                                    <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <div class="text-biru text-xl font-medium font-poppins">{{ countDashboard.totalPermintaan }} Data</div>
+                                        <div class="text-biru text-xl font-medium font-myFont">20 Reservasi</div>
                                     </div>
                                 </div>
                             </div>
@@ -162,11 +167,11 @@
 
 <script>
 import { ref } from 'vue'
-import { PhArrowRight } from "@phosphor-icons/vue";
+import { PhArrowRight, PhUsers, PhUserList, PhFiles } from "@phosphor-icons/vue";
 
 export default {
     name: 'AdminDashboard',
-    components: {PhArrowRight},
+    components: {PhArrowRight, PhUsers, PhUserList, PhFiles},
     setup(){
         const loading = ref(false)
         const loadingData = ref(false)

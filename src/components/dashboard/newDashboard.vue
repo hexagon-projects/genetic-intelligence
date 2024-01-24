@@ -145,18 +145,22 @@ export default {
                 }
             }
 
-            const token = JSON.parse(localStorage.getItem('token'))
-            const customerId = userData.value.id
-
-            const response = await initAPI('get', 'customers/gim-result/'+customerId, null, token)
-            if(response.data.is_detected == true){
-                // console.log('aya ajig')
-                store.commit('userResultDetect', response.data)
-                localStorage.setItem('userResult', JSON.stringify(response.data))
-                // console.log(userResultDetect.value)
-            } else {
-                store.commit('userResultDetect', response.data)
+            const checkRole = JSON.parse(localStorage.getItem('userRole'))
+            if(checkRole == 'customer'){
+                const token = JSON.parse(localStorage.getItem('token'))
+                const customerId = userData.value.id
+    
+                const response = await initAPI('get', 'customers/gim-result/'+customerId, null, token)
+                if(response.data.is_detected == true){
+                    // console.log('aya ajig')
+                    store.commit('userResultDetect', response.data)
+                    localStorage.setItem('userResult', JSON.stringify(response.data))
+                    // console.log(userResultDetect.value)
+                } else {
+                    store.commit('userResultDetect', response.data)
+                }
             }
+
             loading.value = !loading.value
         })
 
