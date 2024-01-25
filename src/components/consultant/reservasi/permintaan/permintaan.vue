@@ -253,18 +253,19 @@ export default{
                     timer: 2000
                 });
                 
-                const refetch = await initAPI('get', 'customers/reservations?status=0', null, token)
-                if(refetch){
-                    dataPermintaan.value = response.data.data
-                }else{
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Terjadi error saat mengambil data',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
+                await getAllData()
+                // const refetch = await initAPI('get', 'customers/reservations?status=0', null, token)
+                // if(refetch){
+                //     dataPermintaan.value = response.data.data
+                // }else{
+                //     Swal.fire({
+                //         icon: 'error',
+                //         title: 'Error',
+                //         text: 'Terjadi error saat mengambil data',
+                //         showConfirmButton: false,
+                //         timer: 2000
+                //     });
+                // }
             } catch (error) {
                 Swal.fire({
                     icon: 'error',

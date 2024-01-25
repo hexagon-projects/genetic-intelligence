@@ -25,7 +25,7 @@
                             </div>
                             <hr class="my-5">
                             <div class="self-center my-1">
-                                <img :src="import.meta.env.VITE_API_BASE_URL+'open/detections/'+dataReview.customers_results.detection">
+                                <img :src="baseUrl+'open/detections/'+dataReview.customers_results.detection">
                                 <!-- <img :src="'http://gim.app.api.hexagon.co.id/api/open/detections/'+dataReview.customers_results.detection"> -->
                                 <!-- <img src="../../../assets/img/grafologi.jpg"> -->
                                 <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
@@ -109,6 +109,8 @@ setup() {
     const datas = ref(null)
     const notes = ref('')
 
+    const baseUrl = import.meta.env.VITE_API_BASE_URL
+
     const dataReview = computed(() => store.getters.getReviewDetail)
     
     onMounted(async() => {
@@ -178,6 +180,7 @@ setup() {
         }
 
     return {
+        baseUrl,
         dataReview,
         datas,
         notes,
