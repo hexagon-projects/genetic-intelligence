@@ -12,7 +12,13 @@
                     <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Pembayaran Berhasil!</h3>
                     <p class="text-gray-600 my-2">Terimakasih telah melakukan pembayaran, kamu bisa login sekarang.</p>
                     <!-- <p> A!  </p> -->
-                    <div class="pb-4 pt-6 text-center">
+                    <div v-if="paymentReservasiCheck" class="pb-4 pt-6 text-center">
+                        <button @click="kembali" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
+                        Kembali 
+                        </button>
+                    </div>
+
+                    <div v-else class="pb-4 pt-6 text-center">
                         <button @click="toLogin" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
                         Login 
                         </button>
@@ -87,8 +93,11 @@ export default {
         const router = useRouter()
         const dataCheckUlang = ref(null)
 
+        const paymentReservasiCheck = ref(null)
+
         onBeforeMount(async() => {
             loading.value = !loading.value
+            if(JSON.parse(localStorage.getItem('bayarReservasi'))) paymentReservasiCheck.value = true
             const merchantId = JSON.parse(localStorage.getItem('merchantId'))
             if(merchantId){
                 // const check = await initAPI('get', 'payment/check?merchant_order_id=65a4bfcf730a7', null, null)
@@ -112,6 +121,12 @@ export default {
             router.push('/login')
         }
 
+        const kembali = () => {
+            localStorage.removeItem('merchantId')
+            localStorage.removeItem('bayarReservasi')
+            router.push({name: 'user.views.reservasi'})
+        }
+
         const checkUlang = async() => {
             console.log(`cek ulang`, dataCheckUlang.value)
             try {
@@ -133,7 +148,7 @@ export default {
             }
         }
 
-        return {isSuccess, loading, toLogin, checkUlang}
+        return {isSuccess, loading, paymentReservasiCheck, toLogin, checkUlang, kembali}
     }
 }
 </script>

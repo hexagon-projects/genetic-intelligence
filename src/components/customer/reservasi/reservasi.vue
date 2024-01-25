@@ -598,19 +598,22 @@ export default {
                 modalLoading.value = !modalLoading.value
                 const response = await initAPI('post', 'customers/reservations/payment', paymentForm.value, token)
                 console.log(`konfir pembayaran`,response.data)
+                console.log(`merchant reservasi`,response.data.payment_data.merchant_order_id)
+                localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+                localStorage.setItem('bayarReservasi', true)
                 const url = response.data.data.paymentUrl
-                // let fixedUrl = ''
-                // let refValue = ''
-                // if(url.includes('ref=')){
-                //     fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
-                //     refValue = url.split('ref=')[1]
-                // }else if(url.includes('reference=')){
-                //     console.log('reference', url)
-                //     fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
-                //     refValue = url.split('reference=')[1]
-                // }
+                let fixedUrl = ''
+                let refValue = ''
+                if(url.includes('ref=')){
+                    fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                    refValue = url.split('ref=')[1]
+                }else if(url.includes('reference=')){
+                    console.log('reference', url)
+                    fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                    refValue = url.split('reference=')[1]
+                }
                 window.location.href = url
-                // window.location.href = fixedUrl+refValue
+                window.location.href = fixedUrl+refValue
                 modalLoading.value = !modalLoading.value
 
                 await getDataReservasi()
