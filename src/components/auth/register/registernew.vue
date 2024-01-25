@@ -1,5 +1,5 @@
 <template>
-    <section id="img-login" class="bg-biru min-h-screen">
+    <section id="img-login" class="bg-biru min-h-screen xl:h-full">
         <div class="container mx-auto">
             <div class="flex justify-center pt-32 pb-36">
                 <div class="bg-white mx-4 w-full lg:w-2/4 lg:mx-auto px-10 py-4 drop-shadow-2xl rounded-lg">
