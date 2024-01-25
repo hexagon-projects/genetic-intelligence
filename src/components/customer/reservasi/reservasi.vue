@@ -1,7 +1,7 @@
 <template>
     <section class="bg-gray-100 pb-8 text-dark">
         <div class="mx-4 pt-4">
-            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
+            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
                 <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
                     Beranda
                 </RouterLink>
@@ -40,8 +40,8 @@
                 <div class="md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-gray-500 text-base mb-4">Berikut adalah detail jadwal reservasi kamu</p>
-                    <table class="lg:ml-12 w-full text-sm text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-dark uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table class="lg:ml-12 w-full text-sm text-gray-500">
+                        <thead class="text-xs text-dark uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-3 px-6 text-start">Nama</th>
                                 <th scope="col" class="py-3 px-6 text-start">Jam</th>
@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class=" bg-white border-b">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 items-center">
                                         <PhUser/> {{ userData.name }}
@@ -66,7 +66,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class=" bg-white border-b">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 items-center">
                                         Total: {{ reservasiData.formatted_fee }}
@@ -90,9 +90,9 @@
                 <div class="w-full md:w-full lg:w-1/2 mb-2">
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4 lg:mb-0">Reservasi kamu sudah terjadwal</p>
-                    <table class="lg:ml-12 w-full text-sm text-gray-500 dark:text-gray-400">
+                    <table class="lg:ml-12 w-full text-sm text-gray-500">
                         <tbody>
-                            <tr class="hidden md:block lg:block bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class="hidden md:block lg:block bg-white border-b">
                                 <td class="font-myFont py-4 px-6">
                                     <span class="flex gap-1 text-sm lg:text-base items-center">
                                         <PhUser/> {{ userData.name }}
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
 
-                            <tr class="hidden md:block lg:block bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class="hidden md:block lg:block bg-white border-b">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 text-base items-center">
                                         <span class="font-myFont text-dark font-semibold">Total:</span> {{ dataReservasi.fee }}
@@ -228,7 +228,7 @@
                     <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                     <p class="lg:ml-12 font-myFont text-start text-gray-500 text-base mb-4">Berikut adalah detail jadwal reservasi kamu</p>
                     <table class="lg:ml-12 w-full text-sm text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-dark uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead class="text-xs text-dark uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-3 px-6 text-start">Nama</th>
                                 <th scope="col" class="py-3 px-6 text-start">Jam</th>
@@ -236,7 +236,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class=" bg-white border-b">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 items-center">
                                         <PhUser/> {{ userData.name }}
@@ -253,7 +253,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class=" bg-white border-b">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 items-center">
                                         Total: {{ reservasiData.formatted_fee }}
@@ -279,7 +279,7 @@
                     <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4 lg:mb-0">Reservasi kamu sudah terjadwal</p>
                     <table class="lg:ml-12 w-full text-sm text-gray-500 dark:text-gray-400">
                         <tbody>
-                            <tr class="hidden md:block lg:block bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class="hidden md:block lg:block bg-white border-b">
                                 <td class="font-myFont py-4 px-6">
                                     <span class="flex gap-1 text-sm lg:text-base items-center">
                                         <PhUser/> {{ userData.name }}
@@ -327,7 +327,7 @@
                                 </div>
                             </div>
 
-                            <tr class="hidden md:block lg:block bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr class="hidden md:block lg:block bg-white border-b">
                                 <td class="py-4 px-6">
                                     <span class="font-myFont flex gap-1 text-base items-center">
                                         <span class="font-myFont text-dark font-semibold">Total:</span> {{ dataReservasi.fee }}

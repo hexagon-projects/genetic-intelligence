@@ -1,7 +1,7 @@
 <template>
     <section class="bg-gray-100 pb-10 lg:pb-7">
         <div class="mx-4 pt-4">
-            <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+            <ol class="flex text-gray-500 font-semibold">
                 <li class="before:px-1.5">
                     <a class="text-dark text-base cursor-default">
                         Beranda
@@ -128,7 +128,7 @@
 
                     <div v-else-if="dataPermintaan.length > 0 && !loading" class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-3 px-6">No</th>
                                 <th scope="col" class="py-3 px-6">Tanggal</th>
@@ -139,7 +139,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(data, index) in dataPermintaan" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr v-for="(data, index) in dataPermintaan" class="bg-white border-b">
                                     <td class="py-4 px-6">
                                         {{ index + 1 }}
                                     </td>

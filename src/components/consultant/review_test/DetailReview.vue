@@ -5,7 +5,7 @@
       <p>Name: {{ dataReview.name }}</p> -->
       <section class="bg-gray-100 pb-16">
           <div class="mx-4 pt-4">
-              <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+              <ol class="flex text-gray-500 font-semibold">
                   <li class="before:px-1.5">
                       <a class="text-dark text-base cursor-default">
                           Beranda
@@ -48,7 +48,7 @@
                                     <h2 class="font-myFont text-start text-dark font-semibold mb-2">Data Customer</h2>
                                     <div class="overflow-x-scroll md:overflow-visible lg:overflow-visible">
                                         <table class="border text-sm text-left text-gray-500">
-                                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="py-4 px-6">Nama Customer</th>
                                                 <th scope="col" class="py-4 px-6">Tempat Lahir</th>
@@ -58,7 +58,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <tr class="bg-white border-b">
                                                     <td class="py-4 px-6">{{ dataReview.name }}</td>
                                                     <td class="py-4 px-6">{{ dataReview.birth_place }}</td>
                                                     <td class="py-4 px-6">{{ dataReview.birth_date }}</td>

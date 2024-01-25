@@ -2,7 +2,7 @@
   <!-- <navbar/> -->
   <section v-if="userData" class="bg-gray-100 pb-8">
          <div class="mx-4 pt-4 mb-2">
-            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
+            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
                 <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
                     Beranda
                 </RouterLink>

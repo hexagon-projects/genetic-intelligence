@@ -5,7 +5,7 @@
     <div v-else>
         <section v-if="userData" class="bg-gray-100 pb-8 text-dark">
             <div class="mx-4 pt-4">
-                <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold dark:text-white-dark">
+                <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
                     <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
                         Beranda
                     </RouterLink>
@@ -19,7 +19,7 @@
                 <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
                   <div v-if="!loadingSubmit">
                     <div class="mb-6 flex items-center">
-                      <h5 class="text-lg font-semibold dark:text-white-light">Tes Pendeteksian Genetic Intelligence Mapping</h5>
+                      <h5 class="text-lg font-semibold">Tes Pendeteksian Genetic Intelligence Mapping</h5>
                     </div>
                     <hr>
                       <div class="my-6" x-data="{ activeTab: 1}">

@@ -11,7 +11,7 @@
             <div v-if="userData && userResultDetect">
                 <section v-if="userResultDetect.is_resulted == true" class="bg-gray-100 pb-16">
                     <div class="mx-4 pt-4">
-                        <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                        <ol class="flex text-gray-500 font-semibold">
                             <li class="before:px-1.5">
                                 <a class="text-dark text-base cursor-default">
                                     Beranda
@@ -50,7 +50,7 @@
         
                 <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
                     <div class="mx-4 pt-4">
-                        <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                        <ol class="flex text-gray-500 font-semibold">
                             <li class="before:px-1.5">
                                 <a class="text-dark text-xl cursor-default">
                                     Beranda

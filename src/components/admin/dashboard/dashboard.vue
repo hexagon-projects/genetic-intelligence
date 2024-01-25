@@ -6,7 +6,7 @@
     <div v-else>
         <section class="bg-gray-100 pb-16">
             <div class="mx-4 pt-4">
-                <ol class="flex text-gray-500 font-semibold dark:text-white-dark">
+                <ol class="flex text-gray-500 font-semibold">
                     <li class="before:px-1.5">
                         <a class="text-dark text-base cursor-default">
                             Beranda
