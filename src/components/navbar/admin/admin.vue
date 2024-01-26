@@ -16,7 +16,7 @@
           "
           :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'admin.views.konsultan', 'text-dark bg-white': $route.name !== 'admin.views.konsultan'}"
       >
-      <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.konsultan','text-biru hover:text-light': $route.name !== 'admin.views.konsultan'}" />
+      <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.konsultan', 'text-biru hover:text-light': $route.name !== 'admin.views.konsultan'}" />
       Data Konsultan
   </RouterLink>
   <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 

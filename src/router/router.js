@@ -212,7 +212,22 @@ const routes = [
     {
         path: '/data-konsultan',
         name: 'admin.views.konsultan',
-        component: () => import('../components/admin/customers/customers.vue'),
+        component: () => import('../components/admin/konsultan/konsultan.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/registrasi-konsultan',
+        name: 'admin.views.konsultan.register',
+        component: () => import('../components/admin/konsultan/registrasi.vue'),
         meta: {
             showNavbar: true,
             showFooter: true

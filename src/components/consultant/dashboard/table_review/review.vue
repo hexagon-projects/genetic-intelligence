@@ -43,7 +43,7 @@
     </div>
 
     <div class="hidden lg:flex lg:flex-col bg-white w-full p-4 rounded-lg"
-        :class="{'h-[381px]': dataSubmit.length == 0}"
+        :class="{'h-[381px]': dataSubmit.length == 0 || dataSubmit.length == 1}"
     >
         <div class="flex justify-between items-center">
             <h1 class="font-myFont text-dark text-lg mb-4">List Test Grafologi Terbaru</h1>

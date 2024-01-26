@@ -1,12 +1,14 @@
 <template>
     <section class="bg-gray-100 pb-28">
             <div class="mx-4 pt-4">
-                <ol class="flex text-gray-500 font-semibold">
-                    <li class="before:px-1.5">
-                        <a class="text-dark text-base cursor-default">
-                            Beranda
-                        </a>
-                    </li>
+                <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
+                    <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                        Beranda
+                    </RouterLink>
+                    <span class="mx-2 text-base">/</span>
+                    <RouterLink :to="{name: 'admin.views.konsultan'}" class="text-base text-dark hover:text-dark/70">
+                        Konsultan
+                    </RouterLink>
                 </ol>
             </div>
 
@@ -14,22 +16,32 @@
             >
                 <div class="hidden lg:block relative w-3/4 top-4 mx-auto shadow-xl rounded-md bg-white">
                     <!-- Modal body -->
-                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
+                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Konsultan</h1>
                     <hr class="mt-4">
                     <div class="flex flex-row">
-                        <img v-if="detailCustomers.image !== null" class="w-[400px] h-[400px] p-4" :src="baseUrl+'open/customers/'+detailCustomers.image" alt="">
+                        <img v-if="detailCustomers.image !== null" class="w-[400px] h-[400px] p-4" :src="baseUrl+'open/consultant/'+detailCustomers.image" alt="">
                         <img v-if="detailCustomers.image == null" class="w-1/2 h-3/4 p-4" src="https://placehold.co/400x400" alt="">
                         <div v-if="detailCustomers" class="w-full p-4">
                             <div class="flex flex-row gap-2">
                                 <div class="w-full">
                                     <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-full">
+                                        <div class="w-1/2">
                                             <div class="flex flex-col">
                                                 <h1 class="font-myFont font-medium text-dark text-lg">
                                                     Nama
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-sm">
                                                     {{ detailCustomers.name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-1/2">
+                                            <div class="flex flex-col">
+                                                <h1 class="font-myFont font-medium text-dark text-lg">
+                                                    Jenis Kelamin
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-sm">
+                                                    {{ detailCustomers.gender }}
                                                 </p>
                                             </div>
                                         </div>
@@ -82,40 +94,7 @@
                                     </div>
 
                                     <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-1/2">
-                                            <div class="flex flex-col">
-                                                <h1 class="font-myFont font-medium text-dark text-lg">
-                                                    Jenis Kelamin
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-sm">
-                                                    {{ detailCustomers.gender }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-1/2">
-                                            <div class="flex flex-col">
-                                                <h1 class="font-myFont font-medium text-dark text-lg">
-                                                    Golongan Darah
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-sm">
-                                                    {{ detailCustomers.blood_group }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-1/2">
-                                            <div class="flex flex-col">
-                                                <h1 class="font-myFont font-medium text-dark text-lg">
-                                                    Agama
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-sm">
-                                                    {{ detailCustomers.religion }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-1/2">
+                                        <div class="w-full">
                                             <div class="flex flex-col">
                                                 <h1 class="font-myFont font-medium text-dark text-lg">
                                                     Status
@@ -161,12 +140,20 @@
             <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
                 <div class="w-full px-7 mx-auto">
                     <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
-                        <h1 class="font-myFont text-dark text-lg mb-4">List Customers</h1>
+                        <h1 class="font-myFont text-dark text-lg mb-4">Registrasi Konsultan</h1>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                            <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
+                            <div class="relative inline-block text-left">
+                                <div class="flex items-center gap-1">
+                                    <RouterLink :to="{name: 'admin.views.konsultan.register'}" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
+                                        <PhPlus :size="20"/>
+                                        Registrasi Konsultan
+                                    </RouterLink>
+                                </div>
+                            </div>
+                            <!-- <span class="font-myFont text-sm text-start lg:text-center text-dark">
                                 {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
-                            </span>
-                            <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
+                            </span> -->
+                            <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class="mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                         </div>
 
                         <div class="flex justify-center w-full" v-if="loading" >
@@ -202,17 +189,20 @@
                         </div>
 
                         <span v-else-if="dataCustomer.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
-                        <div class="self-end mt-4">
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
+                                {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
+                            </span>
                             <a class="flex items-center font-myFont text-dark text-xs lg:text-base">
                                 Halaman
                                 <div class="mx-2 flex items-center gap-1">
-                                    <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                    <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                         <PhCaretLeft/>
                                     </a>
                                     <span class="px-2 py-1 border rounded-lg">
                                         {{ currPage }}
                                     </span>
-                                    <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                    <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                         <PhCaretRight/>
                                     </a>
                                 </div> 
@@ -227,7 +217,7 @@
 </template>
 
 <script>
-import { PhCaretLeft, PhCaretRight, PhFileSearch } from '@phosphor-icons/vue';
+import { PhCaretLeft, PhCaretRight, PhFileSearch, PhPlus } from '@phosphor-icons/vue';
 import { onMounted,ref } from 'vue'
 import initAPI from '../../../api/api';
 import _debounce from 'lodash/debounce';
@@ -237,7 +227,7 @@ import axios from 'axios'
 
 export default {
     name: 'AdminCustomers',
-    components: {PhCaretLeft, PhCaretRight, PhFileSearch},
+    components: {PhCaretLeft, PhCaretRight, PhFileSearch, PhPlus},
     setup(){
         const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -277,8 +267,8 @@ export default {
         const getAllData = async() => {
             loading.value = !loading.value
             const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers', null, token)
-            console.log(`customers`,response.data)
+            const response = await initAPI('get', 'consultants', null, token)
+            console.log(`consultants`,response.data)
             dataCustomer.value = response.data.data
             totalHalaman.value = response.data.last_page
             currPage.value = response.data.current_page
@@ -295,7 +285,7 @@ export default {
             if(cari.value !== '' && cari.value.length >= 2){
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
-                const query = await initAPI('get', 'customers?search='+cari.value, null, token)
+                const query = await initAPI('get', 'consultants?search='+cari.value, null, token)
                 dataCustomer.value = query.data.data
                 totalHalaman.value = query.data.last_page
                 currPage.value = query.data.current_page

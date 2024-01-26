@@ -2,10 +2,10 @@
     <div class="flex flex-col bg-white w-full p-4 h-3/5 rounded-lg mb-4">
         <div class="flex justify-between items-center">
             <h1 class="font-myFont text-dark text-lg mb-4">List Konsultasi Hari Ini</h1>
-            <RouterLink :to="{name: 'consultant.views.jadwal'}" class="mb-4 text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+            <!-- <RouterLink :to="{name: 'consultant.views.jadwal'}" class="mb-4 text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                 Lihat Detail
                 <PhArrowRight/>
-            </RouterLink>
+            </RouterLink> -->
         </div>
 
         <div class="flex justify-center w-full" v-if="loading" >
