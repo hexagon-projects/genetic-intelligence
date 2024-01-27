@@ -159,7 +159,7 @@
                             <tbody>
                                 <tr v-for="(data, index) in dataJadwal" class="bg-white border-b">
                                     <td class="py-4 px-6">
-                                        {{ index + 1 }}
+                                        {{ (currPage - 1) * itemsPerPage + index + 1 }}
                                     </td>
                                     <td class="py-4 px-6">{{ data.date }}</td>
                                     <td class="py-4 px-6">{{ data.time }}</td>
@@ -236,6 +236,7 @@ export default{
     setup(){
         const loading = ref(false)
         const totalHalaman = ref('')
+        const itemsPerPage = ref(null)
         const currPage = ref(null)
         const nextPage = ref(null)
         const prevPage = ref(null)
@@ -285,6 +286,7 @@ export default{
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
                 console.log('filter proses', response.data)
+                itemsPerPage.value = response.data.per_page
                 currPage.value = response.data.current_page
                 nextPage.value = response.data.next_page_url
                 prevPage.value = response.data.prev_page_url
@@ -313,6 +315,7 @@ export default{
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest', null, token)
                 console.log('filter scheduled', response.data)
+                itemsPerPage.value = response.data.per_page
                 currPage.value = response.data.current_page
                 nextPage.value = response.data.next_page_url
                 prevPage.value = response.data.prev_page_url
@@ -510,6 +513,7 @@ export default{
             loading.value = !loading.value
             const token = JSON.parse(localStorage.getItem('token'))
             const response = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest', null, token)
+            itemsPerPage.value = response.data.per_page
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
@@ -531,6 +535,7 @@ export default{
                 const query = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest&search='+cari.value, null, token)
                 dataJadwal.value = query.data.data
                 totalHalaman.value = query.data.total
+                itemsPerPage.value = query.data.per_page
                 currPage.value = query.data.current_page
                 nextPage.value = query.data.next_page_url
                 prevPage.value = query.data.prev_page_url
@@ -549,6 +554,7 @@ export default{
         return {
             loading,
             totalHalaman,
+            itemsPerPage,
             currPage,
             nextPage,
             prevPage,

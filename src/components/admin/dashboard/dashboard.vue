@@ -84,12 +84,12 @@
                             <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                         </div>
     
-                        <div v-if="!loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                        <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                             <div class="self-stretch justify-between items-center inline-flex">
                                 <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
                                     <PhUsers :size="28"/>
                                 </span>
-                                <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                <RouterLink :to="{name: 'admin.views.konsultan'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                                     Lihat Detail
                                     <PhArrowRight/>
                                 </RouterLink>
@@ -99,7 +99,7 @@
                                     <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Konsultan</div>
                                     <div class="justify-center items-center gap-[7px] inline-flex">
                                         <div class="text-biru text-xl font-medium font-myFont">
-                                            7 Konsultan
+                                            {{ countDashboard.totalKonsultan }} Konsultan
                                         </div>
                                     </div>
                                 </div>
@@ -112,12 +112,12 @@
                             <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                         </div>
     
-                        <div v-if="!loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                        <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                             <div class="self-stretch justify-between items-center inline-flex">
                                 <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
                                     <PhUserList size="28"/>
                                 </span>
-                                <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                <RouterLink :to="{name: 'admin.views.customers'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                                     Lihat Detail
                                     <PhArrowRight/>
                                 </RouterLink>
@@ -127,7 +127,7 @@
                                     <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Customer</div>
                                     <div class="justify-center items-center gap-[7px] inline-flex">
                                         <div class="text-biru text-xl font-medium font-myFont">
-                                            700 Customer
+                                            {{ countDashboard.totalCustomer }} Customer
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                             <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                         </div>
     
-                        <div v-if="!loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                        <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
                             <div class="self-stretch justify-between items-center inline-flex">
                                 <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
                                     <PhFiles :size="28"/>
@@ -153,7 +153,9 @@
                                 <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
                                     <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Reservasi</div>
                                     <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <div class="text-biru text-xl font-medium font-myFont">20 Reservasi</div>
+                                        <div class="text-biru text-xl font-medium font-myFont">
+                                            {{ countDashboard.totalReservasiSelesai }} Reservasi
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -166,8 +168,9 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { PhArrowRight, PhUsers, PhUserList, PhFiles } from "@phosphor-icons/vue";
+import initAPI from '../../../api/api'
 
 export default {
     name: 'AdminDashboard',
@@ -175,10 +178,38 @@ export default {
     setup(){
         const loading = ref(false)
         const loadingData = ref(false)
+        const countDashboard = ref(null)
+
+        onMounted(async() => {
+            loadingData.value = !loadingData.value
+            const token = JSON.parse(localStorage.getItem('token'))
+
+            const totalKonsultan = await initAPI('get', 'consultants', null, token)
+            const totalCustomer = await initAPI('get', 'customers', null, token)
+            const totalReservasiSelesai = await initAPI('get', 'customers/reservations?status=4', null, token)
+
+            Promise.all([totalKonsultan, totalCustomer, totalReservasiSelesai])
+            .then(results => {
+                const datatotalKonsultan = results[0].data.total;
+                const datatotalCustomer = results[1].data.total;
+                const dataTotalReservasiSelesai = results[2].data.total;
+
+                const dataDashboardValue = {
+                    totalKonsultan: datatotalKonsultan,
+                    totalCustomer: datatotalCustomer,
+                    totalReservasiSelesai: dataTotalReservasiSelesai
+                };
+
+                countDashboard.value = dataDashboardValue;
+                console.log(`didie`,countDashboard.value)
+            })
+            loadingData.value = !loadingData.value
+        })
 
         return {
             loading,
-            loadingData
+            loadingData,
+            countDashboard
         }
     }
 }

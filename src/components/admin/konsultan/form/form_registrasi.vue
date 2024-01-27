@@ -109,6 +109,10 @@
 <script>
 import { ref, reactive, computed } from 'vue'
 import DOMPurify from 'dompurify'
+import initAPI from '../../../../api/api'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'FormRegistrasiKonsultan',
@@ -126,6 +130,8 @@ export default {
         const validasiWA = ref(null)
         const validasiFee = ref(null)
         const validasiEmail = ref(null)
+
+        const router = useRouter()
 
         
         // const = reactive({
@@ -148,21 +154,57 @@ export default {
         //     }
         // };
 
-        const register = () => {
-            const datas = {
-            name: DOMPurify.sanitize(name.value),
-            fee: DOMPurify.sanitize(feeKonsultan.value),
-            email: DOMPurify.sanitize(email.value),
-            password: DOMPurify.sanitize(password.value),
-            birth_place: DOMPurify.sanitize(birth_place.value),
-            birth_date: DOMPurify.sanitize(birth_date.value),
-            gender: DOMPurify.sanitize(gender.value),
-            number: DOMPurify.sanitize(number.value),
-            address: DOMPurify.sanitize(address.value),
-            availabe_on: null,
-            image: null
-        }
-            console.log(datas)
+        const register = async() => {
+            const token = JSON.parse(localStorage.getItem('token'))
+            // const datas = {
+            //     name: DOMPurify.sanitize(name.value),
+            //     fee: DOMPurify.sanitize(feeKonsultan.value),
+            //     email: DOMPurify.sanitize(email.value),
+            //     password: DOMPurify.sanitize(password.value),
+            //     birth_place: DOMPurify.sanitize(birth_place.value),
+            //     birth_date: DOMPurify.sanitize(birth_date.value),
+            //     gender: DOMPurify.sanitize(gender.value),
+            //     number: DOMPurify.sanitize(number.value),
+            //     address: DOMPurify.sanitize(address.value),
+            //     available_on: null,
+            //     image: null
+            // }
+
+            const data = new FormData();
+            data.append('name', DOMPurify.sanitize(name.value));
+            data.append('fee', DOMPurify.sanitize(feeKonsultan.value));
+            data.append('email', DOMPurify.sanitize(email.value))
+            data.append('password', DOMPurify.sanitize(password.value))
+            data.append('birth_place', DOMPurify.sanitize(birth_place.value))
+            data.append('birth_date', DOMPurify.sanitize(birth_date.value))
+            data.append('gender', DOMPurify.sanitize(gender.value))
+            data.append('number', DOMPurify.sanitize(number.value))
+            data.append('address', DOMPurify.sanitize(address.value))
+            data.append('available_on', null)
+            data.append('image', null)
+            console.log(data + token)
+
+            try {
+                const response = await initAPI('post', 'consultants', data, token)
+                console.log(`register konsultan`, response.data)
+                Swal.fire({
+                      icon: 'success',
+                      title: 'Registrasi Berhasil',
+                      text: response.data.message,
+                      showConfirmButton: false,
+                      timer: 2000
+                  });
+                router.push({name: 'admin.views.konsultan'})
+            } catch (error) {
+                console.log(`error`,error)
+                Swal.fire({
+                      icon: 'error',
+                      title: 'Registrasi Gagal',
+                      text: 'Terjadi Kesalahan',
+                      showConfirmButton: false,
+                      timer: 2000
+                  });
+            }
         }
 
         const validation = () => {
@@ -170,7 +212,7 @@ export default {
                 validasiWA.value = 'No Whatsapp hanya bisa di isi oleh angka'
             } else if(isNaN(feeKonsultan.value)) {
                 validasiFee.value = 'Fee hanya bisa di isi oleh angka'
-            } else if(!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email.value)) {
+            } else if(email.value && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email.value)) {
                 console.log('email salah')
                 validasiEmail.value = 'Email tidak valid'
             } else {

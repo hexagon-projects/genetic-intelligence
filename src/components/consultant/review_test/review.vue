@@ -37,7 +37,7 @@
                                 <tbody>
                                     <tr v-for="(data, index) in dataSubmit" :key="index" class="bg-white border-b">
                                         <td class="py-4 px-6">
-                                            {{ index + 1 }}
+                                            {{ (currPage - 1) * itemsPerPage + index + 1 }}
                                         </td>
                                         <td class="py-4 px-6">{{ data.name }}</td>
                                         <td class="py-4 px-6">{{ data.customers_results.created_at }}</td>
@@ -56,13 +56,13 @@
                             <a class="flex items-center font-myFont text-dark text-xs lg:text-base">
                                 Halaman
                                 <div class="mx-2 flex items-center gap-1">
-                                    <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                    <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                         <PhCaretLeft/>
                                     </a>
                                     <span class="px-2 py-1 border rounded-lg">
                                         {{ currPage }}
                                     </span>
-                                    <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                    <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                         <PhCaretRight/>
                                     </a>
                                 </div> 
@@ -91,6 +91,7 @@ export default {
         const loading = ref(false)
         const dataSubmit = ref([])
         const totalHalaman = ref('')
+        const itemsPerPage = ref(null)
         const currPage = ref(null)
         const nextPage = ref(null)
         const prevPage = ref(null)
@@ -113,6 +114,7 @@ export default {
             console.log(response.data)
             dataSubmit.value = response.data.data
             totalHalaman.value = response.data.last_page
+            itemsPerPage.value = response.data.per_page
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
             prevPage.value = response.data.prev_page_url
@@ -130,6 +132,7 @@ export default {
                 const query = await initAPI('get', 'customers?is_detected=1&search='+cari.value, null, token)
                 dataSubmit.value = query.data.data
                 totalHalaman.value = query.data.total
+                itemsPerPage.value = response.data.per_page
                 currPage.value = query.data.current_page
                 nextPage.value = query.data.next_page_url
                 prevPage.value = query.data.prev_page_url
@@ -153,16 +156,51 @@ export default {
 
         const nextPages = async(url) => {
             console.log(url)
+            if(url !== null){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url, null, token)
+                console.log(response.data)
+                dataSubmit.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataSubmit.value)
+            }
         }
 
         const prevPages = async(url) => {
             console.log(url)
+            if(url !== null){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url, null, token)
+                console.log(response.data)
+                dataSubmit.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataSubmit.value)
+            }
         }
 
         return {
             loading,
             dataSubmit,
             totalHalaman,
+            itemsPerPage,
             currPage,
             nextPage,
             prevPage,

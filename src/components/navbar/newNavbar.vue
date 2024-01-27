@@ -4,7 +4,8 @@
         <!-- <h1 class="font-myFont font-semibold text-xl">GIM Application</h1> -->
 		<img class="h-10" src="../../assets/img/gim-logo.png" alt="GIM Application">
         <div class="relative flex justify-center items-center gap-4">
-            <h2 class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
+            <h2 v-if="userData.role && userData.role == 'admin'" class="font-myFont text-dark font-medium">Admin</h2>
+            <h2 v-if="userRole && (userRole == 'customer' || userRole == 'consultant')" class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
             <a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
                 <img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/profile-mock.png">
                 <img v-else-if="userData.image !== null && userRole == 'customer'" class="w-6 rounded-full" :src="baseUrl+'open/customers/'+userData.image">
