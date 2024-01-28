@@ -19,14 +19,14 @@
       <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.konsultan', 'text-biru hover:text-light': $route.name !== 'admin.views.konsultan'}" />
       Data Konsultan
   </RouterLink>
-  <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
+  <RouterLink :to="{name: 'admin.views.reservasi'}" 
        class="
           flex justify-center items-end px-4 py-2 gap-1 font-myFont
           hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
           "
-          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
+          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'admin.views.reservasi', 'text-dark bg-white': $route.name !== 'admin.views.reservasi'}"
       >
-      <PhFolders :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+      <PhFolders :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.reservasi','text-biru hover:text-light': $route.name !== 'admin.views.reservasi'}" />
       Data Reservasi
   </RouterLink>
   <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
