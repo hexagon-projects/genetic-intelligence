@@ -1,5 +1,7 @@
 <template>
-    <section class="bg-gray-100 pb-10 lg:pb-7">
+    <section class="bg-gray-100 pb-10"
+    :class="{'lg:pb-28' : dataJadwal.length == 0, 'lg:pb-7': dataJadwal.length > 0}"
+    >
         <div class="mx-4 pt-4">
             <ol class="flex text-gray-500 font-semibold">
                 <li class="before:px-1.5">
@@ -202,13 +204,13 @@
                         <a class="flex items-center font-myFont text-dark text-xs lg:text-base">
                             Halaman
                             <div class="mx-2 flex items-center gap-1">
-                                <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                     <PhCaretLeft/>
                                 </a>
                                 <span class="px-2 py-1 border rounded-lg">
                                     {{ currPage }}
                                 </span>
-                                <a @click="prevPages(prevPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
+                                <a @click="nextPages(nextPage)" class="cursor-pointer text-sm md:text-base lg:text-xl text-dark text-opacity-70 hover:text-opacity-100 hover:shadow-sm">
                                     <PhCaretRight/>
                                 </a>
                             </div> 
@@ -252,10 +254,12 @@ export default{
         const showFilter = ref(false)
         const isFilter = ref(false)
         const labelFilter = ref('Filter Data')
+        const filterStatusCode = ref(null)
 
         const resetFilter = () => {
             labelFilter.value = 'Filter Data'
             isFilter.value = !isFilter.value
+            filterStatusCode.value = null
             getAllData()
         }
 
@@ -281,6 +285,7 @@ export default{
 
         const getOnProcessData = async() => {
             isFilter.value = true
+            filterStatusCode.value = 3
             loading.value = !loading.value
             try {
                 const token = JSON.parse(localStorage.getItem('token'))
@@ -310,6 +315,7 @@ export default{
 
         const getScheduledData = async() => {
             isFilter.value = true
+            filterStatusCode.value = 2
             loading.value = !loading.value
             try {
                 const token = JSON.parse(localStorage.getItem('token'))
@@ -524,7 +530,7 @@ export default{
             dataJadwal.value = response.data.data
             detailCustomers.value = response.data.data.customers 
             console.log(`response`,response.data.data)
-            console.log(response.data.data[0].customers)
+            // console.log(response.data.data[0].customers)
             loading.value = !loading.value
         }
 
@@ -551,6 +557,116 @@ export default{
 
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
+        const prevPages = async(url) => {
+            if(url !== null && cari.value && filterStatusCode.value == null){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+                console.log(`response`,response.data.data)
+                // console.log(response.data.data[0].customers)
+                loading.value = !loading.value
+            } else if(url !== null && cari.value && filterStatusCode.value !== null) {
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+                console.log(`response`,response.data.data)
+                // console.log(response.data.data[0].customers)
+                loading.value = !loading.value
+            } else {
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url, null, token)
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+                console.log(`response`,response.data.data)
+                // console.log(response.data.data[0].customers)
+                loading.value = !loading.value
+            }
+        }
+
+        const nextPages = async(url) => {
+            if(url !== null && cari.value && filterStatusCode.value == null){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+                console.log(`response`,response.data.data)
+                // console.log(response.data.data[0].customers)
+                loading.value = !loading.value
+            } else if(url !== null && cari.value && filterStatusCode.value !== null) {
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+                console.log(`response`,response.data.data)
+                // console.log(response.data.data[0].customers)
+                loading.value = !loading.value
+            } else {
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url, null, token)
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                totalHalaman.value = response.data.last_page
+                dataJadwal.value = response.data.data
+                detailCustomers.value = response.data.data.customers 
+                console.log(`response`,response.data.data)
+                // console.log(response.data.data[0].customers)
+                loading.value = !loading.value
+            }
+        }
+
         return {
             loading,
             totalHalaman,
@@ -568,6 +684,7 @@ export default{
             showFilter,
             isFilter,
             labelFilter,
+            filterStatusCode,
             dropdownRef,
             debouncedGetSearchData,
             toggleModal,
@@ -577,7 +694,9 @@ export default{
             cancel,
             toggleFilter,
             filterData,
-            resetFilter
+            resetFilter,
+            prevPages,
+            nextPages
         }
     }
 }

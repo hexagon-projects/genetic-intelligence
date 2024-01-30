@@ -2,7 +2,7 @@
     <section id="img-login" class="bg-biru min-h-screen xl:h-full">
         <div class="container mx-auto">
             <div class="flex justify-center pt-32 pb-36">
-                <div class="bg-white mx-4 w-full lg:w-2/4 lg:mx-auto px-10 py-4 drop-shadow-2xl rounded-lg">
+                <div class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 drop-shadow-2xl rounded-lg">
                     <div class="flex flex-col justify-center items-center mb-6">
                         <h2 class="text-black text-2xl font-myFont font-bold mb-2">Daftar</h2>
                         <a class="font-myFont text-gray-500 text-sm">
@@ -20,10 +20,20 @@
                             <ol class="relative z-10 flex justify-between text-sm font-medium text-gray-500">
                             <li class="flex items-center gap-2 bg-white p-2">
                                 <span :class="{
+                                    'h-6 w-6 rounded-full text-center text-white text-[10px]/6 font-bold bg-biru': currForm === 0,
+                                    'h-6 w-6 rounded-full bg-gray-100 text-center text-[10px]/6 font-bold': currForm !== 0
+                                    }">
+                                    1
+                                </span>
+                                <span class="hidden sm:block"> Tipe Akun </span>
+                            </li>
+
+                            <li class="flex items-center gap-2 bg-white p-2">
+                                <span :class="{
                                     'h-6 w-6 rounded-full text-center text-white text-[10px]/6 font-bold bg-biru': currForm === 1,
                                     'h-6 w-6 rounded-full bg-gray-100 text-center text-[10px]/6 font-bold': currForm !== 1
                                     }">
-                                    1
+                                    2
                                 </span>
                                 <span class="hidden sm:block"> Detail Akun </span>
                             </li>
@@ -34,7 +44,7 @@
                                     'h-6 w-6 rounded-full text-center text-white text-[10px]/6 font-bold bg-biru': currForm === 2,
                                     'h-6 w-6 rounded-full bg-gray-100 text-center text-[10px]/6 font-bold': currForm !== 2
                                     }">
-                                    2
+                                    3
                                 </span>
                                 <span class="hidden sm:block"> Detail Personal </span>
                             </li>
@@ -44,7 +54,7 @@
                                     'h-6 w-6 rounded-full text-center text-white text-[10px]/6 font-bold bg-biru': currForm === 3,
                                     'h-6 w-6 rounded-full bg-gray-100 text-center text-[10px]/6 font-bold': currForm !== 3
                                     }">
-                                    3
+                                    4
                                 </span>
                                 <span class="hidden sm:block"> Pembayaran </span>
                             </li>
@@ -52,8 +62,58 @@
                         </div>
                     </div>
  
+                    <div v-if="currForm === 0">
+                        <ul class="flex items-start justify-center gap-8 mt-10 mb-4 md:flex-row flex-col">
+                            <li
+                                class="w-full border lg:w-[32%] px-10 bg-white rounded-lg hover:scale-105 hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in"
+                                :class="{'scale-105 shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] border-biru': tipeValue == 1}"
+                                >
+                                <h2 class="text-center text-dark font-myFont font-semibold text-lg tracking-wider mt-8 mb-3">
+                                    Pelajar
+                                </h2>
+                                <img src="../../../assets/img/pelajar.webp" class="mb-4" alt="">
+                                <!-- <p class="text-center tracking-tighter block mb-4">
+                                    <span class="text-4xl text-dark font-myFont font-bold">Rp. 250.000</span>
+                                </p> -->
+                                <button v-if="tipeValue == null || tipeValue !== 1" @click="pilihTipe(1)" 
+                                class="w-full p-2 border border-biru bg-white text-biru rounded-md font-semibold hover:bg-biru hover:text-light transition-all duration-150 ease-in mb-8"
+                                >
+                                    Pilih
+                                </button>
+                                <button v-if="tipeValue !== null && tipeValue == 1" 
+                                class="cursor-not-allowed w-full p-2 bg-biru bg-opacity-75 text-light rounded-md font-semibold mb-8"
+                                >
+                                    Dipilih
+                                </button>
+                            </li>
+                            <li
+                                class="w-full border lg:w-[32%] px-10 bg-white rounded-lg hover:scale-105 hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in"
+                                :class="{'scale-105 shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] border-biru': tipeValue == 0}"
+                                >
+                                <h2 class="text-center text-dark font-myFont font-semibold text-lg tracking-wider mt-8 mb-3">
+                                    Non Pelajar
+                                </h2>
+                                <img src="../../../assets/img/nonpelajar2.webp" class="mb-4" alt="">
+                                <!-- <p class="text-center tracking-tighter block mb-4">
+                                    <span class="text-4xl text-dark font-myFont font-bold">Rp. 500.000</span>
+                                </p> -->
+                                <button @click="pilihTipe(0)" 
+                                v-if="tipeValue == null || tipeValue !== 0"
+                                class="w-full p-2 border border-biru bg-white text-biru rounded-md font-semibold hover:bg-biru hover:text-light transition-all duration-150 ease-in mb-8"
+                                >
+                                    Pilih
+                                </button>
+                                <button v-if="tipeValue !== null && tipeValue == 0"
+                                class="cursor-not-allowed w-full p-2 bg-biru bg-opacity-75 text-light rounded-md font-semibold mb-8"
+                                >
+                                    Dipilih
+                                </button>
+                            </li>
+                            
+                        </ul>
+                    </div>
 
-                    <div v-if="currForm === 1">
+                    <div v-else-if="currForm === 1">
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-full mb-4">
                                 <label for="nama_depan" class="block text-sm font-myFont font-medium text-gray-600">Nama Depan:</label>
@@ -78,7 +138,21 @@
                             </div>
                         </div>
 
-                        <div class="w-full mb-4">
+                        <div v-if="tipeValue == 1" class="flex justify-center gap-2"
+                        :class="{'items-center': !validasiWA && !validasiWA !== ''}"
+                        >
+                            <div class="w-full mb-4">
+                                <label for="nama_sekolah" class="block text-sm font-myFont font-medium text-gray-600">Nama Sekolah:</label>
+                                <input v-model="nama_sekolah" type="text" id="nama_sekolah" name="nama_sekolah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Sekolah" />
+                            </div>
+    
+                            <div class="w-full mb-4">
+                                <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
+                                <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
+                                <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
+                            </div>
+                        </div>
+                        <div v-else-if="tipeValue == 0" class="w-full mb-4">
                             <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
                             <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
                             <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
@@ -224,7 +298,7 @@
                         </div>
                     </div>
 
-                    <div v-else="currForm === 3">
+                    <div v-else-if="currForm === 3">
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-1/3 mb-4">
                                 <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
@@ -252,10 +326,10 @@
                     </div>
 
                     <div class="flex justify-between items-center mt-4">
-                        <button v-if="currForm > 1" @click="toggleTabs(-1)" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
+                        <button v-if="currForm >= 1" @click="toggleTabs(-1)" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
                             Sebelumnya
                         </button>
-                        <button @click="handleButtonClick()" :disabled="isNextButtonDisabled" :class="{'ml-auto': currForm === 1, 'bg-gray-600 opacity-80 cursor-not-allowed': isNextButtonDisabled}" class="bg-biru font-myFont text-white p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
+                        <button v-if="tipeValue !== null" @click="handleButtonClick()" :disabled="isNextButtonDisabled" :class="{'ml-auto': currForm === 0, 'bg-gray-600 opacity-80 cursor-not-allowed': isNextButtonDisabled}" class="bg-biru font-myFont text-white p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
                             {{ currForm === 3 ? 'Bayar' : 'Selanjutnya' }}
                         </button>
                         <!-- <img class="w-40 absolute left-[194px] bottom-0 top-0" src="../../../public/img/cc-logo.png" alt=""> -->
@@ -285,7 +359,9 @@ export default{
         const districtsOptions = ref([])
         const villagesOptions = ref([])
 
-        const currForm = ref(1)
+        const currForm = ref(0)
+        const tipeValue = ref(null)
+        const nama_sekolah = ref('')
         const namaDepan = ref('')
         const namaBelakang = ref('')
         const emailVal = ref('')
@@ -310,6 +386,8 @@ export default{
         const biayaPendaftaran = ref('')
 
         const validasiWA = ref('')
+
+        const pilihTipe = (params) => tipeValue.value = params
 
         onMounted(async() => {
             const response = await initAPI('get', 'payment/methods', null, null)
@@ -376,8 +454,9 @@ export default{
 
         const toggleTabs = (increment) => {
             const currTab = currForm.value + increment;
+            console.log('eh', currTab)
 
-            if (currTab >= 1 && currTab <= 3) {
+            if (currTab >= 0 && currTab <= 4) {
                 currForm.value = currTab;
             }
         };
@@ -394,6 +473,8 @@ export default{
 
         const isNextButtonDisabled = computed(() => {
             switch (currForm.value) {
+                case 0:
+                return false
                 case 1:
                 return !namaDepan.value || !namaBelakang.value || !emailVal.value || !passwordVal.value || !noWhatsapp.value || isNaN(noWhatsapp.value);
                 case 2:
@@ -430,7 +511,9 @@ export default{
                 "address": alamatLengkap.value,
                 "status": statusNikah.value,
                 "payment_method_code": paymentCode.value,
-                "fee": feePaymentMethod.value
+                "fee": feePaymentMethod.value,
+                "is_student": tipeValue.value,
+                "school_name": DOMPurify.sanitize(nama_sekolah.value)
             })
             console.log(data)
 
@@ -476,6 +559,8 @@ export default{
             feePaymentMethod,
             biayaPendaftaran,
             currForm,
+            tipeValue,
+            nama_sekolah,
             namaDepan,
             namaBelakang,
             emailVal,
@@ -509,6 +594,7 @@ export default{
             getKelurahan,
             saveVillagesId,
             validation,
+            pilihTipe,
             validasiWA
         }
     }

@@ -1,5 +1,7 @@
 <template>
-    <section class="bg-gray-100 pb-28">
+    <section class="bg-gray-100 pb-10"
+    :class="{'lg:pb-28' : dataSubmit.length == 0, 'lg:pb-7': dataSubmit.length > 0}"
+    >
             <div class="mx-4 pt-4">
                 <ol class="flex text-gray-500 font-semibold">
                     <li class="before:px-1.5">
@@ -42,7 +44,7 @@
                                         <td class="py-4 px-6">{{ data.name }}</td>
                                         <td class="py-4 px-6">{{ data.customers_results.created_at }}</td>
                                         <td class="py-4 px-6">
-                                            <button @click="review(data)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button @click="modalReview(data)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhFileSearch :size="22"/>
                                             </button>
                                         </td>
@@ -83,6 +85,8 @@ import initAPI from '../../../api/api';
 import _debounce from 'lodash/debounce';
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
     name: 'ReviewTest',
@@ -147,6 +151,24 @@ export default {
 
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
+        const modalReview = (data) => {
+            Swal.fire({
+            title: "Review Test?",
+            text: "Ketika setuju status test customer akan berubah.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#0b40f4",
+            cancelButtonColor: "#3b3f5c",
+            confirmButtonText: "Ya, review",
+            cancelButtonText: "Tutup"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    review(data)
+                    // requestCancel(reservationId)
+                }
+            });
+        }
+
         const review = (data) => {
             const id = data.id
             store.commit('reviewGrafologi', data);
@@ -156,7 +178,23 @@ export default {
 
         const nextPages = async(url) => {
             console.log(url)
-            if(url !== null){
+            if(url !== null && cari.value){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                console.log(response.data)
+                dataSubmit.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataSubmit.value)
+            } else if(url !== null && !cari.value){
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', url, null, token)
@@ -177,10 +215,26 @@ export default {
 
         const prevPages = async(url) => {
             console.log(url)
-            if(url !== null){
+            if(url !== null && cari.value){
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url, null, token)
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                console.log(response.data)
+                dataSubmit.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataSubmit.value)
+            } else if(url !== null && !cari.value){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
                 console.log(response.data)
                 dataSubmit.value = response.data.data
                 totalHalaman.value = response.data.last_page
@@ -212,7 +266,7 @@ export default {
             nextPages,
             prevPages,
             getSearchData,
-            review
+            modalReview
         }
     }
 }

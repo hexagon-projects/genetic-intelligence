@@ -14,14 +14,69 @@
 
             <div v-if="isModalOpen && detailCustomers" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
             >
-                <div class="hidden lg:block relative w-3/4 top-4 mx-auto shadow-xl rounded-md bg-white">
+                <div class="hidden lg:block relative w-1/2 top-4 mx-auto shadow-xl rounded-md bg-white">
                     <!-- Modal body -->
-                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
+                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Reservasi</h1>
                     <hr class="mt-4">
-                    <div class="flex flex-row">
-                        <img v-if="detailCustomers.image !== null" class="w-[400px] h-[400px] p-4" :src="baseUrl+'open/customers/'+detailCustomers.image" alt="">
-                        <img v-if="detailCustomers.image == null" class="w-1/2 h-3/4 p-4" src="https://placehold.co/400x400" alt="">
-                        <div v-if="detailCustomers" class="w-full p-4">
+                    <div v-if="detailCustomers" class="w-full p-4 mx-auto">
+                        <div>
+                            <div class="flex flex-col">
+                                <h1 class="text-dark text-xl font-myFont font-medium mb-2">Jadwal</h1>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Jam</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.time }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Tanggal</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.date }}</span>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <div class="flex flex-col">
+                                <h1 class="text-dark text-xl font-myFont font-medium mb-2">Consultant</h1>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Nama</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.consultant.name }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
+                                    <span class="text-dark text-base font-myFont font-medium">{{ detailCustomers.consultant.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">No Telp</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.consultant.number }}</span>
+                                </div>
+                                <div class="mb-2 flex flex-col">
+                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.consultant.address }}</span>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h1 class="text-dark text-xl font-myFont font-medium mb-2">Customer</h1>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Nama</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.name }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">No Telp</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.number }}</span>
+                                </div>
+                                <div class="mb-2 flex flex-col">
+                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.address }}</span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    <!-- <div class="flex flex-row"> -->
+                        <!-- <img v-if="detailCustomers.image && detailCustomers.image !== null" class="w-[400px] h-[400px] p-4" :src="baseUrl+'open/customers/'+detailCustomers.image" alt="">
+                        <img v-if="detailCustomers.image == null" class="w-1/2 h-3/4 p-4" src="https://placehold.co/400x400" alt=""> -->
+                        <!-- <div v-if="detailCustomers" class="w-full p-4">
                             <div class="flex flex-row gap-2">
                                 <div class="w-full">
                                     <div class="flex flex-row items-center gap-2 mb-4">
@@ -149,8 +204,8 @@
                                 </div>
                             </div>
                             
-                        </div>
-                    </div>
+                        </div> -->
+                    <!-- </div> -->
 
                     <hr class="pt-4">
                     <!-- Modal footer -->
@@ -166,7 +221,7 @@
                     <div class="flex flex-col justify-center items-center">
                         <img v-if="detailCustomers.image !== null" class="w-[180px] h-[180px] p-4" :src="baseUrl+'open/customers/'+detailCustomers.image" alt="">
                         <img v-if="detailCustomers.image == null" class="w-[180px] h-[180px] p-4" src="https://placehold.co/400x400" alt="">
-                        <div v-if="detailCustomers" class="w-full p-4">
+                        <!-- <div v-if="detailCustomers" class="w-full p-4">
                             <div class="flex flex-row gap-2">
                                 <div class="w-full">
                                     <div class="flex flex-row items-center mb-4">
@@ -268,7 +323,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <hr class="pt-4">
@@ -300,7 +355,7 @@
                                     <a @click="filterData('Terjadwal')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                                         Terjadwal
                                     </a>
-                                    <a @click="filterData('Approved')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                    <a @click="filterData('Di Approve')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                                         Di Approve
                                     </a>
                                     <a @click="filterData('Dalam Proses')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
@@ -408,12 +463,13 @@ export default {
 
         const isModalOpen = ref(false)
 
-        const labelFilter = ref('Filter Data')
+        const labelFilter = ref('Filter Status')
+        const filterStatusCode = ref(null)
         const showFilter = ref(false)
         const isFilter = ref(false)
 
         const resetFilter = () => {
-            labelFilter.value = 'Filter Data'
+            labelFilter.value = 'Filter Status'
             isFilter.value = !isFilter.value
             getAllData()
         }
@@ -470,7 +526,7 @@ export default {
         }
 
         const getSearchData = async() => {
-            if(cari.value !== '' && cari.value.length >= 2){
+            if(cari.value && filterStatusCode.value == null){
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const query = await initAPI('get', 'customers/reservations?search='+cari.value, null, token)
@@ -484,7 +540,35 @@ export default {
                 totalKe.value = query.data.to
                 totalData.value = query.data.total
                 loading.value = !loading.value
-            }else{
+            } else if (cari.value && filterStatusCode.value !== null){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const query = await initAPI('get', 'customers/reservations?search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                dataCustomer.value = query.data.data
+                totalHalaman.value = query.data.last_page
+                itemsPerPage.value = query.data.per_page
+                currPage.value = query.data.current_page
+                nextPage.value = query.data.next_page_url
+                prevPage.value = query.data.prev_page_url
+                totalDari.value = query.data.from
+                totalKe.value = query.data.to
+                totalData.value = query.data.total
+                loading.value = !loading.value
+            } else if(!cari.value && filterStatusCode.value !== null) {
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const query = await initAPI('get', 'customers/reservations?status='+filterStatusCode.value, null, token)
+                dataCustomer.value = query.data.data
+                totalHalaman.value = query.data.last_page
+                itemsPerPage.value = query.data.per_page
+                currPage.value = query.data.current_page
+                nextPage.value = query.data.next_page_url
+                prevPage.value = query.data.prev_page_url
+                totalDari.value = query.data.from
+                totalKe.value = query.data.to
+                totalData.value = query.data.total
+                loading.value = !loading.value
+            } else {
                 return getAllData() 
             }
         }
@@ -492,11 +576,28 @@ export default {
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
         const nextPages = async(url) => {
-            if(cari.value){
+            if(cari.value && filterStatusCode.value == null){
                 console.log(url)
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                console.log(`customers`,response.data)
+                dataCustomer.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataCustomer.value)
+            } else if(cari.value && filterStatusCode.value !== null) {
+                console.log(url)
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
                 console.log(`customers`,response.data)
                 dataCustomer.value = response.data.data
                 totalHalaman.value = response.data.last_page
@@ -530,11 +631,28 @@ export default {
         }
 
         const prevPages = async(url) => {
-            if(cari.value){
+            if(cari.value && filterStatusCode.value == null){
                 console.log(url)
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                console.log(`customers`,response.data)
+                dataCustomer.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataCustomer.value)
+            } else if(cari.value && filterStatusCode.value !== null) {
+                console.log(url)
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
                 console.log(`customers`,response.data)
                 dataCustomer.value = response.data.data
                 totalHalaman.value = response.data.last_page
@@ -567,10 +685,106 @@ export default {
             }
         }
 
+        const getDataTerjadwal = async() => {
+            filterStatusCode.value = 2
+            console.log(`wakwaw`)
+            loading.value = !loading.value
+            const token = JSON.parse(localStorage.getItem('token'))
+            const response = await initAPI('get', 'customers/reservations?status=2', null, token)
+            console.log(`customers`,response.data)
+            dataCustomer.value = response.data.data
+            totalHalaman.value = response.data.last_page
+            itemsPerPage.value = response.data.per_page
+            currPage.value = response.data.current_page
+            nextPage.value = response.data.next_page_url
+            prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            loading.value = !loading.value
+        }
+
+        const getDataApprove = async() => {
+            filterStatusCode.value = 1
+            console.log(`wakwaw`)
+            loading.value = !loading.value
+            const token = JSON.parse(localStorage.getItem('token'))
+            const response = await initAPI('get', 'customers/reservations?status=1', null, token)
+            console.log(`customers`,response.data)
+            dataCustomer.value = response.data.data
+            totalHalaman.value = response.data.last_page
+            itemsPerPage.value = response.data.per_page
+            currPage.value = response.data.current_page
+            nextPage.value = response.data.next_page_url
+            prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            loading.value = !loading.value
+        }
+
+        const getDataProses = async() => {
+            filterStatusCode.value = 3
+            console.log(`wakwaw`)
+            loading.value = !loading.value
+            const token = JSON.parse(localStorage.getItem('token'))
+            const response = await initAPI('get', 'customers/reservations?status=3', null, token)
+            console.log(`customers`,response.data)
+            dataCustomer.value = response.data.data
+            totalHalaman.value = response.data.last_page
+            itemsPerPage.value = response.data.per_page
+            currPage.value = response.data.current_page
+            nextPage.value = response.data.next_page_url
+            prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            loading.value = !loading.value
+        }
+
+        const getDataSelesai = async() => {
+            filterStatusCode.value = 4
+            console.log(`wakwaw`)
+            loading.value = !loading.value
+            const token = JSON.parse(localStorage.getItem('token'))
+            const response = await initAPI('get', 'customers/reservations?status=4', null, token)
+            console.log(`customers`,response.data)
+            dataCustomer.value = response.data.data
+            totalHalaman.value = response.data.last_page
+            itemsPerPage.value = response.data.per_page
+            currPage.value = response.data.current_page
+            nextPage.value = response.data.next_page_url
+            prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            loading.value = !loading.value
+        }
+
+        const filterData = async(params) => {
+            labelFilter.value = params
+            isFilter.value = true
+            switch(params) {
+                case 'Terjadwal':
+                    await getDataTerjadwal()   
+                    break;
+                case 'Di Approve':
+                    await getDataApprove()   
+                    break;
+                case 'Dalam Proses':
+                    await getDataProses()   
+                    break;
+                case 'Selesai':
+                    await getDataSelesai()   
+                    break;
+            }
+        }
+
         return {
             baseUrl,
             loading,
             labelFilter,
+            filterStatusCode,
             showFilter,
             isFilter,
             dropdownRef,
@@ -593,7 +807,8 @@ export default {
             clickDetail,
             toggleModal,
             toggleFilter,
-            resetFilter
+            resetFilter,
+            filterData
         }
     }
 }

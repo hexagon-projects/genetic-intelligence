@@ -1,5 +1,7 @@
 <template>
-    <section class="bg-gray-100 pb-10 lg:pb-7">
+    <section class="bg-gray-100 pb-10"
+    :class="{'lg:pb-28': dataPermintaan.length == 0}"
+    >
         <div class="mx-4 pt-4">
             <ol class="flex text-gray-500 font-semibold">
                 <li class="before:px-1.5">
@@ -163,7 +165,7 @@
                                             </button>
                                         </td>
                                         <td class="py-4">
-                                            <button @click="approve(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <button @click="modalApprove(data.id)" class="flex items-center gap-1 px-4 py-2 bg-success font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                                 <PhCheck :size="22"/>
                                             </button>
                                         </td>
@@ -221,7 +223,7 @@ export default{
         const totalData = ref(null)
         const cari = ref(null)
 
-        const dataPermintaan = ref(null)
+        const dataPermintaan = ref([])
         const detailCustomers = ref(null)
         const isModalOpen = ref(false)
 
@@ -235,6 +237,23 @@ export default{
 
         const toggleModal = () => {
             isModalOpen.value = !isModalOpen.value
+        }
+
+        const modalApprove = (reservationId) => {
+            Swal.fire({
+            title: "Approve Permintaan Reservasi?",
+            text: "Permintaan reservasi untuk user ini akan di approve.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#00ab55",
+            cancelButtonColor: "#3b3f5c",
+            confirmButtonText: "Ya, approve",
+            cancelButtonText: "Tutup"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    approve(reservationId)
+                }
+            });
         }
 
         const approve = async(reservationId) => {
@@ -346,7 +365,7 @@ export default{
             dataPermintaan.value = response.data.data
             detailCustomers.value = response.data.data.customers 
             console.log(`response`,response.data.data)
-            console.log(response.data.data[0].customers)
+            // console.log(response.data.data[0].customers)
             loading.value = !loading.value
         }
 
@@ -375,7 +394,23 @@ export default{
 
         const nextPages = async(url) => {
             console.log(url)
-            if(url !== null){
+            if(url !== null && cari.value){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                console.log(response.data)
+                dataSubmit.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataSubmit.value)
+            } else if(url !== null && !cari.value) {
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', url, null, token)
@@ -396,7 +431,23 @@ export default{
 
         const prevPages = async(url) => {
             console.log(url)
-            if(url !== null){
+            if(url !== null && cari.value){
+                loading.value = !loading.value
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                console.log(response.data)
+                dataSubmit.value = response.data.data
+                totalHalaman.value = response.data.last_page
+                itemsPerPage.value = response.data.per_page
+                currPage.value = response.data.current_page
+                nextPage.value = response.data.next_page_url
+                prevPage.value = response.data.prev_page_url
+                totalDari.value = response.data.from
+                totalKe.value = response.data.to
+                totalData.value = response.data.total
+                loading.value = !loading.value
+                console.log(`data`,dataSubmit.value)
+            } else if(url !== null && !cari.value) {
                 loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', url, null, token)
@@ -432,9 +483,11 @@ export default{
             debouncedGetSearchData,
             toggleModal,
             clickDetail,
-            approve,
+            modalApprove,
             notApprove,
-            confirmNotApprove
+            confirmNotApprove,
+            prevPages,
+            nextPages
         }
     }
 }

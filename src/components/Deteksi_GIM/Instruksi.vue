@@ -8,7 +8,7 @@
                 data-setup='{}'
                 >
                 <source
-                    src="http://localhost/chunk/index.m3u8"
+                    src="http://178.128.29.140/additional_assets/chunks/test/index.m3u8"
                     type="application/x-mpegURL">
             </video>
         </div>
