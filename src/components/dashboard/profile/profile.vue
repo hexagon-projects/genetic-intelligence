@@ -29,12 +29,12 @@
                 
                 <!-- <hr class="w-full my-6 border-t border-gray-300"> -->
                 <div class="self-center w-full">
-                    <div class="flex flex-row justify-around lg:flex-col">
+                    <div class="flex flex-col justify-around lg:flex-col">
 
                         <!-- <hr class="my-2"> -->
                         <div v-if="!userData.image || userData.image == null" class="self-center">
                             <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white" src="../../../assets/img/profile-mock.png" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="-mt-18 flex items-center gap-1 mb-2 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="mt-2 lg:-mt-18 flex justify-center items-center gap-1 mb-2 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-[11px] md:text-lg lg:text-sm">
                                 <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>
@@ -44,7 +44,7 @@
                         <div v-else-if="userData.image !== null" class="self-center">
                             <img class="round mx-auto w-24 h-24 lg:w-28 lg:h-28 rounded-full hover:border-biru border-1 border-white" 
                             :src="baseUrl+'open/customers/'+userData.image" alt="User Profile">
-                            <RouterLink :to="{name: 'user.views.profile'}" class="-mt-18 flex items-center gap-1 mb-2 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-xs md:text-lg lg:text-sm">
+                            <RouterLink :to="{name: 'user.views.profile'}" class="mt-2 lg:-mt-18 flex justify-center items-center gap-1 mb-2 md:my-2 mx-4 font-myFont font-sm text-center lg:text-start text-biru text-[11px] md:text-lg lg:text-sm">
                                 <PhPencilSimple/>
                                 Ubah Profil
                             </RouterLink>

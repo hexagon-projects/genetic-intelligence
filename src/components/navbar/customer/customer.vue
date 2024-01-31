@@ -12,7 +12,7 @@
                 ref="dropdownTestRef"
             >
                 <PhTarget :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.deteksi','text-biru hover:text-light': $route.name !== 'user.views.deteksi'}" />
-            Test Menu
+            Lakukan Test
             <PhCaretDown :size="16"/>
         </button>
         <div v-if="dropdownTest"
@@ -25,9 +25,9 @@
             <RouterLink :to="{name: 'user.views.assesment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test Assesment
             </RouterLink>
-            <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            <RouterLink :to="{name: 'user.views.psikotest'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test Psikotest
-            </a>
+            </RouterLink>
             </div>
         </div>
     </div>
@@ -53,10 +53,40 @@
                 Hasil GIM
             </RouterLink>
             <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                Hasil Assesment
+                Hasil Assessment
             </a>
             <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil Psikotest
+            </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative">
+        <button class="
+                flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
+                hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+                "
+                :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.reservasi', 'text-dark bg-white': $route.name !== 'user.views.reservasi'}"
+                @click="toggleFilter('reservasi')"
+                ref="dropdownReservasiRef"
+            >
+                <PhCalendarCheck :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.reservasi','text-biru hover:text-light': $route.name !== 'user.views.reservasi'}" />
+            Reservasi
+            <PhCaretDown :size="16"/>
+        </button>
+        <div v-if="dropdownReservasi"
+            class="transition duration-150 ease-in-out absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+            <div class="py-1" role="none">
+            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+            <RouterLink :to="{name: 'user.views.reservasi'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Reservasi GIM
+            </RouterLink>
+            <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Reservasi Assessment
+            </a>
+            <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Reservasi Psikotest
             </a>
             </div>
         </div>
@@ -120,6 +150,7 @@ export default {
         const dropdownHasilRef = ref(false)
 
         const dropdownReservasi = ref(false)
+        const dropdownReservasiRef = ref(false)
 
         const closeDropdown = (e) => {
             if (dropdownTestRef.value && !dropdownTestRef.value.contains(e.target)) {
@@ -128,6 +159,10 @@ export default {
 
             if (dropdownHasilRef.value && !dropdownHasilRef.value.contains(e.target)) {
                 dropdownHasil.value = false;
+            }
+
+            if (dropdownReservasiRef.value && !dropdownReservasiRef.value.contains(e.target)) {
+                dropdownReservasi.value = false;
             }
         };
 
@@ -156,6 +191,8 @@ export default {
             dropdownTestRef,
             dropdownHasil,
             dropdownHasilRef,
+            dropdownReservasi,
+            dropdownReservasiRef,
             toggleFilter
         }
     }

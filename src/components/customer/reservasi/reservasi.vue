@@ -181,7 +181,7 @@
                         <hr class="mt-4">
                         
                         <div v-if="!modalLoading">
-                            <div class="hidden lg:flex flex-col gap-2 max-h-56">
+                            <div class="hidden md:flex lg:flex flex-col gap-2 max-h-56">
                                 <span class="mt-1 px-2 text-xs font-myFont">*Pembayaran akan dikenakan biaya admin</span>
                                 <div class="flex flex-row px-2 gap-4 my-4">
                                     <div class="w-1/2">
@@ -200,7 +200,18 @@
                                 </div>
                             </div>
     
-                            <div class="lg:hidden flex flex-col max-h-32 max-w-full">
+                            <div class="lg:hidden md:hidden flex flex-col max-h-56 max-w-full">
+                                <span class="mt-1 px-2 text-xs font-myFont">*Pembayaran akan dikenakan biaya admin</span>
+                                <div class="flex flex-row px-2 gap-4 my-4">
+                                    <div class="w-1/2">
+                                        <label for="payment_method" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
+                                        <input v-model="feePaymentMethod" type="text" name="payment_method" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                    </div>
+                                    <div class="w-1/2">
+                                        <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
+                                        <input v-model="feePaymentCode" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                    </div>
+                                </div>
                                 <div class="py-2 px-2 grid grid-cols-2 gap-2 overflow-y-scroll w-full">
                                     <a @click="pilihPayment(payment.paymentMethod, payment.paymentName, payment.totalFee)" v-for="(payment, index) in paymentMethod" :key="index" class="cursor-pointer hover:animate-wiggle bg-white border rounded-lg shadow-sm px-2 py-2">
                                         <img :src="payment.paymentImage" :alt="payment.paymentName">

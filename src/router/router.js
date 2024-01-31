@@ -84,7 +84,22 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const roleUser = JSON.parse(localStorage.getItem('userRole'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'user.views.deteksi' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
+            if(to.name == 'user.views.assesment' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/test-psikotest',
+        name: 'user.views.psikotest',
+        component: () => import('../components/customer/tests/psikotest.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(to.name == 'user.views.psikotest' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
             else next()
         }
     },
