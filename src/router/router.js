@@ -119,6 +119,21 @@ const routes = [
         }
     },
     {
+        path: '/hasil-assessment',
+        name: 'user.views.hasil_assessment',
+        component: () => import('../components/customer/tests/assessment_comps/hasil_test/hasil.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
         path: '/user-profile',
         name: 'user.views.profile',
         component: () => import('../views/user_profile/UserProfile.vue'),
