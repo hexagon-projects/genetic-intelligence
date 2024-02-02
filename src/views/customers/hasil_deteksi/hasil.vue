@@ -3,16 +3,20 @@
   <section v-if="userData" class="bg-gray-100 pb-8">
          <div class="mx-4 pt-4 mb-2">
             <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
-                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
                     Beranda
                 </RouterLink>
+                <span class="mx-2 text-gray-400 text-base">/</span>
+                <a class="text-gray-400 text-base">
+                    Hasil Test
+                </a>
                 <span class="mx-2 text-base">/</span>
                 <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-base text-dark hover:text-dark/70">
-                    Hasil Test
+                    Hasil GIM
                 </RouterLink>
             </ol>
         </div>
-      <div class="flex flex-col justify-center mx-7 py-8 gap-4">
+      <div class="flex flex-col justify-center mx-7 py-4 gap-4">
           <div v-if="userData.is_detected == 'Belum'" class="lg:w-full">
               <BelumDeteksi />
           </div>

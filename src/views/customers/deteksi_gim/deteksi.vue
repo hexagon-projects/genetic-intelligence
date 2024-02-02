@@ -6,14 +6,18 @@
         <section v-if="userData" class="bg-gray-100 pb-8 text-dark">
             <div class="mx-4 pt-4">
                 <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
-                    <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
-                        Beranda
-                    </RouterLink>
-                    <span class="mx-2 text-base">/</span>
-                    <RouterLink :to="{name: 'user.views.deteksi'}" class="text-base text-dark hover:text-dark/70">
-                        Test GIM
-                    </RouterLink>
-                </ol>
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                    Beranda
+                </RouterLink>
+                <span class="mx-2 text-gray-400 text-base">/</span>
+                <a class="text-gray-400 text-base">
+                    Test
+                </a>
+                <span class="mx-2 text-base">/</span>
+                <RouterLink :to="{name: 'user.views.deteksi'}" class="text-base text-dark hover:text-dark/70">
+                    Test GIM
+                </RouterLink>
+            </ol>
             </div>
             <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
                 <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">

@@ -7,7 +7,7 @@
                 </RouterLink>
                 <span class="mx-2 text-gray-400 text-base">/</span>
                 <a class="text-gray-400 text-base">
-                    Test Menu
+                    Test
                 </a>
                 <span class="mx-2 text-base">/</span>
                 <RouterLink :to="{name: 'user.views.deteksi'}" class="text-base text-dark hover:text-dark/70">
@@ -66,9 +66,9 @@
                             <div class="flex flex-col mx-14">
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Yeayy! Kamu sudah selesai melakukan Test Assessment.</h1>
                                 <p class="font-myFont text-start text-dark-500 text-sm mb-4">Ayo lihat hasil test kamu sekarang juga!</p>
-                                <button @click="siaptest" class="my-4 lg:mb-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="my-4 lg:mb-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Lihat Hasil
-                                </button>
+                                </RouterLink>
                             </div>
                         </div>
                         <div class="lg:w-1/2">
@@ -87,7 +87,7 @@
                             <div class="flex flex-col">
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Yeayy! Kamu sudah selesai melakukan Test Assessment.</h1>
                                 <p class="font-myFont text-start text-dark-500 text-sm mb-4">Ayo lihat hasil test kamu sekarang juga!</p>
-                                <RouterLink :to="{name: 'user.views.deteksi'}" class="my-4 px-2 py-2 w-full self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="my-4 px-2 py-2 w-full self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                                     Lihat Hasil
                                 </RouterLink>
                             </div>
@@ -103,6 +103,8 @@
 import { onMounted, ref } from 'vue';
 import sudahTest from './assessment_comps/sudahTest.vue';
 import initAPI from '../../../api/api';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default{
     name: 'TestAssessment',
