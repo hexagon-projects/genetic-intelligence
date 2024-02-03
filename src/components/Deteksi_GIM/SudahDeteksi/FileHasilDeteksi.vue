@@ -1,8 +1,8 @@
 <template>
     <div v-if="userResultDetect || stateUserResult" class="lg:w-1/3 w-full">
         <div class="bg-white rounded-lg shadow-xl p-4 mb-4">
-            <h1 class="font-myFont font-semibold text-dark text-base mb-2">Tipe Kecerdasanmu</h1>
-            <h1 class="font-myFont text-dark text-lg">{{ userResultDetect.gim.name }}</h1>
+            <small class="font-myFont text-dark text-base mb-2">Tipe Kecerdasanmu : </small>
+            <h1 class="font-poppins font-medium text-center text-light text-lg bg-biru p-1 rounded-md">{{ userResultDetect.gim.name.toUpperCase() }}</h1>
         </div>
         <div class="bg-white rounded-lg shadow-xl p-4 lg:h-[689px]">
             <div class="flex flex-col">
@@ -17,7 +17,7 @@
                 <hr class="my-3">
 
                 <div v-if="userResultDetect.gim_result" class="self-center my-3">
-                    <img @click="showImage" class="w-3/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" :src="baseUrl+'open/results/'+userResultDetect.gim_result" alt="File Deteksi">
+                    <img class="w-3/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" :src="baseUrl+'open/results/'+userResultDetect.gim_result" alt="File Deteksi">
                     <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
                 </div>
 

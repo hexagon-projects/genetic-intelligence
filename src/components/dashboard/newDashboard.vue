@@ -24,23 +24,25 @@
                         <profile/>
                     </div>
         
-                    <div class="flex justify-center mx-4 gap-4">
-                        <div class="hidden lg:block w-1/4">
+                    <div class="flex flex-row justify-center mx-4 gap-4 h-auto mb-4">
+                        <div class="hidden lg:block w-4/12">
                             <pekerjaan/>
                         </div>
-                        <div class="hidden lg:block w-1/4">
+                        <div class="hidden lg:block w-8/12">
+                            <kelebihanVue/>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-row justify-center mx-4 gap-4 h-auto">
+                        <div class="hidden lg:block w-4/12">
                             <pendidikan/>
                         </div>
         
-                        <div class="hidden lg:block w-1/4">
-                            <kelebihanVue/>
-                        </div>
-        
-                        <div class="hidden lg:block w-1/4">
+                        <div class="hidden lg:block w-8/12">
                             <kekuranganVue/>
                         </div>
-        
                     </div>
+        
         
                     <div class="flex flex-col gap-4 mx-4">
                         <SlideKelebihanKekurangan/>

@@ -9,7 +9,7 @@
                     <div class="flex flex-col items-center gap-2">
                         <div class="w-full mx-auto items-center">
                             <div class="hidden lg:flex lg:flex-row gap-1 items-center align-middle mb-1">
-                                <PhWarningCircle :size="24" color="#e81111"/><span class="text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</span>
+                                <PhWarningCircle :size="18" color="#e81111"/><small class="text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>
                             </div>
                             <div class="lg:hidden flex flex-row align-middle mb-1">
                                 <PhWarningCircle :size="18" color="#e81111"/><small class="text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>

@@ -1,6 +1,6 @@
 <template>
-    <div v-if="userResultDetect" class="bg-white rounded-lg shadow-sm p-4 h-auto">
-        <img class="w-1/4 drop-shadow-2xl shadow-dark -mt-3 mb-2 animate-wiggle" src="../../../assets/img/pendidikan.png" alt="">
+    <div v-if="userResultDetect" class="bg-white rounded-lg shadow-sm p-4 h-full">
+        <img class="w-24 drop-shadow-2xl shadow-dark -mt-3 mb-2 animate-wiggle" src="../../../assets/img/pendidikan.png" alt="">
         <!-- <p class="font-myFont font-semibold text-start mx-12 lg:mx-4 text-gray-500 text-sm mb-2">List pendidikan :</p> -->
         <div class="mt-2 mb-2">
             <div class="w-full flex flex-col">

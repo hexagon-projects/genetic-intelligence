@@ -8,8 +8,8 @@
                     </div>
                     <div class="w-12/12 lg:w-11/12 lg:px-36">
                         <div class="lg:flex lg:flex-col">
-                            <h1 class="font-myFont font-semibold text-lg text-start text-light">Hasil Test Genetic Intelligence Mapping</h1>
-                            <p class="font-myFont text-start text-light text-md mb-4">catatan tentang hasil test kamu saat ini</p>
+                            <h1 class="font-poppins font-medium text-lg text-start text-light">Hasil Test Genetic Intelligence Mapping</h1>
+                            <small class="font-myFont text-start text-light text-md mb-3">Catatan hasil test Grafologi kamu :</small>
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                     </div> -->
                     <div class="w-full">
                         <!-- <div class="text-3xl font-myFont text-secondary text-left leading-tight h-3">“</div> -->
-                        <p class="text-sm text-light text-wrap text-start lg:px-1">{{ userResultDetect.note }}</p>
+                        <p class="text-sm text-light text-wrap text-start lg:px-1">"{{ userResultDetect.note }}"</p>
                         <!-- <div class="text-3xl font-myFont text-secondary text-right leading-tight h-3 -mt-3">”</div> -->
                     </div>
                 </div>
