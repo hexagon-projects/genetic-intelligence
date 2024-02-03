@@ -240,6 +240,21 @@ const routes = [
         }
     },
     {
+        path: '/list-assessments',
+        name: 'consultant.views.assessments',
+        component: () => import('../components/consultant/assessments/assessments.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
         path: '/data-customer',
         name: 'admin.views.customers',
         component: () => import('../components/admin/customers/customers.vue'),
