@@ -133,6 +133,7 @@
                                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                                 <a @click="filterData('Terjadwal')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Terjadwal</a>
                                 <a @click="filterData('Dalam Proses')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Dalam Proses</a>
+                                <a @click="filterData('Selesai')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">Selesai</a>
                                 </div>
                             </div>
                         </div>
@@ -260,7 +261,11 @@ export default{
             labelFilter.value = 'Filter Data'
             isFilter.value = !isFilter.value
             filterStatusCode.value = null
-            getAllData()
+            if(cari.value){
+                getSearchData()
+            } else {
+                getAllData()
+            }
         }
 
         const toggleFilter = () => {
@@ -283,24 +288,40 @@ export default{
             document.body.removeEventListener('click', closeDropdown);
         });
 
-        const getOnProcessData = async() => {
+        const getOnProcessData = async(search) => {
             isFilter.value = true
             filterStatusCode.value = 3
             loading.value = !loading.value
             try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
-                console.log('filter proses', response.data)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
+                if(search !== null){
+                    const token = JSON.parse(localStorage.getItem('token'))
+                    const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest&search='+search, null, token)
+                    console.log('filter proses', response.data)
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    totalHalaman.value = response.data.last_page
+                    dataJadwal.value = response.data.data
+                    detailCustomers.value = response.data.data.customers 
+                } else {
+                    const token = JSON.parse(localStorage.getItem('token'))
+                    const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
+                    console.log('filter proses', response.data)
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    totalHalaman.value = response.data.last_page
+                    dataJadwal.value = response.data.data
+                    detailCustomers.value = response.data.data.customers 
+                }
             } catch (error) {
                 Swal.fire({
                     title: "Gagal",
@@ -344,12 +365,38 @@ export default{
         }
 
         const filterData = async(params) => {
+            const token = JSON.parse(localStorage.getItem('token'))
+            loading.value = !loading.value
             labelFilter.value = params
-            if(params == 'Dalam Proses'){
-                await getOnProcessData()
-            } else {
-                await getScheduledData()
-            }
+            isFilter.value = true
+            filterStatusCode.value = params == 'Terjadwal' ? 2 : params == 'Dalam Proses' ? 3 : params == 'Selesai' ? 4 : null
+            const filterParams = cari.value == null 
+            ? `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest` 
+            : `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest&search=${cari.value}`
+            console.log(`params yeuh`, params)
+
+            const response = await initAPI('get', 'customers/reservations?'+filterParams, null, token)
+            itemsPerPage.value = response.data.per_page
+            currPage.value = response.data.current_page
+            nextPage.value = response.data.next_page_url
+            prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            totalHalaman.value = response.data.last_page
+            dataJadwal.value = response.data.data
+            detailCustomers.value = response.data.data.customers 
+            console.log(`response`,response.data.data)
+            loading.value = !loading.value
+            // if(params == 'Dalam Proses'){
+            //     if(cari.value){
+            //         await getOnProcessData(cari.value)
+            //     } else {
+            //         await getOnProcessData(null)
+            //     }
+            // } else {
+            //     await getScheduledData()
+            // }
 
         }
 
@@ -517,8 +564,21 @@ export default{
 
         const getAllData = async() => {
             loading.value = !loading.value
+            let filterParams
+            if(filterStatusCode.value !== null && cari.value){
+                filterParams = `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest&search=${cari.value}`
+            } else if (filterStatusCode.value !== null && !cari.value){
+                filterParams = `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest`
+            } else if (filterStatusCode.value == null && cari.value){
+                filterParams = `sort_by_date=oldest&sort_by_time=oldest&search=${cari.value}`
+            } else {
+                filterParams = `status=2&sort_by_date=oldest&sort_by_time=oldest`
+            }
+            // const filterParams = filterStatusCode.value === null 
+            // ? 'status=2&sort_by_date=oldest&sort_by_time=oldest&search='+cari.value 
+            // : 'sort_by_date=oldest&sort_by_time=oldest&search='+cari.value+'&status='+filterStatusCode.value
             const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest', null, token)
+            const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
             itemsPerPage.value = response.data.per_page
             currPage.value = response.data.current_page
             nextPage.value = response.data.next_page_url
@@ -537,8 +597,11 @@ export default{
         const getSearchData = async() => {
             if(cari.value !== '' && cari.value.length >= 2){
                 loading.value = !loading.value
+                const filterParams = filterStatusCode.value === null 
+                ? 'sort_by_date=oldest&sort_by_time=oldest&search='+cari.value 
+                : 'sort_by_date=oldest&sort_by_time=oldest&search='+cari.value+'&status='+filterStatusCode.value
                 const token = JSON.parse(localStorage.getItem('token'))
-                const query = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest&search='+cari.value, null, token)
+                const query = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
                 dataJadwal.value = query.data.data
                 totalHalaman.value = query.data.total
                 itemsPerPage.value = query.data.per_page
@@ -550,7 +613,7 @@ export default{
                 totalData.value = query.data.total
                 totalHalaman.value = query.data.last_page
                 loading.value = !loading.value
-            }else{
+            } else {
                 return getAllData() 
             }
         }

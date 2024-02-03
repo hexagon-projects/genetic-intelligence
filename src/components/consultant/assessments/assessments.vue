@@ -248,7 +248,11 @@ export default{
           labelFilter.value = 'All'
           isFilter.value = !isFilter.value
           filterStatusCode.value = null
-          getAllData()
+          if(cari.value){
+            getSearchData()
+          } else {
+            getAllData()
+          }
       }
 
       const toggleFilter = () => {

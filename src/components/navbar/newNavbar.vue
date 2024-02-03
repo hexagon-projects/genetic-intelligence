@@ -61,7 +61,7 @@
 			<consultantBotNav v-else-if="userRole == 'consultant'"/>
 			<adminBotNav v-else-if="userRole == 'admin'"/>
 
-			<a @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
+			<a v-if="userRole !== 'customer'" @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
 				<div class="self-center">
 					<PhSignOut :size="28" />
 				</div>
