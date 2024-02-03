@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white rounded-lg shadow-sm p-4">
-        <img class="w-1/4 drop-shadow-2xl shadow-dark -mt-3 mb-2 animate-wiggle" src="../../../assets/img/kelebihan.png" alt="">
+    <div class="bg-white rounded-lg shadow-sm p-4 h-full">
+        <img class="w-24 drop-shadow-2xl shadow-dark -mt-3 mb-2 animate-wiggle" src="../../../assets/img/kelebihan.png" alt="">
         <!-- <div class="w-full mb-2">
             <div class="flex justify-center gap-2 mb-4 mx-auto">
                 <img src="../../../assets/img/plus-crop.png" class="w-8 h-8" alt="Negatif Icon">

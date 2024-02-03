@@ -92,9 +92,9 @@ export default {
 
         onMounted(async() => {
             const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'consultants/available-schedule/1', null, token)
-            const uniqueDays = Array.from(new Set(response.data.map(item => item.day)));
-            dataHari.value = uniqueDays
+            // const response = await initAPI('get', 'consultants/available-schedule/1', null, token)
+            // const uniqueDays = Array.from(new Set(response.data.map(item => item.day)));
+            dataHari.value = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
             const fee = await initAPI('get', 'consultants', null, token)
             console.log(`harga fee`, fee.data.data[0])
