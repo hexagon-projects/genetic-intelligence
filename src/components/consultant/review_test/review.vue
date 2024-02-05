@@ -1,6 +1,6 @@
 <template>
     <section class="bg-gray-100 pb-10"
-    :class="{'lg:pb-28' : dataSubmit.length == 0, 'lg:pb-7': dataSubmit.length > 0}"
+    :class="{'lg:pb-28 pb-48' : dataSubmit.length == 0, 'lg:pb-7': dataSubmit.length > 0}"
     >
             <div class="mx-4 pt-4">
                 <ol class="flex text-gray-500 font-semibold">

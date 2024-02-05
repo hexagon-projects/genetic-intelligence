@@ -1,15 +1,27 @@
 <template>
-    <RouterLink :to="{name: 'consultant.views.review'}" 
+    <button @click="toggleReservasi('test')" ref="showTestRef"
         class="w-full flex flex-col justify-center text-center pt-2 pb-1"
         :class="{'font-bold' : $route.name === 'consultant.views.review'}"
         >
         <div class="self-center">
             <PhTarget :size="28" />
         </div>
-        <span class="tab tab-home block text-xs">Review</span>
-    </RouterLink>
+        <span class="tab tab-home block text-xs">Test</span>
+    </button>
+    <div v-if="showTest" class="absolute animate-pulse bg-white px-4 left-28 bottom-14 rounded-lg border shadow-lg">
+        <RouterLink :to="{name: 'consultant.views.review'}" 
+            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            >
+            <span class="text-start font-myFont block text-sm">Review Test GIM</span>
+        </RouterLink>
+        <RouterLink :to="{name: 'consultant.views.permintaan'}" 
+            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            >
+            <span class="text-start font-myFont block text-sm">List Test GIM</span>
+        </RouterLink>
+    </div>
 
-    <button @click="toggleReservasi" ref="dropdownRef"
+    <button @click="toggleReservasi('reservasi')" ref="dropdownRef"
         class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
         :class="{'font-bold' : $route.name === 'consultant.views.permintaan' || $route.name === 'consultant.views.jadwal'}"
         >
@@ -18,20 +30,52 @@
         </div>
         <span class="tab tab-home block text-xs">Reservasi</span>
     </button>
-    <div v-if="showReservasi" class="absolute animate-pulse bg-white px-4 left-56 bottom-14 rounded-lg border shadow-lg">
+    <div v-if="showReservasi" class="absolute animate-pulse bg-white px-4 left-52 bottom-14 rounded-lg border shadow-lg">
         <RouterLink :to="{name: 'consultant.views.jadwal'}" 
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Jadwal</span>
+            <span class="text-start font-myFont block text-sm">Jadwal Reservasi GIM</span>
         </RouterLink>
         <RouterLink :to="{name: 'consultant.views.permintaan'}" 
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Permintaan</span>
+            <span class="text-start font-myFont block text-sm">Permintaan Reservasi GIM</span>
         </RouterLink>
     </div>
 
-    <RouterLink :to="{name: 'user.views.profile'}" 
+    <RouterLink :to="{name: 'consultant.views.assessments'}"
+        class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+        :class="{'font-bold' : $route.name === 'consultant.views.assessments'}"
+        >
+        <div class="self-center">
+            <PhExam :size="28" />
+        </div>
+        <span class="tab tab-home block text-xs">Reservasi</span>
+    </RouterLink>
+
+    <button @click="toggleReservasi('lainya')" ref="showLainyaRef"
+        class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+        :class="{'font-bold' : $route.name == 'user.views.profile'}"
+        >
+        <div class="self-center">
+            <PhDotsThree :size="28" />
+        </div>
+        <span class="tab tab-home block text-xs">Lainya</span>
+    </button>
+    <div v-if="showLainya" class="absolute animate-pulse bg-white px-4 left-[360px] bottom-14 rounded-lg border shadow-lg">
+        <RouterLink :to="{name: 'user.views.profile'}" 
+            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            >
+            <span class="text-start font-myFont block text-sm">Profile</span>
+        </RouterLink>
+        <button @click="Logout"
+            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            >
+            <span class="text-start font-myFont block text-sm">Keluar</span>
+        </button>
+    </div>  
+
+    <!-- <RouterLink :to="{name: 'user.views.profile'}" 
         class="w-full flex flex-col justify-center text-center pt-2 pb-1"
         :class="{'font-bold' : $route.name === 'user.views.profile'}"
         >
@@ -39,11 +83,11 @@
             <PhUser :size="28" />
         </div>
         <span class="tab tab-home block text-xs">Profil</span>
-    </RouterLink>
+    </RouterLink> -->
 </template>
 
 <script>
-import {  PhTarget, PhCalendar, PhUser } from "@phosphor-icons/vue";
+import {  PhTarget, PhCalendar, PhExam, PhDotsThree } from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
@@ -51,20 +95,43 @@ export default {
     components: {
         PhTarget,
         PhCalendar,
-        PhUser
+        PhExam,
+        PhDotsThree
     },
     setup(){
         const showReservasi = ref(false)
-
-        const toggleReservasi = () => {
-            showReservasi.value = !showReservasi.value
-        }
-
         const dropdownRef = ref(null);
+        const showTest = ref(false)
+        const showTestRef = ref(false)
+        const showLainya = ref(false)
+        const showLainyaRef = ref(false)
+
+        const toggleReservasi = (params) => {
+            switch(params) {
+                case 'test':
+                    showTest.value = !showTest.value
+                    break;
+                case 'reservasi':
+                    showReservasi.value = !showReservasi.value
+                    break;
+                case 'lainya':
+                    showLainya.value = !showLainya.value
+                    break;
+            }
+            // showReservasi.value = !showReservasi.value
+        }
 
 		const closeDropdown = (e) => {
 			if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
 				showReservasi.value = false;
+			}
+
+			if (showTestRef.value && !showTestRef.value.contains(e.target)) {
+				showTest.value = false;
+			}
+
+			if (showLainyaRef.value && !showLainyaRef.value.contains(e.target)) {
+				showLainya.value = false;
 			}
     	};
 
@@ -79,6 +146,10 @@ export default {
         return {
             showReservasi,
             dropdownRef,
+            showTest,
+            showTestRef,
+            showLainya,
+            showLainyaRef,
             toggleReservasi
         }
     }
