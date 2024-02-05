@@ -83,6 +83,7 @@ import consultantNav from './consultant/consultant.vue'
 import consultantBotNav from './consultant/consultantBottom.vue'
 import adminNav from './admin/admin.vue'
 import adminBotNav from './admin/adminBottom.vue'
+import initAPI from '../../api/api'
 
 export default{
     name: 'NavbarVue',
@@ -138,14 +139,21 @@ export default{
 			showDropdown.value = !showDropdown.value
 		}
 
-		const Logout = () => {
-			localStorage.clear()
-			// localStorage.removeItem('userData')
-			// localStorage.removeItem('userRole')
-			store.commit('user', null);
-			store.commit('userRole', null);
+		const Logout = async() => {
+			try {
+				const token = JSON.parse(localStorage.getItem('token'))
+				const response = await initAPI('post', 'logout', null ,token)
+				localStorage.clear()
+				// localStorage.removeItem('userData')
+				// localStorage.removeItem('userRole')
+				store.commit('user', null);
+				store.commit('userRole', null);
 
-			router.push('/login')
+				router.push('/login')
+			} catch (error) {
+				console.log(error)
+			}
+			
 		}
 
 		return {

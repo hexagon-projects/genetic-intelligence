@@ -2,118 +2,234 @@
   <section class="bg-gray-100 pb-10"
   :class="{'lg:pb-28' : dataJadwal.length == 0, 'lg:pb-7': dataJadwal.length > 0}"
   >
-      <div class="mx-4 pt-4">
-          <ol class="flex text-gray-500 font-semibold">
-              <li class="before:px-1.5">
-                  <a class="text-dark text-base cursor-default">
-                      Beranda
-                  </a>
-              </li>
-          </ol>
-      </div>
-      <div v-if="isModalOpen && detailCustomers" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
-      >
-          <div class="relative w-1/2 top-24 mx-auto shadow-xl rounded-md bg-white">
-              <!-- Modal body -->
-              <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
-              <hr class="mt-4">
-              <div v-if="detailCustomers" class="w-full p-4">
-                  <div class="flex flex-row gap-2">
-                      <div class="w-full">
-                          <div class="flex flex-col mb-4">
-                              <h1 class="font-myFont font-medium text-dark text-lg">
-                                  Nama
-                              </h1>
-                              <p class="font-myFont font-medium text-dark text-sm">
-                                  {{ detailCustomers.customers.first_name }} {{ detailCustomers.customers.last_name }}
-                              </p>
-                          </div>
+        <div class="mx-4 pt-4">
+            <ol class="flex text-gray-500 font-semibold">
+                <li class="before:px-1.5">
+                    <a class="text-dark text-base cursor-default">
+                        Beranda
+                    </a>
+                </li>
+            </ol>
+        </div>
+        <div v-if="isModalOpen && detailCustomers" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+        >
+            <div class="hidden lg:block relative w-1/2 top-4 mx-auto shadow-xl rounded-md bg-white">
+                <!-- Modal body -->
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Assessment</h1>
+                <hr class="mt-4">
+                <div v-if="detailCustomers" class="w-full p-4 mx-auto">
+                    <div>
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-xl font-myFont font-medium mb-2">Hasil Test</h1>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Jawaban Terbanyak</span>
+                                <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.result }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Tipe Belajar</span>
+                                <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.assessment.name }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Dilaksanakan Pada</span>
+                                <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.test_date }}</span>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-xl font-myFont font-medium mb-2">Customer</h1>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Nama</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailCustomers.customer.first_name }} {{ detailCustomers.customer.last_name }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Asal Sekolah</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailCustomers.customer.school_name }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailCustomers.customer.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Tempat & Tanggal Lahir</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailCustomers.customer.birth_place }}, {{ detailCustomers.customer.birth_date.split(' ')[0] }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">No Telp</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailCustomers.customer.number }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex flex-col">
+                                <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailCustomers.customer.address }}
+                                </span>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+        
+                <hr class="pt-4">
+                <!-- Modal footer -->
+                <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                </div>
+            </div>
 
-                          <div class="flex flex-row items-center gap-2 mb-4">
-                              <div class="flex flex-col mr-20">
-                                  <h1 class="font-myFont font-medium text-dark text-lg">
-                                      Tempat Lahir
-                                  </h1>
-                                  <p class="font-myFont font-medium text-dark text-sm">
-                                      {{ detailCustomers.customers.birth_place }}
-                                  </p>
-                              </div>
-                              <div class="flex flex-col ml-20">
-                                  <h1 class="font-myFont font-medium text-dark text-lg">
-                                      Tanggal Lahir
-                                  </h1>
-                                  <p class="font-myFont font-medium text-dark text-sm">
-                                      {{ detailCustomers.customers.birth_date }}
-                                  </p>
-                              </div>
-                          </div>
+            <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
+                    <!-- Modal body -->
+                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Assessment</h1>
+                    <hr class="mt-4">
+                    <div class="flex flex-col justify-center items-center">
+                        <div v-if="detailCustomers" class="w-full p-4">
+                            <div class="flex flex-row gap-2">
+                                <div class="w-full">
+                                    <h1 class="text-dark text-lg font-myFont font-medium mb-2">Hasil Test</h1>
+                                    <div class="flex flex-row items-center mb-4">
+                                        <div class="w-3/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Dilaksanakan Pada
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.test_date }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-2/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Jawaban Terbanyak
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.result }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                          <div class="flex flex-row items-center gap-2 mb-4">
-                              <div class="flex flex-col mr-[78px]">
-                                  <h1 class="font-myFont font-medium text-dark text-lg">
-                                      Jenis Kelamin
-                                  </h1>
-                                  <p class="font-myFont font-medium text-dark text-sm">
-                                      {{ detailCustomers.customers.gender }}
-                                  </p>
-                              </div>
-                              <div class="flex flex-col ml-[78px]">
-                                  <h1 class="font-myFont font-medium text-dark text-lg">
-                                      Golongan Darah
-                                  </h1>
-                                  <p class="font-myFont font-medium text-dark text-sm">
-                                      {{ detailCustomers.customers.blood_group }}
-                                  </p>
-                              </div>
-                          </div>
+                                    <div class="flex flex-row items-center gap-2 mb-4">
+                                        <div class="w-full">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Tipe Belajar
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.assessment.name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                          <div class="flex flex-row items-center gap-2 mb-4">
-                              <div class="flex flex-col mr-[106px]">
-                                  <h1 class="font-myFont font-medium text-dark text-lg">
-                                      Agama
-                                  </h1>
-                                  <p class="font-myFont font-medium text-dark text-sm">
-                                      {{ detailCustomers.customers.religion }}
-                                  </p>
-                              </div>
-                              <div class="flex flex-col ml-[106px]">
-                                  <h1 class="font-myFont font-medium text-dark text-lg">
-                                      Status
-                                  </h1>
-                                  <p class="font-myFont font-medium text-dark text-sm">
-                                      {{ detailCustomers.customers.status }}
-                                  </p>
-                              </div>
-                          </div>
+                                    <hr class="my-4">
 
-                          <div class="flex flex-col">
-                              <h1 class="font-myFont font-medium text-dark text-lg">
-                                  Alamat
-                              </h1>
-                              <p class="font-myFont font-medium text-dark text-sm">
-                                  {{ detailCustomers.customers.address }}
-                              </p>
-                              <p class="font-myFont font-medium text-dark text-sm">
-                                  {{ detailCustomers.customers.region }}
-                              </p>
-                          </div>
+                                    <h1 class="text-dark text-lg font-myFont font-medium mb-2">Customer</h1>
+                                    <div class="flex flex-row items-center mb-4">
+                                        <div class="w-3/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Nama
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.first_name }} {{ detailCustomers.customer.last_name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-2/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Jenis Kelamin
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="flex flex-row items-center gap-2 mb-4">
+                                        <div class="w-3/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Asal Sekolah
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.school_name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-2/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    No Telp
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.number }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="flex flex-row items-center mb-4">
+                                        <div class="w-3/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Tempat Lahir
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.birth_place }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-2/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Tanggal Lahir
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.birth_date.split(' ')[0] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="flex flex-row items-center gap-2 mb-4">
+                                        <div class="w-full">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Alamat
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customer.address }}
+                                                </p>
+                                                <!-- <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{  }}
+                                                </p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                      </div>
-                      <div class="w-1/2">
-                      </div>
-                  </div>
-                  
-              </div>
+                    <hr class="pt-4">
+                    <!-- Modal footer -->
+                    <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                    </div>
+                </div>
+        </div>
 
-              <hr class="pt-4">
-              <!-- Modal footer -->
-              <div class="px-4 py-2 flex justify-end items-center space-x-4">
-                  <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
-              </div>
-          </div>
-      </div>
-
-      <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
+        <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
           <div class="w-full px-7 mx-auto">
               <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                   <h1 class="font-myFont text-dark text-lg mb-4">List Hasil Assessment</h1>
