@@ -216,14 +216,39 @@
 
                 <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
                     <!-- Modal body -->
-                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Konsultan</h1>
+                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Reservasi</h1>
                     <hr class="mt-4">
-                    <div class="flex flex-col justify-center items-center">
-                        <img v-if="detailCustomers.image !== null" class="w-[180px] h-[180px] p-4" :src="baseUrl+'open/customers/'+detailCustomers.image" alt="">
-                        <img v-if="detailCustomers.image == null" class="w-[180px] h-[180px] p-4" src="https://placehold.co/400x400" alt="">
-                        <!-- <div v-if="detailCustomers" class="w-full p-4">
+                    <div class="max-h-[460px] overflow-y-scroll flex flex-col justify-center items-center">
+                        <div v-if="detailCustomers" class="w-full p-4">
                             <div class="flex flex-row gap-2">
                                 <div class="w-full">
+                                    <h1 class="text-dark text-lg font-myFont font-medium mt-20 mb-2">Jadwal</h1>
+                                    <div class="flex flex-row items-center mb-4">
+                                        <div class="w-3/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Jam
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.time }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-2/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Tanggal
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.date }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <h1 class="text-dark text-lg font-myFont font-medium mb-2">Consultant</h1>
                                     <div class="flex flex-row items-center mb-4">
                                         <div class="w-3/5">
                                             <div class="flex flex-col items-start">
@@ -231,7 +256,7 @@
                                                     Nama
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.name }}
+                                                    {{ detailCustomers.consultant.name }}
                                                 </p>
                                             </div>
                                         </div>
@@ -241,71 +266,25 @@
                                                     Jenis Kelamin
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
+                                                    {{ detailCustomers.consultant.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
-    
+
                                     <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-3/5">
+                                        <div class="w-full">
                                             <div class="flex flex-col items-start">
                                                 <h1 class="font-myFont font-medium text-dark text-sm">
                                                     No Telp
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.number }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-2/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Email
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.user.email }}
+                                                    {{ detailCustomers.consultant.number }}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
-    
-                                    <div class="flex flex-row items-center mb-4">
-                                        <div class="w-3/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Tempat Lahir
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.birth_place }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-2/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Tanggal Lahir
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.birth_date }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-full">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Status
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.status }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-    
+
                                     <div class="flex flex-row items-center gap-2 mb-4">
                                         <div class="w-full">
                                             <div class="flex flex-col items-start">
@@ -313,17 +292,72 @@
                                                     Alamat
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.address }}
+                                                    {{ detailCustomers.consultant.address }}
                                                 </p>
+                                                <!-- <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{  }}
+                                                </p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <h1 class="text-dark text-lg font-myFont font-medium mb-2">Customer</h1>
+                                    <div class="flex flex-row items-center mb-4">
+                                        <div class="w-3/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Nama
+                                                </h1>
                                                 <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.region }}
+                                                    {{ detailCustomers.customers.name }}
                                                 </p>
+                                            </div>
+                                        </div>
+                                        <div class="w-2/5">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Jenis Kelamin
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customers.gender}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-row items-center gap-2 mb-4">
+                                        <div class="w-full">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    No Telp
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customers.number }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-row items-center gap-2 mb-4">
+                                        <div class="w-full">
+                                            <div class="flex flex-col items-start">
+                                                <h1 class="font-myFont font-medium text-dark text-sm">
+                                                    Alamat
+                                                </h1>
+                                                <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{ detailCustomers.customers.address }}
+                                                </p>
+                                                <!-- <p class="font-myFont font-medium text-dark text-xs">
+                                                    {{  }}
+                                                </p> -->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
 
                     <hr class="pt-4">
