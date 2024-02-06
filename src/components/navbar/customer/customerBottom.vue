@@ -1,90 +1,114 @@
 <template>
         <button @click="toggleMenu('test')" ref="dropdownTestRef"
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-            :class="{'font-bold' : $route.name === 'user.views.deteksi' || $route.name === 'user.views.assesment'}"
+            :class="{'font-bold' : showTest || $route.name === 'user.views.deteksi' || $route.name === 'user.views.assesment'}"
             >
             <div class="self-center">
                 <PhTarget :size="28" />
             </div>
             <span class="tab tab-home block text-xs">Test</span>
         </button>
-        <div v-if="showTest" class="absolute animate-pulse bg-white px-4 left-[120px] bottom-14 rounded-lg border shadow-lg">
+        <div v-if="showTest" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.deteksi'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">GIM</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhTarget :size="20" />
+                    Test GIM
+                </span>
             </RouterLink>
             <RouterLink :to="{name: 'user.views.assesment'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">Assessment</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhTextAa :size="20" />
+                    Test Assessment
+                </span>
             </RouterLink>
         </div>
 
 
         <button @click="toggleMenu('hasil')" ref="dropdownHasilRef"
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-            :class="{'font-bold' : $route.name === 'user.views.hasil_deteksi' || $route.name === 'user.views.hasil_assessment'}"
+            :class="{'font-bold' : showHasil || $route.name === 'user.views.hasil_deteksi' || $route.name === 'user.views.hasil_assessment'}"
             >
             <div class="self-center">
                 <PhFileText :size="28" />
             </div>
             <span class="tab tab-home block text-xs">Hasil</span>
         </button>
-        <div v-if="showHasil" class="absolute animate-pulse bg-white px-4 left-[210px] bottom-14 rounded-lg border shadow-lg">
+        <div v-if="showHasil" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">GIM</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhFileText :size="20" />
+                    Hasil GIM
+                </span>
             </RouterLink>
             <RouterLink :to="{name: 'user.views.hasil_assessment'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">Assessment</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhExam :size="20" />
+                    Hasil Assessment
+                </span>
             </RouterLink>
         </div>
 
         <button @click="toggleMenu('reservasi')" ref="dropdownReservasiRef"
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-            :class="{'font-bold' : $route.name === 'user.views.reservasi'}"
+            :class="{'font-bold' : showReservasi || $route.name === 'user.views.reservasi'}"
             >
             <div class="self-center">
                 <PhCalendar :size="28" />
             </div>
             <span class="tab tab-home block text-xs">Reservasi</span>
         </button>
-        <div v-if="showReservasi" class="absolute animate-pulse bg-white px-4 left-[296px] bottom-14 rounded-lg border shadow-lg">
+        <div v-if="showReservasi" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.reservasi'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">GIM</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhCalendar :size="20" />
+                    Reservasi GIM
+                </span>
             </RouterLink>
             <RouterLink :to="{name: 'user.views.hasil_assessment'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">Assessment</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhUserFocus :size="20" />
+                    Reservasi Psikotest
+                </span>
             </RouterLink>
         </div>
         
         <button @click="toggleMenu('lainya')" ref="dropdownLainyaRef"
             class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-            :class="{'font-bold' : $route.name == 'user.views.profile'}"
+            :class="{'font-bold': showLainya || $route.name == 'user.views.profile'}"
             >
             <div class="self-center">
                 <PhDotsThree :size="28" />
             </div>
             <span class="tab tab-home block text-xs">Lainya</span>
         </button>
-        <div v-if="showLainya" class="absolute animate-pulse bg-white px-4 left-[360px] bottom-14 rounded-lg border shadow-lg">
+        <div v-if="showLainya" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.profile'}" 
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">Profile</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhUser :size="20" />
+                    Profile
+                </span>
             </RouterLink>
             <button @click="Logout"
-                class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start font-myFont block text-sm">Keluar</span>
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhSignOut :size="20" />
+                    Keluar
+                </span>
             </button>
         </div>  
 
@@ -100,7 +124,11 @@
 </template>
 
 <script>
-import {  PhTarget, PhFileText, PhCalendar, PhDotsThree } from "@phosphor-icons/vue";
+import {  
+    PhTarget, PhFileText, PhCalendar, 
+    PhDotsThree, PhTextAa, PhExam,
+    PhUserFocus, PhUser, PhSignOut
+ } from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -111,7 +139,12 @@ export default {
         PhTarget,
         PhFileText,
         PhCalendar,
-        PhDotsThree
+        PhDotsThree,
+        PhTextAa,
+        PhExam,
+        PhUserFocus,
+        PhUser,
+        PhSignOut
     },
     setup(){
         const store = useStore()
