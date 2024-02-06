@@ -440,6 +440,7 @@
                         </div>
 
                         <span v-else-if="dataCustomer.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
+                        
                         <div class="flex justify-between items-center mt-4">
                             <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
                                 {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.

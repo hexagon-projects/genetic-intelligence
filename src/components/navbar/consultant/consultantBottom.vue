@@ -1,45 +1,57 @@
 <template>
     <button @click="toggleReservasi('test')" ref="showTestRef"
         class="w-full flex flex-col justify-center text-center pt-2 pb-1"
-        :class="{'font-bold' : $route.name === 'consultant.views.review'}"
+        :class="{'font-bold' : showTest || $route.name === 'consultant.views.review'}"
         >
         <div class="self-center">
             <PhTarget :size="28" />
         </div>
         <span class="tab tab-home block text-xs">Test</span>
     </button>
-    <div v-if="showTest" class="absolute animate-pulse bg-white px-4 left-28 bottom-14 rounded-lg border shadow-lg">
+    <div v-if="showTest" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
         <RouterLink :to="{name: 'consultant.views.review'}" 
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Review Test GIM</span>
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhFileSearch :size="20"/>
+                Review Test GIM
+            </span>
         </RouterLink>
         <RouterLink :to="{name: 'consultant.views.permintaan'}" 
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">List Test GIM</span>
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhFileArchive :size="20"/>
+                List Test GIM
+            </span>
         </RouterLink>
     </div>
 
     <button @click="toggleReservasi('reservasi')" ref="dropdownRef"
         class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-        :class="{'font-bold' : $route.name === 'consultant.views.permintaan' || $route.name === 'consultant.views.jadwal'}"
+        :class="{'font-bold' : showReservasi || $route.name === 'consultant.views.permintaan' || $route.name === 'consultant.views.jadwal'}"
         >
         <div class="self-center">
             <PhCalendar :size="28" />
         </div>
         <span class="tab tab-home block text-xs">Reservasi</span>
     </button>
-    <div v-if="showReservasi" class="absolute animate-pulse bg-white px-4 left-52 bottom-14 rounded-lg border shadow-lg">
+    <div v-if="showReservasi" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
         <RouterLink :to="{name: 'consultant.views.jadwal'}" 
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Jadwal Reservasi GIM</span>
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhCalendarCheck :size="20"/>
+                Jadwal Reservasi GIM
+            </span>
         </RouterLink>
         <RouterLink :to="{name: 'consultant.views.permintaan'}" 
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Permintaan Reservasi GIM</span>
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhCalendarPlus :size="20"/>
+                Permintaan Reservasi GIM
+            </span>
         </RouterLink>
     </div>
 
@@ -55,23 +67,29 @@
 
     <button @click="toggleReservasi('lainya')" ref="showLainyaRef"
         class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
-        :class="{'font-bold' : $route.name == 'user.views.profile'}"
+        :class="{'font-bold' : showLainya || $route.name == 'user.views.profile'}"
         >
         <div class="self-center">
             <PhDotsThree :size="28" />
         </div>
         <span class="tab tab-home block text-xs">Lainya</span>
     </button>
-    <div v-if="showLainya" class="absolute animate-pulse bg-white px-4 left-[360px] bottom-14 rounded-lg border shadow-lg">
+    <div v-if="showLainya" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
         <RouterLink :to="{name: 'user.views.profile'}" 
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Profile</span>
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhUser :size="20"/>
+                Profile
+            </span>
         </RouterLink>
         <button @click="Logout"
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start font-myFont block text-sm">Keluar</span>
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhSignOut :size="20"/>
+                Keluar
+            </span>
         </button>
     </div>  
 
@@ -87,17 +105,28 @@
 </template>
 
 <script>
-import {  PhTarget, PhCalendar, PhExam, PhDotsThree } from "@phosphor-icons/vue";
+import {  
+    PhTarget, PhCalendar, PhExam, 
+    PhDotsThree, PhFileSearch, PhFileArchive,
+    PhCalendarCheck, PhCalendarPlus, PhUser,
+    PhSignOut
+} from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
     name: 'consultantBotNav',
     components: {
-        PhTarget,
-        PhCalendar,
-        PhExam,
-        PhDotsThree
-    },
+    PhTarget,
+    PhCalendar,
+    PhExam,
+    PhDotsThree,
+    PhFileSearch,
+    PhFileArchive,
+    PhCalendarCheck,
+    PhCalendarPlus,
+    PhUser,
+    PhSignOut
+},
     setup(){
         const showReservasi = ref(false)
         const dropdownRef = ref(null);

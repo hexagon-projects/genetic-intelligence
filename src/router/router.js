@@ -300,9 +300,39 @@ const routes = [
         }
     },
     {
-        path: '/data-reservasi',
+        path: '/data-reservasi-gim',
         name: 'admin.views.reservasi',
         component: () => import('../components/admin/reservasi/reservasi.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/data-reservasi-psikotest',
+        name: 'admin.views.reservasi_psikotest',
+        component: () => import('../components/admin/reservasi/reservasiPsikotest.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/riwayat-pembayaran',
+        name: 'admin.views.riwayat_pembayaran',
+        component: () => import('../components/admin/riwayat_pembayaran/riwayatPembayaran.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
