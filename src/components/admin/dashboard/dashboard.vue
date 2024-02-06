@@ -78,89 +78,103 @@
                     </div>
                 </div>
                 
-                <div class="flex lg:flex-row flex-col justify-center gap-4 lg:w-4/6 md:w-1/2">
-                    <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
-                        <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
-                            <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                <div class="flex flex-col gap-4 lg:w-4/6 md:w-1/2">
+                    <div class="flex lg:flex-row flex-col justify-center gap-4">
+                        <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
+                            <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
+                                <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                            </div>
+        
+                            <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                                <div class="self-stretch justify-between items-center inline-flex">
+                                    <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
+                                        <PhUsers :size="28"/>
+                                    </span>
+                                    <RouterLink :to="{name: 'admin.views.konsultan'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                        Lihat Detail
+                                        <PhArrowRight/>
+                                    </RouterLink>
+                                </div>
+                                <div class="self-stretch justify-start items-start gap-8 inline-flex">
+                                    <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+                                        <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Konsultan</div>
+                                        <div class="justify-center items-center gap-[7px] inline-flex">
+                                            <div class="text-biru text-xl font-medium font-myFont">
+                                                {{ countDashboard.totalKonsultan }} Konsultan
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
     
-                        <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
-                            <div class="self-stretch justify-between items-center inline-flex">
-                                <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                    <PhUsers :size="28"/>
-                                </span>
-                                <RouterLink :to="{name: 'admin.views.konsultan'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
-                                    Lihat Detail
-                                    <PhArrowRight/>
-                                </RouterLink>
+                        <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
+                            <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
+                                <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                             </div>
-                            <div class="self-stretch justify-start items-start gap-8 inline-flex">
-                                <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Konsultan</div>
-                                    <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <div class="text-biru text-xl font-medium font-myFont">
-                                            {{ countDashboard.totalKonsultan }} Konsultan
+        
+                            <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                                <div class="self-stretch justify-between items-center inline-flex">
+                                    <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
+                                        <PhUserList size="28"/>
+                                    </span>
+                                    <RouterLink :to="{name: 'admin.views.customers'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                        Lihat Detail
+                                        <PhArrowRight/>
+                                    </RouterLink>
+                                </div>
+                                <div class="self-stretch justify-start items-start gap-8 inline-flex">
+                                    <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+                                        <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Customer</div>
+                                        <div class="justify-center items-center gap-[7px] inline-flex">
+                                            <div class="text-biru text-xl font-medium font-myFont">
+                                                {{ countDashboard.totalCustomer }} Customer
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
+                            <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
+                                <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                            </div>
+        
+                            <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
+                                <div class="self-stretch justify-between items-center inline-flex">
+                                    <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
+                                        <PhFiles :size="28"/>
+                                    </span>
+                                    <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                        Lihat Detail
+                                        <PhArrowRight/>
+                                    </RouterLink>
+                                </div>
+                                <div class="self-stretch justify-start items-start gap-8 inline-flex">
+                                    <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+                                        <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Reservasi</div>
+                                        <div class="justify-center items-center gap-[7px] inline-flex">
+                                            <div class="text-biru text-xl font-medium font-myFont">
+                                                {{ countDashboard.totalReservasiSelesai }} Reservasi
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="md:hidden lg:flex flex-col justify-center gap-4">
+                        <div class="w-full h-[280px] px-[15px] py-[15px] bg-white rounded-lg shadow-sm">
+                            <Line :data="data" :options="options" />
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
-                        <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
-                            <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
-                        </div>
-    
-                        <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
-                            <div class="self-stretch justify-between items-center inline-flex">
-                                <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                    <PhUserList size="28"/>
-                                </span>
-                                <RouterLink :to="{name: 'admin.views.customers'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
-                                    Lihat Detail
-                                    <PhArrowRight/>
-                                </RouterLink>
-                            </div>
-                            <div class="self-stretch justify-start items-start gap-8 inline-flex">
-                                <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Customer</div>
-                                    <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <div class="text-biru text-xl font-medium font-myFont">
-                                            {{ countDashboard.totalCustomer }} Customer
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full h-[145px] px-[15px] py-[15px] bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex shadow-sm">
-                        <div class="flex justify-center pt-8 w-full" v-if="loadingData" >
-                            <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
-                        </div>
-    
-                        <div v-if="countDashboard && !loadingData" class="self-stretch grow shrink basis-0 flex-col justify-between items-start flex">
-                            <div class="self-stretch justify-between items-center inline-flex">
-                                <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
-                                    <PhFiles :size="28"/>
-                                </span>
-                                <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
-                                    Lihat Detail
-                                    <PhArrowRight/>
-                                </RouterLink>
-                            </div>
-                            <div class="self-stretch justify-start items-start gap-8 inline-flex">
-                                <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                    <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Reservasi</div>
-                                    <div class="justify-center items-center gap-[7px] inline-flex">
-                                        <div class="text-biru text-xl font-medium font-myFont">
-                                            {{ countDashboard.totalReservasiSelesai }} Reservasi
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="hidden lg:hidden md:flex flex-col justify-center mx-4 mb-1 pt-3 gap-4">
+                <div class="w-full h-[280px] px-[15px] py-[15px] bg-white rounded-lg shadow-sm">
+                    <Line :data="data" :options="options" />
                 </div>
             </div>
         </section>
@@ -171,11 +185,58 @@
 import { ref, onMounted } from 'vue'
 import { PhArrowRight, PhUsers, PhUserList, PhFiles } from "@phosphor-icons/vue";
 import initAPI from '../../../api/api'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+import { Line } from 'vue-chartjs'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 export default {
     name: 'AdminDashboard',
-    components: {PhArrowRight, PhUsers, PhUserList, PhFiles},
+    components: {PhArrowRight, PhUsers, PhUserList, PhFiles, Line},
     setup(){
+        const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [
+    {
+      label: 'Data Registrasi',
+      backgroundColor: '#0b40f4',
+      data: [40, 39, 10, 40, 39, 80, 40]
+    },
+    {
+      label: 'Data Reservasi',
+      backgroundColor: '#00ab55',
+      data: [21, 30, 24, 32, 41, 64, 54]
+    },
+    {
+      label: 'Data Test',
+      backgroundColor: '#e7515a',
+      data: [37, 28, 16, 62, 29, 50, 43]
+    }
+  ]
+}
+
+const options = {
+  responsive: true,
+  maintainAspectRatio: false
+}
+
         const loading = ref(false)
         const loadingData = ref(false)
         const countDashboard = ref(null)
@@ -207,6 +268,8 @@ export default {
         })
 
         return {
+            data,
+            options,
             loading,
             loadingData,
             countDashboard

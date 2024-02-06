@@ -18,7 +18,7 @@
                     <!-- Modal body -->
                     <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Reservasi</h1>
                     <hr class="mt-4">
-                    <div v-if="detailCustomers" class="w-full p-4 mx-auto">
+                    <div v-if="detailCustomers" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
                         <div>
                             <div class="flex flex-col">
                                 <h1 class="text-dark text-xl font-myFont font-medium mb-2">Jadwal</h1>
