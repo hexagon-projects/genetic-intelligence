@@ -75,15 +75,49 @@
           flex justify-center items-end px-4 py-2 gap-1 font-myFont
           hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
           "
-          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
+          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'admin.views.riwayat_pembayaran', 'text-dark bg-white': $route.name !== 'admin.views.riwayat_pembayaran'}"
       >
-      <PhMoney :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+      <PhMoney :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.riwayat_pembayaran','text-biru hover:text-light': $route.name !== 'admin.views.riwayat_pembayaran'}" />
       Riwayat Pembayaran
   </RouterLink>
+
+  <div class="relative">
+    <button class="
+            flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
+            hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+            "
+            :class="{
+                'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.reservasi' || $route.name === 'admin.views.reservasi_psikotest',
+                'text-dark bg-white': $route.name !== 'admin.views.reservasi' && $route.name !== 'admin.views.reservasi_psikotest'
+            }"
+            @click="toggleFilter('pengaturan')"
+            ref="showPengaturanRef"
+        >
+            <PhGear :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.reservasi' || $route.name == 'admin.views.reservasi_psikotest','text-biru hover:text-light': $route.name !== 'admin.views.reservasi' && $route.name !== 'admin.views.reservasi_psikotest'}" />
+        Pengaturan
+        <PhCaretDown :size="16"/>
+    </button>
+    <div v-if="showPengaturan"
+        class="transition duration-150 ease-in-out absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+        <div class="py-1" role="none">
+        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+        <RouterLink :to="{name: 'admin.views.pengaturan_harga'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Pengaturan Harga
+        </RouterLink>
+        <RouterLink :to="{name: 'admin.views.reservasi_psikotest'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Pengaturan Jawaban Assessment
+        </RouterLink>
+        </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { PhFolderUser, PhUser, PhFolders, PhSignOut, PhMoney, PhCaretDown } from "@phosphor-icons/vue";
+import { 
+    PhFolderUser, PhUser, PhFolders, 
+    PhSignOut, PhMoney, PhCaretDown,
+    PhGear
+ } from "@phosphor-icons/vue";
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useStore } from 'vuex'
 
@@ -95,7 +129,8 @@ export default {
     PhFolders,
     PhSignOut,
     PhMoney,
-    PhCaretDown
+    PhCaretDown,
+    PhGear
 },
   setup(){
       const store = useStore()
@@ -105,6 +140,8 @@ export default {
       const showUsersRef = ref(false)
       const showReservasi = ref(false)
       const showReservasiRef = ref(false)
+      const showPengaturan = ref(false)
+      const showPengaturanRef = ref(false)
 
       const toggleFilter = (params) => {
             switch(params) {
@@ -113,6 +150,9 @@ export default {
                     break;
                 case 'reservasi':
                     showReservasi.value = !showReservasi.value
+                    break;
+                case 'pengaturan':
+                    showPengaturan.value = !showPengaturan.value
                     break;
                 case 'lainya':
                     showLainya.value = !showLainya.value
@@ -128,6 +168,10 @@ export default {
 
 			if (showReservasiRef.value && !showReservasiRef.value.contains(e.target)) {
 				showReservasi.value = false;
+			}
+
+			if (showPengaturanRef.value && !showPengaturanRef.value.contains(e.target)) {
+				showPengaturan.value = false;
 			}
 
 			// if (showLainyaRef.value && !showLainyaRef.value.contains(e.target)) {
@@ -149,6 +193,8 @@ export default {
           showUsersRef,
           showReservasi,
           showReservasiRef,
+          showPengaturan,
+          showPengaturanRef,
           toggleFilter
       }
   }
