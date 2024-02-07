@@ -16,64 +16,75 @@
             <div class="w-1/2">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">Harga Registrasi Pelajar</h1>
-                    
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                            Harga saat ini
-                        </label>
-                        <input v-model="hargaStudent" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none" type="text" readonly>
-                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-                        </div>
-                        <div class="w-full md:w-1/2 px-3">
-                            <label for="fee" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                                Harga baru
-                            </label>
-                            <input id="fee"
-                                v-model="updatedHargaStudent" @input="validation"
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 500000">
-                                <p v-if="validasiStudent !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiStudent }}.</p>
-                        </div>
+                    <div class="flex justify-center pt-8 mb-[55px] w-full" v-if="loading" >
+                        <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
-                    <button
-                    :disabled="validasiStudent || updatedHargaStudent == null || updatedHargaStudent == ''"
-                    @click="updateHarga('student')"
-                    :class="{'bg-gray-600 opacity-80 cursor-not-allowed': validasiStudent || updatedHargaStudent == null || updatedHargaStudent == ''}"
-                    class="w-1/3 self-center rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
-                        Ubah Harga
-                    </button>
+
+                    <div v-else-if="!loading" class="flex flex-col">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                                Harga saat ini
+                            </label>
+                            <input v-model="hargaStudent" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none" type="text" readonly>
+                            <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                            </div>
+                            <div class="w-full md:w-1/2 px-3">
+                                <label for="fee" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                                    Harga baru
+                                </label>
+                                <input id="fee"
+                                    v-model="updatedHargaStudent" @input="validation"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 500000">
+                                    <p v-if="validasiStudent !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiStudent }}.</p>
+                            </div>
+                        </div>
+                        <button
+                        :disabled="validasiStudent || updatedHargaStudent == null || updatedHargaStudent == ''"
+                        @click="updateHarga('student')"
+                        :class="{'bg-gray-600 opacity-80 cursor-not-allowed': validasiStudent || updatedHargaStudent == null || updatedHargaStudent == ''}"
+                        class="w-1/3 self-center rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
+                            Ubah Harga
+                        </button>
+                    </div>
+
                 </div>
             </div>
 
             <div class="w-1/2">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">Harga Registrasi Non-Pelajar</h1>
-                    
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                            Harga saat ini
-                        </label>
-                        <input v-model="hargaNonStudent" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none" type="text" readonly>
-                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-                        </div>
-                        <div class="w-full md:w-1/2 px-3">
-                            <label for="fee" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                                Harga baru
-                            </label>
-                            <input id="fee"
-                                v-model="updatedHargaNonStudent" @input="validation"
-                                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 500000">
-                            <p v-if="validasiNonStudent !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiNonStudent }}.</p>
-                        </div>
+                    <div class="flex justify-center pt-8 mb-[55px] w-full" v-if="loading" >
+                        <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
-                    <button
-                    :disabled="validasiNonStudent || updatedHargaNonStudent == null || updatedHargaNonStudent == ''"
-                    @click="updateHarga('nonstudent')"
-                    :class="{'bg-gray-600 opacity-80 cursor-not-allowed': validasiNonStudent || updatedHargaNonStudent == null || updatedHargaNonStudent == ''}"
-                    class="w-1/3 self-center rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
-                        Ubah Harga
-                    </button>
+
+                    <div v-else-if="!loading" class="flex flex-col">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                                Harga saat ini
+                            </label>
+                            <input v-model="hargaNonStudent" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none" type="text" readonly>
+                            <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                            </div>
+                            <div class="w-full md:w-1/2 px-3">
+                                <label for="fee" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                                    Harga baru
+                                </label>
+                                <input id="fee"
+                                    v-model="updatedHargaNonStudent" @input="validation"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 500000">
+                                <p v-if="validasiNonStudent !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiNonStudent }}.</p>
+                            </div>
+                        </div>
+                        <button
+                        :disabled="validasiNonStudent || updatedHargaNonStudent == null || updatedHargaNonStudent == ''"
+                        @click="updateHarga('nonstudent')"
+                        :class="{'bg-gray-600 opacity-80 cursor-not-allowed': validasiNonStudent || updatedHargaNonStudent == null || updatedHargaNonStudent == ''}"
+                        class="w-1/3 self-center rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
+                            Ubah Harga
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,6 +157,7 @@ export default {
 
         const getData = async() => {
             try {
+                loading.value = !loading.value
                 const token = JSON.parse(localStorage.getItem('token'))
                 const studentPrice = await initAPI('get', 'register/payment?type=register-student', null, token)
                 console.log(studentPrice.data)
@@ -158,6 +170,8 @@ export default {
                         hargaStudent.value = results[0].data.price
                         hargaNonStudent.value = results[1].data.price
                     })
+                
+                    loading.value = !loading.value
             } catch (error) {
                 Swal.fire({
                       icon: 'error',
