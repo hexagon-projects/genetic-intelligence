@@ -387,7 +387,14 @@ export default{
 
         const validasiWA = ref('')
 
-        const pilihTipe = (params) => tipeValue.value = params
+        const pilihTipe = async(params) => {
+            const token = JSON.parse(localStorage.getItem('token'))
+            tipeValue.value = params
+            let endpoint = params == 1 ? 'register-student' : 'register-non-student'
+            const response = await initAPI('get', `register/payment?type=${endpoint}`, null, token)
+            // console.log(response.data.price.replace('.', ''))
+            biayaPendaftaran.value = response.data.price.replace('.', '')
+        }
 
         onMounted(async() => {
             const response = await initAPI('get', 'payment/methods', null, null)
@@ -401,9 +408,9 @@ export default{
             }));
             provinceOptions.value = formattedProvince
 
-            const biayapendaftaran = await initAPI('get', 'register/payment', null, null)
+            // const biayapendaftaran = await initAPI('get', 'register/payment', null, null)
             // console.log(`biaya`,biayaPendaftaran)
-            biayaPendaftaran.value = biayapendaftaran.data.price
+            // biayaPendaftaran.value = biayapendaftaran.data.price
         })
 
         const getKota = async() => {
@@ -511,7 +518,8 @@ export default{
                 "address": alamatLengkap.value,
                 "status": statusNikah.value,
                 "payment_method_code": paymentCode.value,
-                "fee": feePaymentMethod.value,
+                // "fee": feePaymentMethod.value,
+                "fee": parseInt(biayaPendaftaran.value) + parseInt(feePaymentMethod.value),
                 "is_student": tipeValue.value,
                 "school_name": DOMPurify.sanitize(nama_sekolah.value)
             })
