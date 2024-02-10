@@ -5,9 +5,13 @@
                 <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
                     Beranda
                 </RouterLink>
+                <span class="mx-2 text-gray-400 text-base">/</span>
+                <a class="text-gray-400 text-base">
+                    Test
+                </a>
                 <span class="mx-2 text-base">/</span>
-                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-base text-dark hover:text-dark/70">
-                    Hasil Test
+                <RouterLink :to="{name: 'user.views.psikotest'}" class="text-base text-dark hover:text-dark/70">
+                    Test Psikotest
                 </RouterLink>
             </ol>
         </div>

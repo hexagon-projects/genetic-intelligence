@@ -17,7 +17,7 @@
             </ol>
         </div>
       <div class="flex flex-col justify-center mx-7 py-4 gap-4">
-          <div v-if="userData.is_detected == 'Belum'" class="lg:w-full">
+          <div v-if="userData.is_detected == 'Belum'" class="mt-4 lg:w-full">
               <BelumDeteksi />
           </div>
 

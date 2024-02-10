@@ -55,9 +55,9 @@
             <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil Assessment
             </RouterLink>
-            <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            <!-- <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil Psikotest
-            </a>
+            </a> -->
             </div>
         </div>
     </div>
@@ -82,9 +82,9 @@
             <RouterLink :to="{name: 'user.views.reservasi'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Reservasi GIM
             </RouterLink>
-            <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            <!-- <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Reservasi Assessment
-            </a>
+            </a> -->
             <!-- <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Reservasi Psikotest
             </a> -->

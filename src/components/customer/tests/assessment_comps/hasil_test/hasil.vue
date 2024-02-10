@@ -156,8 +156,6 @@ export default {
                         ],
                     };
                 }
-                console.log(`ini response`, response.data)
-                console.log(response.data.data[0].assessment.name)
                 loading.value = !loading.value
             } catch (error) {
                 console.log(error)

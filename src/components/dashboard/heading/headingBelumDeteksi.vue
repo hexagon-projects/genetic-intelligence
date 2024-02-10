@@ -16,7 +16,7 @@
                     <h1 class="font-myFont font-semibold text-start text-clip text-lg lg:text-3xl text-white">{{ userData.name }}</h1>
                 </div>
                 <div class="w-full">
-                    <h1 v-if="userData.is_detected == 'Belum'" class="mb-3 font-myFont font-normal text-xl lg:text-base text-white">
+                    <h1 v-if="userData.is_detected == 'Belum'" class="mb-3 font-myFont font-normal text-sm lg:text-base text-white">
                         Saatnya sekarang kamu untuk melakukan test <span class="italic">Genetic Intelligence Mapping</span> agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu.
                     </h1>
                     <div v-else-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'">
