@@ -374,6 +374,21 @@ const routes = [
             else next()
         }
     },
+    {
+        path: '/pengaturan-hasil-assessment',
+        name: 'admin.views.pengaturan_hasil_assessment',
+        component: () => import('../components/admin/pengaturan/assessment/hasil.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
     // {
     //     path: '/payment-status?:merchantId&:reference'
     // }

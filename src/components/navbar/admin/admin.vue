@@ -87,13 +87,13 @@
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
             :class="{
-                'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.reservasi' || $route.name === 'admin.views.reservasi_psikotest',
-                'text-dark bg-white': $route.name !== 'admin.views.reservasi' && $route.name !== 'admin.views.reservasi_psikotest'
+                'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.pengaturan_jawaban_assessment' || $route.name === 'admin.views.pengaturan_hasil_assessment',
+                'text-dark bg-white': $route.name !== 'admin.views.pengaturan_hasil_assessment' && $route.name !== 'admin.views.pengaturan_jawaban_assessment'
             }"
             @click="toggleFilter('pengaturan')"
             ref="showPengaturanRef"
         >
-            <PhGear :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.reservasi' || $route.name == 'admin.views.reservasi_psikotest','text-biru hover:text-light': $route.name !== 'admin.views.reservasi' && $route.name !== 'admin.views.reservasi_psikotest'}" />
+            <PhGear :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.pengaturan_hasil_assessment' || $route.name == 'admin.views.pengaturan_jawaban_assessment','text-biru hover:text-light': $route.name !== 'admin.views.pengaturan_hasil_assessment' && $route.name !== 'admin.views.pengaturan_jawaban_assessment'}" />
         Pengaturan
         <PhCaretDown :size="16"/>
     </button>
@@ -104,8 +104,11 @@
         <RouterLink :to="{name: 'admin.views.pengaturan_harga'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
             Pengaturan Harga
         </RouterLink>
-        <RouterLink :to="{name: 'admin.views.reservasi_psikotest'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+        <RouterLink :to="{name: 'admin.views.pengaturan_jawaban_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
             Pengaturan Jawaban Assessment
+        </RouterLink>
+        <RouterLink :to="{name: 'admin.views.pengaturan_hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Pengaturan Hasil Assessment
         </RouterLink>
         </div>
     </div>

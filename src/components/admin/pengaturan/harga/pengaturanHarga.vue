@@ -174,12 +174,12 @@ export default {
                     loading.value = !loading.value
             } catch (error) {
                 Swal.fire({
-                      icon: 'error',
-                      title: 'Terjadi Error',
-                      text: 'Ada error saat mengambil data harga',
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+                    icon: 'error',
+                    title: 'Terjadi Error',
+                    text: 'Ada error saat mengambil data harga',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             }
         }
         
