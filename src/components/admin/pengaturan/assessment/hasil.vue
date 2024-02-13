@@ -123,7 +123,7 @@
                             <tr>
                                 <th scope="col" class="py-3 px-6">No</th>
                                 <th scope="col" class="py-3 px-6">Gaya Belajar</th>
-                                <th scope="col" class="py-3 px-6">Jawaban Terbanyak</th>
+                                <th scope="col" class="py-3 px-6">Kualifikasi Jawaban</th>
                                 <th scope="col" class="py-3 px-6">Detail</th>
                             </tr>
                             </thead>
@@ -133,7 +133,7 @@
                                         {{ index + 1 }}
                                     </td>
                                     <td class="py-4 px-6">{{ data.name }}</td>
-                                    <td class="py-4 px-6">A</td>
+                                    <td class="py-4 px-6">{{ data.qualification }}</td>
                                     <td class="py-4 px-6">
                                         <button @click="clickDetail(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                             <PhEye :size="22"/>

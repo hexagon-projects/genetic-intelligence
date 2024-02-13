@@ -389,21 +389,21 @@ const routes = [
             else next()
         }
     },
-    {
-        path: '/pengaturan-jawaban-assessment',
-        name: 'admin.views.pengaturan_jawaban_assessment',
-        component: () => import('../components/admin/riwayat_pembayaran/riwayatPembayaran.vue'),
-        meta: {
-            showNavbar: true,
-            showFooter: true
-        },
-        beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
-            const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
-        }
-    },
+    // {
+    //     path: '/pengaturan-jawaban-assessment',
+    //     name: 'admin.views.pengaturan_jawaban_assessment',
+    //     component: () => import('../components/admin/riwayat_pembayaran/riwayatPembayaran.vue'),
+    //     meta: {
+    //         showNavbar: true,
+    //         showFooter: true
+    //     },
+    //     beforeEnter: (to, from, next) => {
+    //         const roleUser = JSON.parse(localStorage.getItem('userRole'))
+    //         const isAuth = JSON.parse(localStorage.getItem('userData'))
+    //         if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+    //         else next()
+    //     }
+    // },
     {
         path: '/pengaturan-hasil-assessment',
         name: 'admin.views.pengaturan_hasil_assessment',
