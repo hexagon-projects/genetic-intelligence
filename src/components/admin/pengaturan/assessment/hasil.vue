@@ -44,7 +44,9 @@
                         </div>
                     </div>
                 </div>
+
                 <hr class="pt-4">
+
                 <!-- Modal footer -->
                 <div class="px-4 py-2 flex justify-between items-center space-x-4">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
@@ -58,145 +60,30 @@
 
             <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
                 <!-- Modal body -->
-                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Reservasi</h1>
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Gaya Belajar</h1>
                 <hr class="mt-4">
-                <div class="max-h-[460px] overflow-y-scroll flex flex-col justify-center items-center">
-                    <div v-if="detailGayaBelajar" class="w-full p-4">
-                        <div class="flex flex-row gap-2">
-                            <div class="w-full">
-                                <h1 class="text-dark text-lg font-myFont font-medium mt-20 mb-2">Jadwal</h1>
-                                <div class="flex flex-row items-center mb-4">
-                                    <div class="w-3/5">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Tipe Gaya Belajar
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                Visual dan Auditori
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="w-2/5">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Tanggal
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                
+                <div v-if="detailGayaBelajar" :class="{'h-[460px] flex flex-col justify-center': loadingSubmit}" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                    <div v-if="loadingSubmit" class="flex flex-col items-center justify-center w-full">
+                        <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                    </div>
 
-                                <hr class="my-4">
+                    <div v-else-if="!loadingSubmit">
+                        <div class="flex flex-col mb-2">
+                            <h1 class="text-dark text-base font-myFont font-medium">Tipe Gaya Belajar</h1>
+                            <input @input="submitDisabled = false" v-model="newNameAssessment" class="mb-1 w-1/2 outline-none appearance-none block bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text">
+                        </div>
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-base font-myFont font-medium">Penjelasan</h1>
+                            <button @click="addAnswer" class="flex justify-center gap-1 items-center w-[160px] mb-1 px-2 py-1 bg-white border border-biru text-biru rounded-md hover:bg-biru hover:text-white">
+                                <PhPlus/> Tambah Form
+                            </button>
 
-                                <h1 class="text-dark text-lg font-myFont font-medium mb-2">Consultant</h1>
-                                <div class="flex flex-row items-center mb-4">
-                                    <div class="w-3/5">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Nama
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="w-2/5">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Jenis Kelamin
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-row items-center gap-2 mb-4">
-                                    <div class="w-full">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                No Telp
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-row items-center gap-2 mb-4">
-                                    <div class="w-full">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Alamat
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                            <!-- <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p> -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr class="my-4">
-
-                                <h1 class="text-dark text-lg font-myFont font-medium mb-2">Customer</h1>
-                                <div class="flex flex-row items-center mb-4">
-                                    <div class="w-3/5">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Nama
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="w-2/5">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Jenis Kelamin
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{ }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-row items-center gap-2 mb-4">
-                                    <div class="w-full">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                No Telp
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-row items-center gap-2 mb-4">
-                                    <div class="w-full">
-                                        <div class="flex flex-col items-start">
-                                            <h1 class="font-myFont font-medium text-dark text-sm">
-                                                Alamat
-                                            </h1>
-                                            <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p>
-                                            <!-- <p class="font-myFont font-medium text-dark text-xs">
-                                                {{  }}
-                                            </p> -->
-                                        </div>
-                                    </div>
-                                </div>
+                            <div v-for="(desc, index) in newAnswer" :key="index" class="flex justify-start items-center gap-2">
+                                <textarea @input="submitDisabled = false" v-model="newAnswer[index]" :rows="desc.length >= 200 ? 2 : 1" class="mb-1 appearance-none block w-full bg-gray-200 text-sm text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text"></textarea>
+                                <button @click="removeAnswer(index)" class="p-2 text-danger bg-white rounded-md border border-danger hover:text-white hover:bg-danger">
+                                    <PhTrash/>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -204,8 +91,13 @@
 
                 <hr class="pt-4">
                 <!-- Modal footer -->
-                <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                <div class="px-4 py-2 flex justify-between items-center space-x-4">
                     <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                    <button :disabled="submitDisabled" 
+                    :class="{'bg-gray-600 opacity-80 cursor-not-allowed': submitDisabled == true}"
+                    class="bg-biru text-white px-4 py-2 rounded-md hover:bg-opacity-75 hover:shadow-md transition" @click="modalConfirmSubmit(detailGayaBelajar.id)">
+                        Submit
+                    </button>
                 </div>
             </div>
         </div>
@@ -218,7 +110,7 @@
                         <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
                             {{ totalDari }} sampai {{ totalKe }} dari {{ totalData }} data.
                         </span>
-                        <input type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
+                        <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
                     <div class="flex justify-center w-full" v-if="loading" >
@@ -265,6 +157,7 @@ import { onMounted, ref, watch } from 'vue';
 import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import _debounce from 'lodash/debounce';
 
 export default {
     name: 'PengaturanJawabanAssessment',
@@ -287,6 +180,8 @@ export default {
         const newAnswer = ref([]);
 
         const submitDisabled = ref(true)
+
+        const cari = ref(null)
 
         watch(() => descriptionBelajar.value, (newVal) => {
             // Mengupdate newAnswer dengan data baru
@@ -418,6 +313,19 @@ export default {
             loading.value = !loading.value
         }
 
+        const getSearchData = async() => {
+            loading.value = !loading.value
+            const token = JSON.parse(localStorage.getItem('token'))
+            const query = await initAPI('get', 'assessments?search='+cari.value, null, token)
+            dataAssessment.value = query.data.data
+            totalDari.value = query.data.from
+            totalKe.value = query.data.to
+            totalData.value = query.data.total
+            loading.value = !loading.value
+        }
+
+        const debouncedGetSearchData = _debounce(getSearchData, 500);
+
         onMounted(() => {
             getAllData()
         })
@@ -435,12 +343,14 @@ export default {
             newNameAssessment,
             newAnswer,
             submitDisabled,
+            cari,
+            debouncedGetSearchData,
             toggleModal,
             clickDetail,
             addAnswer,
             removeAnswer,
             modalConfirmSubmit,
-            submitEdit
+            submitEdit,
         }
     }
 }
