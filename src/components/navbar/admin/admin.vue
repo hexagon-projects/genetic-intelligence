@@ -104,8 +104,8 @@
         <RouterLink :to="{name: 'admin.views.pengaturan_harga'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
             Pengaturan Harga
         </RouterLink>
-        <RouterLink :to="{name: 'admin.views.pengaturan_jawaban_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-            Pengaturan Jawaban Assessment
+        <RouterLink :to="{name: 'admin.views.pengaturan_soal_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Pengaturan Soal Assessment
         </RouterLink>
         <RouterLink :to="{name: 'admin.views.pengaturan_hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
             Pengaturan Hasil Assessment

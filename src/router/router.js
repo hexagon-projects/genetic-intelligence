@@ -195,6 +195,21 @@ const routes = [
         }
     },
     {
+        path: '/hasil-test',
+        name: 'consultant.views.hasil',
+        component: () => import('../components/consultant/hasil_test/hasil_gim.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
         path: '/detail-review/:id',
         name: 'consultant.views.review.detail',
         component: () => import('../components/consultant/review_test/DetailReview.vue'),
@@ -348,6 +363,21 @@ const routes = [
         path: '/pengaturan-harga',
         name: 'admin.views.pengaturan_harga',
         component: () => import('../components/admin/pengaturan/harga/pengaturanHarga.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/pengaturan-soal-assessment',
+        name: 'admin.views.pengaturan_soal_assessment',
+        component: () => import('../components/admin/pengaturan/assessment/pengaturanSoal.vue'),
         meta: {
             showNavbar: true,
             showFooter: true

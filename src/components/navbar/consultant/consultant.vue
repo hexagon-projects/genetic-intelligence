@@ -22,7 +22,7 @@
             <RouterLink :to="{name: 'consultant.views.review'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Review Test GIM
             </RouterLink>
-            <RouterLink :to="{name: 'consultant.views.review'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            <RouterLink :to="{name: 'consultant.views.hasil'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 List Hasil GIM
             </RouterLink>
             </div>

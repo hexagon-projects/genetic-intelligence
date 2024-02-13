@@ -260,7 +260,7 @@
                       <!-- <span class="font-myFont text-sm text-start lg:text-center text-dark">
                           {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
                       </span> -->
-                      <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
+                      <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class="font-myFont rounded-md border border-gray-300 py-2 px-3 -mb-5" placeholder="Cari Data">
                   </div>
 
                   <div class="flex justify-center w-full" v-if="loading" >
