@@ -12,6 +12,212 @@
             </ol>
         </div>
 
+        <div v-if="isModalOpen && detailRiwayatPembayaran" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 h-full w-full px-4 modal"
+        >
+            <div class="hidden lg:block relative w-3/4 top-4 mx-auto shadow-xl rounded-md bg-white">
+                <!-- Modal body -->
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Riwayat Pembayaran</h1>
+                <hr class="mt-4">
+                
+                <div v-if="detailRiwayatPembayaran" :class="{'h-[460px] flex flex-col justify-center': loadingSubmit}" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                    <div>
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-xl font-myFont font-medium mb-2">Pembayaran</h1>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Merchant ID Pembayaran</span>
+                                <span class="font-myFont text-base text-dark font-medium">
+                                    {{ detailRiwayatPembayaran.merchant_order_id }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Tipe Pembayaran</span>
+                                <span class="font-myFont text-base text-dark font-medium">
+                                    {{ detailRiwayatPembayaran.payment_type }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Total Pembayaran</span>
+                                <span class="font-myFont text-base text-dark font-medium">Rp.{{ detailRiwayatPembayaran.callback_response.amount }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Tanggal Pembayaran</span>
+                                <span class="font-myFont text-base text-dark font-medium">{{ detailRiwayatPembayaran.created_at }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Status Pembayaran</span>
+                                <span class="font-myFont text-base text-dark font-medium">{{ detailRiwayatPembayaran.status }}</span>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-xl font-myFont font-medium mb-2">Customer</h1>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Nama</span>
+                                <span class="font-myFont text-dark text-base font-medium">
+                                    {{ detailRiwayatPembayaran.customer.first_name }} {{ detailRiwayatPembayaran.customer.last_name }}
+                                </span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
+                                <span class="font-myFont text-dark text-base font-medium">{{ detailRiwayatPembayaran.customer.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-base">No Telp</span>
+                                <span class="font-myFont text-dark text-base font-medium">{{ detailRiwayatPembayaran.customer.number }}</span>
+                            </div>
+                            <div class="mb-2 flex flex-col">
+                                <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                <span class="font-myFont text-dark text-base font-medium">{{ detailRiwayatPembayaran.customer.address }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="pt-4">
+
+                <!-- Modal footer -->
+                <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                </div>
+            </div>
+
+            <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
+                <!-- Modal body -->
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Riwayat Pembayaran</h1>
+                <hr class="mt-4">
+                
+                <div v-if="detailRiwayatPembayaran" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                    <div class="w-full">
+                        <div class="flex flex-row gap-2">
+                            <div class="w-full">
+                                <h1 class="text-dark text-lg font-myFont font-medium mb-2">Pembayaran</h1>
+                                <div class="flex flex-row items-center mb-4">
+                                    <div class="w-3/5">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Merchant ID Pembayaran
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.merchant_order_id }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="w-2/5">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Tipe Pembayaran
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.payment_type }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-row items-center mb-4">
+                                    <div class="w-3/5">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Total Pembayaran
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.callback_response.amount }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="w-2/5">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Tanggal Pembayaran
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.created_at }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row items-center mb-4">
+                                    <div class="w-full">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Status Pembayaran
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.status }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <h1 class="text-dark text-lg font-myFont font-medium mb-2">Customer</h1>
+                                <div class="flex flex-row items-center mb-4">
+                                    <div class="w-3/5">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Nama
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.customer.first_name }} {{ detailRiwayatPembayaran.customer.last_name }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="w-2/5">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Jenis Kelamin
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.customer.gender == '1' ? 'Laki - Laki' : 'Perempuan'}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row items-center gap-2 mb-4">
+                                    <div class="w-full">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                No Telp
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.customer.number }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row items-center gap-2 mb-4">
+                                    <div class="w-full">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Alamat
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailRiwayatPembayaran.customer.address }}
+                                            </p>
+                                            <!-- <p class="font-myFont font-medium text-dark text-xs">
+                                                {{  }}
+                                            </p> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="pt-4">
+                <!-- Modal footer -->
+                <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                </div>
+            </div>
+        </div>
+
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="w-full px-7 mx-auto">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
@@ -45,36 +251,46 @@
                         <input v-model="cari" @input="debouncedGetSearchData()" type="text" name="cari" class=" mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="py-3 px-6">No</th>
-                            <th scope="col" class="py-3 px-6">Waktu Pembayaran</th>
-                            <th scope="col" class="py-3 px-6">Order ID</th>
-                            <th scope="col" class="py-3 px-6">Reference</th>
-                            <th scope="col" class="py-3 px-6">Customer</th>
-                            <th scope="col" class="py-3 px-6">Status</th>
-                            <th scope="col" class="py-3 px-6">Detail</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(data, index) in dataRiwayatPembayaran" :key="index" class="bg-white border-b">
-                                <td class="py-4 px-6">
-                                    {{ (currPage - 1) * itemsPerPage + index + 1 }}
-                                </td>
-                                <td class="py-4 px-6">{{ data.created_at }}</td>
-                                <td class="py-4 px-6">{{ data.merchant_order_id }}</td>
-                                <td class="py-4 px-6">{{ data.reference }}</td>
-                                <td class="py-4 px-6">{{ data.customer !== null ? data.customer.first_name : '-' }}</td>
-                                <td class="py-4 px-6">{{ data.status }}</td>
-                                <td class="py-4 px-6">
-                                    <button class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                        <PhEye :size="22"/>
-                                    </button>
-                                </td>
+                    <div class="flex justify-center w-full" v-if="loading" >
+                        <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                    </div>
+
+                    <div v-else-if="dataRiwayatPembayaran.length > 0 && !loading" class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="py-3 px-6">No</th>
+                                <th scope="col" class="py-3 px-6">Waktu Pembayaran</th>
+                                <th scope="col" class="py-3 px-6">Order ID</th>
+                                <th scope="col" class="py-3 px-6">Reference</th>
+                                <th scope="col" class="py-3 px-6">Customer</th>
+                                <th scope="col" class="py-3 px-6">Status</th>
+                                <th scope="col" class="py-3 px-6">Detail</th>
                             </tr>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, index) in dataRiwayatPembayaran" :key="index" class="bg-white border-b">
+                                    <td class="py-4 px-6">
+                                        {{ (currPage - 1) * itemsPerPage + index + 1 }}
+                                    </td>
+                                    <td class="py-4 px-6">{{ data.created_at }}</td>
+                                    <td class="py-4 px-6">{{ data.merchant_order_id }}</td>
+                                    <td class="py-4 px-6">{{ data.reference }}</td>
+                                    <td class="py-4 px-6">{{ data.customer !== null ? data.customer.first_name : '-' }}</td>
+                                    <td class="py-4 px-6">{{ data.status }}</td>
+                                    <td class="py-4 px-6">
+                                        <button @click="modalDetail(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <PhEye :size="22"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <span v-else-if="dataRiwayatPembayaran.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">
+                        Data kosong
+                    </span>
 
                     <div class="flex justify-between items-center mt-4">
                         <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
@@ -113,6 +329,10 @@ export default {
     name: 'RiwayatPembarayan',
     components: {PhEye, PhCaretLeft, PhCaretRight, PhX},
     setup(){
+        const loading = ref(false)
+
+        const isModalOpen = ref(false)
+
         const dropdownRef = ref(null)
         const labelFilter = ref('Filter Status')
         const showFilter = ref(false)
@@ -129,6 +349,7 @@ export default {
         const itemsPerPage = ref('') 
 
         const dataRiwayatPembayaran = ref([])
+        const detailRiwayatPembayaran = ref([])
 
         const cari = ref(null)
 
@@ -139,6 +360,7 @@ export default {
         }
 
         const getAllData = async() => {
+            loading.value = !loading.value
             try {
                 let allParams = '?'
                 console.log(queryParams)
@@ -169,6 +391,7 @@ export default {
                     confirmButtonText: "Tutup",
                 });
             }
+            loading.value = !loading.value
         } 
 
         onMounted(() => {
@@ -194,8 +417,8 @@ export default {
 
         const modalDetail = (id) => {
             toggleModal()
-            const data = dataSoal.value.find(item => item.id === id);
-            detailSoal.value = data
+            const data = dataRiwayatPembayaran.value.find(item => item.id === id);
+            detailRiwayatPembayaran.value = data
         }
 
         const toggleModal = () => {
@@ -236,6 +459,9 @@ export default {
         });
 
         return {
+            loading,
+            isModalOpen,
+            detailRiwayatPembayaran,
             dropdownRef,
             totalDari,
             totalKe,
@@ -254,6 +480,7 @@ export default {
             labelFilter,
             isFilter,
             showFilter,
+            toggleModal,
             modalDetail,
             nextPages,
             prevPages,
