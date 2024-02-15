@@ -17,7 +17,7 @@
                     Test GIM
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.assesment'}" 
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.assesment'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex gap-1 items-center font-myFont text-sm">
@@ -46,7 +46,7 @@
                     Hasil GIM
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.hasil_assessment'}" 
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex gap-1 items-center font-myFont text-sm">
@@ -129,7 +129,7 @@ import {
     PhDotsThree, PhTextAa, PhExam,
     PhUserFocus, PhUser, PhSignOut
  } from "@phosphor-icons/vue";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -148,6 +148,8 @@ export default {
     },
     setup(){
         const store = useStore()
+        const userData = computed(() => store.getters.getUserData);
+
         const router = useRouter()
 
         const showTest = ref(false)
@@ -215,6 +217,7 @@ export default {
 		}
 
         return {
+            userData,
             showTest,
             dropdownTestRef,
             showHasil,

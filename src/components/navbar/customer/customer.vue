@@ -22,7 +22,7 @@
             <RouterLink :to="{name: 'user.views.deteksi'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test GIM
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.assesment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.assesment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test Assesment
             </RouterLink>
             <RouterLink :to="{name: 'user.views.psikotest'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
@@ -52,7 +52,7 @@
             <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil GIM
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil Assessment
             </RouterLink>
             <!-- <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
