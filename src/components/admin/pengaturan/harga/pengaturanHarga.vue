@@ -13,7 +13,7 @@
         </div>
 
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
-            <div class="w-1/2">
+            <div class="w-full lg:w-1/2">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">Harga Registrasi Pelajar</h1>
                     <div class="flex justify-center pt-8 mb-[55px] w-full" v-if="loading" >
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="w-1/2">
+            <div class="w-full lg:w-1/2">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">Harga Registrasi Non-Pelajar</h1>
                     <div class="flex justify-center pt-8 mb-[55px] w-full" v-if="loading" >

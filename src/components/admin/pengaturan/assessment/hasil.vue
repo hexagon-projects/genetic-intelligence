@@ -105,7 +105,7 @@
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="w-full px-7 mx-auto">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
-                    <h1 class="font-myFont text-dark text-lg mb-4">List Jawaban Assessment</h1>
+                    <h1 class="font-myFont text-dark text-lg mb-4">List Hasil Assessment</h1>
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
                         <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
                             {{ totalDari }} sampai {{ totalKe }} dari {{ totalData }} data.

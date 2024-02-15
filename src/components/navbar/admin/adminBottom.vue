@@ -61,15 +61,91 @@
         </RouterLink>
     </div>
 
-    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
+    <button @click="toggleDropdown('pengaturan')" ref="showPengaturanRef"
+        class="w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
+        :class="{'font-bold' : showPengaturan 
+        || $route.name === 'admin.views.pengaturan_soal_assessment'
+        || $route.name === 'admin.views.pengaturan_hasil_assessment'
+        || $route.name === 'admin.views.pengaturan_harga'
+        }"
+        >
+        <div class="self-center">
+            <PhGear :size="28" />
+        </div>
+        <span class="tab tab-home text-center block text-xs">Pengaturan</span>
+    </button>
+    <div v-if="showPengaturan" class="absolute gap-1 bg-white flex justify-center items-center w-full py-4 px-2 bottom-14 border">
+        <RouterLink :to="{name: 'admin.views.pengaturan_harga'}" 
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex gap-[2px] items-center font-myFont text-sm">
+                <PhCurrencyCircleDollar :size="18"/>
+                Pengaturan Harga
+            </span>
+        </RouterLink>
+        <RouterLink :to="{name: 'admin.views.pengaturan_soal_assessment'}" 
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex gap-[2px] items-center font-myFont text-sm">
+                <PhTextAa :size="18"/>
+                Soal Assessment
+            </span>
+        </RouterLink>
+        <RouterLink :to="{name: 'admin.views.pengaturan_hasil_assessment'}" 
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex gap-[2px] items-center font-myFont text-sm">
+                <PhExam :size="18"/>
+                Hasil Assessment
+            </span>
+        </RouterLink>
+    </div>
+
+    <button @click="toggleDropdown('lainya')" ref="showLainyaRef"
+        class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+        :class="{'font-bold' : showLainya || $route.name == 'user.views.profile' || $route.name == 'admin.views.riwayat_pembayaran'}"
+        >
+        <div class="self-center">
+            <PhDotsThree :size="28" />
+        </div>
+        <span class="tab tab-home block text-xs">Lainya</span>
+    </button>
+    <div v-if="showLainya" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
+        <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" 
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhMoney :size="20"/>
+                Pembayaran
+            </span>
+        </RouterLink>
+        <RouterLink :to="{name: 'user.views.profile'}" 
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhUser :size="20"/>
+                Profile
+            </span>
+        </RouterLink>
+        <button @click="Logout"
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <PhSignOut :size="20"/>
+                Keluar
+            </span>
+        </button>
+    </div>  
+
+    <!-- <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" 
         class="w-full flex flex-col justify-center text-center pt-2 pb-1"
-        :class="{'font-bold' : $route.name === 'user.views.hasil_deteksi'}"
+        :class="{'font-bold' : $route.name === 'admin.views.riwayat_pembayaran'}"
         >
         <div class="self-center">
             <PhMoney :size="28" />
         </div>
         <span class="tab tab-home block text-xs">Pembayaran</span>
-    </RouterLink>
+    </RouterLink> -->
 
     <!-- <RouterLink :to="{name: 'user.views.profile'}" 
         class="w-full flex flex-col justify-center text-center pt-2 pb-1"
@@ -83,7 +159,12 @@
 </template>
 
 <script>
-import {  PhTarget, PhFileText, PhFolders, PhFolderUser, PhMoney, PhUser } from "@phosphor-icons/vue";
+import {  
+    PhTarget, PhFileText, PhFolders, 
+    PhFolderUser, PhMoney, PhGear,
+    PhCurrencyCircleDollar, PhTextAa, PhExam,
+    PhUser, PhDotsThree, PhSignOut
+} from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
@@ -94,13 +175,23 @@ export default {
         PhFolders,
         PhFolderUser,
         PhMoney,
-        PhUser
+        PhGear,
+        PhCurrencyCircleDollar,
+        PhTextAa,
+        PhExam,
+        PhUser,
+        PhDotsThree,
+        PhSignOut
     },
     setup(){
         const showData = ref(false)
         const showDataRef = ref(false)
         const showReservasi = ref(false)
         const showReservasiRef = ref(false)
+        const showPengaturan = ref(false)
+        const showPengaturanRef = ref(false)
+        const showLainya = ref(false)
+        const showLainyaRef = ref(false)
 
         const toggleDropdown = (params) => {
             switch(params) {
@@ -109,6 +200,9 @@ export default {
                     break;
                 case 'reservasi':
                     showReservasi.value = !showReservasi.value
+                    break;
+                case 'pengaturan':
+                    showPengaturan.value = !showPengaturan.value
                     break;
                 case 'lainya':
                     showLainya.value = !showLainya.value
@@ -126,9 +220,13 @@ export default {
 				showReservasi.value = false;
 			}
 
-			// if (showLainyaRef.value && !showLainyaRef.value.contains(e.target)) {
-			// 	showLainya.value = false;
-			// }
+			if (showPengaturanRef.value && !showPengaturanRef.value.contains(e.target)) {
+				showPengaturan.value = false;
+			}
+
+			if (showLainyaRef.value && !showLainyaRef.value.contains(e.target)) {
+				showLainya.value = false;
+			}
     	};
 
         onMounted(() => {
@@ -144,6 +242,10 @@ export default {
             showDataRef,
             showReservasi,
             showReservasiRef,
+            showPengaturan,
+            showPengaturanRef,
+            showLainya,
+            showLainyaRef,
             toggleDropdown
         }
     }
