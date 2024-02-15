@@ -5,13 +5,13 @@
                 hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
                 "
                 :class="{
-                    'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'consultant.views.review',
-                    'text-dark bg-white': $route.name !== 'consultant.views.review'
+                    'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'consultant.views.review' || $route.name == 'consultant.views.hasil',
+                    'text-dark bg-white': $route.name !== 'consultant.views.review' && $route.name !== 'consultant.views.hasil'
                 }"
                 @click="toggleFilter('test-gim')"
                 ref="dropdownTestRef"
             >
-                <PhFileSearch :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.review','text-biru hover:text-light': $route.name !== 'consultant.views.review'}" />
+                <PhFileSearch :size="24" weight="duotone" :class="{'text-light': $route.name == 'consultant.views.review' || $route.name == 'consultant.views.hasil', 'text-biru hover:text-light': $route.name !== 'consultant.views.review' && $route.name !== 'consultant.views.hasil'}" />
             Test GIM
             <PhCaretDown :size="16"/>
         </button>

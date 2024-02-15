@@ -5,9 +5,13 @@
                 <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
                     Beranda
                 </RouterLink>
-                <span class="mx-2 text-base">/</span>
-                <RouterLink :to="{name: 'admin.views.reservasi'}" class="text-base text-dark hover:text-dark/70">
+                <span class="mx-2 text-base text-gray-400">/</span>
+                <span class="text-gray-400 text-base">
                     Reservasi
+                </span>
+                <span class="mx-2 text-base">/</span>
+                <RouterLink :to="{name: 'admin.views.reservasi_psikotest'}" class="text-base text-dark hover:text-dark/70">
+                    Reservasi Psikotest
                 </RouterLink>
             </ol>
         </div>

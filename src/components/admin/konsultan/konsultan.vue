@@ -2,14 +2,18 @@
     <section class="bg-gray-100 pb-28">
             <div class="mx-4 pt-4">
                 <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
-                    <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
-                        Beranda
-                    </RouterLink>
-                    <span class="mx-2 text-base">/</span>
-                    <RouterLink :to="{name: 'admin.views.konsultan'}" class="text-base text-dark hover:text-dark/70">
-                        Konsultan
-                    </RouterLink>
-                </ol>
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                    Beranda
+                </RouterLink>
+                <span class="mx-2 text-base text-gray-400">/</span>
+                <span class="text-gray-400 text-base">
+                    Users
+                </span>
+                <span class="mx-2 text-base">/</span>
+                <RouterLink :to="{name: 'admin.views.konsultan'}" class="text-base text-dark hover:text-dark/70">
+                    Konsultan
+                </RouterLink>
+            </ol>
             </div>
 
             <div v-if="isModalOpen && detailCustomers" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"

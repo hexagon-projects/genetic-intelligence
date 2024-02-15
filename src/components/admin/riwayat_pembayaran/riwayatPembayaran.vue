@@ -6,8 +6,8 @@
                     Beranda
                 </RouterLink>
                 <span class="mx-2 text-base">/</span>
-                <RouterLink :to="{name: 'admin.views.reservasi'}" class="text-base text-dark hover:text-dark/70">
-                    Reservasi
+                <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" class="text-base text-dark hover:text-dark/70">
+                    Riwayat Pembayaran
                 </RouterLink>
             </ol>
         </div>

@@ -4,7 +4,7 @@
             <div class="flex flex-col justify-center items-center">
                 <div class="w-32 h-32 rounded-full bg-gray-300 border-2 border-white mt-2">
                     <img 
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVxhAxJ4D7MOeTTj6kR9PBeZonW5HM7giKjTbEmR-HMBwf3G1VqGnlwpO1kWrdyIZu8_U&usqp=CAU" 
+                    src="../../assets/img/profile-mock.png" 
                     class="rounded-full w-auto"
                     />
                 </div>

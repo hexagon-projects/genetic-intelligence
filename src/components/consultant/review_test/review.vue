@@ -3,12 +3,18 @@
     :class="{'lg:pb-28 pb-48' : dataSubmit.length == 0, 'lg:pb-7': dataSubmit.length > 0}"
     >
             <div class="mx-4 pt-4">
-                <ol class="flex text-gray-500 font-semibold">
-                    <li class="before:px-1.5">
-                        <a class="text-dark text-base cursor-default">
-                            Beranda
-                        </a>
-                    </li>
+                <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
+                    <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                        Beranda
+                    </RouterLink>
+                    <span class="mx-2 text-base text-gray-400">/</span>
+                    <span class="text-gray-400 text-base">
+                        Test GIM
+                    </span>
+                    <span class="mx-2 text-base">/</span>
+                    <RouterLink :to="{name: 'consultant.views.review'}" class="text-base text-dark hover:text-dark/70">
+                        Review Test
+                    </RouterLink>
                 </ol>
             </div>
             <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">

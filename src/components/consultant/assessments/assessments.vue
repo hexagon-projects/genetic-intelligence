@@ -3,12 +3,14 @@
   :class="{'lg:pb-28' : dataJadwal.length == 0, 'lg:pb-7': dataJadwal.length > 0}"
   >
         <div class="mx-4 pt-4">
-            <ol class="flex text-gray-500 font-semibold">
-                <li class="before:px-1.5">
-                    <a class="text-dark text-base cursor-default">
-                        Beranda
-                    </a>
-                </li>
+            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
+                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                    Beranda
+                </RouterLink>
+                <span class="mx-2 text-base text-gray-400">/</span>
+                <RouterLink :to="{name: 'consultant.views.assessments'}" class="text-base text-dark hover:text-dark/70">
+                    List Assessment
+                </RouterLink>
             </ol>
         </div>
         <div v-if="isModalOpen && detailCustomers" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"

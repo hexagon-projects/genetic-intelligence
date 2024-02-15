@@ -146,14 +146,16 @@
                                     <span class="text-biru p-2 bg-indigo-500 bg-opacity-10 rounded-lg ">
                                         <PhFiles :size="28"/>
                                     </span>
-                                    <RouterLink :to="{name: 'consultant.views.review'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
+                                    <RouterLink :to="{name: 'admin.views.reservasi'}" class="text-neutral-400 hover:text-biru text-sm font-normal font-myFont flex items-center gap-1">
                                         Lihat Detail
                                         <PhArrowRight/>
                                     </RouterLink>
                                 </div>
                                 <div class="self-stretch justify-start items-start gap-8 inline-flex">
                                     <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
-                                        <div class="text-neutral-400 text-sm font-normal font-myFont">Jumlah Reservasi</div>
+                                        <div class="text-neutral-400 text-sm font-normal font-myFont">
+                                            Jumlah Reservasi
+                                        </div>
                                         <div class="justify-center items-center gap-[7px] inline-flex">
                                             <div class="text-biru text-xl font-medium font-myFont">
                                                 {{ countDashboard.totalReservasiSelesai }} Reservasi
@@ -165,8 +167,11 @@
                         </div>
                     </div>
                     <div class="md:hidden lg:flex flex-col justify-center gap-4">
-                        <div class="w-full h-[280px] px-[15px] py-[15px] bg-white rounded-lg shadow-sm">
-                            <Line :data="data" :options="options" />
+                        <div class="w-full h-[292px] px-[15px] py-[15px] bg-white rounded-lg shadow-sm">
+                            <h1 class="text-lg text-dark font-myFont">Statistik Customer</h1>
+                            <div class="h-[242px]">
+                                <Line :data="data" :options="options" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -174,6 +179,7 @@
 
             <div class="hidden lg:hidden md:flex flex-col justify-center mx-4 mb-1 pt-3 gap-4">
                 <div class="w-full h-[280px] px-[15px] py-[15px] bg-white rounded-lg shadow-sm">
+                    <h1 class="text-lg text-dark font-myFont">Statistik Customer</h1>
                     <Line :data="data" :options="options" />
                 </div>
             </div>
