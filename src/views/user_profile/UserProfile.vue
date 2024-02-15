@@ -7,6 +7,9 @@
         <div v-else-if="userRole === 'consultant'">
             <consultantProfile/>
         </div>
+        <div v-else-if="userRole === 'admin'">
+            <adminProfile/>
+        </div>
     </section>
 </template>
 
@@ -18,10 +21,11 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import customerProfile from '../../components/user_profile/customer_profile.vue'
 import consultantProfile from '../../components/user_profile/consultant_profile.vue'
+import adminProfile from '../../components/user_profile/admin_profile.vue';
 
 export default {
     name: 'UserProfile',
-    components: { customerProfile, consultantProfile },
+    components: { customerProfile, consultantProfile, adminProfile },
     setup(){
         const store = useStore()
         const userData = computed(() => store.getters.getUserData)
