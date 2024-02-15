@@ -11,7 +11,56 @@
                   </li>
               </ol>
           </div>
-          <!-- tinggal tambah modalnya disini dit -->
+          
+          <div v-if="isModalOpen && detailSoal" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal">
+              <div class="hidden lg:block relative w-3/4 top-4 mx-auto shadow-xl rounded-md bg-white">
+                  <!-- Modal body -->
+                  <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Soal</h1>
+                  <hr class="mt-4">
+                  <div class="flex flex-row">
+                      <div v-if="detailSoal" class="w-full p-4">
+                          <div class="flex flex-row">
+                              <div class="w-full">
+                                  <div class="flex flex-row items-center gap-2 mb-4">
+                                      <div class="w-full">
+                                          <div class="flex flex-col">
+                                              <h1 class="font-myFont font-semibold text-dark text-sm">
+                                                  Pertanyaan :
+                                              </h1>
+                                              <p class="font-myFont font-medium text-dark text-md">
+                                                  {{ detailSoal.question }}
+                                              </p>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div v-for="(answer, idx) in detailSoal.answers" :key="idx" class="w-full mb-4">
+                                      <div class="flex flex-col">
+                                          <h1 class="font-myFont text-dark text-sm font-medium mb-1">
+                                              Pilihan {{ answer.value.toUpperCase() }}
+                                          </h1>
+                                          <div class="flex flex-row gap-3">
+                                            <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-biru" :name="'answer_'+answer.value" :id="'answer_'+detailSoal.id+answer.value" :value="answer.answer.replace(answer.value+'. ', '')" disabled>
+                                            <button @click="clickEdit(detailSoal.id, answer.value)" class="flex items-center gap-1 px-2 py-2 bg-biru font-myFont text-sm text-white rounded-md hover:bg-opacity-75 hover:shadow-lg">
+                                              <PhPencilSimple :size="22"/>
+                                            </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <hr class="pt-4">
+                  <!-- Modal footer -->
+                  <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                      <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition" @click="saveEdit">Simpan</button>
+                      <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                  </div>
+              </div>
+          </div>
+
           <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
               <div class="w-full px-7 mx-auto">
                   <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
@@ -78,7 +127,7 @@
 </template>
 
 <script>
-import { PhCaretLeft, PhCaretRight, PhEye, PhX } from '@phosphor-icons/vue';
+import { PhCaretLeft, PhCaretRight, PhEye, PhPencilSimple, PhX } from '@phosphor-icons/vue';
 import { onMounted, ref, onBeforeMount, onBeforeUnmount } from 'vue'
 import initAPI from '../../../../api/api';
 import _debounce from 'lodash/debounce';
@@ -89,7 +138,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
   name: 'PengaturanSoalAssessment',
-  components: {PhCaretLeft, PhCaretRight, PhEye, PhX},
+  components: {PhCaretLeft, PhCaretRight, PhEye, PhPencilSimple, PhX},
   setup(){
       const loading = ref(false)
       const dataSoal = ref([])
@@ -164,6 +213,16 @@ export default {
           isModalOpen.value = !isModalOpen.value
       }
 
+      const clickEdit = (id, opt) => {
+          if(document.getElementById('answer_'+id+opt).getAttribute('disabled') != null){
+            document.getElementById('answer_'+id+opt).removeAttribute('disabled')
+            document.getElementById('answer_'+id+opt).classList.remove('bg-gray-100')
+          }else{
+            document.getElementById('answer_'+id+opt).setAttribute('disabled', true)
+            document.getElementById('answer_'+id+opt).classList.add('bg-gray-100')
+          }
+      }
+
       return {
           loading,
           dataSoal,
@@ -180,6 +239,8 @@ export default {
           queryParams,
           debouncedGetSearchData,
           isModalOpen,
+          clickEdit,
+          toggleModal,
           modalDetail,
           nextPages,
           prevPages,
