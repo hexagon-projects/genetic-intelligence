@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRouter } from 'vue-router'
 
 // const useAPI = async(method, endpoint, data) => {
 //     const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'+endpoint
@@ -47,23 +48,32 @@ import axios from 'axios';
 // }
 
 const initAPI = async (method, endpoint, data, token) => {
+  const router = useRouter()
   const baseUrl = import.meta.env.VITE_API_BASE_URL
   // const baseUrl = 'http://178.128.110.149/api/'
   // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/')
   console.log(check)
-    const config = {
-        method: method,
-        maxBodyLength: Infinity,
-        url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
-        headers: { 
-          'Content-Type': check ? 'multipart/form-data' : 'application/json',
-          'Authorization': token !== null ? `Bearer ${token}` : null
-        },
-        data : data !== null ? data : null
-      };
+  const config = {
+    method: method,
+    maxBodyLength: Infinity,
+    url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
+    headers: { 
+      'Content-Type': check ? 'multipart/form-data' : 'application/json',
+      'Authorization': token !== null ? `Bearer ${token}` : null
+    },
+    data : data !== null ? data : null
+  };
+
+  try {
     const response = await axios.request(config)
     return response
+  } catch (error) {
+    if(error.response && error.response.status === 401){
+      localStorage.clear()
+      router.go()
+    }
+  }
 }
 
 export default initAPI
