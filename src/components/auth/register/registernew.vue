@@ -196,7 +196,7 @@
                             </div>
                             <div class="w-full mb-4">
                                 <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-gray-600">Tanggal Lahir:</label>
-                                <VueDatePicker v-model="date" :enable-time-picker="false" placeholder="Pilih Tanggal Lahir" text-input />
+                                <VueDatePicker class="py-1" v-model="date" :enable-time-picker="false" placeholder="Pilih Tanggal Lahir" text-input />
                                 <!-- <input v-model="tglLahir" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Tanggal Lahir" /> -->
                             </div>
                         </div>
