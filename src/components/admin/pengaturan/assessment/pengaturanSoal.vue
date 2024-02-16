@@ -33,9 +33,12 @@
                                               <h1 class="font-myFont font-semibold text-dark text-sm">
                                                   Pertanyaan :
                                               </h1>
-                                              <p class="font-myFont font-medium text-dark text-md">
-                                                  {{ detailSoal.question }}
-                                              </p>
+                                              <div class="flex flex-row gap-3">
+                                                <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-biru" :id="'answer_'+detailSoal.id" v-model="detailSoal.question" disabled>
+                                                <button @click="clickEdit(detailSoal.id, '')" class="flex items-center gap-1 px-2 py-2 bg-biru font-myFont text-sm text-white rounded-md hover:bg-opacity-75 hover:shadow-lg">
+                                                  <PhPencilSimple :size="22"/>
+                                                </button>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
@@ -46,7 +49,7 @@
                                               Pilihan {{ answer.value.toUpperCase() }}
                                           </h1>
                                           <div class="flex flex-row gap-3">
-                                            <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-biru" :name="'answer_'+answer.value" :id="'answer_'+detailSoal.id+answer.value" :value="answer.answer.replace(answer.value+'. ', '')" disabled>
+                                            <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-biru" :name="'answer_'+answer.value" :id="'answer_'+detailSoal.id+answer.value" v-model="detailSoal.answers[idx].answer" disabled>
                                             <button @click="clickEdit(detailSoal.id, answer.value)" class="flex items-center gap-1 px-2 py-2 bg-biru font-myFont text-sm text-white rounded-md hover:bg-opacity-75 hover:shadow-lg">
                                               <PhPencilSimple :size="22"/>
                                             </button>
@@ -61,7 +64,7 @@
                   <hr class="pt-4">
                   <!-- Modal footer -->
                   <div class="px-4 py-2 flex justify-end items-center space-x-4">
-                      <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition" @click="saveEdit">Simpan</button>
+                      <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition" @click="saveEdit(detailSoal)">Simpan</button>
                       <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
                   </div>
               </div>
@@ -147,6 +150,7 @@ export default {
   components: {PhCaretLeft, PhCaretRight, PhEye, PhPencilSimple, PhX},
   setup(){
       const loading = ref(false)
+      const loadingSubmit = ref(false)
       const dataSoal = ref([])
       const detailSoal = ref(null)
       const totalHalaman = ref('')
@@ -229,8 +233,69 @@ export default {
           }
       }
 
+      const saveEdit = (detailSoal) => {
+          Swal.fire({
+              icon: 'question',
+              title: 'Ubah Data Ini?',
+              text: 'Klik tombol Ya untuk merubah data.',
+              showConfirmButton: true,
+              showCancelButton: true,
+              confirmButtonColor: "#0b40f4",
+              confirmButtonText: "Ya, ubah",
+              cancelButtonColor: "#3b3f5c",
+              cancelButtonText: "Batal",
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  submitEdit(detailSoal)
+              }
+          })
+      }
+
+      const submitEdit = async(detailSoal) => {
+          loadingSubmit.value = !loadingSubmit.value
+          try {
+              const data = {
+                  question: detailSoal.question,
+                  answer_a: detailSoal.answers[0].answer,
+                  answer_b: detailSoal.answers[1].answer,
+                  answer_c: detailSoal.answers[2].answer,
+                  status: 1,
+              }
+
+              const token = JSON.parse(localStorage.getItem('token'))
+              const response = await initAPI('put', `assessments/questions/${detailSoal.id}`, data, token)
+              console.log(response.data)
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Soal Assessment berhasil diubah.',
+                  showConfirmButton: true,
+                  confirmButtonColor: "#0b40f4",
+                  confirmButtonText: "Tutup",
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      isModalOpen.value = false
+                      getAllData()
+                  }
+              })
+          } catch (error) {
+              console.log(error)
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Terjadi Error',
+                  text: 'Ada error saat merubah data Soal Assessment.',
+                  showConfirmButton: true,
+                  confirmButtonColor: "#0b40f4",
+                  confirmButtonText: "Tutup",
+              });
+          }
+          isModalOpen.value = false
+          loadingSubmit.value = !loadingSubmit.value
+      }
+
       return {
           loading,
+          loadingSubmit,
           dataSoal,
           detailSoal,
           totalHalaman,
@@ -246,6 +311,7 @@ export default {
           debouncedGetSearchData,
           isModalOpen,
           clickEdit,
+          saveEdit,
           toggleModal,
           modalDetail,
           nextPages,
