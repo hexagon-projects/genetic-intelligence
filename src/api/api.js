@@ -65,15 +65,23 @@ const initAPI = async (method, endpoint, data, token) => {
     data : data !== null ? data : null
   };
 
-  try {
-    const response = await axios.request(config)
-    return response
-  } catch (error) {
-    if(error.response && error.response.status === 401){
-      localStorage.clear()
-      router.go()
-    }
+  const response = await axios.request(config)
+  if(response.status == '401' && localStorage.getItem('userData')){
+    localStorage.clear()
+    router.go()
   }
+  return response
+  // try {
+  //   const response = await axios.request(config)
+  //   return response
+  // } catch (error) {
+  //   console.log(error)
+  //   if(error && error.response && error.response.status === 401 && localStorage.getItem('userData')){
+  //     localStorage.clear()
+  //     router.go()
+  //   }
+  //   return error
+  // }
 }
 
 export default initAPI
