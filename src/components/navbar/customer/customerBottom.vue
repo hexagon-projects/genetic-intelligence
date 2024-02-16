@@ -1,6 +1,6 @@
 <template>
         <button @click="toggleMenu('test')" ref="dropdownTestRef"
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
             :class="{'font-bold' : showTest || $route.name === 'user.views.deteksi' || $route.name === 'user.views.assesment'}"
             >
             <div class="self-center">
@@ -29,7 +29,7 @@
 
 
         <button @click="toggleMenu('hasil')" ref="dropdownHasilRef"
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
             :class="{'font-bold' : showHasil || $route.name === 'user.views.hasil_deteksi' || $route.name === 'user.views.hasil_assessment'}"
             >
             <div class="self-center">
@@ -39,7 +39,7 @@
         </button>
         <div v-if="showHasil" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
-                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                class="items-center w-full flex flex-col text-center justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex gap-1 items-center font-myFont text-sm">
                     <PhFileText :size="20" />
@@ -47,7 +47,7 @@
                 </span>
             </RouterLink>
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" 
-                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                class="items-center w-full flex flex-col text-center justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex gap-1 items-center font-myFont text-sm">
                     <PhExam :size="20" />
@@ -57,7 +57,7 @@
         </div>
 
         <button @click="toggleMenu('reservasi')" ref="dropdownReservasiRef"
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
             :class="{'font-bold' : showReservasi || $route.name === 'user.views.reservasi'}"
             >
             <div class="self-center">
@@ -85,7 +85,7 @@
         </div>
         
         <button @click="toggleMenu('lainya')" ref="dropdownLainyaRef"
-            class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+            class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
             :class="{'font-bold': showLainya || $route.name == 'user.views.profile'}"
             >
             <div class="self-center">

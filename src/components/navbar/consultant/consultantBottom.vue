@@ -1,6 +1,6 @@
 <template>
     <button @click="toggleReservasi('test')" ref="showTestRef"
-        class="w-full flex flex-col justify-center text-center pt-2 pb-1"
+        class="w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
         :class="{'font-bold' : showTest || $route.name === 'consultant.views.review'}"
         >
         <div class="self-center">
@@ -28,7 +28,7 @@
     </div>
 
     <button @click="toggleReservasi('reservasi')" ref="dropdownRef"
-        class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+        class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
         :class="{'font-bold' : showReservasi || $route.name === 'consultant.views.permintaan' || $route.name === 'consultant.views.jadwal'}"
         >
         <div class="self-center">
@@ -66,7 +66,7 @@
     </RouterLink>
 
     <button @click="toggleReservasi('lainya')" ref="showLainyaRef"
-        class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+        class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
         :class="{'font-bold' : showLainya || $route.name == 'user.views.profile'}"
         >
         <div class="self-center">
@@ -112,6 +112,9 @@ import {
     PhSignOut
 } from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import initAPI from '../../../api/api'
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
     name: 'consultantBotNav',
@@ -128,6 +131,10 @@ export default {
     PhSignOut
 },
     setup(){
+        const store = useStore()
+        const router = useRouter()
+
+        const loading = ref(false)
         const showReservasi = ref(false)
         const dropdownRef = ref(null);
         const showTest = ref(false)
@@ -172,6 +179,32 @@ export default {
 			document.body.removeEventListener('click', closeDropdown);
 		});
 
+        const Logout = async() => {
+			try {
+				loading.value = !loading.value
+				const token = JSON.parse(localStorage.getItem('token'))
+				if(token){
+					const response = await initAPI('post', 'logout', null ,token)
+					localStorage.clear()
+					// localStorage.removeItem('userData')
+					// localStorage.removeItem('userRole')
+					store.commit('user', null);
+					store.commit('userRole', null);
+				} else {
+					localStorage.clear()
+					// localStorage.removeItem('userData')
+					// localStorage.removeItem('userRole')
+					store.commit('user', null);
+					store.commit('userRole', null);
+				}
+				loading.value = !loading.value
+				router.push('/login')
+			} catch (error) {
+				console.log(error)
+			}
+			
+		}
+
         return {
             showReservasi,
             dropdownRef,
@@ -179,7 +212,8 @@ export default {
             showTestRef,
             showLainya,
             showLainyaRef,
-            toggleReservasi
+            toggleReservasi,
+            Logout
         }
     }
 }

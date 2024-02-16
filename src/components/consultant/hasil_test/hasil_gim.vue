@@ -331,7 +331,7 @@
                             </div>
                           </div>
 
-                          <input v-model="cari" @input="debouncedGetSearchData()" type="text" name="cari" class="font-myFont rounded-md border border-gray-300 py-2 px-3 -mb-5" placeholder="Cari Data">
+                          <input v-model="cari" @input="debouncedGetSearchData()" type="text" name="cari" class="font-myFont rounded-md border border-gray-300 py-2 px-3 mb-1 md:-mb-5 lg:-mb-5" placeholder="Cari Data">
                       </div>
 
                       <div class="flex justify-center w-full" v-if="loading" >

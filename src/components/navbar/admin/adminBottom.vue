@@ -78,7 +78,7 @@
         <RouterLink :to="{name: 'admin.views.pengaturan_harga'}" 
             class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start flex gap-[2px] items-center font-myFont text-sm">
+            <span class="text-start flex flex-col gap-[2px] items-center font-myFont text-sm">
                 <PhCurrencyCircleDollar :size="18"/>
                 Pengaturan Harga
             </span>
@@ -86,7 +86,7 @@
         <RouterLink :to="{name: 'admin.views.pengaturan_soal_assessment'}" 
             class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start flex gap-[2px] items-center font-myFont text-sm">
+            <span class="text-start flex flex-col gap-[2px] items-center font-myFont text-sm">
                 <PhTextAa :size="18"/>
                 Soal Assessment
             </span>
@@ -94,7 +94,7 @@
         <RouterLink :to="{name: 'admin.views.pengaturan_hasil_assessment'}" 
             class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start flex gap-[2px] items-center font-myFont text-sm">
+            <span class="text-start flex flex-col gap-[2px] items-center font-myFont text-sm">
                 <PhExam :size="18"/>
                 Hasil Assessment
             </span>
@@ -102,7 +102,7 @@
     </div>
 
     <button @click="toggleDropdown('lainya')" ref="showLainyaRef"
-        class="relative w-full flex flex-col justify-center text-center pt-2 pb-1"
+        class="relative w-full flex flex-col justify-center items-center text-center pt-2 pb-1"
         :class="{'font-bold' : showLainya || $route.name == 'user.views.profile' || $route.name == 'admin.views.riwayat_pembayaran'}"
         >
         <div class="self-center">
