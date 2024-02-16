@@ -27,9 +27,9 @@
                                     <div class="flex items-center rounded-lg bg-[#1fabee] bg-opacity-40 backdrop-blur-3xl p-2 font-myFont font-medium text-white">
                                         Profit
                                     </div>
-                                    <button type="button" class="flex h-9 w-9 items-center justify-center rounded-md bg-[#1fabee] bg-opacity-40 backdrop-blur-3xl text-white hover:bg-opacity-60 ml-auto">
+                                    <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" type="button" class="flex h-9 w-9 items-center justify-center rounded-md bg-[#1fabee] bg-opacity-40 backdrop-blur-3xl text-white hover:bg-opacity-60 ml-auto">
                                         <PhArrowRight/>
-                                    </button>
+                                    </RouterLink>
                                 </div>
                                 <div class="flex items-center justify-between text-white">
                                     <p class="text-2xl font-myFont">Total</p>
