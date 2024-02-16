@@ -17,7 +17,7 @@
                 Review Test GIM
             </span>
         </RouterLink>
-        <RouterLink :to="{name: 'consultant.views.permintaan'}" 
+        <RouterLink :to="{name: 'consultant.views.hasil'}" 
             class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
             <span class="text-start flex gap-1 items-center font-myFont text-sm">
@@ -62,7 +62,7 @@
         <div class="self-center">
             <PhExam :size="28" />
         </div>
-        <span class="tab tab-home block text-xs">Reservasi</span>
+        <span class="tab tab-home block text-xs">Assessment</span>
     </RouterLink>
 
     <button @click="toggleReservasi('lainya')" ref="showLainyaRef"
