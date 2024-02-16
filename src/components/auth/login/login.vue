@@ -184,7 +184,6 @@ export default {
             isLoading
         };
     },
-    components: { RouterLink }
 }
 </script>
 

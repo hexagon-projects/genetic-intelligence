@@ -196,7 +196,8 @@
                             </div>
                             <div class="w-full mb-4">
                                 <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-gray-600">Tanggal Lahir:</label>
-                                <input v-model="tglLahir" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Tanggal Lahir" />
+                                <VueDatePicker v-model="date" :enable-time-picker="false" placeholder="Pilih Tanggal Lahir" text-input />
+                                <!-- <input v-model="tglLahir" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Tanggal Lahir" /> -->
                             </div>
                         </div>
                         
@@ -347,13 +348,17 @@ import DOMPurify from 'dompurify'
 import jQuery from "jquery";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export default{
     name: 'RegisterPage',
     // components: {Select2},
+    components: {VueDatePicker},
     setup(){
         const $ = jQuery;
         window.$ = $;
+        const date = ref();
         const provinceOptions = ref([])
         const cityOptions = ref([])
         const districtsOptions = ref([])
@@ -485,7 +490,7 @@ export default{
                 case 1:
                 return !namaDepan.value || !namaBelakang.value || !emailVal.value || !passwordVal.value || !noWhatsapp.value || isNaN(noWhatsapp.value);
                 case 2:
-                return !golDarah.value || !agama.value || !tempatLahir.value || !tglLahir.value || !jenisKelamin.value || !statusNikah.value || !provinsi.value || !kota.value || !kecamatan.value || !kelurahan.value || !alamatLengkap.value;
+                return !golDarah.value || !agama.value || !tempatLahir.value || !date.value || !jenisKelamin.value || !statusNikah.value || !provinsi.value || !kota.value || !kecamatan.value || !kelurahan.value || !alamatLengkap.value;
                 case 3:
                 return !paymentType.value || !totalFee.value
                 default:
@@ -564,6 +569,7 @@ export default{
         }
 
         return{
+            date,
             feePaymentMethod,
             biayaPendaftaran,
             currForm,
