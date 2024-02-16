@@ -166,6 +166,9 @@ import {
     PhUser, PhDotsThree, PhSignOut
 } from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import initAPI from '../../../api/api'
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
     name: 'customerBotNav',
@@ -184,6 +187,10 @@ export default {
         PhSignOut
     },
     setup(){
+        const store = useStore()
+        const router = useRouter()
+        
+        const loading = ref(false)
         const showData = ref(false)
         const showDataRef = ref(false)
         const showReservasi = ref(false)
@@ -237,7 +244,34 @@ export default {
 			document.body.removeEventListener('click', closeDropdown);
 		});
 
+        const Logout = async() => {
+			try {
+				loading.value = !loading.value
+				const token = JSON.parse(localStorage.getItem('token'))
+				if(token){
+					const response = await initAPI('post', 'logout', null ,token)
+					localStorage.clear()
+					// localStorage.removeItem('userData')
+					// localStorage.removeItem('userRole')
+					store.commit('user', null);
+					store.commit('userRole', null);
+				} else {
+					localStorage.clear()
+					// localStorage.removeItem('userData')
+					// localStorage.removeItem('userRole')
+					store.commit('user', null);
+					store.commit('userRole', null);
+				}
+				loading.value = !loading.value
+				router.push('/login')
+			} catch (error) {
+				console.log(error)
+			}
+			
+		}
+
         return {
+            loading,
             showData,
             showDataRef,
             showReservasi,
@@ -246,7 +280,8 @@ export default {
             showPengaturanRef,
             showLainya,
             showLainyaRef,
-            toggleDropdown
+            toggleDropdown,
+            Logout
         }
     }
 }
