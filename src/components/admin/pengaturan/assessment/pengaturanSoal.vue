@@ -68,6 +68,57 @@
                       <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
                   </div>
               </div>
+
+              <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
+                <!-- Modal body -->
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Soal</h1>
+                <hr class="mt-4">
+                
+                <div v-if="detailSoal" :class="{'h-[460px] flex flex-col justify-center': loadingSubmit}" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                    <div v-if="loadingSubmit" class="flex flex-col items-center justify-center w-full">
+                        <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                    </div>
+
+                    <div v-else-if="!loadingSubmit">
+                      <div class="flex flex-row items-center gap-2 mb-4">
+                          <div class="w-full">
+                              <div class="flex flex-col">
+                                  <h1 class="font-myFont font-semibold text-dark text-sm">
+                                      Pertanyaan :
+                                  </h1>
+                                  <div class="flex flex-row gap-3">
+                                    <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-biru" :id="'answer_'+detailSoal.id" v-model="detailSoal.question" disabled>
+                                    <button @click="clickEdit(detailSoal.id, '')" class="flex items-center gap-1 px-2 py-2 bg-biru font-myFont text-sm text-white rounded-md hover:bg-opacity-75 hover:shadow-lg">
+                                      <PhPencilSimple :size="22"/>
+                                    </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div v-for="(answer, idx) in detailSoal.answers" :key="idx" class="w-full mb-4">
+                          <div class="flex flex-col">
+                              <h1 class="font-myFont text-dark text-sm font-medium mb-1">
+                                  Pilihan {{ answer.value.toUpperCase() }}
+                              </h1>
+                              <div class="flex flex-row gap-3">
+                                <input type="text" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-2 px-2 leading-tight focus:outline-none focus:bg-white focus:border-biru" :name="'answer_'+answer.value" :id="'answer_'+detailSoal.id+answer.value" v-model="detailSoal.answers[idx].answer" disabled>
+                                <button @click="clickEdit(detailSoal.id, answer.value)" class="flex items-center gap-1 px-2 py-2 bg-biru font-myFont text-sm text-white rounded-md hover:bg-opacity-75 hover:shadow-lg">
+                                  <PhPencilSimple :size="22"/>
+                                </button>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+
+                <hr class="pt-4">
+                <!-- Modal footer -->
+                <div class="px-4 py-2 flex justify-between items-center space-x-4">
+                    <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition" @click="saveEdit(detailSoal)">Simpan</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                </div>
+            </div>
           </div>
 
           <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
