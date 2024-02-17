@@ -18,8 +18,7 @@
             </ol>
           </div>
 
-          <div v-if="isModalOpen && detailDataSubmit" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
-            >
+          <div v-if="isModalOpen && detailDataSubmit" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal">
                 <div class="hidden lg:block relative w-1/2 top-4 mx-auto shadow-xl rounded-md bg-white">
                     <!-- Modal body -->
                     <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Hasil Test</h1>
@@ -86,145 +85,56 @@
 
                 <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
                     <!-- Modal body -->
-                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Reservasi</h1>
+                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Hasil Test</h1>
                     <hr class="mt-4">
-                    <div class="max-h-[460px] overflow-y-scroll flex flex-col justify-center items-center">
-                        <div v-if="detailCustomers" class="w-full p-4">
-                            <div class="flex flex-row gap-2">
-                                <div class="w-full">
-                                    <h1 class="text-dark text-lg font-myFont font-medium mt-20 mb-2">Jadwal</h1>
-                                    <div class="flex flex-row items-center mb-4">
-                                        <div class="w-3/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Jam
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-2/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Tanggal
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr class="my-4">
-
-                                    <h1 class="text-dark text-lg font-myFont font-medium mb-2">Consultant</h1>
-                                    <div class="flex flex-row items-center mb-4">
-                                        <div class="w-3/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Nama
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-2/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Jenis Kelamin
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-full">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    No Telp
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-full">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Alamat
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                                <!-- <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p> -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr class="my-4">
-
-                                    <h1 class="text-dark text-lg font-myFont font-medium mb-2">Customer</h1>
-                                    <div class="flex flex-row items-center mb-4">
-                                        <div class="w-3/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Nama
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="w-2/5">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Jenis Kelamin
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-full">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    No Telp
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-row items-center gap-2 mb-4">
-                                        <div class="w-full">
-                                            <div class="flex flex-col items-start">
-                                                <h1 class="font-myFont font-medium text-dark text-sm">
-                                                    Alamat
-                                                </h1>
-                                                <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p>
-                                                <!-- <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{  }}
-                                                </p> -->
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div v-if="detailDataSubmit" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                        <div>
+                            <div class="flex flex-col">
+                                <h1 class="text-dark text-xl font-myFont font-medium mb-2">Hasil GIM</h1>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Tipe Kecerdasan</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailDataSubmit.customers_results.gim.name }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Tipe</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailDataSubmit.customers_results.gim.type }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Otak Dominan</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailDataSubmit.customers_results.gim.dominance_op_system }}</span>
+                                </div>
+                                <div class="mb-2 flex flex-col">
+                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Kata Kunci</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailDataSubmit.customers_results.gim.keyword }}</span>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <div class="flex flex-col">
+                                <h1 class="text-dark text-xl font-myFont font-medium mb-2">Customer</h1>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Nama</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.name }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Tempat, Tanggal Lahir</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.birth_place }}, {{ detailDataSubmit.birth_date }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.gender }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Golongan Darah</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.blood_group }}</span>
+                                </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">No Telp</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.number }}</span>
+                                </div>
+                                <div class="mb-2 flex flex-col">
+                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.address }}</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.region }}</span>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +146,7 @@
                         <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
                     </div>
                 </div>
-            </div>
+          </div>
 
           <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
               <div class="w-full px-7 mx-auto">
