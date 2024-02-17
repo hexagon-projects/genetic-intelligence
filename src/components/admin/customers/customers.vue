@@ -165,9 +165,9 @@
 
                 <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
                     <!-- Modal body -->
-                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Konsultan</h1>
+                    <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
                     <hr class="mt-4">
-                    <div class="flex flex-col justify-center items-center">
+                    <div class="flex flex-col justify-center items-center overflow-x-scroll">
                         <img v-if="detailCustomers.image !== null" class="w-[180px] h-[180px] p-4" :src="baseUrl+'open/customers/'+detailCustomers.image" alt="">
                         <img v-if="detailCustomers.image == null" class="w-[180px] h-[180px] p-4" src="https://placehold.co/400x400" alt="">
                         <div v-if="detailCustomers" class="w-full p-4">
@@ -190,7 +190,7 @@
                                                     Jenis Kelamin
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-xs">
-                                                    {{ detailCustomers.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
+                                                    {{ detailCustomers.gender }}
                                                 </p>
                                             </div>
                                         </div>

@@ -45,7 +45,7 @@
                                                     Jenis Kelamin
                                                 </h1>
                                                 <p class="font-myFont font-medium text-dark text-sm">
-                                                    {{ detailCustomers.gender }}
+                                                    {{ detailCustomers.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
                                                 </p>
                                             </div>
                                         </div>

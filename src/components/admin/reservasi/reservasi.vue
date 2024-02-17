@@ -34,6 +34,10 @@
                                     <span class="font-myFont font-medium text-dark text-base">Tanggal</span>
                                     <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.date }}</span>
                                 </div>
+                                <div class="mb-2 flex justify-between items-center">
+                                    <span class="font-myFont font-medium text-dark text-base">Status</span>
+                                    <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.status }}</span>
+                                </div>
                             </div>
                             <hr class="my-4">
                             <div class="flex flex-col">
@@ -51,7 +55,7 @@
                                     <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.consultant.number }}</span>
                                 </div>
                                 <div class="mb-2 flex flex-col">
-                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                    <span class="font-myFont font-medium text-dark text-base">Alamat</span>
                                     <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.consultant.address }}</span>
                                 </div>
 
@@ -64,14 +68,14 @@
                                 </div>
                                 <div class="mb-2 flex justify-between items-center">
                                     <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
-                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}</span>
+                                    <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.gender }}</span>
                                 </div>
                                 <div class="mb-2 flex justify-between items-center">
                                     <span class="font-myFont font-medium text-dark text-base">No Telp</span>
                                     <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.number }}</span>
                                 </div>
                                 <div class="mb-2 flex flex-col">
-                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                    <span class="font-myFont font-medium text-dark text-base">Alamat</span>
                                     <span class="font-myFont text-dark text-base font-medium">{{ detailCustomers.customers.address }}</span>
                                 </div>
                             </div>
@@ -222,11 +226,11 @@
                     <!-- Modal body -->
                     <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Reservasi</h1>
                     <hr class="mt-4">
-                    <div class="max-h-[460px] overflow-y-scroll flex flex-col justify-center items-center">
+                    <div class="max-h-[462px] overflow-y-scroll flex flex-col justify-center items-center">
                         <div v-if="detailCustomers" class="w-full p-4">
                             <div class="flex flex-row gap-2">
                                 <div class="w-full">
-                                    <h1 class="text-dark text-lg font-myFont font-medium mt-20 mb-2">Jadwal</h1>
+                                    <h1 class="text-dark text-lg font-myFont font-medium mt-28 mb-2">Jadwal</h1>
                                     <div class="flex flex-row items-center mb-4">
                                         <div class="w-3/5">
                                             <div class="flex flex-col items-start">
@@ -247,6 +251,16 @@
                                                     {{ detailCustomers.date }}
                                                 </p>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full">
+                                        <div class="flex flex-col items-start">
+                                            <h1 class="font-myFont font-medium text-dark text-sm">
+                                                Status
+                                            </h1>
+                                            <p class="font-myFont font-medium text-dark text-xs">
+                                                {{ detailCustomers.status }}
+                                            </p>
                                         </div>
                                     </div>
 

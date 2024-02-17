@@ -68,7 +68,7 @@
                                 <span class="font-myFont text-dark text-base font-medium">{{ detailRiwayatPembayaran.customer.number }}</span>
                             </div>
                             <div class="mb-2 flex flex-col">
-                                <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                <span class="font-myFont font-medium text-dark text-base">Alamat</span>
                                 <span class="font-myFont text-dark text-base font-medium">{{ detailRiwayatPembayaran.customer.address }}</span>
                             </div>
                         </div>
