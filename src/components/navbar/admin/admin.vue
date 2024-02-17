@@ -110,6 +110,9 @@
         <RouterLink :to="{name: 'admin.views.pengaturan_hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
             Pengaturan Hasil Assessment
         </RouterLink>
+        <RouterLink :to="{name: 'admin.views.pengaturan_code'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Pengaturan Code
+        </RouterLink>
         </div>
     </div>
   </div>
