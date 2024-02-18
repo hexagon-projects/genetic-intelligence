@@ -2,8 +2,8 @@
 <div class="hidden lg:block">
   <div id="img-login" class="w-full flex flex-col lg:flex-row items-center justify-around lg:gap-4 h-screen bg-secondary">
     <div class="-mt-36 sm:mb-4 w-1/2 lg:flex-col lg:-mt-0 text-white">
-      <p class="text-2xl md:text-4xl lg:text-5xl font-semibold font-myFont mt-2 mb-2">#FokusBahagia</p>
-      <h1 class="text-2xl md:text-4xl lg:text-5xl font-myFont font-semibold italic lg:mb-4">Genetic Intelligence Mapping</h1>
+      <p class="text-2xl md:text-4xl lg:text-3xl font-semibold font-myFont mt-2 mb-2">#FokusBahagia</p>
+      <h1 class="text-2xl md:text-4xl lg:text-5xl font-myFont font-semibold lg:mb-4">Genetic Intelligence Mapping</h1>
       <h1 class="hidden lg:block text-2xl md:text-4xl lg:text-sm font-myFont font-light mb-4">
         "Tes pemetaan kecerdasan secara 
         genetika untuk mengidentifikasi sistem 
@@ -160,13 +160,17 @@ export default {
                   }
                 } catch (error) {
                   // console.log(error.response.data)
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Login Gagal',
-                      text: error.response.data.message,
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+                  if (error.response) {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Login Gagal',
+                          text: error.response.data.message,
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
+                  } else {
+                      console.error("Error:", error);
+                  }
                 }
 
                 isLoading.value = false

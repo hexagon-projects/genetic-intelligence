@@ -65,12 +65,22 @@ const initAPI = async (method, endpoint, data, token) => {
     data : data !== null ? data : null
   };
 
-  const response = await axios.request(config)
-  if(response.status == '401' && localStorage.getItem('userData')){
-    localStorage.clear()
-    router.go()
+  try {
+    const response = await axios.request(config)
+    // if(response.status == '401' && localStorage.getItem('userData')){
+    //   localStorage.clear()
+    //   router.go()
+    // }
+    return response
+  } catch (error) {
+    if (error.response && error.response.status === 401 && localStorage.getItem('userData')) {
+      console.log(`rugi dong`)
+      localStorage.clear()
+      router.go()
+    } else {
+      throw error;
+    }
   }
-  return response
   // try {
   //   const response = await axios.request(config)
   //   return response
