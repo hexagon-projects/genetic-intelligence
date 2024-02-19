@@ -73,9 +73,10 @@
                                 </div>
                             </div>
                             <div class="flex justify-between">
-                                <button type="button" :class="{'cursor-not-allowed bg-opacity-75 shadow-lg': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru text-white" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/>Kembali</button>
+                                <button type="button" :class="{'cursor-not-allowed bg-neutral-400 bg-opacity-75 shadow-lg': activeTab === 1}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru text-white" :disabled="activeTab === 1" @click="activeTab--"><PhCaretLeft weight="bold"/>Kembali</button>
                                 <button v-if="activeTab === 3" @click="submitForm()" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-success text-light">Submit</button>
-                                <button v-else-if="activeTab < 3" type="button" id="btn-next" :class="{'cursor-not-allowed bg-opacity-75 shadow-lg': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru bg-opacity-100 text-white" :disabled="activeTab === 3 || !checked" @click="activeTab++">Selanjutnya <PhCaretRight weight="bold"/></button>
+                                <button v-else-if="activeTab < 3" type="button" id="btn-next" 
+                                :class="{'cursor-not-allowed bg-neutral-400 bg-opacity-75 shadow-lg': checked == false}" class="flex items-center font-myFont px-4 py-2 rounded-lg bg-biru bg-opacity-100 text-white" :disabled="activeTab === 3 || !checked" @click="activeTab++">Selanjutnya <PhCaretRight weight="bold"/></button>
                             </div>
                         </div>
                     </div>

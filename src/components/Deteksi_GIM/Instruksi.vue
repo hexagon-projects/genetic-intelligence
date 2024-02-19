@@ -8,7 +8,7 @@
                 data-setup='{}'
                 >
                 <source
-                    src="http://178.128.29.140/additional_assets/chunks/test/index.m3u8"
+                    src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
                     type="application/x-mpegURL">
             </video>
         </div>
@@ -36,7 +36,7 @@
                 data-setup='{}'
                 >
                 <source
-                    src="http://localhost/chunk/index.m3u8"
+                    src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
                     type="application/x-mpegURL">
             </video>
         </div>
