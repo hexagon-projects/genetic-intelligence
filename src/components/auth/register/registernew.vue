@@ -300,11 +300,54 @@
                     </div>
 
                     <div v-else-if="currForm === 3">
-                        <div class="flex justify-center items-center gap-2">
+                        <!-- Form pembayaran -->
+                        <div v-if="tipeValue == 1" class="lg:hidden flex flex-col justify-center items-center gap-2">
+                            <div class="w-full flex items-center gap-1">
+                                <div class="w-1/2 md:w-full lg:w-0">
+                                    <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
+                                    <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                </div>
+                                <div class="w-1/2 md:w-full lg:w-0">
+                                    <label for="total_fee" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
+                                    <input v-model="totalFee" type="text" name="total_fee" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                </div>
+                            </div>
+                            <div class="w-full flex items-center gap-1 mb-2">
+                                <div class="w-1/2 md:w-full lg:w-0">
+                                    <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
+                                    <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                                </div>
+                                <div class="w-1/2 md:w-full lg:w-0">
+                                    <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
+                                    <input v-model="school_code" type="text" name="payment_code" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Isi jika punya"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="tipeValue == 1" class="hidden lg:flex justify-center items-center gap-2">
+                            <div class="w-1/4 mb-4">
+                                <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
+                                <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                            </div>
+                            <div class="w-1/4 mb-4">
+                                <label for="total_fee" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
+                                <input v-model="totalFee" type="text" name="total_fee" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                            </div>
+                            <div class="w-1/4 mb-4">
+                                <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
+                                <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
+                            </div>
+                            <div class="w-1/4 mb-4">
+                                <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
+                                <input v-model="school_code" type="text" name="payment_code" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Isi jika punya"/>
+                            </div>
+                        </div>
+                        <!-- end form pembayaran -->
+
+                        <!-- Form Pilih Bank -->
+                        <div v-else-if="tipeValue == 0" class="flex justify-center items-center gap-2">
                             <div class="w-1/3 mb-4">
                                 <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
                                 <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
-                                <!-- <a v-if="nameValidation && nameVal.length < 1" class="text-xs text-red-500">Nama depan tidak boleh kosong.</a> -->
                             </div>
                             <div class="w-1/3 mb-4">
                                 <label for="total_fee" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
@@ -322,9 +365,9 @@
                                     <img :src="payment.paymentImage" :alt="payment.paymentName">
                                 </a>
                             </div>
-
                         </div>
                     </div>
+                    <!-- end form pilih bank -->
 
                     <div class="flex justify-between items-center mt-4">
                         <button v-if="currForm >= 1" @click="toggleTabs(-1)" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
@@ -333,7 +376,6 @@
                         <button v-if="tipeValue !== null" @click="handleButtonClick()" :disabled="isNextButtonDisabled" :class="{'ml-auto': currForm === 0, 'bg-gray-600 opacity-80 cursor-not-allowed': isNextButtonDisabled}" class="bg-biru font-myFont text-white p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
                             {{ currForm === 3 ? 'Bayar' : 'Selanjutnya' }}
                         </button>
-                        <!-- <img class="w-40 absolute left-[194px] bottom-0 top-0" src="../../../public/img/cc-logo.png" alt=""> -->
                     </div>
                 </div>
             </div>
@@ -389,6 +431,7 @@ export default{
         const totalFee = ref('')
         const feePaymentMethod = ref('')
         const biayaPendaftaran = ref('')
+        const school_code = ref('')
 
         const validasiWA = ref('')
 
@@ -523,8 +566,9 @@ export default{
                 "address": alamatLengkap.value,
                 "status": statusNikah.value,
                 "payment_method_code": paymentCode.value,
-                // "fee": feePaymentMethod.value,
-                "fee": parseInt(biayaPendaftaran.value) + parseInt(feePaymentMethod.value),
+                "fee": feePaymentMethod.value,
+                "school_code": DOMPurify.sanitize(school_code.value),
+                // "fee": parseInt(biayaPendaftaran.value) + parseInt(feePaymentMethod.value),
                 "is_student": tipeValue.value,
                 "school_name": DOMPurify.sanitize(nama_sekolah.value)
             })
@@ -575,6 +619,7 @@ export default{
             currForm,
             tipeValue,
             nama_sekolah,
+            school_code,
             namaDepan,
             namaBelakang,
             emailVal,

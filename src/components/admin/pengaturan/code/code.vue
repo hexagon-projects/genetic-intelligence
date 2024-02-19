@@ -288,6 +288,7 @@
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" class="py-3 px-6">No</th>
+                                    <th scope="col" class="py-3 px-6">Nama Sekolah</th>
                                     <th scope="col" class="py-3 px-6">Code Voucher</th>
                                     <th scope="col" class="py-3 px-6">Aksi</th>
                                 </tr>
@@ -296,6 +297,9 @@
                                     <tr class="bg-white border-b">
                                         <td class="py-4 px-6">
                                             1
+                                        </td>
+                                        <td class="py-4 px-6">
+                                            SMKN 11 Bandung
                                         </td>
                                         <td class="py-4 px-6">MENJADICERDAS</td>
                                         <td class="py-4 px-6">
