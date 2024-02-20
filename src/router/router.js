@@ -104,6 +104,21 @@ const routes = [
         }
     },
     {
+        path: '/test-iq',
+        name: 'user.views.iq',
+        component: () => import('../components/customer/tests/iq.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(to.name == 'user.views.iq' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
         path: '/hasil-deteksi',
         name: 'user.views.hasil_deteksi',
         component: () => import('../views/customers/hasil_deteksi/hasil.vue'),

@@ -5,13 +5,27 @@
                 hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
                 "
                 :class="{
-                    'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'user.views.deteksi',
+                    'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'user.views.deteksi' 
+                    || $route.name === 'user.views.assesment'
+                    || $route.name === 'user.views.psikotest'
+                    || $route.name === 'user.views.iq',
                     'text-dark bg-white': $route.name !== 'user.views.deteksi'
+                    && $route.name !== 'user.views.assesment'
+                    && $route.name !== 'user.views.psikotest'
+                    && $route.name !== 'user.views.iq'
                 }"
                 @click="toggleFilter('test')"
                 ref="dropdownTestRef"
             >
-                <PhTarget :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.deteksi','text-biru hover:text-light': $route.name !== 'user.views.deteksi'}" />
+                <PhTarget :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.deteksi'
+                || $route.name === 'user.views.assesment'
+                || $route.name === 'user.views.psikotest'
+                || $route.name === 'user.views.iq',
+                'text-biru hover:text-light': $route.name !== 'user.views.deteksi'
+                && $route.name !== 'user.views.assesment'
+                && $route.name !== 'user.views.psikotest'
+                && $route.name !== 'user.views.iq'
+                }" />
             Lakukan Test
             <PhCaretDown :size="16"/>
         </button>
@@ -27,6 +41,9 @@
             </RouterLink>
             <RouterLink :to="{name: 'user.views.psikotest'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test Psikotest
+            </RouterLink>
+            <RouterLink :to="{name: 'user.views.iq'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Test IQ
             </RouterLink>
             </div>
         </div>

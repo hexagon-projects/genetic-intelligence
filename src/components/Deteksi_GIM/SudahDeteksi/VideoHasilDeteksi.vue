@@ -14,10 +14,20 @@
                             <div class="lg:hidden flex flex-row align-middle mb-1">
                                 <PhWarningCircle :size="18" color="#e81111"/><small class="text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>
                             </div>
-                            <iframe class="w-full hidden lg:block" height="415" :src="userResultDetect.gim.url" sandbox="allow-same-origin allow-scripts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                            <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
+                                controls
+                                preload="auto"
+                                fluid="true"
+                                data-setup='{}'
+                                >
+                                <source
+                                    :src="userResultDetect.gim.url"
+                                    type="application/x-mpegURL">
+                            </video>
+                            <!-- <iframe class="w-full hidden lg:block" height="415" :src="userResultDetect.gim.url" sandbox="allow-same-origin allow-scripts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                             </iframe>
                             <iframe class="w-full lg:hidden" :src="userResultDetect.gim.url" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-                            </iframe>
+                            </iframe> -->
                         </div>
                     </div>
                 </div>
@@ -46,12 +56,19 @@ import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex'
 import { PhWarningCircle } from "@phosphor-icons/vue";
 import initApi from '../../../api/api'
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
+import '@videojs/http-streaming';
 
 export default {
     name: 'VideoHasilDeteksi',
     components: {PhWarningCircle},
     setup(){
         const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
+        onMounted(() => {
+            const player = videojs('example-video');
+            player.play();
+        })
         // const store = useStore()
         // const userResultDetect = computed(() => store.getters.getUserResultDetect);
         // console.log(`detect video`,userResultDetect.value)
