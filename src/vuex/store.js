@@ -9,7 +9,8 @@ export const store = createStore({
       userResultDetect: null,
       reviewImage: null,
       reservasi: null,
-      reviewDetail: null
+      reviewDetail: null,
+      isUnderstand: false
     }
   },
   mutations: {
@@ -33,6 +34,9 @@ export const store = createStore({
     },
     reviewGrafologi(state, data){
       state.reviewDetail = data
+    },
+    setIsUnderstand(state, understand){
+      state.isUnderstand = understand
     }
   },
   getters: {
@@ -42,6 +46,7 @@ export const store = createStore({
     getUserResultDetect: (state) => state.userResultDetect,
     getReviewImage: (state) => state.reviewImage,
     getReservasi: (state) => state.reservasi,
-    getReviewDetail: (state) => state.reviewDetail
+    getReviewDetail: (state) => state.reviewDetail,
+    getIsUnderstand: (state) => state.isUnderstand
   },
 })
