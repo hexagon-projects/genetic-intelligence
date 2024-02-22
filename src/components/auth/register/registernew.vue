@@ -598,7 +598,7 @@ export default{
             } catch (error) {
                 if (error.response) {
                     let message
-                    if(error.response.data.email) message = 'Email tidak valid' 
+                    if(error.response.data.email || error.response.data.error.includes('email')) message = 'Email tidak valid' 
                     if(error.response.data.password) message = 'Password harus 8 karakter atau lebih' 
                     if(error.response.data.email && error.response.data.password) message = 'Email tidak valid dan Password kurang dari 8 karakter'
                     Swal.fire({
