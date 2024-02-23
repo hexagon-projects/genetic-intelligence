@@ -20,7 +20,7 @@
         </div>
         <small class="font-myFont text-center text-xs md:text-sm lg:text-sm text-neutral-500 font-medium mb-1">Pertanyaan {{ question.id }} dari 50</small>
         <button v-if="question.id < 50" @click="confirmNext('next')" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Soal Selanjutnya</button>
-        <button v-else-if="question.id == 50" @click="submitJawaban" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Submit Jawaban</button>
+        <button v-else-if="question.id == 50" @click="submitJawaban('done')" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Submit Jawaban</button>
     </div>
 </template>
 
@@ -102,6 +102,8 @@ export default {
                                 listJawaban.push(DOMPurify.sanitize(jawaban.value))
                                 console.log(`jawavan yeuh`, listJawaban)
                                 jawaban.value = ''
+
+                                submitJawaban('timeout')
                             }
                         }
                     })
@@ -161,8 +163,11 @@ export default {
             loading.value = !loading.value
         }
 
-        const submitJawaban = async() => {
-            listJawaban.push(DOMPurify.sanitize(jawaban.value))
+        const submitJawaban = async(param) => {
+            if(param == 'done'){
+                listJawaban.push(DOMPurify.sanitize(jawaban.value))
+            }
+
             const token = JSON.parse(localStorage.getItem('token'))
             const customerId = JSON.parse(localStorage.getItem('userData')).id
             

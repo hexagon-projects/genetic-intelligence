@@ -25,6 +25,14 @@
                     Test Assessment
                 </span>
             </RouterLink>
+            <RouterLink :to="{name: 'user.views.iq'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                    <PhBrain :size="20" />
+                    Test IQ
+                </span>
+            </RouterLink>
         </div>
 
 
@@ -127,7 +135,8 @@
 import {  
     PhTarget, PhFileText, PhCalendar, 
     PhDotsThree, PhTextAa, PhExam,
-    PhUserFocus, PhUser, PhSignOut
+    PhUserFocus, PhUser, PhSignOut,
+    PhBrain
  } from "@phosphor-icons/vue";
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { useRouter } from "vue-router";
@@ -137,6 +146,7 @@ export default {
     name: 'customerBotNav',
     components: {
         PhTarget,
+        PhBrain,
         PhFileText,
         PhCalendar,
         PhDotsThree,
