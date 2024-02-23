@@ -12,14 +12,15 @@
     <div v-for="(question, index) in questions" :key="index" v-else-if="!loading && questions" class="flex flex-col">
         <div class="my-12 self-center">
             <span v-html="question.question.replace(/\\r\\n/g, '<br>')" class="font-myFont text-center text-xs md:text-base lg:text-base text-neutral-500 font-medium"></span>
+            <img v-if="question.image" :src="baseUrl+ 'open/iq_questions/' +question.image" alt="">
             <div class="justify-center flex items-center gap-2 mt-4">
                 <label for="jawaban" class="font-myFont text-center text-xs md:text-base lg:text-base text-neutral-500">Jawaban:</label>
                 <input v-model="jawaban" type="text" id="jawaban" class="text-sm appearance-none block bg-white text-gray-700 border border-gray-200 rounded py-[1px] px-2 leading-tight focus:outline-none focus:border-biru">
             </div>
         </div>
         <small class="font-myFont text-center text-xs md:text-sm lg:text-sm text-neutral-500 font-medium mb-1">Pertanyaan {{ question.id }} dari 50</small>
-        <button v-if="question.id < 8" @click="confirmNext('next')" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Soal Selanjutnya</button>
-        <button v-else-if="question.id == 8" @click="submitJawaban" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Submit Jawaban</button>
+        <button v-if="question.id < 50" @click="confirmNext('next')" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Soal Selanjutnya</button>
+        <button v-else-if="question.id == 50" @click="submitJawaban" class="w-[240px] self-center bg-biru px-4 py-2 font-myFont text-white text-sm rounded-lg hover:bg-opacity-75 hover:shadow-md">Submit Jawaban</button>
     </div>
 </template>
 
@@ -31,10 +32,27 @@ import DOMPurify from 'dompurify'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useTimer } from 'vue-timer-hook';
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
 export default {
     name: 'QuestionsIQ',
     setup(){
+        onBeforeRouteLeave((to, from, next) => {
+            Swal.fire({
+                icon: 'question',
+                title: 'Keluar dari halaman?',
+                text: 'Seluruh proses test kamu tidak akan tersimpan ketika keluar halaman.',
+                showConfirmButton: true,
+                confirmButtonColor: "#0b40f4",
+                confirmButtonText: "OK",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    next()
+                }
+            })
+        })
+
+        const baseUrl = import.meta.env.VITE_API_BASE_URL
         const store = useStore()
         const isUnderstand = computed(() => store.getters.getIsUnderstand)
         const timer = ref(null)
@@ -50,7 +68,7 @@ export default {
        
         if(isUnderstand.value == true){
             const time = new Date();
-            time.setSeconds(time.getSeconds() + 60);
+            time.setSeconds(time.getSeconds() + 720);
             timer.value = useTimer(time);
         }
 
@@ -186,6 +204,7 @@ export default {
         })
 
         return {
+            baseUrl,
             isUnderstand,
             timer,
             loading,

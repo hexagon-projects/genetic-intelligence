@@ -126,15 +126,17 @@
                             </div>
                         </div>
                         
-                        <div class="flex justify-center items-center gap-2">
+                        <div :class="{'items-center': (!validasiPassword && !validasiPassword !== '') || (!validasiEmail && !validasiEmail !== '')}" class="flex justify-center gap-2">
                             <div class="w-full mb-4">
                                 <label for="email" class="block text-sm font-myFont font-medium text-gray-600">Email:</label>
-                                <input v-model="emailVal" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Email" />
+                                <input v-model="emailVal" @input="validation" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Email" />
+                                <a v-if="validasiEmail && validasiEmail !== ''" class="text-xs text-red-500">{{ validasiEmail }}</a>
                             </div>
     
                             <div class="w-full mb-4">
                                 <label for="password" class="block text-sm font-myFont font-medium text-gray-600">Password:</label>
-                                <input v-model="passwordVal" type="password" id="password" name="password" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
+                                <input v-model="passwordVal" @keyup="validation" type="password" id="password" name="password" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
+                                <a v-if="validasiPassword && validasiPassword !== ''" class="text-xs text-red-500">{{ validasiPassword }}</a>
                             </div>
                         </div>
 
@@ -434,6 +436,8 @@ export default{
         const school_code = ref('')
 
         const validasiWA = ref('')
+        const validasiEmail = ref('')
+        const validasiPassword = ref('')
 
         const pilihTipe = async(params) => {
             const token = JSON.parse(localStorage.getItem('token'))
@@ -531,7 +535,7 @@ export default{
                 case 0:
                 return false
                 case 1:
-                return !namaDepan.value || !namaBelakang.value || !emailVal.value || !passwordVal.value || !noWhatsapp.value || isNaN(noWhatsapp.value);
+                return !namaDepan.value || !namaBelakang.value || !emailVal.value || validasiEmail.value !== '' || !passwordVal.value || validasiPassword.value !== '' || !noWhatsapp.value || isNaN(noWhatsapp.value);
                 case 2:
                 return !golDarah.value || !agama.value || !tempatLahir.value || !date.value || !jenisKelamin.value || !statusNikah.value || !provinsi.value || !kota.value || !kecamatan.value || !kelurahan.value || !alamatLengkap.value;
                 case 3:
@@ -543,10 +547,16 @@ export default{
 
         const validation = () => {
             if(isNaN(noWhatsapp.value)){
-                console.log(`kudu number ajig`)
+                // console.log(`kudu number ajig`)
                 validasiWA.value = 'No Whatsapp hanya bisa di isi oleh angka'
+            } else if(emailVal.value && !emailVal.value.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+                validasiEmail.value = 'Email tidak valid'
+            } else if(passwordVal.value && passwordVal.value.length < 8) {
+                validasiPassword.value = 'Password harus 8 karakter'
             } else {
                 validasiWA.value = ''
+                validasiEmail.value = ''
+                validasiPassword.value = ''
             }
         }
 
@@ -654,7 +664,9 @@ export default{
             saveVillagesId,
             validation,
             pilihTipe,
-            validasiWA
+            validasiWA,
+            validasiEmail,
+            validasiPassword
         }
     }
 }
