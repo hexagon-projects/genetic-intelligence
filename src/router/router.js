@@ -149,6 +149,21 @@ const routes = [
         }
     },
     {
+        path: '/hasil-iq',
+        name: 'user.views.hasil_iq',
+        component: () => import('../components/customer/tests/iq_comps/hasil_test/hasil_test.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
         path: '/user-profile',
         name: 'user.views.profile',
         component: () => import('../views/user_profile/UserProfile.vue'),

@@ -47,7 +47,7 @@
                                         </p>
                                     </div>
                                     <h1 class="font-myFont font-medium text-center text-light text-lg">
-                                        Gaya Belajar Visual dan Auditori
+                                        {{ gayaBelajar }}
                                     </h1>
                                 </div>
         

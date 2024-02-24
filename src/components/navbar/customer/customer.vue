@@ -72,9 +72,9 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil Assessment
             </RouterLink>
-            <!-- <a class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                Hasil Psikotest
-            </a> -->
+            <RouterLink :to="{name: 'user.views.hasil_iq'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Hasil IQ
+            </RouterLink>
             </div>
         </div>
     </div>

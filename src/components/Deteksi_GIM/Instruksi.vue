@@ -47,7 +47,7 @@
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import '@videojs/http-streaming';
-import { onMounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 
 export default {
     name: 'InstruksiDeteksi',
@@ -56,6 +56,10 @@ export default {
         onMounted(() => {
             const player = videojs('example-video');
             player.play();
+
+            onBeforeUnmount(() => {
+                player.dispose()
+            })
         })
     }
 }
