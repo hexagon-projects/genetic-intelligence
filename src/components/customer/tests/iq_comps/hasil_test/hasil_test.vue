@@ -110,6 +110,8 @@
 import { PhLightning, PhStar, PhCheck, PhFlagPennant, PhGhost, PhBrain } from '@phosphor-icons/vue';
 import { onMounted, ref } from 'vue';
 import initAPI from '../../../../../api/api';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
    name: 'HasilAssessment',

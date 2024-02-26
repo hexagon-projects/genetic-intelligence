@@ -32,7 +32,7 @@ import DOMPurify from 'dompurify'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useTimer } from 'vue-timer-hook';
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
 
 export default {
     name: 'QuestionsIQ',
@@ -52,6 +52,7 @@ export default {
             })
         })
 
+        const router = useRouter()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
         const store = useStore()
         const isUnderstand = computed(() => store.getters.getIsUnderstand)
@@ -187,6 +188,10 @@ export default {
                     showConfirmButton: true,
                     confirmButtonColor: "#0b40f4",
                     confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.go()
+                    }
                 })
             } catch (error) {
                 Swal.fire({
@@ -196,6 +201,10 @@ export default {
                     showConfirmButton: true,
                     confirmButtonColor: "#0b40f4",
                     confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.go()
+                    }
                 })
             }
         }

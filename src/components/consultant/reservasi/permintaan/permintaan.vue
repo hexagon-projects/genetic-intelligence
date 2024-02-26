@@ -19,96 +19,150 @@
         </div>
         <div v-if="isModalOpen && detailCustomers" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
         >
-            <div class="relative w-1/2 top-24 mx-auto shadow-xl rounded-md bg-white">
+            <div class="hidden lg:block relative w-1/2 top-4 mx-auto shadow-xl rounded-md bg-white">
                 <!-- Modal body -->
-                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Permintaan Reservasi</h1>
                 <hr class="mt-4">
-                <div v-if="detailCustomers" class="w-full p-4">
-                    <div class="flex flex-row gap-2">
-                        <div class="w-full">
-                            <div class="flex flex-col mb-4">
-                                <h1 class="font-myFont font-medium text-dark text-lg">
-                                    Nama
-                                </h1>
-                                <p class="font-myFont font-medium text-dark text-sm">
-                                    {{ detailCustomers.customers.first_name }} {{ detailCustomers.customers.last_name }}
-                                </p>
-                            </div>
-
-                            <div class="flex flex-row items-center gap-2 mb-4">
-                                <div class="flex flex-col mr-20">
-                                    <h1 class="font-myFont font-medium text-dark text-lg">
-                                        Tempat Lahir
-                                    </h1>
-                                    <p class="font-myFont font-medium text-dark text-sm">
-                                        {{ detailCustomers.customers.birth_place }}
-                                    </p>
-                                </div>
-                                <div class="flex flex-col ml-20">
-                                    <h1 class="font-myFont font-medium text-dark text-lg">
-                                        Tanggal Lahir
-                                    </h1>
-                                    <p class="font-myFont font-medium text-dark text-sm">
-                                        {{ detailCustomers.customers.birth_date }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-row items-center gap-2 mb-4">
-                                <div class="flex flex-col mr-[78px]">
-                                    <h1 class="font-myFont font-medium text-dark text-lg">
-                                        Jenis Kelamin
-                                    </h1>
-                                    <p class="font-myFont font-medium text-dark text-sm">
-                                        {{ detailCustomers.customers.gender }}
-                                    </p>
-                                </div>
-                                <div class="flex flex-col ml-[78px]">
-                                    <h1 class="font-myFont font-medium text-dark text-lg">
-                                        Golongan Darah
-                                    </h1>
-                                    <p class="font-myFont font-medium text-dark text-sm">
-                                        {{ detailCustomers.customers.blood_group }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-row items-center gap-2 mb-4">
-                                <div class="flex flex-col mr-[106px]">
-                                    <h1 class="font-myFont font-medium text-dark text-lg">
-                                        Agama
-                                    </h1>
-                                    <p class="font-myFont font-medium text-dark text-sm">
-                                        {{ detailCustomers.customers.religion }}
-                                    </p>
-                                </div>
-                                <div class="flex flex-col ml-[106px]">
-                                    <h1 class="font-myFont font-medium text-dark text-lg">
-                                        Status
-                                    </h1>
-                                    <p class="font-myFont font-medium text-dark text-sm">
-                                        {{ detailCustomers.customers.status }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col">
-                                <h1 class="font-myFont font-medium text-dark text-lg">
-                                    Alamat
-                                </h1>
-                                <p class="font-myFont font-medium text-dark text-sm">
-                                    {{ detailCustomers.customers.address }}
-                                </p>
-                                <p class="font-myFont font-medium text-dark text-sm">
-                                    {{ detailCustomers.customers.region }}
-                                </p>
-                            </div>
-
+                <div v-if="detailCustomers" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                    <div class="flex flex-col">
+                        <h1 class="text-dark text-xl font-myFont font-medium mb-2">Jadwal Diminta</h1>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Hari</span>
+                            <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.day }}</span>
                         </div>
-                        <div class="w-1/2">
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Jam</span>
+                            <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.time }}</span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Tanggal</span>
+                            <span class="font-myFont text-base text-dark font-medium">{{ detailCustomers.date }}</span>
                         </div>
                     </div>
-                    
+
+                    <hr class="my-4">
+
+                    <div class="flex flex-col">
+                        <h1 class="text-dark text-xl font-myFont font-medium mb-2">Customer</h1>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Nama</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.first_name }} {{ detailCustomers.customers.last_name }}
+                            </span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">No Telp</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.number }}
+                            </span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Tempat, Tanggal Lahir</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.birth_place }}, {{ detailCustomers.customers.birth_date }}                            </span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Jenis Kelamin</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.gender }}
+                            </span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Golongan Darah</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.blood_group }}
+                            </span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Agama</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.religion }}
+                            </span>
+                        </div>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="font-myFont font-medium text-dark text-base">Status</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.status }}
+                            </span>
+                        </div>
+                        <div class="mb-2 flex flex-col">
+                            <span class="font-myFont font-medium text-dark text-base">Alamat</span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.address }}
+                            </span>
+                            <span class="font-myFont text-dark text-base font-medium">
+                                {{ detailCustomers.customers.region }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="pt-4">
+                <!-- Modal footer -->
+                <div class="px-4 py-2 flex justify-end items-center space-x-4">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition" @click="toggleModal">Tutup</button>
+                </div>
+            </div>
+
+            <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
+                <!-- Modal body -->
+                <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Hasil Test</h1>
+                <hr class="mt-4">
+                <div v-if="detailCustomers" class="w-full p-4 mx-auto max-h-[460px] overflow-y-scroll">
+                    <div>
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-xl font-myFont font-medium mb-2">Jadwal Diminta</h1>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Hari</span>
+                                <span class="font-myFont text-xs text-dark font-medium">{{ detailCustomers.day }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Jam</span>
+                                <span class="font-myFont text-xs text-dark font-medium">{{ detailCustomers.time }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Tanggal</span>
+                                <span class="font-myFont text-xs text-dark font-medium">{{ detailCustomers.date }}</span>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                        <div class="flex flex-col">
+                            <h1 class="text-dark text-xl font-myFont font-medium mb-2">Customer</h1>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Nama</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.name }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">No Telp</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.number }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Tempat, Tanggal Lahir</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.birth_place }}, {{ detailCustomers.customers.birth_date }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Jenis Kelamin</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.gender }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Golongan Darah</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.blood_group }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Agama</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.religion }}</span>
+                            </div>
+                            <div class="mb-2 flex justify-between items-center">
+                                <span class="font-myFont font-medium text-dark text-sm">Status</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.status }}</span>
+                            </div>
+                            <div class="mb-2 flex flex-col">
+                                <span class="font-myFont font-medium text-dark text-sm">Alamat</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.address }}</span>
+                                <span class="font-myFont text-dark text-xs font-medium">{{ detailCustomers.customers.region }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <hr class="pt-4">
