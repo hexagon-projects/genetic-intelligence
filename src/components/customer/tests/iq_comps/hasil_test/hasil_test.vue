@@ -28,7 +28,7 @@
            </div>
        </div>
 
-       <div v-else>
+       <div v-else-if="!loading && scoreIQ">
             <div class="flex flex-col justify-center mx-7 py-3 gap-4">
                 <div class="flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
                     <div class="lg:w-3/5 w-full">
@@ -38,7 +38,7 @@
                                     Berikut Score IQ Kamu
                                 </h1>
                                 <div class="mx-auto flex-col my-6 w-[178px] flex justify-center p-12 rounded-full bg-[#1fabee] bg-opacity-40 backdrop-blur-lg">
-                                    <span class="text-7xl my-1 text-center text-light font-myFont">
+                                    <span :class="{'-ml-[22px]': scoreIQ.length == 3}" class="text-7xl my-1 text-center text-light font-myFont">
                                         {{ scoreIQ }}
                                     </span>
                                 </div>
@@ -131,7 +131,7 @@ export default {
                const response = await initAPI('get', `customers?id=${userId}`, null, token)
                console.log(response.data.data[0])
 
-               scoreIQ.value = response.data.data[0].customer_iq.customer_iq
+               scoreIQ.value = response.data.data[0].customer_iq.customer_iq.toString()
                aliasIQ.value = response.data.data[0].customer_iq.iq.aliases
                categoryIQ.value = response.data.data[0].customer_iq.iq.category
 
