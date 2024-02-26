@@ -561,6 +561,16 @@ export default{
         }
 
         const Register = async() => {
+            console.log(`ie date entah`,date.value)
+            const rawDate = new Date(date.value);
+
+            const year = rawDate.getFullYear();
+            const month = (rawDate.getMonth() + 1).toString().padStart(2, '0')
+            const day = rawDate.getDate().toString().padStart(2, '0')
+
+            const formattedDate = `${year}-${month}-${day}`;
+            console.log(`diolah`, formattedDate)
+
             const data = JSON.stringify({
                 "first_name": DOMPurify.sanitize(namaDepan.value),
                 "last_name": DOMPurify.sanitize(namaBelakang.value),
@@ -571,7 +581,7 @@ export default{
                 "blood_group": DOMPurify.sanitize(golDarah.value),
                 "birth_place": DOMPurify.sanitize(tempatLahir.value),
                 // "birth_date": DOMPurify.sanitize(tglLahir.value),
-                "birth_date": date.value,
+                "birth_date": formattedDate,
                 "gender": jenisKelamin.value,
                 "village_id": kelurahan.value,
                 "address": alamatLengkap.value,
