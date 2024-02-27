@@ -8,11 +8,11 @@
             </div>
             <span class="tab tab-home block text-xs">Test</span>
         </button>
-        <div v-if="showTest" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
+        <div v-if="showTest" class="absolute bg-white flex justify-center items-center w-full py-2 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.deteksi'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhTarget :size="20" />
                     Test GIM
                 </span>
@@ -20,7 +20,7 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.assesment'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhTextAa :size="20" />
                     Test Assessment
                 </span>
@@ -28,7 +28,7 @@
             <RouterLink :to="{name: 'user.views.iq'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhBrain :size="20" />
                     Test IQ
                 </span>
@@ -45,11 +45,11 @@
             </div>
             <span class="tab tab-home block text-xs">Hasil</span>
         </button>
-        <div v-if="showHasil" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
+        <div v-if="showHasil" class="absolute bg-white flex justify-center items-center w-full py-2 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.hasil_deteksi'}" 
                 class="items-center w-full flex flex-col text-center justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhFileText :size="20" />
                     Hasil GIM
                 </span>
@@ -57,9 +57,17 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" 
                 class="items-center w-full flex flex-col text-center justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhExam :size="20" />
                     Hasil Assessment
+                </span>
+            </RouterLink>
+            <RouterLink :to="{name: 'user.views.hasil_iq'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhBrain :size="20" />
+                    Hasil IQ
                 </span>
             </RouterLink>
         </div>
@@ -73,23 +81,23 @@
             </div>
             <span class="tab tab-home block text-xs">Reservasi</span>
         </button>
-        <div v-if="showReservasi" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
+        <div v-if="showReservasi" class="absolute bg-white flex justify-center items-center w-full py-2 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.reservasi'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex gap-1 items-center font-myFont text-sm">
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhCalendar :size="20" />
                     Reservasi GIM
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.hasil_assessment'}" 
+            <!-- <RouterLink :to="{name: 'user.views.hasil_assessment'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex gap-1 items-center font-myFont text-sm">
                     <PhUserFocus :size="20" />
                     Reservasi Psikotest
                 </span>
-            </RouterLink>
+            </RouterLink> -->
         </div>
         
         <button @click="toggleMenu('lainya')" ref="dropdownLainyaRef"
@@ -101,7 +109,7 @@
             </div>
             <span class="tab tab-home block text-xs">Lainya</span>
         </button>
-        <div v-if="showLainya" class="absolute bg-white flex justify-center items-center w-full py-4 px-4 bottom-14 border">
+        <div v-if="showLainya" class="absolute bg-white flex justify-center items-center w-full py-2 px-4 bottom-14 border">
             <RouterLink :to="{name: 'user.views.profile'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
