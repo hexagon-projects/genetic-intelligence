@@ -43,8 +43,11 @@ export default {
                 title: 'Keluar dari halaman?',
                 text: 'Seluruh proses test kamu tidak akan tersimpan ketika keluar halaman.',
                 showConfirmButton: true,
+                showCancelButton: true,
                 confirmButtonColor: "#0b40f4",
                 confirmButtonText: "OK",
+                cancelButtonColor: "#3b3f5c",
+                cancelButtonText: "Batal",
             }).then((result) => {
                 if (result.isConfirmed) {
                     next()
