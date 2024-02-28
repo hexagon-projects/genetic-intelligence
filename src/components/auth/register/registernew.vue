@@ -282,7 +282,7 @@
                                 <input v-model="ethnic" type="text" id="ethnic" name="ethnic" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Sunda" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="nationality" class="block text-sm font-myFont font-medium text-gray-600">nationality:</label>
+                                <label for="nationality" class="block text-sm font-myFont font-medium text-gray-600">Kebangsaan:</label>
                                 <input v-model="nationality" type="text" id="nationality" name="nationality" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Indonesia" />
                             </div>
                         </div>
