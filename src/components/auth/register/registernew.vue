@@ -5,12 +5,12 @@
                 <div class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 drop-shadow-2xl rounded-lg">
                     <div class="flex flex-col justify-center items-center mb-6">
                         <h2 class="text-black text-2xl font-myFont font-bold mb-2">Daftar</h2>
-                        <a class="font-myFont text-gray-500 text-sm">
+                        <span class="font-myFont text-gray-500 text-sm">
                             Sudah Punya Akun? 
-                            <router-link :to="{name: 'views.login'}" class="font-myFont text-gray-500 text-sm hover:text-biru">
+                            <router-link :to="{name: 'views.login'}" class="font-myFont text-biru text-sm hover:text-blue-600">
                                 Klik untuk Masuk
                             </router-link>
-                        </a>
+                        </span>
                     </div>
 
                     <div class="mb-5">
@@ -69,9 +69,9 @@
                                 :class="{'scale-105 shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] border-biru': tipeValue == 1}"
                                 >
                                 <h2 class="text-center text-dark font-myFont font-semibold text-lg tracking-wider mt-8 mb-3">
-                                    Pelajar
+                                    Pelajar / Mahasiswa
                                 </h2>
-                                <img src="../../../assets/img/pelajar.webp" class="mb-4" alt="">
+                                <img src="../../../assets/img/PelajarGroup.png" class="w-[221px] md:w-[213px] lg:w-[191px] mx-auto mb-4" alt="">
                                 <!-- <p class="text-center tracking-tighter block mb-4">
                                     <span class="text-4xl text-dark font-myFont font-bold">Rp. 250.000</span>
                                 </p> -->
@@ -86,6 +86,7 @@
                                     Dipilih
                                 </button>
                             </li>
+
                             <li
                                 class="w-full border lg:w-[32%] px-10 bg-white rounded-lg hover:scale-105 hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in"
                                 :class="{'scale-105 shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] border-biru': tipeValue == 0}"
@@ -93,7 +94,7 @@
                                 <h2 class="text-center text-dark font-myFont font-semibold text-lg tracking-wider mt-8 mb-3">
                                     Non Pelajar
                                 </h2>
-                                <img src="../../../assets/img/nonpelajar2.webp" class="mb-4" alt="">
+                                <img src="../../../assets/img/NonpelajarGroup.png" class="mx-auto max-w-[222px] lg:w-full mb-4" alt="">
                                 <!-- <p class="text-center tracking-tighter block mb-4">
                                     <span class="text-4xl text-dark font-myFont font-bold">Rp. 500.000</span>
                                 </p> -->
@@ -109,7 +110,6 @@
                                     Dipilih
                                 </button>
                             </li>
-                            
                         </ul>
                     </div>
 
@@ -117,25 +117,25 @@
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-full mb-4">
                                 <label for="nama_depan" class="block text-sm font-myFont font-medium text-gray-600">Nama Depan:</label>
-                                <input v-model="namaDepan" type="text" id="nama_depan" name="nama_depan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Depan" />
+                                <input v-model="namaDepan" type="text" id="nama_depan" name="nama_depan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Depan" />
                                 <!-- <a v-if="nameValidation && nameVal.length < 1" class="text-xs text-red-500">Nama depan tidak boleh kosong.</a> -->
                             </div>
                             <div class="w-full mb-4">
                                 <label for="nama_belakang" class="block text-sm font-myFont font-medium text-gray-600">Nama Belakang:</label>
-                                <input v-model="namaBelakang" type="text" id="nama_belakang" name="nama_belakang" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Belakang" />
+                                <input v-model="namaBelakang" type="text" id="nama_belakang" name="nama_belakang" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Belakang" />
                             </div>
                         </div>
                         
                         <div :class="{'items-center': (!validasiPassword && !validasiPassword !== '') || (!validasiEmail && !validasiEmail !== '')}" class="flex justify-center gap-2">
                             <div class="w-full mb-4">
                                 <label for="email" class="block text-sm font-myFont font-medium text-gray-600">Email:</label>
-                                <input v-model="emailVal" @input="validation" type="email" id="email" name="email" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Email" />
+                                <input v-model="emailVal" @input="validation" type="email" id="email" name="email" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Email" />
                                 <a v-if="validasiEmail && validasiEmail !== ''" class="text-xs text-red-500">{{ validasiEmail }}</a>
                             </div>
     
                             <div class="w-full mb-4">
                                 <label for="password" class="block text-sm font-myFont font-medium text-gray-600">Password:</label>
-                                <input v-model="passwordVal" @keyup="validation" type="password" id="password" name="password" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
+                                <input v-model="passwordVal" @keyup="validation" type="password" id="password" name="password" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
                                 <a v-if="validasiPassword && validasiPassword !== ''" class="text-xs text-red-500">{{ validasiPassword }}</a>
                             </div>
                         </div>
@@ -144,81 +144,146 @@
                         :class="{'items-center': !validasiWA && !validasiWA !== ''}"
                         >
                             <div class="w-full mb-4">
-                                <label for="nama_sekolah" class="block text-sm font-myFont font-medium text-gray-600">Nama Sekolah:</label>
+                                <label for="jenjang_pendidikan" class="block text-sm font-myFont font-medium text-gray-600">Jenjang Pendidikan:</label>
+                                <select v-model="jenjang_pendidikan" id="jenjang_pendidikan" name="jenjang_pendidikan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" disabled selected>-- Pilih Opsi --</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="SD">SD</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="SMP">SMP</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="SMA">SMA</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="SMK">SMK</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="perguruan_tinggi">Perguruan Tinggi</option>
+                                </select>
+                            </div>
+
+                            <div class="w-full mb-4">
+                                <label for="nama_sekolah" class="block text-sm font-myFont font-medium text-gray-600">Nama Sekolah / Nama Perguruan Tinggi:</label>
                                 <input v-model="nama_sekolah" type="text" id="nama_sekolah" name="nama_sekolah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Sekolah" />
                             </div>
     
-                            <div class="w-full mb-4">
+                            <!-- <div class="w-full mb-4">
                                 <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
-                                <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
+                                <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
                                 <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
-                            </div>
+                            </div> -->
                         </div>
                         <div v-else-if="tipeValue == 0" class="w-full mb-4">
                             <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
-                            <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
+                            <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
                             <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
                         </div>
 
+                        <transition name="fade" mode="out-in">
+                            <div v-if="jenjang_pendidikan !== '' && tipeValue == 1" class="flex justify-center gap-2">
+                                <div v-if="jenjang_pendidikan !== 'perguruan_tinggi'" class="w-full mb-4">
+                                    <label for="grade" class="block text-sm font-myFont font-medium text-gray-600">Kelas:</label>
+                                    <input v-model="grade" type="text" id="grade" name="grade" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: 1" />
+                                </div>
+    
+                                <div v-if="jenjang_pendidikan == 'SMK'" class="w-full mb-4">
+                                    <label for="jurusan" class="block text-sm font-myFont font-medium text-gray-600">Jurusan:</label>
+                                    <input v-model="majoring" type="text" id="jurusan" name="jurusan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kosongkan jika tidak ada" />
+                                </div>
+    
+                                <div v-if="jenjang_pendidikan == 'perguruan_tinggi'" class="w-full mb-4">
+                                    <label for="semester" class="block text-sm font-myFont font-medium text-gray-600">Semester:</label>
+                                    <input v-model="grade" type="text" id="semester" name="semester" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Semester" />
+                                </div>
+    
+                                <div v-if="jenjang_pendidikan == 'perguruan_tinggi'" class="w-full mb-4">
+                                    <label for="prodi" class="block text-sm font-myFont font-medium text-gray-600">Prodi:</label>
+                                    <input v-model="majoring" type="text" id="prodi" name="prodi" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Prodi" />
+                                </div>
+                            </div>
+                        </transition>
+                        <div class="w-full mb-4">
+                            <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
+                            <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
+                            <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
+                        </div>
                     </div>
 
                     <div v-else-if="currForm === 2" class="mx-2">
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-full mb-4">
-                                <label for="gol_darah" class="block text-sm font-myFont font-medium text-gray-600">Golongan Darah:</label>
-                                <select v-model="golDarah" name="gol_darah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                                    <option value="" disabled selected>-- Pilih Gol. Darah --</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                    <option value="O">O</option>
-                                </select>
-                                <!-- <input v-model="golDarah" type="text" name="gol_darah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Golongan Darah" /> -->
+                                <label for="tempat_lahir" class="block text-sm font-myFont font-medium text-gray-600">Tempat Lahir:</label>
+                                <input v-model="tempatLahir" type="text" id="tempat_lahir" name="tempat_lahir" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Bandung" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="agama" class="block text-sm font-myFont font-medium text-gray-600">Agama:</label>
-                                <select v-model="agama" name="agama" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                                    <option value="" disabled selected>-- Pilih Agama --</option>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Kristen">Kristen</option>
-                                    <option value="Katholik">Katholik</option>
-                                    <option value="Hindu">Hindu</option>
-                                    <option value="Buddha">Buddha</option>
-                                    <option value="Lainya">Lainya</option>
-                                </select>
-                                <!-- <input v-model="agama" type="text" id="agama" name="agama" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Agama" /> -->
+                                <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-gray-600">Tanggal Lahir:</label>
+                                <VueDatePicker class="py-1" v-model="date" :enable-time-picker="false" placeholder="Tanggal" text-input />
+                                <!-- <input v-model="tglLahir" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Tanggal Lahir" /> -->
                             </div>
                         </div>
 
                         <div class="flex justify-center items-center gap-2">
                             <div class="w-full mb-4">
-                                <label for="Tempat Lahir" class="block text-sm font-myFont font-medium text-gray-600">Tempat Lahir:</label>
-                                <input v-model="tempatLahir" type="text" id="tempat_lahir" name="tempat_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Bandung" />
-                                <!-- <a v-if="nameValidation && nameVal.length < 1" class="text-xs text-red-500">Nama depan tidak boleh kosong.</a> -->
+                                <label for="child_number" class="block text-sm font-myFont font-medium text-gray-600">Anak Ke:</label>
+                                <input v-model="child_number" type="text" id="child_number" name="child_number" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: 2" />
                             </div>
                             <div class="w-full mb-4">
-                                <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-gray-600">Tanggal Lahir:</label>
-                                <VueDatePicker class="py-1" v-model="date" :enable-time-picker="false" placeholder="Pilih Tanggal Lahir" text-input />
-                                <!-- <input v-model="tglLahir" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Tanggal Lahir" /> -->
+                                <label for="jml_saudara" class="block text-sm font-myFont font-medium text-gray-600">Jumlah Bersaudara:</label>
+                                <input v-model="from_child_number" type="text" id="jml_saudara" name="jml_saudara" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: 2" />
                             </div>
                         </div>
-                        
+
                         <div class="flex justify-center items-center gap-2">
+                            <div class="w-full mb-4">
+                                <label for="agama" class="block text-sm font-myFont font-medium text-gray-600">Agama:</label>
+                                <select v-model="agama" name="agama" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" disabled selected>-- Pilih Agama --</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="Islam">Islam</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="Kristen">Kristen</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="Katholik">Katholik</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="Hindu">Hindu</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="Buddha">Buddha</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="Lainya">Lainya</option>
+                                </select>
+                                <!-- <input v-model="agama" type="text" id="agama" name="agama" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Agama" /> -->
+                            </div>
+
                             <div class="w-full mb-4">
                                 <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-gray-600">Jenis Kelamin:</label>
                                 <select v-model="jenisKelamin" name="jenis_kelamin" id="jenis_kelamin" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
                                     <option value="" disabled selected>-- Pilih Opsi --</option>
-                                    <option value="1">Laki - Laki</option>
-                                    <option value="2">Perempuan</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="1">Laki - Laki</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="2">Perempuan</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <div class="flex justify-center items-center gap-2">
+                            <div class="w-full mb-4">
+                                <label for="gol_darah" class="block text-sm font-myFont font-medium text-gray-600">Golongan Darah:</label>
+                                <select v-model="golDarah" name="gol_darah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                                    <option value="" disabled selected>-- Pilih Gol. Darah --</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="A">A</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="B">B</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="AB">AB</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="O">O</option>
+                                </select>
+                                <!-- <input v-model="golDarah" type="text" name="gol_darah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Golongan Darah" /> -->
+                            </div>
+
                             <div class="w-full mb-4">
                                 <label for="status_nikah" class="block text-sm font-myFont font-medium text-gray-600">Status Nikah:</label>
                                 <select v-model="statusNikah" name="status_nikah" id="status_nikah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                                    <option value="" disabled selected>-- Pilih Opsi --</option>
-                                    <option value="1">Menikah</option>
-                                    <option value="0">Lajang</option>
+                                    <option class="text-xs selection:text-xs" value="" disabled selected>-- Pilih Opsi --</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="0">Belum Kawin</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="1">Kawin</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="2">Cerai Hidup</option>
+                                    <option class="text-xs md:text-sm lg:text-base" value="3">Cerai Mati</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center items-center gap-2">
+                            <div class="w-full mb-4">
+                                <label for="ethnic" class="block text-sm font-myFont font-medium text-gray-600">Suku:</label>
+                                <input v-model="ethnic" type="text" id="ethnic" name="ethnic" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Sunda" />
+                            </div>
+                            <div class="w-full mb-4">
+                                <label for="nationality" class="block text-sm font-myFont font-medium text-gray-600">nationality:</label>
+                                <input v-model="nationality" type="text" id="nationality" name="nationality" class="text-base mt-1 px-2 py-[8px] lg:py-[8px] border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Indonesia" />
                             </div>
                         </div>
 
@@ -227,7 +292,7 @@
                                 <label for="provinsi" class="block text-sm font-myFont font-medium text-gray-600">Provinsi:</label>
                                 <select v-model="provinsi" @change="getKota" name="provinsi" id="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
                                     <option value="" selected>-- Pilih Provinsi --</option>
-                                    <option v-for="(option, index) in provinceOptions" :key="index" :value="option.id">
+                                    <option class="text-xs md:text-sm lg:text-base" v-for="(option, index) in provinceOptions" :key="index" :value="option.id">
                                         {{ option.text }}
                                     </option>
                                 </select>
@@ -245,7 +310,7 @@
                                 <label for="kota" class="block text-sm font-myFont font-medium text-gray-600">Kota:</label>
                                 <select v-model="kota" @change="getKecamatan" name="kota" id="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
                                     <option value="" selected>-- Pilih Kota --</option>
-                                    <option v-for="(option, index) in cityOptions" :key="index" :value="option.id">
+                                    <option class="text-xs md:text-sm lg:text-base" v-for="(option, index) in cityOptions" :key="index" :value="option.id">
                                         {{ option.text }}
                                     </option>
                                 </select>
@@ -265,7 +330,7 @@
                                 <label for="kecamatan" class="block text-sm font-myFont font-medium text-gray-600">Kecamatan:</label>
                                 <select v-model="kecamatan" @change="getKelurahan" name="kecamatan" id="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
                                     <option value="" selected>-- Pilih Kecamatan --</option>
-                                    <option v-for="(option, index) in districtsOptions" :key="index" :value="option.id">
+                                    <option class="text-xs md:text-sm lg:text-base" v-for="(option, index) in districtsOptions" :key="index" :value="option.id">
                                         {{ option.text }}
                                     </option>
                                 </select>
@@ -282,7 +347,7 @@
                                 <label for="kelurahan" class="block text-sm font-myFont font-medium text-gray-600">Kelurahan:</label>
                                 <select v-model="kelurahan" @change="saveVillagesId" name="kelurahan" id="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
                                     <option value="" selected>Pilih Kelurahan</option>
-                                    <option v-for="(item, index) in villagesOptions" :value="item.id" :key="index">{{ item.text }}</option>
+                                    <option class="text-xs md:text-sm lg:text-base" v-for="(item, index) in villagesOptions" :value="item.id" :key="index">{{ item.text }}</option>
                                 </select>
                                 <!-- <Select2 
                                 @select="saveVillagesId"
@@ -297,14 +362,39 @@
 
                         <div class="w-full mb-4">
                             <label for="alamat" class="block text-sm font-myFont font-medium text-gray-600">Alamat Lengkap:</label>
-                            <textarea v-model="alamatLengkap" type="text" id="alamat" name="alamat" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Alamat Lengkap"></textarea>
+                            <textarea v-model="alamatLengkap" type="text" id="alamat" name="alamat" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Alamat Lengkap"></textarea>
                         </div>
                     </div>
 
                     <div v-else-if="currForm === 3">
                         <!-- Form pembayaran -->
-                        <div v-if="tipeValue == 1" class="lg:hidden flex flex-col justify-center items-center gap-2">
-                            <div class="w-full flex items-center gap-1">
+                        <div class="lg:hidden flex flex-col items-center gap-2">
+                            <div class="w-full">
+                                <label for="code_voucher" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
+                                <input v-model="code_voucher" type="text" name="code_voucher" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kode"/>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <PhInfo :size="28"/>
+                                <p class="font-myFont text-neutral-500 text-xs">Jika punya, Gunakan kode voucher saat mendaftar untuk meraih keuntungan tambahan.</p>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="lg:hidden flex flex-col justify-center items-center gap-2">
+                            <div class="w-full">
+                                <label for="metode_pembayaran" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
+                                <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Pilih Metode Pembayaran" readonly />
+                            </div>
+                            <div class="w-full">
+                                <label for="total_fee" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
+                                <input v-model="totalFee" type="text" name="total_fee" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Rp.0" readonly />
+                            </div>
+                            <div class="w-full mb-2">
+                                <label for="payment_code" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
+                                <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Rp.0" readonly />
+                            </div>
+                            <!-- <div class="w-full flex items-center gap-1">
                                 <div class="w-1/2 md:w-full lg:w-0">
                                     <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
                                     <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
@@ -320,33 +410,42 @@
                                     <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
                                 </div>
                                 <div class="w-1/2 md:w-full lg:w-0">
-                                    <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
-                                    <input v-model="school_code" type="text" name="payment_code" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Isi jika punya"/>
+                                    <label for="code_voucher" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
+                                    <input v-model="code_voucher" type="text" name="code_voucher" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Isi jika punya"/>
                                 </div>
+                            </div> -->
+                        </div>
+                        <div class="hidden lg:flex items-center gap-4">
+                            <div class="w-1/4 mb-4">
+                                <label for="code_voucher" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
+                                <input v-model="code_voucher" type="text" name="code_voucher" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kode"/>
+                            </div>
+                            <div class="flex items-center mt-2 gap-1">
+                                <PhInfo :size="20"/>
+                                <p class="font-myFont text-neutral-500 text-sm">Jika punya, Gunakan kode voucher saat mendaftar untuk meraih keuntungan tambahan.</p>
                             </div>
                         </div>
-                        <div v-if="tipeValue == 1" class="hidden lg:flex justify-center items-center gap-2">
-                            <div class="w-1/4 mb-4">
+
+                        <hr class="hidden lg:block mt-1 mb-4">
+
+                        <div class="hidden lg:flex justify-center items-center gap-2 mt-2">
+                            <div class="w-1/3 mb-4">
                                 <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
                                 <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
                             </div>
-                            <div class="w-1/4 mb-4">
+                            <div class="w-1/3 mb-4">
                                 <label for="total_fee" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
                                 <input v-model="totalFee" type="text" name="total_fee" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
                             </div>
-                            <div class="w-1/4 mb-4">
+                            <div class="w-1/3 mb-4">
                                 <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
                                 <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
-                            </div>
-                            <div class="w-1/4 mb-4">
-                                <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
-                                <input v-model="school_code" type="text" name="payment_code" class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Isi jika punya"/>
                             </div>
                         </div>
                         <!-- end form pembayaran -->
 
                         <!-- Form Pilih Bank -->
-                        <div v-else-if="tipeValue == 0" class="flex justify-center items-center gap-2">
+                        <!-- <div v-else-if="tipeValue == 0" class="flex justify-center items-center gap-2">
                             <div class="w-1/3 mb-4">
                                 <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode Pembayaran:</label>
                                 <input v-model="paymentType" type="text" name="metode_pembayaran" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
@@ -359,7 +458,7 @@
                                 <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
                                 <input v-model="feePaymentMethod" type="text" name="payment_code" class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" readonly />
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="-ml-2 flex flex-col gap-2 max-h-36">
                             <div class="py-2 px-2 grid grid-cols-4 gap-2 overflow-y-scroll w-full">
@@ -394,12 +493,15 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import { PhInfo } from "@phosphor-icons/vue";
+import { useRouter } from 'vue-router'
 
 export default{
     name: 'RegisterPage',
     // components: {Select2},
-    components: {VueDatePicker},
+    components: {VueDatePicker, PhInfo},
     setup(){
+        const router = useRouter()
         const $ = jQuery;
         window.$ = $;
         const date = ref();
@@ -410,7 +512,10 @@ export default{
 
         const currForm = ref(0)
         const tipeValue = ref(null)
+        const jenjang_pendidikan = ref('')
         const nama_sekolah = ref('')
+        const grade = ref('')
+        const majoring = ref('')
         const namaDepan = ref('')
         const namaBelakang = ref('')
         const emailVal = ref('')
@@ -422,6 +527,10 @@ export default{
         const tglLahir = ref('')
         const jenisKelamin = ref('')
         const statusNikah = ref('')
+        const child_number = ref('')
+        const from_child_number = ref('')
+        const ethnic = ref('')
+        const nationality = ref('')
         const provinsi = ref('')
         const kota = ref('')
         const kecamatan = ref('')
@@ -433,7 +542,7 @@ export default{
         const totalFee = ref('')
         const feePaymentMethod = ref('')
         const biayaPendaftaran = ref('')
-        const school_code = ref('')
+        const code_voucher = ref('')
 
         const validasiWA = ref('')
         const validasiEmail = ref('')
@@ -588,10 +697,16 @@ export default{
                 "status": statusNikah.value,
                 "payment_method_code": paymentCode.value,
                 "fee": feePaymentMethod.value,
-                "school_code": DOMPurify.sanitize(school_code.value),
+                "school_code": DOMPurify.sanitize(code_voucher.value),
                 // "fee": parseInt(biayaPendaftaran.value) + parseInt(feePaymentMethod.value),
                 "is_student": tipeValue.value,
-                "school_name": DOMPurify.sanitize(nama_sekolah.value)
+                "school_name": DOMPurify.sanitize(nama_sekolah.value),
+                "grade": DOMPurify.sanitize(grade.value),
+                "majoring": DOMPurify.sanitize(majoring.value),
+                "ethnic": DOMPurify.sanitize(ethnic.value),
+                "nationality": DOMPurify.sanitize(nationality.value),
+                "child_number": DOMPurify.sanitize(child_number.value),
+                "from_child_number": DOMPurify.sanitize(from_child_number.value)
             })
             console.log(data)
 
@@ -599,22 +714,37 @@ export default{
                 const response = await initAPI('post','register', data, null)
                 console.log(`register nih`,response.data)
                 if (response.status === 200) {
-                    localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
-                    console.log('Register berhasil:', response.data.data.paymentUrl)
-                    const url = response.data.data.paymentUrl
-                    let fixedUrl = ''
-                    let refValue = ''
-                    if(url.includes('ref=')){
-                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
-                        refValue = url.split('ref=')[1]
-                    }else if(url.includes('reference=')){
-                        console.log('reference', url)
-                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
-                        refValue = url.split('reference=')[1]
+                    if(response.data.is_free == true){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registrasi Berhasil.',
+                            text: response.data.message,
+                            showConfirmButton: true,
+                            confirmButtonColor: "#0b40f4",
+                            confirmButtonText: "OK",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                router.push('/login')
+                            }
+                        })
+                    } else if(response.data.is_free == false){
+                        localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+                        console.log('Register berhasil:', response.data.data.paymentUrl)
+                        const url = response.data.data.paymentUrl
+                        let fixedUrl = ''
+                        let refValue = ''
+                        if(url.includes('ref=')){
+                            fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                            refValue = url.split('ref=')[1]
+                        }else if(url.includes('reference=')){
+                            console.log('reference', url)
+                            fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                            refValue = url.split('reference=')[1]
+                        }
+                        window.location.href = fixedUrl+refValue
+                        console.log('ref',refValue)
+                        console.log(`${fixedUrl}-${refValue}`)
                     }
-                    window.location.href = fixedUrl+refValue
-                    console.log('ref',refValue)
-                    console.log(`${fixedUrl}-${refValue}`)
                 }
             } catch (error) {
                 if (error.response) {
@@ -639,14 +769,21 @@ export default{
             biayaPendaftaran,
             currForm,
             tipeValue,
+            jenjang_pendidikan,
             nama_sekolah,
-            school_code,
+            grade,
+            majoring,
+            code_voucher,
             namaDepan,
             namaBelakang,
             emailVal,
             passwordVal,
             noWhatsapp,
             golDarah,
+            child_number,
+            from_child_number,
+            ethnic,
+            nationality,
             agama,
             tempatLahir,
             tglLahir,
@@ -696,5 +833,18 @@ export default{
 
 .custom-height {
     height: 100px; /* Sesuaikan dengan tinggi yang diinginkan */
-  }
+}
+
+select:focus option:checked {
+    font-size: 0.875rem; /* text-sm */
+}  
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
