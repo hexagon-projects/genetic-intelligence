@@ -644,9 +644,33 @@ export default{
                 case 0:
                 return false
                 case 1:
-                return !namaDepan.value || !namaBelakang.value || !emailVal.value || validasiEmail.value !== '' || !passwordVal.value || validasiPassword.value !== '' || !noWhatsapp.value || isNaN(noWhatsapp.value);
+                return !namaDepan.value 
+                    || !namaBelakang.value 
+                    || !emailVal.value 
+                    || validasiEmail.value !== '' 
+                    || !passwordVal.value 
+                    || validasiPassword.value !== '' 
+                    || !noWhatsapp.value 
+                    || isNaN(noWhatsapp.value)
+                    || !jenjang_pendidikan.value
+                    || !nama_sekolah.value
+                    || !grade.value
                 case 2:
-                return !golDarah.value || !agama.value || !tempatLahir.value || !date.value || !jenisKelamin.value || !statusNikah.value || !provinsi.value || !kota.value || !kecamatan.value || !kelurahan.value || !alamatLengkap.value;
+                return !golDarah.value 
+                    || !agama.value 
+                    || !tempatLahir.value 
+                    || !date.value 
+                    || !jenisKelamin.value 
+                    || !statusNikah.value 
+                    || !provinsi.value 
+                    || !kota.value 
+                    || !kecamatan.value 
+                    || !kelurahan.value 
+                    || !alamatLengkap.value
+                    || !child_number.value
+                    || !from_child_number.value
+                    || !ethnic.value
+                    || !nationality.value
                 case 3:
                 return !paymentType.value || !totalFee.value
                 default:
