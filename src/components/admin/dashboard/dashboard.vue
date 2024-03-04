@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-around px-2 mt-7 text-center">
-                                    <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" type="button" class="flex items-center justify-center gap-1 font-myFont bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full lg:w-1/2">
+                                    <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" type="button" class="flex items-center justify-center gap-1 font-myFont bg-biru text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full lg:w-1/2">
                                         Lihat Detail <PhArrowRight/>
                                     </RouterLink>
                                 </div>
