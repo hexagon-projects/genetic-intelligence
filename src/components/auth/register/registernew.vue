@@ -633,6 +633,9 @@ export default{
             if (currForm.value === 3) {
             // hitApiBayar();
                 Register()
+            } else if(currForm.value === 2) {
+                Register('nonbayar')
+                toggleTabs(1);
             } else {
                 toggleTabs(1);
             }
@@ -693,7 +696,7 @@ export default{
             }
         }
 
-        const Register = async() => {
+        const Register = async(param) => {
             console.log(`ie date entah`,date.value)
             const rawDate = new Date(date.value);
 
@@ -735,7 +738,8 @@ export default{
             console.log(data)
 
             try {
-                const response = await initAPI('post','register', data, null)
+                const endpoint = param == 'nonbayar' ? 'v2/register' : 'register'
+                const response = await initAPI('post', endpoint, data, null)
                 console.log(`register nih`,response.data)
                 if (response.status === 200) {
                     if(response.data.is_free == true){
