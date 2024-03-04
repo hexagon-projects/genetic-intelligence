@@ -15,7 +15,7 @@ const routes = [
     {
         path: '/login',
         name: 'views.login',
-        component: () => import('../components/auth/login/login.vue'),
+        component: () => import('../components/auth/login/newLogin.vue'),
         meta: {
             showNavbar: false,
             showFooter: false
@@ -453,6 +453,36 @@ const routes = [
         path: '/pengaturan-code',
         name: 'admin.views.pengaturan_code',
         component: () => import('../components/admin/pengaturan/code/code.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/data-guru',
+        name: 'admin.views.guru',
+        component: () => import('../components/admin/sekolah/guru/guru.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
+            else next()
+        }
+    },
+    {
+        path: '/data-sekolah',
+        name: 'admin.views.sekolah',
+        component: () => import('../components/admin/pengaturan/sekolah/sekolah.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
