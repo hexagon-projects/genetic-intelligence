@@ -149,8 +149,8 @@ export default{
 		}
 
 		const Logout = async() => {
+			loading.value = !loading.value
 			try {
-				loading.value = !loading.value
 				const token = JSON.parse(localStorage.getItem('token'))
 				if(token){
 					const response = await initAPI('post', 'logout', null ,token)
@@ -166,12 +166,11 @@ export default{
 					store.commit('user', null);
 					store.commit('userRole', null);
 				}
-				loading.value = !loading.value
-				router.push('/login')
 			} catch (error) {
 				console.log(error)
 			}
-			
+			router.push('/login')
+			loading.value = !loading.value
 		}
 
 		return {
