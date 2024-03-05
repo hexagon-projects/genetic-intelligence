@@ -195,7 +195,7 @@
                                 </div>
                             </div>
                         </transition>
-                        <div class="w-full mb-4">
+                        <div v-if="tipeValue == 1" class="w-full mb-4">
                             <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
                             <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="08xxxxx" />
                             <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
@@ -655,9 +655,9 @@ export default{
                     || validasiPassword.value !== '' 
                     || !noWhatsapp.value 
                     || isNaN(noWhatsapp.value)
-                    || !jenjang_pendidikan.value
-                    || !nama_sekolah.value
-                    || !grade.value
+                    || (tipeValue.value == 1 && !jenjang_pendidikan.value)
+                    || (tipeValue.value == 1 && !nama_sekolah.value)
+                    || (tipeValue.value == 1 && !grade.value)
                 case 2:
                 return !golDarah.value 
                     || !agama.value 
