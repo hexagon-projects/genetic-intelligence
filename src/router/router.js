@@ -121,7 +121,7 @@ const routes = [
     {
         path: '/hasil-deteksi',
         name: 'user.views.hasil_deteksi',
-        component: () => import('../views/customers/hasil_deteksi/hasil.vue'),
+        component: () => import('../views/customers/hasil_deteksi/newHasil.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
