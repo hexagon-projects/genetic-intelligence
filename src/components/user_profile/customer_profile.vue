@@ -274,6 +274,7 @@ export default {
         const convertToInputDate = (tanggal) => {
             // console.log(tanggal)
             const [day, month, year] = tanggal.split("-");
+            console.log(`${year}-${month}-${day}`)
             return `${year}-${month}-${day}`;
         };
 
@@ -352,7 +353,7 @@ export default {
             formData.append('last_name', namaBelakang.value);
             formData.append('number', noWhatsapp.value);
             formData.append('birth_place', tempatLahir.value);
-            formData.append('birth_date', tglLahir.value);
+            formData.append('birth_date', formattedDate.value);
             formData.append('gender', jenisKelamin.value == 'Laki-laki' ? 1 : 2);
             formData.append('status', statusNikah.value == 'Lajang' ? 0 : 1);
             formData.append('village_id', kelurahan.value);
