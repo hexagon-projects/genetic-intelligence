@@ -1,15 +1,15 @@
 <template>
     <div v-if="userResultDetect || stateUserResult" class="flex justify-center w-full">
         <div class="w-full">
-            <div class="lg:relative w-full min-h-44 gradasi shadow-xl p-9 rounded-2xl">
+            <div class="lg:relative w-full min-h-44 gradasi shadow-sm p-9 rounded-2xl">
                 <div class="flex flex-col lg:justify-between lg:items-center">
                     <div class="w-12/12 lg:w-1/12">
                         <img src="../../../assets/img/note-fix.png" alt="icon" class="w-72 lg:w-44 lg:absolute lg:bottom-1 lg:left-6">
                     </div>
                     <div class="w-12/12 lg:w-11/12 lg:px-36">
                         <div class="lg:flex lg:flex-col">
-                            <h1 class="font-poppins font-medium text-lg text-start text-light">Hasil Test Genetic Intelligence Mapping</h1>
-                            <small class="font-myFont text-start text-light text-md mb-3">Catatan hasil test Grafologi kamu :</small>
+                            <h1 class="font-poppins font-medium text-lg text-start text-light">Catatan hasil test Grafologi kamu</h1>
+                            <small class="font-myFont text-start text-light text-md mb-3">Berikut catatan yang harus kamu perhatikan :</small>
                         </div>
                     </div>
                 </div>
