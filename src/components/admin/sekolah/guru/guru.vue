@@ -139,9 +139,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { PhPlus } from '@phosphor-icons/vue'
 import ModalTambahGuru from './form/registrasi.vue'
+import initAPI from '../../../../api/api'
 
 export default {
     name: 'DataGuru',
@@ -161,6 +162,20 @@ export default {
             'jenis_kelamin': 'Jenis Kelamin',
             'page': '',
         }
+
+        const getAllData = async() => {
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('get', 'staffs', null, token)
+                console.log(response.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        onMounted(() => {
+            getAllData()
+        })
 
         return {
             loading,

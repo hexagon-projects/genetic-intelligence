@@ -9,24 +9,53 @@
             <div class="w-full p-4">
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Email
+                        </label>
+                        <input v-model="emailInput" @keyup="validation" id="email" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" type="email" placeholder="Email"
+                        :class="{'border-danger': validasiEmail !== null, 'border-gray-200 focus:border-biru': validasiEmail == null}">
+                        <p v-if="validasiEmail !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiEmail }}.</p>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label for="password" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Password
+                        </label>
+                        <input v-model="password" id="password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="password" placeholder="Password">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                             Nama Lengkap
                         </label>
-                        <input v-model="name" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Nama Lengkap">
+                        <input v-model="namaLengkap" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Nama Lengkap">
                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                     </div>
-                    <div class="w-full md:w-1/2 px-3">
+                    <div class="relative w-full md:w-1/2 px-3">
                         <label for="sekolah" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                             Sekolah / Perguruan Tinggi
                         </label>
-                        <input v-model="sekolah" @input="typeSearch" id="sekolah"
+                        <div class="relative group">
+                            <input v-model="sekolah" @input="debouncedGetSearchData()" id="sekolah"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Sekolah / Perguruan Tinggi">
+                            
+                            <transition name="fade" mode="out-in">
+                                <div id="dropdown-menu" v-if="searched" class="w-full max-h-[140px] overflow-y-scroll absolute z-40 right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1">
+                                    <div v-if="searched && pilihanSekolah.length > 0" class="flex flex-col">
+                                        <span v-for="(item, index) in pilihanSekolah" :key="index" @click="pilihSekolah(item.id, item.name)" class="hover:bg-neutral-200 py-2 px-4 cursor-pointer mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                            {{ item.name }}
+                                        </span>
+                                    </div>
+                                    <div v-else-if="searched && pilihanSekolah.length == 0">
+                                        <span class="hover:bg-neutral-500 mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                            Data sekolah tidak ada.
+                                        </span>
+                                    </div>
+                                </div>
+                            </transition>
                         </div>
-                        <div v-if="searchResult">
-                            <span v-for="(item, index) in searchResult" :key="index">
-                                {{ item.name }}
-                            </span>
-                        </div>
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap -mx-3 mt-4">
@@ -34,16 +63,22 @@
                     <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Jenis Kelamin
                     </label>
-                    <input v-model="email" @keyup="validation" id="email" 
-                        :class="{'border-danger': validasiEmail !== null}"
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="email" placeholder="email@email.com">
+                    <select v-model="jenisKelamin" id="jenis_kelamin" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                        <option value="" selected disabled>Jenis Kelamin</option>
+                        <option value="1">Laki - Laki</option>
+                        <option value="2">Perempuan</option>
+                    </select>
                     <p v-if="validasiEmail !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiEmail }}.</p>
                     </div>
                     <div class="w-full md:w-1/2 px-3">
-                    <label for="password" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    <label for="tipe" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Tipe
                     </label>
-                    <input v-model="password" id="password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Password">
+                    <select v-model="tipe" id="tipe" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                        <option value="" selected disabled>Pilih Tipe</option>
+                        <option value="Kepala Sekolah">Kepala Sekolah</option>
+                        <option value="Guru BK">Guru BK</option>
+                    </select>
                     </div>
                 </div>
             </div>
@@ -51,7 +86,7 @@
             <hr class="pt-4">
             <!-- Modal footer -->
             <div class="px-4 py-4 flex justify-between items-center space-x-4">
-                <button @click="closeModal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Tutup</button>
+                <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">Tutup</button>
                 <button @click="register"
                     :disabled="buttonDisabled" 
                     :class="{'bg-gray-600 opacity-80 cursor-not-allowed': buttonDisabled}"
@@ -177,81 +212,83 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import DOMPurify from 'dompurify'
 import initAPI from '../../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
+import _debounce from 'lodash/debounce';
 
 export default {
     name: 'FormRegistrasiKonsultan',
     setup(_, { emit }){
+
         const closeModal = () => {
             emit('initRegistrasi');
         };
 
         const router = useRouter()
 
+        const emailInput = ref('')
+        const password = ref('')
         const namaLengkap = ref('')
         const sekolah = ref('')
+        const idSekolah = ref('')
         const jenisKelamin = ref('')
         const tipe = ref('')
+        const pilihanSekolah = ref([])
+        const validasiEmail = ref(null)
 
-        const data = [
-            { name: 'test 1' },
-            { name: 'test 2' },
-            { name: 'aselola' }
-        ];
+        const searched = ref(false)
 
+        const getSearchData = async() => {
+            console.log(`nyari`)
+            const response = await initAPI('get', `institutions?search=${sekolah.value}`, null, null)
+            console.log(response.data)
+            pilihanSekolah.value = response.data.data
+        }
 
-        const searchResult = ref(false)
+        const debouncedGetSearchData = _debounce(() => {
+            if(sekolah.value !== ''){
+                searched.value = true
+                getSearchData()
+            } else {
+                searched.value = false
+            }
+        }, 500)
 
-        const typeSearch = () => {
-                
-        };
+        const pilihSekolah = (id, name) => {
+            idSekolah.value = id
+            searched.value = false
+            sekolah.value = name
+        }
 
         const register = async() => {
             const token = JSON.parse(localStorage.getItem('token'))
-            // const datas = {
-            //     name: DOMPurify.sanitize(name.value),
-            //     fee: DOMPurify.sanitize(feeKonsultan.value),
-            //     email: DOMPurify.sanitize(email.value),
-            //     password: DOMPurify.sanitize(password.value),
-            //     birth_place: DOMPurify.sanitize(birth_place.value),
-            //     birth_date: DOMPurify.sanitize(birth_date.value),
-            //     gender: DOMPurify.sanitize(gender.value),
-            //     number: DOMPurify.sanitize(number.value),
-            //     address: DOMPurify.sanitize(address.value),
-            //     available_on: null,
-            //     image: null
-            // }
 
             const data = new FormData();
-            data.append('name', DOMPurify.sanitize(name.value));
-            data.append('fee', DOMPurify.sanitize(feeKonsultan.value));
-            data.append('email', DOMPurify.sanitize(email.value))
+            data.append('email', DOMPurify.sanitize(emailInput.value))
             data.append('password', DOMPurify.sanitize(password.value))
-            data.append('birth_place', DOMPurify.sanitize(birth_place.value))
-            data.append('birth_date', DOMPurify.sanitize(birth_date.value))
-            data.append('gender', DOMPurify.sanitize(gender.value))
-            data.append('number', DOMPurify.sanitize(number.value))
-            data.append('address', DOMPurify.sanitize(address.value))
-            data.append('available_on', null)
-            data.append('image', null)
+            data.append('name', DOMPurify.sanitize(namaLengkap.value))
+            data.append('gender', DOMPurify.sanitize(jenisKelamin.value))
+            data.append('type', DOMPurify.sanitize(tipe.value))
+            data.append('institution_id', DOMPurify.sanitize(idSekolah.value))
             console.log(data + token)
 
             try {
-                const response = await initAPI('post', 'consultants', data, token)
+                const response = await initAPI('post', 'staffs', data, token)
                 console.log(`register konsultan`, response.data)
                 Swal.fire({
-                      icon: 'success',
-                      title: 'Registrasi Berhasil',
-                      text: response.data.message,
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
-                router.push({name: 'admin.views.konsultan'})
+                    icon: 'success',
+                    title: 'Registrasi Berhasil',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                
+                  closeModal()
+                router.push('/data-guru')
             } catch (error) {
                 console.log(`error`,error)
                 Swal.fire({
@@ -265,49 +302,58 @@ export default {
         }
 
         const validation = () => {
-            if(isNaN(number.value)){
-                validasiWA.value = 'No Whatsapp hanya bisa di isi oleh angka'
-            } else if(isNaN(feeKonsultan.value)) {
-                validasiFee.value = 'Fee hanya bisa di isi oleh angka'
-            } else if(email.value && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email.value)) {
-                console.log('email salah')
+            if(emailInput.value && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(emailInput.value)) {
                 validasiEmail.value = 'Email tidak valid'
             } else {
-                validasiWA.value = null
-                validasiFee.value = null
                 validasiEmail.value = null
             }
         }
 
         const buttonDisabled = computed(() => {
             if(
-                !name.value ||
-                !feeKonsultan.value ||
-                !email.value ||
+                !namaLengkap.value ||
+                !emailInput.value ||
                 !password.value ||
-                !birth_place.value ||
-                !birth_date.value || 
-                !gender.value ||
-                !number.value ||
-                !address.value
+                !sekolah.value ||
+                !jenisKelamin.value || 
+                !tipe.value
             ){
+                console.log(`kade kosong`)
                 return true
             } else {
+                console.log(`hilang`)
                 return false
             }
         })
 
         return { 
+            searched,
+            debouncedGetSearchData,
+            pilihSekolah,
+            emailInput,
+            password,
             namaLengkap,
             sekolah,
             jenisKelamin,
             tipe,
+            pilihanSekolah,
+            validasiEmail,
             buttonDisabled, 
             closeModal,
             register,
             validation,
-            typeSearch
         }
     }
 }
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
