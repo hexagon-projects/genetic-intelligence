@@ -17,7 +17,7 @@
         </div>
 
         <div v-if="isModalTambahGuru == true">
-            <ModalTambahGuru @initRegistrasi="toggleRegistrasi"/>
+            <ModalTambahGuru @initRegistrasi="toggleTambahGuru"/>
         </div>
     
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
@@ -85,37 +85,45 @@
                     <div class="flex justify-center w-full" v-if="loading" >
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
-    
-                    <div class="overflow-x-auto">
+
+                    <div v-else-if="dataGuru.length > 0 && !loading" class="overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-3 px-6">No</th>
                                 <th scope="col" class="py-3 px-6">Nama</th>
-                                <th scope="col" class="py-3 px-6">No Telp</th>
-                                <th scope="col" class="py-3 px-6">Detail</th>
+                                <th scope="col" class="py-3 px-6">Role</th>
+                                <th scope="col" class="py-3 px-6">Sekolah</th>
+                                <th scope="col" class="py-3 px-6">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr v-for="(data, index) in dataCustomer" :key="index" class="bg-white border-b">
+                                <tr v-for="(data, index) in dataGuru" :key="index" class="bg-white border-b">
                                     <td class="py-4 px-6">
                                         {{ (currPage - 1) * itemsPerPage + index + 1 }}
                                     </td>
                                     <td class="py-4 px-6">{{ data.name }}</td>
-                                    <td class="py-4 px-6">{{ data.number }}</td>
-                                    <td class="py-4 px-6">
+                                    <td class="py-4 px-6">{{ data.type }}</td>
+                                    <td class="py-4 px-6">{{ data.institutions.name }}</td>
+                                    <td class="flex items-center gap-2 py-4 px-6">
                                         <button @click="clickDetail(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                            <PhFileSearch :size="22"/>
+                                            <PhPencilSimple :size="22"/>
+                                        </button>
+                                        <button @click="clickDetail(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                            <PhTrash :size="22"/>
                                         </button>
                                     </td>
-                                </tr> -->
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-    
-                    <!-- <span v-else-if="dataCustomer.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span> -->
+
+                    <span v-else-if="dataGuru.length == 0 && !loading" class="font-myFont text-center text-dark text-lg">Data kosong</span>
                     
-                    <div class="self-end mt-4">
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="font-myFont text-xs md:text-sm lg:text-sm text-start lg:text-center text-dark">
+                            {{ totalDari == null ? 0 : totalDari }} sampai {{ totalKe == null ? 0 : totalKe }} dari {{ totalData }} data.
+                        </span>
                         <a class="flex items-center font-myFont text-dark text-xs lg:text-base">
                             Halaman
                             <div class="mx-2 flex items-center gap-1">
@@ -139,49 +147,142 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { PhPlus } from '@phosphor-icons/vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import ModalTambahGuru from './form/registrasi.vue'
 import initAPI from '../../../../api/api'
+import _debounce from 'lodash/debounce';
+import { PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus, PhX } from '@phosphor-icons/vue';
 
 export default {
     name: 'DataGuru',
-    components: {PhPlus, ModalTambahGuru},
+    components: {PhPlus, PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhX, ModalTambahGuru},
     setup(){
-        const loading = ref(false)
+        const baseUrl = import.meta.env.VITE_API_BASE_URL
 
         const isModalTambahGuru = ref(false)
 
-        const toggleRegistrasi = () => {
+        const loading = ref(false)
+        const dataGuru = ref([])
+        const totalHalaman = ref('')
+        const itemsPerPage = ref(null)
+        const currPage = ref(null)
+        const nextPage = ref(null)
+        const prevPage = ref(null)
+        const totalDari = ref(null)
+        const totalKe = ref(null)
+        const totalData = ref(null)
+        const cari = ref(null)
+
+        const isModalTambahSekolah = ref(false)
+
+        const labelFilter = ref('Tingkat Pendidikan')
+        const showFilter = ref(false)
+        const isFilter = ref(false)
+
+        const toggleFilter = () => {
+            showFilter.value = !showFilter.value
+        }
+
+        const dropdownRef = ref(null);
+
+        const closeDropdown = (e) => {
+            if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
+                showFilter.value = false;
+            }
+        };
+
+        onBeforeUnmount(() => {
+            document.body.removeEventListener('click', closeDropdown);
+        });
+
+
+        const toggleTambahGuru = () => {
             isModalTambahGuru.value = !isModalTambahGuru.value
         }
 
+        onMounted(async() => {
+            getAllData()
+            document.body.addEventListener('click', closeDropdown);
+        })
+
         const queryParams = {
             'search': '',
-            'kelas': 'Filer Kelas',
-            'jenis_kelamin': 'Jenis Kelamin',
             'page': '',
+            'type': 'All'
         }
 
         const getAllData = async() => {
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', 'staffs', null, token)
-                console.log(response.data)
-            } catch (error) {
-                console.log(error)
+            loading.value = !loading.value
+            
+            let allParams = '?'
+            console.log(queryParams)
+            for (const [key, value] of Object.entries(queryParams)) {
+                allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
             }
+            console.log(`semua`,allParams)
+
+            const token = JSON.parse(localStorage.getItem('token'))
+            const response = await initAPI('get', `staffs`+allParams.replace('?&', '?'), null, token)
+            console.log(`customers`,response.data)
+            dataGuru.value = response.data.data
+            totalHalaman.value = response.data.last_page
+            itemsPerPage.value = response.data.per_page
+            currPage.value = response.data.current_page
+            nextPage.value = response.data.next_page_url
+            prevPage.value = response.data.prev_page_url
+            totalDari.value = response.data.from
+            totalKe.value = response.data.to
+            totalData.value = response.data.total
+            loading.value = !loading.value
+            console.log(`data`,dataGuru.value)
         }
 
-        onMounted(() => {
+        const filterTingkat = (params) => {
+            labelFilter.value = params
+            isFilter.value = true
+            queryParams.type = params
             getAllData()
-        })
+        }
+
+        const resetFilter = () => {
+            labelFilter.value = 'Tingkat Pendidikan'
+            queryParams.type = 'All'
+            isFilter.value = false
+            getAllData()
+        }
+
+        const debouncedGetSearchData = _debounce(() => {
+            queryParams.search = cari.value !== '' ? cari.value : ''
+            queryParams.page = ''
+            getAllData()
+        }, 500)
+
+        const nextPages = async(url) => {
+            queryParams.page = url.split('?page=')[1] == '1' ? '' : url.split('?page=')[1]
+            getAllData()
+        }
+        
+        const prevPages = async(url) => {
+            queryParams.page = url.split('?page=')[1] == '1' ? '' : url.split('?page=')[1]
+            getAllData()
+        }
 
         return {
             loading,
             isModalTambahGuru,
             queryParams,
-            toggleRegistrasi
+            toggleTambahGuru,
+            dataGuru,
+            totalHalaman,
+            itemsPerPage,
+            currPage,
+            nextPage,
+            prevPage,
+            totalDari,
+            totalKe,
+            totalData,
+            cari,
+            debouncedGetSearchData
         }
     }
 }
