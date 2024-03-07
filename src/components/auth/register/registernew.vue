@@ -156,8 +156,28 @@
                             </div>
 
                             <div class="w-full mb-4">
-                                <label for="nama_sekolah" class="block text-sm font-myFont font-medium text-gray-600">Nama Sekolah / Nama Perguruan Tinggi:</label>
-                                <input v-model="nama_sekolah" type="text" id="nama_sekolah" name="nama_sekolah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Sekolah" />
+                                <div class="relative group">
+                                    <label for="nama_sekolah" class="block text-sm font-myFont font-medium text-gray-600">Nama Sekolah / Nama Perguruan Tinggi:</label>
+                                    <input v-model="nama_sekolah" @input="debouncedGetSearchData()" id="sekolah"
+                                    class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" type="text" placeholder="Sekolah / Perguruan Tinggi">
+                                    
+                                    <transition name="fade" mode="out-in">
+                                        <div id="dropdown-menu" v-if="searched" class="w-full max-h-[140px] overflow-y-scroll absolute z-40 right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1">
+                                            <div v-if="searched && pilihanSekolah.length > 0" class="flex flex-col">
+                                                <span v-for="(item, index) in pilihanSekolah" :key="index" @click="pilihSekolah(item.id, item.name)" class="hover:bg-neutral-200 py-2 px-4 cursor-pointer mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                                    {{ item.name }}
+                                                </span>
+                                            </div>
+                                            <div v-else-if="searched && pilihanSekolah.length == 0">
+                                                <span class="hover:bg-neutral-500 mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                                    Data sekolah tidak ada.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </transition>
+                                </div>
+                                <!-- <label for="nama_sekolah" class="block text-sm font-myFont font-medium text-gray-600">Nama Sekolah / Nama Perguruan Tinggi:</label>
+                                <input v-model="nama_sekolah" type="text" id="nama_sekolah" name="nama_sekolah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Sekolah" /> -->
                             </div>
     
                             <!-- <div class="w-full mb-4">
@@ -495,6 +515,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { PhInfo } from "@phosphor-icons/vue";
 import { useRouter } from 'vue-router'
+import _debounce from 'lodash/debounce';
 
 export default{
     name: 'RegisterPage',
@@ -509,6 +530,32 @@ export default{
         const cityOptions = ref([])
         const districtsOptions = ref([])
         const villagesOptions = ref([])
+
+        const searched = ref(false)
+        const idSekolah = ref('')
+        const pilihanSekolah = ref([])
+
+        const getSearchData = async() => {
+            console.log(`nyari`)
+            const response = await initAPI('get', `institutions?search=${nama_sekolah.value}`, null, null)
+            console.log(response.data)
+            pilihanSekolah.value = response.data.data
+        }
+
+        const debouncedGetSearchData = _debounce(() => {
+            if(sekolah.value !== ''){
+                searched.value = true
+                getSearchData()
+            } else {
+                searched.value = false
+            }
+        }, 500)
+
+        const pilihSekolah = (id, name) => {
+            idSekolah.value = id
+            searched.value = false
+            nama_sekolah.value = name
+        }
 
         const currForm = ref(0)
         const tipeValue = ref(null)
@@ -727,7 +774,8 @@ export default{
                 "school_code": DOMPurify.sanitize(code_voucher.value),
                 // "fee": parseInt(biayaPendaftaran.value) + parseInt(feePaymentMethod.value),
                 "is_student": tipeValue.value,
-                "school_name": DOMPurify.sanitize(nama_sekolah.value),
+                // "school_name": DOMPurify.sanitize(nama_sekolah.value),
+                "institution_id": idSekolah.value,
                 "grade": DOMPurify.sanitize(grade.value),
                 "majoring": DOMPurify.sanitize(majoring.value),
                 "ethnic": DOMPurify.sanitize(ethnic.value),
@@ -792,6 +840,8 @@ export default{
         }
 
         return{
+            searched,
+            pilihanSekolah,
             date,
             feePaymentMethod,
             biayaPendaftaran,
@@ -842,7 +892,9 @@ export default{
             pilihTipe,
             validasiWA,
             validasiEmail,
-            validasiPassword
+            validasiPassword,
+            debouncedGetSearchData,
+            pilihSekolah
         }
     }
 }
