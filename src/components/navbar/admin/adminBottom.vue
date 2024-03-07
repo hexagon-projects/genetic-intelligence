@@ -15,7 +15,7 @@
         <RouterLink :to="{name: 'admin.views.customers'}" 
             class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+            <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                 <PhFolderUser :size="20"/>
                 Data Customer
             </span>
@@ -23,9 +23,17 @@
         <RouterLink :to="{name: 'admin.views.konsultan'}" 
             class="items-center w-full flex flex-col justify-center pt-2 pb-1"
             >
-            <span class="text-start flex gap-1 items-center font-myFont text-sm">
+            <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                 <PhFolderUser :size="20"/>
                 Data Konsultan
+            </span>
+        </RouterLink>
+        <RouterLink :to="{name: 'admin.views.guru'}" 
+            class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+            >
+            <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                <PhFolderUser :size="20"/>
+                Data Guru
             </span>
         </RouterLink>
     </div>

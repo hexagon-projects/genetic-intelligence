@@ -5,13 +5,19 @@
               hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
               "
               :class="{
-                  'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.customers' || $route.name === 'admin.views.konsultan',
-                  'text-dark bg-white': $route.name !== 'admin.views.customers' && $route.name !== 'admin.views.konsultan'
+                  'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.customers' || $route.name === 'admin.views.konsultan' || $route.name === 'admin.views.guru',
+                  'text-dark bg-white': $route.name !== 'admin.views.customers' && $route.name !== 'admin.views.konsultan' && $route.name !== 'admin.views.guru'
               }"
               @click="toggleFilter('users')"
               ref="showUsersRef"
           >
-              <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name === 'admin.views.customers' || $route.name === 'admin.views.konsultan','text-biru hover:text-light': $route.name !== 'admin.views.customers' && $route.name !== 'admin.views.konsultan'}" />
+              <PhFolderUser :size="24" weight="duotone" :class="{'text-light': $route.name === 'admin.views.customers' 
+              || $route.name === 'admin.views.konsultan'
+              || $route.name === 'admin.views.guru',
+              'text-biru hover:text-light': $route.name !== 'admin.views.customers' 
+              && $route.name !== 'admin.views.konsultan'
+              && $route.name !== 'admin.views.guru'
+              }" />
           Users
           <PhCaretDown :size="16"/>
       </button>
@@ -24,6 +30,9 @@
           </RouterLink>
           <RouterLink :to="{name: 'admin.views.konsultan'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
               Data Konsultan
+          </RouterLink>
+          <RouterLink :to="{name: 'admin.views.guru'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Data Kepsek / Guru BK
           </RouterLink>
           </div>
       </div>
@@ -59,17 +68,6 @@
     </div>
   </div>
 
-  <!-- <RouterLink :to="{name: 'admin.views.reservasi'}" 
-       class="
-          flex justify-center items-end px-4 py-2 gap-1 font-myFont
-          hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
-          "
-          :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'admin.views.reservasi', 'text-dark bg-white': $route.name !== 'admin.views.reservasi'}"
-      >
-      <PhFolders :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.reservasi','text-biru hover:text-light': $route.name !== 'admin.views.reservasi'}" />
-      Data Reservasi
-  </RouterLink> -->
-
   <RouterLink :to="{name: 'admin.views.riwayat_pembayaran'}" 
        class="
           flex justify-center items-end px-4 py-2 gap-1 font-myFont
@@ -87,13 +85,23 @@
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
             "
             :class="{
-                'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.pengaturan_jawaban_assessment' || $route.name === 'admin.views.pengaturan_hasil_assessment',
-                'text-dark bg-white': $route.name !== 'admin.views.pengaturan_hasil_assessment' && $route.name !== 'admin.views.pengaturan_jawaban_assessment'
+                'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'admin.views.pengaturan_jawaban_assessment' 
+                || $route.name === 'admin.views.pengaturan_hasil_assessment'
+                || $route.name === 'admin.views.sekolah',
+                'text-dark bg-white': $route.name !== 'admin.views.pengaturan_hasil_assessment' 
+                && $route.name !== 'admin.views.pengaturan_jawaban_assessment'
+                && $route.name !== 'admin.views.sekolah'
             }"
             @click="toggleFilter('pengaturan')"
             ref="showPengaturanRef"
         >
-            <PhGear :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.pengaturan_hasil_assessment' || $route.name == 'admin.views.pengaturan_jawaban_assessment','text-biru hover:text-light': $route.name !== 'admin.views.pengaturan_hasil_assessment' && $route.name !== 'admin.views.pengaturan_jawaban_assessment'}" />
+            <PhGear :size="24" weight="duotone" :class="{'text-light': $route.name == 'admin.views.pengaturan_hasil_assessment' 
+            || $route.name == 'admin.views.pengaturan_jawaban_assessment'
+            || $route.name == 'admin.views.sekolah',
+            'text-biru hover:text-light': $route.name !== 'admin.views.pengaturan_hasil_assessment' 
+            && $route.name !== 'admin.views.pengaturan_jawaban_assessment'
+            && $route.name !== 'admin.views.sekolah'
+            }" />
         Pengaturan
         <PhCaretDown :size="16"/>
     </button>
@@ -112,6 +120,9 @@
         </RouterLink>
         <RouterLink :to="{name: 'admin.views.pengaturan_code'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
             Pengaturan Code
+        </RouterLink>
+        <RouterLink :to="{name: 'admin.views.sekolah'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+            Pengaturan Sekolah
         </RouterLink>
         </div>
     </div>
