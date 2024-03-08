@@ -24,62 +24,62 @@
             <div class="w-full px-7 mx-auto">
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">List Kepsek / Guru BK</h1>
+                    <div class="w-1/6 flex items-center gap-1 mb-2">
+                        <button @click="isModalTambahGuru = !isModalTambahGuru" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
+                            <PhPlus :size="20"/>
+                            Registrasi Kepsek / BK
+                        </button>
+                    </div>
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
-                        <div class="relative flex flex-col gap-2 text-left">
-                            <div class="flex items-center gap-1">
-                                <button @click="isModalTambahGuru = !isModalTambahGuru" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
-                                    <PhPlus :size="20"/>
-                                    Registrasi Kepsek / BK
-                                </button>
-                            </div>
-
-                            <div class="w-full flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-2 mb-2">
                                 <div class="w-full flex items-center gap-1">
-                                    <button @click="toggleFilter" ref="dropdownRef" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                        {{ queryParams.kelas }}
+                                    <button @click="toggleFilter('type')" ref="dropdownRef" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                        {{ queryParams.type == 'All' ? 'Role' : queryParams.type }}
                                         <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
-                                    <button v-if="filterKelas" @click="resetFilter" class="text-light p-[2px] bg-danger rounded-md"><PhX/></button>
+                                    <button v-if="filterRole" @click="resetFilter('type')" class="text-light p-[2px] bg-danger rounded-md"><PhX/></button>
                                 </div>
-                                <div v-if="filterKelas" class="absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div v-if="showFilterType" class="absolute left-22 top-[350px] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                     <div class="py-1" role="none">
                                     <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                        <a @click="filterData('1')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                                            1
+                                        <a @click="filterTipe('Guru BK')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                            Guru BK
                                         </a>
-                                        <a @click="filterData('2')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                                            2
-                                        </a>
-                                        <a @click="filterData('3')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                                            3
+                                        <a @click="filterTipe('Kepala Sekolah')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                            Kepala Sekolah
                                         </a>
                                     </div>
                                 </div>
                                 <div class="w-full flex items-center gap-1">
-                                    <button @click="toggleFilter" ref="dropdownRef" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full lg:w-[140px] justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                        {{ queryParams.jenis_kelamin }}
+                                    <button @click="toggleFilter" ref="dropdownInstitutionRef" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full lg:w-[168px] justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                        {{ queryParams.institution_type == 'All' ? 'Tingkat Pendidikan' : queryParams.institution_type }}
                                         <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                         </svg>
                                     </button>
-                                    <button v-if="isFilter" @click="resetFilter" class="text-light p-[2px] bg-danger rounded-md"><PhX/></button>
+                                    <button v-if="filterInstitution" @click="resetFilter('institution')" class="text-light p-[2px] bg-danger rounded-md"><PhX/></button>
                                 </div>
-                                <div v-if="showFilter" class="absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div v-if="showFilterTypePendidikan" class="absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                     <div class="py-1" role="none">
                                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                        <a @click="filterData('L')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                                            Laki - Laki
+                                        <a @click="filterInstitutionTipe('SD')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                            SD
                                         </a>
-                                        <a @click="filterData('P')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
-                                            Perempuan
+                                        <a @click="filterInstitutionTipe('SMP')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                            SMP
+                                        </a>
+                                        <a @click="filterInstitutionTipe('SMA')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                            SMA
+                                        </a>
+                                        <a @click="filterInstitutionTipe('SMK')" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                                            SMK
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class="lg:-mb-8 mb-2 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
+                        <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class="mb-3 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
     
                     <div class="flex justify-center w-full" v-if="loading" >
@@ -176,18 +176,30 @@ export default {
         const isModalTambahSekolah = ref(false)
 
         const labelFilter = ref('Tingkat Pendidikan')
-        const showFilter = ref(false)
-        const isFilter = ref(false)
+        const showFilterType = ref(false)
+        const showFilterTypePendidikan = ref(false)
+        const filterRole = ref(false)
+        const filterInstitution = ref(false)
 
-        const toggleFilter = () => {
-            showFilter.value = !showFilter.value
+        const toggleFilter = (params) => {
+            console.log(`yeuh param`,params)
+            if(params == 'type'){
+                showFilterType.value = !showFilterType.value
+            } else {
+                showFilterTypePendidikan.value = !showFilterTypePendidikan.value
+            }
         }
 
         const dropdownRef = ref(null);
+        const dropdownInstitutionRef = ref(null);
 
         const closeDropdown = (e) => {
             if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
-                showFilter.value = false;
+                showFilterType.value = false;
+            }
+
+            if (dropdownInstitutionRef.value && !dropdownInstitutionRef.value.contains(e.target)) {
+                showFilterTypePendidikan.value = false;
             }
         };
 
@@ -208,7 +220,8 @@ export default {
         const queryParams = {
             'search': '',
             'page': '',
-            'type': 'All'
+            'type': 'All',
+            'institution_type': 'All'
         }
 
         const getAllData = async() => {
@@ -237,17 +250,28 @@ export default {
             console.log(`data`,dataGuru.value)
         }
 
-        const filterTingkat = (params) => {
-            labelFilter.value = params
-            isFilter.value = true
+        const filterTipe = (params) => {
+            // labelFilter.value = params
+            filterRole.value = true
             queryParams.type = params
             getAllData()
         }
 
-        const resetFilter = () => {
-            labelFilter.value = 'Tingkat Pendidikan'
-            queryParams.type = 'All'
-            isFilter.value = false
+        const filterInstitutionTipe = (params) => {
+            // labelFilter.value = params
+            filterInstitution.value = true
+            queryParams.institution_type = params
+            getAllData()
+        }
+
+        const resetFilter = (params) => {
+            if(params == 'type'){
+                queryParams.type = 'All'
+                filterRole.value = false
+            } else {
+                queryParams.institution_type = 'All'
+                filterInstitution.value = false
+            }
             getAllData()
         }
 
@@ -282,7 +306,18 @@ export default {
             totalKe,
             totalData,
             cari,
-            debouncedGetSearchData
+            debouncedGetSearchData,
+            showFilterType,
+            showFilterTypePendidikan,
+            dropdownRef,
+            dropdownInstitutionRef,
+            filterRole,
+            filterInstitution,
+            filterInstitution,
+            toggleFilter,
+            filterTipe,
+            filterInstitutionTipe,
+            resetFilter
         }
     }
 }
