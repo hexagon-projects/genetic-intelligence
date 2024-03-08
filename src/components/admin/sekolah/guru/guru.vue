@@ -16,9 +16,9 @@
             </ol>
         </div>
 
-        <div v-if="isModalTambahGuru == true">
-            <ModalTambahGuru @initRegistrasi="toggleTambahGuru"/>
-        </div>
+        <transition name="fade" mode="out-in">
+            <ModalTambahGuru v-if="isModalTambahGuru == true" @initRegistrasi="toggleTambahGuru"/>
+        </transition>
     
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="w-full px-7 mx-auto">
@@ -173,8 +173,6 @@ export default {
         const totalData = ref(null)
         const cari = ref(null)
 
-        const isModalTambahSekolah = ref(false)
-
         const labelFilter = ref('Tingkat Pendidikan')
         const showFilterType = ref(false)
         const showFilterTypePendidikan = ref(false)
@@ -322,3 +320,14 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
