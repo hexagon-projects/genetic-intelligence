@@ -6,13 +6,29 @@
             <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Tambah Sekolah / Perguruan Tinggi</h1>
             <hr class="mt-4">
             
-            <div class="w-full p-4">
-                <div class="w-full flex flex-wrap -mx-3 mb-6">
+            <div :class="{'h-[240px]': loadingAdd}" class="w-full p-3">
+                <div v-if="loadingAdd" class="h-full flex flex-col items-center justify-center w-full">
+                    <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                </div>
+
+                <div v-else-if="!loadingAdd" class="w-full flex flex-col gap-4">
                     <div class="w-full px-3 mb-6 md:mb-0">
                         <label for="nama_sekolah" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                             Nama Sekolah / Perguruan Tinggi
                         </label>
                         <input v-model="name" id="nama_sekolah" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Nama Sekolah / Perguruan Tinggi">
+                    </div>
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                        <label for="type" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Type
+                        </label>
+                        <input v-model="type" id="type" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="SD/SMP/SMA/SMK/Perguruan Tinggi">
+                    </div>
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                        <label for="region" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Region
+                        </label>
+                        <input v-model="region" id="region" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Kota Bandung">
                     </div>
                 </div>
             </div>
@@ -36,12 +52,30 @@
             <hr class="mt-4">
             
             <div class="w-full p-4">
-                <div class="w-full flex flex-wrap -mx-3 mb-6">
+                <div v-if="loadingAdd" class="h-full flex flex-col items-center justify-center w-full">
+                    <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+                </div>
+
+                <div v-else-if="!loadingAdd" class="w-full flex flex-col">
                     <div class="w-full px-3 mb-6 md:mb-0">
                         <label for="nama_sekolah" class="block tracking-wide font-myFont text-sm lg:text-base text-dark font-sm mb-2">
                             Nama Sekolah / Perguruan Tinggi
                         </label>
                         <input v-model="name" id="nama_sekolah" class="appearance-none block w-full bg-gray-200 text-sm lg:text-base text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Nama Sekolah / Perguruan Tinggi">
+                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                    </div>
+                    <div class="w-full px-3 mb-6 md:mb-0">
+                        <label for="type" class="block tracking-wide font-myFont text-sm lg:text-base text-dark font-sm mb-2">
+                            Type
+                        </label>
+                        <input v-model="type" id="type" class="appearance-none block w-full bg-gray-200 text-sm lg:text-base text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="SD/SMP/SMA/SMK/Perguruan Tinggi">
+                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                    </div>
+                    <div class="w-full px-3 md:mb-0">
+                        <label for="region" class="block tracking-wide font-myFont text-sm lg:text-base text-dark font-sm mb-2">
+                            Region
+                        </label>
+                        <input v-model="region" id="region" class="appearance-none block w-full bg-gray-200 text-sm lg:text-base text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Kota Bandung">
                         <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                     </div>
                 </div>
@@ -79,63 +113,49 @@ export default {
 
         const router = useRouter()
 
+        const loadingAdd = ref(false)
         const name = ref('')
+        const type = ref('')
+        const region = ref('')
 
         const register = async() => {
             const token = JSON.parse(localStorage.getItem('token'))
-            // const datas = {
-            //     name: DOMPurify.sanitize(name.value),
-            //     fee: DOMPurify.sanitize(feeKonsultan.value),
-            //     email: DOMPurify.sanitize(email.value),
-            //     password: DOMPurify.sanitize(password.value),
-            //     birth_place: DOMPurify.sanitize(birth_place.value),
-            //     birth_date: DOMPurify.sanitize(birth_date.value),
-            //     gender: DOMPurify.sanitize(gender.value),
-            //     number: DOMPurify.sanitize(number.value),
-            //     address: DOMPurify.sanitize(address.value),
-            //     available_on: null,
-            //     image: null
-            // }
 
             const data = new FormData();
             data.append('name', DOMPurify.sanitize(name.value));
-            data.append('fee', DOMPurify.sanitize(feeKonsultan.value));
-            data.append('email', DOMPurify.sanitize(email.value))
-            data.append('password', DOMPurify.sanitize(password.value))
-            data.append('birth_place', DOMPurify.sanitize(birth_place.value))
-            data.append('birth_date', DOMPurify.sanitize(birth_date.value))
-            data.append('gender', DOMPurify.sanitize(gender.value))
-            data.append('number', DOMPurify.sanitize(number.value))
-            data.append('address', DOMPurify.sanitize(address.value))
-            data.append('available_on', null)
-            data.append('image', null)
+            data.append('type', DOMPurify.sanitize(type.value));
+            data.append('region', DOMPurify.sanitize(region.value))
             console.log(data + token)
 
+            loadingAdd.value = !loadingAdd.value
             try {
-                const response = await initAPI('post', 'consultants', data, token)
-                console.log(`register konsultan`, response.data)
+                const response = await initAPI('post', 'institutions', data, token)
+                console.log(`register sekolah`, response.data)
                 Swal.fire({
-                      icon: 'success',
-                      title: 'Registrasi Berhasil',
-                      text: response.data.message,
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
-                router.push({name: 'admin.views.konsultan'})
+                    icon: 'success',
+                    title: 'Registrasi Berhasil',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                closeModal()
+                router.go()
             } catch (error) {
                 console.log(`error`,error)
                 Swal.fire({
                       icon: 'error',
-                      title: 'Registrasi Gagal',
+                      title: 'Tambah Data Sekolah Gagal',
                       text: 'Terjadi Kesalahan',
                       showConfirmButton: false,
                       timer: 2000
                   });
             }
+            loadingAdd.value = !loadingAdd.value
         }
 
         const buttonDisabled = computed(() => {
-            if(!name.value){
+            if(!name.value || !type.value || !region.value){
                 return true
             } else {
                 return false
@@ -143,7 +163,10 @@ export default {
         })
 
         return { 
+            loadingAdd,
             name,
+            type,
+            region,
             buttonDisabled, 
             closeModal,
             register,

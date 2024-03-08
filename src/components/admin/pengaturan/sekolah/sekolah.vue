@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class="-mb-10 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
+                        <input v-model="cari" @input="() => debouncedGetSearchData()" type="text" name="cari" class="mb-1 md:-mb-10 lg:-mb-10 font-myFont rounded-md border border-gray-300 py-2 px-3" placeholder="Cari Data">
                     </div>
 
                     <div class="flex justify-center w-full" v-if="loading" >
@@ -192,6 +192,7 @@ export default {
         }
 
         const getAllData = async() => {
+            console.log('di refresh')
             loading.value = !loading.value
             
             let allParams = '?'
@@ -272,6 +273,7 @@ export default {
             toggleRegistrasi,
             toggleFilter,
             resetFilter,
+            refreshData
         }
     }
 }
