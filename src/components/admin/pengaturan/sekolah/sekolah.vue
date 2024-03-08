@@ -273,7 +273,6 @@ export default {
             toggleRegistrasi,
             toggleFilter,
             resetFilter,
-            refreshData
         }
     }
 }
