@@ -17,7 +17,7 @@
         </div>
 
         <transition name="fade" mode="out-in">
-            <ModalTambahSekolah v-if="isModalTambahSekolah == true" @initRegistrasi="toggleRegistrasi"/>
+            <ModalTambahSekolah v-if="isModalTambahSekolah == true" :detailData="detailData" :method="methodType" @initRegistrasi="toggleRegistrasi"/>
         </transition>
     
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
@@ -88,10 +88,10 @@
                                     </td>
                                     <td class="py-4 px-6">{{ data.name }}</td>
                                     <td class="flex items-center gap-2 py-4 px-6">
-                                        <button @click="clickDetail(data.id)" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                        <button @click="btnAction(data.id, 'update')" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                             <PhPencilSimple :size="22"/>
                                         </button>
-                                        <button @click="clickDetail(data.id)" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                        <button @click="btnAction(data.id, 'delete')" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                             <PhTrash :size="22"/>
                                         </button>
                                     </td>
@@ -134,6 +134,8 @@ import ModalTambahSekolah from './form/tambah.vue'
 import initAPI from '../../../../api/api'
 import { PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus, PhX } from '@phosphor-icons/vue';
 import _debounce from 'lodash/debounce';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
     name: 'AdminReservasi',
@@ -154,10 +156,65 @@ export default {
         const cari = ref(null)
 
         const isModalTambahSekolah = ref(false)
+        const methodType = ref('')
+        const detailData = ref('')
 
         const labelFilter = ref('Tingkat Pendidikan')
         const showFilter = ref(false)
         const isFilter = ref(false)
+
+        const hapusData = async(id) => {
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('delete', `institutions/${id}`, null, token)
+                console.log(response.data)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Data Berhasil Dihapus',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                getAllData()
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Hapus Data',
+                    text: 'Terjadi Kesalahan Saat Hapus Data',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
+
+        const btnAction = (id, method) => {
+            console.log(`${id} - ${method}`)
+
+            if(method == 'update'){
+                const unik = dataSekolah.value.find(item => item.id === id)
+                detailData.value = unik
+                methodType.value = method
+                toggleRegistrasi()
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Hapus Data Ini?',
+                    text: 'Data yang dihapus tidak bisa di kembalikan.',
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonColor: "#0b40f4",
+                    confirmButtonText: "Ya, Hapus",
+                    cancelButtonColor: "#3b3f5c",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        hapusData(id)
+                    }
+                })
+            }
+        }
 
         const toggleFilter = () => {
             showFilter.value = !showFilter.value
@@ -249,6 +306,8 @@ export default {
         }
 
         return {
+            detailData,
+            methodType,
             baseUrl,
             loading,
             labelFilter,
@@ -273,6 +332,7 @@ export default {
             toggleRegistrasi,
             toggleFilter,
             resetFilter,
+            btnAction
         }
     }
 }

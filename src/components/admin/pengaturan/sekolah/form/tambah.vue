@@ -3,7 +3,7 @@
     >
         <div class="hidden lg:block relative w-1/2 top-10 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
-            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Tambah Sekolah / Perguruan Tinggi</h1>
+            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Tambah Sekolah / Perguruan Tinggi {{ method }}</h1>
             <hr class="mt-4">
             
             <div :class="{'h-[240px]': loadingAdd}" class="w-full p-3">
@@ -106,7 +106,12 @@ import { useRouter } from 'vue-router';
 
 export default {
     name: 'FormRegistrasiKonsultan',
-    setup(_, { emit }){
+    props: ['method', 'detailData'],
+    setup(props, { emit }){
+        console.log(props)
+        // console.log(`ini props`, props.method)
+        console.log(`ini props`, props.detailData)
+
         const closeModal = () => {
             emit('initRegistrasi');
         };
@@ -114,9 +119,9 @@ export default {
         const router = useRouter()
 
         const loadingAdd = ref(false)
-        const name = ref('')
-        const type = ref('')
-        const region = ref('')
+        const name = ref(props.method == 'update' ? props.detailData.name : '')
+        const type = ref(props.method == 'update' ? props.detailData.type : '')
+        const region = ref(props.method == 'update' ? props.detailData.region : '')
 
         const register = async() => {
             const token = JSON.parse(localStorage.getItem('token'))
@@ -129,11 +134,13 @@ export default {
 
             loadingAdd.value = !loadingAdd.value
             try {
-                const response = await initAPI('post', 'institutions', data, token)
+                const method = props.method == 'update' ? 'put' : 'post'
+                const endpoint = props.method == 'update' ? `institutions/${props.detailData.id}` : 'institutions'
+                const response = await initAPI(method, endpoint, data, token)
                 console.log(`register sekolah`, response.data)
                 Swal.fire({
                     icon: 'success',
-                    title: 'Registrasi Berhasil',
+                    title: props.method == 'update' ? 'Data Diubah' : 'Registrasi Berhasil',
                     text: response.data.message,
                     showConfirmButton: false,
                     timer: 2000
@@ -145,7 +152,7 @@ export default {
                 console.log(`error`,error)
                 Swal.fire({
                       icon: 'error',
-                      title: 'Tambah Data Sekolah Gagal',
+                      title: props.method == 'update' ? 'Update Data Sekolah Gagal' : 'Tambah Data Sekolah Gagal',
                       text: 'Terjadi Kesalahan',
                       showConfirmButton: false,
                       timer: 2000
