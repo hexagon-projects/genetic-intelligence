@@ -1,12 +1,14 @@
 <template>
     <div class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
     >
-        <div class="hidden lg:block relative w-3/4 top-10 mx-auto shadow-xl rounded-md bg-white">
+        <div :class="{'w-1/2': props.modalType == 'detail', 'w-3/4': props.modalType !== 'tambah'}" class="hidden lg:block relative top-10 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
-            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Tambah Guru</h1>
+            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">
+                {{ props.modalType == 'detail' ? 'Detail Guru' : 'Tambah Guru' }}
+            </h1>
             <hr class="mt-4">
             
-            <div class="w-full p-4">
+            <div v-if="props.modalType == 'tambah'" class="w-full p-4">
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
@@ -83,11 +85,86 @@
                 </div>
             </div>
 
+            <div v-else-if="props.modalType == 'detail'" class="w-full p-4">
+                <div class="flex flex-row gap-2">
+                    <div class="w-full">
+                        <div class="flex flex-row items-center mb-4">
+                            <div class="w-3/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Nama
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.name }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-2/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Type
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.type }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-row items-center mb-4">
+                            <div class="w-3/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Jenis Kelamin
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.formatted_gender }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-2/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Sekolah
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.institutions.name }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-row items-center mb-4">
+                            <div class="w-3/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Region
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.institutions.region }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-2/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Institusi Pendidikan
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.institutions.type }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <hr class="pt-4">
             <!-- Modal footer -->
             <div class="px-4 py-4 flex justify-between items-center space-x-4">
                 <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">Tutup</button>
-                <button @click="register"
+                <button v-if="props.modalType !== 'detail'" @click="register"
                     :disabled="buttonDisabled" 
                     :class="{'bg-gray-600 opacity-80 cursor-not-allowed': buttonDisabled}"
                     class="rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
@@ -101,111 +178,168 @@
             <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Detail Customers</h1>
             <hr class="mt-4">
             
-            <div class="w-full">
+            <div v-if="props.modalType == 'tambah'" class="w-full p-4">
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Nama Lengkap
-                    </label>
-                    <input v-model="name" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Nama Depan">
-                    <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label for="fee" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                            Fee
+                        <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Email
                         </label>
-                        <input v-model="feeKonsultan" @keyup="validation" id="fee"
-                            :class="{'border-danger': validasiFee !== null}"
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 500000">
-                        <p v-if="validasiFee !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiFee }}.</p>
+                        <input v-model="emailInput" @keyup="validation" id="email" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" type="email" placeholder="Email"
+                        :class="{'border-danger': validasiEmail !== null, 'border-gray-200 focus:border-biru': validasiEmail == null}">
+                        <p v-if="validasiEmail !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiEmail }}.</p>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label for="password" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Password
+                        </label>
+                        <input v-model="password" id="password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="password" placeholder="Password">
                     </div>
                 </div>
 
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label for="nama_lengkap" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Nama Lengkap
+                        </label>
+                        <input v-model="namaLengkap" id="nama_lengkap" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Nama Lengkap">
+                        <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
+                    </div>
+                    <div class="relative w-full md:w-1/2 px-3">
+                        <label for="sekolah" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Sekolah / Perguruan Tinggi
+                        </label>
+                        <div class="relative group">
+                            <input v-model="sekolah" @input="debouncedGetSearchData()" id="sekolah"
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Sekolah / Perguruan Tinggi">
+                            
+                            <transition name="fade" mode="out-in">
+                                <div id="dropdown-menu" v-if="searched" class="w-full max-h-[140px] overflow-y-scroll absolute z-40 right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1">
+                                    <div v-if="searched && pilihanSekolah.length > 0" class="flex flex-col">
+                                        <span v-for="(item, index) in pilihanSekolah" :key="index" @click="pilihSekolah(item.id, item.name)" class="hover:bg-neutral-200 py-2 px-4 cursor-pointer mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                            {{ item.name }}
+                                        </span>
+                                    </div>
+                                    <div v-else-if="searched && pilihanSekolah.length == 0">
+                                        <span class="hover:bg-neutral-500 mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                            Data sekolah tidak ada.
+                                        </span>
+                                    </div>
+                                </div>
+                            </transition>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mt-4">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Email
+                        Jenis Kelamin
                     </label>
-                    <input v-model="email" @keyup="validation" id="email" 
-                        :class="{'border-danger': validasiEmail !== null}"
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="email" placeholder="email@email.com">
+                    <select v-model="jenisKelamin" id="jenis_kelamin" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                        <option value="" selected disabled>Jenis Kelamin</option>
+                        <option value="1">Laki - Laki</option>
+                        <option value="2">Perempuan</option>
+                    </select>
                     <p v-if="validasiEmail !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiEmail }}.</p>
                     </div>
                     <div class="w-full md:w-1/2 px-3">
-                    <label for="password" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Password
+                    <label for="tipe" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                        Tipe
                     </label>
-                    <input v-model="password" id="password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Password">
+                    <select v-model="tipe" id="tipe" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                        <option value="" selected disabled>Pilih Tipe</option>
+                        <option value="Kepala Sekolah">Kepala Sekolah</option>
+                        <option value="Guru BK">Guru BK</option>
+                    </select>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label for="tempat_lahir" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Tempat Lahir
-                    </label>
-                    <input v-model="birth_place" id="tempat_lahir" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: Bandung">
-                    <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                    <label for="tanggal_lahir" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Tanggal Lahir
-                    </label>
-                    <input v-model="birth_date" id="tanggal_lahir" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="date">
-                    </div>
-                </div>
+            <div v-else-if="props.modalType == 'detail'" class="w-full p-4">
+                <div class="flex flex-row gap-2">
+                    <div class="w-full">
+                        <div class="flex flex-row items-center mb-4">
+                            <div class="w-3/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Nama
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.name }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-2/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Type
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.type }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label for="jenis_kelamin" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Jenis Kelamin
-                    </label>
-                    <div class="relative">
-                        <select v-model="gender" id="jenis_kelamin" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-biru">
-                        <option value="pilih" selected disabled>Pilih Jenis Kelamin</option>
-                        <option value="1">Laki - Laki</option>
-                        <option value="2">Perempuan</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        <div class="flex flex-row items-center mb-4">
+                            <div class="w-3/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Jenis Kelamin
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.formatted_gender }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-2/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Sekolah
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.institutions.name }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-row items-center mb-4">
+                            <div class="w-3/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Region
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.institutions.region }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="w-2/5">
+                                <div class="flex flex-col items-start">
+                                    <h1 class="font-myFont font-medium text-dark text-base">
+                                        Institusi Pendidikan
+                                    </h1>
+                                    <p class="font-myFont font-medium text-dark text-xs">
+                                        {{ props.detailData.institutions.type }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                    <div class="w-full md:w-1/2 px-3">
-                        <label for="no_whatsapp" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                            No Whatsapp
-                        </label>
-                        <input v-model="number" @keyup="validation" id="no_whatsapp" 
-                            :class="{'border-danger': validasiWA !== null}"
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="08xxxxxxx">
-                        <p v-if="validasiWA !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiWA }}.</p>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                    <label for="alamat" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Alamat
-                    </label>
-                    <textarea v-model="address" id="alamat" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Alamat"></textarea>
-                    <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
-                    </div>
-                </div>
-
-                <div class="flex justify-end">
-                    <button @click="register"
-                        :disabled="buttonDisabled" 
-                        :class="{'bg-gray-600 opacity-80 cursor-not-allowed': buttonDisabled}"
-                        class="rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
-                        Submit
-                    </button>
                 </div>
             </div>
 
             <hr class="pt-4">
             <!-- Modal footer -->
-            <div class="px-4 py-2 flex justify-end items-center space-x-4">
-                <button @click="closeModal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Tutup</button>
+            <div class="px-4 py-4 flex justify-between items-center space-x-4">
+                <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">Tutup</button>
+                <button v-if="props.modalType !== 'detail'" @click="register"
+                    :disabled="buttonDisabled" 
+                    :class="{'bg-gray-600 opacity-80 cursor-not-allowed': buttonDisabled}"
+                    class="rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
+                    Submit
+                </button>
             </div>
         </div>
     </div>
@@ -222,7 +356,9 @@ import _debounce from 'lodash/debounce';
 
 export default {
     name: 'FormRegistrasiKonsultan',
-    setup(_, { emit }){
+    props: ['detailData', 'modalType'],
+    setup(props, { emit }){
+        console.log(props)
 
         const closeModal = () => {
             emit('initRegistrasi');
@@ -287,8 +423,8 @@ export default {
                     timer: 2000
                 });
                 
-                  closeModal()
-                router.push('/data-guru')
+                closeModal()
+                router.go()
             } catch (error) {
                 console.log(`error`,error)
                 Swal.fire({
@@ -342,6 +478,7 @@ export default {
             closeModal,
             register,
             validation,
+            props
         }
     }
 }

@@ -17,7 +17,7 @@
         </div>
 
         <transition name="fade" mode="out-in">
-            <ModalTambahGuru v-if="isModalTambahGuru == true" @initRegistrasi="toggleTambahGuru"/>
+            <ModalTambahGuru v-if="isModalTambahGuru == true" :detailData="detailData" :modalType="modalType" @initRegistrasi="toggleTambahGuru"/>
         </transition>
     
         <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
@@ -25,7 +25,7 @@
                 <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                     <h1 class="font-myFont text-dark text-lg mb-4">List Kepsek / Guru BK</h1>
                     <div class="w-1/6 flex items-center gap-1 mb-2">
-                        <button @click="isModalTambahGuru = !isModalTambahGuru" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
+                        <button @click="btnAction(null, 'tambah')" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
                             <PhPlus :size="20"/>
                             Registrasi Kepsek / BK
                         </button>
@@ -107,7 +107,7 @@
                                     <td class="py-4 px-6">{{ data.institutions.name }}</td>
                                     <td class="flex items-center gap-2 py-4 px-6">
                                         <button @click="btnAction(data.id, 'detail')" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                            <PhPencilSimple :size="22"/>
+                                            <PhEye :size="22"/>
                                         </button>
                                         <button @click="btnAction(data.id, 'delete')" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
                                             <PhTrash :size="22"/>
@@ -151,13 +151,13 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import ModalTambahGuru from './form/registrasi.vue'
 import initAPI from '../../../../api/api'
 import _debounce from 'lodash/debounce';
-import { PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus, PhX } from '@phosphor-icons/vue';
+import { PhCaretLeft, PhCaretRight, PhEye, PhTrash, PhPlus, PhX } from '@phosphor-icons/vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
     name: 'DataGuru',
-    components: {PhPlus, PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhX, ModalTambahGuru},
+    components: {PhPlus, PhCaretLeft, PhCaretRight, PhEye, PhTrash, PhX, ModalTambahGuru},
     setup(){
         const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -180,6 +180,9 @@ export default {
         const showFilterTypePendidikan = ref(false)
         const filterRole = ref(false)
         const filterInstitution = ref(false)
+
+        const detailData = ref('')
+        const modalType = ref('')
 
         const hapusData = async(id) => {
             try {
@@ -211,8 +214,11 @@ export default {
             console.log(`${id} - ${type}`)
 
             if(type == 'detail'){
-                const unik = dataSekolah.value.find(item => item.id === id)
+                const unik = dataGuru.value.find(item => item.id === id)
                 detailData.value = unik
+                modalType.value = type
+
+                toggleTambahGuru()
             } else if(type == 'delete') {
                 Swal.fire({
                     icon: 'warning',
@@ -229,6 +235,9 @@ export default {
                         hapusData(id)
                     }
                 })
+            } else {
+                modalType.value = type
+                toggleTambahGuru()
             }
         }
 
@@ -357,6 +366,8 @@ export default {
             totalKe,
             totalData,
             cari,
+            detailData,
+            modalType,
             debouncedGetSearchData,
             showFilterType,
             showFilterTypePendidikan,
