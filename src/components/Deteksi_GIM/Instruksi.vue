@@ -1,5 +1,9 @@
 <template>
     <div class="hidden lg:flex lg:flex-col justify-center items-center">
+        <transition name="fade" mode="out-in">
+            <ModalConsent v-if="visited" @isSetuju="setuju"/>
+        </transition>
+        
         <div class="lg:w-3/4">
             <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
                 controls
@@ -12,22 +16,13 @@
                     type="application/x-mpegURL">
             </video>
         </div>
-        <!-- <iframe
-            class="w-11/12 md:w-1/2 lg:w-3/4 mb-2 rounded-md border-4"
-            width="560"
-            height="315"
-            :src="'https://drive.google.com/file/d/1lwTFBaXmEkgyOi4nT-DO2xfrvmfDv8jo/preview'"
-            frameborder="0"
-            allowfullscreen
-        ></iframe> -->
     </div>
+
     <div class="lg:hidden flex flex-col justify-center items-center">
-        <!-- <iframe
-            class="w-full md:w-1/2 lg:w-3/4 mb-2 rounded-md border-4"
-            :src="'https://drive.google.com/file/d/1lwTFBaXmEkgyOi4nT-DO2xfrvmfDv8jo/preview'"
-            frameborder="0"
-            allowfullscreen
-        ></iframe> -->
+        <transition name="fade" mode="out-in">
+            <ModalConsent v-if="visited" @isSetuju="setuju"/>
+        </transition>
+
         <div class="w-full md:w-1/2">
             <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
                 controls
@@ -47,13 +42,23 @@
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import '@videojs/http-streaming';
-import { onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import ModalConsent from '../informedConsent/modal.vue'
 
 export default {
     name: 'InstruksiDeteksi',
+    components: {ModalConsent},
     setup(){
+        
+        const visited = ref(false)
+
+        const setuju = () => {
+            visited.value = false
+        }
 
         onMounted(() => {
+            visited.value = true
+
             const player = videojs('example-video');
             player.play();
 
@@ -61,6 +66,22 @@ export default {
                 player.dispose()
             })
         })
+
+        return {
+            visited,
+            setuju
+        }
     }
 }
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
