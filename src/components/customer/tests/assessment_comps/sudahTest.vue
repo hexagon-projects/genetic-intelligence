@@ -24,7 +24,7 @@
             </div>
         </div>
     
-        <div class="mb-4 flex justify-between items-center">
+        <div class="mb-4 flex flex-col gap-1 items-center">
             <div></div>
             <!-- <button v-if="dataPertanyaan.from > 1" type="submit" class="bg-biru text-white text-sm px-[5px] py-[4px] lg:px-4 lg:py-2 rounded-lg hover:bg-blue-600">Sebelumnya</button> -->
             <span class="font-myFont text-dark text-base">{{ dataPertanyaan.from }} - {{ dataPertanyaan.to }} dari {{ dataPertanyaan.total }}</span>
