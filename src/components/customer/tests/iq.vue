@@ -19,6 +19,10 @@
         <div class="flex flex-col lg:flex-row justify-center mx-7 pt-3 gap-4">
             <div :class="{'h-[420px]': loading}" class="flex flex-col bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
                 <div v-if="!isTestedIQ">
+                    <transition name="fade" mode="out-in">
+                        <ModalConsent v-if="visited" @isSetuju="setuju"/>
+                    </transition>
+
                     <div v-if="isUnderstand == false">
                         <InstruksiIQ/>
                     </div>
@@ -107,15 +111,21 @@ import { useStore } from 'vuex'
 import InstruksiIQ from './iq_comps/petunjuk.vue'
 import QuestionsIQ from './iq_comps/questions.vue';
 import initAPI from '../../../api/api';
+import ModalConsent from '../../informedConsent/modal.vue'
 
 export default {
     name: 'TestIQ',
-    components: {InstruksiIQ, QuestionsIQ},
+    components: {InstruksiIQ, QuestionsIQ, ModalConsent},
     setup(){
         const store = useStore()
         const isUnderstand = computed(() => store.getters.getIsUnderstand)
 
+        const visited = ref(false)
         const isTestedIQ = ref(false)
+
+        const setuju = () => {
+            visited.value = false
+        }
 
         const checkIQCustomer = async() => {
             try {
@@ -132,11 +142,14 @@ export default {
 
         onMounted(() => {
             checkIQCustomer()
+            visited.value = true
         })
 
         return {
+            visited,
             isUnderstand,
-            isTestedIQ
+            isTestedIQ,
+            setuju
         }
     }
 }

@@ -20,6 +20,10 @@
             :class="{'overflow-y-scroll': currForm == 1 && isKlikSiapTest !== 'tidak'}"
             >
                 <div v-if="isAssessment == false">
+                    <transition name="fade" mode="out-in">
+                        <ModalConsent v-if="visited" @isSetuju="setuju"/>
+                    </transition>
+
                     <div v-if="currForm == 0 && isKlikSiapTest == 'tidak'">
                         <div class="hidden lg:flex lg:flex-row items-center">
                             <div class="lg:w-1/2">
@@ -105,14 +109,21 @@ import sudahTest from './assessment_comps/sudahTest.vue';
 import initAPI from '../../../api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import ModalConsent from '../../informedConsent/modal.vue'
 
 export default{
     name: 'TestAssessment',
-    components: {sudahTest},
+    components: {sudahTest, ModalConsent},
     setup() {
         const isAssessment = ref(false)
         const currForm = ref(0)
         const isKlikSiapTest = ref('tidak')
+
+        const visited = ref(false)
+
+        const setuju = () => {
+            visited.value = false
+        }
 
         const siaptest = () => {
             currForm.value = 1
@@ -121,6 +132,8 @@ export default{
         }
 
         onMounted(async() => {
+            visited.value = true
+
             const token = JSON.parse(localStorage.getItem('token'))
             const userId = JSON.parse(localStorage.getItem('userData'))
             try {
@@ -141,12 +154,25 @@ export default{
 
         })
 
-        return { 
+        return {
+            visited, 
             isAssessment,
             currForm,
             isKlikSiapTest,
-            siaptest
+            siaptest,
+            setuju
          }
     }
 }
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
