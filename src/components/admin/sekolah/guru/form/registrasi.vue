@@ -62,16 +62,16 @@
 
                 <div class="flex flex-wrap -mx-3 mt-4">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Jenis Kelamin
-                    </label>
-                    <select v-model="jenisKelamin" id="jenis_kelamin" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
-                        <option value="" selected disabled>Jenis Kelamin</option>
-                        <option value="1">Laki - Laki</option>
-                        <option value="2">Perempuan</option>
-                    </select>
-                    <p v-if="validasiEmail !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiEmail }}.</p>
+                        <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Jenis Kelamin
+                        </label>
+                        <select v-model="jenisKelamin" id="jenis_kelamin" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                            <option value="" selected disabled>Jenis Kelamin</option>
+                            <option value="1">Laki - Laki</option>
+                            <option value="2">Perempuan</option>
+                        </select>
                     </div>
+                    
                     <div class="w-full md:w-1/2 px-3">
                     <label for="tipe" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Tipe
@@ -232,16 +232,16 @@
 
                 <div class="flex flex-wrap -mx-3 mt-4">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
-                        Jenis Kelamin
-                    </label>
-                    <select v-model="jenisKelamin" id="jenis_kelamin" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
-                        <option value="" selected disabled>Jenis Kelamin</option>
-                        <option value="1">Laki - Laki</option>
-                        <option value="2">Perempuan</option>
-                    </select>
-                    <p v-if="validasiEmail !== null" class="font-myFont text-red-500 text-xs italic">{{ validasiEmail }}.</p>
+                        <label for="email" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                            Jenis Kelamin
+                        </label>
+                        <select v-model="jenisKelamin" id="jenis_kelamin" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                            <option value="" selected disabled>Jenis Kelamin</option>
+                            <option value="1">Laki - Laki</option>
+                            <option value="2">Perempuan</option>
+                        </select>
                     </div>
+
                     <div class="w-full md:w-1/2 px-3">
                     <label for="tipe" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Tipe
