@@ -3,7 +3,9 @@
     >
         <div class="hidden lg:block relative w-1/2 top-10 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
-            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Tambah Sekolah / Perguruan Tinggi {{ method }}</h1>
+            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">
+               {{ method == 'update' ? 'Ubah Data Sekolah / Perguruan Tinggi' : 'Tambah Data Sekolah / Perguruan Tinggi' }} 
+            </h1>
             <hr class="mt-4">
             
             <div :class="{'h-[240px]': loadingAdd}" class="w-full p-3">
