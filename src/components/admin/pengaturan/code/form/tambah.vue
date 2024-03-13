@@ -53,10 +53,12 @@
 
     <div class="block lg:hidden relative w-full md:w-1/2 top-4 mx-auto shadow-xl rounded-md bg-white">
         <!-- Modal body -->
-        <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Tambah Kode</h1>
+        <h1 class="font-myFont text-dark text-lg mx-4 pt-4">
+            {{ method == 'registrasi' ? 'Tambah Kode' : 'Update Code'}}
+        </h1>
         <hr class="mt-4">
 
-        <div class="w-full p-4 flex flex-col gap-2">
+        <div v-if="method == 'registrasi'" class="w-full p-4 flex flex-col gap-2">
             <div class="mb-4">
                 <label for="nama" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                     Nama
@@ -71,6 +73,15 @@
                 <input v-model="code" id="code" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Code">
             </div>
             
+            <div class="mb-4">
+                <label for="diskon" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Diskon
+                </label>
+                <input v-model="diskon" id="diskon" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 50">
+            </div>
+        </div>
+
+        <div v-else-if="method == 'update'" class="w-full p-4 flex flex-col gap-2">
             <div class="mb-4">
                 <label for="diskon" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                     Diskon
