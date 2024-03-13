@@ -19,7 +19,7 @@
             <transition name="fade" mode="out-in">
                 <div v-if="isModalOpen" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
                 >
-                    <ModalTambahCode @toggleModal="modalTambahKode"/>   
+                    <ModalTambahCode :detailData="detailData" :method="methodType" @toggleModal="modalTambahKode"/>   
                 </div>
             </transition>
 
@@ -30,7 +30,7 @@
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
                             <div class="relative inline-block text-left">
                                 <div class="flex items-center gap-1">
-                                    <button @click="modalTambahKode" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
+                                    <button @click="btnAction(null, 'registrasi')" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
                                         <PhPlus :size="20"/>
                                         Tambah Code
                                     </button>
@@ -51,7 +51,6 @@
                                     <th scope="col" class="py-3 px-6">No</th>
                                     <th scope="col" class="py-3 px-6">Nama</th>
                                     <th scope="col" class="py-3 px-6">Code Voucher</th>
-                                    <th scope="col" class="py-3 px-6">Status</th>
                                     <th scope="col" class="py-3 px-6">Diskon</th>
                                     <th scope="col" class="py-3 px-6">Aksi</th>
                                 </tr>
@@ -68,14 +67,14 @@
                                             {{ data.code }}
                                         </td>
                                         <td class="py-4 px-6">
-                                            {{ data.status }}
-                                        </td>
-                                        <td class="py-4 px-6">
                                             {{ data.disc_percentage }}
                                         </td>
-                                        <td class="py-4 px-6">
-                                            <button class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                                <PhFileSearch :size="22"/>
+                                        <td class="flex items-center gap-2 py-4 px-6">
+                                            <button @click="btnAction(data.id, 'update')" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                                <PhPencilSimple :size="22"/>
+                                            </button>
+                                            <button @click="btnAction(data.id, 'delete')" class="flex items-center gap-1 px-4 py-2 bg-danger font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                                <PhTrash :size="22"/>
                                             </button>
                                         </td>
                                     </tr>
@@ -112,7 +111,7 @@
 </template>
 
 <script>
-import { PhCaretLeft, PhCaretRight, PhFileSearch, PhPlus } from '@phosphor-icons/vue';
+import { PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus } from '@phosphor-icons/vue';
 import { onMounted,ref } from 'vue'
 import _debounce from 'lodash/debounce';
 import { useRouter } from 'vue-router'
@@ -124,12 +123,13 @@ import ModalTambahCode from './form/tambah.vue'
 
 export default {
     name: 'PengaturanVoucher',
-    components: {PhFileSearch,PhPlus,ModalTambahCode},
+    components: {PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus,ModalTambahCode},
     setup(){
         const isModalOpen = ref(false)
 
         const loading = ref(false)
         const dataCode = ref([])
+        const detailData = ref([])
         const totalHalaman = ref('')
         const itemsPerPage = ref(null)
         const currPage = ref(null)
@@ -139,6 +139,8 @@ export default {
         const totalKe = ref(null)
         const totalData = ref(null)
         const cari = ref(null)
+
+        const methodType = ref('')
 
         const queryParams = {
             'search': '',
@@ -196,10 +198,68 @@ export default {
             getAllData()
         }, 500)
 
+        const hapusData = async(id) => {
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+                const response = await initAPI('delete', `school_codes/${id}`, null, token)
+                console.log(response.data)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Data Berhasil Dihapus',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                getAllData()
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Hapus Data',
+                    text: 'Terjadi Kesalahan Saat Hapus Data',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
+
+        const btnAction = (id, method) => {
+            console.log(`${id} - ${method}`)
+
+            if(method == 'update'){
+                const unik = dataCode.value.find(item => item.id === id)
+                detailData.value = unik
+                methodType.value = method
+                modalTambahKode()
+            } else if(method == 'registrasi') {
+                methodType.value = method
+                modalTambahKode()
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Hapus Data Ini?',
+                    text: 'Data yang dihapus tidak bisa di kembalikan.',
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonColor: "#0b40f4",
+                    confirmButtonText: "Ya, Hapus",
+                    cancelButtonColor: "#3b3f5c",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        hapusData(id)
+                    }
+                })
+            }
+        }
+
         return {
             isModalOpen,
             loading,
+            methodType,
             dataCode,
+            detailData,
             totalHalaman,
             itemsPerPage,
             currPage,
@@ -210,7 +270,8 @@ export default {
             totalData,
             cari,
             debouncedGetSearchData,
-            modalTambahKode
+            modalTambahKode,
+            btnAction
         }
     }
 }
