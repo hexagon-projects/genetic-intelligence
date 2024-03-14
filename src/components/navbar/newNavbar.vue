@@ -10,6 +10,7 @@
 				<img class="h-10 w-28" src="../../assets/img/logo-new.png" alt="GIM Application">
 				<div class="relative flex justify-center items-center gap-4">
 					<h2 v-if="userData.role && userData.role == 'admin'" class="font-myFont text-dark font-medium">Admin</h2>
+					<h2 v-if="userData.role && userData.role == 'staff'" class="font-myFont text-dark font-medium">{{ staffData.name }}</h2>
 					<h2 v-if="userRole && (userRole == 'customer' || userRole == 'consultant')" class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
 					<a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
 						<img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/profile-mock.png">
@@ -112,6 +113,8 @@ export default{
 		const userData = computed(() => store.getters.getUserData);
 		const userRole = computed(() => store.getters.getUserRole);
 
+		const staffData = ref('')
+
 		onMounted(() => {
 			if (!userData.value && !userRole.value) {
 				const localStorageUserData = localStorage.getItem('userData');
@@ -124,6 +127,10 @@ export default{
 				} else { 
 					console.log('localstorage kosong')
 				}
+			}
+
+			if(JSON.parse(localStorage.getItem('staffDetail'))){
+				staffData.value = JSON.parse(localStorage.getItem('staffDetail'))
 			}
 		})
 
@@ -177,6 +184,7 @@ export default{
 			loading,
 			baseUrl, 
 			Logout,
+			staffData,
 			userData,
 			userRole,
 			showDropdown,
