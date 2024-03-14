@@ -786,7 +786,7 @@ export default{
             console.log(data)
 
             try {
-                const endpoint = param == 'nonbayar' ? 'v2/register' : 'register'
+                const endpoint = param == 'nonbayar' ? 'v2/register' : 'v2/register/payment'
                 const response = await initAPI('post', endpoint, data, null)
                 console.log(`register nih`,response.data)
                 if (response.status === 200) {
