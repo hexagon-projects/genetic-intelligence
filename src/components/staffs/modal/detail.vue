@@ -9,12 +9,8 @@
             <hr class="pt-4">
             <!-- Modal footer -->
             <div class="px-4 py-4 flex justify-between items-center space-x-4">
-                <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">Tutup</button>
-                <button @click="register"
-                    :disabled="buttonDisabled" 
-                    :class="{'bg-gray-600 opacity-80 cursor-not-allowed': buttonDisabled}"
-                    class="rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
-                    Submit
+                <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
+                    Tutup
                 </button>
             </div>
         </div>
@@ -22,17 +18,13 @@
         <div class="block lg:hidden relative w-full top-1 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
             
-            <!-- <modalSm :detailSiswa="props.detailSiswa"/> -->
+            <modalSm :detailSiswa="props.detailSiswa"/>
 
             <hr class="pt-4">
             <!-- Modal footer -->
             <div class="px-4 py-4 flex justify-between items-center space-x-4">
-                <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">Tutup</button>
-                <button @click="register"
-                    :disabled="buttonDisabled" 
-                    :class="{'bg-gray-600 opacity-80 cursor-not-allowed': buttonDisabled}"
-                    class="rounded-lg px-4 py-2 bg-biru text-light font-myFont hover:bg-opacity-75 hover:shadow-md">
-                    Submit
+                <button @click="closeModal" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
+                    Tutup
                 </button>
             </div>
         </div>
