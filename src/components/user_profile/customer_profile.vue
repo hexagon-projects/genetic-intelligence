@@ -11,7 +11,7 @@
     </div>
   
     <div class="lg:w-1/2 flex flex-col gap-5">
-        <InformasiSekolah :dataCustomer="userData"/>
+        <InformasiSekolah v-if="userData.is_student == 1" :dataCustomer="userData"/>
 
         <UbahPassword :dataCustomer="userData"/>
     </div>

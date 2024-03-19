@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="flex justify-center items-center w-full gap-2">
+            <div v-if="props.dataCustomer.institutions.type == 'SMK' || props.dataCustomer.institutions.type == 'Perguruan Tinggi'" class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
                     <label for="jurusan" class="block text-sm font-myFont font-medium text-dark">Jurusan:</label>
                     <input v-model="jurusan" type="text" name="jurusan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Jurusan" />
