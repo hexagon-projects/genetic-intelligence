@@ -72,6 +72,10 @@
     <div v-else-if="userRole == 'admin'">
         <DashboardAdmin/>
     </div>
+
+    <div v-else-if="userRole == 'staff'">
+        <DashboardStaff/>
+    </div>
 </template>
 
 <script>
@@ -90,6 +94,7 @@ import { ref, computed, onMounted } from 'vue'
 import { PhArrowRight } from '@phosphor-icons/vue';
 import DashboardConsultant from '../consultant/dashboard/dashboard.vue'
 import DashboardAdmin from '../admin/dashboard/dashboard.vue'
+import DashboardStaff from '../staffs/dashboard/dashboard.vue'
 
 
 export default {
@@ -97,6 +102,7 @@ export default {
     components: {
         DashboardConsultant,
         DashboardAdmin,
+        DashboardStaff,
         profile, 
         HeadingDashboard,
         HeadingBelumDeteksi,

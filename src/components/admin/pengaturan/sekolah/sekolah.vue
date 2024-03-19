@@ -27,7 +27,7 @@
                     <div class="mb-2 flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between">
                         <div class="relative flex flex-col gap-2 text-left">
                             <div class="flex items-center gap-1">
-                                <button @click="toggleRegistrasi" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
+                                <button @click="btnAction(null, 'registrasi')" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont flex w-full justify-center items-center gap-x-1.5 rounded-md bg-biru px-3 py-2 text-sm font-medium text-light hover:bg-opacity-75 hover:shadow-md">
                                     <PhPlus :size="20"/>
                                     Tambah Sekolah / Perguruan Tinggi
                                 </button>
@@ -195,6 +195,9 @@ export default {
             if(method == 'update'){
                 const unik = dataSekolah.value.find(item => item.id === id)
                 detailData.value = unik
+                methodType.value = method
+                toggleRegistrasi()
+            } else if(method == 'registrasi') {
                 methodType.value = method
                 toggleRegistrasi()
             } else {
