@@ -15,16 +15,16 @@
 
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
-                    <label for="currPass" class="block text-sm font-myFont font-medium text-dark">Jurusan:</label>
-                    <input v-model="currPass" type="text" name="curPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Jurusan" />
+                    <label for="jurusan" class="block text-sm font-myFont font-medium text-dark">Jurusan:</label>
+                    <input v-model="jurusan" type="text" name="jurusan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Jurusan" />
                 </div>
                 <div class="w-full mb-4">
-                    <label for="newPass" class="block text-sm font-myFont font-medium text-dark">Kelas:</label>
-                    <input v-model="newPass" type="text" name="newPass" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kelas" />
+                    <label for="grade" class="block text-sm font-myFont font-medium text-dark">Kelas:</label>
+                    <input v-model="kelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kelas" />
                 </div>
             </div>
 
-            <button @click="changePassword" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
+            <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
                 Ubah Data
             </button>
         </div>
@@ -45,15 +45,51 @@ export default {
 
         const jenjangPendidikan = ref(props.dataCustomer.institutions.type)
         const namaPendidikan = ref(props.dataCustomer.institutions.name)
-        const kelas = ref(props.dataCustomer.institutions.type)
-        const jurusan = ref(props.dataCustomer.institutions.type)
+        const kelas = ref(props.dataCustomer.grade)
+        const jurusan = ref(props.dataCustomer.majoring)
+
+        const ubahData = async() => {
+            const data = JSON.stringify({
+                type: jenjangPendidikan.value,
+                name: namaPendidikan.value,
+                grade: kelas.value,
+                majoring: jurusan.value
+            })
+
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+
+                const response = await initAPI('', '', data, token)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                store.commit('user', updatedCustomer.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Gagal mengubah password.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
 
         return {
             jenjangPendidikan,
             namaPendidikan,
             kelas,
             jurusan,
-            props
+            props,
+            ubahData
         }
     }
 }

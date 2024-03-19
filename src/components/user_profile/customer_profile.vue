@@ -5,7 +5,9 @@
   
   <div class="flex flex-col lg:flex-row justify-center mx-4 pt-5 gap-5">
     <div class="lg:w-1/2">
+      <KeepAlive>
         <InformasiPribadi :dataCustomer="userData"/>
+      </KeepAlive>
     </div>
   
     <div class="lg:w-1/2 flex flex-col gap-5">
@@ -17,7 +19,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import InformasiPribadi from './customer/informasi_pribadi/informasiPribadi.vue'
 import InformasiSekolah from './customer/informasi_sekolah/informasiSekolah.vue'
