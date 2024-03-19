@@ -26,6 +26,7 @@ import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useStore } from 'vuex'
+import DOMPurify from 'dompurify'
 
 export default {
     name: 'UbahPassword',
@@ -46,26 +47,28 @@ export default {
                 const token = JSON.parse(localStorage.getItem('token'))
     
                 const data = JSON.stringify({
-                    current_password: currPass.value,
-                    new_password: newPass.value,
+                    current_password: DOMPurify.sanitize(currPass.value),
+                    new_password: DOMPurify.sanitize(newPass.value),
                 })
 
-                const response = await initAPI(
-                    'put','change-password/'+userId, data, token
-                );
+                console.log(`sanitasi`, data)
+
+                // const response = await initAPI(
+                //     'put','change-password/'+userId, data, token
+                // );
     
-                if(response.status == 200){
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.data.message,
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-                    store.commit('user', updatedCustomer.data.data[0])
-                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-                }
+                // if(response.status == 200){
+                //     Swal.fire({
+                //         icon: 'success',
+                //         title: 'Success',
+                //         text: response.data.message,
+                //         showConfirmButton: false,
+                //         timer: 2000
+                //     });
+                //     const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                //     store.commit('user', updatedCustomer.data.data[0])
+                //     localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                // }
             } catch (error) {
                 console.log(`ubah password error yeuh`, error)
                 Swal.fire({

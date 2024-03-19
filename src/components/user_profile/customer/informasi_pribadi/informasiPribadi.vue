@@ -136,6 +136,7 @@ import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useStore } from 'vuex'
+import DOMPurify from 'dompurify'
 
 export default {
     name: 'InformasiPribadi',
@@ -245,15 +246,15 @@ export default {
             const formData = new FormData();
             formData.append('_method', 'PUT');
             formData.append('id', customerId);
-            formData.append('first_name', namaDepan.value);
-            formData.append('last_name', namaBelakang.value);
-            formData.append('number', noWhatsapp.value);
-            formData.append('birth_place', tempatLahir.value);
-            formData.append('birth_date', formattedDate.value);
-            formData.append('gender', jenisKelamin.value == 'Laki-laki' ? 1 : 2);
-            formData.append('status', statusNikah.value == 'Lajang' ? 0 : 1);
-            formData.append('village_id', kelurahan.value);
-            formData.append('address', alamatLengkap.value);
+            formData.append('first_name', DOMPurify.sanitize(namaDepan.value));
+            formData.append('last_name', DOMPurify.sanitize(namaBelakang.value));
+            formData.append('number', DOMPurify.sanitize(noWhatsapp.value));
+            formData.append('birth_place', DOMPurify.sanitize(tempatLahir.value));
+            formData.append('birth_date', DOMPurify.sanitize(formattedDate.value));
+            formData.append('gender', DOMPurify.sanitize(jenisKelamin.value == 'Laki-laki' ? 1 : 2));
+            formData.append('status', DOMPurify.sanitize(statusNikah.value == 'Lajang' ? 0 : 1));
+            formData.append('village_id', DOMPurify.sanitize(kelurahan.value));
+            formData.append('address', DOMPurify.sanitize(alamatLengkap.value));
 
             // for (var pair of formData.entries()) {
             //     console.log(pair); 

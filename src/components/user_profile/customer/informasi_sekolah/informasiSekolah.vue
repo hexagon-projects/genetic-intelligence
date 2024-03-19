@@ -36,6 +36,7 @@ import { ref } from 'vue'
 import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import DOMPurify from 'dompurify'
 
 export default {
     name: 'InformasiSekolah',
@@ -50,10 +51,10 @@ export default {
 
         const ubahData = async() => {
             const data = JSON.stringify({
-                type: jenjangPendidikan.value,
-                name: namaPendidikan.value,
-                grade: kelas.value,
-                majoring: jurusan.value
+                type: DOMPurify.sanitize(jenjangPendidikan.value),
+                name: DOMPurify.sanitize(namaPendidikan.value),
+                grade: DOMPurify.sanitize(kelas.value),
+                majoring: DOMPurify.sanitize(jurusan.value)
             })
 
             try {
