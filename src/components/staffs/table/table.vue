@@ -132,6 +132,8 @@ import _debounce from 'lodash/debounce';
 import modalDetail from '../modal/detail.vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
     name: 'TableStaff',
@@ -160,6 +162,34 @@ export default {
         const showFilterGrade = ref(false)
         const isFilterGrade = ref(false)
 
+        const luluskanSiswa = async(idSiswa) => {
+            try {
+                const token = JSON.parse(localStorage.getItem('token'))
+
+                const data = new FormData()
+                data.append('is_student', 0)
+
+                const response = await initAPI('put', `customers/change-student-status/${idSiswa}`, data, token)
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Siswa Sudah Diluluskan',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            } catch (error) {
+                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Meluluskan Siswa',
+                    text: 'Error terjadi',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
+
         const btnAction = (id, type) => {
             if(type == 'detail'){
                 console.log(id)
@@ -168,7 +198,22 @@ export default {
                 detailSiswa.value = unik
                 toggleModal()
             } else if(type == 'lulus'){
-
+                console.log(`siswa yg mau di luluskan`, id)
+                Swal.fire({
+                    icon: 'question',
+                    title: 'Luluskan Siswa Ini?',
+                    text: 'Data yang dirubah tidak bisa di kembalikan.',
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonColor: "#0b40f4",
+                    confirmButtonText: "Ya, Luluskan",
+                    cancelButtonColor: "#3b3f5c",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        luluskanSiswa(id)
+                    }
+                })
             }
         }
 
