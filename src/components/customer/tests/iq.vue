@@ -18,10 +18,7 @@
 
         <div class="flex flex-col lg:flex-row justify-center mx-7 pt-3 gap-4">
             <div :class="{'h-[420px]': loading}" class="flex flex-col bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
-                <div v-if="!isTestedIQ">
-                    <transition name="fade" mode="out-in">
-                        <ModalConsent v-if="visited" @isSetuju="setuju"/>
-                    </transition>
+                <div v-if="!loadingCheck && !isTestedIQ">
 
                     <div v-if="isUnderstand == false">
                         <InstruksiIQ/>
@@ -32,7 +29,7 @@
                     </div>
                 </div>
 
-                <div v-else-if="isTestedIQ">
+                <div v-else-if="!loadingCheck && isTestedIQ">
                     <div class="hidden lg:flex lg:flex-row items-center">
                         <div class="lg:w-1/2">
                             <div class="flex flex-col mx-14">
@@ -111,23 +108,19 @@ import { useStore } from 'vuex'
 import InstruksiIQ from './iq_comps/petunjuk.vue'
 import QuestionsIQ from './iq_comps/questions.vue';
 import initAPI from '../../../api/api';
-import ModalConsent from '../../informedConsent/modal.vue'
 
 export default {
     name: 'TestIQ',
-    components: {InstruksiIQ, QuestionsIQ, ModalConsent},
+    components: {InstruksiIQ, QuestionsIQ},
     setup(){
         const store = useStore()
         const isUnderstand = computed(() => store.getters.getIsUnderstand)
 
-        const visited = ref(false)
+        const loadingCheck = ref(false)
         const isTestedIQ = ref(false)
 
-        const setuju = () => {
-            visited.value = false
-        }
-
         const checkIQCustomer = async() => {
+            loadingCheck.value = true
             try {
                 const token = JSON.parse(localStorage.getItem('token'))
                 const customerId = JSON.parse(localStorage.getItem('userData')).id
@@ -138,18 +131,17 @@ export default {
             } catch (error) {
                 console.log(`error: ${error}`)
             }
+            loadingCheck.value = false
         }
 
         onMounted(() => {
             checkIQCustomer()
-            visited.value = true
         })
 
         return {
-            visited,
+            loadingCheck,
             isUnderstand,
             isTestedIQ,
-            setuju
         }
     }
 }

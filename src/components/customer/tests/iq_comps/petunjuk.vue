@@ -1,5 +1,9 @@
 <template>
     <transition name="fade" mode="out-in">
+        <ModalConsent v-if="visited" @isSetuju="setuju"/>
+    </transition>
+
+    <transition name="fade" mode="out-in">
         <div v-if="isModalOpen" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
         >
             <modal @init="toggleModal" />
@@ -97,15 +101,17 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { PhCaretLeft, PhCaretRight } from '@phosphor-icons/vue';
 import { useStore } from 'vuex'
 import modal from './modal.vue';
+import ModalConsent from '../../../informedConsent/modal.vue'
 
 export default {
     name: 'IQCompsInstruksi',
-    components: {PhCaretLeft, PhCaretRight, modal},
+    components: {PhCaretLeft, PhCaretRight, modal, ModalConsent},
     setup(){
+        const visited = ref(false)
         const isModalOpen = ref(false)
         const indexInstruksi = ref(0)
 
@@ -121,11 +127,21 @@ export default {
             }
         }
 
+        const setuju = () => {
+            visited.value = false
+        }
+
+        onMounted(() => {
+            visited.value = true
+        })
+
         return {
+            visited,
             isModalOpen,
             indexInstruksi,
             btnInstruksi,
             toggleModal,
+            setuju
         }
     }
 }
