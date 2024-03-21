@@ -1,13 +1,17 @@
 <template>
-  <navbar v-if="showNavbar"/>
+  <div v-if="currentRouteName !== 'views.login' && currentRouteName !== 'views.register'">
+    <navbar/>
+  </div>
   <router-view></router-view>
-  <footerComp v-if="showFooter"/>
+  <div v-if="currentRouteName !== 'views.login' && currentRouteName !== 'views.register'">
+    <footerComp/>
+  </div>
 </template>
 
 <script>
 import navbar from './components/navbar/newNavbar.vue'
 import footerComp from './components/footer/footer.vue';
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default {
@@ -18,14 +22,17 @@ export default {
     const showFooter = ref(true);
     const router = useRoute()
 
-    watchEffect(() => {
-      showNavbar.value = router.meta.showNavbar !== false;
-      showFooter.value = router.meta.showFooter !== false;
-    });
+    const currentRouteName = computed(() => router.name)
+
+    // watchEffect(() => {
+    //   showNavbar.value = router.meta.showNavbar !== false;
+    //   showFooter.value = router.meta.showFooter !== false;
+    // });
 
     return {
       showNavbar,
-      showFooter
+      showFooter,
+      currentRouteName
     };
   },
 }
