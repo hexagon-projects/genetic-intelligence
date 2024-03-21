@@ -1,6 +1,6 @@
 <template>
     <section v-if="userData" class="bg-gray-100 pb-8">
-        <div class="mx-4 pt-4 mb-2">
+        <div class="mx-4 pt-4 mb-4">
             <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
                 <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
                     Beranda
@@ -16,7 +16,7 @@
             </ol>
         </div>
 
-        <div class="flex flex-col justify-center mx-7 py-4 gap-4">
+        <div class="flex flex-col justify-center mx-7 gap-4">
             <div v-if="userData.is_detected == 'Belum'" class="mt-4 lg:w-full">
                 <BelumDeteksi />
             </div>
@@ -26,12 +26,38 @@
                 <FileDanKonsultasi v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
             </div>
 
-            <VideoHasil v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
-          
+            <div class="order-6 flex flex-col gap-4">
+                <cardPendidikanSampaiKekurangan v-if="userData.is_detected == 'Selesai Terdeteksi'"/>
+            </div>
+
+            <div class="order-4">
+                <VideoHasil v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
+            </div>
+
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                <siapakahDirimu/>
+            </div>
+
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5 bg-white rounded-lg shadow-sm p-4 h-full overflow-hidden">
+                <rangkumanKecerdasan/>
+            </div>
+
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                <belajarDanSukses/>
+            </div>
+
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                <tipsBisnisDanPeranVue/>
+            </div>
+
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                <amalanCerdasDanRohani/>
+            </div>
+
             <div v-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-full">
                 <DalamProses/>
             </div>
-      </div>
+        </div>
   </section>
 
   <section v-else-if="!userResultDetect" class="bg-gray-100 pb-16">
@@ -61,13 +87,26 @@ import FileDanKonsultasi from '../../../components/Deteksi_GIM/newComps/fileHasi
 import VideoHasil from '../../../components/Deteksi_GIM/newComps/videoHasil.vue'
 import NoteHasilDeteksi from '../../../components/Deteksi_GIM/SudahDeteksi/NoteHasilDeteksi.vue'
 import DalamProses from '../../../components/Deteksi_GIM/DalamProses/DalamProses.vue';
+import siapakahDirimu from './siapakahDirimu.vue';
+import rangkumanKecerdasan from './rangkumanKecerdasan.vue';
+import cardPendidikanSampaiKekurangan from './PendidikanPekerjaanPersonal.vue';
+import belajarDanSukses from './belajarDanSukses.vue';
+import tipsBisnisDanPeranVue from './tipsBisnisDanPeran.vue';
+import amalanCerdasDanRohani from './amalanCerdasDanRohani.vue';
 
 export default {
   name: 'HasilDeteksi',
-  components: {BelumDeteksi, FileDanKonsultasi, VideoHasil, NoteHasilDeteksi, DalamProses},
+  components: {
+    siapakahDirimu, rangkumanKecerdasan, cardPendidikanSampaiKekurangan, belajarDanSukses, 
+    tipsBisnisDanPeranVue, amalanCerdasDanRohani, BelumDeteksi, 
+    FileDanKonsultasi, VideoHasil, NoteHasilDeteksi, DalamProses
+},
   setup(){
     const sudahTest = ref(true)
     const showModal = ref(false);
+
+    const listPendidikan = ref([])
+    const listPekerjaan = ref([])
 
     const store = useStore()
 
@@ -85,4 +124,4 @@ export default {
     }
   }
 }
-</script>
+</script>./PendidikanPekerjaanPersonal.vue
