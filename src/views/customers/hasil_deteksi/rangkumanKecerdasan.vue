@@ -19,4 +19,13 @@ komandan pada satu organisasi.
 </template>
 
 <script>
+export default {
+    setup(){
+        const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
+
+        return {
+            userResultDetect
+        }
+    }
+}
 </script>

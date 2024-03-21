@@ -7,7 +7,9 @@
                 </span>
                 <div class="flex flex-col">
                     <h1 class="font-myFont text-dark text-base font-semibold">Siapakah dirimu?</h1>
-                    <p class="font-myFont text-gray-600 text-sm">Sang Penggerak (Manajerial)</p>
+                    <p class="font-myFont text-gray-600 text-sm">
+                        {{ userResultDetect.gim.type }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -21,7 +23,9 @@
                 </span>
                 <div class="flex flex-col">
                     <h1 class="font-myFont text-dark text-base font-semibold">Sistem Operasi Kecerdasan Dominan:</h1>
-                    <p class="font-myFont text-gray-600 text-sm">Neokorteks Kiri (Analitis, Pandai)</p>
+                    <p class="font-myFont text-gray-600 text-sm">
+                        {{ userResultDetect.gim.dominance_op_system }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -35,8 +39,8 @@
                 </span>
                 <div class="flex flex-col">
                     <h1 class="font-myFont text-dark text-base font-semibold">Kata Kunci:</h1>
-                    <p class="font-myFont text-gray-600 text-sm">Matrealistis, Prestatif, Pengejar
-                        Kesuksesan, Berkuasa, Mencari Pengakuan
+                    <p class="font-myFont text-gray-600 text-xs">
+                        {{ userResultDetect.gim.keyword }}
                     </p>
                 </div>
             </div>
@@ -48,6 +52,13 @@
 import { PhUser, PhBrain, PhKey } from "@phosphor-icons/vue";
 
 export default {
-    components: {PhUser, PhBrain, PhKey}
+    components: {PhUser, PhBrain, PhKey},
+    setup(){
+        const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
+
+        return {
+            userResultDetect
+        }
+    }
 }
 </script>

@@ -47,20 +47,32 @@ mudah.
             <div class="mx-4 flex flex-col">
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Petunjuk diri meraih sukses:</h1>
-                    <p class="font-myFont text-gray-600 text-sm">aasdasdasdasdasdsad</p>
+                    <p class="font-myFont text-gray-600 text-sm">
+                        Mencari PABRIK untuk menjalankan mesin nya
+                    </p>
                 </div>
 
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Langkah awal sederhana:</h1>
-                    <p class="font-myFont text-gray-600 text-sm">aasdasdasdasdasdsad</p>
+                    <p class="font-myFont text-gray-600 text-sm mb-4">
+                        Biasakan MEMBACA buku untuk upgrade skil atau meningkatkan keahlian anda
+                    </p>
+                    <p class="font-myFont text-gray-600 text-sm">
+                        Mencari PABRIK artinya, anda mesti punya wadah, organisasi, atau mesin yang menghasilkan
+uang.
+                    </p>
                 </div>
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Langkah perubahan:</h1>
-                    <p class="font-myFont text-gray-600 text-sm">aasdasdasdasdasdsad</p>
+                    <p class="font-myFont text-gray-600 text-sm">
+                        Cari Guru atau Mentor; Ikuti Kompetisi; Buat Prioritas; Rajin ke Majelis Ilmu
+                    </p>
                 </div>
                 <div>
                     <h1 class="font-semibold text-gray-600 text-base">Harus lebih sungguh-sungguh dalam hal:</h1>
-                    <p class="font-myFont text-gray-600 text-sm">aasdasdasdasdasdsad</p>
+                    <p class="font-myFont text-gray-600 text-sm">
+                        Membersihkan frekuensi dengan cara Terapkan Fardhu ain (hal yg wajib dalam ibadah kepada Tuhan)
+                    </p>
                 </div>
             </div>
         </div>
