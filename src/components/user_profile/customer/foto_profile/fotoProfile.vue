@@ -6,11 +6,26 @@
                 <img v-else-if="!profileImageUrl && props.dataCustomer.image == null" class="w-24 h-24 rounded-full border-2 border-biru" src="../../../../assets/img/profile-mock.png" alt="Foto Profile">
                 <div class="flex flex-col">
                     <h2 class="font-myFont text-dark text-2xl">{{ props.dataCustomer.name }}</h2>
-                    <p class="font-myFont text-gray-500 text-sm">Foto Profile</p>
+                    <p class="font-myFont text-gray-500 text-sm mb-3 lg:mb-0">Foto Profile</p>
+                    <div class="block md:hidden lg:hidden">
+                        <button @click="uploadFoto" v-if="profileImageUrl" class="
+                        cursor-pointer px-1 py-[1px] rounded-lg font-myFont text-xs text-biru border-2 border-biru
+                            hover:text-light hover:bg-biru hover:shadow-lg
+                        ">
+                            Simpan Foto
+                        </button>
+        
+                        <label for="fileInput" class="
+                        cursor-pointer px-2 py-[1px] rounded-lg font-myFont text-sm text-biru border-2 border-biru
+                            hover:text-light hover:bg-biru hover:shadow-lg
+                        ">
+                        Ubah Foto
+                        </label>
+                    </div>
                 </div>
             </div>
   
-            <div class="flex justify-center items-center gap-2">
+            <div class="hidden md:flex lg:flex justify-center items-center gap-2">
                 <button @click="uploadFoto" v-if="profileImageUrl" class="
                    cursor-pointer px-2 py-1 rounded-lg font-myFont text-biru border-2 border-biru
                     hover:text-light hover:bg-biru hover:shadow-lg
