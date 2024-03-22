@@ -71,6 +71,7 @@
                     <tr>
                         <th scope="col" class="py-3 px-6">No</th>
                         <th scope="col" class="py-3 px-6">Nama</th>
+                        <th scope="col" class="py-3 px-6">Jenis Kelamin</th>
                         <th v-if="staffType == 'SMK'" scope="col" class="py-3 px-6">Jurusan</th>
                         <th scope="col" class="py-3 px-6">Kelas</th>
                         <th scope="col" class="py-3 px-6">No Telp</th>
@@ -83,6 +84,7 @@
                                 {{ (currPage - 1) * itemsPerPage + index + 1 }}
                             </td>
                             <td class="py-4 px-6">{{ data.name }}</td>
+                            <td class="py-4 px-6">{{ data.gender }}</td>
                             <td v-if="staffType == 'SMK'" class="py-4 px-6">{{ data.majoring }}</td>
                             <td class="py-4 px-6">{{ data.grade }}</td>
                             <td class="py-4 px-6">{{ data.number }}</td>
@@ -164,13 +166,14 @@ export default {
 
         const luluskanSiswa = async(idSiswa) => {
             try {
+                console.log(`lulus - ${idSiswa}`)
                 const token = JSON.parse(localStorage.getItem('token'))
 
-                const data = new FormData()
-                data.append('is_student', 0)
+                const dataLulus = new FormData();
+                        dataLulus.append('new_is_student', '0')
 
-                const response = await initAPI('put', `customers/change-student-status/${idSiswa}`, data, token)
-
+                const response = await initAPI('put', `customers/change-student-status/${idSiswa}`, dataLulus, token)
+                
                 Swal.fire({
                     icon: 'success',
                     title: 'Siswa Sudah Diluluskan',
@@ -178,6 +181,8 @@ export default {
                     showConfirmButton: false,
                     timer: 2000
                 });
+
+                getAllData()
             } catch (error) {
                 console.log(error)
                 Swal.fire({
@@ -209,7 +214,7 @@ export default {
                     confirmButtonText: "Ya, Luluskan",
                     cancelButtonColor: "#3b3f5c",
                     cancelButtonText: "Batal",
-                }).then((result) => {
+                }).then(async(result) => {
                     if (result.isConfirmed) {
                         luluskanSiswa(id)
                     }
@@ -275,7 +280,7 @@ export default {
             document.body.removeEventListener('click', closeDropdown);
         });
 
-        onMounted(async() => {
+        onMounted(() => {
             document.body.addEventListener('click', closeDropdown);
             getAllData()
         })
