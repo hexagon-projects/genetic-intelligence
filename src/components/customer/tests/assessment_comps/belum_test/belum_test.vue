@@ -14,14 +14,14 @@
         </div>
         <div class="lg:w-1/2">
             <div class="flex flex-col justify-center">
-                <img src="../../../assets/img/test-assessment.png" class="w-1/2 lg:w-[238px] self-center animate-[wiggle_4s_ease-in-out_infinite]" alt="Siap Test Image">
+                <img src="../../../../../assets/img/test-assessment.png" class="w-1/2 lg:w-[238px] self-center animate-[wiggle_4s_ease-in-out_infinite]" alt="Siap Test Image">
             </div>
         </div>
     </div>
     <div class="lg:hidden flex flex-col items-center">
         <div class="lg:w-1/2">
             <div class="flex flex-col justify-center">
-                <img src="../../../assets/img/test-assessment.png" class="w-1/2 self-center animate-[wiggle_4s_ease-in-out_infinite]" alt="No Data Found">
+                <img src="../../../../../assets/img/test-assessment.png" class="w-1/2 self-center animate-[wiggle_4s_ease-in-out_infinite]" alt="No Data Found">
             </div>
         </div>
         <div class="lg:w-1/2">
