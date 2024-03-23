@@ -25,7 +25,7 @@
 
                 <div v-else-if="isAssessment == false">
                     <div v-if="currForm == 0 && isKlikSiapTest == 'tidak'">
-                        <belumTest/>
+                        <belumTest @siapTest="siaptest"/>
                     </div>
 
                     <div v-else-if="currForm == 1 && isKlikSiapTest == 'ya'" class="flex flex-col justify-center">
