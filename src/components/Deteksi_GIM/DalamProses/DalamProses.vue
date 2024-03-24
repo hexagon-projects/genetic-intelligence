@@ -4,7 +4,7 @@
     </div>
 
     <div v-else>
-        <div class="-mt-10 bg-white rounded-lg shadow-lg p-4">
+        <div class="-mt-3 lg:-mt-3 bg-white rounded-lg shadow-sm p-4">
             <div class="flex flex-col lg:flex-row items-center">
                 <div class="lg:w-1/2">
                     <div class="flex flex-col justify-center">
@@ -16,7 +16,7 @@
                         <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Tunggu ya...</h1>
                         <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Test kamu sedang dalam proses!</h1>
                         <p class="font-myFont text-start text-dark text-sm mb-4">Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.</p>
-                        <button @click="refreshData(userData.id)" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                        <button @click="refreshData(userData.id)" class="lg:mb-4 my-4 px-2 py-2 w-full lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
                             Refresh
                         </button>
                         <!-- <RouterLink :to="{name: 'views.dashboard'}" class="lg:mb-4 my-4 px-2 py-2 w-1/2 lg:w-1/2 self-start text-center rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
