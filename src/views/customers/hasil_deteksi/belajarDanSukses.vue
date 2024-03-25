@@ -1,13 +1,15 @@
 
 <template>
-    <div class="w-full lg:w-1/2">
+    <div v-if="metodeBelajar" class="w-full lg:w-1/2">
         <div class="bg-white rounded-lg shadow-sm p-2 lg:p-0 lg:py-4 w-full h-full overflow-hidden">
             <div class="mx-4 self-stretch justify-between items-center inline-flex">
                 <span class="text-biru bg-indigo-500 bg-opacity-10 rounded-lg p-4 mr-2">
                     <PhGear :size="28"/>
                 </span>
             </div>
-            <h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Metode belajar</h1>
+            <div v-html="metodeBelajar.value">
+            </div>
+            <!-- <h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Metode belajar</h1>
             <div class="mx-4 flex flex-col">
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Pola Belajar:</h1>
@@ -32,18 +34,19 @@ mudah.
                         Cobalah untuk membuka data-data lama, cek apakah ada proyekan yang dapat dikerjakan ulang
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
-    <div class="w-full lg:w-1/2">
+    <div v-if="langkahMenujuSukses" class="w-full lg:w-1/2">
         <div class="bg-white rounded-lg shadow-sm p-2 lg:p-0 lg:py-4 w-full h-full overflow-hidden">
             <div class="mx-4 self-stretch justify-between items-center inline-flex">
                 <span class="text-biru bg-indigo-500 bg-opacity-10 rounded-lg p-4 mr-2">
                     <PhChartLineUp :size="28"/>
                 </span>
             </div>
-            <h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Langkah menuju sukses</h1>
+            <div v-html="langkahMenujuSukses.value"></div>
+            <!--<h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Langkah menuju sukses</h1>
             <div class="mx-4 flex flex-col">
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Petunjuk diri meraih sukses:</h1>
@@ -74,7 +77,8 @@ uang.
                         Membersihkan frekuensi dengan cara Terapkan Fardhu ain (hal yg wajib dalam ibadah kepada Tuhan)
                     </p>
                 </div>
-            </div>
+            </div> -->
+
         </div>
     </div>
 </template>
@@ -83,6 +87,16 @@ uang.
 import { PhGear, PhChartLineUp } from '@phosphor-icons/vue';
 
 export default {
-    components: {PhGear, PhChartLineUp}
+    props: ['gimDatas'],
+    components: {PhGear, PhChartLineUp},
+    setup(props){
+        const metodeBelajar = props.gimDatas[3]
+        const langkahMenujuSukses = props.gimDatas[5]
+
+        return {
+            metodeBelajar,
+            langkahMenujuSukses
+        }
+    }
 }
 </script>

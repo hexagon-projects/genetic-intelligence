@@ -35,23 +35,23 @@
             </div>
 
             <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <siapakahDirimu/>
+                <siapakahDirimu v-if="gimDatas" :gimDatas="gimDatas"/>
             </div>
 
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5 bg-white rounded-lg shadow-sm p-4 h-full overflow-hidden">
-                <rangkumanKecerdasan/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <belajarDanSukses/>
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5">
+                <rangkumanKecerdasan v-if="gimDatas" :gimDatas="gimDatas"/>
             </div>
 
             <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <tipsBisnisDanPeranVue/>
+                <belajarDanSukses v-if="gimDatas" :gimDatas="gimDatas"/>
             </div>
 
             <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <amalanCerdasDanRohani/>
+                <tipsBisnisDanPeranVue v-if="gimDatas" :gimDatas="gimDatas"/>
+            </div>
+
+            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                <amalanCerdasDanRohani v-if="gimDatas" :gimDatas="gimDatas"/>
             </div>
 
             <div v-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-full">
@@ -116,11 +116,27 @@ export default {
     const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
     console.log(userResultDetect)
 
+    const gimDatas = ref(null)
+
+    onMounted(async() => {
+        const token = JSON.parse(localStorage.getItem('token'))
+        const userId = JSON.parse(localStorage.getItem('userData')).id
+        try {
+            const response = await initApi('get', 'customers/gim-result/'+userId, null, token)
+            console.log(response.data.gim.gim_datas)
+            gimDatas.value = response.data.gim.gim_datas
+        } catch (error) {
+            console.log(error)
+        }
+
+    })
+
     return {
         sudahTest,
         userData,
         userRole,
         userResultDetect,
+        gimDatas
     }
   }
 }

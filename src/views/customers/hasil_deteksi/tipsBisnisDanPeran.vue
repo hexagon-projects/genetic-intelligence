@@ -1,12 +1,13 @@
 <template>
-    <div class="w-full lg:w-1/2">
+    <div v-if="tipsBerbisnis" class="w-full lg:w-1/2">
         <div class="bg-white rounded-lg shadow-sm p-2 lg:p-0 lg:py-4 w-full h-full overflow-hidden">
             <div class="mx-4 self-stretch justify-between items-center inline-flex">
                 <span class="text-biru bg-indigo-500 bg-opacity-10 rounded-lg p-4 mr-2">
                     <PhHandCoins :size="28"/>
                 </span>
             </div>
-            <h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Tips berbisnis</h1>
+            <div v-html="tipsBerbisnis.value"></div>
+            <!--<h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Tips berbisnis</h1>
             <div class="mx-4 flex flex-col">
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Gaya berbisnis:</h1>
@@ -45,18 +46,19 @@ guna terjadi pelipatgandaan
                         Cepat & Tegas
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
-    <div class="w-full lg:w-1/2">
+    <div v-if="peranBisnis" class="w-full lg:w-1/2">
         <div class="bg-white rounded-lg shadow-sm p-2 lg:p-0 lg:py-4 w-full h-full overflow-hidden">
             <div class="mx-4 self-stretch justify-between items-center inline-flex">
                 <span class="text-biru bg-indigo-500 bg-opacity-10 rounded-lg p-4 mr-2">
                     <PhUsersThree :size="28"/>
                 </span>
             </div>
-            <h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Peran dalam melaksanakan bisnis</h1>
+            <div v-html="peranBisnis.value"></div>
+            <!--<h1 class="mx-4 font-myFont text-dark text-lg font-semibold mb-4">Peran dalam melaksanakan bisnis</h1>
             <div class="mx-4 flex flex-col">
                 <div class="mb-4">
                     <h1 class="font-semibold text-gray-600 text-base">Peran yang Harus dijalankan dengan Maksimal:</h1>
@@ -87,7 +89,7 @@ guna terjadi pelipatgandaan
                         Latih dengan banyak MEMBACA dan MENGERJAKAN SOAL
                     </p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -96,6 +98,16 @@ guna terjadi pelipatgandaan
 import { PhHandCoins, PhUsersThree } from '@phosphor-icons/vue';
 
 export default {
-    components: {PhHandCoins, PhUsersThree}
+    props: ['gimDatas'],
+    components: {PhHandCoins, PhUsersThree},
+    setup(props){
+        const tipsBerbisnis = props.gimDatas[6]
+        const peranBisnis = props.gimDatas[7]
+
+        return {
+            tipsBerbisnis,
+            peranBisnis
+        }
+    }
 }
 </script>
