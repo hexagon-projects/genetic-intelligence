@@ -140,7 +140,8 @@ setup() {
             const link = document.createElement('a')
             link.href = url
             link.target = '_blank'
-            link.download = userResultDetect.value.gim_result
+            // link.download = userResultDetect.value.gim_result
+            link.download = imgUrl
 
             link.click()
 
