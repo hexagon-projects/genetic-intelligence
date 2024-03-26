@@ -1,92 +1,96 @@
 <template>
-    <div v-if="dataReview && datas">
-      <!-- <h2>Review Detail</h2>
-      <p>ID: {{ id }}</p>
-      <p>Name: {{ dataReview.name }}</p> -->
-      <section class="bg-gray-100 pb-16">
-          <div class="mx-4 pt-4">
-              <ol class="flex text-gray-500 font-semibold">
-                  <li class="before:px-1.5">
-                      <a class="text-dark text-base cursor-default">
-                          Beranda
-                      </a>
-                  </li>
-              </ol>
-          </div>
-            <div class="flex flex-col lg:flex-row justify-center gap-4 mx-4 lg:my-0">
-                <div class="lg:w-1/3 w-full mt-4">
-                    <div class="bg-white rounded-lg shadow-xl p-4 h-full">
-                        <div class="flex flex-col">
-                            <div class="flex justify-between items-center">
-                                <h2 class="font-myFont text-start text-dark font-semibold">File Test Grafologi</h2>
-                                <button @click="downloadImage(dataReview.customers_results.detection)" class="text-light px-2 py-1 bg-biru rounded-lg hover:bg-opacity-75 hover:shadow-lg">
-                                    <PhFileArrowDown :size="22"/>
-                                </button>
-                            </div>
-                            <hr class="my-5">
-                            <div class="self-center my-1">
-                                <img :src="baseUrl+'open/detections/'+dataReview.customers_results.detection">
-                                <!-- <img :src="'http://gim.app.api.hexagon.co.id/api/open/detections/'+dataReview.customers_results.detection"> -->
-                                <!-- <img src="../../../assets/img/grafologi.jpg"> -->
-                                <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-xl hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="lg:w-2/3 w-full lg:mt-4">
-                    <div class="flex flex-col gap-4 lg:gap-4">
-                        <div class="bg-white rounded-lg shadow-xl lg:p-4 w-full overflow-hidden">
-                            <div class="self-center flex flex-col items-center">
-                                <h1 class="font-myFont mx-auto text-dark">Tipe Kecerdasan Customer</h1>
-                                <h1 class="font-myFont font-semibold mx-auto text-dark text-lg">{{ datas.gim_result }}</h1>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow-xl py-2 lg:p-4 w-full overflow-hidden">
-                           <div class="flex flex-col lg:flex-row items-center gap-2 mx-4">
-                                <img src="../../../assets/img/front.png" class="w-32 mr-4">
-                                <div class="flex flex-col w-full">
-                                    <h2 class="font-myFont text-start text-dark font-semibold mb-2">Data Customer</h2>
-                                    <div class="overflow-x-scroll md:overflow-visible lg:overflow-visible">
-                                        <table class="border text-sm text-left text-gray-500">
-                                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                            <tr>
-                                                <th scope="col" class="py-4 px-6">Nama Customer</th>
-                                                <th scope="col" class="py-4 px-6">Tempat Lahir</th>
-                                                <th scope="col" class="py-4 px-6">Tanggal Lahir</th>
-                                                <th scope="col" class="py-4 px-6">Gol. Darah</th>
-                                                <th scope="col" class="py-4 px-6">Status</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="bg-white border-b">
-                                                    <td class="py-4 px-6">{{ dataReview.name }}</td>
-                                                    <td class="py-4 px-6">{{ dataReview.birth_place }}</td>
-                                                    <td class="py-4 px-6">{{ dataReview.birth_date }}</td>
-                                                    <td class="py-4 px-6">{{ dataReview.blood_group }}</td>
-                                                    <td class="py-4 px-6">{{ dataReview.status }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                           </div>
-                        </div>
-
-                        <div class="bg-white rounded-lg shadow-xl p-4 h-full overflow-hidden">
-                            <div class="flex flex-col justify-center align-middle">
-                                <h2 class="font-myFont text-start text-dark font-semibold">Note Hasil Grafologi</h2>
-                                <hr class="my-5">
-                                <textarea v-model="notes" class="font-myFont rounded-md border border-gray-300 w-full py-2 px-3 mb-2" rows="4" placeholder="Note..."></textarea>
-                                <button @click="submitNote(dataReview.customers_results.customer_id)" class="px-2 py-2 self-end rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div v-if="loadingFetch" class="preloader-overlay">
+        <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
+
+    <div v-else>
+        <div v-if="dataReview && datas">
+          <section class="bg-gray-100 pb-16">
+              <div class="mx-4 pt-4">
+                  <ol class="flex text-gray-500 font-semibold">
+                      <li class="before:px-1.5">
+                          <a class="text-dark text-base cursor-default">
+                              Beranda
+                          </a>
+                      </li>
+                  </ol>
+              </div>
+                <div class="flex flex-col lg:flex-row justify-center gap-4 mx-4 lg:my-0">
+                    <div class="lg:w-1/3 w-full mt-4">
+                        <div class="bg-white rounded-lg shadow-sm p-4 h-full">
+                            <div class="flex flex-col">
+                                <div class="flex justify-between items-center">
+                                    <h2 class="font-myFont text-start text-dark font-semibold">File Test Grafologi</h2>
+                                    <button @click="downloadImage(dataReview.customers_results.detection)" class="text-light px-2 py-1 bg-biru rounded-lg hover:bg-opacity-75 hover:shadow-lg">
+                                        <PhFileArrowDown :size="22"/>
+                                    </button>
+                                </div>
+                                <hr class="my-5">
+                                <div class="self-center my-1">
+                                    <img :src="baseUrl+'open/detections/'+dataReview.customers_results.detection">
+                                    <!-- <img :src="'http://gim.app.api.hexagon.co.id/api/open/detections/'+dataReview.customers_results.detection"> -->
+                                    <!-- <img src="../../../assets/img/grafologi.jpg"> -->
+                                    <!-- <img class="w-1/2 mx-auto h-full rounded-lg shadow-sm hover:border-secondary border-2 border-white mb-2" src="../../assets/img/sample.jpg" alt="User Profile"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:w-2/3 w-full lg:mt-4">
+                        <div class="flex flex-col gap-4 lg:gap-4">
+                            <div class="bg-white rounded-lg shadow-sm lg:p-4 w-full overflow-hidden">
+                                <div class="self-center flex flex-col items-center">
+                                    <h1 class="font-myFont mx-auto text-dark">Tipe Kecerdasan Customer</h1>
+                                    <h1 class="font-myFont font-semibold mx-auto text-dark text-lg">{{ datas.gim_result }}</h1>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg shadow-sm py-2 lg:p-4 w-full overflow-hidden">
+                               <div class="flex flex-col lg:flex-row items-center gap-2 mx-4">
+                                    <img src="../../../assets/img/front.png" class="w-32 mr-4">
+                                    <div class="flex flex-col w-full">
+                                        <h2 class="font-myFont text-start text-dark font-semibold mb-2">Data Customer</h2>
+                                        <div class="overflow-x-scroll md:overflow-visible lg:overflow-visible">
+                                            <table class="border text-sm text-left text-gray-500">
+                                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                                <tr>
+                                                    <th scope="col" class="py-4 px-6">Nama Customer</th>
+                                                    <th scope="col" class="py-4 px-6">Tempat Lahir</th>
+                                                    <th scope="col" class="py-4 px-6">Tanggal Lahir</th>
+                                                    <th scope="col" class="py-4 px-6">Gol. Darah</th>
+                                                    <th scope="col" class="py-4 px-6">Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="bg-white border-b">
+                                                        <td class="py-4 px-6">{{ dataReview.name }}</td>
+                                                        <td class="py-4 px-6">{{ dataReview.birth_place }}</td>
+                                                        <td class="py-4 px-6">{{ dataReview.birth_date }}</td>
+                                                        <td class="py-4 px-6">{{ dataReview.blood_group }}</td>
+                                                        <td class="py-4 px-6">{{ dataReview.status }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                               </div>
+                            </div>
+    
+                            <div class="bg-white rounded-lg shadow-sm p-4 h-full overflow-hidden">
+                                <div class="flex flex-col justify-center align-middle">
+                                    <h2 class="font-myFont text-start text-dark font-semibold">Note Hasil Grafologi</h2>
+                                    <hr class="my-5">
+                                    <textarea v-model="notes" class="font-myFont rounded-md border border-gray-300 w-full py-2 px-3 mb-2" rows="4" placeholder="Note..."></textarea>
+                                    <button @click="submitNote(dataReview.customers_results.customer_id)" class="px-2 py-2 self-end rounded-lg bg-biru font-myFont font-medium text-white hover:opacity-75 hover:shadow-lg">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
   </template>
   
 <script>
@@ -103,6 +107,7 @@ export default {
 name: 'DetailReview',
 components: {PhFileArrowDown},
 setup() {
+    const loadingFetch = ref(false)
     const store = useStore()
     const router = useRouter()
 
@@ -114,6 +119,7 @@ setup() {
     const dataReview = computed(() => store.getters.getReviewDetail)
     
     onMounted(async() => {
+        loadingFetch.value = !loadingFetch.value
         if(dataReview.value == null){
             if(localStorage.getItem('reviewData')){
                 store.commit('reviewGrafologi', JSON.parse(localStorage.getItem('reviewData')));
@@ -124,6 +130,7 @@ setup() {
         const response = await initAPI('post', 'customers/gim-result/in-review/'+dataReview.value.id, null, token)
         console.log(response.data)
         datas.value = response.data
+        loadingFetch.value = !loadingFetch.value
     })
 
     const downloadImage = async (imgUrl) => {
@@ -181,6 +188,7 @@ setup() {
         }
 
     return {
+        loadingFetch,
         baseUrl,
         dataReview,
         datas,
@@ -191,4 +199,26 @@ setup() {
 },
 };
 </script>
+
+<style scoped>
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 100%;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+.preloader-overlay.hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+</style>
   
