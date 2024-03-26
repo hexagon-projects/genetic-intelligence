@@ -24,6 +24,64 @@
                         <profile/>
                     </div>
 
+                    <div class="flex flex-col lg:flex-row justify-center mx-4 gap-4 h-auto">
+                        <div v-if="isAssessment" class="lg:w-[65%] w-full">
+                            <div class="bg-white h-auto flex flex-col rounded-lg shadow-sm p-4 lg:mb-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h1 class="text-dark text-base font-semibold cursor-default">Resume Assessment</h1>
+                                    <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="font-medium text-biru text-base">Lihat Detail</RouterLink>
+                                </div>
+
+                                <div class="h-auto lg:h-[312px] flex flex-col md:flex-row lg:flex-row">
+                                    <div class="w-full md:w-1/2 lg:w-1/2 bg-biru rounded-lg p-4">
+                                        <h1 class="font-myFont font-medium text-light text-center text-lg mb-2">
+                                            Tipe Pembelajaran Kamu
+                                        </h1>
+                                        <div class="mx-auto flex-col my-4 w-[188px] flex justify-center p-12 rounded-full bg-[#1fabee] bg-opacity-40 backdrop-blur-lg">
+                                            <span class="text-7xl text-center text-light font-myFont">
+                                                {{ valueTotal }}
+                                            </span>
+                                            <p class="text-xs text-center text-light font-myFont">
+                                                dari 100%
+                                            </p>
+                                        </div>
+                                        <h1 class="font-myFont font-medium text-center text-light text-lg">
+                                            {{ gayaBelajar }}
+                                        </h1>
+                                    </div>
+            
+                                    <div id="chartBelajar" class="w-full md:w-1/2 lg:w-1/2 p-4">
+                                        <Pie v-if="data && data !== null" :data="data" :options="options" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div v-if="isTestedIQ" class="lg:w-[35%] w-full">
+                            <div class="bg-white h-auto flex flex-col rounded-lg shadow-sm p-4 mb-3 lg:mb-0">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h1 class="text-dark text-base font-semibold cursor-default">Resume Test IQ</h1>
+                                    <RouterLink :to="{name: 'user.views.hasil_iq'}" class="font-medium text-biru text-base">Lihat Detail</RouterLink>
+                                </div>
+
+                                <div class="order-2 md:order-1 lg:order-1 w-full bg-biru rounded-lg p-4 mr-0">
+                                    <h1 class="font-myFont font-medium text-light text-center text-lg mb-2">
+                                        Berikut Score IQ Kamu
+                                    </h1>
+                                    <div class="mx-auto flex-col my-6 w-[178px] flex justify-center p-12 rounded-full bg-[#1fabee] bg-opacity-40 backdrop-blur-lg">
+                                        <span :class="{'-ml-[22px]': scoreIQ.length == 3}" class="text-7xl my-1 text-center text-light font-myFont">
+                                            {{ scoreIQ }}
+                                        </span>
+                                    </div>
+                                    <h1 class="font-myFont font-medium text-center text-light text-lg">
+                                        {{ aliasIQ }} - {{ categoryIQ }}
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- GIM Result -->
                     <div class="mx-4 lg:mb-4 flex justify-between items-center">
                         <h1 class="text-dark text-base font-semibold cursor-default">Resume Genetic Intelligence Mapping</h1>
@@ -57,7 +115,7 @@
                     <!-- End GIM Result -->
 
                     <!-- Test IQ -->
-                    <div v-if="isTestedIQ">
+                    <!-- <div v-if="isTestedIQ">
                         <div class="mx-4 my-4 lg:my-4 flex justify-between items-center">
                             <h1 class="text-dark text-base font-semibold cursor-default">Resume Test IQ</h1>
                             <RouterLink :to="{name: 'user.views.hasil_iq'}" class="font-medium text-biru text-base font-myFont">Lihat Detail</RouterLink>
@@ -138,11 +196,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End Test IQ -->
 
                     <!-- Test Assessment -->
-                    <div v-if="isAssessment">
+                    <!-- <div v-if="isAssessment">
                         <div class="mx-4 my-4 lg:my-4 flex justify-between items-center">
                             <h1 class="text-dark text-base font-semibold cursor-default">Resume Test Assessment</h1>
                             <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="font-medium text-biru text-base font-myFont">Lihat Detail</RouterLink>
@@ -203,7 +261,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </section>
         
                 <section v-else-if="(userResultDetect.is_detected == true && userResultDetect.is_resulted == false) || userResultDetect.is_detected == false" class="bg-gray-100 pb-16">
