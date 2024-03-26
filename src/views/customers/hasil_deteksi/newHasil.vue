@@ -1,61 +1,67 @@
 <template>
     <section v-if="userData" class="bg-gray-100 pb-8">
-        <div class="mx-4 pt-4 mb-4">
-            <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
-                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
-                    Beranda
-                </RouterLink>
-                <span class="mx-2 text-gray-400 text-base">/</span>
-                <a class="text-gray-400 text-base">
-                    Hasil Test
-                </a>
-                <span class="mx-2 text-base">/</span>
-                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-base text-dark hover:text-dark/70">
-                    Hasil GIM
-                </RouterLink>
-            </ol>
+        <div v-if="loadingFetch" class="preloader-overlay">
+            <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
         </div>
 
-        <div class="flex flex-col justify-center mx-7 gap-4">
-            <div v-if="userData.is_detected == 'Belum'" class="mt-4 lg:w-full">
-                <BelumDeteksi />
+        <div v-else>
+            <div class="mx-4 pt-4 mb-4">
+                <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
+                    <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                        Beranda
+                    </RouterLink>
+                    <span class="mx-2 text-gray-400 text-base">/</span>
+                    <a class="text-gray-400 text-base">
+                        Hasil Test
+                    </a>
+                    <span class="mx-2 text-base">/</span>
+                    <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="text-base text-dark hover:text-dark/70">
+                        Hasil GIM
+                    </RouterLink>
+                </ol>
             </div>
-
-            <NoteHasilDeteksi v-if="userData.is_detected == 'Selesai Terdeteksi'"/>
-            <div class="flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <FileDanKonsultasi v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
-            </div>
-
-            <div class="order-6 flex flex-col gap-4">
-                <cardPendidikanSampaiKekurangan v-if="userData.is_detected == 'Selesai Terdeteksi'"/>
-            </div>
-
-            <div class="order-4">
-                <VideoHasil v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <siapakahDirimu v-if="gimDatas" :gimDatas="gimDatas"/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5">
-                <rangkumanKecerdasan v-if="gimDatas" :gimDatas="gimDatas"/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <belajarDanSukses v-if="gimDatas" :gimDatas="gimDatas"/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <tipsBisnisDanPeranVue v-if="gimDatas" :gimDatas="gimDatas"/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
-                <amalanCerdasDanRohani v-if="gimDatas" :gimDatas="gimDatas"/>
-            </div>
-
-            <div v-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-full">
-                <DalamProses/>
+    
+            <div class="flex flex-col justify-center mx-7 gap-4">
+                <div v-if="userData.is_detected == 'Belum'" class="mt-4 lg:w-full">
+                    <BelumDeteksi />
+                </div>
+    
+                <NoteHasilDeteksi v-if="userData.is_detected == 'Selesai Terdeteksi'"/>
+                <div class="flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                    <FileDanKonsultasi v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
+                </div>
+    
+                <div class="order-6 flex flex-col gap-4">
+                    <cardPendidikanSampaiKekurangan v-if="userData.is_detected == 'Selesai Terdeteksi'"/>
+                </div>
+    
+                <div class="order-4">
+                    <VideoHasil v-if="userData.is_detected == 'Selesai Terdeteksi'" :userResultDetect="userResultDetect"/>
+                </div>
+    
+                <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                    <siapakahDirimu v-if="gimDatas" :gimDatas="gimDatas"/>
+                </div>
+    
+                <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-5">
+                    <rangkumanKecerdasan v-if="gimDatas" :gimDatas="gimDatas"/>
+                </div>
+    
+                <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                    <belajarDanSukses v-if="gimDatas" :gimDatas="gimDatas"/>
+                </div>
+    
+                <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                    <tipsBisnisDanPeranVue v-if="gimDatas" :gimDatas="gimDatas"/>
+                </div>
+    
+                <div v-if="userData.is_detected == 'Selesai Terdeteksi'" class="order-7 flex flex-col lg:flex-row justify-center gap-4 lg:my-0">
+                    <amalanCerdasDanRohani v-if="gimDatas" :gimDatas="gimDatas"/>
+                </div>
+    
+                <div v-if="userData.is_detected == 'Sudah Disubmit' || userData.is_detected == 'Dalam Review'" class="lg:w-full">
+                    <DalamProses/>
+                </div>
             </div>
         </div>
   </section>
@@ -102,6 +108,7 @@ export default {
     FileDanKonsultasi, VideoHasil, NoteHasilDeteksi, DalamProses
 },
   setup(){
+    const loadingFetch = ref(false)
     const sudahTest = ref(true)
     const showModal = ref(false);
 
@@ -119,6 +126,7 @@ export default {
     const gimDatas = ref(null)
 
     onMounted(async() => {
+        loadingFetch.value = !loadingFetch.value
         const token = JSON.parse(localStorage.getItem('token'))
         const userId = JSON.parse(localStorage.getItem('userData')).id
         try {
@@ -127,11 +135,19 @@ export default {
             gimDatas.value = response.data.gim.gim_datas
         } catch (error) {
             console.log(error)
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi kesalahan saat mengambil data',
+                    text: 'Error terjadi.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
         }
-
+        loadingFetch.value = !loadingFetch.value
     })
 
     return {
+        loadingFetch,
         sudahTest,
         userData,
         userRole,
@@ -140,4 +156,26 @@ export default {
     }
   }
 }
-</script>./PendidikanPekerjaanPersonal.vue
+</script>
+
+<style scoped>
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 100%;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+.preloader-overlay.hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+</style>
