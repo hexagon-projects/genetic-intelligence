@@ -436,8 +436,8 @@
                     <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                         <h1 class="font-myFont text-dark text-lg mb-4">List Customers</h1>
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between mb-3">
-                            <div class="flex items-center gap-4">
-                                <div class="relative inline-block text-left w-28">
+                            <div class="flex flex-wrap lg:flex-nowrap items-center gap-4">
+                                <div class="relative inline-block text-left w-38 lg:w-38">
                                     <small class="text-dark font-myFont">Golongan Darah</small>
                                     <div class="flex items-center gap-1 mt-1">
                                         <button @click="toggleFilter('goldar')" ref="dropdownRefGoldar" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -458,7 +458,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="relative inline-block text-left w-28">
+                                <div class="relative inline-block text-left w-48 lg:w-38">
                                     <small class="text-dark font-myFont">Jenis Kelamin</small>
                                     <div class="flex items-center gap-1 mt-1">
                                         <button @click="toggleFilter('gender')" ref="dropdownRefGender" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -477,7 +477,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="relative inline-block text-left w-28">
+                                <div class="relative inline-block text-left lg:w-28">
                                     <small class="text-dark font-myFont">Pelajar</small>
                                     <div class="flex items-center gap-1 mt-1">
                                         <button @click="toggleFilter('is_student')" ref="dropdownRefStudent" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -496,7 +496,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="relative inline-block text-left w-36">
+                                <div class="relative inline-block text-left w-62 lg:w-42">
                                     <small class="text-dark font-myFont">Status Bayar</small>
                                     <div class="flex items-center gap-1 mt-1">
                                         <button @click="toggleFilter('is_payment_gim')" ref="dropdownRefPaymentGim" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
