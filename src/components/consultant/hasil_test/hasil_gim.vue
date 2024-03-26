@@ -40,7 +40,7 @@
                                     <span class="font-myFont text-base text-dark font-medium">{{ detailDataSubmit.customers_results.gim.dominance_op_system }}</span>
                                 </div>
                                 <div class="mb-2 flex flex-col">
-                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Kata Kunci</span>
+                                    <span class="font-myFont font-medium text-dark text-base">Kata Kunci</span>
                                     <span class="font-myFont text-base text-dark font-medium">{{ detailDataSubmit.customers_results.gim.keyword }}</span>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                                     <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.number }}</span>
                                 </div>
                                 <div class="mb-2 flex flex-col">
-                                    <span class="mb-2 font-myFont font-medium text-dark text-base">Alamat</span>
+                                    <span class="font-myFont font-medium text-dark text-base">Alamat</span>
                                     <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.address }}</span>
                                     <span class="font-myFont text-dark text-base font-medium">{{ detailDataSubmit.region }}</span>
                                 </div>
@@ -153,7 +153,7 @@
                   <div class="flex flex-col bg-white w-full p-6 rounded-lg shadow-lg">
                       <h1 class="font-myFont text-dark text-lg mb-4">List Hasil Test Grafologi</h1>
                       <div class="flex flex-col md:flex-row md:items-center md:justify-between lg:flex-row lg:items-center lg:justify-between mb-3">
-                          <div class="flex items-center gap-4">
+                          <div class="flex flex-wrap items-center gap-1 lg:gap-4">
                             <div class="relative inline-block text-start w-64">
                                 <small class="text-dark font-myFont">Kecerdasan</small>
                                 <div class="flex items-center gap-1 mt-1">
@@ -201,11 +201,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="relative inline-block text-left w-28">
+                            <div class="relative inline-block text-left w-38">
                                 <small class="text-dark font-myFont">Jenis Kelamin</small>
                                 <div class="flex items-center gap-1 mt-1">
                                     <button @click="toggleFilter('gender')" ref="dropdownRefGender" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                    {{ queryParams.gender }}
+                                    {{ queryParams.gender == 1 ? 'Laki - Laki' : 'Perempuan' }}
                                     <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                     </svg>
@@ -224,7 +224,7 @@
                                 <small class="text-dark font-myFont">Pelajar</small>
                                 <div class="flex items-center gap-1 mt-1">
                                     <button @click="toggleFilter('is_student')" ref="dropdownRefStudent" type="button" class="mb-2 md:mb-0 lg:mb-0 font-myFont inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-medium text-dark shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                    {{ queryParams.is_student }}
+                                    {{ queryParams.is_student == 1 ? 'Ya' : 'Tidak' }}
                                     <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                                     </svg>
@@ -453,7 +453,7 @@ export default {
       }
 
       const filterStudent = async (params) => {
-        isFilterGender.value = true
+        isFilterStudent.value = true
         queryParams.is_student = params
         getAllData()
       }
