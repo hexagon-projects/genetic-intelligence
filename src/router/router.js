@@ -494,6 +494,15 @@ const routes = [
             else next()
         }
     },
+    {
+        path: '/pembayaran/:tipePembayaran',
+        name: 'user.views.pembayaran',
+        component: () => import('../components/pembayaran/pembayaran.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        }
+    },
     // {
     //     path: '/payment-status?:merchantId&:reference'
     // }
