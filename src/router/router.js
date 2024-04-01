@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { useStore } from 'vuex'
 import { computed } from "vue"
+import { jwtDecode } from "jwt-decode"
 
 const routes = [
     { 
@@ -67,10 +68,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'user.views.deteksi' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -82,10 +92,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'user.views.assesment' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -97,10 +116,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'user.views.psikotest' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -112,10 +140,18 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'user.views.iq' && (!isAuth || roleUser !== 'customer')) next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -127,10 +163,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -142,10 +187,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -157,10 +211,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -186,18 +249,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'customer') next({ name: 'views.login' })
-            else next()
-            // const isAuth = JSON.parse(localStorage.getItem('userData'))
-            // const roleUser = JSON.parse(localStorage.getItem('userRole'))
-            // const store = useStore()
-            // const userData = computed(() => store.getters.getUserData)
-            // console.log(`router`,userData.value)
-            // const isDetected = userData.value.is_detected == 'Selesai Terdeteksi'
-            // if(!isAuth || !roleUser !== 'customer') next({ name: 'views.login' })
-            // else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -218,10 +282,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -233,10 +306,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -248,10 +330,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -263,10 +354,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -278,10 +378,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -293,10 +402,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'consultant') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -308,10 +426,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -323,10 +450,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -338,10 +474,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -353,10 +498,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -368,10 +522,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -383,10 +546,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -398,10 +570,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -413,10 +594,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     // {
@@ -443,10 +633,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -458,10 +657,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -473,10 +681,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
@@ -488,10 +705,19 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || roleUser !== 'admin') next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
         }
     },
     {
