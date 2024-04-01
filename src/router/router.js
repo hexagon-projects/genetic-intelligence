@@ -235,9 +235,14 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
+            const token = JSON.parse(localStorage.getItem('token'))
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth) next({ name: 'views.login' })
-            else next()
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                next()
+            }
         }
     },
     {
