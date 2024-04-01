@@ -9,8 +9,8 @@
 				<!-- <h1 class="font-myFont font-semibold text-xl">GIM Application</h1> -->
 				<img class="h-10 w-28" src="../../assets/img/logo-new.png" alt="GIM Application">
 				<div class="relative flex justify-center items-center gap-4">
-					<h2 v-if="userData.role && userData.role == 'admin'" class="font-myFont text-dark font-medium">Admin</h2>
-					<h2 v-if="userData.role && userData.role == 'staff'" class="font-myFont text-dark font-medium">{{ staffData.name }}</h2>
+					<h2 v-if="userRole && userRole == 'admin'" class="font-myFont text-dark font-medium">Admin</h2>
+					<h2 v-if="userRole && userRole == 'staff'" class="font-myFont text-dark font-medium">{{ staffData.name }}</h2>
 					<h2 v-if="userRole && (userRole == 'customer' || userRole == 'consultant')" class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
 					<a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
 						<img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/profile-mock.png">
@@ -93,6 +93,8 @@ import consultantBotNav from './consultant/consultantBottom.vue'
 import adminNav from './admin/admin.vue'
 import adminBotNav from './admin/adminBottom.vue'
 import initAPI from '../../api/api'
+import { jwtDecode } from 'jwt-decode'
+import { useRouter } from 'vue-router';
 
 export default{
     name: 'NavbarVue',
@@ -107,27 +109,47 @@ export default{
 		adminBotNav
 	},
 	setup(){
+		const router = useRouter()
 		const loading = ref(false)
 		const baseUrl = import.meta.env.VITE_API_BASE_URL
 		const store = useStore()
 		const userData = computed(() => store.getters.getUserData);
-		const userRole = computed(() => store.getters.getUserRole);
+		const userRole = ref('')
+		// const userRole = computed(() => store.getters.getUserRole);
 
 		const staffData = ref('')
 
 		onMounted(() => {
-			if (!userData.value && !userRole.value) {
+			const token = JSON.parse(localStorage.getItem('token'))
+			if(token){
+				const decodedToken = jwtDecode(token)
+				console.log(`di deocde`, decodedToken)
+
+				userRole.value = decodedToken.role
+			} else {
+				localStorage.clear()
+				router.push('/login')
+			}
+
+			if(!userData.value){
 				const localStorageUserData = localStorage.getItem('userData');
-				const localStorageUserRole = localStorage.getItem('userRole');
-				if (localStorageUserData && localStorageUserRole) {
+				if (localStorageUserData) {
 					const parsedUserData = JSON.parse(localStorageUserData);
-					const parsedUserRole = JSON.parse(localStorageUserRole);
 					store.commit('user', parsedUserData);
-					store.commit('userRole', parsedUserRole);
-				} else { 
-					console.log('localstorage kosong')
 				}
 			}
+			// if (!userData.value && !userRole.value) {
+			// 	const localStorageUserData = localStorage.getItem('userData');
+			// 	const localStorageUserRole = localStorage.getItem('userRole');
+			// 	if (localStorageUserData && localStorageUserRole) {
+			// 		const parsedUserData = JSON.parse(localStorageUserData);
+			// 		const parsedUserRole = JSON.parse(localStorageUserRole);
+			// 		store.commit('user', parsedUserData);
+			// 		store.commit('userRole', parsedUserRole);
+			// 	} else { 
+			// 		console.log('localstorage kosong')
+			// 	}
+			// }
 
 			if(JSON.parse(localStorage.getItem('staffDetail'))){
 				staffData.value = JSON.parse(localStorage.getItem('staffDetail'))
