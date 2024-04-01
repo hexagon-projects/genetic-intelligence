@@ -1,9 +1,9 @@
 <template>
-    <div v-if="userRole == 'consultant'">
+    <div v-if="newRole == 'consultant'">
         <DashboardConsultant/>
     </div>
 
-    <div v-else-if="userRole == 'customer'">
+    <div v-else-if="newRole == 'customer'">
         <div v-if="loading" class="preloader-overlay">
             <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
         </div>
@@ -283,11 +283,11 @@
         </div>
     </div>
 
-    <div v-else-if="userRole == 'admin'">
+    <div v-else-if="newRole == 'admin'">
         <DashboardAdmin/>
     </div>
 
-    <div v-else-if="userRole == 'staff'">
+    <div v-else-if="newRole == 'staff'">
         <DashboardStaff/>
     </div>
 </template>
@@ -309,10 +309,11 @@ import { PhArrowRight, PhBrain, PhLightning, PhStar, PhCheck, PhFlagPennant, PhG
 import DashboardConsultant from '../consultant/dashboard/dashboard.vue'
 import DashboardAdmin from '../admin/dashboard/dashboard.vue'
 import DashboardStaff from '../staffs/dashboard/dashboard.vue'
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { Pie } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 ChartJS.register(ArcElement, Tooltip, Legend)
+import { jwtDecode } from "jwt-decode"
 
 
 export default {
@@ -341,11 +342,13 @@ export default {
         Pie
     },
     setup(){
+        const router = useRouter()
         const loading = ref(false);
         const store = useStore()
         const userData = computed(() => store.getters.getUserData)
         const userRole = computed(() => store.getters.getUserRole)
         const userResultDetect = computed(() => store.getters.getUserResultDetect);
+        const newRole = ref('')
 
         const isTestedIQ = ref(false)
         const scoreIQ = ref(null)
@@ -368,20 +371,23 @@ export default {
 
         loading.value = !loading.value
         onMounted(async() => {
-
-            if (!userData.value && !userRole.value) {
-                const localStorageUserData = localStorage.getItem('userData')
-                const localStorageUserRole = localStorage.getItem('userRole')
-                if (localStorageUserData && localStorageUserRole) {
-                    const parsedUserData = JSON.parse(localStorageUserData)
-                    const parsedUserRole = JSON.parse(localStorageUserRole)
-                    store.commit('user', parsedUserData)
-                    store.commit('userRole', parsedUserRole)
-                }
+            const token = JSON.parse(localStorage.getItem('token'))
+            if(token){
+                const decodedToken = jwtDecode(token)
+                console.log(`decode dashboard`, decodedToken)
+                newRole.value = decodedToken.role
+            } else {
+                localStorage.clear()
+                router.push('/login')
             }
 
-            const checkRole = JSON.parse(localStorage.getItem('userRole'))
-            if(checkRole == 'customer'){
+            if(!userData.value){
+                const localStorageUserData = localStorage.getItem('userData')
+                const parsedUserData = JSON.parse(localStorageUserData)
+                store.commit('user', parsedUserData)
+            }
+            
+            if(newRole.value == 'customer'){
                 const token = JSON.parse(localStorage.getItem('token'))
                 const customerId = userData.value.id
     
@@ -441,6 +447,7 @@ export default {
             loading, 
             userData,
             userRole,
+            newRole,
             userResultDetect,
             isTestedIQ,
             scoreIQ,
