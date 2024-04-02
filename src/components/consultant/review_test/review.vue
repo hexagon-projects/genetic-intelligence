@@ -159,7 +159,7 @@ export default {
                     const query = await initAPI('get', 'customers?is_detected=1&search='+cari.value, null, token)
                     dataSubmit.value = query.data.data
                     totalHalaman.value = query.data.total
-                    itemsPerPage.value = response.data.per_page
+                    itemsPerPage.value = query.data.per_page
                     currPage.value = query.data.current_page
                     nextPage.value = query.data.next_page_url
                     prevPage.value = query.data.prev_page_url
@@ -168,6 +168,7 @@ export default {
                     totalData.value = query.data.total
                     loading.value = !loading.value
                 } catch (error) {
+                    console.log(error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
