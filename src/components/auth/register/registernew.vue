@@ -516,6 +516,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { PhInfo } from "@phosphor-icons/vue";
 import { useRouter } from 'vue-router'
 import _debounce from 'lodash/debounce';
+import Cookies from 'js-cookie'
 
 export default{
     name: 'RegisterPage',
@@ -596,7 +597,7 @@ export default{
         const validasiPassword = ref('')
 
         const pilihTipe = async(params) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             tipeValue.value = params
             let endpoint = params == 1 ? 'register-student' : 'register-non-student'
             const response = await initAPI('get', `register/payment?type=${endpoint}`, null, token)

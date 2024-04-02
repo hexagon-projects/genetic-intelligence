@@ -73,6 +73,7 @@ import initApi from '../../../api/api'
 import axios from 'axios'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'LoginComp',
@@ -139,7 +140,8 @@ export default {
                     localStorage.setItem('userData', JSON.stringify(type));
                     localStorage.setItem('userRole', JSON.stringify(datas.user.role));
                     localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
-                    localStorage.setItem('token', JSON.stringify(datas.token))
+                    // localStorage.setItem('token', JSON.stringify(datas.token))
+                    Cookies.set('token', datas.token, { expires: 1 })
                     store.commit('user', type);
                     store.commit('userRole', datas.user.role);
                     store.commit('userEmail', datas.user.email);
