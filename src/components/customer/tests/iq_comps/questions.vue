@@ -33,6 +33,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useTimer } from 'vue-timer-hook';
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'QuestionsIQ',
@@ -145,23 +146,28 @@ export default {
         const getQuestion = async(param) => {
             loading.value = !loading.value
             let endpoint = param == 'next' ? `iq/questions?page=${nextQuestion.value}&perpage=1` : 'iq/questions?perpage=1'
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', endpoint, null, token)
-                console.log(response.data)
-                questions.value = response.data.data
-                nextQuestion.value = response.data.next_page_url ? response.data.next_page_url.split('=')[1] : null
-                console.log(`next yeuh`)
-            } catch (error) {
-                console.log(error)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Terjadi',
-                    text: 'Error saat mengambil data pertanyaan',
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "OK",
-                })
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', endpoint, null, token)
+                    console.log(response.data)
+                    questions.value = response.data.data
+                    nextQuestion.value = response.data.next_page_url ? response.data.next_page_url.split('=')[1] : null
+                    console.log(`next yeuh`)
+                } catch (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Terjadi',
+                        text: 'Error saat mengambil data pertanyaan',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "OK",
+                    })
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
 
             loading.value = !loading.value
@@ -172,7 +178,7 @@ export default {
                 listJawaban.push(DOMPurify.sanitize(jawaban.value))
             }
 
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const customerId = JSON.parse(localStorage.getItem('userData')).id
             
             const data = new FormData();
@@ -180,35 +186,40 @@ export default {
             data.append('answers', JSON.stringify(listJawaban))
     
             console.log(`final jawaban`,data)
-            try {
-                const response = await initAPI('post', 'customers/iq', data, token)
-                console.log(response.data)
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Jawaban Dikirim',
-                    text: response.data.message,
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        router.go()
-                    }
-                })
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Terjadi',
-                    text: 'Error saat kirim jawaban, silahkan coba lagi.',
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        router.go()
-                    }
-                })
+            if(token){
+                try {
+                    const response = await initAPI('post', 'customers/iq', data, token)
+                    console.log(response.data)
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Jawaban Dikirim',
+                        text: response.data.message,
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.go()
+                        }
+                    })
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Terjadi',
+                        text: 'Error saat kirim jawaban, silahkan coba lagi.',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.go()
+                        }
+                    })
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 

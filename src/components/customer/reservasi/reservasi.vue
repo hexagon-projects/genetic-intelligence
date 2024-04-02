@@ -309,6 +309,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
 import belumDeteksi from '../../Deteksi_GIM/BelumDeteksi/belum.vue';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'Reservasi',
@@ -340,37 +341,53 @@ export default {
 
         const getDataReservasi = async() => {
             loading.value = !loading.value
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true&is_active=true`, null, token)
-                console.log(`cek weh reservasina`,response.data)
-                dataReservasi.value = response.data
-                statusReservasi.value = response.data.status
-                // console.log(`status reservasi`, statusReservasi.value)
-                console.log(`ini data reservasi`, dataReservasi.value)
-            } catch (error) {
-                console.log(`error`, error)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true&is_active=true`, null, token)
+                    console.log(`cek weh reservasina`,response.data)
+                    dataReservasi.value = response.data
+                    statusReservasi.value = response.data.status
+                    // console.log(`status reservasi`, statusReservasi.value)
+                    console.log(`ini data reservasi`, dataReservasi.value)
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         }
 
         const getDataCustomer = async() => {
             loading.value = !loading.value
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
-                dataReservasi.value = updatedCustomer.data.data[0]
-                store.commit('user', updatedCustomer.data.data[0])
-                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-            } catch (error) {
-                console.log(error)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Terjadi',
-                    text: 'Terjadi error sistem',
-                    showConfirmButton: false,
-                    timer: 3500
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
+                    dataReservasi.value = updatedCustomer.data.data[0]
+                    store.commit('user', updatedCustomer.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                } catch (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Terjadi',
+                        text: 'Terjadi error sistem',
+                        showConfirmButton: false,
+                        timer: 3500
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         }
@@ -407,35 +424,40 @@ export default {
 
         const konfirReservasi = async() => {
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('post', 'customers/reservations', reservasiData.value, token)
-            console.log(`konfir`,response.data)
-            if(response.data.success == true){
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Reservasi Berhasil',
-                    text: response.data.message,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "OK"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        router.go()
-                    }
-                });
-                store.commit('setReservasi', null)
-                localStorage.removeItem('setReservasi')
-
-                // getDataReservasi()
-                // getDataCustomer()
-            }else{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Reservasi Gagal',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 3500
-                });
-                store.commit('setReservasi', null)
+            const token = Cookies.get('token')
+            if(token){
+                const response = await initAPI('post', 'customers/reservations', reservasiData.value, token)
+                console.log(`konfir`,response.data)
+                if(response.data.success == true){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Reservasi Berhasil',
+                        text: response.data.message,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.go()
+                        }
+                    });
+                    store.commit('setReservasi', null)
+                    localStorage.removeItem('setReservasi')
+    
+                    // getDataReservasi()
+                    // getDataCustomer()
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Reservasi Gagal',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 3500
+                    });
+                    store.commit('setReservasi', null)
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         }
@@ -468,34 +490,44 @@ export default {
 
         const konfirPembayaran = async() => {
             console.log(`payment form`, paymentForm.value)
-            const token = JSON.parse(localStorage.getItem('token'))
-            try {
-                modalLoading.value = !modalLoading.value
-                const response = await initAPI('post', 'customers/reservations/payment', paymentForm.value, token)
-                console.log(`konfir pembayaran`,response.data)
-                console.log(`merchant reservasi`,response.data.payment_data.merchant_order_id)
-                localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
-                localStorage.setItem('bayarReservasi', true)
-                const url = response.data.data.paymentUrl
-                let fixedUrl = ''
-                let refValue = ''
-                if(url.includes('ref=')){
-                    fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
-                    refValue = url.split('ref=')[1]
-                }else if(url.includes('reference=')){
-                    console.log('reference', url)
-                    fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
-                    refValue = url.split('reference=')[1]
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    modalLoading.value = !modalLoading.value
+                    const response = await initAPI('post', 'customers/reservations/payment', paymentForm.value, token)
+                    console.log(`konfir pembayaran`,response.data)
+                    console.log(`merchant reservasi`,response.data.payment_data.merchant_order_id)
+                    localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+                    localStorage.setItem('bayarReservasi', true)
+                    const url = response.data.data.paymentUrl
+                    let fixedUrl = ''
+                    let refValue = ''
+                    if(url.includes('ref=')){
+                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                        refValue = url.split('ref=')[1]
+                    }else if(url.includes('reference=')){
+                        console.log('reference', url)
+                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        refValue = url.split('reference=')[1]
+                    }
+                    window.location.href = url
+                    window.location.href = fixedUrl+refValue
+                    modalLoading.value = !modalLoading.value
+    
+                    await getDataReservasi()
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat melakukan pembayaran',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }
-                window.location.href = url
-                window.location.href = fixedUrl+refValue
-                modalLoading.value = !modalLoading.value
-
-                await getDataReservasi()
-            } catch (error) {
-                console.log(error)
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
-
         }
 
         return {

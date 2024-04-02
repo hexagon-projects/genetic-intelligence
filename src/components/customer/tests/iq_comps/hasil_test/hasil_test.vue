@@ -119,11 +119,14 @@ import initAPI from '../../../../../api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import belumTest from '../belum_test/belum.vue'
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
    name: 'HasilAssessment',
    components: {PhLightning, PhStar, PhCheck, PhFlagPennant, PhGhost, PhBrain, belumTest},
    setup(){
+        const router = useRouter()
        const loading = ref(false)
 
        const isTestedIQ = ref(false)
@@ -133,33 +136,38 @@ export default {
        const categoryIQ = ref(null)
 
        onMounted(async() => {
-           try {
-               loading.value = !loading.value
-               const token = JSON.parse(localStorage.getItem('token'))
-               const userId = JSON.parse(localStorage.getItem('userData')).id
-               const response = await initAPI('get', `customers?id=${userId}`, null, token)
-               console.log(response.data.data[0])
-
-               isTestedIQ.value = response.data.data[0].customer_iq !== null ? true : false
-
-               if(response.data.data[0].customer_iq !== null){
-                   scoreIQ.value = response.data.data[0].customer_iq.customer_iq.toString()
-                   aliasIQ.value = response.data.data[0].customer_iq.iq.aliases
-                   categoryIQ.value = response.data.data[0].customer_iq.iq.category
-               }
-
-               loading.value = !loading.value
-           } catch (error) {
-               console.log(error)
-               Swal.fire({
-                   title: "Error",
-                   text: "Terjadi error saat mengambil data assessment.",
-                   icon: "error",
-                   showCancelButton: false,
-                   confirmButtonColor: "#0b40f4",
-                   confirmButtonText: "Tutup"
-               })
-           }
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    loading.value = !loading.value
+                    const userId = JSON.parse(localStorage.getItem('userData')).id
+                    const response = await initAPI('get', `customers?id=${userId}`, null, token)
+                    console.log(response.data.data[0])
+     
+                    isTestedIQ.value = response.data.data[0].customer_iq !== null ? true : false
+     
+                    if(response.data.data[0].customer_iq !== null){
+                        scoreIQ.value = response.data.data[0].customer_iq.customer_iq.toString()
+                        aliasIQ.value = response.data.data[0].customer_iq.iq.aliases
+                        categoryIQ.value = response.data.data[0].customer_iq.iq.category
+                    }
+     
+                    loading.value = !loading.value
+                } catch (error) {
+                    console.log(error)
+                    Swal.fire({
+                        title: "Error",
+                        text: "Terjadi error saat mengambil data assessment.",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup"
+                    })
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
        })
 
        return {

@@ -67,10 +67,13 @@
 import { ref, computed, onMounted } from 'vue'
 import initAPI from '../../../../api/api'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'PilihHari',
     setup(){
+        const router = useRouter()
         const hariReservasi = ref('')
         const tglReservasi = ref('')
         const waktuReservasi = ref('')
@@ -91,15 +94,28 @@ export default {
         const computedTgl = computed(() => dataTgl.value)
 
         onMounted(async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
-            // const response = await initAPI('get', 'consultants/available-schedule/1', null, token)
-            // const uniqueDays = Array.from(new Set(response.data.map(item => item.day)));
-            dataHari.value = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-
-            const fee = await initAPI('get', 'consultants', null, token)
-            console.log(`harga fee`, fee.data.data[0])
-            formattedFee.value = fee.data.data[0].formatted_fee
-            feeValue.value = fee.data.data[0].fee
+            const token = Cookies.get('token')
+            if(token){
+                dataHari.value = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                
+                try {
+                    const fee = await initAPI('get', 'consultants', null, token)
+                    console.log(`harga fee`, fee.data.data[0])
+                    formattedFee.value = fee.data.data[0].formatted_fee
+                    feeValue.value = fee.data.data[0].fee
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
         })
 
         const handleClick = (index, hari) => {
@@ -138,19 +154,34 @@ export default {
                     indexHari = 'Sunday';
                     break;
             }
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'consultants/available-schedule/1?day='+indexHari, null, token)
-            const filterTgl = []
-            const arrTgl = response.data.filter(item => {
-                const data = {
-                    tglSplit: item.date.split('-')[0],
-                    tglFull: item.date,
-                    available: item.available
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'consultants/available-schedule/1?day='+indexHari, null, token)
+                    const filterTgl = []
+                    const arrTgl = response.data.filter(item => {
+                        const data = {
+                            tglSplit: item.date.split('-')[0],
+                            tglFull: item.date,
+                            available: item.available
+                        }
+                        filterTgl.push(data)
+                    })
+                    activeIndex.value = index;
+                    dataTgl.value = filterTgl
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }
-                filterTgl.push(data)
-            })
-            activeIndex.value = index;
-            dataTgl.value = filterTgl
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             loadingHari.value = !loadingHari.value
         };
 
@@ -166,9 +197,24 @@ export default {
             tglReservasi.value = tgl
             loading.value = !loading.value
             console.log(`di klik`,tgl)
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', `consultants/available-schedule/1/${hariReservasi.value}?date=${tgl}`, null, token)
-            mockTgl.value = response.data.time
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', `consultants/available-schedule/1/${hariReservasi.value}?date=${tgl}`, null, token)
+                    mockTgl.value = response.data.time
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             loading.value = !loading.value
             // dataHari.value = response.data
             console.log('hari',dataHari.value)

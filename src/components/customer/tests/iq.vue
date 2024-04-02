@@ -108,11 +108,15 @@ import { useStore } from 'vuex'
 import InstruksiIQ from './iq_comps/petunjuk.vue'
 import QuestionsIQ from './iq_comps/questions.vue';
 import initAPI from '../../../api/api';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
+
 
 export default {
     name: 'TestIQ',
     components: {InstruksiIQ, QuestionsIQ},
     setup(){
+        const router = useRouter()
         const store = useStore()
         const isUnderstand = computed(() => store.getters.getIsUnderstand)
 
@@ -121,15 +125,26 @@ export default {
 
         const checkIQCustomer = async() => {
             loadingCheck.value = true
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const customerId = JSON.parse(localStorage.getItem('userData')).id
-                const response = await initAPI('get', `customers?id=${customerId}`, null, token)
-                console.log(response.data)
-
-                isTestedIQ.value = response.data.data[0].customer_iq !== null ? true : false
-            } catch (error) {
-                console.log(`error: ${error}`)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const customerId = JSON.parse(localStorage.getItem('userData')).id
+                    const response = await initAPI('get', `customers?id=${customerId}`, null, token)
+                    console.log(response.data)
+    
+                    isTestedIQ.value = response.data.data[0].customer_iq !== null ? true : false
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loadingCheck.value = false
         }

@@ -104,6 +104,8 @@ import initAPI from '../../../../../api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import belumTest from './belum_test.vue';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -111,6 +113,7 @@ export default {
     name: 'HasilAssessment',
     components: {PhEye, PhEar, PhHandTap, PhTextAa, Pie, belumTest},
     setup(){
+        const router = useRouter()
         const loading = ref(false)
         const isAssessment = ref(false)
 
@@ -130,43 +133,48 @@ export default {
         const valueTotal = ref(null)
 
         onMounted(async() => {
-            try {
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const userId = JSON.parse(localStorage.getItem('userData')).id
-                const response = await initAPI('get', `customers/assessments?customer_id=${userId}`, null, token)
-                if(response.data.data.length > 0){
-                    isAssessment.value = true
-                    gayaBelajar.value = response.data.data[0].assessment.name
-                    response.data.data[0].total_answer.forEach(element => {
-                       persentaseJawaban.push(element.percentage) 
-                    });
-
-                    valueTotal.value = response.data.data[0].result_percentage
-                    const formatText = response.data.data[0].assessment.description.map(sentence => sentence.replace(/\./g, '. <br> <br>')).join(' ');
-                    formattedText.value = formatText
-
-                    data.value = {
-                        labels: ['Auditori', 'Kinestetik', 'Visual'],
-                        datasets: [
-                        {
-                            backgroundColor: ['#0b40f4', '#00ab55', '#e7515a'],
-                            data: persentaseJawaban,
-                        },
-                        ],
-                    };
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    loading.value = !loading.value
+                    const userId = JSON.parse(localStorage.getItem('userData')).id
+                    const response = await initAPI('get', `customers/assessments?customer_id=${userId}`, null, token)
+                    if(response.data.data.length > 0){
+                        isAssessment.value = true
+                        gayaBelajar.value = response.data.data[0].assessment.name
+                        response.data.data[0].total_answer.forEach(element => {
+                           persentaseJawaban.push(element.percentage) 
+                        });
+    
+                        valueTotal.value = response.data.data[0].result_percentage
+                        const formatText = response.data.data[0].assessment.description.map(sentence => sentence.replace(/\./g, '. <br> <br>')).join(' ');
+                        formattedText.value = formatText
+    
+                        data.value = {
+                            labels: ['Auditori', 'Kinestetik', 'Visual'],
+                            datasets: [
+                            {
+                                backgroundColor: ['#0b40f4', '#00ab55', '#e7515a'],
+                                data: persentaseJawaban,
+                            },
+                            ],
+                        };
+                    }
+                    loading.value = !loading.value
+                } catch (error) {
+                    console.log(error)
+                    Swal.fire({
+                        title: "Error",
+                        text: "Terjadi error saat mengambil data assessment.",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup"
+                    })
                 }
-                loading.value = !loading.value
-            } catch (error) {
-                console.log(error)
-                Swal.fire({
-                    title: "Error",
-                    text: "Terjadi error saat mengambil data assessment.",
-                    icon: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup"
-                })
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         })
 

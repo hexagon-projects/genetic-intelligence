@@ -46,11 +46,14 @@ import initAPI from '../../../api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import ModalConsent from '../../informedConsent/modal.vue'
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default{
     name: 'TestAssessment',
     components: {belumTest, sudahTest, siapTest, ModalConsent},
     setup() {
+        const router = useRouter()
         const isAssessment = ref(false)
         const currForm = ref(0)
         const isKlikSiapTest = ref('tidak')
@@ -62,22 +65,27 @@ export default{
         }
 
         onMounted(async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
-            const userId = JSON.parse(localStorage.getItem('userData'))
-            try {
-                const response = await initAPI('get', `customers/assessments?customer_id=${userId.id}`, null, token)
-                if(response.data.data.length > 0){
-                    isAssessment.value = true
+            const token = Cookies.get('token')
+            if(token){
+                const userId = JSON.parse(localStorage.getItem('userData'))
+                try {
+                    const response = await initAPI('get', `customers/assessments?customer_id=${userId.id}`, null, token)
+                    if(response.data.data.length > 0){
+                        isAssessment.value = true
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Terjadi error saat mengambil data assessment.",
+                        icon: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup"
+                    })
                 }
-            } catch (error) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Terjadi error saat mengambil data assessment.",
-                    icon: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup"
-                })
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
 
         })

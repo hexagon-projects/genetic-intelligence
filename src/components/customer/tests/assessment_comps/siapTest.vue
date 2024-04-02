@@ -41,6 +41,7 @@ import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'SudahTest',
@@ -58,34 +59,39 @@ export default {
 
         const submitJawaban = async() => {
             console.log(`jawaban final`, arrCodeJawabanPertanyaan)
-            const token = JSON.parse(localStorage.getItem('token'))
-            const userId = JSON.parse(localStorage.getItem('userData'))
-            try {
-                const data = new FormData();
-                data.append('customer_id', userId.id)
-                data.append('answers', JSON.stringify(arrCodeJawabanPertanyaan));
-                console.log(`FD`, data)
-                const response = await initAPI('post', 'customers/assessments', data, token)
-                if(response.data.message){
+            const token = Cookies.get('token')
+            if(token){
+                const userId = JSON.parse(localStorage.getItem('userData'))
+                try {
+                    const data = new FormData();
+                    data.append('customer_id', userId.id)
+                    data.append('answers', JSON.stringify(arrCodeJawabanPertanyaan));
+                    console.log(`FD`, data)
+                    const response = await initAPI('post', 'customers/assessments', data, token)
+                    if(response.data.message){
+                        Swal.fire({
+                            title: "Jawaban kamu sudah direkam",
+                            text: "Kamu bisa melihat hasil test kamu setelah ini.",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#0b40f4",
+                            confirmButtonText: "Mengerti"
+                        })
+                        router.go()
+                    }
+                } catch (error) {
                     Swal.fire({
-                        title: "Jawaban kamu sudah direkam",
-                        text: "Kamu bisa melihat hasil test kamu setelah ini.",
-                        icon: "success",
+                        title: "Error",
+                        text: "Terjadi error saat merekam jawaban.",
+                        icon: "error",
                         showCancelButton: false,
                         confirmButtonColor: "#0b40f4",
-                        confirmButtonText: "Mengerti"
+                        confirmButtonText: "Tutup"
                     })
-                    router.go()
                 }
-            } catch (error) {
-                Swal.fire({
-                    title: "Error",
-                    text: "Terjadi error saat merekam jawaban.",
-                    icon: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup"
-                })
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             
         }
@@ -171,27 +177,58 @@ export default {
             console.log(`data jawaban`, arrCodeJawabanPertanyaan)
 
             loadingQuestion.value = !loadingQuestion.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', nextPage, null, token)
-            console.log(`qna`, response.data)
-            jawabanPertanyaan.value = response.data.data.map(() => []);
-            dataPertanyaan.value = response.data
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPages.value = response.data.next_page_url
+
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', nextPage, null, token)
+                    console.log(`qna`, response.data)
+                    jawabanPertanyaan.value = response.data.data.map(() => []);
+                    dataPertanyaan.value = response.data
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPages.value = response.data.next_page_url
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             loadingQuestion.value = !loadingQuestion.value
         }
 
         const getDataPertanyaan = async() => {
             loadingQuestion.value = !loadingQuestion.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'assessments/questions?status=1', null, token)
-            console.log(`qna`, response.data)
-            jawabanPertanyaan.value = response.data.data.map(() => []);
-            dataPertanyaan.value = response.data
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPages.value = response.data.next_page_url
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'assessments/questions?status=1', null, token)
+                    console.log(`qna`, response.data)
+                    jawabanPertanyaan.value = response.data.data.map(() => []);
+                    dataPertanyaan.value = response.data
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPages.value = response.data.next_page_url
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             loadingQuestion.value = !loadingQuestion.value
         }
 
