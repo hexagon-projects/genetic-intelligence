@@ -101,6 +101,8 @@ import tipsBisnisDanPeranVue from './tipsBisnisDanPeran.vue';
 import amalanCerdasDanRohani from './amalanCerdasDanRohani.vue';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
   name: 'HasilDeteksi',
@@ -135,8 +137,10 @@ export default {
             const userId = JSON.parse(localStorage.getItem('userData')).id
             try {
                 const response = await initApi('get', 'customers/gim-result/'+userId, null, token)
-                console.log(response.data.gim.gim_datas)
-                gimDatas.value = response.data.gim.gim_datas
+                if(response.data.gim){
+                    console.log(response.data.gim.gim_datas)
+                    gimDatas.value = response.data.gim.gim_datas
+                }
             } catch (error) {
                 console.log(error)
                 Swal.fire({
