@@ -94,7 +94,8 @@ import adminNav from './admin/admin.vue'
 import adminBotNav from './admin/adminBottom.vue'
 import initAPI from '../../api/api'
 import { jwtDecode } from 'jwt-decode'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default{
     name: 'NavbarVue',
@@ -120,7 +121,8 @@ export default{
 		const staffData = ref('')
 
 		onMounted(() => {
-			const token = JSON.parse(localStorage.getItem('token'))
+			const token = Cookies.get('token')
+			// const token = JSON.parse(localStorage.getItem('token'))
 			if(token){
 				const decodedToken = jwtDecode(token)
 				console.log(`di deocde`, decodedToken)
@@ -180,16 +182,19 @@ export default{
 		const Logout = async() => {
 			loading.value = !loading.value
 			try {
-				const token = JSON.parse(localStorage.getItem('token'))
+				const token = Cookies.get('token')
+				// const token = JSON.parse(localStorage.getItem('token'))
 				if(token){
 					const response = await initAPI('post', 'logout', null ,token)
 					localStorage.clear()
+					Cookies.remove('token')
 					// localStorage.removeItem('userData')
 					// localStorage.removeItem('userRole')
 					store.commit('user', null);
 					store.commit('userRole', null);
 				} else {
 					localStorage.clear()
+					Cookies.remove('token')
 					// localStorage.removeItem('userData')
 					// localStorage.removeItem('userRole')
 					store.commit('user', null);
