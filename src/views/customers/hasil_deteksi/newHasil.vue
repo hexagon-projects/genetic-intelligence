@@ -99,6 +99,8 @@ import cardPendidikanSampaiKekurangan from './PendidikanPekerjaanPersonal.vue';
 import belajarDanSukses from './belajarDanSukses.vue';
 import tipsBisnisDanPeranVue from './tipsBisnisDanPeran.vue';
 import amalanCerdasDanRohani from './amalanCerdasDanRohani.vue';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
   name: 'HasilDeteksi',
@@ -108,6 +110,7 @@ export default {
     FileDanKonsultasi, VideoHasil, NoteHasilDeteksi, DalamProses
 },
   setup(){
+    const router = useRouter()
     const loadingFetch = ref(false)
     const sudahTest = ref(true)
     const showModal = ref(false);
@@ -127,21 +130,26 @@ export default {
 
     onMounted(async() => {
         loadingFetch.value = !loadingFetch.value
-        const token = JSON.parse(localStorage.getItem('token'))
-        const userId = JSON.parse(localStorage.getItem('userData')).id
-        try {
-            const response = await initApi('get', 'customers/gim-result/'+userId, null, token)
-            console.log(response.data.gim.gim_datas)
-            gimDatas.value = response.data.gim.gim_datas
-        } catch (error) {
-            console.log(error)
-            Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi kesalahan saat mengambil data',
-                    text: 'Error terjadi.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+        const token = Cookies.get('token')
+        if(token){
+            const userId = JSON.parse(localStorage.getItem('userData')).id
+            try {
+                const response = await initApi('get', 'customers/gim-result/'+userId, null, token)
+                console.log(response.data.gim.gim_datas)
+                gimDatas.value = response.data.gim.gim_datas
+            } catch (error) {
+                console.log(error)
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi kesalahan saat mengambil data',
+                        text: 'Error terjadi.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+            }
+        } else {
+            router.push('/login')
+            localStorage.clear()
         }
         loadingFetch.value = !loadingFetch.value
     })

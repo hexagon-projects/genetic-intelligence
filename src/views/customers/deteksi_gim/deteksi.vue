@@ -148,12 +148,14 @@ import initAPI from '../../../api/api';
 import { PhPrinter, PhTarget, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight } from "@phosphor-icons/vue";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-import { onBeforeRouteUpdate } from 'vue-router';
+import { onBeforeRouteUpdate, useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
   name: 'deteksi',
   components: {Instruksi, FormUpload, Review, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight},
   setup(){
+    const router = useRouter()
     const loading = ref(false);
     const loadingSubmit = ref(false);
     const store = useStore()
@@ -169,54 +171,82 @@ export default {
         console.log(`form yeuh`, formData)
 
         const customerId = userData.value.id
-        const token = JSON.parse(localStorage.getItem('token'))
+        const token = Cookies.get('token')
 
-        try {
-            if(reviewImage.value !== null){
-            const response = await initAPI(
-                'post','customers/gim-result/upload-test/'+customerId, formData, token
-            );
-            if(response.status == 200){
+        if(token){
+            try {
+                if(reviewImage.value !== null){
+                const response = await initAPI(
+                    'post','customers/gim-result/upload-test/'+customerId, formData, token
+                );
+                if(response.status == 200){
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'File di Upload',
+                    text: 'Deteksi GIM akan segera di proses',
+                    showConfirmButton: false,
+                    timer: 2000
+                    });
+                }
+                const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                store.commit('user', updatedCustomer.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                console.log('update', updatedCustomer.data.data[0])
+                console.log('Response from API:', response.data);
+                } else {
                 Swal.fire({
-                icon: 'success',
-                title: 'File di Upload',
-                text: 'Deteksi GIM akan segera di proses',
-                showConfirmButton: false,
-                timer: 2000
+                    icon: 'error',
+                    title: 'Upload Gagal',
+                    text: 'Upload file terlebih dahulu',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat mengirim data',
+                    showConfirmButton: false,
+                    timer: 2000
                 });
             }
-            const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-            store.commit('user', updatedCustomer.data.data[0])
-            localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-            console.log('update', updatedCustomer.data.data[0])
-            console.log('Response from API:', response.data);
-            } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Upload Gagal',
-                text: 'Upload file terlebih dahulu',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
+        } else {
+            router.push('/login')
+            localStorage.clear()
         }
+
 
         loadingSubmit.value = !loadingSubmit.value
     };
 
     const refreshData = async(userId) => {
-        const token = JSON.parse(localStorage.getItem('token'))
-        console.log(`id refresh`, userId)
         loading.value = !loading.value
-        const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
-        console.log(refreshedCustomer.data.data[0])
-        store.commit('user', refreshedCustomer.data.data[0])
-        localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
-        
-        const userResult = await initAPI('get', 'customers/gim-result/'+userId, null, token)
-        localStorage.setItem('userResult', JSON.stringify(userResult.data))
+        const token = Cookies.get('token')
+        if(token){
+            try {
+                console.log(`id refresh`, userId)
+                const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
+                console.log(refreshedCustomer.data.data[0])
+                store.commit('user', refreshedCustomer.data.data[0])
+                localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
+                
+                const userResult = await initAPI('get', 'customers/gim-result/'+userId, null, token)
+                localStorage.setItem('userResult', JSON.stringify(userResult.data))
+            } catch(error) {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+            }
+        } else {
+            router.push('/login')
+            localStorage.clear()
+        }
         loading.value = !loading.value
     }
 
