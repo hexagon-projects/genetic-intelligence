@@ -18,11 +18,14 @@ import { ref, computed } from 'vue';
 import initAPI from '../../api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'FormDeteksi',
     setup() {
 
+    const router = useRouter()
     const store = useStore()
     const userData = computed(() => store.getters.getUserData)
     const reviewImage = computed(() => store.getters.getReviewImage)
@@ -39,39 +42,50 @@ export default {
       formData.append('detection_image', files.value[0]);
 
       const customerId = userData.value.id
-      const token = JSON.parse(localStorage.getItem('token'))
+      const token = Cookies.get('token')
 
-      try {
-        console.log('form', formData)
-        console.log('id', customerId)
-        if(files.value.length > 0){
-          const response = await initAPI(
-            'post','customers/gim-result/upload-test/'+customerId, formData, token
-          );
-          if(response.status == 200){
+      if(token){
+        try {
+          console.log('form', formData)
+          console.log('id', customerId)
+          if(files.value.length > 0){
+            const response = await initAPI(
+              'post','customers/gim-result/upload-test/'+customerId, formData, token
+            );
+            if(response.status == 200){
+              Swal.fire({
+                icon: 'success',
+                title: 'File di Upload',
+                text: 'Deteksi GIM akan segera di proses',
+                showConfirmButton: false,
+                timer: 2000
+              });
+            }
+            const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+            store.commit('user', updatedCustomer.data.data[0])
+            console.log('update', updatedCustomer.data.data[0])
+            // console.log('Response from API:', response.data);
+          } else {
             Swal.fire({
-              icon: 'success',
-              title: 'File di Upload',
-              text: 'Deteksi GIM akan segera di proses',
-              showConfirmButton: false,
-              timer: 2000
+                icon: 'error',
+                title: 'Upload Gagal',
+                text: 'Upload file terlebih dahulu',
+                showConfirmButton: false,
+                timer: 2000
             });
           }
-          const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-          store.commit('user', updatedCustomer.data.data[0])
-          console.log('update', updatedCustomer.data.data[0])
-          // console.log('Response from API:', response.data);
-        } else {
+        } catch (error) {
           Swal.fire({
               icon: 'error',
-              title: 'Upload Gagal',
-              text: 'Upload file terlebih dahulu',
+              title: 'Error',
+              text: 'Terjadi kesalahan saat mengirim data',
               showConfirmButton: false,
               timer: 2000
           });
         }
-      } catch (error) {
-        console.error('Error submitting form:', error);
+      } else {
+        router.push('/login')
+        localStorage.clear()
       }
     };
 

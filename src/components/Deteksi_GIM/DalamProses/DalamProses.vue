@@ -34,6 +34,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import initAPI from '../../../api/api';
 import { computed, ref } from 'vue';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'DalamProsesDeteksi',
@@ -45,16 +46,31 @@ export default {
 
         const refreshData = async(userId) => {
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            console.log(`id refresh`, userId)
-            const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
-            console.log(refreshedCustomer.data.data[0])
-            store.commit('user', refreshedCustomer.data.data[0])
-            localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
-
-            const userResult = await initAPI('get', 'customers/gim-result/'+userId, null, token)
-            localStorage.setItem('userResult', JSON.stringify(userResult.data))
-            router.go()
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    console.log(`id refresh`, userId)
+                    const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
+                    console.log(refreshedCustomer.data.data[0])
+                    store.commit('user', refreshedCustomer.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
+        
+                    const userResult = await initAPI('get', 'customers/gim-result/'+userId, null, token)
+                    localStorage.setItem('userResult', JSON.stringify(userResult.data))
+                    router.go()
+                } catch(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             loading.value = !loading.value
         }
 
