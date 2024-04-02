@@ -314,6 +314,7 @@ import { Pie } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 ChartJS.register(ArcElement, Tooltip, Legend)
 import { jwtDecode } from "jwt-decode"
+import Cookies from 'js-cookie'
 
 
 export default {
@@ -371,7 +372,9 @@ export default {
 
         loading.value = !loading.value
         onMounted(async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
+            console.log(`cookie token`, token)
+            // const const token = Cookies.get('token')
             if(token){
                 const decodedToken = jwtDecode(token)
                 console.log(`decode dashboard`, decodedToken)
@@ -388,7 +391,7 @@ export default {
             }
             
             if(newRole.value == 'customer'){
-                const token = JSON.parse(localStorage.getItem('token'))
+                const token = Cookies.get('token')
                 const customerId = userData.value.id
     
                 //get gim result
@@ -405,7 +408,7 @@ export default {
                 //get iq result
                 const userId = JSON.parse(localStorage.getItem('userData')).id
                 const responseIq = await initAPI('get', `customers?id=${userId}`, null, token)
-                console.log(responseIq.data.data[0])
+                // console.log(responseIq.data.data[0])
 
                 isTestedIQ.value = responseIq.data.data[0].customer_iq !== null ? true : false
 
