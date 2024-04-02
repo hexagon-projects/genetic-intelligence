@@ -124,10 +124,16 @@ export default{
 			const token = Cookies.get('token')
 			// const token = JSON.parse(localStorage.getItem('token'))
 			if(token){
-				const decodedToken = jwtDecode(token)
-				console.log(`di deocde`, decodedToken)
-
-				userRole.value = decodedToken.role
+				try {
+					const decodedToken = jwtDecode(token)
+					console.log(`di deocde`, decodedToken)
+	
+					userRole.value = decodedToken.role
+				} catch (error) {
+					console.log('invalid token')
+					router.push('/login')
+					Cookies.remove('token')
+				}
 			} else {
 				localStorage.clear()
 				router.push('/login')

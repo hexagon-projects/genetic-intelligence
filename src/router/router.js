@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import { useStore } from 'vuex'
 import { computed } from "vue"
 import { jwtDecode } from "jwt-decode"
+import Cookies from 'js-cookie'
 
 const routes = [
     { 
@@ -54,9 +55,15 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth) next({ name: 'views.login' })
-            else next()
+            if(!isAuth || !token){
+                localStorage.clear()
+                Cookies.remove('token')
+                next({ name: 'views.login' })
+            } else {
+                next()
+            } 
         }
     },
     {
@@ -68,7 +75,8 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
+            // const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -92,7 +100,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -116,7 +124,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -140,7 +148,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 next({ name: 'views.login' });
@@ -163,7 +171,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -187,7 +195,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -211,7 +219,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -235,7 +243,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -254,7 +262,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -287,7 +295,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -311,7 +319,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -335,7 +343,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -359,7 +367,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -383,7 +391,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -407,7 +415,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -431,7 +439,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -455,7 +463,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -479,7 +487,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -503,7 +511,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -527,7 +535,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -551,7 +559,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -575,7 +583,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -599,7 +607,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -638,7 +646,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -662,7 +670,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -686,7 +694,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
@@ -710,7 +718,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
