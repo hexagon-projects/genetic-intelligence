@@ -202,6 +202,7 @@ import reviewReservasi from './table_review/review.vue'
 import DashboardReservasi from './table_reservasi/reservasi.vue'
 import ReservasiOnProgressDashboard from './reservasi_on_progress/onprogress.vue'
 import initAPI from '../../../api/api'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'Dashboard',
@@ -223,7 +224,7 @@ export default {
         
         onMounted(async() => {
             loadingData.value = !loadingData.value
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
             const totalReview = await initAPI('get', 'customers?is_detected=1', null, token)
             const totalPermintaan = await initAPI('get', 'customers/reservations?status=0', null, token)

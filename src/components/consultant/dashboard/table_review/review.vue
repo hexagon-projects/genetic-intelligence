@@ -94,6 +94,7 @@ import _debounce from 'lodash/debounce';
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import { PhArrowRight } from '@phosphor-icons/vue'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'TableReviewDashboard',
@@ -116,15 +117,30 @@ export default {
 
         const getAllData = async() => {
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers?is_detected=1&perpage=5', null, token)
-            dataSubmit.value = response.data.data
-            totalHalaman.value = response.data.total
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            loading.value = !loading.value
-            console.log(`data`,dataSubmit.value)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'customers?is_detected=1&perpage=5', null, token)
+                    dataSubmit.value = response.data.data
+                    totalHalaman.value = response.data.total
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    loading.value = !loading.value
+                    console.log(`data`,dataSubmit.value)
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
         }
 
         // const getSearchData = async() => {

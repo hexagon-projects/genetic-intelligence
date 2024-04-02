@@ -102,6 +102,7 @@ import DOMPurify from 'dompurify'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
 name: 'DetailReview',
@@ -126,10 +127,26 @@ setup() {
                 console.log(`review`,datas.value)
             }
         }
-        const token = JSON.parse(localStorage.getItem('token'))
-        const response = await initAPI('post', 'customers/gim-result/in-review/'+dataReview.value.id, null, token)
-        console.log(response.data)
-        datas.value = response.data
+
+        const token = Cookies.get('token')
+        if(token){
+            try {
+                const response = await initAPI('post', 'customers/gim-result/in-review/'+dataReview.value.id, null, token)
+                console.log(response.data)
+                datas.value = response.data
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat mengambil data',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        } else {
+            router.push('/login')
+            localStorage.clear()
+        }
         loadingFetch.value = !loadingFetch.value
     })
 
@@ -158,32 +175,37 @@ setup() {
         const submitNote = async(customer_id) => {
             const gimId = datas.value.gim_id
             const note = notes.value
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const data = new FormData();
-                data.append('gim_id', gimId);
-                data.append('note', note);
+            data.append('gim_id', gimId);
+            data.append('note', note);
             console.log(`kirim nnote`,data)
-            try {
-                const response = await initAPI('post', 'customers/gim-result/'+customer_id, data, token)
-                console.log(response.data)
-                Swal.fire({
-                      icon: 'success',
-                      title: 'Berhasil!',
-                      text: response.data.message,
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
-                
-                localStorage.removeItem('reviewData')
-                router.push({name: 'consultant.views.review'})
-            } catch (error) {
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Submit Gagal',
-                      text: 'Submit review gagal dilakukan',
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+            if(token){
+                try {
+                    const response = await initAPI('post', 'customers/gim-result/'+customer_id, data, token)
+                    console.log(response.data)
+                    Swal.fire({
+                          icon: 'success',
+                          title: 'Berhasil!',
+                          text: response.data.message,
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
+                    
+                    localStorage.removeItem('reviewData')
+                    router.push({name: 'consultant.views.review'})
+                } catch (error) {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Submit Gagal',
+                          text: 'Submit review gagal dilakukan',
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 

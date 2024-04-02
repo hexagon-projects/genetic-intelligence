@@ -51,11 +51,14 @@
 import { onMounted,ref } from 'vue'
 import initAPI from '../../../../api/api'
 import { PhArrowRight, PhPlay } from '@phosphor-icons/vue'
+import Cookies from 'js-cookie'
+import { useRouter } from 'vue-router'
 
 export default {
     name: 'TableReviewDashboard',
     components: {PhArrowRight, PhPlay},
     setup(){
+        const router = useRouter()
         const loading = ref(false)
         const dataReservasi = ref([])
 
@@ -65,13 +68,28 @@ export default {
 
         const getAllData = async() => {
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=2&today=true', null, token)
-            if(response.data.data.length > 0){
-                dataReservasi.value = response.data.data
-                console.log(`wajig kie`,dataReservasi.value)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'customers/reservations?status=2&today=true', null, token)
+                    if(response.data.data.length > 0){
+                        dataReservasi.value = response.data.data
+                        console.log(`wajig kie`,dataReservasi.value)
+                    } else {
+                        dataReservasi.value = 'Kosong'
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
             } else {
-                dataReservasi.value = 'Kosong'
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         }

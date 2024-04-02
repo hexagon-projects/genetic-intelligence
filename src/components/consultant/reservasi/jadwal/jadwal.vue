@@ -375,11 +375,13 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {useRouter} from 'vue-router'
 import _debounce from 'lodash/debounce';
+import Cookies from 'js-cookie'
 
 export default{
     name: 'JadwalReservasi',
     components: {PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay, PhFunnel, PhCheck},
     setup(){
+        const router = useRouter()
         const loading = ref(false)
         const totalHalaman = ref('')
         const itemsPerPage = ref(null)
@@ -435,44 +437,48 @@ export default{
             isFilter.value = true
             filterStatusCode.value = 3
             loading.value = !loading.value
-            try {
-                if(search !== null){
-                    const token = JSON.parse(localStorage.getItem('token'))
-                    const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest&search='+search, null, token)
-                    console.log('filter proses', response.data)
-                    itemsPerPage.value = response.data.per_page
-                    currPage.value = response.data.current_page
-                    nextPage.value = response.data.next_page_url
-                    prevPage.value = response.data.prev_page_url
-                    totalDari.value = response.data.from
-                    totalKe.value = response.data.to
-                    totalData.value = response.data.total
-                    totalHalaman.value = response.data.last_page
-                    dataJadwal.value = response.data.data
-                    detailCustomers.value = response.data.data.customers 
-                } else {
-                    const token = JSON.parse(localStorage.getItem('token'))
-                    const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
-                    console.log('filter proses', response.data)
-                    itemsPerPage.value = response.data.per_page
-                    currPage.value = response.data.current_page
-                    nextPage.value = response.data.next_page_url
-                    prevPage.value = response.data.prev_page_url
-                    totalDari.value = response.data.from
-                    totalKe.value = response.data.to
-                    totalData.value = response.data.total
-                    totalHalaman.value = response.data.last_page
-                    dataJadwal.value = response.data.data
-                    detailCustomers.value = response.data.data.customers 
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    if(search !== null){
+                        const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest&search='+search, null, token)
+                        console.log('filter proses', response.data)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                    } else {
+                        const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
+                        console.log('filter proses', response.data)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        title: "Gagal",
+                        text: "Terjadi error saat filter data On Process.",
+                        icon: "error",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
                 }
-            } catch (error) {
-                Swal.fire({
-                    title: "Gagal",
-                    text: "Terjadi error saat filter data On Process.",
-                    icon: "error",
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         }
@@ -508,7 +514,7 @@ export default{
         }
 
         const filterData = async(params) => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             loading.value = !loading.value
             labelFilter.value = params
             isFilter.value = true
@@ -518,29 +524,34 @@ export default{
             : `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest&search=${cari.value}`
             console.log(`params yeuh`, params)
 
-            const response = await initAPI('get', 'customers/reservations?'+filterParams, null, token)
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            totalHalaman.value = response.data.last_page
-            dataJadwal.value = response.data.data
-            detailCustomers.value = response.data.data.customers 
-            console.log(`response`,response.data.data)
-            loading.value = !loading.value
-            // if(params == 'Dalam Proses'){
-            //     if(cari.value){
-            //         await getOnProcessData(cari.value)
-            //     } else {
-            //         await getOnProcessData(null)
-            //     }
-            // } else {
-            //     await getScheduledData()
-            // }
-
+            if(token){
+                try {
+                    const response = await initAPI('get', 'customers/reservations?'+filterParams, null, token)
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    totalHalaman.value = response.data.last_page
+                    dataJadwal.value = response.data.data
+                    detailCustomers.value = response.data.data.customers 
+                    console.log(`response`,response.data.data)
+                    loading.value = !loading.value
+                } catch(error) {
+                    Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat mengambil data',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
         }
 
         const clickDetail = (id) => {
@@ -574,31 +585,36 @@ export default{
         }
 
         const requestCancel = async(id) => {
-            try {
-                const data = { status: 99 }
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('post', 'customers/reservations/change-status/'+id, data, token)
-                console.log(response.data)
-                if(response.data.success == true){
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const data = { status: 99 }
+                    const response = await initAPI('post', 'customers/reservations/change-status/'+id, data, token)
+                    console.log(response.data)
+                    if(response.data.success == true){
+                        Swal.fire({
+                            title: "Berhasil",
+                            text: "Reservasi telah dibatalkan.",
+                            icon: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+    
+                        await getAllData()
+                    }
+                } catch (error) {
+                    console.log(error)
                     Swal.fire({
-                        title: "Berhasil",
-                        text: "Reservasi telah dibatalkan.",
-                        icon: "success",
+                        title: "Gagal",
+                        text: "Terjadi error saat membatalkan reservasi.",
+                        icon: "error",
                         timer: 2000,
                         showConfirmButton: false
                     });
-
-                    await getAllData()
                 }
-            } catch (error) {
-                console.log(error)
-                Swal.fire({
-                    title: "Gagal",
-                    text: "Terjadi error saat membatalkan reservasi.",
-                    icon: "error",
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -621,31 +637,36 @@ export default{
         }
 
         const confirmMulai = async(reservationId) => {
-            try {
-                console.log(`ini id mulai`, reservationId)
-                const token = JSON.parse(localStorage.getItem('token'))
-                const data = new FormData();
-                data.append('status', 3);
-
-                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-                console.log(response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                
-                getAllData()
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error saat memulai reservasi',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    console.log(`ini id mulai`, reservationId)
+                    const data = new FormData();
+                    data.append('status', 3);
+    
+                    const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                    console.log(response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    
+                    getAllData()
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error saat memulai reservasi',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -669,35 +690,40 @@ export default{
 
         const confirmSelesai = async(reservationId) => {
             console.log(`ini id selesai`, reservationId)
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const data = new FormData();
             data.append('status', 4);
 
-            try {
-                const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-                console.log(response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                
-                if(isFilter.value == true && labelFilter.value !== 'Filter Data'){
-                    resetFilter()
+            if(token){
+                try {
+                    const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
+                    console.log(response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    
+                    if(isFilter.value == true && labelFilter.value !== 'Filter Data'){
+                        resetFilter()
+                    }
+                    
+                    getAllData()
+    
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error saat update status ke Selesai',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }
-                
-                getAllData()
-
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error saat update status ke Selesai',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -720,30 +746,45 @@ export default{
             // const filterParams = filterStatusCode.value === null 
             // ? 'status=2&sort_by_date=oldest&sort_by_time=oldest&search='+cari.value 
             // : 'sort_by_date=oldest&sort_by_time=oldest&search='+cari.value+'&status='+filterStatusCode.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            totalHalaman.value = response.data.last_page
-            dataJadwal.value = response.data.data
-            detailCustomers.value = response.data.data.customers 
-            console.log(`response`,response.data.data)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    totalHalaman.value = response.data.last_page
+                    dataJadwal.value = response.data.data
+                    detailCustomers.value = response.data.data.customers 
+                    console.log(`response`,response.data.data)
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             // console.log(response.data.data[0].customers)
             loading.value = !loading.value
         }
 
         const getSearchData = async() => {
-            if(cari.value !== '' && cari.value.length >= 2){
+            const token = Cookies.get('token')
+            if(token && cari.value !== '' && cari.value.length >= 2){
                 loading.value = !loading.value
                 const filterParams = filterStatusCode.value === null 
                 ? 'sort_by_date=oldest&sort_by_time=oldest&search='+cari.value 
                 : 'sort_by_date=oldest&sort_by_time=oldest&search='+cari.value+'&status='+filterStatusCode.value
-                const token = JSON.parse(localStorage.getItem('token'))
                 const query = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
                 dataJadwal.value = query.data.data
                 totalHalaman.value = query.data.total
@@ -756,120 +797,149 @@ export default{
                 totalData.value = query.data.total
                 totalHalaman.value = query.data.last_page
                 loading.value = !loading.value
-            } else {
-                return getAllData() 
+            } else if(!token){
+                router.push('/login')
+                localStorage.clear()
+            } else if(cari.value == ''){
+                return getAllData()
             }
         }
 
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
         const prevPages = async(url) => {
-            if(url !== null && cari.value && filterStatusCode.value == null){
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
-                console.log(`response`,response.data.data)
-                // console.log(response.data.data[0].customers)
-                loading.value = !loading.value
-            } else if(url !== null && cari.value && filterStatusCode.value !== null) {
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
-                console.log(`response`,response.data.data)
-                // console.log(response.data.data[0].customers)
-                loading.value = !loading.value
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    if(url !== null && cari.value && filterStatusCode.value == null){
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                        console.log(`response`,response.data.data)
+                        // console.log(response.data.data[0].customers)
+                        loading.value = !loading.value
+                    } else if(url !== null && cari.value && filterStatusCode.value !== null) {
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                        console.log(`response`,response.data.data)
+                        // console.log(response.data.data[0].customers)
+                        loading.value = !loading.value
+                    } else {
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url, null, token)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                        console.log(`response`,response.data.data)
+                        // console.log(response.data.data[0].customers)
+                        loading.value = !loading.value
+                    }
+                } catch(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
             } else {
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url, null, token)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
-                console.log(`response`,response.data.data)
-                // console.log(response.data.data[0].customers)
-                loading.value = !loading.value
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
         const nextPages = async(url) => {
-            if(url !== null && cari.value && filterStatusCode.value == null){
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
-                console.log(`response`,response.data.data)
-                // console.log(response.data.data[0].customers)
-                loading.value = !loading.value
-            } else if(url !== null && cari.value && filterStatusCode.value !== null) {
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
-                console.log(`response`,response.data.data)
-                // console.log(response.data.data[0].customers)
-                loading.value = !loading.value
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    if(url !== null && cari.value && filterStatusCode.value == null){
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                        console.log(`response`,response.data.data)
+                        // console.log(response.data.data[0].customers)
+                        loading.value = !loading.value
+                    } else if(url !== null && cari.value && filterStatusCode.value !== null) {
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                        console.log(`response`,response.data.data)
+                        // console.log(response.data.data[0].customers)
+                        loading.value = !loading.value
+                    } else {
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url, null, token)
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        totalHalaman.value = response.data.last_page
+                        dataJadwal.value = response.data.data
+                        detailCustomers.value = response.data.data.customers 
+                        console.log(`response`,response.data.data)
+                        // console.log(response.data.data[0].customers)
+                        loading.value = !loading.value
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
             } else {
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url, null, token)
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                totalHalaman.value = response.data.last_page
-                dataJadwal.value = response.data.data
-                detailCustomers.value = response.data.data.customers 
-                console.log(`response`,response.data.data)
-                // console.log(response.data.data[0].customers)
-                loading.value = !loading.value
+                router.push('/login')
+                localStorage.clear()
             }
         }
 

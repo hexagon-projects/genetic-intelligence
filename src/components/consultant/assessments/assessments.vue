@@ -337,11 +337,13 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import {useRouter} from 'vue-router'
 import _debounce from 'lodash/debounce';
+import Cookies from 'js-cookie'
 
 export default{
   name: 'HasilAssessment',
   components: {PhCaretLeft, PhCaretRight, PhEye, PhX, PhPlay, PhFunnel, PhCheck},
   setup(){
+      const router = useRouter()
       const loading = ref(false)
       const totalHalaman = ref('')
       const itemsPerPage = ref(null)
@@ -400,7 +402,7 @@ export default{
         loading.value = !loading.value
         const filterParams = cari.value === null ? 'assessment_id='+filterStatusCode.value : 'search='+cari.value+'&assessment_id='+filterStatusCode.value
         try {
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', 'customers/assessments?'+filterParams, null, token)
               console.log('filter scheduled', response.data)
               itemsPerPage.value = response.data.per_page
@@ -445,7 +447,7 @@ export default{
           loading.value = !loading.value
           let filterParams = cari.value === null ? '' : '?search='+cari.value
           filterParams = filterStatusCode.value === null ? filterParams : cari.value === null ? filterParams+'?assessment_id='+filterStatusCode.value : filterParams+'&assessment_id='+filterStatusCode.value
-          const token = JSON.parse(localStorage.getItem('token'))
+          const token = Cookies.get('token')
           const response = await initAPI('get', 'customers/assessments'+filterParams, null, token)
           itemsPerPage.value = response.data.per_page
           currPage.value = response.data.current_page
@@ -466,7 +468,7 @@ export default{
           if(cari.value !== '' && cari.value.length >= 2){
               loading.value = !loading.value
               const filterParams = filterStatusCode.value === null ? 'search='+cari.value : 'search='+cari.value+'&assessment_id='+filterStatusCode.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const query = await initAPI('get', 'customers/assessments?'+filterParams, null, token)
               dataJadwal.value = query.data.data
               totalHalaman.value = query.data.total
@@ -489,7 +491,7 @@ export default{
       const prevPages = async(url) => {
           if(url !== null && cari.value && filterStatusCode.value == null){
               loading.value = !loading.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', url+'&search='+cari.value, null, token)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page
@@ -506,7 +508,7 @@ export default{
               loading.value = !loading.value
           } else if(url !== null && cari.value && filterStatusCode.value !== null) {
               loading.value = !loading.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page
@@ -523,7 +525,7 @@ export default{
               loading.value = !loading.value
           } else {
               loading.value = !loading.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', url, null, token)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page
@@ -544,7 +546,7 @@ export default{
       const nextPages = async(url) => {
           if(url !== null && cari.value && filterStatusCode.value == null){
               loading.value = !loading.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', url+'&search='+cari.value, null, token)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page
@@ -561,7 +563,7 @@ export default{
               loading.value = !loading.value
           } else if(url !== null && cari.value && filterStatusCode.value !== null) {
               loading.value = !loading.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page
@@ -578,7 +580,7 @@ export default{
               loading.value = !loading.value
           } else {
               loading.value = !loading.value
-              const token = JSON.parse(localStorage.getItem('token'))
+              const token = Cookies.get('token')
               const response = await initAPI('get', url, null, token)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page

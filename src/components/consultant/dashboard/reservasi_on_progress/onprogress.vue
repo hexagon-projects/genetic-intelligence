@@ -30,6 +30,7 @@
 <script>
 import { onMounted,ref } from 'vue'
 import initAPI from '../../../../api/api'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'ReservasiOnProgressDashboard',
@@ -43,9 +44,21 @@ export default {
 
         const getData = async() => {
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
-            console.log(`hihi`,response.data)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
+                    console.log(`hihi`,response.data)
+                } catch(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }
             loading.value = !loading.value
         }
 
