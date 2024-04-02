@@ -177,6 +177,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import initAPI from '../../../api/api'
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import Cookies from 'js-cookie'
 
 export default {
     name: 'customerBotNav',
@@ -255,10 +256,11 @@ export default {
         const Logout = async() => {
 			try {
 				loading.value = !loading.value
-				const token = JSON.parse(localStorage.getItem('token'))
+				const token = Cookies.get('token')
 				if(token){
 					const response = await initAPI('post', 'logout', null ,token)
 					localStorage.clear()
+                    Cookies.remove('token')
 					// localStorage.removeItem('userData')
 					// localStorage.removeItem('userRole')
 					store.commit('user', null);
