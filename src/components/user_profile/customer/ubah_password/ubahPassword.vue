@@ -27,11 +27,14 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useStore } from 'vuex'
 import DOMPurify from 'dompurify'
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'UbahPassword',
     props: ['dataCustomer'],
     setup(props){
+        const router = useRouter()
         const store = useStore()
         const userData = ref(props.dataCustomer)
 
@@ -40,44 +43,48 @@ export default {
         const newPass = ref('')
 
         const changePassword = async () => {
-            
-            try {
-                const customerId = userData.value.id
-                const userId = userData.value.user.id
-                const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const customerId = userData.value.id
+                    const userId = userData.value.user.id
+        
+                    const data = JSON.stringify({
+                        current_password: DOMPurify.sanitize(currPass.value),
+                        new_password: DOMPurify.sanitize(newPass.value),
+                    })
     
-                const data = JSON.stringify({
-                    current_password: DOMPurify.sanitize(currPass.value),
-                    new_password: DOMPurify.sanitize(newPass.value),
-                })
-
-                console.log(`sanitasi`, data)
-
-                // const response = await initAPI(
-                //     'put','change-password/'+userId, data, token
-                // );
+                    console.log(`sanitasi`, data)
     
-                // if(response.status == 200){
-                //     Swal.fire({
-                //         icon: 'success',
-                //         title: 'Success',
-                //         text: response.data.message,
-                //         showConfirmButton: false,
-                //         timer: 2000
-                //     });
-                //     const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-                //     store.commit('user', updatedCustomer.data.data[0])
-                //     localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-                // }
-            } catch (error) {
-                console.log(`ubah password error yeuh`, error)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Gagal mengubah password.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+                    const response = await initAPI(
+                        'put','change-password/'+userId, data, token
+                    );
+        
+                    if(response.status == 200){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                        store.commit('user', updatedCustomer.data.data[0])
+                        localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                    }
+                } catch (error) {
+                    console.log(`ubah password error yeuh`, error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Gagal mengubah password.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 

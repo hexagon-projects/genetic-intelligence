@@ -37,6 +37,8 @@ import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import DOMPurify from 'dompurify'
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'InformasiSekolah',
@@ -44,6 +46,7 @@ export default {
     setup(props){
         console.log('data props is', props)
 
+        const router = useRouter()
         const jenjangPendidikan = ref(props.dataCustomer.institutions.type)
         const namaPendidikan = ref(props.dataCustomer.institutions.name)
         const kelas = ref(props.dataCustomer.grade)
@@ -57,30 +60,34 @@ export default {
                 majoring: DOMPurify.sanitize(jurusan.value)
             })
 
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-
-                const response = await initAPI('', '', data, token)
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-                store.commit('user', updatedCustomer.data.data[0])
-                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Gagal mengubah password.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('', '', data, token)
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+    
+                    const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                    store.commit('user', updatedCustomer.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Gagal mengubah password.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 

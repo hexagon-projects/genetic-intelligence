@@ -137,12 +137,14 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useStore } from 'vuex'
 import DOMPurify from 'dompurify'
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'InformasiPribadi',
     props: ['dataCustomer'],
     setup(props){
-        console.log(`ie props sateh`, props)
+        const router = useRouter()
         const store = useStore()
         const userData = ref(props.dataCustomer)
 
@@ -241,7 +243,7 @@ export default {
 
         const ubahData = async() => {
             const customerId = userData.value.id
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
             const formData = new FormData();
             formData.append('_method', 'PUT');
@@ -256,37 +258,39 @@ export default {
             formData.append('village_id', DOMPurify.sanitize(kelurahan.value));
             formData.append('address', DOMPurify.sanitize(alamatLengkap.value));
 
-            // for (var pair of formData.entries()) {
-            //     console.log(pair); 
-            // }
-
-            try{
-                const response = await initAPI(
-                    'post','customers/'+customerId, formData, token
-                );
-    
-                if(response.status == 200){
+            if(token){
+                try{
+                    const response = await initAPI(
+                        'post','customers/'+customerId, formData, token
+                    );
+        
+                    if(response.status == 200){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                        store.commit('user', updatedCustomer.data.data[0])
+                        localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+                    }
+                }catch(err){
+                    console.log(`aimaneh ie error`, err)
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.data.message,
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Gagal mengubah data.',
                         showConfirmButton: false,
                         timer: 2000
                     });
-                    const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-                    store.commit('user', updatedCustomer.data.data[0])
-                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
                 }
-            }catch(err){
-                console.log(`aimaneh ie error`, err)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Gagal mengubah data.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
+
 
             // console.log(response.data)
         }

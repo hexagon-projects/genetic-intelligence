@@ -176,10 +176,13 @@ import { useStore } from 'vuex'
 import initAPI from '../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'consultantProfile',
     setup(){
+        const router = useRouter()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
         const selected_day = ref('Monday')
         const store = useStore()
@@ -198,29 +201,34 @@ export default {
 
         const uploadFoto = async() => {
             const consultantId = userData.value.id
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
 
-            if (file) {
-                const formData = new FormData();
-                formData.append('_method', 'PUT');
-                formData.append('image', file);
-
-                const response = await initAPI('post','consultants/'+consultantId, formData, token)
-                if(response.status == 200){
-                    Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
-                updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
-                store.commit('user', updatedConsultant.data.data[0])
-                localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
+            if(token){
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('_method', 'PUT');
+                    formData.append('image', file);
+    
+                    const response = await initAPI('post','consultants/'+consultantId, formData, token)
+                    if(response.status == 200){
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                    updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
+                    store.commit('user', updatedConsultant.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
+                    }
                 }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -266,34 +274,50 @@ export default {
 
         const changePassword = async () => {
             const userId = userData.value.user_id
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
-            const data = JSON.stringify({
-                current_password: currPass.value,
-                new_password: newPass.value,
-            })
-
-            const response = await initAPI(
-                'put','change-password/'+userId, data, token
-            );
-
-            if(response.status == 200){
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
-                updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
-                store.commit('user', updatedConsultant.data.data[0])
+            if(token){
+                try {
+                    const data = JSON.stringify({
+                        current_password: currPass.value,
+                        new_password: newPass.value,
+                    })
+        
+                    const response = await initAPI(
+                        'put','change-password/'+userId, data, token
+                    );
+        
+                    if(response.status == 200){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                        updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
+                        store.commit('user', updatedConsultant.data.data[0])
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat ubah password',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
+
         }
 
         const ubahData = async() => {
             const consultantId = userData.value.id
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
             const formData = new FormData();
             formData.append('_method', 'PUT');
@@ -304,30 +328,35 @@ export default {
             formData.append('address', alamatLengkap.value);
             formData.append('number', noWhatsapp.value);
 
-            const response = await initAPI(
-                'post','consultants/'+consultantId, formData, token
-            );
-
-            if(response.status == 200){
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
-                updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
-                store.commit('user', updatedConsultant.data.data[0])
-                localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
-            }else{
-                Swal.fire({
-                    icon: 'danger',
-                    title: 'Failed',
-                    text: response.data.error,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            if(token){
+                const response = await initAPI(
+                    'post','consultants/'+consultantId, formData, token
+                );
+    
+                if(response.status == 200){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                    updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
+                    store.commit('user', updatedConsultant.data.data[0])
+                    localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
+                }else{
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Failed',
+                        text: response.data.error,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -372,39 +401,44 @@ export default {
 
         const saveKonsulData = async () => {
             const consultantId = userData.value.id
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
             const formData = new FormData();
             formData.append('_method', 'PUT');
             formData.append('fee', parseInt(consultant_fee.value));
             formData.append('available_on', available_on);
 
-            try{
-                const response = await initAPI(
-                    'post','consultants/'+consultantId, formData, token
-                );
-    
-                if(response.status == 200){
+            if(token){
+                try{
+                    const response = await initAPI(
+                        'post','consultants/'+consultantId, formData, token
+                    );
+        
+                    if(response.status == 200){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
+                        updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
+                        store.commit('user', updatedConsultant.data.data[0])
+                        localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
+                    }
+                }catch(error){
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.data.message,
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Gagal mengubah data.',
                         showConfirmButton: false,
                         timer: 2000
                     });
-                    const updatedConsultant = await initAPI('get', 'consultants?id='+consultantId, null, token)
-                    updatedConsultant.data.data[0].available_on = JSON.stringify(updatedConsultant.data.data[0].available_on)
-                    store.commit('user', updatedConsultant.data.data[0])
-                    localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
                 }
-            }catch(error){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Gagal mengubah data.',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 

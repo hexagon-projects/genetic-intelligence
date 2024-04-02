@@ -35,6 +35,12 @@ export default {
         const userData = computed(() => store.getters.getUserData)
         const userRole = computed(() => store.getters.getUserRole)
 
+        console.log(`ie`,userData.value)
+        if(!userData.value){
+          const dataUser = localStorage.getItem('userData')
+          store.commit('user', dataUser)
+        }
+
         return { 
             userData,
             userRole,
