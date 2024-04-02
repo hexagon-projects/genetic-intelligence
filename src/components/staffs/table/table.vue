@@ -136,11 +136,13 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'TableStaff',
     components: {PhCaretLeft, PhCaretRight, PhFileSearch, PhX, PhGraduationCap, modalDetail},
     setup(){
+        const router = useRouter()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
         const staffType = JSON.parse(localStorage.getItem('staffDetail')).institutions.type
 
@@ -165,33 +167,38 @@ export default {
         const isFilterGrade = ref(false)
 
         const luluskanSiswa = async(idSiswa) => {
-            try {
-                console.log(`lulus - ${idSiswa}`)
-                const token = JSON.parse(localStorage.getItem('token'))
-
-                const dataLulus = new FormData();
-                        dataLulus.append('new_is_student', '0')
-
-                const response = await initAPI('put', `customers/change-student-status/${idSiswa}`, dataLulus, token)
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Siswa Sudah Diluluskan',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                getAllData()
-            } catch (error) {
-                console.log(error)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal Meluluskan Siswa',
-                    text: 'Error terjadi',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    console.log(`lulus - ${idSiswa}`)
+    
+                    const dataLulus = new FormData();
+                    dataLulus.append('new_is_student', '0')
+    
+                    const response = await initAPI('put', `customers/change-student-status/${idSiswa}`, dataLulus, token)
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Siswa Sudah Diluluskan',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+    
+                    getAllData()
+                } catch (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Meluluskan Siswa',
+                        text: 'Error terjadi',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -294,27 +301,41 @@ export default {
             console.log(`semua`,allParams)
 
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const institution_id = JSON.parse(localStorage.getItem('staffDetail')).institution_id
-            const response = await initAPI('get', `customers?is_student=1&institution_id=${institution_id}${allParams}`, null, token)
-            console.log(`customers`,response.data)
-            dataSiswa.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const institution_id = JSON.parse(localStorage.getItem('staffDetail')).institution_id
+                    const response = await initAPI('get', `customers?is_student=1&institution_id=${institution_id}${allParams}`, null, token)
+                    console.log(`customers`,response.data)
+                    dataSiswa.value = response.data.data
+                    totalHalaman.value = response.data.last_page
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
             loading.value = !loading.value
-            console.log(`data`,dataSiswa.value)
         }
 
         const getSearchData = async() => {
             if(cari.value !== '' && cari.value.length >= 2){
                 loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
+                const token = Cookies.get('token')
                 const query = await initAPI('get', 'customers?search='+cari.value, null, token)
                 dataSiswa.value = query.data.data
                 totalHalaman.value = query.data.last_page
