@@ -353,6 +353,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
 import _debounce from 'lodash/debounce';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'FormRegistrasiKonsultan',
@@ -401,7 +402,7 @@ export default {
         }
 
         const register = async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
             const data = new FormData();
             data.append('email', DOMPurify.sanitize(emailInput.value))
@@ -412,28 +413,32 @@ export default {
             data.append('institution_id', DOMPurify.sanitize(idSekolah.value))
             console.log(data + token)
 
-            try {
-                const response = await initAPI('post', 'staffs', data, token)
-                console.log(`register konsultan`, response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Registrasi Berhasil',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                
-                closeModal()
-                router.go()
-            } catch (error) {
-                console.log(`error`,error)
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Registrasi Gagal',
-                      text: 'Terjadi Kesalahan',
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+            if(token){
+                try {
+                    const response = await initAPI('post', 'staffs', data, token)
+                    console.log(`register konsultan`, response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registrasi Berhasil',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    
+                    closeModal()
+                    router.go()
+                } catch (error) {
+                    console.log(`error`,error)
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Registrasi Gagal',
+                          text: 'Terjadi Kesalahan',
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
+                }
+            } else {
+                alert('haduh')
             }
         }
 

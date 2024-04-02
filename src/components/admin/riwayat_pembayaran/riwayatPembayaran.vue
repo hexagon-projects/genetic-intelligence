@@ -324,11 +324,14 @@ import { PhEye, PhCaretLeft, PhCaretRight, PhX } from '@phosphor-icons/vue'
 import initAPI from '../../../api/api'
 import { onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue'
 import _debounce from 'lodash/debounce';
+import Cookies from 'js-cookie'
+import { useRouter } from 'vue-router'
 
 export default {
     name: 'RiwayatPembarayan',
     components: {PhEye, PhCaretLeft, PhCaretRight, PhX},
     setup(){
+        const router = useRouter()
         const loading = ref(false)
 
         const isModalOpen = ref(false)
@@ -361,35 +364,40 @@ export default {
 
         const getAllData = async() => {
             loading.value = !loading.value
-            try {
-                let allParams = '?'
-                console.log(queryParams)
-                for (const [key, value] of Object.entries(queryParams)) {
-                    allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    let allParams = '?'
+                    console.log(queryParams)
+                    for (const [key, value] of Object.entries(queryParams)) {
+                        allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
+                    }
+                    console.log(allParams)
+    
+                    const response = await initAPI('get', 'payment_histories'+allParams.replace('?&', '?'), null, token)
+                    console.log(response.data)
+                    dataRiwayatPembayaran.value = response.data.data
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    currPage.value = response.data.current_page
+                    itemsPerPage.value = response.data.per_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalHalaman.value = response.data.last_page
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Error',
+                        text: 'Ada error saat mengambil data Riwayat Pembayaran',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup",
+                    });
                 }
-                console.log(allParams)
-
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', 'payment_histories'+allParams.replace('?&', '?'), null, token)
-                console.log(response.data)
-                dataRiwayatPembayaran.value = response.data.data
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                currPage.value = response.data.current_page
-                itemsPerPage.value = response.data.per_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalHalaman.value = response.data.last_page
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi Error',
-                    text: 'Ada error saat mengambil data Riwayat Pembayaran',
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup",
-                });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         } 

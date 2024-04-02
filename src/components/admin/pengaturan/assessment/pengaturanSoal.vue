@@ -195,11 +195,13 @@ import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Cookies from 'js-cookie'
 
 export default {
   name: 'PengaturanSoalAssessment',
   components: {PhCaretLeft, PhCaretRight, PhEye, PhPencilSimple, PhX},
   setup(){
+      const router = useRouter()
       const loading = ref(false)
       const loadingSubmit = ref(false)
       const dataSoal = ref([])
@@ -232,20 +234,25 @@ export default {
           for (const [key, value] of Object.entries(queryParams)) {
             allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
           }
-          const token = JSON.parse(localStorage.getItem('token'))
-          const response = await initAPI('get', 'assessments/questions'+allParams.replace('?&', '?'), null, token)
-          console.log(response.data)
-          dataSoal.value = response.data.data
-          totalHalaman.value = response.data.last_page
-          itemsPerPage.value = response.data.per_page
-          currPage.value = response.data.current_page
-          nextPage.value = response.data.next_page_url
-          prevPage.value = response.data.prev_page_url
-          totalDari.value = response.data.from
-          totalKe.value = response.data.to
-          totalData.value = response.data.total
-          loading.value = !loading.value
-          console.log(`data`,dataSoal.value)
+          const token = Cookies.get('token')
+          if(token){
+              const response = await initAPI('get', 'assessments/questions'+allParams.replace('?&', '?'), null, token)
+              console.log(response.data)
+              dataSoal.value = response.data.data
+              totalHalaman.value = response.data.last_page
+              itemsPerPage.value = response.data.per_page
+              currPage.value = response.data.current_page
+              nextPage.value = response.data.next_page_url
+              prevPage.value = response.data.prev_page_url
+              totalDari.value = response.data.from
+              totalKe.value = response.data.to
+              totalData.value = response.data.total
+              loading.value = !loading.value
+              console.log(`data`,dataSoal.value)
+          } else {
+            router.push('/login')
+            localStorage.clear()
+          }
       }
 
       const debouncedGetSearchData = _debounce(() => {
@@ -304,41 +311,46 @@ export default {
 
       const submitEdit = async(detailSoal) => {
           loadingSubmit.value = !loadingSubmit.value
-          try {
-              const data = {
-                  question: detailSoal.question,
-                  answer_a: detailSoal.answers[0].answer,
-                  answer_b: detailSoal.answers[1].answer,
-                  answer_c: detailSoal.answers[2].answer,
-                  status: 1,
-              }
-
-              const token = JSON.parse(localStorage.getItem('token'))
-              const response = await initAPI('put', `assessments/questions/${detailSoal.id}`, data, token)
-              console.log(response.data)
-              Swal.fire({
-                  icon: 'success',
-                  title: 'Berhasil',
-                  text: 'Soal Assessment berhasil diubah.',
-                  showConfirmButton: true,
-                  confirmButtonColor: "#0b40f4",
-                  confirmButtonText: "Tutup",
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      isModalOpen.value = false
-                      getAllData()
+          const token = Cookies.get('token')
+          if(token){
+              try {
+                  const data = {
+                      question: detailSoal.question,
+                      answer_a: detailSoal.answers[0].answer,
+                      answer_b: detailSoal.answers[1].answer,
+                      answer_c: detailSoal.answers[2].answer,
+                      status: 1,
                   }
-              })
-          } catch (error) {
-              console.log(error)
-              Swal.fire({
-                  icon: 'error',
-                  title: 'Terjadi Error',
-                  text: 'Ada error saat merubah data Soal Assessment.',
-                  showConfirmButton: true,
-                  confirmButtonColor: "#0b40f4",
-                  confirmButtonText: "Tutup",
-              });
+    
+                  const response = await initAPI('put', `assessments/questions/${detailSoal.id}`, data, token)
+                  console.log(response.data)
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Berhasil',
+                      text: 'Soal Assessment berhasil diubah.',
+                      showConfirmButton: true,
+                      confirmButtonColor: "#0b40f4",
+                      confirmButtonText: "Tutup",
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          isModalOpen.value = false
+                          getAllData()
+                      }
+                  })
+              } catch (error) {
+                  console.log(error)
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Terjadi Error',
+                      text: 'Ada error saat merubah data Soal Assessment.',
+                      showConfirmButton: true,
+                      confirmButtonColor: "#0b40f4",
+                      confirmButtonText: "Tutup",
+                  });
+              }
+          } else {
+            router.push('/login')
+            localStorage.clear()
           }
           isModalOpen.value = false
           loadingSubmit.value = !loadingSubmit.value

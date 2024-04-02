@@ -493,12 +493,13 @@ import initAPI from '../../../api/api';
 import _debounce from 'lodash/debounce';
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex';
-import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'AdminReservasi',
     components: {PhCaretLeft, PhCaretRight, PhFileSearch, PhX},
     setup(){
+        const router = useRouter()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
 
         const loading = ref(false)
@@ -577,42 +578,63 @@ export default {
             } else {
                 filterParams = null
             }
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
-            console.log(`customers`,response.data)
-            dataCustomer.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-            console.log(`data`,dataCustomer.value)
+
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
+                    console.log(`customers`,response.data)
+                    dataCustomer.value = response.data.data
+                    totalHalaman.value = response.data.last_page
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    loading.value = !loading.value
+                    console.log(`data`,dataCustomer.value)
+                } catch(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
         }
 
         const getSearchData = async() => {
-            if(cari.value !== '' && cari.value.length >= 2){
-                loading.value = !loading.value
-                const filterParams = filterStatusCode.value === null 
-                ? 'search='+cari.value 
-                : 'search='+cari.value+'&status='+filterStatusCode.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const query = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
-                dataCustomer.value = query.data.data
-                totalHalaman.value = query.data.last_page
-                itemsPerPage.value = query.data.per_page
-                currPage.value = query.data.current_page
-                nextPage.value = query.data.next_page_url
-                prevPage.value = query.data.prev_page_url
-                totalDari.value = query.data.from
-                totalKe.value = query.data.to
-                totalData.value = query.data.total
-                loading.value = !loading.value
+            const token = Cookies.get('token')
+            if(token){
+                if(cari.value !== '' && cari.value.length >= 2){
+                    loading.value = !loading.value
+                    const filterParams = filterStatusCode.value === null 
+                    ? 'search='+cari.value 
+                    : 'search='+cari.value+'&status='+filterStatusCode.value
+                    const query = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
+                    dataCustomer.value = query.data.data
+                    totalHalaman.value = query.data.last_page
+                    itemsPerPage.value = query.data.per_page
+                    currPage.value = query.data.current_page
+                    nextPage.value = query.data.next_page_url
+                    prevPage.value = query.data.prev_page_url
+                    totalDari.value = query.data.from
+                    totalKe.value = query.data.to
+                    totalData.value = query.data.total
+                    loading.value = !loading.value
+                } else {
+                    return getAllData() 
+                }
             } else {
-                return getAllData() 
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -667,190 +689,210 @@ export default {
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
         const nextPages = async(url) => {
-            if(cari.value && filterStatusCode.value == null){
-                console.log(url)
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                console.log(`customers`,response.data)
-                dataCustomer.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
-            } else if(cari.value && filterStatusCode.value !== null) {
-                console.log(url)
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
-                console.log(`customers`,response.data)
-                dataCustomer.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
-            } else {
-                console.log(url)
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url, null, token)
-                console.log(`customers`,response.data)
-                dataCustomer.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    if(cari.value && filterStatusCode.value == null){
+                        console.log(url)
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                        console.log(`customers`,response.data)
+                        dataCustomer.value = response.data.data
+                        totalHalaman.value = response.data.last_page
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        loading.value = !loading.value
+                        console.log(`data`,dataCustomer.value)
+                    } else if(cari.value && filterStatusCode.value !== null) {
+                        console.log(url)
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                        console.log(`customers`,response.data)
+                        dataCustomer.value = response.data.data
+                        totalHalaman.value = response.data.last_page
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        loading.value = !loading.value
+                        console.log(`data`,dataCustomer.value)
+                    } else {
+                        console.log(url)
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url, null, token)
+                        console.log(`customers`,response.data)
+                        dataCustomer.value = response.data.data
+                        totalHalaman.value = response.data.last_page
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        loading.value = !loading.value
+                        console.log(`data`,dataCustomer.value)
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
             }
         }
 
         const prevPages = async(url) => {
-            if(cari.value && filterStatusCode.value == null){
-                console.log(url)
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                console.log(`customers`,response.data)
-                dataCustomer.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
-            } else if(cari.value && filterStatusCode.value !== null) {
-                console.log(url)
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
-                console.log(`customers`,response.data)
-                dataCustomer.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
-            } else {
-                console.log(url)
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', url, null, token)
-                console.log(`customers`,response.data)
-                dataCustomer.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    if(cari.value && filterStatusCode.value == null){
+                        console.log(url)
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                        console.log(`customers`,response.data)
+                        dataCustomer.value = response.data.data
+                        totalHalaman.value = response.data.last_page
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        loading.value = !loading.value
+                        console.log(`data`,dataCustomer.value)
+                    } else if(cari.value && filterStatusCode.value !== null) {
+                        console.log(url)
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
+                        console.log(`customers`,response.data)
+                        dataCustomer.value = response.data.data
+                        totalHalaman.value = response.data.last_page
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        loading.value = !loading.value
+                        console.log(`data`,dataCustomer.value)
+                    } else {
+                        console.log(url)
+                        loading.value = !loading.value
+                        const response = await initAPI('get', url, null, token)
+                        console.log(`customers`,response.data)
+                        dataCustomer.value = response.data.data
+                        totalHalaman.value = response.data.last_page
+                        itemsPerPage.value = response.data.per_page
+                        currPage.value = response.data.current_page
+                        nextPage.value = response.data.next_page_url
+                        prevPage.value = response.data.prev_page_url
+                        totalDari.value = response.data.from
+                        totalKe.value = response.data.to
+                        totalData.value = response.data.total
+                        loading.value = !loading.value
+                        console.log(`data`,dataCustomer.value)
+                    }
+                } catch (error) {
+                    Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Terjadi kesalahan saat mengambil data',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                }
             }
         }
 
-        const getDataTerjadwal = async() => {
-            filterStatusCode.value = 2
-            console.log(`wakwaw`)
-            loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=2', null, token)
-            console.log(`customers`,response.data)
-            dataCustomer.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-        }
+        // const getDataTerjadwal = async() => {
+        //     filterStatusCode.value = 2
+        //     console.log(`wakwaw`)
+        //     loading.value = !loading.value
+        //     const token = JSON.parse(localStorage.getItem('token'))
+        //     const response = await initAPI('get', 'customers/reservations?status=2', null, token)
+        //     console.log(`customers`,response.data)
+        //     dataCustomer.value = response.data.data
+        //     totalHalaman.value = response.data.last_page
+        //     itemsPerPage.value = response.data.per_page
+        //     currPage.value = response.data.current_page
+        //     nextPage.value = response.data.next_page_url
+        //     prevPage.value = response.data.prev_page_url
+        //     totalDari.value = response.data.from
+        //     totalKe.value = response.data.to
+        //     totalData.value = response.data.total
+        //     loading.value = !loading.value
+        // }
 
-        const getDataApprove = async() => {
-            filterStatusCode.value = 1
-            console.log(`wakwaw`)
-            loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=1', null, token)
-            console.log(`customers`,response.data)
-            dataCustomer.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-        }
+        // const getDataApprove = async() => {
+        //     filterStatusCode.value = 1
+        //     console.log(`wakwaw`)
+        //     loading.value = !loading.value
+        //     const token = JSON.parse(localStorage.getItem('token'))
+        //     const response = await initAPI('get', 'customers/reservations?status=1', null, token)
+        //     console.log(`customers`,response.data)
+        //     dataCustomer.value = response.data.data
+        //     totalHalaman.value = response.data.last_page
+        //     itemsPerPage.value = response.data.per_page
+        //     currPage.value = response.data.current_page
+        //     nextPage.value = response.data.next_page_url
+        //     prevPage.value = response.data.prev_page_url
+        //     totalDari.value = response.data.from
+        //     totalKe.value = response.data.to
+        //     totalData.value = response.data.total
+        //     loading.value = !loading.value
+        // }
 
-        const getDataProses = async() => {
-            filterStatusCode.value = 3
-            console.log(`wakwaw`)
-            loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=3', null, token)
-            console.log(`customers`,response.data)
-            dataCustomer.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-        }
+        // const getDataProses = async() => {
+        //     filterStatusCode.value = 3
+        //     console.log(`wakwaw`)
+        //     loading.value = !loading.value
+        //     const token = JSON.parse(localStorage.getItem('token'))
+        //     const response = await initAPI('get', 'customers/reservations?status=3', null, token)
+        //     console.log(`customers`,response.data)
+        //     dataCustomer.value = response.data.data
+        //     totalHalaman.value = response.data.last_page
+        //     itemsPerPage.value = response.data.per_page
+        //     currPage.value = response.data.current_page
+        //     nextPage.value = response.data.next_page_url
+        //     prevPage.value = response.data.prev_page_url
+        //     totalDari.value = response.data.from
+        //     totalKe.value = response.data.to
+        //     totalData.value = response.data.total
+        //     loading.value = !loading.value
+        // }
 
-        const getDataSelesai = async() => {
-            filterStatusCode.value = 4
-            console.log(`wakwaw`)
-            loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', 'customers/reservations?status=4', null, token)
-            console.log(`customers`,response.data)
-            dataCustomer.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-        }
+        // const getDataSelesai = async() => {
+        //     filterStatusCode.value = 4
+        //     console.log(`wakwaw`)
+        //     loading.value = !loading.value
+        //     const token = JSON.parse(localStorage.getItem('token'))
+        //     const response = await initAPI('get', 'customers/reservations?status=4', null, token)
+        //     console.log(`customers`,response.data)
+        //     dataCustomer.value = response.data.data
+        //     totalHalaman.value = response.data.last_page
+        //     itemsPerPage.value = response.data.per_page
+        //     currPage.value = response.data.current_page
+        //     nextPage.value = response.data.next_page_url
+        //     prevPage.value = response.data.prev_page_url
+        //     totalDari.value = response.data.from
+        //     totalKe.value = response.data.to
+        //     totalData.value = response.data.total
+        //     loading.value = !loading.value
+        // }
 
         const filterData = async(params) => {
             labelFilter.value = params
@@ -859,7 +901,7 @@ export default {
             const filterParams = cari.value === null 
             ? 'status='+filterStatusCode.value 
             : 'search='+cari.value+'&status='+filterStatusCode.value
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
             loading.value = !loading.value
             const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
             console.log(`customers`,response.data)

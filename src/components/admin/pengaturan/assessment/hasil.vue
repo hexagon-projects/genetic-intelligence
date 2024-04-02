@@ -162,11 +162,15 @@ import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import _debounce from 'lodash/debounce';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'PengaturanJawabanAssessment',
     components: {PhEye, PhTrash, PhPlus},
     setup(){
+        const router = useRouter()
+
         const loading = ref(false)
         const loadingSubmit = ref(false)
 
@@ -212,40 +216,45 @@ export default {
 
         const submitEdit = async(assessmentId) => {
             loadingSubmit.value = !loadingSubmit.value
-            try {
-                console.log(assessmentId)
-                console.log(newAnswer.value)
-                const data = {
-                    name: newNameAssessment.value,
-                    description: newAnswer.value
-                }
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('put', `assessments/${assessmentId}`, data, token)
-                console.log(response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: 'Data Assessment berhasil diubah.',
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        isModalOpen.value = false
-                        if(submitDisabled.value == false) submitDisabled.value = true
-                        getAllData()
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    console.log(assessmentId)
+                    console.log(newAnswer.value)
+                    const data = {
+                        name: newNameAssessment.value,
+                        description: newAnswer.value
                     }
-                })
-            } catch (error) {
-                console.log(error)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi Error',
-                    text: 'Ada error saat merubah data Hasil Assessment.',
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup",
-                });
+                    const response = await initAPI('put', `assessments/${assessmentId}`, data, token)
+                    console.log(response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Data Assessment berhasil diubah.',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            isModalOpen.value = false
+                            if(submitDisabled.value == false) submitDisabled.value = true
+                            getAllData()
+                        }
+                    })
+                } catch (error) {
+                    console.log(error)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Error',
+                        text: 'Ada error saat merubah data Hasil Assessment.',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup",
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             isModalOpen.value = false
             loadingSubmit.value = !loadingSubmit.value
@@ -296,36 +305,46 @@ export default {
 
         const getAllData = async() => {
             loading.value = !loading.value
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', 'assessments', null, token)
-                console.log(response.data)
-                totalDari.value = response.data.from 
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-                dataAssessment.value = response.data.data
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi Error',
-                    text: 'Ada error saat mengambil data Hasil Assessment',
-                    showConfirmButton: true,
-                    confirmButtonColor: "#0b40f4",
-                    confirmButtonText: "Tutup",
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'assessments', null, token)
+                    console.log(response.data)
+                    totalDari.value = response.data.from 
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    dataAssessment.value = response.data.data
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Error',
+                        text: 'Ada error saat mengambil data Hasil Assessment',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Tutup",
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loading.value = !loading.value
         }
 
         const getSearchData = async() => {
             loading.value = !loading.value
-            const token = JSON.parse(localStorage.getItem('token'))
-            const query = await initAPI('get', 'assessments?search='+cari.value, null, token)
-            dataAssessment.value = query.data.data
-            totalDari.value = query.data.from
-            totalKe.value = query.data.to
-            totalData.value = query.data.total
-            loading.value = !loading.value
+            const token = Cookies.get('token')
+            if(token){
+                const query = await initAPI('get', 'assessments?search='+cari.value, null, token)
+                dataAssessment.value = query.data.data
+                totalDari.value = query.data.from
+                totalKe.value = query.data.to
+                totalData.value = query.data.total
+                loading.value = !loading.value
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
         }
 
         const debouncedGetSearchData = _debounce(getSearchData, 500);

@@ -101,6 +101,7 @@ import initAPI from '../../../../api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'PengaturanHarga',
@@ -128,62 +129,73 @@ export default {
         }
         
         const updateHarga = async(params) => {
-            try {
-                const data = {
-                    price: params == 'student' ? updatedHargaStudent.value : updatedHargaNonStudent.value
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const data = {
+                        price: params == 'student' ? updatedHargaStudent.value : updatedHargaNonStudent.value
+                    }
+    
+                    let endpoint = params == 'student' ? 'register-student' : 'register-non-student'
+                    const response = await initAPI('put', `register/payment/${endpoint}`, JSON.stringify(data), token)
+                    console.log(response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Harga Diubah',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+    
+                    setTimeout(() => {
+                        router.go()
+                    }, 250);
+                } catch(error) {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Terjadi Error',
+                          text: 'Ada error sistem saat merubah harga',
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
                 }
-
-                let endpoint = params == 'student' ? 'register-student' : 'register-non-student'
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('put', `register/payment/${endpoint}`, JSON.stringify(data), token)
-                console.log(response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Harga Diubah',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                })
-
-                setTimeout(() => {
-                    router.go()
-                }, 250);
-            } catch(error) {
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Terjadi Error',
-                      text: 'Ada error sistem saat merubah harga',
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
         const getData = async() => {
-            try {
-                loading.value = !loading.value
-                const token = JSON.parse(localStorage.getItem('token'))
-                const studentPrice = await initAPI('get', 'register/payment?type=register-student', null, token)
-                console.log(studentPrice.data)
-        
-                const nonStudentPrice = await initAPI('get', 'register/payment?type=register-non-student', null, token)
-        
-                Promise.all([studentPrice, nonStudentPrice])
-                    .then(results => {
-                        console.log(results)
-                        hargaStudent.value = results[0].data.price
-                        hargaNonStudent.value = results[1].data.price
-                    })
-                
+            const token = Cookies.get('token')
+
+            if(token){
+                try {
                     loading.value = !loading.value
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Terjadi Error',
-                    text: 'Ada error saat mengambil data harga',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+                    const studentPrice = await initAPI('get', 'register/payment?type=register-student', null, token)
+                    console.log(studentPrice.data)
+            
+                    const nonStudentPrice = await initAPI('get', 'register/payment?type=register-non-student', null, token)
+            
+                    Promise.all([studentPrice, nonStudentPrice])
+                        .then(results => {
+                            console.log(results)
+                            hargaStudent.value = results[0].data.price
+                            hargaNonStudent.value = results[1].data.price
+                        })
+                    
+                        loading.value = !loading.value
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Error',
+                        text: 'Ada error saat mengambil data harga',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
         

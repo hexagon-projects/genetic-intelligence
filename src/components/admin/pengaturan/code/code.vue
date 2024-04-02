@@ -120,11 +120,14 @@ import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import ModalTambahCode from './form/tambah.vue'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'PengaturanVoucher',
     components: {PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus,ModalTambahCode},
     setup(){
+        const router = useRouter()
+
         const isModalOpen = ref(false)
 
         const loading = ref(false)
@@ -162,28 +165,34 @@ export default {
             }
             console.log(`semua`,allParams)
 
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('get', 'school_codes'+allParams.replace('?&', '?'), null, token)
-                console.log(response.data)
-                dataCode.value = response.data.data
-                totalHalaman.value = response.data.last_page
-                itemsPerPage.value = response.data.per_page
-                currPage.value = response.data.current_page
-                nextPage.value = response.data.next_page_url
-                prevPage.value = response.data.prev_page_url
-                totalDari.value = response.data.from
-                totalKe.value = response.data.to
-                totalData.value = response.data.total
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Terjadi',
-                    text: 'Terjadi Kesalahan Saat Mengambil Data Code',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', 'school_codes'+allParams.replace('?&', '?'), null, token)
+                    console.log(response.data)
+                    dataCode.value = response.data.data
+                    totalHalaman.value = response.data.last_page
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Terjadi',
+                        text: 'Terjadi Kesalahan Saat Mengambil Data Code',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
+
 
             loading.value = !loading.value
         }
@@ -199,29 +208,35 @@ export default {
         }, 500)
 
         const hapusData = async(id) => {
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('delete', `school_codes/${id}`, null, token)
-                console.log(response.data)
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Data Berhasil Dihapus',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                getAllData()
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal Hapus Data',
-                    text: 'Terjadi Kesalahan Saat Hapus Data',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('delete', `school_codes/${id}`, null, token)
+                    console.log(response.data)
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Data Berhasil Dihapus',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+    
+                    getAllData()
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Hapus Data',
+                        text: 'Terjadi Kesalahan Saat Hapus Data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
+
         }
 
         const btnAction = (id, method) => {

@@ -105,6 +105,7 @@ import initAPI from '../../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'FormRegistrasiKonsultan',
@@ -126,39 +127,44 @@ export default {
         const region = ref(props.method == 'update' ? props.detailData.region : '')
 
         const register = async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
-
+            const token = Cookies.get('token')
+            
             const data = new FormData();
             data.append('name', DOMPurify.sanitize(name.value));
             data.append('type', DOMPurify.sanitize(type.value));
             data.append('region', DOMPurify.sanitize(region.value))
             console.log(data + token)
-
+            
             loadingAdd.value = !loadingAdd.value
-            try {
-                const method = props.method == 'update' ? 'put' : 'post'
-                const endpoint = props.method == 'update' ? `institutions/${props.detailData.id}` : 'institutions'
-                const response = await initAPI(method, endpoint, data, token)
-                console.log(`register sekolah`, response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: props.method == 'update' ? 'Data Diubah' : 'Registrasi Berhasil',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                closeModal()
-                router.go()
-            } catch (error) {
-                console.log(`error`,error)
-                Swal.fire({
-                      icon: 'error',
-                      title: props.method == 'update' ? 'Update Data Sekolah Gagal' : 'Tambah Data Sekolah Gagal',
-                      text: 'Terjadi Kesalahan',
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+            if(token){
+                try {
+                    const method = props.method == 'update' ? 'put' : 'post'
+                    const endpoint = props.method == 'update' ? `institutions/${props.detailData.id}` : 'institutions'
+                    const response = await initAPI(method, endpoint, data, token)
+                    console.log(`register sekolah`, response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: props.method == 'update' ? 'Data Diubah' : 'Registrasi Berhasil',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+    
+                    closeModal()
+                    router.go()
+                } catch (error) {
+                    console.log(`error`,error)
+                    Swal.fire({
+                          icon: 'error',
+                          title: props.method == 'update' ? 'Update Data Sekolah Gagal' : 'Tambah Data Sekolah Gagal',
+                          text: 'Terjadi Kesalahan',
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
             loadingAdd.value = !loadingAdd.value
         }

@@ -154,11 +154,14 @@ import _debounce from 'lodash/debounce';
 import { PhCaretLeft, PhCaretRight, PhEye, PhTrash, PhPlus, PhX } from '@phosphor-icons/vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Cookies from 'js-cookie'
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'DataGuru',
     components: {PhPlus, PhCaretLeft, PhCaretRight, PhEye, PhTrash, PhX, ModalTambahGuru},
     setup(){
+        const router = useRouter()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
 
         const isModalTambahGuru = ref(false)
@@ -185,28 +188,33 @@ export default {
         const modalType = ref('')
 
         const hapusData = async(id) => {
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('delete', `staffs/${id}`, null, token)
-                console.log(response.data)
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Data Berhasil Dihapus',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                getAllData()
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal Hapus Data',
-                    text: 'Terjadi Kesalahan Saat Hapus Data',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('delete', `staffs/${id}`, null, token)
+                    console.log(response.data)
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Data Berhasil Dihapus',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+    
+                    getAllData()
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Hapus Data',
+                        text: 'Terjadi Kesalahan Saat Hapus Data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -294,20 +302,32 @@ export default {
             }
             console.log(`semua`,allParams)
 
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', `staffs`+allParams.replace('?&', '?'), null, token)
-            console.log(`customers`,response.data)
-            dataGuru.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-            console.log(`data`,dataGuru.value)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', `staffs`+allParams.replace('?&', '?'), null, token)
+                    console.log(`customers`,response.data)
+                    dataGuru.value = response.data.data
+                    totalHalaman.value = response.data.last_page
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    loading.value = !loading.value
+                    console.log(`data`,dataGuru.value)
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }
         }
 
         const filterTipe = (params) => {

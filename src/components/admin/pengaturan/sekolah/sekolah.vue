@@ -136,11 +136,14 @@ import { PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus, PhX } from 
 import _debounce from 'lodash/debounce';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'AdminReservasi',
     components: {PhCaretLeft, PhCaretRight, PhPencilSimple, PhTrash, PhPlus, PhX, ModalTambahSekolah},
     setup(){
+        const router = useRouter()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
 
         const loading = ref(false)
@@ -164,28 +167,33 @@ export default {
         const isFilter = ref(false)
 
         const hapusData = async(id) => {
-            try {
-                const token = JSON.parse(localStorage.getItem('token'))
-                const response = await initAPI('delete', `institutions/${id}`, null, token)
-                console.log(response.data)
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Data Berhasil Dihapus',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                getAllData()
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal Hapus Data',
-                    text: 'Terjadi Kesalahan Saat Hapus Data',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('delete', `institutions/${id}`, null, token)
+                    console.log(response.data)
+    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Data Berhasil Dihapus',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+    
+                    getAllData()
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Hapus Data',
+                        text: 'Terjadi Kesalahan Saat Hapus Data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
         }
 
@@ -262,20 +270,35 @@ export default {
             }
             console.log(`semua`,allParams)
 
-            const token = JSON.parse(localStorage.getItem('token'))
-            const response = await initAPI('get', `institutions`+allParams.replace('?&', '?'), null, token)
-            console.log(`customers`,response.data)
-            dataSekolah.value = response.data.data
-            totalHalaman.value = response.data.last_page
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
-            nextPage.value = response.data.next_page_url
-            prevPage.value = response.data.prev_page_url
-            totalDari.value = response.data.from
-            totalKe.value = response.data.to
-            totalData.value = response.data.total
-            loading.value = !loading.value
-            console.log(`data`,dataSekolah.value)
+            const token = Cookies.get('token')
+            if(token){
+                try {
+                    const response = await initAPI('get', `institutions`+allParams.replace('?&', '?'), null, token)
+                    console.log(`customers`,response.data)
+                    dataSekolah.value = response.data.data
+                    totalHalaman.value = response.data.last_page
+                    itemsPerPage.value = response.data.per_page
+                    currPage.value = response.data.current_page
+                    nextPage.value = response.data.next_page_url
+                    prevPage.value = response.data.prev_page_url
+                    totalDari.value = response.data.from
+                    totalKe.value = response.data.to
+                    totalData.value = response.data.total
+                    loading.value = !loading.value
+                    console.log(`data`,dataSekolah.value)
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
         }
 
         const filterTingkat = (params) => {

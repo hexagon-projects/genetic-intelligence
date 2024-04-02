@@ -213,6 +213,8 @@ import {
   Legend
 } from 'chart.js'
 import { Line } from 'vue-chartjs'
+import { useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
 
 ChartJS.register(
   CategoryScale,
@@ -228,6 +230,7 @@ export default {
     name: 'AdminDashboard',
     components: {PhArrowRight, PhUsers, PhUserList, PhFiles, Line},
     setup(){
+        const router = useRouter()
         const chartLoaded = ref(false)
         const dataChartReg = ref([])
         const dataChartRes = ref([])
@@ -272,61 +275,67 @@ export default {
 
         onMounted(async() => {
             loadingData.value = !loadingData.value
-            const token = JSON.parse(localStorage.getItem('token'))
+            // const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
+            if(token){
+                const totalKonsultan = await initAPI('get', 'consultants', null, token)
+                const totalCustomer = await initAPI('get', 'customers', null, token)
+                const totalReservasiSelesai = await initAPI('get', 'customers/reservations?status=4', null, token)
+                const chartStatistik = await initAPI('get', 'data-stats', null, token)
+    
+                Promise.all([totalKonsultan, totalCustomer, totalReservasiSelesai, chartStatistik])
+                .then(results => {
+                    const datatotalKonsultan = results[0].data.total;
+                    const datatotalCustomer = results[1].data.total;
+                    const dataTotalReservasiSelesai = results[2].data.total;
+                    const dataChartStatistik = results[3].data
+    
+                    const dataDashboardValue = {
+                        totalKonsultan: datatotalKonsultan,
+                        totalCustomer: datatotalCustomer,
+                        totalReservasiSelesai: dataTotalReservasiSelesai,
+                        totalChartStatistik: dataChartStatistik
+                    };
+    
+                    chartLoaded.value = true
+    
+                    data.value = {
+                        labels: [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
+                            'September', 'Oktober', 'November', 'Desember'
+                        ],
+                        datasets: [
+                            {
+                            label: 'Data Registrasi',
+                            backgroundColor: '#0b40f4',
+                            data: dataDashboardValue.totalChartStatistik.total_registrations
+                            // data: [40, 39, 10, 40, 39, 80, 40]
+                            },
+                            {
+                            label: 'Data Reservasi',
+                            backgroundColor: '#00ab55',
+                            data: dataDashboardValue.totalChartStatistik.total_reservations
+                            // data: [21, 30, 24, 32, 41, 64, 54]
+                            },
+                            {
+                            label: 'Data Test GIM',
+                            backgroundColor: '#e7515a',
+                            data: dataDashboardValue.totalChartStatistik.total_test
+                            // data: [37, 28, 16, 62, 29, 50, 43]
+                            }
+                        ]
+                    };
+                    countDashboard.value = dataDashboardValue;
+                    // dataChartReg.value = dataDashboardValue.totalChartStatistik.total_registrations
+                    // dataChartRes.value = dataDashboardValue.totalChartStatistik.total_reservations
+                    // dataChartTes.value = dataDashboardValue.totalChartStatistik.total_test
+                    console.log(`didie`,countDashboard.value)
+                })
+            } else {
+                router.push('/login')
+                localStorage.clear()
+            }
 
-            const totalKonsultan = await initAPI('get', 'consultants', null, token)
-            const totalCustomer = await initAPI('get', 'customers', null, token)
-            const totalReservasiSelesai = await initAPI('get', 'customers/reservations?status=4', null, token)
-            const chartStatistik = await initAPI('get', 'data-stats', null, token)
-
-            Promise.all([totalKonsultan, totalCustomer, totalReservasiSelesai, chartStatistik])
-            .then(results => {
-                const datatotalKonsultan = results[0].data.total;
-                const datatotalCustomer = results[1].data.total;
-                const dataTotalReservasiSelesai = results[2].data.total;
-                const dataChartStatistik = results[3].data
-
-                const dataDashboardValue = {
-                    totalKonsultan: datatotalKonsultan,
-                    totalCustomer: datatotalCustomer,
-                    totalReservasiSelesai: dataTotalReservasiSelesai,
-                    totalChartStatistik: dataChartStatistik
-                };
-
-                chartLoaded.value = true
-
-                data.value = {
-                    labels: [
-                        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
-                        'September', 'Oktober', 'November', 'Desember'
-                    ],
-                    datasets: [
-                        {
-                        label: 'Data Registrasi',
-                        backgroundColor: '#0b40f4',
-                        data: dataDashboardValue.totalChartStatistik.total_registrations
-                        // data: [40, 39, 10, 40, 39, 80, 40]
-                        },
-                        {
-                        label: 'Data Reservasi',
-                        backgroundColor: '#00ab55',
-                        data: dataDashboardValue.totalChartStatistik.total_reservations
-                        // data: [21, 30, 24, 32, 41, 64, 54]
-                        },
-                        {
-                        label: 'Data Test GIM',
-                        backgroundColor: '#e7515a',
-                        data: dataDashboardValue.totalChartStatistik.total_test
-                        // data: [37, 28, 16, 62, 29, 50, 43]
-                        }
-                    ]
-                };
-                countDashboard.value = dataDashboardValue;
-                // dataChartReg.value = dataDashboardValue.totalChartStatistik.total_registrations
-                // dataChartRes.value = dataDashboardValue.totalChartStatistik.total_reservations
-                // dataChartTes.value = dataDashboardValue.totalChartStatistik.total_test
-                console.log(`didie`,countDashboard.value)
-            })
             loadingData.value = !loadingData.value
         })
 

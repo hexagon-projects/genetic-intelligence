@@ -112,6 +112,7 @@ import DOMPurify from 'dompurify'
 import initAPI from '../../../../../api/api'
 import { useRouter } from 'vue-router';
 import { method } from 'lodash';
+import Cookies from 'js-cookie'
 
 export default {
     props: ['method', 'detailData'],
@@ -129,7 +130,7 @@ export default {
         }
 
         const tambahKode = async() => {
-            const token = JSON.parse(localStorage.getItem('token'))
+            const token = Cookies.get('token')
 
             const data = new FormData();
             if(props.method == 'registrasi'){
@@ -140,31 +141,37 @@ export default {
                 data.append('disc_percentage', DOMPurify.sanitize(diskon.value))
             }
 
-            try {
-                const method = props.method == 'update' ? 'put' : 'post'
-                const endpoint = props.method == 'update' ? `school_codes/${props.detailData.id}` : 'school_codes'
-                const response = await initAPI(method, endpoint, data, token)
-                console.log(`register konsultan`, response.data)
-                Swal.fire({
-                    icon: 'success',
-                    title: props.method == 'registrasi' ? 'Registrasi Berhasil' : 'Data Code Diubah',
-                    text: response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                
-                toggleModal()
-                router.go()
-            } catch (error) {
-                console.log(`error`,error)
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Tambah Code Gagal',
-                      text: 'Terjadi Kesalahan',
-                      showConfirmButton: false,
-                      timer: 2000
-                  });
+            if(token){
+                try {
+                    const method = props.method == 'update' ? 'put' : 'post'
+                    const endpoint = props.method == 'update' ? `school_codes/${props.detailData.id}` : 'school_codes'
+                    const response = await initAPI(method, endpoint, data, token)
+                    console.log(`register konsultan`, response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: props.method == 'registrasi' ? 'Registrasi Berhasil' : 'Data Code Diubah',
+                        text: response.data.message,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    
+                    toggleModal()
+                    router.go()
+                } catch (error) {
+                    console.log(`error`,error)
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Tambah Code Gagal',
+                          text: 'Terjadi Kesalahan',
+                          showConfirmButton: false,
+                          timer: 2000
+                      });
+                }
+            } else {
+                router.push('/login')
+                localStorage.clear()
             }
+
         }
 
         const buttonDisabled = computed(() => {
