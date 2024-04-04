@@ -117,7 +117,7 @@ export default {
 
         const toLogin = () => {
             console.log('back to login')
-            localStorage.clear('merchantId')
+            localStorage.removeItem('merchantId')
             router.push('/login')
         }
 
