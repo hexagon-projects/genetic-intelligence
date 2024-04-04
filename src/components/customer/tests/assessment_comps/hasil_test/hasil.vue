@@ -151,10 +151,10 @@ export default {
                         formattedText.value = formatText
     
                         data.value = {
-                            labels: ['Auditori', 'Kinestetik', 'Visual'],
+                            labels: ['Visual', 'Auditori', 'Kinestetik'],
                             datasets: [
                             {
-                                backgroundColor: ['#0b40f4', '#00ab55', '#e7515a'],
+                                backgroundColor: ['#e7515a','#0b40f4', '#00ab55'],
                                 data: persentaseJawaban,
                             },
                             ],
