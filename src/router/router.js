@@ -49,7 +49,7 @@ const routes = [
     {
         path: '/',
         name: 'views.dashboard',
-        component: () => import('../components/dashboard/newDashboard.vue'),
+        component: () => import('../components/dashboard/newDashboard2.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
