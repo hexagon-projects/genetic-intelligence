@@ -134,9 +134,6 @@ export default{
 					router.push('/login')
 					Cookies.remove('token')
 				}
-			} else {
-				localStorage.clear()
-				router.push('/login')
 			}
 
 			if(!userData.value){
