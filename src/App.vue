@@ -1,9 +1,15 @@
 <template>
-  <div v-if="currentRouteName !== 'views.login' && currentRouteName !== 'views.register'">
+  <div v-if="currentRouteName !== 'views.login' 
+  && currentRouteName !== 'views.register'
+  && currentRouteName !== 'user.views.payment_status'
+  ">
     <navbar/>
   </div>
   <router-view></router-view>
-  <div v-if="currentRouteName !== 'views.login' && currentRouteName !== 'views.register'">
+  <div v-if="currentRouteName !== 'views.login' 
+  && currentRouteName !== 'views.register'
+  && currentRouteName !== 'user.views.payment_status'
+  ">
     <footerComp/>
   </div>
 </template>
