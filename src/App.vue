@@ -2,6 +2,7 @@
   <div v-if="currentRouteName !== 'views.login' 
   && currentRouteName !== 'views.register'
   && currentRouteName !== 'user.views.payment_status'
+  && currentRouteName !== 'views.reset_password'
   ">
     <navbar/>
   </div>
@@ -9,6 +10,7 @@
   <div v-if="currentRouteName !== 'views.login' 
   && currentRouteName !== 'views.register'
   && currentRouteName !== 'user.views.payment_status'
+  && currentRouteName !== 'views.reset_password'
   ">
     <footerComp/>
   </div>
