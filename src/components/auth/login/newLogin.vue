@@ -39,7 +39,7 @@
                       <button v-else-if="!isLoading" @click="Login" class="font-myFont bg-biru text-white py-2 px-4 rounded-md hover:bg-blue-600 hover:shadow-lg w-3/4">
                         Masuk
                       </button>
-                      <RouterLink :to="{name: 'views.reset_password'}" class="font-myFont text-gray-500 hover:text-blue-500">Lupa Password?</RouterLink>
+                      <RouterLink :to="{name: 'views.forgot_password'}" class="font-myFont text-gray-500 hover:text-blue-500">Lupa Password?</RouterLink>
                     </div>
     
                     <div class="border border-neutral-200 w-full">
