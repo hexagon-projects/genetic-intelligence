@@ -120,10 +120,19 @@ export default {
         }
 
         const submitPayment = async() => {
+            const data = {
+                type: tipeParam.value == 'test-iq' 
+                        ? 'iq' 
+                        : tipeParam.value == 'test-gim' 
+                        ? 'gim' 
+                        : tipeParam.value == 'test-assessment'
+                        ? 'assessment'
+                        : null
+            }
             const endpoint = tipeParam.value == 'test-iq' 
             ? 'anu' 
-            : tipeParam.value == 'test-gim' ? 'blabla'
-            : 'wakwaw'
+            : tipeParam.value == 'test-gim' 
+            ? 'blabla' : 'wakwaw'
         }
 
         onMounted(async() => {
