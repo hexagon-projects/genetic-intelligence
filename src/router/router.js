@@ -38,6 +38,15 @@ const routes = [
         }
     },
     {
+        path: '/forgot-password',
+        name: 'views.forgot_password',
+        component: () => import('../components/auth/forgot/forgot.vue'),
+        meta: {
+            showNavbar: false,
+            showFooter: false
+        }
+    },
+    {
         path: '/reset-password',
         name: 'views.reset_password',
         component: () => import('../components/auth/forgot/forgot.vue'),
