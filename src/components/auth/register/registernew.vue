@@ -71,7 +71,7 @@
                                 <h2 class="text-center text-dark font-myFont font-semibold text-lg tracking-wider mt-8 mb-3">
                                     Pelajar / Mahasiswa
                                 </h2>
-                                <img src="../../../assets/img/PelajarGroup.png" class="w-[221px] md:w-[213px] lg:w-[191px] mx-auto mb-4" alt="">
+                                <img src="../../../assets/img/PelajarGroup.png" class="w-[221px] md:w-[213px] lg:w-[191px] mx-auto mb-4" alt="Pelajar" rel="preload">
                                 <!-- <p class="text-center tracking-tighter block mb-4">
                                     <span class="text-4xl text-dark font-myFont font-bold">Rp. 250.000</span>
                                 </p> -->
@@ -94,7 +94,7 @@
                                 <h2 class="text-center text-dark font-myFont font-semibold text-lg tracking-wider mt-8 mb-3">
                                     Non Pelajar
                                 </h2>
-                                <img src="../../../assets/img/NonpelajarGroup.png" class="mx-auto max-w-[222px] lg:w-full mb-4" alt="">
+                                <img src="../../../assets/img/NonpelajarGroup.png" class="mx-auto max-w-[222px] lg:w-full mb-4" alt="Non Pelajar" rel="preload">
                                 <!-- <p class="text-center tracking-tighter block mb-4">
                                     <span class="text-4xl text-dark font-myFont font-bold">Rp. 500.000</span>
                                 </p> -->
@@ -904,7 +904,7 @@ export default{
 <style scoped>
 #img-login {
   min-height:100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url("../../../assets/img/bg-login2.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url("../../../assets/img/bg-login2-compress.jpg");
   /* background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(38, 173, 197, 0.3)), url("../../../assets/img/bg-login2.jpg"); */
   background-repeat: no-repeat;
     background-size: 100% 100%;
