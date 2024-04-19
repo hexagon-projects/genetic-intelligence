@@ -49,7 +49,7 @@ const routes = [
     {
         path: '/reset-password',
         name: 'views.reset_password',
-        component: () => import('../components/auth/forgot/forgot.vue'),
+        component: () => import('../components/auth/reset_password/reset.vue'),
         meta: {
             showNavbar: false,
             showFooter: false
