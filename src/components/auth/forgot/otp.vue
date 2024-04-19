@@ -36,15 +36,52 @@
 <script>
     import { ref, onMounted } from 'vue'
     import { useRouter } from 'vue-router'
+    import initAPI from '../../../api/api'
+    import Swal from 'sweetalert2';
+    import 'sweetalert2/dist/sweetalert2.css';
 
     export default {
-        setup(){
+        props: ['email'],
+        setup(props){
+            console.log(`prop email`, props)
             const router = useRouter()
             const codes = ref('')
 
-            const submitCode = () => {
+            const submitCode = async() => {
+                const data = {
+                    email: props.email,
+                    code: codes.value
+                }
+
+                try {
+                    const response = await initAPI('post', 'v2/forgot-password-verification', JSON.stringify(data), null)
+                    console.log(response.data)
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Verifikasi Code Berhasil',
+                        text: 'Silahkan sesuaikan password baru anda.',
+                        showConfirmButton: false,
+                        timer: 2300
+                    });
+
+                    const url = response.data.url
+                    localStorage.setItem('resetEmailReq', response.data.email)
+                    if(localStorage.getItem('refreshActionPage')) localStorage.removeItem('refreshActionPage')
+                    if(localStorage.getItem('refreshActionEmail')) localStorage.removeItem('refreshActionEmail')
+                    router.push(url)
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Verifikasi Code',
+                        text: 'Terjadi kesalahan pada sistem.',
+                        showConfirmButton: false,
+                        timer: 2300
+                    });
+                    if(localStorage.getItem('refreshActionPage')) localStorage.removeItem('refreshActionPage')
+                    if(localStorage.getItem('refreshActionEmail')) localStorage.removeItem('refreshActionEmail')
+                }
                 // alert(codes.value)
-                router.push({name: 'views.reset_password', query: { code: '1234', ref: 'wakwaw' }})
+                // router.push({name: 'views.reset_password', query: { code: '1234', ref: 'wakwaw' }})
             }
 
             onMounted(() => {
