@@ -3,6 +3,7 @@
   && currentRouteName !== 'views.register'
   && currentRouteName !== 'user.views.payment_status'
   && currentRouteName !== 'views.reset_password'
+  && currentRouteName !== 'views.forgot_password'
   ">
     <navbar/>
   </div>
@@ -11,6 +12,7 @@
   && currentRouteName !== 'views.register'
   && currentRouteName !== 'user.views.payment_status'
   && currentRouteName !== 'views.reset_password'
+  && currentRouteName !== 'views.forgot_password'
   ">
     <footerComp/>
   </div>

@@ -1,7 +1,7 @@
 <template>
     <div id="img-login" class="w-full flex flex-row items-center justify-center min-h-screen px-4">
         <div class="flex justify-center pt-22">
-            <div class="w-[640px] bg-white mx-4 lg:mx-auto px-10 py-4 drop-shadow-2xl rounded-lg">
+            <div class="w-full lg:w-[640px] bg-white mx-4 lg:mx-auto px-10 py-4 drop-shadow-2xl rounded-lg">
                 <div class="flex flex-col justify-center items-center mb-6">
                     <h2 class="text-black text-lg lg:text-2xl font-myFont font-bold mb-2 mt-5">Lupa Password</h2>
                     <a class="font-myFont text-gray-500 text-xs lg:text-sm mb-4">
