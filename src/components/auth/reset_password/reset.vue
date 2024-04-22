@@ -55,6 +55,8 @@ const passwordValidation = ref(null)
 const validation = () => {
     if(password2.value !== password1.value || password1.value !== password2.value) {
         passwordValidation.value = 'Password tidak sesuai'
+    } else if(password1.value.length < 8 || password2.value.length < 8){
+        passwordValidation.value = 'Password harus berisi 8 karakter'
     } else {
         passwordValidation.value = null
     }
