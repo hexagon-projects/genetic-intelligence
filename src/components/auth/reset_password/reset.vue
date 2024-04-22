@@ -73,8 +73,15 @@ const buttonDisabled = computed(() => {
 const kirimPassword = async() => {
     if(password1.value.trim() == '' || password2.value.trim() == ''
     || DOMPurify.sanitize(password1.value) == '' || DOMPurify.sanitize(password2.value) == ''
+    || password1.value.length < 8 || password2.value.length < 8
     ){
-
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Tidak ada data yang bisa dikirim.',
+            showConfirmButton: false,
+            timer: 2300
+        });
     } else {
         try {
             const data = {
