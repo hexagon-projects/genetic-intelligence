@@ -10,26 +10,30 @@
         </div>
     </transition>
 
-    <div class="hidden lg:flex lg:flex-row items-center">
-        <div class="lg:w-1/2">
+    <div class="hidden lg:flex lg:flex-row justify-center items-center">
+        <div class="lg:w-full">
             <div class="flex flex-col items-center gap-2 mx-14">
-                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold mb-2">Halo! Sebelum melakukan test perhatikan petunjuk dibawah.</h1>
-                <div class="flex items-center gap-6 h-[116px]">
+                <img src="../../../../assets/img/petunjuk-iq.png" class="w-1/2 lg:w-[226px] self-center animate-[wiggle_4s_ease-in-out_infinite]" alt="Petunjuk Image">
+
+                <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold mb-2">
+                    Halo {{ name }}! Sebelum melakukan test perhatikan petunjuk dibawah ini.
+                </h1>
+                <div class="flex items-center gap-6 h-[116px] w-[841px]">
                     <button @click="btnInstruksi('prev')" :class="{'opacity-50': indexInstruksi == 0}" class="bg-biru shadow-sm p-2 text-white text-lg rounded-full hover:bg-opacity-75">
                         <PhCaretLeft/>
                     </button>
                     <transition name="fade" mode="out-in">
-                        <p v-if="indexInstruksi == 0" class="overflow-hidden font-myFont text-neutral-500 text-sm mb-2">
+                        <p v-if="indexInstruksi == 0" class="overflow-hidden font-myFont text-neutral-500 text-base mb-2">
                             Tes ini berisi 50 pertanyaan yang secara bertahap menjadi semakin sulit. Anda <span class="text-dark font-semibold">tidak mungkin</span> dapat menyelesaikan semua pertanyaan, tetapi selesaikan <span class="text-dark font-semibold">semampu</span> Anda.
                         </p>
-                        <p v-else-if="indexInstruksi == 1" class="overflow-hidden font-myFont text-neutral-500 text-sm mb-2">
+                        <p v-else-if="indexInstruksi == 1" class="overflow-hidden font-myFont text-neutral-500 text-base mb-2">
                             Anda memiliki waktu 12 menit untuk memberi jawaban yang benar sebanyak mungkin. Kerjakan dengan <span class="text-dark font-semibold">teliti</span>, namun jangan <span class="text-dark font-semibold">menghabiskan waktu</span> lama pada setiap pertanyaan atau lewati pertanyaan itu. 
                         </p>
                         <div v-else-if="indexInstruksi == 2" class="w-full overflow-hidden flex flex-col items-center gap-2">
-                            <p class="font-myFont text-neutral-500 text-sm">
+                            <p class="font-myFont text-neutral-500 text-base">
                                 Sebelum Anda memulai tes ini, jawablah Contoh Pertanyaan dibawah ini. 
                             </p>
-                            <button @click="toggleModal" class="bg-biru shadow-sm px-4 py-2 text-white text-sm rounded-md hover:bg-opacity-75">
+                            <button @click="toggleModal" class="bg-biru shadow-sm px-4 py-2 text-white text-base rounded-md hover:bg-opacity-75">
                                 Lihat Soal
                             </button>
                         </div>
@@ -45,11 +49,11 @@
                 </div>
             </div>
         </div>
-        <div class="lg:w-1/2">
+        <!-- <div class="lg:w-1/2">
             <div class="flex flex-col justify-center">
                 <img src="../../../../assets/img/petunjuk-iq.png" class="w-1/2 lg:w-[238px] self-center animate-[wiggle_4s_ease-in-out_infinite]" alt="Petunjuk Image">
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Mobile UI -->
@@ -60,11 +64,11 @@
             </div>
         </div>
         <div class="lg:w-1/2">
-            <div class="flex flex-col">
+            <div class="flex flex-col justify-center">
                 <h1 class="font-myFont text-base md:text-2xl text-center text-dark font-semibold mb-2">
-                    Halo! Sebelum melakukan test perhatikan petunjuk dibawah.
+                    Halo {{ name }}! Sebelum melakukan test perhatikan petunjuk dibawah.
                 </h1>
-                <div class="h-[118px] w-full md:w-[680px] my-4">
+                <div class="h-[118px] w-full md:w-[680px] mx-auto my-4">
                     <transition name="fade" mode="out-in">
                         <p v-if="indexInstruksi == 0" class="overflow-hidden font-myFont text-neutral-500 text-sm mb-2">
                             Tes ini berisi 50 pertanyaan yang secara bertahap menjadi semakin sulit. Anda <span class="text-dark font-semibold">tidak mungkin</span> dapat menyelesaikan semua pertanyaan, tetapi selesaikan <span class="text-dark font-semibold">semampu</span> Anda.
@@ -111,6 +115,7 @@ export default {
     name: 'IQCompsInstruksi',
     components: {PhCaretLeft, PhCaretRight, modal, ModalConsent},
     setup(){
+        const name = JSON.parse(localStorage.getItem('userData')).first_name
         const visited = ref(false)
         const isModalOpen = ref(false)
         const indexInstruksi = ref(0)
@@ -136,6 +141,7 @@ export default {
         })
 
         return {
+            name,
             visited,
             isModalOpen,
             indexInstruksi,

@@ -3,7 +3,10 @@
     >
         <div class="hidden lg:block relative w-3/4 top-10 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
-            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Kebijakan Privasi</h1>
+            <div class="flex items-center mx-4 pt-4 gap-1">
+                <a class="text-2xl text-dark"><PhInfo/></a>
+                <h1 class="font-myFont text-dark text-lg">Kebijakan Privasi</h1>
+            </div>
             <hr class="mt-4">
             
             <div class="w-full p-4">
@@ -24,7 +27,7 @@
 
                     <div class="w-full text-sm flex items-center gap-1 px-3 md:mb-0">
                         <label class="block font-myFont text-neutral-500 text-xs md:text-sm lg:text-sm font-medium">
-                            <input v-model="checkSetuju" type="checkbox" name="jawabanAssessment">
+                            <input v-model="checkSetuju" class="h-4 w-4 text-black" type="checkbox" name="jawabanAssessment">
                             Jika anda menyetujui persyaratan diatas silahkan centang tombol berikut.
                         </label>
                     </div>
@@ -46,7 +49,10 @@
 
         <div class="block lg:hidden relative w-full top-10 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
-            <h1 class="font-myFont text-dark text-lg mx-4 pt-4">Kebijakan Privasi</h1>
+            <div class="flex items-center mx-4 pt-4 gap-1">
+                <a class="text-2xl text-dark"><PhInfo/></a>
+                <h1 class="font-myFont text-dark text-lg">Kebijakan Privasi</h1>
+            </div>
             <hr class="mt-4">
             
             <div class="w-full p-4">
@@ -90,9 +96,11 @@
 <script>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { PhInfo } from '@phosphor-icons/vue';
 
 export default {
     name: 'ModalConsent',
+    components: {PhInfo},
     setup(_, { emit }){
         const router = useRouter()
 
