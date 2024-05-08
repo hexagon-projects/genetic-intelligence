@@ -537,7 +537,7 @@ export default {
                   console.log(`data`,dataSubmit.value)
               } else if(url !== null && !cari.value){
                   loading.value = !loading.value
-                  const response = await initAPI('get', url+'&search='+cari.value, null, token)
+                  const response = await initAPI('get', url, null, token)
                   console.log(response.data)
                   dataSubmit.value = response.data.data
                   totalHalaman.value = response.data.last_page

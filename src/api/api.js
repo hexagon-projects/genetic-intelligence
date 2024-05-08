@@ -52,7 +52,7 @@ const initAPI = async (method, endpoint, data, token) => {
   const baseUrl = import.meta.env.VITE_API_BASE_URL
   // const baseUrl = 'http://178.128.110.149/api/'
   // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
-  let check = endpoint.includes('upload-test') || endpoint.includes('customers/')
+  let check = endpoint.includes('upload-test') || endpoint.includes('customers/') || endpoint.includes('consultants/')
   console.log(check)
   const config = {
     method: method,

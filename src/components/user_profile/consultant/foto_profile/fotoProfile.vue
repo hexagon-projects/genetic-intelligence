@@ -1,6 +1,10 @@
 <template>
     <div class="flex justify-around items-center">
-        <div class="mx-4 flex justify-center items-center gap-2">
+        <div class="flex justify-center py-8 w-full" v-if="loadingUpload" >
+            <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
+        </div>
+
+        <div v-if="!loadingUpload" class="mx-4 flex justify-center items-center gap-2">
             <img v-if="profileImageUrl || props.userData.image !== null" class="w-24 h-24 rounded-full border-2 border-biru" :src="profileImageUrl == '' ? baseUrl+'open/consultant/'+props.userData.image : profileImageUrl" alt="Foto Profile">
             <img v-else-if="!profileImageUrl && props.userData.image == null" class="w-24 h-24 rounded-full border-2 border-biru" src="../../../../assets/img/profile-mock.png" alt="Foto Profile">
             <div class="flex flex-col">
@@ -9,7 +13,7 @@
             </div>
         </div>
 
-        <div class="flex justify-center items-center gap-2">
+        <div v-if="!loadingUpload" class="flex justify-center items-center gap-2">
             <button @click="uploadFoto" v-if="profileImageUrl" class="
                 cursor-pointer px-2 py-1 rounded-lg font-myFont text-biru border-2 border-biru
                 hover:text-light hover:bg-biru hover:shadow-sm
@@ -25,7 +29,7 @@
             </label>
         </div>
 
-        <input
+        <input v-if="!loadingUpload"
             type="file"
             id="fileInput"
             ref="fileInput"
@@ -48,8 +52,11 @@ export default {
     name: 'FotoProfileConsultant',
     props: ['userData'],
     setup(props){
+        const store = useStore()
         const baseUrl = import.meta.env.VITE_API_BASE_URL
         const router = useRouter()
+
+        const loadingUpload = ref(false)
 
         const profileImageUrl = ref('');
         const handleFileChange = () => {
@@ -69,6 +76,7 @@ export default {
 
             if(token){
                 if (file) {
+                    loadingUpload.value = !loadingUpload.value
                     const formData = new FormData();
                     formData.append('_method', 'PUT');
                     formData.append('image', file);
@@ -88,6 +96,7 @@ export default {
                     store.commit('user', updatedConsultant.data.data[0])
                     localStorage.setItem('userData', JSON.stringify(updatedConsultant.data.data[0]))
                     }
+                    loadingUpload.value = !loadingUpload.value
                 }
             } else {
                 router.push('/login')
@@ -96,6 +105,7 @@ export default {
         }
 
         return {
+            loadingUpload,
             props,
             baseUrl,
             uploadFoto,
