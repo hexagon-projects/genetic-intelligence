@@ -52,6 +52,9 @@
                     <button @click="checkUlang" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
                         Cek Ulang
                     </button>
+                    <button @click="toRegister" class="rounded-lg font-myFont px-12 border bg-white hover:bg-opacity-75 hover:shadow-lg text-dark font-medium py-3">
+                        Kembali
+                    </button>
                 </div>
             </div>
     
@@ -80,7 +83,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { PhX, PhCheck } from '@phosphor-icons/vue'
 import initAPI from '../../../api/api'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import axios from 'axios'
 import qs from 'qs'
 
@@ -110,6 +113,7 @@ export default {
                     isSuccess.value = check.data.is_success
                     console.log(`wakwaw`, isSuccess.value)
                     dataCheckUlang.value = check.data
+                    localStorage.setItem('formValue', check.data.data_user)
                 }
             }
             loading.value = !loading.value
@@ -119,6 +123,12 @@ export default {
             console.log('back to login')
             localStorage.removeItem('merchantId')
             router.push('/login')
+        }
+
+        const toRegister = () => {
+            console.log('back to login')
+            localStorage.removeItem('merchantId')
+            router.push('/register')
         }
 
         const kembali = () => {
@@ -148,7 +158,15 @@ export default {
             }
         }
 
-        return {isSuccess, loading, paymentReservasiCheck, toLogin, checkUlang, kembali}
+        return {
+            isSuccess, 
+            loading, 
+            paymentReservasiCheck, 
+            toLogin, 
+            toRegister, 
+            checkUlang, 
+            kembali
+        }
     }
 }
 </script>

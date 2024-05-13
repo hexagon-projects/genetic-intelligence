@@ -530,6 +530,9 @@ export default{
     // components: {Select2},
     components: {VueDatePicker, PhInfo},
     setup(){
+        const formFillData = JSON.parse(sessionStorage.getItem("formValue"))
+        console.log(formFillData)
+
         const loadingSubmit = ref(false)
         const router = useRouter()
         const $ = jQuery;
@@ -567,31 +570,31 @@ export default{
         }
 
         const currForm = ref(0)
-        const tipeValue = ref(null)
-        const jenjang_pendidikan = ref('')
-        const nama_sekolah = ref('')
-        const grade = ref('')
-        const majoring = ref('')
-        const namaDepan = ref('')
-        const namaBelakang = ref('')
-        const emailVal = ref('')
-        const passwordVal = ref('')
-        const noWhatsapp = ref('')
-        const golDarah = ref('')
-        const agama = ref('')
-        const tempatLahir = ref('')
-        const tglLahir = ref('')
-        const jenisKelamin = ref('')
-        const statusNikah = ref('')
-        const child_number = ref('')
-        const from_child_number = ref('')
-        const ethnic = ref('')
-        const nationality = ref('')
-        const provinsi = ref('')
-        const kota = ref('')
-        const kecamatan = ref('')
-        const kelurahan = ref('')
-        const alamatLengkap = ref('')
+        const tipeValue = ref(formFillData?.tipeValue ? formFillData.tipeValue : null)
+        const jenjang_pendidikan = ref(formFillData?.jenjang_pendidikan ? formFillData.jenjang_pendidikan : '')
+        const nama_sekolah = ref(formFillData?.nama_sekolah ? formFillData.nama_sekolah : '')
+        const grade = ref(formFillData?.grade ? formFillData.grade : '')
+        const majoring = ref(formFillData?.majoring ? formFillData.majoring : '')
+        const namaDepan = ref(formFillData?.first_name ? formFillData.first_name : '')
+        const namaBelakang = ref(formFillData?.last_name ? formFillData.last_name : '')
+        const emailVal = ref(formFillData?.email ? formFillData.email : '')
+        const passwordVal = ref(formFillData?.password ? formFillData.password : '')
+        const noWhatsapp = ref(formFillData?.number ? formFillData.number : '')
+        const golDarah = ref(formFillData?.blood_group ? formFillData.blood_group : '')
+        const agama = ref(formFillData?.religion ? formFillData.religion : '')
+        const tempatLahir = ref(formFillData?.birth_place ? formFillData.birth_place : '')
+        const tglLahir = ref(formFillData?.birth_date ? formFillData.birth_date : '')
+        const jenisKelamin = ref(formFillData?.gender ? formFillData.gender : '')
+        const statusNikah = ref(formFillData?.status ? formFillData.status : '')
+        const child_number = ref(formFillData?.child_number ? formFillData.child_number : '')
+        const from_child_number = ref(formFillData?.from_child_number ? formFillData.from_child_number : '')
+        const ethnic = ref(formFillData?.ethnic ? formFillData.ethnic : '')
+        const nationality = ref(formFillData?.nationality ? formFillData.nationality : '')
+        const provinsi = ref(formFillData?.data_user ? formFillData.data_user.village.district.regency.province.id : '')
+        const kota = ref(formFillData?.data_user ? formFillData.data_user.village.district.regency.id : '')
+        const kecamatan = ref(formFillData?.data_user ? formFillData.data_user.village.district.id : '')
+        const kelurahan = ref(formFillData?.data_user ? formFillData.data_user.village.id : '')
+        const alamatLengkap = ref(formFillData?.address ? formFillData.adress : '')
         const paymentMethod = ref([])
         const paymentType = ref('')
         const paymentCode = ref('')
@@ -793,6 +796,8 @@ export default{
                 "from_child_number": DOMPurify.sanitize(from_child_number.value)
             })
             console.log(data)
+
+            // sessionStorage.setItem("formValue", data);
 
             loadingSubmit.value = !loadingSubmit.value
             try {
