@@ -530,14 +530,14 @@ export default{
     // components: {Select2},
     components: {VueDatePicker, PhInfo},
     setup(){
-        const formFillData = JSON.parse(sessionStorage.getItem("formValue"))
+        const formFillData = JSON.parse(localStorage.getItem("formValue"))
         console.log(formFillData)
 
         const loadingSubmit = ref(false)
         const router = useRouter()
         const $ = jQuery;
         window.$ = $;
-        const date = ref();
+        const date = ref(formFillData?.birth_date ? formFillData.birth_date : '');
         const provinceOptions = ref([])
         const cityOptions = ref([])
         const districtsOptions = ref([])
@@ -590,11 +590,11 @@ export default{
         const from_child_number = ref(formFillData?.from_child_number ? formFillData.from_child_number : '')
         const ethnic = ref(formFillData?.ethnic ? formFillData.ethnic : '')
         const nationality = ref(formFillData?.nationality ? formFillData.nationality : '')
-        const provinsi = ref(formFillData?.data_user ? formFillData.data_user.village.district.regency.province.id : '')
-        const kota = ref(formFillData?.data_user ? formFillData.data_user.village.district.regency.id : '')
-        const kecamatan = ref(formFillData?.data_user ? formFillData.data_user.village.district.id : '')
-        const kelurahan = ref(formFillData?.data_user ? formFillData.data_user.village.id : '')
-        const alamatLengkap = ref(formFillData?.address ? formFillData.adress : '')
+        const provinsi = ref(formFillData?.village ? formFillData.village.district.regency.province.id : '')
+        const kota = ref(formFillData?.village ? formFillData.village.district.regency.id : '')
+        const kecamatan = ref(formFillData?.village ? formFillData.village.district.id : '')
+        const kelurahan = ref(formFillData?.village ? formFillData.village.id : '')
+        const alamatLengkap = ref(formFillData?.address ? formFillData.address : '')
         const paymentMethod = ref([])
         const paymentType = ref('')
         const paymentCode = ref('')
@@ -628,6 +628,11 @@ export default{
             }));
             provinceOptions.value = formattedProvince
 
+            if(provinsi.value){
+                getKota()
+                getKecamatan()
+                getKelurahan()
+            }
             // const biayapendaftaran = await initAPI('get', 'register/payment', null, null)
             // console.log(`biaya`,biayaPendaftaran)
             // biayaPendaftaran.value = biayapendaftaran.data.price
