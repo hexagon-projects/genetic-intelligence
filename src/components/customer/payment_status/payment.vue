@@ -49,7 +49,7 @@
                 <p class="text-gray-600 my-2">Sayang sekali pembayaran kamu belum berhasil, cek ulang yuk.</p>
                 <!-- <p> A!  </p> -->
                 <div class="pb-4 pt-6 text-center">
-                    <button @click="checkUlang" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
+                    <button @click="checkUlang" class="mr-2 rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
                         Cek Ulang
                     </button>
                     <button @click="toRegister" class="rounded-lg font-myFont px-12 border bg-white hover:bg-opacity-75 hover:shadow-lg text-dark font-medium py-3">
@@ -113,7 +113,7 @@ export default {
                     isSuccess.value = check.data.is_success
                     console.log(`wakwaw`, isSuccess.value)
                     dataCheckUlang.value = check.data
-                    localStorage.setItem('formValue', check.data.data_user)
+                    localStorage.setItem('formValue', JSON.stringify(check.data.data_user))
                 }
             }
             loading.value = !loading.value
