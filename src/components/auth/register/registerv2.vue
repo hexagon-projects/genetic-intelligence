@@ -75,50 +75,56 @@
                 </div>
 
                 <div v-if="currForm === 1">
-                    <div class="flex justify-center items-center gap-2">
-                        <div class="w-full mb-4">
-                            <label for="nama_depan" class="block text-sm font-myFont font-medium text-gray-600">Nama Depan:</label>
-                            <input v-model="namaDepan" type="text" id="nama_depan" name="nama_depan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Depan" />
-                            <!-- <a v-if="nameValidation && nameVal.length < 1" class="text-xs text-red-500">Nama depan tidak boleh kosong.</a> -->
-                        </div>
-                        <div class="w-full mb-4">
-                            <label for="nama_belakang" class="block text-sm font-myFont font-medium text-gray-600">Nama Belakang:</label>
-                            <input v-model="namaBelakang" type="text" id="nama_belakang" name="nama_belakang" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Belakang" />
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-center gap-2">
-                        <div class="w-full mb-4">
-                            <label for="email" class="block text-sm font-myFont font-medium text-gray-600">Email:</label>
-                            <input v-model="emailVal" @input="validation" type="email" id="email" name="email" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Email" autocomplete="off"/>
-                            <a v-if="validasiEmail && validasiEmail !== ''" class="text-xs text-red-500">{{ validasiEmail }}</a>
-                        </div>
-
-                        <div class="w-full mb-4">
-                            <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
-                            <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="0812345" />
-                            <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
-                        </div>
+                    <div v-if="loadingSubmit" class="py-24 flex justify-center w-full">
+                        <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
 
-                    <div class="flex justify-center items-center gap-2">
-                        <div class="w-full mb-4">
-                            <label for="password" class="block text-sm font-myFont font-medium text-gray-600">Password:</label>
-                            <div class="relative">
-                                <input v-model="passwordVal" @keyup="validation" type="password" id="password" name="password" class="js-password1 text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
-                                <a v-if="!isPassword1Shown" @click="togglePassword('firstForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEye :size="18"/></a>
-                                <a v-if="isPassword1Shown" @click="togglePassword('firstForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEyeSlash :size="18"/></a>
-                                <a v-if="validasiPassword && validasiPassword !== ''" class="text-xs text-red-500">{{ validasiPassword }}</a>
+                    <div v-if="!loadingSubmit">
+                        <div class="flex justify-center items-center gap-2">
+                            <div class="w-full mb-4">
+                                <label for="nama_depan" class="block text-sm font-myFont font-medium text-gray-600">Nama Depan:</label>
+                                <input v-model="namaDepan" type="text" id="nama_depan" name="nama_depan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Depan" />
+                                <!-- <a v-if="nameValidation && nameVal.length < 1" class="text-xs text-red-500">Nama depan tidak boleh kosong.</a> -->
+                            </div>
+                            <div class="w-full mb-4">
+                                <label for="nama_belakang" class="block text-sm font-myFont font-medium text-gray-600">Nama Belakang:</label>
+                                <input v-model="namaBelakang" type="text" id="nama_belakang" name="nama_belakang" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Nama Belakang" />
                             </div>
                         </div>
-
-                        <div class="w-full mb-4">
-                            <label for="confirmPassword" class="block text-sm font-myFont font-medium text-gray-600">Konfirmasi Password:</label>
-                            <div class="relative">
-                                <input v-model="confirmPasswordVal" @keyup="validation" type="password" id="confirmPassword" name="password" class="js-password2 text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
-                                <a v-if="!isPassword2Shown" @click="togglePassword('secondForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEye :size="18"/></a>
-                                <a v-if="isPassword2Shown" @click="togglePassword('secondForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEyeSlash :size="18"/></a>
-                                <a v-if="validasiPassword && validasiPassword !== ''" class="text-xs text-red-500">{{ validasiPassword }}</a>
+                        
+                        <div class="flex justify-center gap-2">
+                            <div class="w-full mb-4">
+                                <label for="email" class="block text-sm font-myFont font-medium text-gray-600">Email:</label>
+                                <input v-model="emailVal" @input="validation" type="email" id="email" name="email" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Email" autocomplete="off"/>
+                                <a v-if="validasiEmail && validasiEmail !== ''" class="text-xs text-red-500">{{ validasiEmail }}</a>
+                            </div>
+    
+                            <div class="w-full mb-4">
+                                <label for="no_whatsapp" class="block text-sm font-myFont font-medium text-gray-600">No Whatsapp:</label>
+                                <input v-model="noWhatsapp" @keyup="validation" type="text" id="no_whatsapp" name="no_whatsapp" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="0812345" />
+                                <a v-if="validasiWA && validasiWA !== ''" class="text-xs text-red-500">{{ validasiWA }}</a>
+                            </div>
+                        </div>
+    
+                        <div class="flex justify-center items-center gap-2">
+                            <div class="w-full mb-4">
+                                <label for="password" class="block text-sm font-myFont font-medium text-gray-600">Password:</label>
+                                <div class="relative">
+                                    <input v-model="passwordVal" @keyup="validation" type="password" id="password" name="password" class="js-password1 text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
+                                    <a v-if="!isPassword1Shown" @click="togglePassword('firstForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEye :size="18"/></a>
+                                    <a v-if="isPassword1Shown" @click="togglePassword('firstForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEyeSlash :size="18"/></a>
+                                    <a v-if="validasiPassword && validasiPassword !== ''" class="text-xs text-red-500">{{ validasiPassword }}</a>
+                                </div>
+                            </div>
+    
+                            <div class="w-full mb-4">
+                                <label for="confirmPassword" class="block text-sm font-myFont font-medium text-gray-600">Konfirmasi Password:</label>
+                                <div class="relative">
+                                    <input v-model="confirmPasswordVal" @keyup="validation" type="password" id="confirmPassword" name="password" class="js-password2 text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password" />
+                                    <a v-if="!isPassword2Shown" @click="togglePassword('secondForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEye :size="18"/></a>
+                                    <a v-if="isPassword2Shown" @click="togglePassword('secondForm')" class="cursor-pointer absolute top-3 md:top-[14px] lg:top-4 right-2 text-dark"><PhEyeSlash :size="18"/></a>
+                                    <a v-if="validasiPassword && validasiPassword !== ''" class="text-xs text-red-500">{{ validasiPassword }}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -149,7 +155,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center mt-4">
+                <div v-if="currForm < 2" class="flex justify-between items-center mt-4">
                     <button v-if="currForm >= 1" @click="toggleTabs(-1)" class="bg-gray-300 font-myFont text-black p-2 rounded-md hover:shadow-lg hover:opacity-80 transition duration-300 ease-in-out">
                         Sebelumnya
                     </button>
@@ -175,6 +181,9 @@ import { ref, computed } from 'vue'
 import { PhCheck, PhEye, PhEyeSlash } from '@phosphor-icons/vue'
 import { useRouter } from 'vue-router'
 import DOMPurify from 'dompurify'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
+import initAPI from '../../../api/api'
 
 const router = useRouter()
 
@@ -197,8 +206,11 @@ const validasiWA = ref('')
 const validasiEmail = ref('')
 const validasiPassword = ref('')
 
-const Register = () => {
+const Register = async() => {
+    loadingSubmit.value = !loadingSubmit.value
+
     const data = JSON.stringify({
+        "is_student": tipeValue.value,
         "first_name": DOMPurify.sanitize(namaDepan.value),
         "last_name": DOMPurify.sanitize(namaBelakang.value),
         "email": DOMPurify.sanitize(emailVal.value),
@@ -206,7 +218,19 @@ const Register = () => {
         "password": DOMPurify.sanitize(passwordVal.value),
     })
 
-    currForm.value = 2
+    try {
+        const response = await initAPI('post', 'v2/register', data, null)
+        currForm.value = 2
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Registrasi Gagal',
+            text: 'Terjadi kesalahan sistem',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+    loadingSubmit.value = !loadingSubmit.value
 }
 
 const pilihTipe = async(params) => {
