@@ -31,7 +31,7 @@ const routes = [
     {
         path: '/register',
         name: 'views.register',
-        component: () => import('../components/auth/register/registernew.vue'),
+        component: () => import('../components/auth/register/registerv2.vue'),
         meta: {
             showNavbar: false,
             showFooter: false
