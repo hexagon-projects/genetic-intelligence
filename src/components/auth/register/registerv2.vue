@@ -136,22 +136,13 @@
                         <div class="text-center">
                             <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Registrasi Berhasil!</h3>
                             <p class="text-gray-600 my-2">Terimakasih telah melakukan pendaftaran, kamu bisa login sekarang.</p>
-                            <!-- <p> A!  </p> -->
-                            <div v-if="paymentReservasiCheck" class="pb-4 pt-6 text-center">
-                                <button @click="kembali" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
-                                Kembali 
-                                </button>
-                            </div>
 
-                            <div v-else class="pb-4 pt-6 text-center">
+                            <div class="pb-4 pt-6 text-center">
                                 <button @click="toLogin" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
                                 Login 
                                 </button>
                             </div>
                         </div>
-            
-                        <!-- <div>
-                        </div> -->
                     </div>
                 </div>
 
@@ -218,10 +209,30 @@ const Register = async() => {
         "password": DOMPurify.sanitize(passwordVal.value),
     })
 
+    console.log(data)
     try {
-        const response = await initAPI('post', 'v2/register', data, null)
-        currForm.value = 2
+        const parsedData = JSON.parse(data)
+        if(
+            parsedData.first_name.trim() !== '' &&
+            parsedData.last_name.trim() !== '' &&
+            !parsedData.email.includes(' ') &&
+            !parsedData.number.includes(' ') &&
+            !parsedData.password.includes(' ')
+        ){
+            const response = await initAPI('post', 'v2/register', data, null)
+            currForm.value = 2
+        } else {
+            console.log(`aya nu kosong yeuh`)
+            Swal.fire({
+                icon: 'error',
+                title: 'Registrasi Gagal',
+                text: 'Data tidak boleh kosong atau mengandung spasi',
+                showConfirmButton: false,
+                timer: 2700
+            });
+        }
     } catch (error) {
+        console.log(error)
         Swal.fire({
             icon: 'error',
             title: 'Registrasi Gagal',
@@ -325,12 +336,9 @@ const togglePassword = (params) => {
 
 <style scoped>
 #img-login {
-  min-height:100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url("../../../assets/img/bg-login2-compress.jpg");
-  /* background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(38, 173, 197, 0.3)), url("../../../assets/img/bg-login2.jpg"); */
-  background-repeat: no-repeat;
+    min-height:100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url("../../../assets/img/bg-login2-compress.jpg");
+    background-repeat: no-repeat;
     background-size: 100% 100%;
-      /* background:linear-gradient(0deg, rgba(255, 0, 150, 0.3), rgba(38, 173, 197, 0.3)), url("../../../assets/img/bg-login.jpg");
-      background-size:cover; */
 }
 </style>
