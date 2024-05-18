@@ -16,7 +16,7 @@
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
                     <label for="Tempat Lahir" class="block text-sm font-myFont font-medium text-dark">Tempat Lahir:</label>
-                    <input v-model="tempatLahir" type="text" id="tempat_lahir" name="tempat_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
+                    <input v-model="tempatLahir" type="text" id="tempat_lahir" name="tempat_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Bandung" />
                 </div>
                 <div class="w-full mb-4">
                     <label for="tgl_lahir" class="block text-sm font-myFont font-medium text-dark">Tanggal Lahir:</label>
@@ -26,19 +26,21 @@
             
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
-                    <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-dark">Jenis Kelamin:</label>
-                    <select v-model="jenisKelamin" name="jenis_kelamin" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                        <option value="Laki-laki">Laki - Laki</option>
-                        <option value="Perempuan">Perempuan</option>
+                    <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-dark">jenis_kelamin:</label>
+                    <select v-model="jenisKelamin" name="jenis_kelamin" id="jenis_kelamin" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                        <option selected disabled>-- Jenis Kelamin --</option>
+                        <option v-for="(option, index) in dataJenisKelamin" :key="index" :value="option.value">
+                        {{ option.text }}
+                        </option>
                     </select>
                 </div>
                 <div class="w-full mb-4">
                     <label for="status_nikah" class="block text-sm font-myFont font-medium text-dark">Status Nikah:</label>
                     <select v-model="statusNikah" name="status_nikah" id="status_nikah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                        <option value="Belum Kawin">Belum Kawin</option>
-                        <option value="Kawin">Kawin</option>
-                        <option value="Cerai Hidup">Cerai Hidup</option>
-                        <option value="Cerai Mati">Cerai Mati</option>
+                        <option selected disabled>-- Status Nikah --</option>
+                        <option v-for="(option, index) in dataStatusNikah" :key="index" :value="option.value">
+                        {{ option.text }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -47,21 +49,19 @@
                 <div class="w-full mb-4">
                     <label for="golongan_darah" class="block text-sm font-myFont font-medium text-dark">Golongan Darah:</label>
                     <select v-model="golonganDarah" name="golongan_darah" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="AB">AB</option>
-                        <option value="O">O</option>
+                        <option selected disabled>-- Golongan Darah --</option>
+                        <option v-for="(option, index) in dataGolonganDarah" :key="index" :value="option.value">
+                        {{ option.text }}
+                        </option>
                     </select>
                 </div>
                 <div class="w-full mb-4">
                     <label for="agama" class="block text-sm font-myFont font-medium text-dark">Agama:</label>
                     <select v-model="agama" name="agama" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                        <option value="Islam">Islam</option>
-                        <option value="Kristen">Kristen</option>
-                        <option value="Katholik">Katholik</option>
-                        <option value="Hindu">Hindu</option>
-                        <option value="Buddha">Buddha</option>
-                        <option value="Lainya">Lainya</option>
+                        <option selected disabled>-- Agama --</option>
+                        <option v-for="(option, index) in dataAgama" :key="index" :value="option.id">
+                        {{ option.text }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -83,15 +83,16 @@
                     <label for="provinsi" class="block text-sm font-myFont font-medium text-dark">Provinsi:</label>
                     <!-- <input v-model="provinsi" type="text" id="provinsi" name="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
                     <select v-model="provinsi" @change="getKota" name="provinsi" id="provinsi" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                        <option v-for="(option, index) in provinceOptions" :key="index" :value="option.id">
+                        <option selected disabled>-- Pilih Provinsi --</option>
+                        <option class="text-xs md:text-sm lg:text-base" v-for="(option, index) in provinceOptions" :key="index" :value="option.id">
                             {{ option.text }}
                         </option>
                     </select>
                 </div>
                 <div class="w-full mb-4">
                     <label for="kota" class="block text-sm font-myFont font-medium text-dark">Kota:</label>
-                    <!-- <input v-model="kota" type="text" id="kota" name="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
-                    <select v-model="kota" @change="getKecamatan" name="kota" id="kota" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                    <select :readonly="cityOptions.length === 0" v-model="kota" @change="getKecamatan" name="kota" id="kota" :class="{'read-only:bg-slate-200': cityOptions.length === 0}" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                        <option selected disabled>-- Pilih Kota --</option>
                         <option v-for="(option, index) in cityOptions" :key="index" :value="option.id">
                             {{ option.text }}
                         </option>
@@ -102,8 +103,8 @@
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
                     <label for="kecamatan" class="block text-sm font-myFont font-medium text-dark">Kecamatan:</label>
-                    <!-- <input v-model="kecamatan" type="text" id="kecamatan" name="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
-                    <select v-model="kecamatan" @change="getKelurahan" name="kecamatan" id="kecamatan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                    <select :readonly="districtsOptions.length === 0" v-model="kecamatan" @change="getKelurahan" name="kecamatan" id="kecamatan" :class="{'read-only:bg-slate-200': districtsOptions.length === 0}" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                        <option selected disabled>-- Pilih Kecamatan --</option>
                         <option v-for="(option, index) in districtsOptions" :key="index" :value="option.id">
                             {{ option.text }}
                         </option>
@@ -111,8 +112,8 @@
                 </div>
                 <div class="w-full mb-4">
                     <label for="kelurahan" class="block text-sm font-myFont font-medium text-dark">Kelurahan:</label>
-                    <!-- <input v-model="kelurahan" type="text" id="kelurahan" name="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" /> -->
-                    <select v-model="kelurahan" @change="saveVillagesId" name="kelurahan" id="kelurahan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                    <select :readonly="villagesOptions.length === 0" v-model="kelurahan" @change="saveVillagesId" name="kelurahan" id="kelurahan" :class="{'read-only:bg-slate-200': villagesOptions.length === 0}" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                        <option selected disabled>-- Pilih Kelurahan --</option>
                         <option v-for="(item, index) in villagesOptions" :value="item.id" :key="index">{{ item.text }}</option>
                     </select>
                 </div>
@@ -120,7 +121,7 @@
 
             <div class="w-full mb-4">
                 <label for="alamat" class="block text-sm font-myFont font-medium text-dark">Alamat Lengkap:</label>
-                <textarea v-model="alamatLengkap" type="text" id="alamat" name="alamat" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"></textarea>
+                <textarea v-model="alamatLengkap" type="text" id="alamat" name="alamat" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Alamat Lengkap"></textarea>
             </div>
 
             <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
@@ -148,33 +149,46 @@ export default {
         const store = useStore()
         const userData = ref(props.dataCustomer)
 
+        const dataJenisKelamin = ref([])
+        const dataStatusNikah = ref([])
+        const dataGolonganDarah = ref([])
+        const dataAgama = ref([])
+
         const provinceOptions = ref([])
         const cityOptions = ref([])
         const districtsOptions = ref([])
         const villagesOptions = ref([])
 
-        const namaDepan = ref(props.dataCustomer.first_name)
-        const namaBelakang = ref(props.dataCustomer.last_name)
+        const namaDepan = ref(props.dataCustomer ? props.dataCustomer.first_name : '')
+        const namaBelakang = ref(props.dataCustomer ? props.dataCustomer.last_name : '')
         const emailVal = ref(JSON.parse(localStorage.getItem('userEmail')))
-        const noWhatsapp = ref(props.dataCustomer.number)
-        const tempatLahir = ref(props.dataCustomer.birth_place)
-        const tglLahir = ref(props.dataCustomer.birth_date)
+        const noWhatsapp = ref(props.dataCustomer ? props.dataCustomer.number : '')
+        const tempatLahir = ref(props.dataCustomer ? props.dataCustomer.birth_place : '')
+        const tglLahir = ref(props.dataCustomer ? props.dataCustomer.birth_date : '')
         const formattedDate = ref('')
-        const jenisKelamin = ref(props.dataCustomer.gender)
-        const statusNikah = ref(props.dataCustomer.status)
-        const provinsi = ref(props.dataCustomer.village.district.regency.province.id)
-        const kota = ref(props.dataCustomer.village.district.regency.id)
-        const kecamatan = ref(props.dataCustomer.village.district.id)
-        const kelurahan = ref(props.dataCustomer.village.id)
-        const alamatLengkap = ref(props.dataCustomer.address)
-        const golonganDarah = ref(props.dataCustomer.blood_group)
-        const agama = ref(props.dataCustomer.religion)
+        const jenisKelamin = ref(props.dataCustomer.gender === 'Perempuan' ? 2 :
+  props.dataCustomer.gender === 'Laki-laki' ? 1 :
+  '-- Jenis Kelamin --')
+        const statusNikah = ref(props.dataCustomer.status == 'Belum Kawin' ? 0 
+        : props.dataCustomer.status == 'Kawin' ? 1
+        : props.dataCustomer.status == 'Cerai Hidup' ? 2 
+        : props.dataCustomer.status == 'Cerah Mati' ? 3 
+        : '-- Status Nikah --')
+        const provinsi = ref(props.dataCustomer.village ? props.dataCustomer.village.district.regency.province.id : '-- Pilih Provinsi --')
+        const kota = ref(props.dataCustomer.village ? props.dataCustomer.village.district.regency.id : '-- Pilih Kota --')
+        const kecamatan = ref(props.dataCustomer.village ? props.dataCustomer.village.district.id : '-- Pilih Kecamatan --')
+        const kelurahan = ref(props.dataCustomer.village ? props.dataCustomer.village.id : '-- Pilih Kelurahan --')
+        const alamatLengkap = ref(props.dataCustomer ? props.dataCustomer.address : '')
+        const golonganDarah = ref(props.dataCustomer.blood_group ? props.dataCustomer.blood_group : '-- Golongan Darah --')
+        const agama = ref(props.dataCustomer.religion ? props.dataCustomer.religion : '-- Agama --')
         
         const convertToInputDate = (tanggal) => {
             // console.log(tanggal)
-            const [day, month, year] = tanggal.split("-");
-            console.log(`${year}-${month}-${day}`)
-            return `${year}-${month}-${day}`;
+            if(tanggal){
+                const [day, month, year] = tanggal.split("-");
+                console.log(`${year}-${month}-${day}`)
+                return `${year}-${month}-${day}`;
+            }
         };
 
         onMounted(async () => {
@@ -199,26 +213,55 @@ export default {
             }));
             provinceOptions.value = formattedProvince
 
-            getKota()
-            getKecamatan()
-            getKelurahan()
+            dataJenisKelamin.value = [
+                {id: 1, text: 'Laki - laki', value: 1},
+                {id: 2,text: 'Perempuan', value: 2}
+            ]
+
+            dataStatusNikah.value = [
+                {id: 1, text: 'Belum Kawin', value: 0},
+                {id: 2, text: 'Kawin', value: 1},
+                {id: 3, text: 'Cerai Hidup', value: 2},
+                {id: 4, text: 'Cerai Mati', value: 3}
+            ]
+
+            dataGolonganDarah.value = [
+                {id: 1, text: 'A', value: 'A'},
+                {id: 2, text: 'AB', value: 'AB'},
+                {id: 3, text: 'B', value: 'B'},
+                {id: 4, text: 'O', value: 'O'}
+            ]
+
+            dataAgama.value = [
+                {id:1, text: 'Islam'},
+                {id:2, text: 'Kristen'},
+                {id:3, text: 'Katholik'},
+                {id:4, text: 'Hindu'},
+                {id:5, text: 'Budha'},
+                {id:6, text: 'lainya'}
+            ]
+
+            if(provinsi.value) getKota()
+            if(kota.value) getKecamatan()
+            if(kecamatan.value) getKelurahan()
         })
 
         const getKota = async() => {
-            console.log(`kota:`, provinsi.value)
-            const kota = await initAPI('get', 'region/regencies?province_id='+provinsi.value, null, null)
+            // console.log(`kota:`, provinsi.value)
+            const endpoint = provinsi.value ? 'region/regencies?province_id='+provinsi.value : 'region/regencies'
+            const kota = await initAPI('get', endpoint, null, null)
             console.log(`kota`, kota)
             const formattedKota = kota.data.map(item => ({
                 id: item.id,
                 text: item.name
             }));
             cityOptions.value = formattedKota
+            // const kota = await initAPI('get', 'region/regencies?province_id='+provinsi.value, null, null)
         }
 
         const getKecamatan = async() => {
-            console.log(`kecataman:`, kota.value)
-            const kecamatan = await initAPI('get', 'region/districts?regency_id='+kota.value, null, null)
-            console.log(`kecamatan`, kecamatan)
+            const endpoint = kota.value ? 'region/districts?regency_id='+kota.value : 'region/districts'
+            const kecamatan = await initAPI('get', endpoint, null, null)
             const formattedKecamatan = kecamatan.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -227,9 +270,8 @@ export default {
         }
 
         const getKelurahan = async() => {
-            console.log(`kelurahan yeuh:`, kecamatan.value)
-            const kelurahan = await initAPI('get', 'region/villages?district_id='+kecamatan.value, null, null)
-            console.log(`kelurahan`, kelurahan)
+            const endpoint = kecamatan.value ? 'region/villages?district_id='+kecamatan.value : 'region/villages'
+            const kelurahan = await initAPI('get', endpoint, null, null)
             const formattedKelurahan = kelurahan.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -253,11 +295,13 @@ export default {
             formData.append('number', DOMPurify.sanitize(noWhatsapp.value));
             formData.append('birth_place', DOMPurify.sanitize(tempatLahir.value));
             formData.append('birth_date', DOMPurify.sanitize(formattedDate.value));
-            formData.append('gender', DOMPurify.sanitize(jenisKelamin.value == 'Laki-laki' ? 1 : 2));
-            formData.append('status', DOMPurify.sanitize(statusNikah.value == 'Lajang' ? 0 : 1));
+            formData.append('gender', DOMPurify.sanitize(jenisKelamin.value));
+            formData.append('status', statusNikah.value);
+            formData.append('religion', agama.value);
             formData.append('village_id', DOMPurify.sanitize(kelurahan.value));
             formData.append('address', DOMPurify.sanitize(alamatLengkap.value));
 
+            console.log('update', formData)
             if(token){
                 try{
                     const response = await initAPI(
@@ -303,14 +347,18 @@ export default {
             tempatLahir,
             tglLahir,
             formattedDate,
+            dataJenisKelamin,
             jenisKelamin,
+            dataStatusNikah,
             statusNikah,
             provinsi,
             kecamatan,
             kelurahan,
             kota,
             alamatLengkap,
+            dataGolonganDarah,
             golonganDarah,
+            dataAgama,
             agama,
             provinceOptions,
             cityOptions,
