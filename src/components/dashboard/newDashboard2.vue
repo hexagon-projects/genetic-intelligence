@@ -19,6 +19,16 @@
                             </li>
                         </ol>
                     </div>
+
+                    <div class="mx-4 mt-3">
+                        <span class="text-xs text-warning flex justify-start gap-1 items-center p-3 bg-[#FFFCF1] rounded-lg border border-warning hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in">
+                            <a class="text-2xl"><PhWarning/></a>
+                            <p class="font-poppins font-medium">
+                                Kamu belum melengkapi data profile kamu, silahkan lengkapi <RouterLink :to="{name: 'user.views.profile'}" class="font-semibold underline">Disini.</RouterLink>
+                            </p>
+                        </span>
+                    </div>
+
                     <div class="flex flex-col lg:flex-row justify-center mx-4 mb-4 pt-4 gap-4">
                         <HeadingDashboard v-if="userResultDetect.is_resulted == true"/>
                         <!-- <profile/> -->
@@ -85,6 +95,7 @@
 </template>
 
 <script>
+import { PhWarning } from '@phosphor-icons/vue';
 import profile from './profile/profile.vue';
 import HeadingDashboard from '../customer/dashboard/heading/headingDashboard.vue'
 import HeadingBelumDeteksi from '../customer/dashboard/heading/headingBelumDeteksi.vue'
@@ -111,6 +122,7 @@ import Cookies from 'js-cookie'
 export default {
     name: 'NewDashboard',
     components: {
+        PhWarning,
         DashboardConsultant,
         DashboardAdmin,
         DashboardStaff,
