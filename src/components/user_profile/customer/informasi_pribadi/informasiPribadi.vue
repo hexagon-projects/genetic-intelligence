@@ -23,6 +23,18 @@
                     <input v-model="formattedDate" type="date" id="tgl_lahir" name="tgl_lahir" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" />
                 </div>
             </div>
+
+            <div class="flex justify-center items-center w-full gap-2">
+                <div class="w-full mb-4">
+                    <label for="anakKe" class="block text-sm font-myFont font-medium text-dark">Anak Ke:</label>
+                    <input v-model="anakKe" type="text" id="anakKe" name="anakKe" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: 1" />
+                </div>
+
+                <div class="w-full mb-4">
+                    <label for="jumlahSaudara" class="block text-sm font-myFont font-medium text-dark">Jumlah Saudara:</label>
+                    <input v-model="jumlahSaudara" type="text" id="jumlahSaudara" name="jumlahSaudara" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: 3" />
+                </div>
+            </div>
             
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
@@ -42,6 +54,18 @@
                         {{ option.text }}
                         </option>
                     </select>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center w-full gap-2">
+                <div class="w-full mb-4">
+                    <label for="suku" class="block text-sm font-myFont font-medium text-dark">Suku:</label>
+                    <input v-model="suku" type="text" id="suku" name="suku" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Sunda" />
+                </div>
+
+                <div class="w-full mb-4">
+                    <label for="kebangsaan" class="block text-sm font-myFont font-medium text-dark">Kebangsaan:</label>
+                    <input v-model="kebangsaan" type="text" id="kebangsaan" name="kebangsaan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Contoh: Indonesia" />
                 </div>
             </div>
 
@@ -166,6 +190,8 @@ export default {
         const tempatLahir = ref(props.dataCustomer ? props.dataCustomer.birth_place : '')
         const tglLahir = ref(props.dataCustomer ? props.dataCustomer.birth_date : '')
         const formattedDate = ref('')
+        const anakKe = ref(props.dataCustomer ? props.dataCustomer.child_number : '')
+        const jumlahSaudara = ref(props.dataCustomer ? props.dataCustomer.from_child_number : '')
         const jenisKelamin = ref(props.dataCustomer.gender === 'Perempuan' ? 2 :
   props.dataCustomer.gender === 'Laki-laki' ? 1 :
   '-- Jenis Kelamin --')
@@ -174,6 +200,8 @@ export default {
         : props.dataCustomer.status == 'Cerai Hidup' ? 2 
         : props.dataCustomer.status == 'Cerah Mati' ? 3 
         : '-- Status Nikah --')
+        const suku = ref(props.dataCustomer ? props.dataCustomer.ethnic : '')
+        const kebangsaan = ref(props.dataCustomer ? props.dataCustomer.nationality : '')
         const provinsi = ref(props.dataCustomer.village ? props.dataCustomer.village.district.regency.province.id : '-- Pilih Provinsi --')
         const kota = ref(props.dataCustomer.village ? props.dataCustomer.village.district.regency.id : '-- Pilih Kota --')
         const kecamatan = ref(props.dataCustomer.village ? props.dataCustomer.village.district.id : '-- Pilih Kecamatan --')
@@ -292,11 +320,15 @@ export default {
             formData.append('id', customerId);
             formData.append('first_name', DOMPurify.sanitize(namaDepan.value));
             formData.append('last_name', DOMPurify.sanitize(namaBelakang.value));
+            formData.append('child_number', DOMPurify.sanitize(anakKe.value));
+            formData.append('from_child_number', DOMPurify.sanitize(jumlahSaudara.value));
             formData.append('number', DOMPurify.sanitize(noWhatsapp.value));
             formData.append('birth_place', DOMPurify.sanitize(tempatLahir.value));
             formData.append('birth_date', DOMPurify.sanitize(formattedDate.value));
             formData.append('gender', DOMPurify.sanitize(jenisKelamin.value));
             formData.append('status', statusNikah.value);
+            formData.append('ethnic', DOMPurify.sanitize(suku.value));
+            formData.append('nationality', DOMPurify.sanitize(kebangsaan.value));
             formData.append('religion', agama.value);
             formData.append('village_id', DOMPurify.sanitize(kelurahan.value));
             formData.append('address', DOMPurify.sanitize(alamatLengkap.value));
@@ -349,6 +381,10 @@ export default {
             formattedDate,
             dataJenisKelamin,
             jenisKelamin,
+            anakKe,
+            jumlahSaudara,
+            suku,
+            kebangsaan,
             dataStatusNikah,
             statusNikah,
             provinsi,

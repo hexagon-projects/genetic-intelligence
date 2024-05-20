@@ -5,22 +5,50 @@
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
                     <label for="jenjangPendidikan" class="block text-sm font-myFont font-medium text-dark">Jenjang Pendidikan:</label>
-                    <input v-model="jenjangPendidikan" type="text" name="jenjangPendidikan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password anda saat ini" />
+                    <!-- <input v-model="jenjangPendidikan" type="text" name="jenjangPendidikan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password anda saat ini" /> -->
+                    <select v-model="jenjangPendidikan" id="jenjang_pendidikan" name="jenjang_pendidikan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
+                        <!-- <option value="" disabled selected>-- Pilih Opsi --</option> -->
+                        <option selected disabled>-- Pilih Opsi --</option>
+                        <option v-for="(option, index) in dataJenjangPendidikan" :key="index" :value="option.value">
+                        {{ option.text }}
+                        </option>
+                    </select>
                 </div>
                 <div class="w-full mb-4">
-                    <label for="namaPendidikan" class="block text-sm font-myFont font-medium text-dark">Nama Sekolah:</label>
-                    <input v-model="namaPendidikan" type="text" name="namaPendidikan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password baru anda" />
+                    <div class="relative group">
+                        <label for="namaPendidikan" class="block text-sm font-myFont font-medium text-dark">
+                           {{ jenjangPendidikan !== 'perguruan_tinggi' ? 'Nama Sekolah:' : 'Nama Perguruan Tinggi' }}
+                        </label>
+                        <input v-model="namaPendidikan" @input="debouncedGetSearchData()" type="text" name="namaPendidikan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" :placeholder="jenjangPendidikan !== 'perguruan_tinggi' ? 'Nama Sekolah' : 'Nama Perguruan Tinggi'" />
+                        
+                        <transition name="fade" mode="out-in">
+                            <div id="dropdown-menu" v-if="searched" class="w-full max-h-[140px] overflow-y-scroll absolute z-40 right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1">
+                                <div v-if="searched && pilihanSekolah.length > 0" class="flex flex-col">
+                                    <span v-for="(item, index) in pilihanSekolah" :key="index" @click="pilihSekolah(item.id, item.name)" class="hover:bg-neutral-200 py-2 px-4 cursor-pointer mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                        {{ item.name }}
+                                    </span>
+                                </div>
+                                <div v-else-if="searched && pilihanSekolah.length == 0">
+                                    <span class="hover:bg-neutral-500 mx-4 font-myFont text-xs lg:text-sm text-dark">
+                                        Data sekolah tidak ada.
+                                    </span>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
 
-            <div v-if="props.dataCustomer.institutions.type == 'SMK' || props.dataCustomer.institutions.type == 'Perguruan Tinggi'" class="flex justify-center items-center w-full gap-2">
-                <div class="w-full mb-4">
+            <div class="flex justify-center items-center w-full gap-2">
+                <div v-if="jenjangPendidikan == 'SMA' || jenjangPendidikan == 'SMK' || jenjangPendidikan == 'perguruan_tinggi' " class="w-full mb-4">
                     <label for="jurusan" class="block text-sm font-myFont font-medium text-dark">Jurusan:</label>
                     <input v-model="jurusan" type="text" name="jurusan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Jurusan" />
                 </div>
                 <div class="w-full mb-4">
-                    <label for="grade" class="block text-sm font-myFont font-medium text-dark">Kelas:</label>
-                    <input v-model="kelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Kelas" />
+                    <label for="grade" class="block text-sm font-myFont font-medium text-dark">
+                        {{ jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas:' : 'Semester' }}
+                    </label>
+                    <input v-model="kelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" :placeholder="jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas' : 'Semester'" />
                 </div>
             </div>
 
@@ -32,13 +60,14 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.css';
+import 'sweetalert2/dist/sweetalert2.css'
 import DOMPurify from 'dompurify'
 import { useRouter } from 'vue-router'
 import Cookies from 'js-cookie'
+import _debounce from 'lodash/debounce'
 
 export default {
     name: 'InformasiSekolah',
@@ -47,10 +76,48 @@ export default {
         console.log('data props is', props)
 
         const router = useRouter()
-        const jenjangPendidikan = ref(props.dataCustomer.institutions.type)
-        const namaPendidikan = ref(props.dataCustomer.institutions.name)
-        const kelas = ref(props.dataCustomer.grade)
-        const jurusan = ref(props.dataCustomer.majoring)
+        const idSekolah = ref('')
+        const searched = ref(false)
+        const pilihanSekolah = ref([])
+
+        const dataJenjangPendidikan = ref([])
+
+        onMounted(() => {
+            dataJenjangPendidikan.value = [
+                {id:1, text:'SD', value: 'SD'},
+                {id:2, text:'SMP', value: 'SMP'},
+                {id:3, text:'SMA', value: 'SMA'},
+                {id:4, text:'SMK', value: 'SMK'},
+                {id:5, text:'Perguruan Tinggi', value: 'perguruan_tinggi'},
+            ]
+        })
+
+        const pilihSekolah = (id, name) => {
+            idSekolah.value = id
+            searched.value = false
+            namaPendidikan.value = name
+        }
+
+        const debouncedGetSearchData = _debounce(() => {
+            if(namaPendidikan.value !== ''){
+                searched.value = true
+                getSearchData()
+            } else {
+                searched.value = false
+            }
+        }, 500)
+
+        const getSearchData = async() => {
+            console.log(`nyari`)
+            const response = await initAPI('get', `institutions?search=${namaPendidikan.value}`, null, null)
+            console.log(response.data)
+            pilihanSekolah.value = response.data.data
+        }
+
+        const jenjangPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.type : '-- Pilih Opsi --')
+        const namaPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.name : '')
+        const kelas = ref(props.dataCustomer.grade ? props.dataCustomer.grade : '')
+        const jurusan = ref(props.dataCustomer.majoring ? props.dataCustomer.majoring : '')
 
         const ubahData = async() => {
             const data = JSON.stringify({
@@ -59,11 +126,11 @@ export default {
                 grade: DOMPurify.sanitize(kelas.value),
                 majoring: DOMPurify.sanitize(jurusan.value)
             })
-
+            console.log(`data`, data)
             const token = Cookies.get('token')
             if(token){
                 try {
-                    const response = await initAPI('', '', data, token)
+                    const response = await initAPI('post', '', data, token)
     
                     Swal.fire({
                         icon: 'success',
@@ -77,10 +144,11 @@ export default {
                     store.commit('user', updatedCustomer.data.data[0])
                     localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
                 } catch (error) {
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',
-                        text: 'Gagal mengubah password.',
+                        text: 'Gagal mengubah data pendidikan.',
                         showConfirmButton: false,
                         timer: 2000
                     });
@@ -92,6 +160,11 @@ export default {
         }
 
         return {
+            pilihSekolah,
+            searched,
+            pilihanSekolah,
+            debouncedGetSearchData,
+            dataJenjangPendidikan,
             jenjangPendidikan,
             namaPendidikan,
             kelas,

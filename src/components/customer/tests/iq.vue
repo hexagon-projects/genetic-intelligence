@@ -16,9 +16,13 @@
             </ol>
         </div>
 
+        <div v-if="dataProfileInclomplete">
+            <modalCekProfile/>
+        </div>
+
         <div class="flex flex-col lg:flex-row justify-center mx-7 pt-3 gap-4">
             <div :class="{'h-[420px]': loading}" class="flex flex-col bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
-                <div v-if="!loadingCheck && !isTestedIQ">
+                <div v-if="!loadingCheck && !isTestedIQ && !dataProfileInclomplete">
 
                     <div v-if="isUnderstand == false">
                         <InstruksiIQ/>
@@ -29,7 +33,7 @@
                     </div>
                 </div>
 
-                <div v-else-if="!loadingCheck && isTestedIQ">
+                <div v-else-if="!dataProfileInclomplete && !loadingCheck && isTestedIQ">
                     <div class="hidden lg:flex lg:flex-row items-center">
                         <div class="lg:w-1/2">
                             <div class="flex flex-col mx-14">
@@ -103,19 +107,22 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch, watchEffect } from 'vue';
+import { ref, computed, onMounted, watch, watchEffect, onBeforeMount } from 'vue';
 import { useStore } from 'vuex'
 import InstruksiIQ from './iq_comps/petunjuk.vue'
 import QuestionsIQ from './iq_comps/questions.vue';
 import initAPI from '../../../api/api';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie'
+import cekDataProfile from '../../cekProfile'
+import modalCekProfile from '../../modalCekProfile/modalCekProfile.vue';
 
 
 export default {
     name: 'TestIQ',
-    components: {InstruksiIQ, QuestionsIQ},
+    components: {InstruksiIQ, QuestionsIQ, modalCekProfile},
     setup(){
+        const dataProfileInclomplete = ref(false)
         const router = useRouter()
         const store = useStore()
         const isUnderstand = computed(() => store.getters.getIsUnderstand)
@@ -149,11 +156,22 @@ export default {
             loadingCheck.value = false
         }
 
+        onBeforeMount(() => {
+            const cekDataKosong = cekDataProfile()
+            
+            if(cekDataKosong){
+                dataProfileInclomplete.value = true
+            } else {
+                dataProfileInclomplete.value = false
+            }
+        })
+
         onMounted(() => {
             checkIQCustomer()
         })
 
         return {
+            dataProfileInclomplete,
             loadingCheck,
             isUnderstand,
             isTestedIQ,

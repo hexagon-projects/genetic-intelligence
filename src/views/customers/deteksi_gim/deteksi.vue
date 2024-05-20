@@ -6,19 +6,24 @@
         <section v-if="userData" class="bg-gray-100 pb-8 text-dark">
             <div class="mx-4 pt-4">
                 <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
-                <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
-                    Beranda
-                </RouterLink>
-                <span class="mx-2 text-gray-400 text-base">/</span>
-                <a class="text-gray-400 text-base">
-                    Test
-                </a>
-                <span class="mx-2 text-base">/</span>
-                <RouterLink :to="{name: 'user.views.deteksi'}" class="text-base text-dark hover:text-dark/70">
-                    Test GIM
-                </RouterLink>
-            </ol>
+                    <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 hover:text-dark text-base">
+                        Beranda
+                    </RouterLink>
+                    <span class="mx-2 text-gray-400 text-base">/</span>
+                    <a class="text-gray-400 text-base">
+                        Test
+                    </a>
+                    <span class="mx-2 text-base">/</span>
+                    <RouterLink :to="{name: 'user.views.deteksi'}" class="text-base text-dark hover:text-dark/70">
+                        Test GIM
+                    </RouterLink>
+                </ol>
             </div>
+
+            <div v-if="dataNotComplete">
+                <modalCekProfile/>
+            </div>
+
             <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
                 <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">
                   <div v-if="!loadingSubmit">
@@ -150,19 +155,34 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { onBeforeRouteUpdate, useRouter } from 'vue-router';
 import Cookies from 'js-cookie'
+import cekDataProfile from '../../../components/cekProfile';
+import modalCekProfile from '../../../components/modalCekProfile/modalCekProfile.vue'
 
 export default {
   name: 'deteksi',
-  components: {Instruksi, FormUpload, Review, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight},
+  components: {Instruksi, FormUpload, Review, PhVideo, PhFileArrowUp, PhCheckFat, PhCaretLeft, PhCaretRight, modalCekProfile},
   setup(){
+    const dataNotComplete = ref(false)
     const router = useRouter()
     const loading = ref(false);
     const loadingSubmit = ref(false);
     const store = useStore()
     const userData = computed(() => store.getters.getUserData)
-    const activeTab = ref(1)
+    const activeTab = ref(0)
     const checked = ref(false)
     const reviewImage = computed(() => store.getters.getReviewImage)
+
+    onBeforeMount(() => {
+        const cekDataKosong = cekDataProfile()
+        if(cekDataKosong){
+            dataNotComplete.value = true
+            activeTab.value = 0
+        } else {
+            dataNotComplete.value = false
+            activeTab.value = 1
+        } 
+            
+    })
 
     const submitForm = async () => {
         loadingSubmit.value = !loadingSubmit.value
@@ -251,6 +271,7 @@ export default {
     }
 
     return{
+        dataNotComplete,
         loadingSubmit,
         loading,
         userData,
