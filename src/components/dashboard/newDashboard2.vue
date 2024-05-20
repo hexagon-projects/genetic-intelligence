@@ -20,7 +20,7 @@
                         </ol>
                     </div>
 
-                    <div class="mx-4 mt-3">
+                    <div v-if="dataProfileInclomplete" class="mx-4 mt-3">
                         <span class="text-xs text-warning flex justify-start gap-1 items-center p-3 bg-[#FFFCF1] rounded-lg border border-warning hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in">
                             <a class="text-2xl"><PhWarning/></a>
                             <p class="font-poppins font-medium">
@@ -117,7 +117,7 @@ import DashboardStaff from '../staffs/dashboard/dashboard.vue'
 import { RouterLink, useRouter } from 'vue-router';
 import { jwtDecode } from "jwt-decode"
 import Cookies from 'js-cookie'
-
+import cekDataProfile from '../cekProfile';
 
 export default {
     name: 'NewDashboard',
@@ -140,6 +140,7 @@ export default {
         resumeIq,
     },
     setup(){
+        const dataProfileInclomplete = ref(false)
         const router = useRouter()
         const loading = ref(false);
         const store = useStore()
@@ -158,6 +159,8 @@ export default {
 
         loading.value = !loading.value
         onMounted(async() => {
+            dataProfileInclomplete.value = cekDataProfile()
+
             const token = Cookies.get('token')
             console.log(`cookie token`, token)
             // const const token = Cookies.get('token')
@@ -214,6 +217,7 @@ export default {
         })
 
         return {
+            dataProfileInclomplete,
             loading, 
             userData,
             userRole,
