@@ -1,15 +1,5 @@
 <template>
-    <section class="bg-gray-100 pb-16">
-        <div class="mx-4 pt-4">
-            <ol class="flex text-gray-500 font-semibold">
-                <li class="before:px-1.5">
-                    <a class="text-dark text-base cursor-default">
-                        Halaman Pembayaran
-                    </a>
-                </li>
-            </ol>
-        </div>
-
+    <section class="bg-gray-100 py-[6vh]">
         <div class="flex flex-col items-center lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 shadow-sm rounded-lg">
                 <div class="lg:hidden flex flex-col items-center gap-2">
@@ -73,7 +63,7 @@
                 </div>
                 <!-- end form pembayaran -->
 
-                <div v-if="loadingFetch" class="flex justify-center pt-8 w-full">
+                <div v-if="loadingFetch" class="flex justify-center h-52 pt-14 w-full">
                     <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                 </div>
 
@@ -84,6 +74,12 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="flex justify-end pt-2">
+                    <button @click="submitPayment" class="bg-biru text-white font-myFont px-4 py-2 rounded-lg">
+                        Bayar
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -92,8 +88,8 @@
 <script>
 import { ref, onMounted } from 'vue'
 import initAPI from '../../api/api'
-import { watch } from 'vue'
 import { useRoute } from 'vue-router'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'HalamanPembayaran',
@@ -115,24 +111,55 @@ export default {
             paymentType.value = payment
             paymentCode.value = code
             feePaymentMethod.value = fee
-            totalFee.value = 'Rp.'+biayaPendaftaran.value
-            // alert('wkwkwk ajg')
+            // totalFee.value = 'Rp.'+biayaPendaftaran.value
         }
 
         const submitPayment = async() => {
+            const token = Cookies.get('token')
+
+            // type: tipeParam.value == 'test-iq' 
+            //         ? 'iq' 
+            //         : tipeParam.value == 'test-gim' 
+            //         ? 'gim' 
+            //         : tipeParam.value == 'test-assessment'
+            //         ? 'assessment'
+            //         : null
             const data = {
-                type: tipeParam.value == 'test-iq' 
-                        ? 'iq' 
-                        : tipeParam.value == 'test-gim' 
-                        ? 'gim' 
-                        : tipeParam.value == 'test-assessment'
-                        ? 'assessment'
-                        : null
+                customer_id: JSON.parse(localStorage.getItem('userData')).id,
+                payment_method_code: paymentCode.value,
+                fee: 0
             }
+
             const endpoint = tipeParam.value == 'test-iq' 
-            ? 'anu' 
+            ? 'v2/payment/test/iq' 
             : tipeParam.value == 'test-gim' 
-            ? 'blabla' : 'wakwaw'
+            ? 'v2/payment/test/gim' : 'v2/payment/test/assessment'
+
+            console.log(`bayar ke: `, endpoint)
+            console.log(`data dikirim:`, data)
+
+            try {
+                const response = await initAPI('post', endpoint, JSON.stringify(data), token)
+                console.log(response.data)
+                
+                const url = response.data.data.paymentUrl
+                let fixedUrl = ''
+                let refValue = ''
+
+                if(url.includes('ref=')){
+                    fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                    refValue = url.split('ref=')[1]
+                }else if(url.includes('reference=')){
+                    console.log('reference', url)
+                    fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                    refValue = url.split('reference=')[1]
+                }
+
+                window.location.href = fixedUrl+refValue
+            } catch (error) {
+                console.log(error)
+            }
+
         }
 
         onMounted(async() => {
@@ -141,12 +168,18 @@ export default {
                 const response = await initAPI('get', 'payment/methods', null, null)
                 paymentMethod.value = response.data.paymentFee
 
-                console.log(response.data)
             } catch(error) {
-                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat mengambil data metode pembayaran.',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
             }
 
-            console.log(route.params.tipePembayaran)
+            // console.log(route.params.tipePembayaran)
+            tipeParam.value = route.params.tipePembayaran
             loadingFetch.value = !loadingFetch.value
         })
 
@@ -159,7 +192,8 @@ export default {
             totalFee,
             feePaymentMethod,
             paymentMethod,
-            pilihPayment
+            pilihPayment,
+            submitPayment
         }
     }
 }
