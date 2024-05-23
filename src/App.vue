@@ -4,6 +4,8 @@
   && currentRouteName !== 'user.views.payment_status'
   && currentRouteName !== 'views.reset_password'
   && currentRouteName !== 'views.forgot_password'
+  && currentRouteName !== 'views.404notfound'
+  && currentRouteName !== 'user.views.pembayaran'
   ">
     <navbar/>
   </div>
@@ -13,6 +15,8 @@
   && currentRouteName !== 'user.views.payment_status'
   && currentRouteName !== 'views.reset_password'
   && currentRouteName !== 'views.forgot_password'
+  && currentRouteName !== 'views.404notfound'
+  && currentRouteName !== 'user.views.pembayaran'
   ">
     <footerComp/>
   </div>
