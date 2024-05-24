@@ -155,18 +155,14 @@ export default {
         const isAssessment = ref(false)
         const propsAssessment = ref('')
         
-        console.log(`user yeuh`,userData.value)
-
         loading.value = !loading.value
         onMounted(async() => {
             dataProfileInclomplete.value = cekDataProfile()
 
             const token = Cookies.get('token')
-            console.log(`cookie token`, token)
             // const const token = Cookies.get('token')
             if(token){
                 const decodedToken = jwtDecode(token)
-                console.log(`decode dashboard`, decodedToken)
                 newRole.value = decodedToken.role
             } else {
                 localStorage.clear()
