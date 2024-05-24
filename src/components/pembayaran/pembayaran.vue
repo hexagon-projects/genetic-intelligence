@@ -1,5 +1,7 @@
 <template>
     <section class="bg-gray-100 py-[6vh]">
+        <modalInfo v-if="showModal" @understand="toggleModal"/>
+
         <div class="flex flex-col items-center lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 shadow-sm rounded-lg">
                 <div class="lg:hidden flex flex-col items-center gap-2">
@@ -90,10 +92,14 @@ import { ref, onMounted } from 'vue'
 import initAPI from '../../api/api'
 import { useRoute } from 'vue-router'
 import Cookies from 'js-cookie'
+import modalInfo from './modalInfo.vue'
 
 export default {
     name: 'HalamanPembayaran',
+    components: { modalInfo },
     setup(){
+        const showModal = ref(true)
+
         const route = useRoute()
         const loadingFetch = ref(false)
         const tipeParam = ref('')
@@ -117,13 +123,6 @@ export default {
         const submitPayment = async() => {
             const token = Cookies.get('token')
 
-            // type: tipeParam.value == 'test-iq' 
-            //         ? 'iq' 
-            //         : tipeParam.value == 'test-gim' 
-            //         ? 'gim' 
-            //         : tipeParam.value == 'test-assessment'
-            //         ? 'assessment'
-            //         : null
             const data = {
                 customer_id: JSON.parse(localStorage.getItem('userData')).id,
                 payment_method_code: paymentCode.value,
@@ -183,8 +182,14 @@ export default {
             loadingFetch.value = !loadingFetch.value
         })
 
+        const toggleModal = () => {
+            showModal.value = !showModal.value
+        }
+
 
         return {
+            showModal,
+            toggleModal,
             loadingFetch,
             code_voucher,
             paymentType,
