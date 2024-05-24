@@ -90,6 +90,10 @@ const routes = [
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
                 next({ name: 'views.login' });
+            } else if(isAuth && isAuth.is_payment_gim == 'Tidak') {
+                // console.log(`can mayar sia`)
+                router.push('/pembayaran/test-gim')
+                next()
             } else {
                 const decodedToken = jwtDecode(token);
                 console.log(`di deocde cek`, decodedToken);
@@ -749,6 +753,16 @@ const routes = [
         meta: {
             showNavbar: true,
             showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment']
+            const tipePembayaran = to.params.tipePembayaran;
+    
+            if (allowedPayments.includes(tipePembayaran)) {
+                next()
+            } else {
+                next({ name: 'views.404notfound' })
+            }
         }
     },
     // {
