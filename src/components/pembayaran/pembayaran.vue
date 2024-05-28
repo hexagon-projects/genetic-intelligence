@@ -141,7 +141,6 @@ export default {
             paymentCode.value = code
             feePaymentMethod.value = fee
             getHarga()
-            // totalFee.value = 'Rp.'+biayaPendaftaran.value
         }
 
         const submitPayment = async() => {
