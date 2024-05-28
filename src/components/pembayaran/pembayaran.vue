@@ -116,9 +116,9 @@ export default {
             if(!totalFee.value){
                 try {
                     const endpoint = tipeParam.value == 'test-iq' 
-                    ? 'register/payment?type=iq' 
+                    ? 'test/payment?type=iq' 
                     : tipeParam.value == 'test-gim' 
-                    ? 'register/payment?type=gim' : 'register/payment?type=assessment'
+                    ? 'test/payment?type=gim' : 'test/payment?type=assessment'
                     
                     const response = await initAPI('get', endpoint, null, null)
                     console.log(response.data)
