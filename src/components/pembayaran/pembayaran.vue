@@ -112,11 +112,35 @@ export default {
 
         const paymentMethod = ref([])
 
+        const getHarga = async() => {
+            if(!totalFee.value){
+                try {
+                    const endpoint = tipeParam.value == 'test-iq' 
+                    ? 'register/payment?type=iq' 
+                    : tipeParam.value == 'test-gim' 
+                    ? 'register/payment?type=gim' : 'register/payment?type=assessment'
+                    
+                    const response = await initAPI('get', endpoint, null, null)
+                    console.log(response.data)
+                    totalFee.value = response.data.price
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data harga pembayaran.',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            }
+        }
+
         const pilihPayment = (code, payment, fee) => {
             console.log(`${payment} - ${fee}`)
             paymentType.value = payment
             paymentCode.value = code
             feePaymentMethod.value = fee
+            getHarga()
             // totalFee.value = 'Rp.'+biayaPendaftaran.value
         }
 
@@ -156,7 +180,13 @@ export default {
 
                 window.location.href = fixedUrl+refValue
             } catch (error) {
-                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat melakukan pembayaran.',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
             }
 
         }
