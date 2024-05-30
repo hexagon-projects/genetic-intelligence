@@ -93,6 +93,7 @@ import initAPI from '../../api/api'
 import { useRoute } from 'vue-router'
 import Cookies from 'js-cookie'
 import modalInfo from './modalInfo.vue'
+import DOMPurify from 'dompurify'
 
 export default {
     name: 'HalamanPembayaran',
@@ -147,6 +148,7 @@ export default {
             const token = Cookies.get('token')
 
             const data = {
+                school_code: DOMPurify.sanitize(code_voucher.value),
                 customer_id: JSON.parse(localStorage.getItem('userData')).id,
                 payment_method_code: paymentCode.value,
                 fee: 0
