@@ -151,7 +151,7 @@ export default {
                 school_code: DOMPurify.sanitize(code_voucher.value),
                 customer_id: JSON.parse(localStorage.getItem('userData')).id,
                 payment_method_code: paymentCode.value,
-                fee: 0
+                fee: totalFee.value
             }
 
             const endpoint = tipeParam.value == 'test-iq' 
