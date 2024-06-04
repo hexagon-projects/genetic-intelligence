@@ -28,11 +28,11 @@
 				<RouterLink :to="{name: 'views.dashboard'}" 
 					class="
 					flex justify-center items-end px-4 py-2 gap-1 font-myFont
-					hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+					hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
 					"
 					:class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'views.dashboard', 'text-dark bg-white': $route.name !== 'views.dashboard'}"
 					>
-					<PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru hover:text-light': $route.name !== 'views.dashboard'}" />
+					<PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru': $route.name !== 'views.dashboard'}" />
 					Beranda
 				</RouterLink>
 				<customerNav v-if="userRole == 'customer'"/>
