@@ -227,9 +227,9 @@
                                     <div class="flex flex-row items-center gap-2 mb-4">
                                         <div class="w-full">
                                             <div class="flex flex-col">
-                                                <h1 v-if="detailCustomers.institutions.type !== 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Nama Sekolah</h1>
-                                                <h1 v-if="detailCustomers.institutions.type == 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Nama Perguruan Tinggi</h1>
-                                                <p class="font-myFont font-medium text-dark text-sm">
+                                                <h1 v-if="detailCustomers.institutions && detailCustomers.institutions.type !== 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Nama Sekolah</h1>
+                                                <h1 v-if="detailCustomers.institutions && detailCustomers.institutions.type == 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Nama Perguruan Tinggi</h1>
+                                                <p v-if="detailCustomers.institutions" class="font-myFont font-medium text-dark text-sm">
                                                     {{ detailCustomers.institutions.name }}
                                                 </p>
                                             </div>
@@ -238,8 +238,8 @@
                                     <div class="flex flex-row items-center gap-2 mb-4">
                                         <div class="w-1/2">
                                             <div class="flex flex-col">
-                                                <h1 v-if="detailCustomers.institutions.type !== 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Jurusan</h1>
-                                                <h1 v-if="detailCustomers.institutions.type == 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Program Didik</h1>
+                                                <h1 v-if="detailCustomers.institutions && detailCustomers.institutions.type !== 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Jurusan</h1>
+                                                <h1 v-if="detailCustomers.institutions && detailCustomers.institutions.type == 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Program Didik</h1>
                                                 <p class="font-myFont font-medium text-dark text-sm">
                                                     {{ detailCustomers.majoring !== null ? detailCustomers.majoring : '-' }}
                                                 </p>
@@ -247,8 +247,8 @@
                                         </div>
                                         <div class="w-1/2">
                                             <div class="flex flex-col">
-                                                <h1 v-if="detailCustomers.institutions.type !== 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Kelas</h1>
-                                                <h1 v-if="detailCustomers.institutions.type == 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Semester</h1>
+                                                <h1 v-if="detailCustomers.institutions && detailCustomers.institutions.type !== 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Kelas</h1>
+                                                <h1 v-if="detailCustomers.institutions && detailCustomers.institutions.type == 'Perguruan Tinggi'" class="font-myFont font-medium text-dark text-lg">Semester</h1>
                                                 <p class="font-myFont font-medium text-dark text-sm">
                                                     {{ detailCustomers.grade !== null ? detailCustomers.grade : '-' }}
                                                 </p>
