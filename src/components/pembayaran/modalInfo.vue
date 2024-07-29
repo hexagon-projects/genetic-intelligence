@@ -27,7 +27,7 @@
                 <div class="text-center">
                     <h3 class="uppercase text-lg text-gray-900 font-semibold text-center">Perhatian</h3>
                     <p class="text-gray-600 my-2 text-sm">
-                        Untuk melakukan Test Genetic Intelligence Mapping, Harap melakukan pembayaran terlebih dahulu.
+                        Untuk melakukan Test {{ payment_type }}, Harap melakukan pembayaran terlebih dahulu.
                     </p>
 
                     <div class="pb-4 pt-6 text-center">
