@@ -170,6 +170,8 @@ export default {
                 let fixedUrl = ''
                 let refValue = ''
 
+                localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+
                 if(url.includes('ref=')){
                     fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
                     refValue = url.split('ref=')[1]
