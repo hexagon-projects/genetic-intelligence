@@ -10,7 +10,7 @@
                 <a class="animate-bounce mb-4 mx-auto bg-success px-6 py-6 rounded-full"><PhCheck size="38" fill="white"/></a>
                 <div class="text-center">
                     <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Pembayaran Berhasil!</h3>
-                    <p class="text-gray-600 my-2">Terimakasih telah melakukan pembayaran, kamu bisa login sekarang.</p>
+                    <p class="text-gray-600 my-2">Terimakasih telah melakukan pembayaran, kamu bisa lanjut sekarang.</p>
                     <!-- <p> A!  </p> -->
                     <div v-if="paymentReservasiCheck" class="pb-4 pt-6 text-center">
                         <button @click="kembali" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
@@ -19,8 +19,8 @@
                     </div>
 
                     <div v-else class="pb-4 pt-6 text-center">
-                        <button @click="toLogin" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
-                        Login 
+                        <button @click="toDashboard" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
+                        Kembali 
                         </button>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                     <button @click="checkUlang" class="mr-2 rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
                         Cek Ulang
                     </button>
-                    <button @click="toRegister" class="rounded-lg font-myFont px-12 border bg-white hover:bg-opacity-75 hover:shadow-lg text-dark font-medium py-3">
+                    <button @click="toDashboard" class="rounded-lg font-myFont px-12 border bg-white hover:bg-opacity-75 hover:shadow-lg text-dark font-medium py-3">
                         Kembali
                     </button>
                 </div>
@@ -86,6 +86,7 @@ import initAPI from '../../../api/api'
 import { RouterLink, useRouter } from 'vue-router'
 import axios from 'axios'
 import qs from 'qs'
+import Cookies from 'js-cookie'
 
 export default {
     name: 'PaymentStatus',
@@ -99,21 +100,23 @@ export default {
         const paymentReservasiCheck = ref(null)
 
         onBeforeMount(async() => {
+            console.log(`aisia ajg`)
             loading.value = !loading.value
             if(JSON.parse(localStorage.getItem('bayarReservasi'))) paymentReservasiCheck.value = true
             const merchantId = JSON.parse(localStorage.getItem('merchantId'))
             if(merchantId){
+                const token = Cookies.get('token')
                 // const check = await initAPI('get', 'payment/check?merchant_order_id=65a4bfcf730a7', null, null)
-                const check = await initAPI('get', 'v2/payment/check?merchant_order_id='+merchantId, null, null)
-                console.log(`check status pembayaran`,check.data)
+                const check = await initAPI('get', 'v2/payment/check?merchant_order_id='+merchantId, null, token)
+                // console.log(`check status pembayaran`,check.data)
                 if(check.data.is_success == true){
                     isSuccess.value = check.data.is_success
-                    console.log(`wakwaw`, isSuccess.value)
+                    // console.log(`wakwaw`, isSuccess.value)
                 } else if (check.data.is_success == false){
                     isSuccess.value = check.data.is_success
-                    console.log(`wakwaw`, isSuccess.value)
+                    // console.log(`wakwaw`, isSuccess.value)
                     dataCheckUlang.value = check.data
-                    localStorage.setItem('formValue', JSON.stringify(check.data.data_user))
+                    // localStorage.setItem('formValue', JSON.stringify(check.data.data_user))
                 }
             }
             loading.value = !loading.value
@@ -125,10 +128,10 @@ export default {
             router.push('/login')
         }
 
-        const toRegister = () => {
+        const toDashboard = () => {
             console.log('back to login')
             localStorage.removeItem('merchantId')
-            router.push('/register')
+            router.push('/')
         }
 
         const kembali = () => {
@@ -140,12 +143,10 @@ export default {
         const checkUlang = async() => {
             console.log(`cek ulang`, dataCheckUlang.value)
             try {
-                const response = await axios.post(dataCheckUlang.value.check_url, qs.stringify(dataCheckUlang.value.body
-), {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                });
+                const token = Cookies.get('token')
+                const response = await initAPI('post', dataCheckUlang.value.check_url, qs.stringify(dataCheckUlang.value.body
+                ), token)
+
                 if(response.data.success == true){
                     isSuccess.value = response.data.success
                 }else if(response.data.success == false){
@@ -163,7 +164,7 @@ export default {
             loading, 
             paymentReservasiCheck, 
             toLogin, 
-            toRegister, 
+            toDashboard, 
             checkUlang, 
             kembali
         }
