@@ -320,6 +320,7 @@ export default {
             formData.append('id', customerId);
             formData.append('first_name', DOMPurify.sanitize(namaDepan.value));
             formData.append('last_name', DOMPurify.sanitize(namaBelakang.value));
+            formData.append('blood_group', DOMPurify.sanitize(golonganDarah.value));
             formData.append('child_number', DOMPurify.sanitize(anakKe.value));
             formData.append('from_child_number', DOMPurify.sanitize(jumlahSaudara.value));
             formData.append('number', DOMPurify.sanitize(noWhatsapp.value));

@@ -100,7 +100,6 @@ export default {
         const paymentReservasiCheck = ref(null)
 
         onBeforeMount(async() => {
-            console.log(`aisia ajg`)
             loading.value = !loading.value
             if(JSON.parse(localStorage.getItem('bayarReservasi'))) paymentReservasiCheck.value = true
             const merchantId = JSON.parse(localStorage.getItem('merchantId'))
@@ -128,10 +127,24 @@ export default {
             router.push('/login')
         }
 
-        const toDashboard = () => {
+        const toDashboard = async() => {
             console.log('back to login')
             localStorage.removeItem('merchantId')
-            router.push('/')
+
+            const token = Cookies.get('token')
+            const formData = new FormData()
+            formData.append('refresh_user', 'true')
+
+            try {
+                const response = await initAPI('post', 'login', formData, token)
+                console.log(`response`, response.data)
+                if(response.data.success){
+                    localStorage.setItem('userData', JSON.stringify(response.data.customer))
+                    router.push('/')
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
 
         const kembali = () => {

@@ -163,6 +163,7 @@ export default {
             console.log(`data dikirim:`, data)
 
             try {
+                loadingFetch.value = true
                 const response = await initAPI('post', endpoint, JSON.stringify(data), token)
                 console.log(response.data)
                 
@@ -190,6 +191,8 @@ export default {
                     showConfirmButton: false,
                     timer: 2500
                 });
+            } finally {
+                loadingFetch.value = false
             }
 
         }
