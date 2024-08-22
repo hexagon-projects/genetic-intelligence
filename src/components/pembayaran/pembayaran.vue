@@ -148,7 +148,8 @@ export default {
             const token = Cookies.get('token')
 
             const data = {
-                school_code: DOMPurify.sanitize(code_voucher.value),
+                voucher_code: DOMPurify.sanitize(code_voucher.value),
+                // school_code: DOMPurify.sanitize(code_voucher.value),
                 customer_id: JSON.parse(localStorage.getItem('userData')).id,
                 payment_method_code: paymentCode.value,
                 fee: feePaymentMethod.value
