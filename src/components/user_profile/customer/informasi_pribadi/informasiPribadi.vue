@@ -349,9 +349,14 @@ export default {
                             showConfirmButton: false,
                             timer: 2000
                         });
-                        const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
-                        store.commit('user', updatedCustomer.data.data[0])
-                        localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+
+                        const formData = new FormData()
+                        formData.append('refresh_user', 'true')
+                        // const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                        const updatedCustomer = await initAPI('post', 'login', formData, token)
+                        // console.log(updatedCustomer.data.customer)
+                        store.commit('user', updatedCustomer.data.customer)
+                        localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
                     }
                 }catch(err){
                     console.log(`aimaneh ie error`, err)
