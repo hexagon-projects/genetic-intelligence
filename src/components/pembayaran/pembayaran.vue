@@ -90,10 +90,13 @@
 <script>
 import { ref, onMounted } from 'vue'
 import initAPI from '../../api/api'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import Cookies from 'js-cookie'
 import modalInfo from './modalInfo.vue'
 import DOMPurify from 'dompurify'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css'
+import { useStore } from 'vuex'
 
 export default {
     name: 'HalamanPembayaran',
@@ -101,7 +104,9 @@ export default {
     setup(){
         const showModal = ref(true)
 
+        const store = useStore()
         const route = useRoute()
+        const router = useRouter()
         const loadingFetch = ref(false)
         const tipeParam = ref('')
 
@@ -122,7 +127,6 @@ export default {
                     ? 'test/payment?type=gim' : 'test/payment?type=assessment'
                     
                     const response = await initAPI('get', endpoint, null, null)
-                    console.log(response.data)
                     totalFee.value = response.data.price
                 } catch (error) {
                     Swal.fire({
@@ -137,7 +141,6 @@ export default {
         }
 
         const pilihPayment = (code, payment, fee) => {
-            console.log(`${payment} - ${fee}`)
             paymentType.value = payment
             paymentCode.value = code
             feePaymentMethod.value = fee
@@ -170,23 +173,55 @@ export default {
                 const response = await initAPI('post', endpoint, JSON.stringify(data), token)
                 console.log(response.data)
                 
-                const url = response.data.data.paymentUrl
-                let fixedUrl = ''
-                let refValue = ''
+                
+                if(response.data.data && response.data.data.paymentUrl){
+                    const url = response.data.data.paymentUrl
+                    let fixedUrl = ''
+                    let refValue = ''
 
-                localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+                    localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+    
+                    if(url.includes('ref=')){
+                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                        refValue = url.split('ref=')[1]
+                    }else if(url.includes('reference=')){
+                        console.log('reference', url)
+                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        refValue = url.split('reference=')[1]
+                    }
 
-                if(url.includes('ref=')){
-                    fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
-                    refValue = url.split('ref=')[1]
-                }else if(url.includes('reference=')){
-                    console.log('reference', url)
-                    fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
-                    refValue = url.split('reference=')[1]
+                    window.location.href = fixedUrl+refValue
+                } else {
+                    const formData = new FormData()
+                    formData.append('refresh_user', 'true')
+                    const updatedCustomer = await initAPI('post', 'login', formData, token)
+                    // console.log(updatedCustomer.data.customer)
+                    store.commit('user', updatedCustomer.data.customer)
+                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Selamat! Pembayaran Berhasil.',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Lanjutkan",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.push({
+                                name: tipeParam.value == 'test-iq' 
+                                    ? 'user.views.iq' 
+                                    : tipeParam.value == 'test-gim' 
+                                    ? 'user.views.deteksi' 
+                                    : 'user.views.assesment'
+                            })  
+                        }
+                    })
                 }
 
-                window.location.href = fixedUrl+refValue
+
             } catch (error) {
+                console.log(`error bayar ie`,error)
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
