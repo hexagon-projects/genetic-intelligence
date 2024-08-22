@@ -68,13 +68,15 @@ import DOMPurify from 'dompurify'
 import { useRouter } from 'vue-router'
 import Cookies from 'js-cookie'
 import _debounce from 'lodash/debounce'
+import { useStore } from 'vuex'
 
 export default {
     name: 'InformasiSekolah',
     props: ['dataCustomer'],
     setup(props){
-        console.log('data props is', props)
+        console.log('data props is sekolah', props)
 
+        const store = useStore()
         const router = useRouter()
         const idSekolah = ref('')
         const searched = ref(false)
@@ -113,24 +115,25 @@ export default {
             console.log(response.data)
             pilihanSekolah.value = response.data.data
         }
-
+        console.log(`ekontol`,props.dataCustomer)
         const jenjangPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.type : '-- Pilih Opsi --')
         const namaPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.name : '')
         const kelas = ref(props.dataCustomer.grade ? props.dataCustomer.grade : '')
         const jurusan = ref(props.dataCustomer.majoring ? props.dataCustomer.majoring : '')
 
         const ubahData = async() => {
-            const data = JSON.stringify({
-                type: DOMPurify.sanitize(jenjangPendidikan.value),
-                name: DOMPurify.sanitize(namaPendidikan.value),
-                grade: DOMPurify.sanitize(kelas.value),
-                majoring: DOMPurify.sanitize(jurusan.value)
-            })
+            const data = new FormData
+            data.append('_method', 'PUT')
+            data.append('type', DOMPurify.sanitize(jenjangPendidikan.value))
+            data.append('institution_id', DOMPurify.sanitize(idSekolah.value))
+            data.append('grade', DOMPurify.sanitize(kelas.value))
+            data.append('majoring', DOMPurify.sanitize(jurusan.value))
             console.log(`data`, data)
             const token = Cookies.get('token')
             if(token){
                 try {
-                    const response = await initAPI('post', '', data, token)
+                    const customerId = props.dataCustomer.id
+                    const response = await initAPI('post', 'customers/'+customerId, data, token)
     
                     Swal.fire({
                         icon: 'success',
@@ -144,7 +147,7 @@ export default {
                     store.commit('user', updatedCustomer.data.data[0])
                     localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
                 } catch (error) {
-
+                    console.log(`gagal ajig`, error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',
