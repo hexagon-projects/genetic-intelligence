@@ -247,10 +247,14 @@ export default {
         if(token){
             try {
                 console.log(`id refresh`, userId)
-                const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
-                console.log(refreshedCustomer.data.data[0])
-                store.commit('user', refreshedCustomer.data.data[0])
-                localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
+                const formData = new FormData()
+                formData.append('refresh_user', 'true')
+                // const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
+                const updatedCustomer = await initAPI('post', 'login', formData, token)
+                // const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
+                // console.log(refreshedCustomer.data.data[0])
+                store.commit('user', updatedCustomer.data.customer)
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
                 
                 const userResult = await initAPI('get', 'customers/gim-result/'+userId, null, token)
                 localStorage.setItem('userResult', JSON.stringify(userResult.data))
