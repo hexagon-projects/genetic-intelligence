@@ -54,12 +54,14 @@ import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
 export default {
     name: 'DataKonsultasiKonsultan',
     props: ['userData'],
     setup(props){
         console.log(`lodaded dk`, props)
+        const store = useStore()
         const router = useRouter()
         const consultant_fee = ref(props.userData.fee)
         const selected_day = ref('Monday')
