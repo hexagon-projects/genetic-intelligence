@@ -33,6 +33,14 @@
                     Test IQ
                 </span>
             </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.cpm'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhBrain :size="20" />
+                    Test CPM
+                </span>
+            </RouterLink>
         </div>
 
 
@@ -57,7 +65,7 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" 
                 class="items-center w-full flex flex-col text-center justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                <span class="text-center flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhExam :size="20" />
                     Hasil Assessment
                 </span>
@@ -68,6 +76,14 @@
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhBrain :size="20" />
                     Hasil IQ
+                </span>
+            </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_cpm'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhBrain :size="20" />
+                    Hasil CPM
                 </span>
             </RouterLink>
         </div>

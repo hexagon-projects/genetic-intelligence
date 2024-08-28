@@ -12,7 +12,7 @@
     </div>
 
     <div v-if="!isTestedCPM">
-        <SebelumTest v-if="!isSoalReady"/>
+        <SebelumTest v-if="!isSoalReady" @siapTest="siapTest"/>
 
         <section v-if="isSoalReady" class="bg-white pb-20">
             <Soal/>
@@ -25,11 +25,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 import SebelumTest from "@/components/customer/CPM/SebelumTest/SebelumTest.vue"
 import SelesaiTest from "@/components/customer/CPM/SelesaiTest/SelesaiTest.vue"
 import Soal from "@/components/customer/CPM/Soal/Soal.vue"
+import initAPI from '@/api/api'
+import Cookies from "js-cookie"
 
 const isTestedCPM = ref(false)
 const isSoalReady = ref(false)
+
+const getUserData = async() => {
+    const token = Cookies.get('token')
+    const formData = new FormData()
+    formData.append('refresh_user', 'true')
+    const response = await initAPI('post', 'login', formData, token)
+    console.log(`cpm`,response.data)
+
+    isTestedCPM.value = response.data.customer.customers_cpm !== null ? true : false
+}
+
+onMounted(() => {
+    getUserData()
+})
+
+const siapTest = () => {
+    isSoalReady.value = true
+}
 </script>

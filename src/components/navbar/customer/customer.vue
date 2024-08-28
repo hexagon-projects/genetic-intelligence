@@ -45,6 +45,9 @@
             <RouterLink :to="{name: 'user.views.iq'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test IQ
             </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.cpm'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Test CPM
+            </RouterLink>
             </div>
         </div>
     </div>
@@ -74,6 +77,9 @@
             </RouterLink>
             <RouterLink :to="{name: 'user.views.hasil_iq'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil IQ
+            </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_cpm'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Hasil CPM
             </RouterLink>
             </div>
         </div>

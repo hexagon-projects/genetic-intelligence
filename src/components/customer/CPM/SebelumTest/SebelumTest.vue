@@ -44,9 +44,9 @@
                     </div>
                 </div>
 
-                <button class="mb-4 hover:-translate-y-2 transition-all cursor-pointer self-stretch min-h-[42px] max-h-[62px] px-[60px] py-[18px] md:px-[90px] md:py-[18px] bg-[#3030f8] rounded-2xl border-l hover:border-l-[6px] hover:border-r-0 border-r hover:border-t-0 border-t border-b-4 hover:border-b-8 border-black justify-center items-center gap-2.5 inline-flex">
+                <button @click="testSekarang" class="mb-4 hover:-translate-y-2 transition-all cursor-pointer self-stretch min-h-[42px] max-h-[62px] px-[60px] py-[18px] md:px-[90px] md:py-[18px] bg-[#3030f8] rounded-2xl border-l hover:border-l-[6px] hover:border-r-0 border-r hover:border-t-0 border-t border-b-4 hover:border-b-8 border-black justify-center items-center gap-2.5 inline-flex">
                     <div class="text-white text-base font-medium font-roboto leading-normal">
-                        Lihat Hasil
+                        Tes Sekarang
                     </div>
                     <div class="w-4 h-4 relative">
                         <img src="@/assets/img/cpm/icon-row-up.svg">
@@ -56,3 +56,12 @@
         </div>
     </div>
 </template>
+
+<script setup>
+
+const emit = defineEmits(['siapTest'])
+
+const testSekarang = () => {
+    emit('siapTest')
+}
+</script>
