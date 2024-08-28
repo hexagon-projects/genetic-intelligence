@@ -182,6 +182,32 @@ const routes = [
         }
     },
     {
+        path: '/test-cpm',
+        name: 'user.views.cpm',
+        component: () => import('@/views/customers/CPM/CPM.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            // } else if(isAuth && isAuth.is_payment_iq == 'Tidak') {
+            //     router.push('/pembayaran/test-iq')
+            //     next()
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/hasil-deteksi',
         name: 'user.views.hasil_deteksi',
         component: () => import('../views/customers/hasil_deteksi/newHasil.vue'),
@@ -233,6 +259,30 @@ const routes = [
         path: '/hasil-iq',
         name: 'user.views.hasil_iq',
         component: () => import('../components/customer/tests/iq_comps/hasil_test/hasil_test.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hasil-cpm',
+        name: 'user.views.hasil_cpm',
+        component: () => import('@/views/Customers/CPM/Hasil/HasilCPM.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
