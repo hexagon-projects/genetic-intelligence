@@ -44,3 +44,76 @@
         src: url('./assets/font/Poppins-Medium.woff') format('woff');
     }
 }
+
+@font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
+
+/* Roboto */
+@font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  /* @font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+  } */
+  
+  @font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
