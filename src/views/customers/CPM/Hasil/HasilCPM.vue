@@ -5,7 +5,7 @@
         <div class="w-4 h-4 relative opacity-75">
             <img src="@/assets/img/chevron_forward.svg">
         </div>
-        <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Lakukan Tes</div>
+        <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Hasil Tes</div>
         <div class="w-4 h-4 relative opacity-75">
             <img src="@/assets/img/chevron_forward.svg">
         </div>
@@ -13,7 +13,9 @@
     </div>
 
     <section class="bg-white pb-20">
-        <div class="flex flex-col items-center">
+        <BelumTest v-if="!sudahTest"/>
+
+        <div v-if="sudahTest" class="flex flex-col items-center">
             <div class="mb-[24px] h-[194.54px] flex-col justify-start items-center gap-2 inline-flex">
                 <img class="w-[200px] h-[158.54px]" src="@/assets/img/logo-jatidiri-hasi-cpm.png" alt="logo" />
                 <div class="self-stretch text-center text-[#0b0b79] text-lg font-semibold font-sora leading-7">Hasil Pemeriksaan Tes Kecerdasan</div>
@@ -21,17 +23,17 @@
 
             <!-- Identitas & Rangkuman -->
             <div class="flex flex-col lg:flex-row gap-6 pb-[36px]">
-                <Identitas :userInfo="identitas" :isLoading="loading"/>
+                <Identitas :userInfo="identitas" :cpmInfo="cpmInfo" :isLoading="loading"/>
 
-                <Rangkuman/>
+                <Rangkuman :cpmInfo="cpmInfo"/>
             </div>
 
             <!-- Hasil Test -->
             <div class="w-full flex flex-col items-center bg-[#f0f7fd] px-9 py-14">
-                <DokumenTest/>
+                <DokumenTest :cpmInfo="cpmInfo"/>
 
                 <!-- button download -->
-                <button class="self-stretch h-[62px] px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b-4 border-black justify-center items-center gap-2.5 inline-flex">
+                <button @click="downloadHasil" class="self-stretch h-[62px] px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b-4 border-black justify-center items-center gap-2.5 inline-flex">
                     <div class="text-white text-base font-medium font-roboto leading-normal">Unduh Hasil Tes</div>
                     <div class="w-4 h-4 relative">
                         <img src="@/assets/img/cpm/download.svg" alt="download">
@@ -49,8 +51,19 @@ import Identitas from '@/components/customer/CPM/HasilTest/Identitas.vue';
 import Rangkuman from '@/components/customer/CPM/HasilTest/Rangkuman.vue';
 import initAPI from '@/api/api';
 import Cookies from "js-cookie"
+import BelumTest from './BelumTest.vue';
+import { useRouter } from 'vue-router';
 
 const loading = ref(false)
+
+const sudahTest = ref(false)
+
+const userId = ref(null)
+
+const router = useRouter()
+const downloadHasil = () => {
+    router.push({name: 'user.views.download_hasil_cpm'})
+}
 
 const identitas = ref({
     nama: '',
@@ -60,8 +73,50 @@ const identitas = ref({
     usia: ''
 })
 
+const cpmInfo = ref({
+    set_a: '',
+    set_ab: '',
+    set_b: '',
+    grade: '',
+    type: '',
+    penjelasan: '',
+    saran: '',
+    pemahaman_empati: ''
+})
+
 const showSaran = ref(false)
 const showGambaranUmum = ref(false)
+
+const getCPMInfo = async(userId) => {
+    try {
+        const token = Cookies.get('token')
+        const formData = new FormData()
+        formData.append('refresh_user', 'true')
+        const response = await initAPI('get', 'customers/cpm/'+userId, null, token)
+    
+        identitas.value.tanggal_tes = response.data[0].test_date
+        identitas.value.usia = response.data[0].age
+        cpmInfo.value.set_a = response.data[0].cpm_scores.a
+        cpmInfo.value.set_ab = response.data[0].cpm_scores.ab
+        cpmInfo.value.set_b = response.data[0].cpm_scores.b
+        cpmInfo.value.grade = response.data[0].cpm.grade
+        cpmInfo.value.type = response.data[0].cpm.name
+        cpmInfo.value.penjelasan = response.data[0].cpm.desc
+        cpmInfo.value.saran = response.data[0].cpm.suggestion
+        cpmInfo.value.pemahaman_empati = response.data[0].cpm.warning
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error Terjadi',
+            text: 'Terjadi error saat mengambil data test CPM',
+            showConfirmButton: true,
+            confirmButtonColor: "#3030f8",
+            confirmButtonText: "OK",
+        })
+    } finally {
+        loading.value = false
+    }
+}
 
 const getUserInfo = async() => {
     try {
@@ -71,17 +126,28 @@ const getUserInfo = async() => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const response = await initAPI('post', 'login', formData, token)
-        console.log(`user info`,response.data)
     
+        userId.value = response.data.customer.id
         identitas.value.nama = response.data.customer.name
         identitas.value.jenis_kelamin = response.data.customer.gender
         identitas.value.tanggal_lahir = response.data.customer.birth_date
-    } catch (error) {
-        console.log(`error`, error)
-    } finally {
-        loading.value = false
-    }
 
+        if (response.data.customer.customers_cpm) {
+            sudahTest.value = true
+            await getCPMInfo(userId.value);
+        } else {
+            sudahTest.value = false
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error Terjadi',
+            text: 'Terjadi error saat mengambil data pengguna',
+            showConfirmButton: true,
+            confirmButtonColor: "#3030f8",
+            confirmButtonText: "OK",
+        })
+    } 
 }
 
 onMounted(() => {

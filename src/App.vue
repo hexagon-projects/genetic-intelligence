@@ -6,17 +6,19 @@
   && currentRouteName !== 'views.forgot_password'
   && currentRouteName !== 'views.404notfound'
   && currentRouteName !== 'user.views.pembayaran'
+  && currentRouteName !== 'user.views.download_hasil_cpm'
   ">
     <navbar/>
   </div>
   <router-view></router-view>
-  <div v-if="currentRouteName !== 'views.login' 
+  <div class="hidden lg:block" v-if="currentRouteName !== 'views.login' 
   && currentRouteName !== 'views.register'
   && currentRouteName !== 'user.views.payment_status'
   && currentRouteName !== 'views.reset_password'
   && currentRouteName !== 'views.forgot_password'
   && currentRouteName !== 'views.404notfound'
   && currentRouteName !== 'user.views.pembayaran'
+  && currentRouteName !== 'user.views.download_hasil_cpm'
   ">
     <footerComp/>
   </div>

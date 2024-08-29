@@ -86,11 +86,12 @@ export default {
 
         onMounted(() => {
             dataJenjangPendidikan.value = [
-                {id:1, text:'SD', value: 'SD'},
-                {id:2, text:'SMP', value: 'SMP'},
-                {id:3, text:'SMA', value: 'SMA'},
-                {id:4, text:'SMK', value: 'SMK'},
-                {id:5, text:'Perguruan Tinggi', value: 'perguruan_tinggi'},
+                {id:1, text:'TK', value: 'TK'},
+                {id:2, text:'SD', value: 'SD'},
+                {id:3, text:'SMP', value: 'SMP'},
+                {id:4, text:'SMA', value: 'SMA'},
+                {id:5, text:'SMK', value: 'SMK'},
+                {id:6, text:'Perguruan Tinggi', value: 'perguruan_tinggi'},
             ]
         })
 

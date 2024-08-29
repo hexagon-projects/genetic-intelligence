@@ -9,7 +9,9 @@
             </div>
             <div class="grow shrink basis-0">
                 <span class="text-[#667084] text-sm font-normal font-roboto leading-tight">Pada Sub tes SET-A, sebanyak </span>
-                <span class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">10</span>
+                <span class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                    {{ props.cpmInfo.set_a }}
+                </span>
                 <span class="text-[#667084] text-sm font-normal font-roboto leading-tight"> 
                     soal mampu dijawab dengan benar dari 12 soal yang tersedia.
                 </span>
@@ -21,7 +23,9 @@
             </div>
             <div class="grow shrink basis-0">
                 <span class="text-[#667084] text-sm font-normal font-roboto leading-tight">Pada Sub tes SET-AB, sebanyak </span>
-                <span class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">10</span>
+                <span class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                    {{ props.cpmInfo.set_ab }}
+                </span>
                 <span class="text-[#667084] text-sm font-normal font-roboto leading-tight"> soal mampu dijawab dengan benar dari 12 soal yang tersedia.
         </span></div>
         </div>
@@ -31,16 +35,26 @@
             </div>
             <div class="grow shrink basis-0">
                 <span class="text-[#667084] text-sm font-normal font-roboto leading-tight">Pada Sub tes SET-B, sebanyak </span>
-                <span class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">10</span>
+                <span class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                    {{ props.cpmInfo.set_b }}
+                </span>
                 <span class="text-[#667084] text-sm font-normal font-roboto leading-tight"> soal mampu dijawab dengan benar dari 12 soal yang tersedia.
         </span></div>
         </div>
         <div class="w-[302px]">
             <span class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">
                 Dengan demikian klarifikasi IQ Ananda berada pada 
-                <span class="font-semibold">Grade III</span> 
-                dengan arti <span class="font-semibold">Average</span> 
+                <span class="font-semibold">Grade {{ props.cpmInfo.grade }}</span> 
+                dengan arti <span class="font-semibold">
+                    {{ props.cpmInfo.type.split(': ')[1] }}
+                </span> 
             </span>
         </div>
     </div>
 </template>
+
+<script setup>
+const props = defineProps({
+    cpmInfo: Object
+})
+</script>

@@ -1,7 +1,7 @@
 <template>
     <div class="h-52 flex-col justify-start items-start inline-flex">
         <div class="px-9 py-4 bg-gradient-to-b from-[#aa67ff] to-[#5959f9] rounded-tl-3xl rounded-tr-3xl border border-black flex-col justify-start items-center gap-3 flex">
-            <div class="w-[302px] text-white text-xl font-medium font-roboto leading-7">userInfo</div>
+            <div class="w-[302px] text-white text-xl font-medium font-roboto leading-7">Identitas</div>
         </div>
         <div class="px-9 py-6 rounded-bl-3xl rounded-br-3xl border-l border-r border-b-4 border-black flex-col justify-start items-center gap-3 flex">
             <div class="flex flex-col gap-2 w-[302px] text-[#667084] text-sm font-normal font-roboto leading-tight">
@@ -29,14 +29,14 @@
                 <!-- Tanggal tes -->
                 <div class="flex items-center gap-2">
                     <span>Tanggal tes: </span>
-                    <span v-if="!loading">27-08-2024</span>
+                    <span v-if="!loading">{{ props.userInfo.tanggal_tes }}</span>
                     <div v-else class="skeleton w-[100px] h-[16px] bg-gray-300 rounded-md"></div>
                 </div>
                 
                 <!-- Usia -->
                 <div class="flex items-center gap-2">
                     <span>Usia: </span>
-                    <span v-if="!loading">8 Tahun 4 bulan 22 hari</span>
+                    <span v-if="!loading">{{ props.userInfo.usia }}</span>
                     <div v-else class="skeleton w-[130px] h-[16px] bg-gray-300 rounded-md"></div>
                 </div>
             </div>
@@ -50,7 +50,8 @@ import { ref, watch } from 'vue';
 const loading = ref(null)
 
 const props = defineProps({
-    userInfo: String,
+    userInfo: Object,
+    cpmInfo: Object,
     isLoading: Boolean
 })
 

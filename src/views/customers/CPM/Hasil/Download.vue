@@ -1,7 +1,15 @@
 <template>
     <div v-if="showPopup" class="popup-overlay">
       <div class="popup-content">
-        <h3>Download in <span class="text-[#3030f8]">{{ countdown }}</span> seconds...</h3>
+        <div v-if="popupMessage" class="flex flex-col gap-3 font-roboto">
+            <span>
+                {{ popupMessage }}
+            </span>
+            <button @click="toCPM" class="bg-[#3030f8] px-4 py-2 rounded-lg text-white">
+                Tes Sekarang
+            </button>
+        </div>
+        <h3 v-if="!popupMessage">Download in <span class="text-[#3030f8]">{{ countdown }}</span> seconds...</h3>
       </div>
     </div>
 
@@ -47,7 +55,7 @@
                             <!-- Tanggal tes -->
                             <div class="flex items-center gap-2">
                                 <span>Tanggal tes: </span>
-                                <span v-if="!loading">27-08-2024</span>
+                                <span v-if="!loading">{{ userInfo.tanggal_tes }}</span>
                                 <div v-else class="skeleton w-[100px] h-[16px] bg-gray-300 rounded-md"></div>
                             </div>
                             
@@ -60,16 +68,16 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
-                        <div class="bg-[#3030f8] px-4 py-2 rounded-lg flex flex-col items-center">
-                            <span class="uppercase font-sora text-xs text-white">
+                        <div class="bg-[#3030f8] bg-opacity-50 h-[48px] px-4 py-2 rounded-lg flex flex-col justify-center items-center">
+                            <span class="uppercase font-sora text-xs text-center text-white">
                                 rahasia
                             </span>
-                            <span class="italic font-sora text-xs text-white">
+                            <span class="italic font-sora text-xs text-center text-white">
                                 Conventional
                             </span>
                         </div>
 
-                        <div class="bg-[#3030f8] px-4 py-2 rounded-lg flex flex-col items-center">
+                        <div class="bg-[#3030f8] bg-opacity-50 h-[32px] px-4 py-2 rounded-lg flex flex-col items-center">
                             <span class="uppercase font-sora text-xs text-white">
                                 JD-{{ formattedDate }}-818-{{ userId }}
                             </span>
@@ -86,18 +94,28 @@
 
                     <div class="flex flex-col gap-1">
                         <span class="font-roboto text-[#4f5666] text-sm">
-                           1. Sub tes <span class="font-bold">SET-A</span> yaitu sebanyak ………. soal mampu dijawab dengan benar dari 12 soal yang tersedia.
+                           1. Sub tes <span class="font-bold">SET-A</span> yaitu sebanyak 
+                           <span class="font-bold text-[#3030f8]">{{ cpmInfo.set_a }}</span>. 
+                           soal mampu dijawab dengan benar dari 12 soal yang tersedia.
                         </span>
                         <span class="font-roboto text-[#4f5666] text-sm">
-                           2. Sub tes <span class="font-bold">SET-AB</span> yaitu sebanyak ………. soal mampu dijawab dengan benar dari 12 soal yang tersedia.
+                           2. Sub tes <span class="font-bold">SET-AB</span> yaitu sebanyak 
+                           <span class="font-bold text-[#3030f8]">{{ cpmInfo.set_ab }}</span>. 
+                           soal mampu dijawab dengan benar dari 12 soal yang tersedia.
                         </span>
                         <span class="font-roboto text-[#4f5666] text-sm">
-                           3. Sub tes <span class="font-bold">SET-B</span> yaitu sebanyak ………. soal mampu dijawab dengan benar dari 12 soal yang tersedia.
+                           3. Sub tes <span class="font-bold">SET-B</span> yaitu sebanyak 
+                           <span class="font-bold text-[#3030f8]">{{ cpmInfo.set_a }}</span>. soal mampu dijawab dengan benar dari 12 soal yang tersedia.
                         </span>
                     </div>
 
                     <h1 class="mt-3 font-roboto text-[#4f5666] text-sm">
-                        Dengan demikian klarifikasi IQ Ananda  berada pada grade ……… dengan arti …………………
+                        Dengan demikian klarifikasi IQ Ananda berada pada grade 
+                        <span class="font-bold">
+                            {{ cpmInfo.grade }}
+                        </span> 
+                        dengan arti 
+                        <span class="font-bold">{{ cpmInfo.type }}</span>
                     </h1>
                 </div>
                 <!-- End Rangkuman -->
@@ -110,14 +128,13 @@
                         Penjelasan
                     </h1>
 
-                    <h1 class="text-center text-[#4f5666] text-2xl font-semibold font-sora leading-7">
-                        Grade I: Superior (IQ sangat tinggi)
+                    <h1 class="mb-3 text-center text-[#4f5666] text-2xl font-semibold font-sora leading-7">
+                        {{ cpmInfo.type }}
                     </h1>
 
                     <div class="flex flex-col gap-1">
                         <span class="font-roboto text-[#4f5666] text-sm">
-
-                            Ananda <span class="font-bold">{{ userInfo.nama }}</span> memiliki IQ dengan kategori superior, ia memiliki kemampuan berpikir yang luar biasa dan di atas rata-rata dari anak seusianya. Ananda (nama) akan sangat cepat memahami konsep-konsep yang rumit, dapat menyelesaikan masalah kompleks dengan lebih mudah, dan memiliki kemampuan analitis serta logika yang tajam. Ananda (nama) biasanya akan dapat menunjukkan bakat dalam bidang akademik, sains, atau seni.
+                            {{ cpmInfo.penjelasan }}
                         </span>
                     </div>
                 </div>
@@ -131,11 +148,11 @@
 
                     <div class="flex flex-col gap-1">
                         <span class="font-roboto text-[#4f5666] text-sm">
-                            Meskipun Ananda <span class="font-bold">{{ userInfo.nama }}</span> memiliki potensi luar biasa, penting untuk tetap mengasah kemampuan sosial dan emosionalnya. Keberhasilan tidak hanya bergantung pada kecerdasan, tetapi juga pada kerja sama tim, komunikasi, dan empati.
+                            {{ cpmInfo.saran }}
                         </span>
                     </div>
                 </div>
-                <!-- End Penjelasan -->
+                <!-- End Saran -->
 
                 <!-- Empati -->
                 <div class="mt-10 w-full max-w-2xl flex flex-col gap-2">
@@ -145,29 +162,29 @@
                     
                     <div class="flex flex-col gap-1">
                         <span class="font-roboto text-[#4f5666] text-sm">
-                            Kecerdasan bukan satu-satunya faktor penentu kesuksesan atau kebahagiaan. Setiap orang memiliki kekuatan dan kelemahan masing-masing. Oleh karena itu, baik bagi diri kita maupun orang lain, penting untuk menghargai setiap individu apa adanya, memberikan dukungan, dan menekankan pada pengembangan pribadi di segala aspek kehidupan, bukan hanya intelektual.
+                            {{ cpmInfo.pemahaman_empati }}
                         </span>
                     </div>
                 </div>
                 <!-- End Empati -->
                 
                 <div class="mt-16 w-full max-w-2xl flex flex-col items-center gap-2">
-                    <h1 class="text-center text-[#24272e] text-2xl font-semibold font-sora leading-7">
+                    <h1 class="text-center text-[#24272e] text-base font-semibold font-sora leading-7">
                         PIMPINAN PSIKOLOG,
                     </h1>
 
                     <div class="flex">
-                        <img src="@/assets/img/cpm/barcode-bu-miryam.png" alt="barcode">
+                        <img class="w-1/2 mx-auto" src="@/assets/img/cpm/barcode-bu-miryam.png" alt="barcode">
                     </div>
 
                     <div class="flex flex-col items-center">
-                        <span class="font-roboto text-[#24272e] text-lg">
+                        <span class="font-roboto text-[#24272e] text-base">
                             Miryam A. Sigarlaki, M.Psi.Psikolog
                         </span>
-                        <span class="font-roboto text-[#24272e] text-lg">
+                        <span class="font-roboto text-[#24272e] text-base">
                             Kepala Psikologi Jatidiri
                         </span>
-                        <span class="font-roboto text-[#24272e] text-lg">
+                        <span class="font-roboto text-[#24272e] text-base">
                             (SIPP: : 1048-SIPP-2023)
                         </span>
                     </div>
@@ -183,12 +200,19 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import initAPI from '@/api/api';
 import Cookies from "js-cookie"
 import html2pdf from 'html2pdf.js'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const loading = ref(false)
 const userId = ref(null)
 const showPopup = ref(false);
 const countdown = ref(5); // Countdown duration in seconds
 const countdownInterval = ref(null);
+const popupMessage = ref("");
+
+const toCPM = () => {
+    router.push({name: 'user.views.cpm'})
+}
 
 const userInfo = ref({
     nama: '',
@@ -196,6 +220,17 @@ const userInfo = ref({
     tanggal_lahir: '',
     tanggal_tes: '',
     usia: ''
+})
+
+const cpmInfo = ref({
+    set_a: '',
+    set_ab: '',
+    set_b: '',
+    grade: '',
+    type: '',
+    penjelasan: '',
+    saran: '',
+    pemahaman_empati: ''
 })
 
 function formatDateToCustomFormat(date) {
@@ -207,6 +242,37 @@ function formatDateToCustomFormat(date) {
 
 const today = new Date();
 const formattedDate = formatDateToCustomFormat(today);
+
+const getCPMInfo = async(userId) => {
+    try {
+        const token = Cookies.get('token')
+        const formData = new FormData()
+        formData.append('refresh_user', 'true')
+        const response = await initAPI('get', 'customers/cpm/'+userId, null, token)
+        console.log(`user info cpm`,response.data)
+    
+        userInfo.value.tanggal_tes = response.data[0].test_date
+        cpmInfo.value.set_a = response.data[0].cpm_scores.a
+        cpmInfo.value.set_ab = response.data[0].cpm_scores.ab
+        cpmInfo.value.set_b = response.data[0].cpm_scores.b
+        cpmInfo.value.grade = response.data[0].cpm.grade
+        cpmInfo.value.type = response.data[0].cpm.name
+        cpmInfo.value.penjelasan = response.data[0].cpm.desc
+        cpmInfo.value.saran = response.data[0].cpm.suggestion
+        cpmInfo.value.pemahaman_empati = response.data[0].cpm.warning
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error Terjadi',
+            text: 'Terjadi error saat mengambil data tes CPM',
+            showConfirmButton: true,
+            confirmButtonColor: "#3030f8",
+            confirmButtonText: "OK",
+        })
+    } finally {
+        loading.value = false
+    }
+}
 
 const getUserInfo = async() => {
     try {
@@ -222,12 +288,26 @@ const getUserInfo = async() => {
         userInfo.value.nama = response.data.customer.name
         userInfo.value.jenis_kelamin = response.data.customer.gender
         userInfo.value.tanggal_lahir = response.data.customer.birth_date
-    } catch (error) {
-        console.log(`error`, error)
-    } finally {
-        loading.value = false
-    }
 
+        if (response.data.customer.customers_cpm) {
+            await getCPMInfo(userId.value);
+            startCountdown();
+        } else {
+            popupMessage.value = "Kamu belum melakukan test CPM";
+            showPopup.value = true;
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error Terjadi',
+            text: 'Terjadi error saat mengambil data pengguna',
+            showConfirmButton: true,
+            confirmButtonColor: "#3030f8",
+            confirmButtonText: "OK",
+        })
+    } finally {
+       await getCPMInfo(userId.value)
+    }
 }
 
 const exportPDF = () => {
@@ -257,7 +337,7 @@ const startCountdown = () => {
 
 onMounted(() => {
     getUserInfo()
-    startCountdown()
+    // startCountdown()
 })
 
 onUnmounted(() => {

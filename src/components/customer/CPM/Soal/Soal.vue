@@ -136,6 +136,8 @@ import { jwtDecode } from "jwt-decode"
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
+const emit = defineEmits(['refreshUser'])
+
 const router = useRouter()
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -207,9 +209,9 @@ const submitAnswers = async () => {
     const formData = new FormData()
     formData.append('user_id', userId)
     formData.append('time', time)
-    formData.append('answers', answers.value)
+    formData.append('answers', JSON.stringify(answers.value))
 
-    console.log('answer', formData)
+    // console.log('answer', formData)
 
     try {
         loadingSubmit.value = true
@@ -226,7 +228,7 @@ const submitAnswers = async () => {
             confirmButtonText: "OK",
         }).then((result) => {
             if (result.isConfirmed) {
-                router.go()
+               emit('refreshUser')
             }
         })
     } catch (error) {
@@ -247,8 +249,6 @@ const nextQuestion = () => {
     if (selectedAnswer.value !== null) {
         answers.value.push(selectedAnswer.value)
         selectedAnswer.value = null
-    } else {
-        console.warn("No answer selected, skipping push to answers array")
     }
 
     if (currentQuestionIndex.value < totalQuestionsPerType) {
@@ -272,7 +272,7 @@ const nextQuestion = () => {
         getQuestions();
     }
 
-    console.log(`Current Type: ${currentType.value}, Current Index: ${currentQuestionIndex.value}, Total Answers: ${answers.value.length}`);
+    // console.log(`Current Type: ${currentType.value}, Current Index: ${currentQuestionIndex.value}, Total Answers: ${answers.value.length}`);
 };
 
 // const nextQuestion = () => {
