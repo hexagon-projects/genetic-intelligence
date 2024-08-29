@@ -1,4 +1,15 @@
 <template>
+    <div v-if="loadingSubmit" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white rounded-3xl p-8 flex flex-col items-center">
+            <span class="mb-4 flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+            <!-- <div class="skeleton w-16 h-16 bg-gray-300 rounded-full mb-4"></div> -->
+            <div class="text-center text-black text-base font-medium font-roboto leading-normal">
+                Tunggu, jawaban sedang dikirim...
+            </div>
+        </div>
+    </div>
+
+
     <div class="mx-7 flex justify-center items-center">
         <div class="w-[375px] md:w-full h-11 flex-col justify-start items-start gap-4 inline-flex">
             <div class="self-stretch justify-between items-center inline-flex">
@@ -83,24 +94,6 @@
                 ]">
                     <img class="mx-auto" :src="baseUrl+ 'open/cpm-questions/'+ currentType + '/' +item.image" alt="jawaban">
                 </div>
-                <!-- <div class="min-w-[94px] max-w-[334px] p-2 border border-b-[#3030f8] border-b-4 border-black border-opacity-50 rounded-xl">
-                    <img class="mx-auto" src="@/assets/img/cpm/jawaban.png" alt="jawaban">
-                </div>
-                <div class="min-w-[94px] max-w-[334px] p-2 border border-black border-opacity-50 rounded-xl">
-                    <img class="mx-auto" src="@/assets/img/cpm/jawaban.png" alt="jawaban">
-                </div>
-                <div class="min-w-[94px] max-w-[334px] p-2 border border-black border-opacity-50 rounded-xl">
-                    <img class="mx-auto" src="@/assets/img/cpm/jawaban.png" alt="jawaban">
-                </div>
-                <div class="min-w-[94px] max-w-[334px] p-2 border border-black border-opacity-50 rounded-xl">
-                    <img class="mx-auto" src="@/assets/img/cpm/jawaban.png" alt="jawaban">
-                </div>
-                <div class="min-w-[94px] max-w-[334px] p-2 border border-black border-opacity-50 rounded-xl">
-                    <img class="mx-auto" src="@/assets/img/cpm/jawaban.png" alt="jawaban">
-                </div>
-                <div class="min-w-[94px] max-w-[334px] p-2 border border-black border-opacity-50 rounded-xl">
-                    <img class="mx-auto" src="@/assets/img/cpm/jawaban.png" alt="jawaban">
-                </div> -->
             </div>
         </div>
 
@@ -137,7 +130,7 @@
 <script setup>
 import initAPI from '@/api/api';
 import Cookies from 'js-cookie';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, onBeforeMount, onBeforeUnmount } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { jwtDecode } from "jwt-decode"
 import Swal from 'sweetalert2';
@@ -147,6 +140,7 @@ const router = useRouter()
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 const loadingFetch = ref(false)
+const loadingSubmit = ref(false)
 
 const questions = ref(null)
 const currentType = ref('A')
@@ -215,15 +209,18 @@ const submitAnswers = async () => {
     formData.append('time', time)
     formData.append('answers', answers.value)
 
+    console.log('answer', formData)
+
     try {
+        loadingSubmit.value = true
         const token = Cookies.get('token');
         // Assuming you have an endpoint to submit answers
-        // const response = await initAPI('post', 'cpm/submit-answers', { /* your answer payload here */ }, token);
+        const response = await initAPI('post', 'customers/cpm', formData, token);
         
         Swal.fire({
             icon: 'success',
             title: 'Jawaban Dikirim',
-            text: 'Selamat kamu telah selesai melakukan Tes CPM!',
+            text: 'Selamat! kamu telah selesai melakukan Tes CPM',
             showConfirmButton: true,
             confirmButtonColor: "#3030f8",
             confirmButtonText: "OK",
@@ -240,38 +237,68 @@ const submitAnswers = async () => {
             showConfirmButton: true,
             confirmButtonColor: "#3030f8",
             confirmButtonText: "OK",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                router.go()
-            }
         })
+    } finally {
+        loadingSubmit.value = false
     }
 };
 
 const nextQuestion = () => {
-    if (currentQuestionIndex.value < totalQuestionsPerType) {
-    // pindah pertanyaan dengan type yg sama
-    currentQuestionIndex.value++;
-    answers.value.push(selectedAnswer.value)
-    selectedAnswer.value = null
-    getQuestions();
-  } else {
-    // pindah type atau submit
-    switch (currentType.value) {
-      case 'A':
-        currentType.value = 'AB'
-        break;
-      case 'AB':
-        currentType.value = 'B'
-        break;
-      case 'B':
-        submitAnswers()
-        return
+    if (selectedAnswer.value !== null) {
+        answers.value.push(selectedAnswer.value)
+        selectedAnswer.value = null
+    } else {
+        console.warn("No answer selected, skipping push to answers array")
     }
-    currentQuestionIndex.value = 1
-    getQuestions()
-  }
+
+    if (currentQuestionIndex.value < totalQuestionsPerType) {
+        // Move to the next question within the same set
+        currentQuestionIndex.value++;
+        getQuestions();
+    } else {
+        // Move to the next set or submit answers
+        switch (currentType.value) {
+            case 'A':
+                currentType.value = 'AB'
+                break;
+            case 'AB':
+                currentType.value = 'B'
+                break;
+            case 'B':
+                submitAnswers()
+                return
+        }
+        currentQuestionIndex.value = 1
+        getQuestions();
+    }
+
+    console.log(`Current Type: ${currentType.value}, Current Index: ${currentQuestionIndex.value}, Total Answers: ${answers.value.length}`);
 };
+
+// const nextQuestion = () => {
+//     if (currentQuestionIndex.value < totalQuestionsPerType) {
+//     // pindah pertanyaan dengan type yg sama
+//     currentQuestionIndex.value++;
+//     answers.value.push(selectedAnswer.value)
+//     selectedAnswer.value = null
+//     getQuestions();
+//   } else {
+//     // pindah type atau submit
+//     switch (currentType.value) {
+//       case 'A':
+//         currentType.value = 'AB'
+//         break;
+//       case 'AB':
+//         currentType.value = 'B'
+//         break;
+//       case 'B':
+//         submitAnswers()
+//         return
+//     }
+//     currentQuestionIndex.value = 1
+//     getQuestions()
+//   }
+// };
 
 onMounted(() => {
     getQuestions()
@@ -282,22 +309,55 @@ onUnmounted(() => {
   stopTimer()
 });
 
+onBeforeMount(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+});
+
+const handleBeforeUnload = (event) => {
+    event.preventDefault();
+    event.returnValue = true; // Required for older browsers
+};
+
+onBeforeRouteLeave((to, from, next) => {
+    Swal.fire({
+        icon: 'question',
+        title: 'Keluar dari halaman?',
+        text: 'Seluruh proses test kamu tidak akan tersimpan ketika keluar halaman.',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonColor: "#3030f8",
+        confirmButtonText: "Keluar",
+        cancelButtonColor: "#3b3f5c",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            next(); // Allow navigation
+        } else {
+            next(false); // Cancel navigation
+        }
+    });
+});
+
 // onBeforeRouteLeave((to, from, next) => {
-//     Swal.fire({
-//         icon: 'question',
-//         title: 'Keluar dari halaman?',
-//         text: 'Seluruh proses test kamu tidak akan tersimpan ketika keluar halaman.',
-//         showConfirmButton: true,
-//         showCancelButton: true,
-//         confirmButtonColor: "#3030f8",
-//         confirmButtonText: "Keluar",
-//         cancelButtonColor: "#3b3f5c",
-//         cancelButtonText: "Batal",
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             next()
-//         }
-//     })
+    // Swal.fire({
+    //     icon: 'question',
+    //     title: 'Keluar dari halaman?',
+    //     text: 'Seluruh proses test kamu tidak akan tersimpan ketika keluar halaman.',
+    //     showConfirmButton: true,
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3030f8",
+    //     confirmButtonText: "Keluar",
+    //     cancelButtonColor: "#3b3f5c",
+    //     cancelButtonText: "Batal",
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         next()
+    //     }
+    // })
 // })
 
 </script>

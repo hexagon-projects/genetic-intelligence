@@ -21,7 +21,7 @@
 
             <!-- Identitas & Rangkuman -->
             <div class="flex flex-col lg:flex-row gap-6 pb-[36px]">
-                <Identitas/>
+                <Identitas :userInfo="identitas" :isLoading="loading"/>
 
                 <Rangkuman/>
             </div>
@@ -43,11 +43,48 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import DokumenTest from '@/components/customer/CPM/HasilTest/Dokumen.vue';
 import Identitas from '@/components/customer/CPM/HasilTest/Identitas.vue';
 import Rangkuman from '@/components/customer/CPM/HasilTest/Rangkuman.vue';
+import initAPI from '@/api/api';
+import Cookies from "js-cookie"
+
+const loading = ref(false)
+
+const identitas = ref({
+    nama: '',
+    jenis_kelamin: '',
+    tanggal_lahir: '',
+    tanggal_tes: '',
+    usia: ''
+})
 
 const showSaran = ref(false)
 const showGambaranUmum = ref(false)
+
+const getUserInfo = async() => {
+    try {
+        loading.value = true
+
+        const token = Cookies.get('token')
+        const formData = new FormData()
+        formData.append('refresh_user', 'true')
+        const response = await initAPI('post', 'login', formData, token)
+        console.log(`user info`,response.data)
+    
+        identitas.value.nama = response.data.customer.name
+        identitas.value.jenis_kelamin = response.data.customer.gender
+        identitas.value.tanggal_lahir = response.data.customer.birth_date
+    } catch (error) {
+        console.log(`error`, error)
+    } finally {
+        loading.value = false
+    }
+
+}
+
+onMounted(() => {
+    getUserInfo()
+})
 </script>

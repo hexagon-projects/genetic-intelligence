@@ -304,6 +304,30 @@ const routes = [
         }
     },
     {
+        path: '/download-hasil-cpm',
+        name: 'user.views.download_hasil_cpm',
+        component: () => import('@/views/Customers/CPM/Hasil/Download.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/user-profile',
         name: 'user.views.profile',
         component: () => import('../views/user_profile/UserProfile.vue'),
