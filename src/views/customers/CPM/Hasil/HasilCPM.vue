@@ -37,7 +37,7 @@
             </div>
         </section>
 
-        <section class="bg-[#f0f7fd] px-9 py-14">
+        <section class="bg-[#f0f7fd] px-4 py-14">
             <!-- Hasil Test -->
             <div class="w-full flex flex-col items-center pb-8">
                     <DokumenTest :cpmInfo="cpmInfo"/>
