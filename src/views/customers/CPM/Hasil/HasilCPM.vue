@@ -90,6 +90,7 @@ const cpmInfo = ref({
     set_b: '',
     grade: '',
     type: '',
+    grade_icon: '',
     penjelasan: '',
     saran: '',
     pemahaman_empati: ''
@@ -113,6 +114,7 @@ const getCPMInfo = async(userId) => {
         cpmInfo.value.set_b = response.data[0].cpm_scores.b
         cpmInfo.value.grade = response.data[0].cpm.grade
         cpmInfo.value.type = response.data[0].cpm.name
+        cpmInfo.value.grade_icon = response.data[0].cpm.icon
         cpmInfo.value.penjelasan = response.data[0].cpm.desc
         cpmInfo.value.saran = response.data[0].cpm.suggestion
         cpmInfo.value.pemahaman_empati = response.data[0].cpm.warning

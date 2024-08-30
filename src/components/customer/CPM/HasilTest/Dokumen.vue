@@ -1,8 +1,13 @@
 <template>
-    <div class="mb-[36px] self-stretch h-[124px] flex-col justify-start items-center gap-4 flex">
+    <div class="mb-[36px] self-stretch h-auto flex-col justify-start items-center gap-4 flex">
         <div class="px-4 py-1 bg-[#d6d6fe] rounded-[99px] justify-center items-center gap-2.5 inline-flex">
             <div class="text-[#3030f8] text-base font-medium font-roboto leading-normal">Hasil Tes</div>
         </div>
+
+        <div class="my-1">
+            <div class="w-full h-full" v-html="props.cpmInfo.grade_icon"></div>
+        </div>
+
         <div class="self-stretch text-center text-[#3030f8] text-3xl font-semibold font-sora leading-9">
             {{ props.cpmInfo.type }}
         </div>
