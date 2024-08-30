@@ -282,7 +282,7 @@ const routes = [
     {
         path: '/hasil-cpm',
         name: 'user.views.hasil_cpm',
-        component: () => import('@/views/Customers/CPM/Hasil/HasilCPM.vue'),
+        component: () => import('@/views/customers/CPM/Hasil/HasilCPM.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -306,7 +306,7 @@ const routes = [
     {
         path: '/download-hasil-cpm',
         name: 'user.views.download_hasil_cpm',
-        component: () => import('@/views/Customers/CPM/Hasil/Download.vue'),
+        component: () => import('@/views/customers/CPM/Hasil/Download.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
