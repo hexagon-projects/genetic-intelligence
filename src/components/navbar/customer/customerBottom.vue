@@ -20,7 +20,7 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.assesment'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                <span class="text-center flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhTextAa :size="20" />
                     Test Assessment
                 </span>
