@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from "vue"
+import { onBeforeMount, onBeforeUnmount, onMounted, ref, watch } from "vue"
 import SebelumTest from "@/components/customer/CPM/SebelumTest/SebelumTest.vue"
 import SelesaiTest from "@/components/customer/CPM/SelesaiTest/SelesaiTest.vue"
 import Soal from "@/components/customer/CPM/Soal/Soal.vue"
@@ -48,7 +48,9 @@ const loading = ref(false)
 
 const dataProfileInclomplete = ref(false)
 const isTestedCPM = ref(false)
-const isSoalReady = ref(false)
+const isSoalReady = ref(
+    localStorage.getItem('isSoalReady') === 'true' || false
+)
 
 const getUserData = async() => {
     try {
@@ -86,6 +88,14 @@ onBeforeMount(() => {
         dataProfileInclomplete.value = true
     } else {
         dataProfileInclomplete.value = false
+    }
+})
+
+watch(isSoalReady, (newValue) => {
+    if(newValue === true){
+        localStorage.setItem('isSoalReady', 'true')
+    } else {
+        localStorage.setItem('isSoalReady', 'false')
     }
 })
 

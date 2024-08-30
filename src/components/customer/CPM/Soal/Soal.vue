@@ -98,7 +98,7 @@
         </div>
 
         <div class="block lg:hidden text-center text-[#667084] text-base font-normal font-roboto leading-normal">
-            {{currentQuestionIndex }} / 12
+            {{ currentQuestionIndex }} / 12
         </div>
 
         <button @click="nextQuestion" class="lg:hidden hover:-translate-y-2 transition-all cursor-pointer self-stretch min-h-[42px] max-h-[62px] px-[60px] py-[18px] md:px-[90px] md:py-[18px] bg-[#3030f8] rounded-2xl border-l hover:border-l-[6px] hover:border-r-0 border-r hover:border-t-0 border-t border-b-4 hover:border-b-8 border-black justify-center items-center gap-2.5 inline-flex">
@@ -113,10 +113,19 @@
 
     <div class="hidden mt-8 lg:flex flex-col justify-center items-center gap-3 mx-7">
         <div class="text-center text-[#667084] text-base font-normal font-roboto leading-normal">
-            {{currentQuestionIndex }} / 12
+            {{ currentQuestionIndex }} / 12
         </div>
 
-        <button @click="nextQuestion" class="w-1/2 mx-auto hover:-translate-y-2 transition-all cursor-pointer self-stretch min-h-[42px] max-h-[62px] px-[60px] py-[18px] md:px-[90px] md:py-[18px] bg-[#3030f8] rounded-2xl border-l hover:border-l-[6px] hover:border-r-0 border-r hover:border-t-0 border-t border-b-4 hover:border-b-8 border-black justify-center items-center gap-2.5 inline-flex">
+        <button v-if="selectedAnswer !== 0" @click="nextQuestion" class="w-1/2 mx-auto hover:-translate-y-2 transition-all cursor-pointer self-stretch min-h-[42px] max-h-[62px] px-[60px] py-[18px] md:px-[90px] md:py-[18px] bg-[#3030f8] rounded-2xl border-l hover:border-l-[6px] hover:border-r-0 border-r hover:border-t-0 border-t border-b-4 hover:border-b-8 border-black justify-center items-center gap-2.5 inline-flex">
+            <div class="text-white text-base font-medium font-roboto leading-normal">
+                Selanjutnya
+            </div>
+            <div class="w-4 h-4 relative">
+                <img src="@/assets/img/cpm/icon-row-up.svg">
+            </div>
+        </button>
+
+        <button v-if="selectedAnswer == 0" class="w-1/2 cursor-not-allowed mx-auto bg-opacity-60 transition-all self-stretch min-h-[42px] max-h-[62px] px-[60px] py-[18px] md:px-[90px] md:py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b-4 border-black justify-center items-center gap-2.5 inline-flex">
             <div class="text-white text-base font-medium font-roboto leading-normal">
                 Selanjutnya
             </div>
@@ -130,7 +139,7 @@
 <script setup>
 import initAPI from '@/api/api';
 import Cookies from 'js-cookie';
-import { ref, onMounted, onUnmounted, onBeforeMount, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onUnmounted, onBeforeMount, onBeforeUnmount, watch } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { jwtDecode } from "jwt-decode"
 import Swal from 'sweetalert2';
@@ -145,22 +154,41 @@ const loadingFetch = ref(false)
 const loadingSubmit = ref(false)
 
 const questions = ref(null)
-const currentType = ref('A')
-const currentQuestionIndex = ref(1)
+const currentType = ref(
+    localStorage.getItem('currentTypeCPM') || 'A'
+)
+const currentQuestionIndex = ref(
+    localStorage.getItem('currentQuestionCPM') || 1
+)
 const totalQuestionsPerType = 12
 
-const answers = ref([])
+const pertanyaanLocalStorage = ref(
+   localStorage.getItem('currentQuestionCPM') || null
+)
+const typeLocalStorage = ref(
+    localStorage.getItem('currentTypeCPM') || null
+)
 
-const timer = ref(0) //detik timer
+const answers = ref(JSON.parse(localStorage.getItem('jawabanCPM')) || [])
+
+const timer = ref(parseInt(localStorage.getItem('currentTimeCPM')) || 0) //detik timer
 const formattedTime = ref('00:00')
 let timerInterval = null
 
 const startTimer = () => {
   timerInterval = setInterval(() => {
-    timer.value++
-    formattedTime.value = new Date(timer.value * 1000).toISOString().substr(14, 5)
-  }, 1000)
+    timer.value++;
+    formattedTime.value = new Date(timer.value * 1000).toISOString().substr(14, 5);
+    localStorage.setItem('currentTimeCPM', timer.value);  // Save current time to localStorage every second
+  }, 1000);
 };
+
+// const startTimer = () => {
+//   timerInterval = setInterval(() => {
+//     timer.value++
+//     formattedTime.value = new Date(timer.value * 1000).toISOString().substr(14, 5)
+//   }, 1000)
+// };
 
 const stopTimer = () => {
   clearInterval(timerInterval)
@@ -170,8 +198,16 @@ const getQuestions = async () => {
     try {
         loadingFetch.value = true
 
+        let endpoint = `cpm/questions?perpage=1&type=${currentType.value}&page=${currentQuestionIndex.value}`
+
+        // if(pertanyaanLocalStorage.value !== null && typeLocalStorage.value !== null){
+        //     endpoint = `cpm/questions?perpage=1&type=${typeLocalStorage.value}&page=${pertanyaanLocalStorage.value}`
+        // } else {
+        //     endpoint = `cpm/questions?perpage=1&type=${currentType.value}&page=${currentQuestionIndex.value}`
+        // }
+
         const token = Cookies.get('token')
-        const response = await initAPI('get', `cpm/questions?perpage=1&type=${currentType.value}&page=${currentQuestionIndex.value}`, null, token)
+        const response = await initAPI('get', endpoint, null, token)
       
         questions.value = response.data.data[0]
         // console.log(`questions`, response.data)
@@ -194,6 +230,8 @@ const getQuestions = async () => {
 };
 
 const selectedAnswer = ref(0)
+const localStorageAnswer = (JSON.parse(localStorage.getItem('jawabanCPM')) || null)
+
 const selectAnswer = (answer) => {
     selectedAnswer.value = answer
 }
@@ -247,6 +285,8 @@ const submitAnswers = async () => {
 
 const nextQuestion = () => {
     answers.value.push(selectedAnswer.value)
+    localStorage.setItem('jawabanCPM', JSON.stringify(answers.value))
+    selectedAnswer.value = 0
     // if (selectedAnswer.value !== null) {
     //     answers.value.push(selectedAnswer.value)
     //     selectedAnswer.value = null
@@ -310,18 +350,28 @@ onUnmounted(() => {
   stopTimer()
 });
 
+watch(currentType, (newValue) => {
+    localStorage.setItem('currentTypeCPM', newValue)
+})
+
+watch(currentQuestionIndex, (newValue) => {
+    localStorage.setItem('currentQuestionCPM', newValue)
+})
+
 onBeforeMount(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    localStorage.setItem('currentTypeCPM', currentType.value)
+    localStorage.setItem('currentQuestionCPM', currentQuestionIndex.value)
+    // window.addEventListener('beforeunload', handleBeforeUnload);
 });
 
-onBeforeUnmount(() => {
-    window.removeEventListener('beforeunload', handleBeforeUnload);
-});
+// onBeforeUnmount(() => {
+//     window.removeEventListener('beforeunload', handleBeforeUnload);
+// });
 
-const handleBeforeUnload = (event) => {
-    event.preventDefault();
-    event.returnValue = true; // Required for older browsers
-};
+// const handleBeforeUnload = (event) => {
+//     event.preventDefault();
+//     event.returnValue = true; // Required for older browsers
+// };
 
 onBeforeRouteLeave((to, from, next) => {
     Swal.fire({
