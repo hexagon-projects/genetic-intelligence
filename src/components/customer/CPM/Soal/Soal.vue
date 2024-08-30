@@ -193,7 +193,7 @@ const getQuestions = async () => {
     }
 };
 
-const selectedAnswer = ref(null)
+const selectedAnswer = ref(0)
 const selectAnswer = (answer) => {
     selectedAnswer.value = answer
 }
@@ -246,10 +246,11 @@ const submitAnswers = async () => {
 };
 
 const nextQuestion = () => {
-    if (selectedAnswer.value !== null) {
-        answers.value.push(selectedAnswer.value)
-        selectedAnswer.value = null
-    }
+    answers.value.push(selectedAnswer.value)
+    // if (selectedAnswer.value !== null) {
+    //     answers.value.push(selectedAnswer.value)
+    //     selectedAnswer.value = null
+    // }
 
     if (currentQuestionIndex.value < totalQuestionsPerType) {
         // Move to the next question within the same set
