@@ -65,6 +65,11 @@
                                 <span v-if="!loading">{{ userInfo.usia }}</span>
                                 <div v-else class="skeleton w-[130px] h-[16px] bg-gray-300 rounded-md"></div>
                             </div>
+                            <div class="flex items-center gap-2">
+                                <span>Durasi Test: </span>
+                                <span v-if="!loading">{{ userInfo.durasi_test }}</span>
+                                <div v-else class="skeleton w-[130px] h-[16px] bg-gray-300 rounded-md"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -219,7 +224,8 @@ const userInfo = ref({
     jenis_kelamin: '',
     tanggal_lahir: '',
     tanggal_tes: '',
-    usia: ''
+    usia: '',
+    durasi_test: ''
 })
 
 const cpmInfo = ref({
@@ -253,6 +259,7 @@ const getCPMInfo = async(userId) => {
     
         userInfo.value.tanggal_tes = response.data[0].test_date
         userInfo.value.usia = response.data[0].age
+        userInfo.value.durasi_test = response.data[0].time
         cpmInfo.value.set_a = response.data[0].cpm_scores.a
         cpmInfo.value.set_ab = response.data[0].cpm_scores.ab
         cpmInfo.value.set_b = response.data[0].cpm_scores.b

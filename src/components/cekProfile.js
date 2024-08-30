@@ -39,18 +39,22 @@ const cekDataProfile = () => {
         return properties.some(prop => data[prop] === null);
     }
 
-    // Check for is_student 0
-    if (data.is_student === 0 && hasNullProperties(commonProperties)) {
-        return true;
-    }
+    // // Check for is_student 0
+    // if (data.is_student === 0 && hasNullProperties(commonProperties)) {
+    //     return true;
+    // }
 
     // Check for is_student 1
     // if (data.is_student === 1 && (hasNullProperties(commonProperties) || hasNullProperties(studentProperties))) {
     //     return true;
     // }
+    if (hasNullProperties(commonProperties)) {
+        return true;
+    }
 
     if (data.is_student === 1) {
         const institutionType = data.institutions?.type;
+        console.log(`sakolana`, data.institutions?.type)
 
         // If the institution type is TK, SD, or SMP, don't check 'majoring'
         if (['TK', 'SD', 'SMP'].includes(institutionType)) {
