@@ -14,7 +14,7 @@
 
     <!-- accordion -->
     <div class="mt-8 lg:mt-0 mb-6 w-full flex flex-col gap-6">
-        <div class="transition-all self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b-4 border-[#667084] flex-col justify-start items-start gap-2.5 flex">
+        <div class="transition-all self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b border-[#667084] flex-col justify-start items-start gap-2.5 flex">
             <div @click="showGambaranUmum = !showGambaranUmum"  class="cursor-pointer self-stretch justify-between items-center inline-flex">
                 <div class="flex-col justify-start items-start gap-4 inline-flex">
                     <div class="self-stretch text-[#031b4e] text-xl font-medium font-roboto leading-7">Gambaran Umum</div>
@@ -31,7 +31,7 @@
             </p>
         </div>
 
-        <div class="transition-all self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b-4 border-[#667084] flex-col justify-start items-start gap-2.5 flex">
+        <div class="transition-all self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b border-[#667084] flex-col justify-start items-start gap-2.5 flex">
             <div @click="showSaran = !showSaran" class="cursor-pointer self-stretch justify-between items-center inline-flex">
                 <div class="flex-col justify-start items-start gap-4 inline-flex">
                     <div class="self-stretch text-[#031b4e] text-xl font-medium font-roboto leading-7">Saran</div>
@@ -47,7 +47,7 @@
             </p>
         </div>
 
-        <div class="self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b-4 border-[#f04437] flex-col justify-start items-start gap-2.5 flex">
+        <div class="self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b border-[#f04437] flex-col justify-start items-start gap-2.5 flex">
             <div class="w-full grow shrink basis-0 flex-col justify-start items-start gap-3.5 flex">
                 <div class="self-stretch justify-center items-center gap-4 inline-flex">
                     <div class="grow shrink basis-0 text-[#031b4e] text-xl font-medium font-roboto leading-7">

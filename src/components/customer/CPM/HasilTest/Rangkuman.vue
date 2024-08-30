@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-6 lg:mt-0 h-[404px] px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b-4 border-[#667084] flex-col justify-start items-center gap-3 inline-flex">
+    <div class="mt-6 lg:mt-0 h-[404px] px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b border-[#667084] flex-col justify-start items-center gap-3 inline-flex">
         <div class="self-stretch justify-center items-center gap-4 inline-flex">
             <div class="grow shrink basis-0 text-[#031b4e] text-xl font-medium font-roboto leading-7">Data tes intelegensi CPM</div>
         </div>

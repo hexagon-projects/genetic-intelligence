@@ -40,7 +40,7 @@
                     <DokumenTest :cpmInfo="cpmInfo"/>
     
                     <!-- button download -->
-                    <button @click="downloadHasil" class="self-stretch h-[62px] px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b-4 border-black justify-center items-center gap-2.5 inline-flex">
+                    <button @click="downloadHasil" class="self-stretch h-[62px] px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b border-black justify-center items-center gap-2.5 inline-flex">
                         <div class="text-white text-base font-medium font-roboto leading-normal">Unduh Hasil Tes</div>
                         <div class="w-4 h-4 relative">
                             <img src="@/assets/img/cpm/download.svg" alt="download">
