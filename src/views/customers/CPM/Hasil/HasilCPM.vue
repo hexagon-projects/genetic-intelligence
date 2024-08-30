@@ -39,7 +39,7 @@
 
         <section class="bg-[#f0f7fd] px-4 py-14">
             <!-- Hasil Test -->
-            <div class="w-full flex flex-col items-center pb-8">
+            <div v-if="sudahTest" class="w-full flex flex-col items-center pb-8">
                     <DokumenTest :cpmInfo="cpmInfo"/>
     
                     <!-- button download -->
@@ -117,6 +117,7 @@ const getCPMInfo = async(userId) => {
         cpmInfo.value.saran = response.data[0].cpm.suggestion
         cpmInfo.value.pemahaman_empati = response.data[0].cpm.warning
     } catch (error) {
+        console.log(`err`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error Terjadi',
@@ -149,6 +150,7 @@ const getUserInfo = async() => {
             await getCPMInfo(userId.value);
         } else {
             sudahTest.value = false
+            loading.value = false
         }
     } catch (error) {
         Swal.fire({

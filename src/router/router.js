@@ -96,7 +96,7 @@ const routes = [
                 next()
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -123,7 +123,7 @@ const routes = [
                 next() 
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -147,7 +147,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -173,7 +173,7 @@ const routes = [
                 next()
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -199,7 +199,7 @@ const routes = [
             //     next()
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -223,7 +223,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -247,7 +247,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -271,7 +271,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -295,7 +295,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -319,7 +319,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -362,7 +362,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
@@ -395,7 +395,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
@@ -419,7 +419,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
@@ -443,7 +443,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
@@ -467,7 +467,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
@@ -491,7 +491,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
@@ -515,7 +515,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
@@ -539,7 +539,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -563,7 +563,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -587,7 +587,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -611,7 +611,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -635,7 +635,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -659,7 +659,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -683,7 +683,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -707,7 +707,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -746,7 +746,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -770,7 +770,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -794,7 +794,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
@@ -818,7 +818,7 @@ const routes = [
                 next({ name: 'views.login' });
             } else {
                 const decodedToken = jwtDecode(token);
-                console.log(`di deocde cek`, decodedToken);
+                //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
                 const roleUser = JSON.parse(localStorage.getItem('userRole'))
                 if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
