@@ -7,13 +7,13 @@
             {{ props.cpmInfo.type }}
         </div>
         <div class="justify-center items-center gap-4 inline-flex">
-            <div class="text-center text-[#0b0b79] text-sm font-normal font-roboto leading-tight">Verified by</div>
+            <div class="text-center text-[#0b0b79] text-sm font-normal font-roboto leading-tight">Verified by :</div>
             <img class="w-[50px] h-6" src="@/assets/img/cpm/jatidiri-verified.png" />
         </div>
     </div>
 
     <!-- accordion -->
-    <div class="mb-6 w-full flex flex-col gap-6">
+    <div class="mt-8 lg:mt-0 mb-6 w-full flex flex-col gap-6">
         <div class="transition-all self-stretch h-auto px-9 py-6 bg-white rounded-3xl border-l border-r border-t border-b-4 border-[#667084] flex-col justify-start items-start gap-2.5 flex">
             <div @click="showGambaranUmum = !showGambaranUmum"  class="cursor-pointer self-stretch justify-between items-center inline-flex">
                 <div class="flex-col justify-start items-start gap-4 inline-flex">

@@ -39,6 +39,13 @@
                     <span v-if="!loading">{{ props.userInfo.usia }}</span>
                     <div v-else class="skeleton w-[130px] h-[16px] bg-gray-300 rounded-md"></div>
                 </div>
+
+                <!-- Durasi Test -->
+                <div class="flex items-center gap-2">
+                    <span>Durasi Test: </span>
+                    <span v-if="!loading">{{ props.userInfo.durasi_tes }}</span>
+                    <div v-else class="skeleton w-[130px] h-[16px] bg-gray-300 rounded-md"></div>
+                </div>
             </div>
         </div>
     </div>
