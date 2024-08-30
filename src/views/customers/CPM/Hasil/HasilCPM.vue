@@ -20,34 +20,36 @@
         <section class="bg-white pb-20">
             <BelumTest v-if="!sudahTest"/>
     
-            <div v-if="sudahTest" class="flex flex-col items-center">
+            <div v-if="sudahTest" class="mx-4 flex flex-col items-center">
                 <div class="mb-[24px] h-[194.54px] flex-col justify-start items-center gap-2 inline-flex">
                     <img class="w-[200px] h-[158.54px]" src="@/assets/img/logo-jatidiri-hasi-cpm.png" alt="logo" />
                     <div class="self-stretch text-center text-[#0b0b79] text-lg font-semibold font-sora leading-7">Hasil Pemeriksaan Tes Kecerdasan</div>
                 </div>
     
                 <!-- Identitas & Rangkuman -->
-                <div class="flex flex-col lg:flex-row gap-6 pb-[36px]">
-                    <div class="mb-6">
+                <div class="w-full mx-auto pb-[36px]">
+                    <div class="flex flex-col justify-center items-start lg:flex-row gap-6">
                         <Identitas :userInfo="identitas" :cpmInfo="cpmInfo" :isLoading="loading"/>
+        
+                        <Rangkuman :cpmInfo="cpmInfo"/>
                     </div>
-    
-                    <Rangkuman :cpmInfo="cpmInfo"/>
                 </div>
-    
-                <!-- Hasil Test -->
-                <div class="w-full flex flex-col items-center bg-[#f0f7fd] px-9 py-14">
+            </div>
+        </section>
+
+        <section class="bg-[#f0f7fd]  px-9 py-14">
+            <!-- Hasil Test -->
+            <div class="w-full flex flex-col items-center">
                     <DokumenTest :cpmInfo="cpmInfo"/>
     
                     <!-- button download -->
-                    <button @click="downloadHasil" class="self-stretch h-[62px] px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b border-black justify-center items-center gap-2.5 inline-flex">
-                        <div class="text-white text-base font-medium font-roboto leading-normal">Unduh Hasil Tes</div>
+                    <button @click="downloadHasil" class="self-stretch h-[62px] px-[78px] md:px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b border-black justify-center items-center gap-2.5 inline-flex">
+                        <div class="text-white text-sm md:text-base font-medium font-roboto leading-normal">Unduh Hasil Tes</div>
                         <div class="w-4 h-4 relative">
                             <img src="@/assets/img/cpm/download.svg" alt="download">
                         </div>
                     </button>
                  </div>
-            </div>
         </section>
     </div>
 </template>
