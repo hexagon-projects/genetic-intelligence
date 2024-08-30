@@ -62,7 +62,7 @@
                             <!-- Usia -->
                             <div class="flex items-center gap-2">
                                 <span>Usia: </span>
-                                <span v-if="!loading">8 Tahun 4 bulan 22 hari</span>
+                                <span v-if="!loading">{{ userInfo.usia }}</span>
                                 <div v-else class="skeleton w-[130px] h-[16px] bg-gray-300 rounded-md"></div>
                             </div>
                         </div>
@@ -252,6 +252,7 @@ const getCPMInfo = async(userId) => {
         console.log(`user info cpm`,response.data)
     
         userInfo.value.tanggal_tes = response.data[0].test_date
+        userInfo.value.usia = response.data[0].age
         cpmInfo.value.set_a = response.data[0].cpm_scores.a
         cpmInfo.value.set_ab = response.data[0].cpm_scores.ab
         cpmInfo.value.set_b = response.data[0].cpm_scores.b
