@@ -1,6 +1,6 @@
 <template>
     <header class="h-[68px] hidden lg:flex lg:gap-4 bg-white sticky top-0 z-50 px-4 py-4">
-        <nav class="w-full mx-4 flex justify-between items-center gap-4">
+        <nav class="w-full mx-[50px] flex justify-between items-center gap-4">
             <img class="w-[121.28px] h-12" src="@/assets/img/logo-new.png" alt="Logo">
 
             <NavCustomer/>

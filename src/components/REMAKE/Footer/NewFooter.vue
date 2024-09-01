@@ -1,10 +1,10 @@
 <template>
     <footer id="footer" class="bg-white pt-4 pb-4">
-         <div class="container mx-auto">
-             <div class="flex justify-between items-center container mx-auto w-full">
+         <div class="mx-[68px]">
+             <div class="flex justify-between items-center">
                 <img class="w-[121px] h-[48px]" src="@/assets/img/logo-new.png">
 
-                <p class="font-medium font-roboto text-xs lg:text-sm text-[#6c748f] text-center">
+                <p class="font-normal font-roboto text-xs lg:text-sm text-[#6D758F] text-center">
                    Copyright © {{ currentYear }} Jatidiri. All Rights Reserved.
                 </p>
                 
@@ -13,7 +13,7 @@
                         <PhInstagramLogo :size="18"/>
                     </a>
 
-                    <span class="font-medium text-[#6c748f] text-sm font-roboto">Jatidiri.app</span>
+                    <span class="font-normal text-[#6c748f] text-sm font-roboto">Jatidiri.app</span>
                 </div>
              </div>
          </div>
