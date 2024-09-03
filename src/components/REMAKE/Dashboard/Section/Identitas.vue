@@ -1,4 +1,5 @@
 <template>
+  <!-- Desktop -->
     <div class="hidden mx-9 lg:mx-[60px] lg:flex flex-col md:flex-row justify-center items-center lg:items-start lg:gap-[32px]">
       <!-- Card Selamat Datang -->
       <div class="hidden shadow-md w-[800px] h-[425px] relative bg-[#3030f8] rounded-3xl lg:flex flex-col justify-between">
@@ -98,17 +99,22 @@
         </div>
       </div>
     </div>
+    <!-- Desktop -->
 
-    <!-- <div class="bg-red-500 mx-9 lg:hidden grid grid-cols-1 md:grid-cols-2 gap-[32px]">
-      <div class="mb-[32px] min-h-[526px] max-h-[725px] items-center flex flex-col justify-between bg-[#3030f8] rounded-3xl py-[25px] px-[17px]">
-        <div class="mb-4 w-full flex flex-col items-center gap-[8px]">
+    <!-- Mobile -->
+    <div class="mx-9 md:hiddden lg:hidden grid grid-cols-1 gap-[8px]">
+      <div class="z-[2] relative overflow-clip mb-[32px] min-h-[526px] max-h-[725px] items-center flex flex-col justify-between bg-[#3030f8] rounded-3xl py-[25px] px-[17px]">
+        <div class="z-[2] absolute -right-[122px] top-2 opacity-50">
+          <img class="w-[478px] h-[390px]" src="@/assets/img/logo-card-dashboard.svg">
+        </div>
+        <div class="z-10 mb-4 w-full flex flex-col items-center gap-[8px]">
           <span class="text-white font-sora font-medium leading-normal text-sm">Selamat Datang!</span>
           <h1 class="text-2xl font-sora font-semibold leading-9 text-white">
             Aditya Darussalam
           </h1>
         </div>
 
-        <div class="self-end mx-auto mt-auto bg-white rounded-3xl p-[24px]">
+        <div class="z-10 self-end mx-auto mt-auto bg-white rounded-3xl p-[24px]">
           <div class="w-full flex flex-col gap-[4px]">
             <h1 class="text-center font-sora font-semibold text-lg text-black">Temukan Potensimu: </h1>
 
@@ -127,11 +133,11 @@
               </div>
 
               <div class="px-[18px] py-[24px] flex items-center gap-[24px]">
-                <img src="@/assets/icons/siapakah-dirimu.svg" alt="Icon">
+                <img src="@/assets/icons/sistem-kecerdasan.svg" alt="Icon">
 
                 <div class="w-full flex flex-col gap-[12px]">
                   <span class="text-[#031B4E] text-sm font-medium font-roboto">
-                    Siapakah Dirimu?
+                    Sistem Operasi Kecerdasan Dominan:
                   </span>
                   <span class="text-[#667085] text-sm font-normal font-roboto">
                     Sang Pelaksana (Cermat)
@@ -142,7 +148,7 @@
           </div>
         </div>
 
-        <div class="mx-auto mt-[22px] ">
+        <div class="z-10 mx-auto mt-[22px] ">
           <button class="w-[152px] h-11 pl-[13px] py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
             <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
             <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
@@ -185,7 +191,8 @@
             </div>
         </div>
       </div>
-    </div> -->
+    </div>
+    <!-- Mobile -->
 </template>
 
 <style scoped>

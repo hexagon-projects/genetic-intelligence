@@ -6,7 +6,7 @@
                     Resume Assesment Kamu
                 </h1>
 
-                <div class="justify-start items-center gap-4 inline-flex">
+                <!-- <div class="justify-start items-center gap-4 inline-flex">
                     <div class="px-4 py-1 bg-[#d6d6fe] rounded-[99px] justify-center items-center gap-2.5 flex">
                         <div class="text-[#3030f8] text-xs md:text-sm font-normal font-roboto leading-[30px]">Visual</div>
                     </div>
@@ -16,57 +16,115 @@
                     <div class="px-4 py-1 bg-[#d0fadf] rounded-[99px] justify-center items-center gap-2.5 flex">
                         <div class="text-[#12b669] text-xs md:text-sm font-normal font-roboto leading-[30px]">Kinestik</div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
-            <!-- Icons -->
-            <div class="w-full group flex flex-col justify-center items-center">
-                <div class="absolute top-[164px] left-[62px] lg:left-[82px] w-1/2 flex justify-start">
-                    <img class="w-[120px]" src="@/assets/icons/icon-visual.svg" alt="asd">
-                </div>
-                <div class="absolute top-[254px] right-[42px] lg:right-[82px] w-1/2 flex justify-end">
-                    <img class="w-[105px]" src="@/assets/icons/icon-visual.svg" alt="asd">
-                </div>
-                <div class="absolute top-[304px] left-[72px] lg:left-[102px] w-1/2 flex justify-start">
-                    <img class="w-[85px]" src="@/assets/icons/icon-visual.svg" alt="asd">
-                </div>
+            <div class="z-50 relative h-[424px] mx-3">
+                <Bar :data="data" :options="options" />
             </div>
 
             <div class="self-stretch text-center text-white text-base font-medium font-['Roboto'] underline leading-normal">Baca Selengkapnya</div>
         </div>
+
         <div class="relative w-auto min-h-[498px] max-h-[510px] group p-9 bg-[#3030f8] rounded-3xl flex-col justify-between items-center gap-6 inline-flex">
             <div class="flex flex-col items-center gap-[16px]">
                 <h1 class="text-[#f0f7fd] text-base md:text-2xl font-semibold font-sora leading-loose">
-                    Resume Assesment Kamu
+                    Resume IQ Kamu
                 </h1>
 
-                <div class="justify-start items-center gap-4 inline-flex">
-                    <div class="px-4 py-1 bg-[#d6d6fe] rounded-[99px] justify-center items-center gap-2.5 flex">
-                        <div class="text-[#3030f8] text-xs md:text-sm font-normal font-roboto leading-[30px]">Visual</div>
-                    </div>
-                    <div class="px-4 py-1 bg-[#fee3e1] rounded-[99px] justify-center items-center gap-2.5 flex">
-                        <div class="text-[#f04437] text-xs md:text-sm font-normal font-roboto leading-[30px]">Auditori</div>
-                    </div>
-                    <div class="px-4 py-1 bg-[#d0fadf] rounded-[99px] justify-center items-center gap-2.5 flex">
-                        <div class="text-[#12b669] text-xs md:text-sm font-normal font-roboto leading-[30px]">Kinestik</div>
+                <div class="px-4 py-1 bg-[#d0fadf] rounded-[99px] justify-center items-center gap-2.5 flex">
+                    <div class="text-[#027947] text-lg font-normal font-roboto leading-[30px]">Average - Cukup</div>
+                </div>
+                <div class="flex flex-col justify-cetner items-center gap-4">
+                    
+                    <div class="w-[268px] h-[268px] relative">
+                        <img src="@/assets/icons/Badges.svg" alt="badges">
                     </div>
                 </div>
             </div>
 
             <!-- Icons -->
-            <div class="w-full group flex flex-col justify-center items-center">
-                <div class="absolute top-[164px] left-[62px] lg:left-[82px] w-1/2 flex justify-start">
-                    <img class="w-[120px]" src="@/assets/icons/icon-visual.svg" alt="asd">
+            <!-- <div class="h-[380px] flex-col justify-between items-center inline-flex">
+                <div class="self-stretch justify-center items-center gap-4 inline-flex">
+                    <div class="px-4 py-1 bg-[#d0fadf] rounded-[99px] justify-center items-center gap-2.5 flex">
+                        <div class="text-[#027947] text-lg font-normal font-['DM Sans'] leading-[30px]">Average - Cukup</div>
+                    </div>
                 </div>
-                <div class="absolute top-[254px] right-[42px] lg:right-[82px] w-1/2 flex justify-end">
-                    <img class="w-[105px]" src="@/assets/icons/icon-visual.svg" alt="asd">
+                <div class="w-[300px] h-[300px] relative">
+                    <div class="w-[172px] h-[103.57px] left-[64.75px] top-[117.74px] absolute">
+                    </div>
+                    <div class="w-[62px] h-[72.48px] left-[119px] top-[113.76px] absolute text-white text-[98px] font-bold font-['Sora'] leading-[72px]">3</div>
                 </div>
-                <div class="absolute top-[304px] left-[72px] lg:left-[102px] w-1/2 flex justify-start">
-                    <img class="w-[85px]" src="@/assets/icons/icon-visual.svg" alt="asd">
-                </div>
-            </div>
+            </div> -->
 
             <div class="self-stretch text-center text-white text-base font-medium font-['Roboto'] underline leading-normal">Baca Selengkapnya</div>
         </div>
     </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+import { Bar } from 'vue-chartjs'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
+const data = ref({
+    labels: ['Visual', 'Auditori', 'Kinestetk'],
+    datasets: [
+        { 
+            label: 'Grafik Gaya Belajar',
+            backgroundColor: ['#9a89ff', '#feaeae', '#a9f4d0'], // Colors for each bar
+            borderColor: ['#9a89ff', '#feaeae', '#a9f4d0'], 
+            borderWidth: 1,
+            data: [70, 20, 10] 
+        }
+    ]
+})
+
+const options = ref({
+    responsive: true,
+    maintainAspectRatio: false, // Disable default aspect ratio
+    // aspectRatio: 1,
+    plugins: {
+    legend: {
+      display: false // Hide the legend
+    },
+    tooltip: {
+      callbacks: {
+        label: (context) => {
+          return `${context.dataset.label}: ${context.raw}`;
+        }
+      },
+      bodyColor: '#ffffff',
+      titleColor: '#ffffff'
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: '#ffffff'
+      },
+      grid: {
+        color: '#ffffff'
+      }
+    },
+    y: {
+      ticks: {
+        color: '#ffffff'
+      },
+      grid: {
+        color: '#ffffff'
+      }
+    }
+  }
+})
+</script>
