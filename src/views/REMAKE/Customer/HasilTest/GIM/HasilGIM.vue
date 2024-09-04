@@ -76,7 +76,7 @@
     </section>
     
     <!-- Video Hasil -->
-    <section class="bg-white py-[24px]">
+    <!-- <section class="bg-white py-[24px]">
         <div class="mx-[30px] md:mx-[60px] flex flex-col items-center gap-[24px]">
             <div class="text-center text-black text-lg md:text-xl lg:text-3xl font-semibold font-sora leading-9">
                 Video Penjelasan Hasil Test Kamu
@@ -99,11 +99,12 @@
             </div>
 
         </div>
-    </section>
+    </section> -->
 
+    <!-- Card siapa dirimu -->
     <section class="bg-white py-[24px]">
         <div class="mx-[30px] md:mx-[60px] p-[24px]">
-            <div class="w-full p-[24px] shadow rounded-3xl divide-y-2 md:divide-y-0 md:divide-x-2 grid grid-cols-1 md:grid-cols-3">
+            <div class="w-full p-[24px] shadow-md rounded-3xl divide-y-2 md:divide-y-0 md:divide-x-2 grid grid-cols-1 md:grid-cols-3">
                 <div class="max-w-[384px] flex flex-col lg:flex-row items-center p-[24px] gap-[24px]">
                     <img src="@/assets/icons/siapakah-dirimu.svg" alt="Icon">
     
@@ -132,6 +133,67 @@
         </div>
     </section>
 
+    <section class="bg-white py-[46px]">
+        <div class="mx-[30px] md:mx-[60px] bg-white flex flex-col lg:flex-row gap-[32px]">
+            <div class="max-h-[340px] overflow-y-scroll lg:max-h-[796px] p-[24px] w-full lg:w-[30%] flex flex-col bg-white shadow-md rounded-3xl">
+                <div class="flex flex-col gap-[24px]">
+                    <h1 class="text-black text-lg font-roboto font-medium leading-7">
+                        Cari tahu tentang dirimu
+                    </h1>
+
+                    <div class="flex flex-col gap-2">
+                        <div v-for="(section, index) in sections" :key="index" class="h-14 pl-6 pr-3 py-3 bg-[#f0f7fd] rounded-[56px] justify-between items-center inline-flex">
+                            <div class="grow shrink basis-0 text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">
+                                {{ section.name }}
+                            </div>
+                            <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                                <div class="w-3 h-3 relative">
+                                    <img src="@/assets/icons/arrow-go.svg" alt="go">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full lg:w-[70%] bg-white flex flex-col">
+                <div class="mb-[24px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
+                    <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Video Penjelasan Hasil Test Kamu</h1>
+                </div>
+
+                <!-- Video -->
+                <div class="w-full block mb-[32px]">
+                    <div class="flex flex-row gap-1 items-center align-middle mb-1">
+                        <PhWarningCircle :size="18" color="#e81111"/><small class="text-xs md:text-sm text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>
+                    </div>
+                    <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
+                        controls
+                        preload="auto"
+                        fluid="true"
+                        data-setup='{}'
+                        >
+                        <source
+                            src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
+                            type="application/x-mpegURL">
+                    </video>
+                </div>
+
+                <div class="mb-[32px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
+                    <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>
+                </div>
+
+                <div class="flex flex-col gap-[24px]">
+                    <div class="h-20 p-4 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-center items-center gap-2.5 inline-flex">
+                        <div class="w-[763px] text-black text-base font-normal font-['Roboto'] leading-normal">Tipe kecerdasan Limbik Kiri yang berarti melihat kepada panca indera anda, yang membuat anda konkrit dan praktis.</div>
+                    </div>
+
+                    <h1 class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
+                        Tipe kecerdasan tersebut dikendalikan dari luar diri anda menuju kedalam diri anda. Tajam dalam mengamati detail, cermat, menyukai keteraturan, menyukai sistematika, metode dan ketepatan. Membawa energi yang bisa diandalkan, tepat dan mandiri. pola dasar ini cenderung mengatakan yang dilakukan dan melakukan yang dikatakan, jujur, bisa dipercaya dan apa adanya. Pola dasar ini menjadi sebuah fondasi dan pijakan (grounded), sehingga anda mudah kecipratan banyak peluang baru.
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Reservasi -->
     <section class="bg-white py-[46px]">
         <Reservasi/>
@@ -148,6 +210,20 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { PhWarningCircle } from '@phosphor-icons/vue';
 
 const isTested = ref(true)
+
+const sections = ref([
+    {name: 'Rangkuman'},
+    {name: 'Pengembangan Diri'},
+    {name: 'Antisipasi'},
+    {name: 'Pendidikan Ideal'},
+    {name: 'Pekerjaan yang Tepat'},
+    {name: 'Metode Belajar'},
+    {name: 'Langkah Menuju Sukses'},
+    {name: 'Tipe Bisnis'},
+    {name: 'Peran dalam Bisnis'},
+    {name: 'Motivasi'},
+    {name: 'Catatan Lainya'},
+])
 
 onMounted(() => {
     const player = videojs('example-video');
