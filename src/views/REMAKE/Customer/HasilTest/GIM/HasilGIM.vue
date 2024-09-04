@@ -1,4 +1,5 @@
 <template>
+    <!-- Breadcrumb -->
     <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
         <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
         <div class="w-4 h-4 relative opacity-75">
@@ -11,15 +12,150 @@
         <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
     </div>
 
-    <BelumTest message="Kamu Belum Melakukan Test GIM" 
+    <BelumTest v-if="!isTested" message="Kamu Belum Melakukan Test GIM" 
     subMessage="Wah, sayang sekali kamu belum coba Tes GIM! Yuk, kenali dulu potensi dirimu lewat Tes GIM biar hasil Assessment kamu lebih maksimal!"/>
 
+    <!-- Card Catatan -->
+    <section class="bg-[#f0f7fd] py-[52px]">
+        <div class="mx-[30px] md:mx-[60px] flex flex-col gap-[32px]">
+            <div class="flex flex-col md:flex-row justify-center gap-4 h-auto">
+                <div class="w-full md:max-w-[356px] flex flex-col justify-between bg-gradient-to-br from-[#3030f8] to-[#43b0ff] p-[24px] rounded-3xl">
+                    <div class="flex flex-col gap-[16px]">
+                        <span class="text-[#FCFCFD] text-base md:text-lg font-normal font-roboto leading-7">
+                            Selamat! kamu telah selesai melakukan test Genetic Intelligence Mapping. Hasil test kamu menunjukan bahwa kamu memiliki tipe kecerdasan:
+                        </span>
+        
+                        <span class="text-white text-sm md:text-2xl font-normal font-roboto leading-normal">
+                            Limbik Kiri
+                        </span>
+                    </div>
+        
+                    <div class="mt-[52px]">
+                        <div class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                            <div class="text-[#3030f8] text-sm md:text-base font-normal font-roboto leading-normal">Unduh File</div>
+                            <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                                <div class="w-3 h-3 relative">
+                                    <img src="@/assets/icons/arrow-go.svg" alt="go">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="max-w-[846px] py-[26px] px-[21.5px] bg-white p-[24px] rounded-3xl">
+                    <div class="flex flex-col lg:flex-row gap-[52px]">
+                        <img class="w-1/2 md:w-3/4 mx-auto drop-shadow-md" src="@/assets/icons/icon-hasil-gim.svg" alt="icon">
+        
+                        <div class="flex flex-col gap-[32px]">
+                            <div class="flex flex-col gap-[16px]">
+                                <div class="self-start">
+                                    <div class="h-8 px-4 py-1 bg-[#d6d6fe] rounded-[99px] justify-center items-center gap-2.5 inline-flex">
+                                        <div class="text-[#3030f8] text-sm md:text-base font-medium font-roboto leading-normal">Catatan Hasil Tes</div>
+                                    </div>
+                                </div>
+        
+                                <h1 class="text-[#0b0b79] text-xl md:text-3xl font-semibold font-sora leading-9">
+                                    Lihat ringkasan hasil tes grafologi kamu di sini!
+                                </h1>
+                            </div>
+        
+                            <div class="flex flex-col gap-[16px]">
+                                <span class="text-[#667084] text-sm md:text-base font-normal font-roboto leading-normal">
+                                    Berikut catatan yang harus kamu perhatikan :
+                                </span>
+        
+                                <div class="h-20 p-4 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-between items-center inline-flex">
+                                    <div class="grow shrink basis-0 text-black text-sm md:text-base font-normal font-roboto leading-normal">"kamu ganteng sekali cocok jadi model tapi sayang karena kepribadian kamu yang konyol kamu lebih pantas jadi pelawak"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Video Hasil -->
+    <section class="bg-white py-[24px]">
+        <div class="mx-[30px] md:mx-[60px] flex flex-col items-center gap-[24px]">
+            <div class="text-center text-black text-lg md:text-xl lg:text-3xl font-semibold font-sora leading-9">
+                Video Penjelasan Hasil Test Kamu
+            </div>
+
+            <div class="w-full md:w-3/4 block">
+                <div class="flex flex-row gap-1 items-center align-middle mb-1">
+                    <PhWarningCircle :size="18" color="#e81111"/><small class="text-xs md:text-sm text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>
+                </div>
+                <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
+                    controls
+                    preload="auto"
+                    fluid="true"
+                    data-setup='{}'
+                    >
+                    <source
+                        src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
+                        type="application/x-mpegURL">
+                </video>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="bg-white py-[24px]">
+        <div class="mx-[30px] md:mx-[60px] p-[24px]">
+            <div class="w-full p-[24px] shadow rounded-3xl divide-y-2 md:divide-y-0 md:divide-x-2 grid grid-cols-1 md:grid-cols-3">
+                <div class="max-w-[384px] flex flex-col lg:flex-row items-center p-[24px] gap-[24px]">
+                    <img src="@/assets/icons/siapakah-dirimu.svg" alt="Icon">
+    
+                    <div class="flex flex-col">
+                        <span class="text-base">Siapakah Dirimu?</span>
+                        <span class="font-normal text-sm text-[#667085]">Sang pelaksana (Cermat)</span>
+                      </div>
+                </div>
+                <div class="max-w-[384px] flex flex-col lg:flex-row items-center p-[24px] gap-[24px]">
+                    <img src="@/assets/icons/sistem-kecerdasan.svg" alt="Icon">
+    
+                    <div class="flex flex-col">
+                        <span class="text-base">Sistem Operasi Kecerdasan Dominan:</span>
+                        <span class="font-normal text-sm text-[#667085]">Sang pelaksana (Cermat)</span>
+                      </div>
+                </div>
+                <div class="max-w-[384px] flex flex-col lg:flex-row items-center p-[24px] gap-[24px]">
+                    <img src="@/assets/icons/kata-kunci.svg" alt="Icon">
+    
+                    <div class="flex flex-col">
+                        <span class="text-base">Siapakah Dirimu?</span>
+                        <span class="font-normal text-sm text-[#667085]">Mengikuti sistem dan aturan, Servis, Merasa terbatas, Memanage, Pekerja keras, Praktis, Bersahaja.</span>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservasi -->
     <section class="bg-white py-[46px]">
         <Reservasi/>
     </section>
 </template>
 
 <script setup>
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
+import '@videojs/http-streaming';
 import Reservasi from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
 import BelumTest from '@/components/REMAKE/HasilTest/BelumTest/BelumTest.vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { PhWarningCircle } from '@phosphor-icons/vue';
+
+const isTested = ref(true)
+
+onMounted(() => {
+    const player = videojs('example-video');
+    player.play();
+
+})
+
+onBeforeUnmount(() => {
+    player.dispose()
+})
 </script>
