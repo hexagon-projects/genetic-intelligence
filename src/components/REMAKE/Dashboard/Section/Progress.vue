@@ -26,9 +26,22 @@
                     Tes kepribadian untuk menemukan karakter, kekuatan, kelemahan, minat, potensi, serta pilihan karir kamu.
                 </h1>
 
-                <h3 class="h-11 font-roboto font-medium text-white text-base">
+                <h3 v-if="props.userData.customer.is_detected == 'Selesai Terdeteksi'" class="h-11 font-roboto font-medium text-white text-base">
                     Status : Selesai
                 </h3>
+
+                <h3 v-if="props.userData.customer.is_detected == 'Sudah Disubmit'" class="h-11 font-roboto font-medium text-white text-base">
+                    Status : In Review
+                </h3>
+
+                <button v-if="props.userData.customer.is_detected == 'Belum'" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </button>
             </div>
         </div>
 
@@ -48,9 +61,18 @@
                     Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.
                 </h1>
 
-                <h3 class="h-11 font-roboto font-medium text-white text-base">
+                <h3 v-if="props.userData.customer.customers_assessments !== null" class="h-11 font-roboto font-medium text-white text-base">
                     Status : Selesai
                 </h3>
+
+                <button v-if="props.userData.customer.customers_assessments == null" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </button>
             </div>
         </div>
 
@@ -68,14 +90,18 @@
                     Tes instrumen untuk mengetahui skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan kognitifmu.
                 </h1>
 
-                <div class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <h3 v-if="props.userData.customer.customers_iq !== null" class="h-11 font-roboto font-medium text-white text-base">
+                    Status : Selesai
+                </h3>
+
+                <button v-if="props.userData.customer.customers_iq == null" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">
                             <img src="@/assets/icons/arrow-go.svg" alt="go">
                         </div>
                     </div>
-                </div>
+                </button>
             </div>
         </div>
 
@@ -93,9 +119,18 @@
                     Tes CPM yang dirancang untuk mengukur kemampuan penalaran logis dan intelegensi non-verbal Kamu.
                 </h1>
 
-                <h3 class="font-roboto font-medium text-white text-base">
+                <h3 v-if="props.userData.customer.customers_cpm !== null" class="h-11 font-roboto font-medium text-white text-base">
                     Status : Selesai
                 </h3>
+
+                <button v-if="props.userData.customer.customers_cpm == null" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </button>
             </div>
         </div>
 
@@ -140,3 +175,8 @@
       </div>
     </div> -->
 </template>
+
+<script setup>
+const props = defineProps(['userData'])
+console.log(`props`, props.userData)
+</script>

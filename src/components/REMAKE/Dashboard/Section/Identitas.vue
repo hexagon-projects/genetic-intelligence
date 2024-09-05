@@ -13,7 +13,7 @@
             <div class="flex flex-col gap-[8px]">
               <span class="text-white font-sora font-medium leading-normal text-base">Selamat Datang!</span>
               <h1 class="text-3xl font-sora font-semibold leading-9 text-white">
-                Aditya Darussalam
+                {{ props.userDatas.customer.name }}
               </h1>
             </div>
   
@@ -42,22 +42,43 @@
   
               <!-- type dan otak dominan -->
               <div class="w-[684px] h-[96px] mx-[33px] mb-[21px] flex items-center">
-                <div class="w-[296px] flex items-center border-r-2">
+                <!-- Belum Test -->
+                <div v-if="props.userDatas.customer.is_detected == 'Belum'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
+                  <div class="p-3 justify-start items-center gap-6 flex">
+                      <div class="w-[651px] text-black text-base font-normal font-['Roboto'] leading-normal">Saatnya sekarang kamu untuk melakukan test GIM agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu. Ayo lakukan test sekarang juga!</div>
+                  </div>
+                </div>
+
+                <!-- Sudah Submit -->
+                <div v-if="props.userDatas.customer.is_detected == 'Sudah Disubmit'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
+                  <div class="p-3 justify-start items-center gap-6 flex">
+                      <div class="w-[651px] text-black text-base font-normal font-['Roboto'] leading-normal">
+                        Kamu baru saja melakukan test Genetic Intelligence Mapping<br/>Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.
+                      </div>
+                  </div>
+                </div>
+
+                <!-- Selesai Deteksi -->
+                <div v-if="props.userDatas.customer.is_detected == 'Selesai Terdeteksi'" class="w-[296px] flex items-center border-r-2">
                   <div class="flex items-center gap-[24px] p-[24px]">
                     <img src="@/assets/icons/siapakah-dirimu.svg" alt="Icon">
                   <div class="flex flex-col">
                     <span class="text-base">Siapakah Dirimu?</span>
-                    <span class="font-normal text-sm text-[#667085]">Sang pelaksana (Cermat)</span>
+                    <span class="font-normal text-sm text-[#667085]">
+                      {{ props.propsGIM.gim.type }}
+                    </span>
                   </div>
                   </div>
                 </div>
   
-                <div class="w-[388px] h-[96px] flex items-center">
+                <div v-if="props.userDatas.customer.is_detected == 'Selesai Terdeteksi'" class="w-[388px] h-[96px] flex items-center">
                   <div class="pl-11 flex items-center gap-[24px] p-[24px]">
                     <img src="@/assets/icons/sistem-kecerdasan.svg" alt="Icon">
                     <div class="flex flex-col">
                       <span class="text-base">Sistem Operasi Kecerdasan Dominan:</span>
-                      <span class="font-normal text-sm text-[#667085]">Sang pelaksana (Cermat)</span>
+                      <span class="font-normal text-sm text-[#667085]">
+                        {{ props.propsGIM.gim.name }}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -79,21 +100,31 @@
                 <div class="justify-center items-center gap-4 inline-flex">
                     <img class="w-14 h-14 rounded-full" src="https://via.placeholder.com/56x56" />
                     <div class="w-[217px] flex-col justify-start items-start gap-2 inline-flex">
-                        <div class="self-stretch text-[#0b0b79] text-lg font-medium font-['Roboto'] leading-7">Aditya Darussalam</div>
-                        <div class="text-center text-[#667084] text-sm font-normal font-['Roboto'] leading-tight">adityadarussalam@gmail.com</div>
+                        <div class="self-stretch text-[#0b0b79] text-lg font-medium font-['Roboto'] leading-7">
+                          {{ props.userDatas.customer.name }}
+                        </div>
+                        <div class="text-center text-[#667084] text-sm font-normal font-['Roboto'] leading-tight">
+                          {{ props.userDatas.user.email }}
+                        </div>
                     </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Alamat</div>
-                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">Bandung</div>
+                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
+                      {{ props.userDatas.customer.birth_place }}
+                    </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Tanggal Lahir</div>
-                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">13-01-1986</div>
+                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
+                      {{ props.userDatas.customer.birth_date }}
+                    </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Gender</div>
-                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">Laki - laki</div>
+                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
+                      {{ props.userDatas.customer.gender }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -110,7 +141,7 @@
         <div class="z-10 mb-4 w-full flex flex-col items-center gap-[8px]">
           <span class="text-white font-sora font-medium leading-normal text-sm">Selamat Datang!</span>
           <h1 class="text-2xl font-sora font-semibold leading-9 text-white">
-            Aditya Darussalam
+            {{ props.userDatas.customer.name }}
           </h1>
         </div>
 
@@ -118,7 +149,27 @@
           <div class="w-full flex flex-col gap-[4px]">
             <h1 class="text-center font-sora font-semibold text-lg text-black">Temukan Potensimu: </h1>
 
-            <div class="w-full flex flex-col divide-y-2">
+            <div v-if="props.userDatas.customer.is_detected !== 'Selesai Terdeteksi'" 
+              class="w-full flex flex-col">
+              <!-- Belum Test -->
+              <div v-if="props.userDatas.customer.is_detected == 'Belum'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
+                <div class="p-3 justify-start items-center gap-6 flex">
+                    <div class="text-black text-base font-normal font-['Roboto'] leading-normal">Saatnya sekarang kamu untuk melakukan test GIM agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu. Ayo lakukan test sekarang juga!</div>
+                </div>
+              </div>
+  
+              <!-- Sudah Submit -->
+              <div v-if="props.userDatas.customer.is_detected == 'Sudah Disubmit'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
+                <div class="p-3 justify-start items-center gap-6 flex">
+                    <div class="text-black text-base font-normal font-['Roboto'] leading-normal">
+                      Kamu baru saja melakukan test Genetic Intelligence Mapping.<br/>Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+            <div v-if="props.userDatas.customer.is_detected == 'Selesai Terdeteksi'" 
+              class="w-full flex flex-col divide-y-2">
               <div class="px-[18px] py-[24px] flex items-center gap-[24px]">
                 <img src="@/assets/icons/siapakah-dirimu.svg" alt="Icon">
 
@@ -127,7 +178,7 @@
                     Siapakah Dirimu?
                   </span>
                   <span class="text-[#667085] text-sm font-normal font-roboto">
-                    Sang Pelaksana (Cermat)
+                    {{ props.propsGIM.gim.type }}
                   </span>
                 </div>
               </div>
@@ -140,7 +191,7 @@
                     Sistem Operasi Kecerdasan Dominan:
                   </span>
                   <span class="text-[#667085] text-sm font-normal font-roboto">
-                    Sang Pelaksana (Cermat)
+                    {{ props.propsGIM.gim.name }}
                   </span>
                 </div>
               </div>
@@ -172,21 +223,31 @@
                 <div class="justify-center items-center gap-4 inline-flex">
                     <img class="w-14 h-14 rounded-full" src="https://via.placeholder.com/56x56" />
                     <div class="w-[217px] flex-col justify-start items-start gap-2 inline-flex">
-                        <div class="self-stretch text-[#0b0b79] text-lg font-medium font-['Roboto'] leading-7">Aditya Darussalam</div>
-                        <div class="text-center text-[#667084] text-sm font-normal font-['Roboto'] leading-tight">adityadarussalam@gmail.com</div>
+                        <div class="self-stretch text-[#0b0b79] text-lg font-medium font-['Roboto'] leading-7">
+                          {{ props.userDatas.customer.name }}
+                        </div>
+                        <div class="text-center text-[#667084] text-sm font-normal font-['Roboto'] leading-tight">
+                          {{ props.userDatas.user.email }}
+                        </div>
                     </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Alamat</div>
-                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">Bandung</div>
+                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
+                      {{ props.userDatas.customer.birth_place }}
+                    </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Tanggal Lahir</div>
-                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">13-01-1986</div>
+                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
+                      {{ props.userDatas.customer.birth_date }}
+                    </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Gender</div>
-                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">Laki - laki</div>
+                    <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
+                      {{ props.userDatas.customer.gender }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,6 +255,11 @@
     </div>
     <!-- Mobile -->
 </template>
+
+<script setup>
+const props = defineProps(['userDatas', 'propsGIM'])
+console.log(`props`, props.userDatas)
+</script>
 
 <style scoped>
 .pemisah {
