@@ -4,37 +4,40 @@
     </div>
 
     <div v-if="!loading">
-        <div class="mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
-            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
-            <div class="w-4 h-4 relative opacity-75">
-                <img src="@/assets/img/chevron_forward.svg">
-            </div>
-            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Lakukan Tes</div>
-            <div class="w-4 h-4 relative opacity-75">
-                <img src="@/assets/img/chevron_forward.svg">
-            </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
-        </div>
-    
-        <modalCekProfile v-if="dataProfileInclomplete"/>
-    
-        <div v-if="!dataProfileInclomplete">
-            <div v-if="!isTestedCPM">
-                <SebelumTest v-if="!isSoalReady" @siapTest="siapTest"/>
-        
-                <section v-if="isSoalReady" class="bg-white pb-20">
-                    <Soal @refreshUser="getUserData"/>
-                </section>
+        <Layout>
+            <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
+                <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
+                <div class="w-4 h-4 relative opacity-75">
+                    <img src="@/assets/img/chevron_forward.svg">
+                </div>
+                <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Lakukan Tes</div>
+                <div class="w-4 h-4 relative opacity-75">
+                    <img src="@/assets/img/chevron_forward.svg">
+                </div>
+                <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
             </div>
         
-            <div v-if="isTestedCPM">
-                <SelesaiTest/>
+            <modalCekProfile v-if="dataProfileInclomplete"/>
+        
+            <div v-if="!dataProfileInclomplete">
+                <div v-if="!isTestedCPM">
+                    <SebelumTest v-if="!isSoalReady" @siapTest="siapTest"/>
+            
+                    <section v-if="isSoalReady" class="bg-white pb-20">
+                        <Soal @refreshUser="getUserData"/>
+                    </section>
+                </div>
+            
+                <div v-if="isTestedCPM">
+                    <SelesaiTest/>
+                </div>
             </div>
-        </div>
+        </Layout>
     </div>
 </template>
 
 <script setup>
+import Layout from '@/Layout/Customer/Layout.vue';
 import { onBeforeMount, onBeforeUnmount, onMounted, ref, watch } from "vue"
 import SebelumTest from "@/components/customer/CPM/SebelumTest/SebelumTest.vue"
 import SelesaiTest from "@/components/customer/CPM/SelesaiTest/SelesaiTest.vue"

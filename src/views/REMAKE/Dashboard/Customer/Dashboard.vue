@@ -4,30 +4,32 @@
   </div>
 
   <div v-if="!loading && userDatas">
-    <!-- Identitas -->
-    <section class="py-[57px] bg-white">
-        <Identitas :userDatas="userDatas" :propsGIM="propsGIM"/>
-    </section>
-
-    <!-- Progres Tes -->
-    <section class="bg-[#F0F7FD] py-[67px]">
-        <ProgressTest :userData="userDatas"/>
-    </section>
-
-    <!-- Resume GIM -->
-    <section v-if="isTestedGIM" class="bg-white py-[60px] mb-[180px] md:mb-0">
-        <ResumeGim :propsGIM="propsGIM"/>
-    </section>
-
-    <!-- Resume assesmen & IQ -->
-    <section v-if="isTestedIQ || isAssessment" class="bg-white py-[50px]">
-        <ResumeIQAssessment :propsIq="propsIq" :propsAssessment="propsAssessment"/>
-    </section>
-
-    <!-- Reservasi -->
-    <section class="bg-white py-[46px]">
-        <Reservasi/>
-    </section>
+    <Layout>
+      <!-- Identitas -->
+      <section class="py-[57px] bg-white">
+          <Identitas :userDatas="userDatas" :propsGIM="propsGIM"/>
+      </section>
+  
+      <!-- Progres Tes -->
+      <section class="bg-[#F0F7FD] py-[67px]">
+          <ProgressTest :userData="userDatas"/>
+      </section>
+  
+      <!-- Resume GIM -->
+      <section v-if="isTestedGIM" class="bg-white py-[60px] mb-[180px] md:mb-0">
+          <ResumeGim :propsGIM="propsGIM"/>
+      </section>
+  
+      <!-- Resume assesmen & IQ -->
+      <section v-if="isTestedIQ || isAssessment" class="bg-white py-[50px]">
+          <ResumeIQAssessment :propsIq="propsIq" :propsAssessment="propsAssessment"/>
+      </section>
+  
+      <!-- Reservasi -->
+      <section class="bg-white py-[46px]">
+          <Reservasi/>
+      </section>
+    </Layout>
     <!-- <div v-if="newRole == 'admin'">
         <DashboardAdmin/>
     </div>
@@ -44,6 +46,7 @@
 </template>
 
 <script setup>
+import Layout from '@/Layout/Customer/Layout.vue';
 import DashboardCustomer from '@/components/REMAKE/Dashboard/Customer/DashboardCustomer.vue';
 import DashboardConsultant from '@/components/consultant/dashboard/dashboard.vue'
 import DashboardAdmin from '@/components//admin/dashboard/dashboard.vue'

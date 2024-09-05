@@ -4,57 +4,60 @@
     </div>
 
     <div v-if="!loading">
-        <!-- Breadcrumb -->
-        <div class="mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
-            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
-            <div class="w-4 h-4 relative opacity-75">
-                <img src="@/assets/img/chevron_forward.svg">
-            </div>
-            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Hasil Tes</div>
-            <div class="w-4 h-4 relative opacity-75">
-                <img src="@/assets/img/chevron_forward.svg">
-            </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
-        </div>
-    
-        <section class="bg-white pb-20">
-            <BelumTest v-if="!sudahTest"/>
-    
-            <div v-if="sudahTest" class="mx-4 flex flex-col items-center">
-                <div class="mb-[24px] h-[194.54px] flex-col justify-start items-center gap-2 inline-flex">
-                    <img class="w-[200px] h-[158.54px]" src="@/assets/img/logo-jatidiri-hasi-cpm.png" alt="logo" />
-                    <div class="self-stretch text-center text-[#0b0b79] text-lg font-semibold font-sora leading-7">Hasil Pemeriksaan Tes Kecerdasan</div>
+        <Layout>
+            <!-- Breadcrumb -->
+            <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
+                <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
+                <div class="w-4 h-4 relative opacity-75">
+                    <img src="@/assets/img/chevron_forward.svg">
                 </div>
-    
-                <!-- Identitas & Rangkuman -->
-                <div class="w-full mx-auto pb-[36px]">
-                    <div class="flex flex-col justify-center items-start lg:flex-row gap-6">
-                        <Identitas :userInfo="identitas" :cpmInfo="cpmInfo" :isLoading="loading"/>
+                <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Hasil Tes</div>
+                <div class="w-4 h-4 relative opacity-75">
+                    <img src="@/assets/img/chevron_forward.svg">
+                </div>
+                <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
+            </div>
         
-                        <Rangkuman :cpmInfo="cpmInfo"/>
+            <section class="bg-white pb-20">
+                <BelumTest v-if="!sudahTest"/>
+        
+                <div v-if="sudahTest" class="mx-4 flex flex-col items-center">
+                    <div class="mb-[24px] h-[194.54px] flex-col justify-start items-center gap-2 inline-flex">
+                        <img class="w-[200px] h-[158.54px]" src="@/assets/img/logo-jatidiri-hasi-cpm.png" alt="logo" />
+                        <div class="self-stretch text-center text-[#0b0b79] text-lg font-semibold font-sora leading-7">Hasil Pemeriksaan Tes Kecerdasan</div>
+                    </div>
+        
+                    <!-- Identitas & Rangkuman -->
+                    <div class="w-full mx-auto pb-[36px]">
+                        <div class="flex flex-col justify-center items-start lg:flex-row gap-6">
+                            <Identitas :userInfo="identitas" :cpmInfo="cpmInfo" :isLoading="loading"/>
+            
+                            <Rangkuman :cpmInfo="cpmInfo"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="bg-[#f0f7fd] px-4 py-14">
-            <!-- Hasil Test -->
-            <div v-if="sudahTest" class="w-full flex flex-col items-center pb-8">
-                    <DokumenTest :cpmInfo="cpmInfo"/>
+            </section>
     
-                    <!-- button download -->
-                    <button @click="downloadHasil" class="self-stretch h-[62px] px-[78px] md:px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b border-black justify-center items-center gap-2.5 inline-flex">
-                        <div class="text-white text-sm md:text-base font-medium font-roboto leading-normal">Unduh Hasil Tes</div>
-                        <div class="w-4 h-4 relative">
-                            <img src="@/assets/img/cpm/download.svg" alt="download">
-                        </div>
-                    </button>
-                 </div>
-        </section>
+            <section class="bg-[#f0f7fd] px-4 py-14">
+                <!-- Hasil Test -->
+                <div v-if="sudahTest" class="w-full flex flex-col items-center pb-8">
+                        <DokumenTest :cpmInfo="cpmInfo"/>
+        
+                        <!-- button download -->
+                        <button @click="downloadHasil" class="self-stretch h-[62px] px-[78px] md:px-[90px] py-[18px] bg-[#3030f8] rounded-2xl border-l border-r border-t border-b border-black justify-center items-center gap-2.5 inline-flex">
+                            <div class="text-white text-sm md:text-base font-medium font-roboto leading-normal">Unduh Hasil Tes</div>
+                            <div class="w-4 h-4 relative">
+                                <img src="@/assets/img/cpm/download.svg" alt="download">
+                            </div>
+                        </button>
+                     </div>
+            </section>
+        </Layout>
     </div>
 </template>
 
 <script setup>
+import Layout from '@/Layout/Customer/Layout.vue';
 import { onMounted, ref } from 'vue'
 import DokumenTest from '@/components/customer/CPM/HasilTest/Dokumen.vue';
 import Identitas from '@/components/customer/CPM/HasilTest/Identitas.vue';

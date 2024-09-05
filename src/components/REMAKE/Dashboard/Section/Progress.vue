@@ -34,7 +34,7 @@
                     Status : In Review
                 </h3>
 
-                <button v-if="props.userData.customer.is_detected == 'Belum'" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <button v-if="props.userData.customer.is_detected == 'Belum'" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">
@@ -65,7 +65,7 @@
                     Status : Selesai
                 </h3>
 
-                <button v-if="props.userData.customer.customers_assessments == null" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <button v-if="props.userData.customer.customers_assessments == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">
@@ -94,7 +94,7 @@
                     Status : Selesai
                 </h3>
 
-                <button v-if="props.userData.customer.customers_iq == null" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <button v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">
@@ -123,7 +123,7 @@
                     Status : Selesai
                 </h3>
 
-                <button v-if="props.userData.customer.customers_cpm == null" class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <button v-if="props.userData.customer.customers_cpm == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">

@@ -56,7 +56,7 @@
                       <div class="w-[498px] text-white text-2xl font-semibold font-sora leading-loose">Tertarik mengenal diri kamu lebih dalam? yuk cek langsung ke ahlinya!</div>
                   </div>
 
-                  <button class="pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 flex">
+                  <button class="hover:translate-x-1 hover:drop-shadow-2xl transition-all pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 flex">
                       <div class="text-[#3030f8] text-base font-normal font-roboto leading-normal">Reservasi Sekarang!</div>
                       <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                           <div class="w-3 h-3 relative">
