@@ -47,9 +47,9 @@
 
 <script setup>
 import Layout from '@/Layout/Customer/Layout.vue';
-import DashboardCustomer from '@/components/REMAKE/Dashboard/Customer/DashboardCustomer.vue';
-import DashboardConsultant from '@/components/consultant/dashboard/dashboard.vue'
-import DashboardAdmin from '@/components//admin/dashboard/dashboard.vue'
+// import DashboardCustomer from '@/components/REMAKE/Dashboard/Customer/DashboardCustomer.vue';
+// import DashboardConsultant from '@/components/consultant/dashboard/dashboard.vue'
+// import DashboardAdmin from '@/components//admin/dashboard/dashboard.vue'
 // import DashboardStaff from '../staffs/dashboard/dashboard.vue'
 import Identitas from '@/components/REMAKE/Dashboard/Section/Identitas.vue';
 import ProgressTest from '@/components/REMAKE/Dashboard/Section/Progress.vue';

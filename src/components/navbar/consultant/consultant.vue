@@ -1,4 +1,14 @@
 <template>
+    <RouterLink :to="{name: 'consultant.views.dashboard'}" 
+        class="
+        flex justify-center items-end px-4 py-2 gap-1 font-myFont
+        hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
+        "
+        :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'views.dashboard', 'text-dark bg-white': $route.name !== 'views.dashboard'}"
+        >
+        <PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru': $route.name !== 'views.dashboard'}" />
+        Beranda
+    </RouterLink>
     <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
@@ -103,13 +113,14 @@
 </template>
 
 <script>
-import { PhFileSearch, PhCalendar, PhCalendarPlus, PhCaretDown, PhExam } from "@phosphor-icons/vue";
+import {  PhHouse, PhFileSearch, PhCalendar, PhCalendarPlus, PhCaretDown, PhExam } from "@phosphor-icons/vue";
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
     name: 'ConsultantNav',
     components: {
+        PhHouse,
         PhFileSearch,
 		PhCalendar,
         PhCalendarPlus,
