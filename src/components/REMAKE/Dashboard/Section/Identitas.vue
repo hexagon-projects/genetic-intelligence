@@ -77,7 +77,7 @@
                     <div class="flex flex-col">
                       <span class="text-base">Sistem Operasi Kecerdasan Dominan:</span>
                       <span class="font-normal text-sm text-[#667085]">
-                        {{ props.propsGIM.gim.name }}
+                        {{ props.propsGIM.gim.dominance_op_system }}
                       </span>
                     </div>
                   </div>
@@ -191,7 +191,7 @@
                     Sistem Operasi Kecerdasan Dominan:
                   </span>
                   <span class="text-[#667085] text-sm font-normal font-roboto">
-                    {{ props.propsGIM.gim.name }}
+                    {{ props.propsGIM.gim.dominance_op_system }}
                   </span>
                 </div>
               </div>
