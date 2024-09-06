@@ -13,7 +13,7 @@
 
     <div class="mx-[30px] md:mx-[60px] grid grid-cols-1 md:grid-cols-2 gap-[32px]">
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="absolute top-10 right-2 opacity-25" src="@/assets/icons/dna-overlay.svg" alt="dna">
+            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/dna-overlay.svg" alt="dna">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
@@ -22,7 +22,7 @@
                     <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">Test GIM</h1>
                 </div>
 
-                <h1 class="font-roboto font-normal text-white text-base">
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
                     Tes kepribadian untuk menemukan karakter, kekuatan, kelemahan, minat, potensi, serta pilihan karir kamu.
                 </h1>
 
@@ -46,7 +46,7 @@
         </div>
 
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="absolute top-10 right-2 opacity-25" src="@/assets/icons/task-list-overlay.svg" alt="assesment">
+            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/task-list-overlay.svg" alt="assesment">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
@@ -57,7 +57,7 @@
                     </h1>
                 </div>
 
-                <h1 class="font-roboto font-normal text-white text-base">
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
                     Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.
                 </h1>
 
@@ -77,7 +77,7 @@
         </div>
 
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="absolute top-10 right-2 opacity-25" src="@/assets/icons/brain-overlay.svg" alt="iq">
+            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/brain-overlay.svg" alt="iq">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
@@ -86,7 +86,7 @@
                     <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">Test IQ</h1>
                 </div>
 
-                <h1 class="font-roboto font-normal text-white text-base">
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
                     Tes instrumen untuk mengetahui skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan kognitifmu.
                 </h1>
 
@@ -106,7 +106,7 @@
         </div>
 
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="absolute top-10 right-2 opacity-25" src="@/assets/icons/cpm-overlay.svg" alt="cpm">
+            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/cpm-overlay.svg" alt="cpm">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
@@ -115,7 +115,7 @@
                     <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">Test CPM</h1>
                 </div>
 
-                <h1 class="font-roboto font-normal text-white text-base">
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
                     Tes CPM yang dirancang untuk mengukur kemampuan penalaran logis dan intelegensi non-verbal Kamu.
                 </h1>
 
