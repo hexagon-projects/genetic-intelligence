@@ -24,8 +24,8 @@
                             <div class="text-center text-white text-base font-normal font-['Roboto'] leading-normal">Berikut hasil evaluasi dari tes yang telah Kamu kerjakan. Bagian ini memberikan insight mendalam tentang performa pembelajaran yang efektif untuk kamu, serta rekomendasi gaya pembelajaran untuk pengembangan diri.</div>
                         </div>
 
-                        <div class="flex flex-row gap-8">
-                            <div class="flex flex-col gap-6">
+                        <div class="flex flex-row items-center gap-9">
+                            <div class="h-[470px] flex flex-col gap-3">
                                 <span class="text-center text-[#f0f7fd] text-2xl font-semibold font-['Sora'] leading-loose">Resume Assesment Kamu</span>
                                 <div class="h-full">
                                     <Bar :data="data" :options="options" />
