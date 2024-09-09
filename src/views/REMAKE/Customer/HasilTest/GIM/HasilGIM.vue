@@ -26,8 +26,8 @@
         <div v-if="statusTest == 'Selesai Terdeteksi'">
             <section class="bg-[#f0f7fd] py-[52px]">
                 <div class="mx-[30px] md:mx-[60px] flex flex-col gap-[32px]">
-                    <div class="flex flex-col md:flex-row justify-center gap-4 h-auto">
-                        <div class="w-full md:max-w-[356px] flex flex-col justify-between bg-gradient-to-br from-[#3030f8] to-[#43b0ff] p-[24px] rounded-3xl">
+                    <div class="flex flex-col lg:flex-row justify-center gap-4 h-auto">
+                        <div class="w-full lg:max-w-[356px] flex flex-col justify-between bg-gradient-to-br from-[#3030f8] to-[#43b0ff] p-[24px] rounded-3xl">
                             <div class="flex flex-col gap-[16px]">
                                 <span class="text-[#FCFCFD] text-base md:text-lg font-normal font-roboto leading-7">
                                     Selamat! kamu telah selesai melakukan test Genetic Intelligence Mapping. Hasil test kamu menunjukan bahwa kamu memiliki tipe kecerdasan:
@@ -52,7 +52,7 @@
                 
                         <div class="max-w-[846px] py-[26px] px-[21.5px] bg-white p-[24px] rounded-3xl">
                             <div class="flex flex-col lg:flex-row gap-[52px]">
-                                <img class="w-1/2 md:w-3/4 mx-auto drop-shadow-md" src="@/assets/icons/icon-hasil-gim.svg" alt="icon">
+                                <img class="w-1/2 md:w-1/4 lg:w-3/4 mx-auto drop-shadow-md" src="@/assets/icons/icon-hasil-gim.svg" alt="icon">
                 
                                 <div class="flex flex-col gap-[32px]">
                                     <div class="flex flex-col gap-[16px]">
