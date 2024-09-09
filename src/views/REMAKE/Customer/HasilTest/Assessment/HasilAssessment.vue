@@ -12,7 +12,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
         </div>
     
-        <BelumTest message="Kamu Belum Melakukan Test Assessment" 
+        <BelumTest message="Kamu Belum Melakukan Test Assessment!" 
         subMessage="Wah, sayang sekali kamu belum coba Tes Asesment! Yuk, kenali dulu gaya belajarmu lewat Tes Assessment!"/>
     
         <section class="bg-white py-[46px]">

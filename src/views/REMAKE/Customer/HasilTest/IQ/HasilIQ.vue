@@ -12,7 +12,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
         </div>
     
-        <BelumTest message="Kamu Belum Melakukan Test IQ" 
+        <BelumTest message="Kamu Belum Melakukan Test IQ!" 
         subMessage="Wah, sayang sekali kamu belum coba Tes IQ! Yuk, kenali dulu score IQ mu lewat Test IQ!"/>
     
         <section class="bg-white py-[46px]">

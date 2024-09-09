@@ -17,10 +17,13 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
         </div>
     
-        <BelumTest v-if="!isTested" message="Kamu Belum Melakukan Test GIM" 
+        <BelumTest v-if="statusTest == 'Belum'" message="Kamu Belum Melakukan Test GIM!" 
         subMessage="Wah, sayang sekali kamu belum coba Tes GIM! Yuk, kenali dulu potensi dirimu lewat Tes GIM biar hasil Assessment kamu lebih maksimal!"/>
-    
-        <div v-if="isTested">
+        
+        <DiProses v-if="statusTest == 'Sudah Disubmit'" message="Test Kamu Sedang Diproses!" 
+        subMessage="Terima kasih telah menyelesaikan Tes GIM! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
+
+        <div v-if="statusTest == 'Selesai Terdeteksi'">
             <section class="bg-[#f0f7fd] py-[52px]">
                 <div class="mx-[30px] md:mx-[60px] flex flex-col gap-[32px]">
                     <div class="flex flex-col md:flex-row justify-center gap-4 h-auto">
@@ -36,14 +39,14 @@
                             </div>
                 
                             <div class="mt-[52px]">
-                                <div class="h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                                <button @click="downloadFile(GIMDatas.gim.result_file)" class="transition-all hover:translate-x-1 hover:shadow-2xl h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                                     <div class="text-[#3030f8] text-sm md:text-base font-normal font-roboto leading-normal">Unduh File</div>
                                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                                         <div class="w-3 h-3 relative">
                                             <img src="@/assets/icons/arrow-go.svg" alt="go">
                                         </div>
                                     </div>
-                                </div>
+                                </button>
                             </div>
                         </div>
                 
@@ -224,6 +227,7 @@ import 'video.js/dist/video-js.css';
 import '@videojs/http-streaming';
 import Reservasi from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
 import BelumTest from '@/components/REMAKE/HasilTest/BelumTest/BelumTest.vue';
+import DiProses from '@/components/REMAKE/HasilTest/DiProses/DiProses.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { PhWarningCircle } from '@phosphor-icons/vue';
 import Cookies from 'js-cookie';
@@ -231,6 +235,7 @@ import initAPI from '@/api/api';
 
 const loading = ref(true)
 const isTested = ref(false)
+const statusTest = ref('Belum')
 
 const GIMDatas = ref(null)
 
@@ -256,9 +261,11 @@ const getUserData = async() => {
         const userData = await initAPI('post', 'login', formData, token)
         console.log(`data hasil`, userData.data)
 
-        isTested.value = userData.data.customer.is_detected == 'Selesai Terdeteksi' ? true 
-        : userData.data.customer.is_detected == 'Sudah Disubmit' ? true
-        : false
+        statusTest.value = userData.data.customer.is_detected
+
+        // isTested.value = userData.data.customer.is_detected == 'Selesai Terdeteksi' ? true 
+        // : userData.data.customer.is_detected == 'Sudah Disubmit' ? true
+        // : false
         
         if(userData.data.customer.customers_results !== null && userData.data.customer.customers_results.gim !== null){
             GIMDatas.value = userData.data.customer.customers_results
@@ -270,15 +277,41 @@ const getUserData = async() => {
     }
 }
 
+const baseUrl = import.meta.env.VITE_API_BASE_URL
+
+const downloadFile = async (fileUrl) => {
+    console.log(`aisia`, fileUrl)
+    const imageUrl = baseUrl + 'open/results/' + fileUrl
+    console.log(imageUrl)
+
+
+    const response = await fetch(imageUrl)
+    const blob = await response.blob()
+
+    const url = window.URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.target = '_blank'
+    link.download = fileUrl
+
+    link.click()
+
+    window.URL.revokeObjectURL(url)
+}
+
 onMounted(async() => {
     await getUserData()
 
-    const player = videojs('example-video');
-    player.play();
-
-    onBeforeUnmount(() => {
-        player.dispose()
-    })
+    const videoId = document.getElementById('example-video')
+    if(videoId){
+        const player = videojs('example-video');
+        player.play();
+    
+        onBeforeUnmount(() => {
+            player.dispose()
+        })
+    }
 })
 </script>
 
