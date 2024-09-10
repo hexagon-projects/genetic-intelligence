@@ -17,7 +17,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
         </div>
     
-        <BelumTest v-if="statusTest == 'Belum'" message="Kamu Belum Melakukan Test GIM!" 
+        <BelumTest v-if="statusTest == 'Belum'" routeUrl="user.views.deteksi" message="Kamu Belum Melakukan Test GIM!" 
         subMessage="Wah, sayang sekali kamu belum coba Tes GIM! Yuk, kenali dulu potensi dirimu lewat Tes GIM biar hasil Assessment kamu lebih maksimal!"/>
         
         <DiProses v-if="statusTest == 'Sudah Disubmit'" message="Test Kamu Sedang Diproses!" 
@@ -232,6 +232,8 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { PhWarningCircle } from '@phosphor-icons/vue';
 import Cookies from 'js-cookie';
 import initAPI from '@/api/api';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const loading = ref(true)
 const isTested = ref(false)
@@ -271,7 +273,13 @@ const getUserData = async() => {
             GIMDatas.value = userData.data.customer.customers_results
         }
     } catch (error) {
-        console.log(error)
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi error saat mengambil data GIM user',
+            showConfirmButton: false,
+            timer: 2000
+        });
     } finally {
         loading.value = false
     }

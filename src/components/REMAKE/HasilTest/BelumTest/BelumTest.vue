@@ -25,9 +25,9 @@
                         <img src="@/assets/img/cpm/icon-row-up.svg">
                     </div>
                 </button> -->
-                <div class="h-11 w-full justify-center items-start gap-3 inline-flex">
+                <div class="z-20 h-11 w-full justify-center items-start gap-3 inline-flex">
                     <div class="justify-start items-center gap-3 flex">
-                        <button class="hover:shadow-2xl transition-all pl-2 pr-6 py-[5px] border-[#3030f8] border bg-white rounded-full justify-center items-center gap-3 flex">
+                        <button @click="goTo('views.dashboard')" class="hover:-translate-x-1 hover:shadow-2xl transition-all pl-2 pr-6 py-[5px] border-[#3030f8] border bg-white rounded-full justify-center items-center gap-3 flex">
                             <div class="p-2.5 border border-[#3030f8] bg-white rounded-3xl justify-start items-center gap-2.5 flex">
                                 <div class="w-3 h-3 relative">
                                     <img class="flip-kanan" src="@/assets/icons/arrow-go-biru.svg" alt="go">
@@ -37,7 +37,7 @@
                         </button>
                     </div>
                     <div class="justify-start items-center gap-3 flex">
-                        <button class="hover:shadow-2xl transition-all pl-6 pr-2 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 flex">
+                        <button @click="goTo(props.routeUrl)" class="hover:translate-x-1 hover:shadow-2xl transition-all pl-6 pr-2 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 flex">
                             <div class="text-white text-xs md:text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                             <div class="p-2.5 bg-white rounded-3xl justify-start items-center gap-2.5 flex">
                                 <div class="w-3 h-3 relative">
@@ -53,10 +53,19 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+
 const props = defineProps({
     message: String,
-    subMessage: String
+    subMessage: String,
+    routeUrl: String
 })
+
+const router = useRouter()
+const goTo = (route) => {
+    console.log(`diklik`)
+    router.push({name: route})
+}
 </script>
 
 <style scoped>
