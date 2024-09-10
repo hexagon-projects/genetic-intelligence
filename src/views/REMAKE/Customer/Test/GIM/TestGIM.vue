@@ -16,7 +16,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
         </div>
     
-        <SelesaiTest v-if="statusTest == 'Selesai Terdeteksi'" message="Test GIM Selesai!"
+        <SelesaiTest v-if="statusTest == 'Selesai Terdeteksi'" routeUrl="user.views.hasil_deteksi" message="Test GIM Selesai!"
         :subMessage="subMessage"/>
 
         <DiProses v-if="statusTest == 'Sudah Disubmit'" message="Test Kamu Sedang Diproses!" 

@@ -192,32 +192,6 @@
         </div>
         <!-- Card Catatan -->
     </Layout>
-    
-    <!-- Video Hasil -->
-    <!-- <section class="bg-white py-[24px]">
-        <div class="mx-[30px] md:mx-[60px] flex flex-col items-center gap-[24px]">
-            <div class="text-center text-black text-lg md:text-xl lg:text-3xl font-semibold font-sora leading-9">
-                Video Penjelasan Hasil Test Kamu
-            </div>
-
-            <div class="w-full md:w-3/4 block">
-                <div class="flex flex-row gap-1 items-center align-middle mb-1">
-                    <PhWarningCircle :size="18" color="#e81111"/><small class="text-xs md:text-sm text-danger font-semibold">Video ini eksklusif dan tidak dapat disebarluaskan.</small>
-                </div>
-                <video id="example-video" ref="videoPlayer" class="video-js vjs-big-play-centered vjs-theme-sea"
-                    controls
-                    preload="auto"
-                    fluid="true"
-                    data-setup='{}'
-                    >
-                    <source
-                        src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
-                        type="application/x-mpegURL">
-                </video>
-            </div>
-
-        </div>
-    </section> -->
 </template>
 
 <script setup>
@@ -314,7 +288,7 @@ onMounted(async() => {
     const videoId = document.getElementById('example-video')
     if(videoId){
         const player = videojs('example-video');
-        player.play();
+        // player.play();
     
         onBeforeUnmount(() => {
             player.dispose()
