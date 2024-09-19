@@ -19,17 +19,18 @@
         <SelesaiTest v-if="statusTest == 'Selesai Terdeteksi'" routeUrl="user.views.hasil_deteksi" message="Test GIM Selesai!"
         :subMessage="subMessage"/>
 
-        <DiProses v-if="statusTest == 'Sudah Disubmit'" message="Test Kamu Sedang Diproses!" 
+        <DiProses v-if="statusTest == 'Sudah Disubmit' || statusTest == 'Dalam Review'" message="Test Kamu Sedang Diproses!" 
         subMessage="Terima kasih telah menyelesaikan Tes GIM! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
     
         <section v-if="statusTest == 'Belum'" class="bg-white pb-[34px]">
             <div class="flex flex-col justify-center items-center gap-[24px]">
-                <div class="text-center text-black text-3xl font-semibold font-['Sora'] leading-9">
+                <div class="text-center text-black text-lg md:text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">
                     Tes Genetic Intelligence Mapping
                 </div>
 
-                <div class="w-full lg:w-[680px] flex items-center justify-center">
-                    <div class="w-14 h-14 bg-white rounded-[28px] border border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
+                <!-- Step Indicator -->
+                <div class="w-[70vw] lg:w-[680px] flex items-center justify-center">
+                    <div class="w-[50px] h-[50px] lg:w-14 lg:h-14 bg-white rounded-[50%] lg:rounded-[28px] border border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
                         <div class="w-6 h-6 px-[0.05px] py-[1.58px] justify-center items-center inline-flex">
                             <div class="w-[23.89px] h-[20.83px] relative">
                                 <img src="@/assets/icons/test_gim/step_instruksi.svg" alt="icon">
@@ -37,11 +38,11 @@
                         </div>
                     </div>
 
-                    <div :class="{'bg-[#667084]': currentIndex == 1, 'bg-[#3030f8]': currentIndex !== 1}" class="w-[38%] h-[5px]"></div>
+                    <div :class="{'bg-[#667084]': currentIndex == 1, 'bg-[#3030f8]': currentIndex !== 1}" class="w-[18%] lg:w-[38%] h-[5px]"></div>
                     
                     <div 
                         :class="{'border-[#667084]': currentIndex == 1, 'border-[#3030f8]': currentIndex == 2 || currentIndex == 3}"
-                        class="w-14 h-14 bg-white rounded-[28px] border flex-col justify-center items-center gap-2.5 inline-flex">
+                        class="w-[50px] h-[50px] lg:w-14 lg:h-14 bg-white rounded-[28px] border flex-col justify-center items-center gap-2.5 inline-flex">
                         <div class="w-6 h-6 px-[0.05px] py-[1.58px] justify-center items-center inline-flex">
                             <div class="w-[23.89px] h-[20.83px] relative">
                                 <img :class="{'grayscale': currentIndex == 1, 'grayscale-0': currentIndex == 2 || currentIndex == 3}" src="@/assets/icons/test_gim/Upload_step.svg" alt="icon">
@@ -49,11 +50,11 @@
                         </div>
                     </div>
 
-                    <div :class="{'bg-[#667084]': currentIndex == 1 || currentIndex == 2, 'bg-[#3030f8]': currentIndex == 3}" class="w-[38%] h-[5px]"></div>
+                    <div :class="{'bg-[#667084]': currentIndex == 1 || currentIndex == 2, 'bg-[#3030f8]': currentIndex == 3}" class="w-[18%] lg:w-[38%] h-[5px]"></div>
                     
                     <div 
                         :class="{'border-[#667084]': currentIndex == 1 || currentIndex == 2, 'border-[#3030f8]': currentIndex == 3}"
-                        class="w-14 h-14 bg-white rounded-[28px] border flex-col justify-center items-center gap-2.5 inline-flex">
+                        class="w-[50px] h-[50px] lg:w-14 lg:h-14 bg-white rounded-[28px] border flex-col justify-center items-center gap-2.5 inline-flex">
                         <div class="w-6 h-6 px-[0.05px] py-[1.58px] justify-center items-center inline-flex">
                             <div class="w-[23.89px] h-[20.83px] relative">
                                 <img :class="{'grayscale': currentIndex == 1 || currentIndex == 2, 'grayscale-0': currentIndex == 3}" src="@/assets/icons/test_gim/Done_step.svg" alt="icon">
@@ -82,20 +83,20 @@
 
                     <!-- Tombol Aksi -->
                     <div v-if="!loadingSubmit" class="self-stretch justify-between items-center inline-flex">
-                        <button @click="btnAction('Back')" class="hover:shadow-2xl hover:-translate-x-1 transition-all h-11 pl-4 pr-6 py-1.5 rounded-full border border-[#3030f8] justify-center items-center gap-3 inline-flex">
-                            <div class="w-6 h-6 relative">
+                        <button @click="btnAction('Back')" class="hover:shadow-2xl hover:-translate-x-1 transition-all h-11 pl-1 md:pl-4 pr-3 md:pr-6 py-1.5 rounded-full border border-[#3030f8] justify-center items-center gap-1 lg:gap-3 inline-flex">
+                            <div class="w-[21px] h-[21px] lg:w-6 lg:h-6 relative">
                                 <img src="@/assets/icons/test_gim/chevron_left.svg" alt="icon">
                             </div>
-                            <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Kembali</div>
+                            <div class="text-[#3030f8] text-sm md:text-base font-normal font-['Roboto'] leading-normal">Kembali</div>
                         </button>
 
                         <button @click="btnAction('Next')" :disabled="canProceedToNext == false" 
                         :class="{'hover:shadow-2xl hover:translate-x-1 transition-all': canProceedToNext, 'bg-opacity-50 cursor-not-allowed': !canProceedToNext}"
-                        class="h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
-                            <div class="text-white text-base font-normal font-['Roboto'] leading-normal">
+                        class="h-11 pl-3 pr-1 py-[4px] md:pl-6 md:pr-4 md:py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-1 lg:gap-3 inline-flex">
+                            <div class="text-white text-sm md:text-base font-normal font-['Roboto'] leading-normal">
                                 {{ currentIndex !== 3 ? 'Selanjutnya' : 'Kirim' }}
                             </div>
-                            <div class="w-6 h-6 relative">
+                            <div class="w-[21px] h-[21px] lg:w-6 lg:h-6 relative">
                                 <img src="@/assets/icons/test_gim/chevron_right.svg" alt="icon">
                             </div>
                         </button>
