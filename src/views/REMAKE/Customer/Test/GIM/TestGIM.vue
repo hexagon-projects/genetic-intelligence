@@ -13,7 +13,7 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test GIM</div>
         </div>
     
         <SelesaiTest v-if="statusTest == 'Selesai Terdeteksi'" routeUrl="user.views.hasil_deteksi" message="Test GIM Selesai!"
@@ -22,6 +22,88 @@
         <DiProses v-if="statusTest == 'Sudah Disubmit'" message="Test Kamu Sedang Diproses!" 
         subMessage="Terima kasih telah menyelesaikan Tes GIM! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
     
+        <section v-if="statusTest == 'Belum'" class="bg-white pb-[34px]">
+            <div class="flex flex-col justify-center items-center gap-[24px]">
+                <div class="text-center text-black text-3xl font-semibold font-['Sora'] leading-9">
+                    Tes Genetic Intelligence Mapping
+                </div>
+
+                <div class="w-full lg:w-[680px] flex items-center justify-center">
+                    <div class="w-14 h-14 bg-white rounded-[28px] border border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
+                        <div class="w-6 h-6 px-[0.05px] py-[1.58px] justify-center items-center inline-flex">
+                            <div class="w-[23.89px] h-[20.83px] relative">
+                                <img src="@/assets/icons/test_gim/step_instruksi.svg" alt="icon">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div :class="{'bg-[#667084]': currentIndex == 1, 'bg-[#3030f8]': currentIndex !== 1}" class="w-[38%] h-[5px]"></div>
+                    
+                    <div 
+                        :class="{'border-[#667084]': currentIndex == 1, 'border-[#3030f8]': currentIndex == 2 || currentIndex == 3}"
+                        class="w-14 h-14 bg-white rounded-[28px] border flex-col justify-center items-center gap-2.5 inline-flex">
+                        <div class="w-6 h-6 px-[0.05px] py-[1.58px] justify-center items-center inline-flex">
+                            <div class="w-[23.89px] h-[20.83px] relative">
+                                <img :class="{'grayscale': currentIndex == 1, 'grayscale-0': currentIndex == 2 || currentIndex == 3}" src="@/assets/icons/test_gim/Upload_step.svg" alt="icon">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div :class="{'bg-[#667084]': currentIndex == 1 || currentIndex == 2, 'bg-[#3030f8]': currentIndex == 3}" class="w-[38%] h-[5px]"></div>
+                    
+                    <div 
+                        :class="{'border-[#667084]': currentIndex == 1 || currentIndex == 2, 'border-[#3030f8]': currentIndex == 3}"
+                        class="w-14 h-14 bg-white rounded-[28px] border flex-col justify-center items-center gap-2.5 inline-flex">
+                        <div class="w-6 h-6 px-[0.05px] py-[1.58px] justify-center items-center inline-flex">
+                            <div class="w-[23.89px] h-[20.83px] relative">
+                                <img :class="{'grayscale': currentIndex == 1 || currentIndex == 2, 'grayscale-0': currentIndex == 3}" src="@/assets/icons/test_gim/Done_step.svg" alt="icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-9 bg-white rounded-3xl shadow flex-col justify-center items-center gap-6 flex">
+                    <div v-if="currentIndex == 1">
+                        <Step1 :validasi="validasi" @update-validasi="updateValidasi"/>
+                    </div>
+
+                    <div v-if="currentIndex == 2">
+                        <Step2 :validasi="validasi" @update-validasi="updateValidasi"/>
+                    </div>
+
+                    <div v-if="currentIndex == 3">
+                        <Step3 v-if="!loadingSubmit"/>
+
+                        <div v-else class="w-[600px] h-[296px] flex flex-col justify-center items-center">
+                            <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+                        </div>
+                    </div>
+
+
+                    <!-- Tombol Aksi -->
+                    <div v-if="!loadingSubmit" class="self-stretch justify-between items-center inline-flex">
+                        <button @click="btnAction('Back')" class="hover:shadow-2xl hover:-translate-x-1 transition-all h-11 pl-4 pr-6 py-1.5 rounded-full border border-[#3030f8] justify-center items-center gap-3 inline-flex">
+                            <div class="w-6 h-6 relative">
+                                <img src="@/assets/icons/test_gim/chevron_left.svg" alt="icon">
+                            </div>
+                            <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Kembali</div>
+                        </button>
+
+                        <button @click="btnAction('Next')" :disabled="canProceedToNext == false" 
+                        :class="{'hover:shadow-2xl hover:translate-x-1 transition-all': canProceedToNext, 'bg-opacity-50 cursor-not-allowed': !canProceedToNext}"
+                        class="h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
+                            <div class="text-white text-base font-normal font-['Roboto'] leading-normal">
+                                {{ currentIndex !== 3 ? 'Selanjutnya' : 'Kirim' }}
+                            </div>
+                            <div class="w-6 h-6 relative">
+                                <img src="@/assets/icons/test_gim/chevron_right.svg" alt="icon">
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="bg-white py-[46px]">
             <ReservasiFooter/>
         </section>
@@ -29,18 +111,106 @@
 </template>
 
 <script setup>
+import { useStore } from 'vuex'
 import Layout from '@/Layout/Customer/Layout.vue';
 import ReservasiFooter from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
 import DiProses from '@/components/REMAKE/HasilTest/DiProses/DiProses.vue';
 import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import initAPI from '@/api/api';
 import Cookies from 'js-cookie';
+import Step1 from '@/components/REMAKE/Test/GIM/Step1.vue';
+import Step2 from '@/components/REMAKE/Test/GIM/Step2.vue';
+import Step3 from '@/components/REMAKE/Test/GIM/Step3.vue';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Genetic Intelligence Mapping</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const loading = ref(true)
+const loadingSubmit = ref(false)
 const statusTest = ref('Belum')
+
+const currentIndex = ref(1)
+
+const store = useStore()
+
+const validasi = ref({
+  checkbox: false,  // Status checkbox in Step 1
+  isUpload: false,  // Status upload in Step 2
+});
+
+// Function to update validation state
+const updateValidasi = (key, value) => {
+  validasi.value[key] = value;
+};
+
+// Computed property to determine if "Next" button should be enabled
+const canProceedToNext = computed(() => {
+  if (currentIndex.value === 1) {
+    return validasi.value.checkbox; // For Step 1, only enable Next if checkbox is checked
+  } else if (currentIndex.value === 2) {
+    return validasi.value.isUpload; // For Step 2, only enable Next if an image is uploaded
+  }
+  return true;
+});
+
+const customerId = ref(null)
+const reviewImage = computed(() => store.getters.getReviewImage)
+
+const uploadImage = async() => {
+    const formData = new FormData();
+    formData.append('detection_image', reviewImage.value[0]);
+    
+    const token = Cookies.get('token')
+
+    try {
+        if(reviewImage.value !== null){
+            loadingSubmit.value = true
+            await initAPI(
+                'post','customers/gim-result/upload-test/'+customerId.value, formData, token
+            );
+
+            Swal.fire({
+            icon: 'success',
+            title: 'File di Upload',
+            text: 'Deteksi GIM akan segera di proses',
+            showConfirmButton: false,
+            timer: 2000
+            });
+            
+            await getUserData()
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat mengirim data',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    } finally {
+        loadingSubmit.value = false
+    }
+}
+
+const btnAction = (params) => {
+    console.log(`aya`)
+  switch (params) {
+    case 'Back':
+        console.log('back');
+        if(currentIndex.value > 1) currentIndex.value--
+      break;
+    
+      case 'Next':
+      if (currentIndex.value < 3) {
+        currentIndex.value++;
+      } else if (currentIndex.value === 3) {
+        uploadImage();
+      }
+      break;
+  }
+};
 
 const getUserData = async() => {
     try {
@@ -50,6 +220,7 @@ const getUserData = async() => {
         const userData = await initAPI('post', 'login', formData, token)
         console.log(`data hasil`, userData.data)
 
+        customerId.value = userData.data.customer.id
         statusTest.value = userData.data.customer.is_detected
 
         // isTested.value = userData.data.customer.is_detected == 'Selesai Terdeteksi' ? true 
@@ -66,8 +237,8 @@ const getUserData = async() => {
     }
 }
 
-onMounted(() => {
-    getUserData()
+onMounted(async() => {
+   await getUserData()
 })
 </script>
 
