@@ -7,7 +7,7 @@
 
         <div v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
             <div v-if="!loadingSubmit">
-                <div v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4">
+                <div id="soal" v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4">
                     <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
                         {{ (currPage - 1) * itemsPerPage + qIndex + 1 }}. {{ q.question }}
                     </label>
@@ -91,6 +91,11 @@ const nextPages = ref('')
 const jawabanPertanyaan = ref([])
 
 const arrCodeJawabanPertanyaan = ref([])
+
+const scrollToSection = () => {
+  const section = document.getElementById('soal');
+  section.scrollIntoView({ behavior: 'smooth' });
+};
 
 const isSelectedAnswer = (globalIndex, value) => {
     return arrCodeJawabanPertanyaan.value[globalIndex] === value;
@@ -219,6 +224,10 @@ const getDataPertanyaan = async(page = 1) => {
             itemsPerPage.value = response.data.per_page
             currPage.value = response.data.current_page
             nextPages.value = response.data.next_page_url
+
+            if(page > 1){
+                scrollToSection()
+            }
         } catch (error) {
             Swal.fire({
                 icon: 'error',
