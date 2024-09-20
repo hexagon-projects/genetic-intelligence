@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col items-center gap-[56px]">
-        <div class="h-[76px] flex-col justify-start items-start gap-4 inline-flex">
+        <div class="mx-[30px] md:mx-[60px] h-[76px] flex-col justify-start items-start gap-4 inline-flex">
             <span class="self-stretch text-center text-black text-xl md:text-3xl font-semibold font-['Sora'] leading-9">Tes Gaya Belajar</span>
             <span class="self-stretch text-center text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">Jawablah pertanyaan berikut ini sesuai dengan tingkat kecocokan berdasarkan kondisimu saat ini</span>
         </div>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
     
-                <div class="flex justify-between items-center">
+                <div class="gap-2 flex flex-col md:flex-row justify-center md:justify-between items-center">
                     <span class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
                         {{ soalDari }} - {{ soalKe }} dari {{ totalSoal }}
                     </span>
