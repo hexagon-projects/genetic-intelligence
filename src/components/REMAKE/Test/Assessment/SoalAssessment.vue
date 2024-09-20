@@ -5,9 +5,9 @@
             <span class="self-stretch text-center text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">Jawablah pertanyaan berikut ini sesuai dengan tingkat kecocokan berdasarkan kondisimu saat ini</span>
         </div>
 
-        <div v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
+        <div id="soal" v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
             <div v-if="!loadingSubmit">
-                <div id="soal" v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4">
+                <div v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4">
                     <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
                         {{ (currPage - 1) * itemsPerPage + qIndex + 1 }}. {{ q.question }}
                     </label>
@@ -93,8 +93,12 @@ const jawabanPertanyaan = ref([])
 const arrCodeJawabanPertanyaan = ref([])
 
 const scrollToSection = () => {
-  const section = document.getElementById('soal');
-  section.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+        const soalElement = document.getElementById('soal');
+        if (soalElement) {
+            soalElement.scrollIntoView({ behavior: 'smooth' }); // Scroll dengan animasi halus
+        }
+    }, 100); 
 };
 
 const isSelectedAnswer = (globalIndex, value) => {
@@ -195,6 +199,7 @@ const getNextQuestion = async() => {
         const page = nextPages.value.split('?page=')[1]
         console.log(`next page`, page)
         await getDataPertanyaan(page)
+        // scrollToSection()
     }
 }
 
@@ -225,9 +230,7 @@ const getDataPertanyaan = async(page = 1) => {
             currPage.value = response.data.current_page
             nextPages.value = response.data.next_page_url
 
-            if(page > 1){
-                scrollToSection()
-            }
+            scrollToSection()
         } catch (error) {
             Swal.fire({
                 icon: 'error',
