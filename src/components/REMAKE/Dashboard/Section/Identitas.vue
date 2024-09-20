@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Sudah Submit -->
-                <div v-if="props.userDatas.customer.is_detected == 'Sudah Disubmit'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
+                <div v-if="props.userDatas.customer.is_detected == 'Sudah Disubmit' || props.userDatas.customer.is_detected == 'Dalam Review'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
                   <div class="p-3 justify-start items-center gap-6 flex">
                       <div class="w-[651px] text-black text-base font-normal font-['Roboto'] leading-normal">
                         Kamu baru saja melakukan test Genetic Intelligence Mapping<br/>Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.
@@ -159,7 +159,7 @@
               </div>
   
               <!-- Sudah Submit -->
-              <div v-if="props.userDatas.customer.is_detected == 'Sudah Disubmit'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
+              <div v-if="props.userDatas.customer.is_detected == 'Sudah Disubmit' || props.userDatas.customer.is_detected == 'Dalam Review'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
                 <div class="p-3 justify-start items-center gap-6 flex">
                     <div class="text-black text-base font-normal font-['Roboto'] leading-normal">
                       Kamu baru saja melakukan test Genetic Intelligence Mapping.<br/>Test kamu saat ini sedang di-proses oleh Konsultan, kami akan hubungi ketika selesai.
