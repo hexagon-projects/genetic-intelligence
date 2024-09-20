@@ -40,16 +40,15 @@
                                 <button @click="pilihJawaban(answer.value, qIndex)" 
                                 v-for="(answer, aIndex) in q.answers" :key="aIndex"
                                 :class="{
-                                    'bg-[#3030f8] border-[#3030f8]': arrCodeJawabanPertanyaan[qIndex] === answer.value,
-                                    'border-[#667084]': arrCodeJawabanPertanyaan[qIndex] !== answer.value
-                                }" 
-                                class="group size-10 md:w-14 md:h-14 rounded-lg border transition-all hover:border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
-                                    
-                                    <div 
-                                    :class="{
-                                        'text-white': arrCodeJawabanPertanyaan[qIndex] === answer.value,
-                                        'group-hover:text-[#3030f8] text-[#667084]': arrCodeJawabanPertanyaan[qIndex] !== answer.value
-                                    }"
+                'bg-[#3030f8] border-[#3030f8] text-white': isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value),
+                'border-[#667084] text-[#667084]': !isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value)
+            }"
+            class="group size-10 md:w-14 md:h-14 rounded-lg border transition-all hover:border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
+            <div 
+                :class="{
+                    'text-white': isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value),
+                    'group-hover:text-[#3030f8] text-[#667084]': !isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value)
+                }"
                                     class="text-[#667084] text-base md:text-2xl font-semibold font-['Roboto'] leading-loose uppercase">
                                         {{ answer.value }}
                                     </div>
@@ -89,7 +88,10 @@ import Cookies from 'js-cookie'
 import Layout from '@/Layout/Customer/Layout.vue';
 import ReservasiFooter from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
 import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
+import { useRouter } from 'vue-router';
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Assesment</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
+
+const router = useRouter()
 
 const isTested = ref(false)
 const loadingQuestion = ref(false)
@@ -105,11 +107,12 @@ const jawabanPertanyaan = ref([])
 
 const arrCodeJawabanPertanyaan = ref([])
 
-const pilihJawaban = (answerValue, qIndex) => {
-    // Update the selected answer for the current question
-    // arrCodeJawabanPertanyaan.value[qIndex] = answerValue;
+const isSelectedAnswer = (globalIndex, value) => {
+    return arrCodeJawabanPertanyaan.value[globalIndex] === value;
+};
 
-    const globalIndex = (currPage.value - 1) * itemsPerPage.value + qIndex; // Hitung indeks global untuk soal
+const pilihJawaban = (answerValue, qIndex) => {
+    const globalIndex = (currPage.value - 1) * itemsPerPage.value + qIndex; // Hitung indeks global
     arrCodeJawabanPertanyaan.value[globalIndex] = answerValue;
     console.log('Updated answers:', arrCodeJawabanPertanyaan.value);
 };
@@ -120,33 +123,60 @@ const checkAllQuestionsAnswered = () => {
 };
 
 const handleNextQuestion = () => {
-    // Jika ada jawaban yang belum diisi, tampilkan peringatan
-    if (!checkAllQuestionsAnswered()) {
-        Swal.fire({
-            title: "Oopss Perhatikan jawabanmu",
-            text: "Ada beberapa jawaban yang belum kamu isi",
-            icon: "warning",
-            showCancelButton: false,
-            confirmButtonColor: "#0b40f4",
-            confirmButtonText: "Cek Ulang",
-        });
+    if(nextPages.value == null) {
+        try {
+            const token = Cookies.get('token');
+            const response = await initAPI('post', 'your-endpoint-url', {
+                answers: arrCodeJawabanPertanyaan.value
+            }, token);
+
+            Swal.fire({
+                title: "Success!",
+                text: "Your answers have been submitted.",
+                icon: "success",
+                confirmButtonColor: "#0b40f4",
+                confirmButtonText: "OK",
+            });
+
+            console.log('Response from API:', response.data);
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to submit answers',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        }
     } else {
-        // Jika semua jawaban sudah diisi, tampilkan konfirmasi
-        Swal.fire({
-            title: "Lanjut ke halaman berikutnya?",
-            text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
-            icon: "question",
-            showCancelButton: true,
-            cancelButtonColor: "#3b3f5c",
-            cancelButtonText: "Cek Ulang",
-            confirmButtonColor: "#0b40f4",
-            confirmButtonText: "Lanjutkan",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Jika dikonfirmasi, panggil getNextQuestion
-                getNextQuestion();
-            }
-        });
+        // Jika ada jawaban yang belum diisi, tampilkan peringatan
+        if (!checkAllQuestionsAnswered()) {
+            Swal.fire({
+                title: "Oopss Perhatikan jawabanmu",
+                text: "Ada beberapa jawaban yang belum kamu isi",
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#0b40f4",
+                confirmButtonText: "Cek Ulang",
+            });
+        } else {
+            // Jika semua jawaban sudah diisi, tampilkan konfirmasi
+            Swal.fire({
+                title: "Lanjut ke halaman berikutnya?",
+                text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
+                icon: "question",
+                showCancelButton: true,
+                cancelButtonColor: "#3b3f5c",
+                cancelButtonText: "Cek Ulang",
+                confirmButtonColor: "#0b40f4",
+                confirmButtonText: "Lanjutkan",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika dikonfirmasi, panggil getNextQuestion
+                    getNextQuestion();
+                }
+            });
+        }
     }
 };
 
@@ -165,23 +195,18 @@ const getDataPertanyaan = async(page = 1) => {
     if(token){
         try {
             const response = await initAPI('get', `assessments/questions?status=1&page=${page}`, null, token)
-            console.log(`qna`, response.data)
+            
             const totalSoalSaatIni = response.data.data.length;
-            const fromIndex = (page - 1) * totalSoalSaatIni; // Menghitung indeks global dari soal pertama di halaman ini
+            const fromIndex = (page - 1) * totalSoalSaatIni; // Indeks global pertama di halaman ini
 
-            // Cek apakah jawaban sudah ada untuk indeks tertentu, jika tidak, buat array baru
+            // Inisialisasi jawaban jika belum ada
             for (let i = 0; i < totalSoalSaatIni; i++) {
                 const globalIndex = fromIndex + i;
-                if (!arrCodeJawabanPertanyaan.value[globalIndex]) {
-                    arrCodeJawabanPertanyaan.value[globalIndex] = null; // Inisialisasi jika jawaban belum ada
+                if (arrCodeJawabanPertanyaan.value[globalIndex] === undefined) {
+                    arrCodeJawabanPertanyaan.value[globalIndex] = null; // Set jawaban awal ke null
                 }
             }
-            // const newAnswers = response.data.data.map(() => null);
-            // // Gabungkan jawaban baru dengan jawaban lama
-            // arrCodeJawabanPertanyaan.value = [
-            //     ...arrCodeJawabanPertanyaan.value,
-            //     ...newAnswers
-            // ];
+            
             jawabanPertanyaan.value = response.data.data.map(() => []);
             dataPertanyaan.value = response.data
             soalDari.value = response.data.from
