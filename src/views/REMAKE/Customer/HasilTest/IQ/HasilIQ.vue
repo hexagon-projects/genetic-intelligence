@@ -9,11 +9,11 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Lakukan Tes</div>
+            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Hasil Tes</div>
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test IQ</div>
         </div>
     
         <BelumTest v-if="!isTested" routeUrl="user.views.iq" message="Kamu Belum Melakukan Test IQ!" 

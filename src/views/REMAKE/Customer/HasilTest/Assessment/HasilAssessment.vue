@@ -9,11 +9,11 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Lakukan Tes</div>
+            <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Hasil Tes</div>
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test Assessment</div>
         </div>
     
         <BelumTest v-if="!isTested" routeUrl="user.views.assesment" message="Kamu Belum Melakukan Test Assessment!" 
@@ -43,7 +43,11 @@
                                             <div class="flex-col justify-start items-start gap-6 inline-flex">
                                                 <div class="text-black text-xl lg:text-2xl font-medium font-['Roboto'] leading-loose">Rangkuman Tipe Gaya Belajar Kamu:</div>
                                                 <div class="w-[100px] h-[5px] bg-[#3030f8] rounded-[5px]"></div>
-                                                <div class="w-full lg:w-[498px] text-[#667084] text-sm lg:text-base font-normal font-['Roboto'] leading-normal">Kamu memiliki gabungan gaya belajar visual dan auditori.            Ada hal tertentu yang Kamu akan belajar efektif jika menggunakan gaya belajar visual, dan ada hal lain yang Kamu akan belajar efektif jika menggunakan gaya belajar auditori.            Bahkan, kadang jika kedua gaya belajar digunakan, akan lebih optimal.</div>
+                                                <div class="w-full lg:w-[498px] text-[#667084] text-sm lg:text-base font-normal font-['Roboto'] leading-normal flex flex-col">
+                                                    <span v-for="(item, index) in dataAssessment.assessment.description" :key="index">
+                                                        {{ item }}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -194,12 +198,16 @@ const loading = ref(true)
 const isTested = ref(true)
 const isOpen = ref(false)
 
+const dataAssessment = ref(null)
+
 const scrollToSection = () => {
   const section = document.getElementById('penjelasan');
   section.scrollIntoView({ behavior: 'smooth' });
 };
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
+const persentaseJawaban = ref([])
 
 const data = ref({
     labels: ['Visual', 'Auditori', 'Kinestetk'],
@@ -209,7 +217,8 @@ const data = ref({
             backgroundColor: ['#9a89ff', '#feaeae', '#a9f4d0'], // Colors for each bar
             borderColor: ['#9a89ff', '#feaeae', '#a9f4d0'], 
             borderWidth: 1,
-            data: [70, 20, 10] 
+            // data: [70, 20, 10] 
+            data: persentaseJawaban.value
         }
     ]
 })
@@ -254,16 +263,20 @@ const options = ref({
 
 const items = ref([
   {
+    title: 'Maksimalkan Belajar dengan Gaya Visual',
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+  },
+  {
     title: 'Maksimalkan Belajar dengan Gaya Auditori',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
   },
   {
     title: 'Pembelajaran Aktif melalui Gaya Kinestetik',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
   },
   {
     title: 'Kombinasi Optimal dengan Gaya Belajar Campuran',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
   }
 ])
 
@@ -281,7 +294,13 @@ const getAssessmentData = async(userId) => {
         console.log(`data assessment`, response.data)
     
         isTested.value = response.data.data.length > 0 ? true : false
+        dataAssessment.value = response.data.data[0]
+
+        response.data.data[0].total_answer.forEach(element => {
+            persentaseJawaban.value.push(element.percentage) 
+        });
     } catch (error) {
+        console.log(error)
         Swal.fire({
             icon: 'error',
             title: 'Error',

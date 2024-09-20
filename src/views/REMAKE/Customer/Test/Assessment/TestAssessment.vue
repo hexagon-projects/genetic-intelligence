@@ -16,7 +16,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test Assessment</div>
         </div>
 
-        <SelesaiTest v-if="isTested" message="Test Assessment Selesai!"
+        <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_assessment" message="Test Assessment Selesai!"
         :subMessage="subMessage"/>
 
         <section v-if="!isTested" class="bg-white pb-[34px]">
