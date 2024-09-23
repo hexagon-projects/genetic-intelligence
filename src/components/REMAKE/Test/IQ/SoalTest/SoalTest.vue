@@ -162,8 +162,8 @@ onMounted(async() => {
 
     if(isInstruksi.value == false){
         const time = new Date();
-        time.setSeconds(time.getSeconds() + 50);
-        // time.setSeconds(time.getSeconds() + 720);
+        // time.setSeconds(time.getSeconds() + 50);
+        time.setSeconds(time.getSeconds() + 720);
         timer.value = useTimer(time);
     }
 
