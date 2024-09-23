@@ -186,7 +186,7 @@ const uploadImage = async() => {
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Terjadi kesalahan saat mengirim data',
+            text: 'Terjadi kesalahan saat mengirim data user',
             showConfirmButton: false,
             timer: 2000
         });
@@ -219,7 +219,6 @@ const getUserData = async() => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const userData = await initAPI('post', 'login', formData, token)
-        console.log(`data hasil`, userData.data)
 
         customerId.value = userData.data.customer.id
         statusTest.value = userData.data.customer.is_detected
@@ -232,7 +231,13 @@ const getUserData = async() => {
         //     GIMDatas.value = userData.data.customer.customers_results
         // }
     } catch (error) {
-        console.log(error)
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat mengambil data',
+            showConfirmButton: false,
+            timer: 2000
+        });
     } finally {
         loading.value = false
     }

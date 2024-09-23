@@ -56,7 +56,13 @@ const getUserData = async() => {
         customerId.value = userData.data.customer.id
         isTested.value = userData.data.customer.customers_assessments == null ? false : true
     } catch (error) {
-        console.log(error)
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat mengambil data user',
+            showConfirmButton: false,
+            timer: 2000
+        });
     } finally {
         loading.value = false
     }
