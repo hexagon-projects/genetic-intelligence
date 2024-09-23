@@ -30,14 +30,14 @@
                 <div class="absolute bg-transparent pemisah bottom-0 -left-[2px]"></div>
                 <!-- End Inverted Radius -->
   
-                <button class="bg-white w-[154px] rounded-3xl p-2 flex justify-center items-center">
+                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="bg-white w-[154px] rounded-3xl p-2 flex justify-center items-center">
                   <a class="text-[#3030f8] text-base font-normal font-roboto flex items-center gap-[12px]">
                   Lihat Hasil
                     <div class="w-[32px] h-[32px] flex items-center justify-center bg-[#3030f8] rounded-[50%]">
                       <img src="@/assets/icons/arrow-go.svg" alt="go">
                     </div>
                   </a>
-                </button>
+                </RouterLink>
               </div>
   
               <!-- type dan otak dominan -->
@@ -91,9 +91,9 @@
       <div class="lg:w-96 h-[408px] flex-col justify-start items-start inline-flex">
         <div class="self-stretch px-9 py-4 bg-[#3030f8] rounded-tl-3xl rounded-tr-3xl justify-center items-center gap-2.5 inline-flex">
             <div class="grow shrink basis-0 text-white text-2xl font-medium font-['Roboto'] leading-loose">Identitas</div>
-            <div class="w-6 h-6 relative">
+            <RouterLink :to="{name: 'user.views.profile'}" class="w-6 h-6 relative">
               <img src="@/assets/icons/Edit.svg" alt="edit">
-            </div>
+            </RouterLink>
         </div>
         <div class="self-stretch p-6 bg-white rounded-bl-3xl rounded-br-3xl shadow-md justify-start items-start gap-4 inline-flex">
             <div class="grow shrink basis-0 flex-col justify-start items-start gap-4 inline-flex">
@@ -257,6 +257,8 @@
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router';
+
 const props = defineProps(['userDatas', 'propsGIM'])
 console.log(`props`, props.userDatas)
 </script>
