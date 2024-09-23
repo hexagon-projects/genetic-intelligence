@@ -32,11 +32,4 @@ import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.v
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Intelligent Quotient (IQ)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const isTested = ref(false)
-const isInstruksi = ref(localStorage.getItem('isInstruksi') !== 'false')
-
-// Memastikan setiap kali localStorage berubah, nilai isInstruksi juga diperbarui
-watchEffect(() => {
-    const storedValue = localStorage.getItem('isInstruksi')
-    isInstruksi.value = storedValue !== 'false' // Jadi false kalau nilainya 'false', jika tidak akan true
-})
 </script>
