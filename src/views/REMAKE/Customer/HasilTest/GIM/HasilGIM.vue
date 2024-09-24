@@ -228,19 +228,36 @@ const showSection = (index) => {
     try {
         const gimData = GIMDatas.value?.gim?.gim_datas?.[index]?.value;
         const fallbackView = "<div class='text-[#667084] text-lg font-roboto font-normal'>Content is not ready yet...</div>";
-        const replacementText = '<h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>\n';
-        currentGim.value = gimData === "" || gimData === null
-            ? { view: fallbackView, index }
-            : { 
-                view: gimData.includes(replacementText) ? gimData.replace(replacementText, '') : gimData, 
-                index 
-            };
+        
+        const replacements = [
+            '<h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>\n',
+            `<div class="mb-[24px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
+    <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Pekerjaan yang optimal untukmu</h1>
+</div>`,
+            `<div class="mb-[24px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
+    <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Pendidikan yang optimal untukmu</h1>
+</div>`
+        ];
+
+        if (!gimData) {
+            currentGim.value = { view: fallbackView, index };
+        } else {
+            let updatedGimData = gimData;
+
+            replacements.forEach(replacement => {
+                updatedGimData = updatedGimData.replace(replacement, '');
+            });
+
+            currentGim.value = { view: updatedGimData || fallbackView, index };
+        }
 
     } catch (error) {
         console.error("An error occurred while showing the section:", error);
         currentGim.value = { view: "422 | Gagal Memuat Konten", index: 0 };
     }
 };
+
+
 
 
 
