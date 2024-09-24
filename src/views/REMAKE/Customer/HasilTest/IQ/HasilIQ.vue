@@ -37,7 +37,7 @@
                             <p class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
                                 Kamu telah selesai melakukan Test IQ dan mendapatkan hasil IQ sebesar 
                                 <span class="text-[#3030f8] font-medium">{{ dataIQ.customer_iq }}</span> 
-                                Yang dimana score IQ tersebut tergolong category 
+                                Yang dimana score IQ tersebut tergolong kategori 
                                 <span class="text-[#3030f8] font-medium">{{ dataIQ.iq.category }}</span>
                             </p>
                         </div>
@@ -54,7 +54,7 @@
                 </div>
             </section>
     
-            <section id="video" class="bg-[#f0f7fd] py-[52px]">
+            <!-- <section id="video" class="bg-[#f0f7fd] py-[52px]">
                 <div class="mx-[30px] md:mx-[60px] flex flex-col gap-[32px]">
                     <span class="w-full lg:w-[70%] mx-auto text-center text-black text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">Berikut Video Penjelasan Mengenai Hasil IQ Kamu</span>
                     
@@ -74,7 +74,7 @@
                         </video>
                     </div>
                 </div>
-            </section>
+            </section> -->
     
             <section id="penjelasan" class="bg-white py-[52px]">
                 <div class="mx-[30px] md:mx-[120px] bg-white flex flex-col gap-9">
@@ -91,12 +91,11 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         <div v-for="(item, index) in classificationIQ" :key="index" 
                         :class="{'bg-[#f0f7fd]': index % 2 === 0, 'bg-white border': index % 2 !== 0}" class="lg:hover:-translate-y-2 transition-all duration-300 h-auto p-5 rounded-3xl flex-col justify-start items-start gap-2.5 inline-flex">
-                            <div class="flex-col justify-start items-start gap-5 flex">
-                                <div class="w-[54px] h-[54px] relative">
-                                    <img :src="item.icon" alt="icon">
-                                </div>
-                                <div class="text-[#141414] text-xl font-medium font-sora leading-normal">
-                                    {{ item.header }}
+                            <div class="w-full flex-col justify-start items-start gap-5 flex">
+                                <div class="w-full flex items-center gap-[24px]">
+                                    <img class="w-[54px] h-[54px]" :src="item.icon" alt="icon">
+                                    <div v-html="item.header" class="font-sora leading-normal">
+                                    </div>
                                 </div>
                                 <div class="w-auto text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
                                     {{ item.content }}
@@ -156,45 +155,45 @@ const scrollToSection = () => {
 
 const classificationIQ = ref([
     {
-        icon: new URL('@/assets/icons/iq/grade-8.svg', import.meta.url).href,
-        header: 'Sangat Rendah (IQ < 70)',
-        content: 'Skor IQ di bawah 70 sering dikaitkan dengan keterbatasan intelektual atau perkembangan. Orang dengan IQ dalam rentang ini mungkin memerlukan dukungan dan layanan khusus untuk menjalani kehidupan sehari-hari.'
+        icon: new URL('@/assets/icons/iq/Superior.svg', import.meta.url).href,
+        header: '<div class="w-full"><span class="text-[#141414] text-xl font-medium">Kategori Baik Sekali </span><span class="text-[#141414] text-xl font-normal">(Superior)</span></div>',
+        content: 'IQ di atas 119 termasuk dalam kategori "Baik Sekali" atau disebut "Superior." Orang yang masuk dalam kategori ini memiliki kemampuan intelektual yang sangat tinggi dibandingkan populasi umum. Mereka cenderung mudah memahami informasi yang kompleks, berpikir secara analitis, dan mampu memecahkan masalah dengan cepat. Biasanya, mereka dapat unggul di berbagai bidang akademis dan profesional yang memerlukan tingkat pemikiran kritis yang tinggi.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-7.svg', import.meta.url).href,
-        header: 'Rendah (IQ 70 - 85)',
-        content: 'Individu dalam rentang ini mungkin menghadapi beberapa kesulitan akademik dan membutuhkan bantuan tambahan dalam pembelajaran. Mereka mungkin mengalami kesulitan dalam memahami konsep abstrak dan memecahkan masalah yang kompleks.'
+        icon: new URL('@/assets/icons/iq/Bright_Normal.svg', import.meta.url).href,
+        header: '<div class="w-full"><span class="text-[#141414] text-xl font-medium">Kategori Baik </span><span class="text-[#141414] text-xl font-normal">(Bright Normal)</span></div>',
+        content: 'Rentang IQ 111-119 diklasifikasikan sebagai "Baik" atau "Bright Normal." Mereka dalam kategori ini memiliki kemampuan intelektual yang di atas rata-rata. Orang-orang dalam kelompok ini biasanya tidak mengalami kesulitan dalam pembelajaran akademis, dan mereka sering dianggap cepat tanggap dalam memahami konsep yang agak kompleks.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-6.svg', import.meta.url).href,
-        header: 'Rata-rata Rendah (IQ 85 - 100)',
-        content: 'Individu dengan skor IQ dalam kisaran ini dapat menangani tugas-tugas harian dengan cukup baik tetapi mungkin memerlukan lebih banyak waktu dan usaha dalam situasi akademik atau pekerjaan yang lebih menantang.'
+        icon: new URL('@/assets/icons/iq/Average.svg', import.meta.url).href,
+        header: '<div><span class="text-[#141414] text-xl font-medium">Kategori Cukup </span><span class="text-[#141414] text-xl font-normal">(Average)</span></div>',
+        content: 'IQ dalam rentang 91-110 dikategorikan sebagai "Cukup" atau "Average." Ini adalah kelompok terbesar dalam populasi umum. Mereka memiliki kemampuan intelektual yang memadai untuk menangani sebagian besar tuntutan akademis dan sosial. Orang-orang dalam kategori ini dapat belajar dan berfungsi dengan baik dalam situasi yang standar, meskipun mungkin memerlukan usaha ekstra dalam topik-topik yang sangat rumit.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-5.svg', import.meta.url).href,
-        header: 'Rata-rata (IQ 100)',
-        content: 'IQ rata-rata adalah sekitar 100. Ini adalah titik tengah dalam distribusi IQ dan mencerminkan kemampuan kognitif yang cukup baik untuk menangani sebagian besar tugas akademik dan sehari-hari.'
+        icon: new URL('@/assets/icons/iq/Dull_Normal.svg', import.meta.url).href,
+        header: '<div><span class="text-[#141414] text-xl font-medium">Kategori Kurang </span><span class="text-[#141414] text-xl font-normal">(Dull Normal)</span></div>',
+        content: 'IQ dengan skor 80-90 tergolong dalam kategori "Kurang" atau disebut "Dull Normal." Individu dalam kategori ini mungkin menghadapi beberapa tantangan dalam tugas akademis atau pekerjaan yang memerlukan pemikiran abstrak dan analitis. Namun, mereka masih mampu berfungsi secara efektif dalam banyak konteks kehidupan sehari-hari, terutama dalam lingkungan yang terstruktur dan didukung.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-4.svg', import.meta.url).href,
-        header: 'Rata-rata Tinggi (IQ 100-115)',
-        content: 'Individu dalam kategori ini biasanya memiliki kemampuan akademik di atas rata-rata dan dapat berprestasi tinggi dalam berbagai bidang. Mereka mampu memahami konsep abstrak dan memecahkan masalah dengan baik.'
+        icon: new URL('@/assets/icons/iq/Borderline.svg', import.meta.url).href,
+        header: '<div><span class="text-[#141414] text-xl font-medium">Kategori Kurang Sekali </span><span class="text-[#141414] text-xl font-normal">(Borderline)</span></div>',
+        content: 'IQ di bawah 80 termasuk dalam kategori "Kurang Sekali" atau "Borderline." Mereka dalam kategori ini seringkali membutuhkan dukungan lebih besar dalam lingkungan belajar atau pekerjaan karena kemampuan intelektual yang lebih terbatas. Pemahaman terhadap konsep abstrak atau tugas-tugas yang memerlukan pemikiran kompleks bisa menjadi tantangan bagi mereka, sehingga bimbingan atau strategi pembelajaran khusus sering diperlukan.'
     },
-    {
-        icon: new URL('@/assets/icons/iq/grade-3.svg', import.meta.url).href,
-        header: 'Tinggi (IQ 115 - 130)',
-        content: 'Orang dengan skor IQ dalam rentang ini sering menunjukkan kemampuan yang luar biasa dalam pemecahan masalah dan berpikir kritis. Mereka cenderung berprestasi tinggi dalam bidang akademik dan profesional.'
-    },
-    {
-        icon: new URL('@/assets/icons/iq/grade-2.svg', import.meta.url).href,
-        header: 'Sangat Tinggi (IQ > 130)',
-        content: 'Skor ini menunjukkan kecerdasan yang sangat tinggi & sering dikaitkan dengan kemampuan luar biasa dalam berbagai bidang intelektual. Individu dalam kategori ini memiliki bakat istimewa & sering berprestasi ditingkat yang tinggi di bidang akademik dan profesional.'
-    },
-    {
-        icon: new URL('@/assets/icons/iq/grade-1.svg', import.meta.url).href,
-        header: 'Superior (IQ > 145)',
-        content: 'Individu kategori ini biasanya menunjukkan kemampuan luar biasa dalam berbagai bidang intelektual, sering kali memiliki bakat istimewa. Mereka mampu menyelesaikan masalah yang sangat kompleks dan sering kali membuat kontribusi signifikan dibidang mereka.'
-    },
+    // {
+    //     icon: new URL('@/assets/icons/iq/grade-3.svg', import.meta.url).href,
+    //     header: 'Tinggi (IQ 115 - 130)',
+    //     content: 'Orang dengan skor IQ dalam rentang ini sering menunjukkan kemampuan yang luar biasa dalam pemecahan masalah dan berpikir kritis. Mereka cenderung berprestasi tinggi dalam bidang akademik dan profesional.'
+    // },
+    // {
+    //     icon: new URL('@/assets/icons/iq/grade-2.svg', import.meta.url).href,
+    //     header: 'Sangat Tinggi (IQ > 130)',
+    //     content: 'Skor ini menunjukkan kecerdasan yang sangat tinggi & sering dikaitkan dengan kemampuan luar biasa dalam berbagai bidang intelektual. Individu dalam kategori ini memiliki bakat istimewa & sering berprestasi ditingkat yang tinggi di bidang akademik dan profesional.'
+    // },
+    // {
+    //     icon: new URL('@/assets/icons/iq/grade-1.svg', import.meta.url).href,
+    //     header: 'Superior (IQ > 145)',
+    //     content: 'Individu kategori ini biasanya menunjukkan kemampuan luar biasa dalam berbagai bidang intelektual, sering kali memiliki bakat istimewa. Mereka mampu menyelesaikan masalah yang sangat kompleks dan sering kali membuat kontribusi signifikan dibidang mereka.'
+    // },
 ])
 
 const loading = ref(true)
@@ -232,15 +231,15 @@ const getIQData = async() => {
 onMounted(async() => {
     await getIQData()
 
-    const videoId = document.getElementById('example-video')
-    if(videoId){
-        const player = videojs('example-video');
-        player.play();
+    // const videoId = document.getElementById('example-video')
+    // if(videoId){
+    //     const player = videojs('example-video');
+    //     player.play();
     
-        onBeforeUnmount(() => {
-            player.dispose()
-        })
-    }
+    //     onBeforeUnmount(() => {
+    //         player.dispose()
+    //     })
+    // }
 })
 </script>
 
