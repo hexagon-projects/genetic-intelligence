@@ -15,7 +15,7 @@
         
         <div v-if="!loading" class="self-start w-full">
             <div v-for="(question, index) in questions" :key="index" class="flex flex-col mb-[24px]">
-                <img class="max-w-[240px]" v-if="question.image" :src="baseUrl+ 'open/iq_questions/' +question.image" alt="image">
+                <img class="max-w-[65%]" v-if="question.image" :src="baseUrl+ 'open/iq_questions/' +question.image" alt="image">
                 <div v-html="question.question" class="text-black text-base font-normal font-['Roboto'] leading-normal">
                 </div>
             </div>
