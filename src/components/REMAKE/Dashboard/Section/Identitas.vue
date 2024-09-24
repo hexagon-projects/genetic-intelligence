@@ -111,19 +111,19 @@
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Alamat</div>
                     <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
-                      {{ props.userDatas.customer.birth_place }}
+                      {{ props.userDatas.customer.birth_place ? props.userDatas.customer.birth_place : '-' }}
                     </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Tanggal Lahir</div>
                     <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
-                      {{ props.userDatas.customer.birth_date }}
+                      {{ props.userDatas.customer.birth_date ? props.userDatas.customer.birth_date : '-' }}
                     </div>
                 </div>
                 <div class="self-stretch h-16 px-4 py-1 rounded-2xl border border-[#667084] flex-col justify-center items-start gap-1 flex">
                     <div class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Gender</div>
                     <div class="text-center text-[#0b0b79] text-lg font-normal font-['Roboto'] leading-7">
-                      {{ props.userDatas.customer.gender }}
+                      {{ props.userDatas.customer.gender ? props.userDatas.customer.gender : '-' }}
                     </div>
                 </div>
             </div>
