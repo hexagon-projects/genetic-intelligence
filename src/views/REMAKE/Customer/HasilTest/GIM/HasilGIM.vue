@@ -165,7 +165,7 @@
                                 data-setup='{}'
                                 >
                                 <source
-                                    src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
+                                    :src="GIMDatas.gim.url"
                                     type="application/x-mpegURL">
                             </video>
                         </div>
