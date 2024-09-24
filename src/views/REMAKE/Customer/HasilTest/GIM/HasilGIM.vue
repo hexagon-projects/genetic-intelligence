@@ -226,33 +226,22 @@ const currentGim = ref({
 
 const showSection = (index) => {
     try {
-        if (GIMDatas.value && GIMDatas.value.gim && GIMDatas.value.gim.gim_datas && GIMDatas.value.gim.gim_datas[index]) {
-            const toBeReplaced = '<h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>\n'
-            currentGim.value = {
-                view: GIMDatas.value.gim.gim_datas[index].value.includes(toBeReplaced) ? GIMDatas.value.gim.gim_datas[index].value.replace(toBeReplaced, '') : GIMDatas.value.gim.gim_datas[index].value,
-                index: index
+        const gimData = GIMDatas.value?.gim?.gim_datas?.[index]?.value;
+        const fallbackView = "<div class='text-[#667084] text-lg font-roboto font-normal'>Content is not ready yet...</div>";
+        const replacementText = '<h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>\n';
+        currentGim.value = gimData === "" || gimData === null
+            ? { view: fallbackView, index }
+            : { 
+                view: gimData.includes(replacementText) ? gimData.replace(replacementText, '') : gimData, 
+                index 
             };
-        } else {
-            console.warn("Invalid index or data not available. Showing fallback content.");
-            currentGim.value = {
-                view: "404 | Tidak Ditemukan",
-                index: 0
-            };
-        }
 
-        if (GIMDatas.value.gim.gim_datas[index].value === "" || GIMDatas.value.gim.gim_datas[index].value === null)
-        currentGim.value = {
-                view: "<div class='text-[#667084] text-lg font-roboto font-normal'>Content is not ready yet...</div>",
-                index: index
-            };
     } catch (error) {
         console.error("An error occurred while showing the section:", error);
-        currentGim.value = {
-            view: "422 | Gagal Memuat Konten",
-            index: 0
-        };
+        currentGim.value = { view: "422 | Gagal Memuat Konten", index: 0 };
     }
 };
+
 
 
 const loading = ref(true)
