@@ -140,10 +140,30 @@ const submitJawaban = async() => {
         data.append('answers', JSON.stringify(listJawaban))
 
         console.log(`siap disubmit jawaban`, listJawaban)
+        const response = await initAPI('post', 'customers/iq', data, token)
 
-        emit('refreshUserData')
+        Swal.fire({
+            icon: 'success',
+            title: 'Jawaban Dikirim',
+            text: response.data.message,
+            showConfirmButton: true,
+            confirmButtonColor: "#0b40f4",
+            confirmButtonText: "OK",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                emit('refreshUserData')
+            }
+        })
+
     } catch (error) {
-        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error Terjadi',
+            text: 'Error saat mengirim data jawaban',
+            showConfirmButton: true,
+            confirmButtonColor: "#0b40f4",
+            confirmButtonText: "OK",
+        })
     } finally {
         loading.value = false
     }
