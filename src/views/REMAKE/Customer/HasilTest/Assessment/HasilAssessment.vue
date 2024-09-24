@@ -55,7 +55,7 @@
                                         <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Baca Selengkapnya</div>
                                         <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                                             <div class="w-3 h-3 relative">
-                                                <img src="@/assets/icons/arrow-go.svg" alt="go"/>
+                                                <img class="rotate-90" src="@/assets/icons/arrow-go.svg" alt="go"/>
                                             </div>
                                         </div>
                                     </button>
@@ -268,15 +268,15 @@ const items = ref([
   },
   {
     title: 'Maksimalkan Belajar dengan Gaya Auditori',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui pendengaran. Mereka lebih mudah mengingat informasi yang didengar melalui ceramah, diskusi, dan rekaman audio.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka mendengarkan penjelasan daripada membaca teks.<br/>Mampu mengingat detail percakapan dan suara.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Dengarkan rekaman ceramah atau podcast tentang topik yang sedang dipelajari.<br/>Ikuti diskusi kelompok atau belajar dengan teman untuk berdiskusi tentang materi.<br/>Baca materi pelajaran dengan suara keras.<br/>Gunakan teknik mnemonik auditori seperti rima atau lagu untuk menghafal informasi.</span>`,
   },
   {
     title: 'Pembelajaran Aktif melalui Gaya Kinestetik',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui gerakan dan pengalaman fisik. Mereka lebih mudah memahami dan mengingat informasi ketika terlibat dalam aktivitas fisik atau praktis.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka belajar dengan melakukan dan menyentuh objek.<br/>Memiliki kesulitan duduk diam untuk waktu yang lama.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan alat bantu fisik atau model saat belajar konsep baru.<br/>Terlibat dalam eksperimen atau proyek praktis yang relevan dengan materi pelajaran.<br/>Gunakan permainan peran atau simulasi untuk memahami konsep.<br/>Beristirahat secara teratur untuk bergerak dan melepaskan energi.</span>`,
   },
   {
     title: 'Kombinasi Optimal dengan Gaya Belajar Campuran',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span style="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/> Gaya belajar di mana individu memiliki kombinasi dari dua atau lebih gaya belajar (visual, auditori, kinestetik, dan membaca/menulis). Mereka dapat menyesuaikan strategi belajar berdasarkan situasi dan materi pelajaran.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Fleksibel dalam pendekatan belajar dan dapat menyesuaikan strategi berdasarkan situasi dan materi pelajaran.<br/>Dapat menggabungkan berbagai teknik belajar untuk meningkatkan pemahaman dan retensi informasi.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gabungkan berbagai metode belajar yang sesuai dengan gaya belajar dominan. Misalnya, baca catatan (visual), diskusikan dengan teman (auditori), dan lakukan eksperimen (kinestetik).<br/>Gunakan alat bantu visual saat mendengarkan penjelasan audio.<br/>Buat catatan dan kemudian bacakan dengan suara keras sambil bergerak.<br/>Ikuti kelas yang menawarkan berbagai metode pengajaran, seperti kuliah interaktif yang mencakup diskusi, presentasi visual, dan aktivitas praktis.</span>`,
   }
 ])
 
@@ -341,8 +341,8 @@ onMounted(async() => {
 
     const videoId = document.getElementById('example-video')
     if(videoId){
-        const player = videojs('example-video');
-        player.play();
+        const player = videojs(videoId);
+        // player.play();
     
         onBeforeUnmount(() => {
             player.dispose()
