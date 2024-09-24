@@ -27,7 +27,7 @@
                             <div class="text-[#3030f8] text-base font-medium font-['Roboto'] leading-normal">Skor IQ</div>
                         </div>
     
-                        <img class="w-[75%] md:w-[100%] lg:w-[80%]" src="@/assets/icons/iq/grade-3.svg" alt="grade">
+                        <img v-if="imageIQIcon" class="w-[75%] md:w-[100%] lg:w-[80%]" :src="baseUrl+'open/iq-icons/'+imageIQIcon" alt="grade">
                     </div>
     
                     <div class="w-auto h-auto lg:w-[498px] lg:h-[265px] flex-col justify-start items-start gap-6 inline-flex">
@@ -35,8 +35,10 @@
                         <div class="w-[100px] h-[8px] bg-[#3030f8] rounded-[5px]"></div>
                         <div class="self-stretch">
                             <p class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
-                                Kamu telah selesai melakukan Test IQ dan mendapatkan hasil IQ sebesar <span class="text-[#3030f8] font-medium">91</span> 
-                                Yang dimana score IQ tersebut tergolong tipe Average dengan category <span class="text-[#3030f8] font-medium">Cukup</span>
+                                Kamu telah selesai melakukan Test IQ dan mendapatkan hasil IQ sebesar 
+                                <span class="text-[#3030f8] font-medium">{{ dataIQ.customer_iq }}</span> 
+                                Yang dimana score IQ tersebut tergolong category 
+                                <span class="text-[#3030f8] font-medium">{{ dataIQ.iq.category }}</span>
                             </p>
                         </div>
     
@@ -143,6 +145,10 @@ import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL
+const imageIQIcon = ref(null)
+
 const scrollToSection = () => {
   const section = document.getElementById('penjelasan');
   section.scrollIntoView({ behavior: 'smooth' });
@@ -150,42 +156,42 @@ const scrollToSection = () => {
 
 const classificationIQ = ref([
     {
-        icon: new URL('@/assets/icons/iq/grade-1.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-8.svg', import.meta.url).href,
         header: 'Sangat Rendah (IQ < 70)',
         content: 'Skor IQ di bawah 70 sering dikaitkan dengan keterbatasan intelektual atau perkembangan. Orang dengan IQ dalam rentang ini mungkin memerlukan dukungan dan layanan khusus untuk menjalani kehidupan sehari-hari.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-2.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-7.svg', import.meta.url).href,
         header: 'Rendah (IQ 70 - 85)',
         content: 'Individu dalam rentang ini mungkin menghadapi beberapa kesulitan akademik dan membutuhkan bantuan tambahan dalam pembelajaran. Mereka mungkin mengalami kesulitan dalam memahami konsep abstrak dan memecahkan masalah yang kompleks.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-3.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-6.svg', import.meta.url).href,
         header: 'Rata-rata Rendah (IQ 85 - 100)',
         content: 'Individu dengan skor IQ dalam kisaran ini dapat menangani tugas-tugas harian dengan cukup baik tetapi mungkin memerlukan lebih banyak waktu dan usaha dalam situasi akademik atau pekerjaan yang lebih menantang.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-4.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-5.svg', import.meta.url).href,
         header: 'Rata-rata (IQ 100)',
         content: 'IQ rata-rata adalah sekitar 100. Ini adalah titik tengah dalam distribusi IQ dan mencerminkan kemampuan kognitif yang cukup baik untuk menangani sebagian besar tugas akademik dan sehari-hari.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-5.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-4.svg', import.meta.url).href,
         header: 'Rata-rata Tinggi (IQ 100-115)',
         content: 'Individu dalam kategori ini biasanya memiliki kemampuan akademik di atas rata-rata dan dapat berprestasi tinggi dalam berbagai bidang. Mereka mampu memahami konsep abstrak dan memecahkan masalah dengan baik.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-6.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-3.svg', import.meta.url).href,
         header: 'Tinggi (IQ 115 - 130)',
         content: 'Orang dengan skor IQ dalam rentang ini sering menunjukkan kemampuan yang luar biasa dalam pemecahan masalah dan berpikir kritis. Mereka cenderung berprestasi tinggi dalam bidang akademik dan profesional.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-7.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-2.svg', import.meta.url).href,
         header: 'Sangat Tinggi (IQ > 130)',
         content: 'Skor ini menunjukkan kecerdasan yang sangat tinggi & sering dikaitkan dengan kemampuan luar biasa dalam berbagai bidang intelektual. Individu dalam kategori ini memiliki bakat istimewa & sering berprestasi ditingkat yang tinggi di bidang akademik dan profesional.'
     },
     {
-        icon: new URL('@/assets/icons/iq/grade-8.svg', import.meta.url).href,
+        icon: new URL('@/assets/icons/iq/grade-1.svg', import.meta.url).href,
         header: 'Superior (IQ > 145)',
         content: 'Individu kategori ini biasanya menunjukkan kemampuan luar biasa dalam berbagai bidang intelektual, sering kali memiliki bakat istimewa. Mereka mampu menyelesaikan masalah yang sangat kompleks dan sering kali membuat kontribusi signifikan dibidang mereka.'
     },
@@ -193,6 +199,7 @@ const classificationIQ = ref([
 
 const loading = ref(true)
 const isTested = ref(null)
+const dataIQ = ref(null)
 
 const getIQData = async() => {
     try {
@@ -203,8 +210,13 @@ const getIQData = async() => {
         const userData = await initAPI('post', 'login', formData, token)
 
         isTested.value = userData.data.customer.customers_iq !== null ? true : false
+        dataIQ.value = userData.data.customer.customers_iq
+        imageIQIcon.value = userData.data.customer.customers_iq.iq.icon
+        
+        // imgHasilCategoryIQ.value = new URL(`../../../assets/icons/iq/grade-${dataIQ.value.iq_id}.svg`, import.meta.url).href
 
     } catch (error) {
+        console.log(error)
         Swal.fire({
             icon: 'error',
             title: 'Error',
