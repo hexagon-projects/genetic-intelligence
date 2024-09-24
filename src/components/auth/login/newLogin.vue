@@ -130,38 +130,24 @@ export default {
 
                 try {
                     const response = await initApi('post', 'login', data, null)
-                    const datas = response.data
-                    if (datas.success == true) {
+                    const role = response.data.user.role
                     let type
-                    if(datas.customer) type = datas.customer
-                    if(datas.consultant) type = datas.consultant
-                    if(!datas.consultant && !datas.customer) type = datas.user
-                    console.log(datas)
+                    if(response.data.customer) type = response.data.customer
+                    if(response.data.consultant) type = response.data.consultant
+                    if(!response.data.consultant && !response.data.customer) type = response.data.user
+                    // console.log(response.data.user.role)
                     localStorage.setItem('userData', JSON.stringify(type));
-                    localStorage.setItem('userRole', JSON.stringify(datas.user.role));
-                    localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
-                    // localStorage.setItem('token', JSON.stringify(datas.token))
-                    Cookies.set('token', datas.token, { expires: 1 })
-                    store.commit('user', type);
-                    store.commit('userRole', datas.user.role);
-                    store.commit('userEmail', datas.user.email);
-
-                    if(datas.staff){
-                        localStorage.setItem('staffDetail', JSON.stringify(datas.staff));
-                        localStorage.setItem('userData', JSON.stringify(type));
-                        localStorage.setItem('userRole', JSON.stringify(datas.user.role));
-                        localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
-                        localStorage.setItem('token', JSON.stringify(datas.token))
-                        store.commit('user', type);
-                        store.commit('userRole', datas.user.role);
-                        store.commit('userEmail', datas.user.email);
-
-                    }
-
-                    router.push('/');
+                    Cookies.set('token', response.data.token, { expires: 1 })
+                    switch (role) {
+                        case 'customer':
+                            router.push({name: 'views.dashboard'})
+                            break;
+                    
+                        case 'consultant':
+                            router.push({name: 'consultant.views.dashboard'})
+                            break;
                     }
                 } catch (error) {
-                    // console.log(error.response.data)
                     if (error.response) {
                         Swal.fire({
                             icon: 'error',
@@ -171,11 +157,63 @@ export default {
                             timer: 2000
                         });
                     } else {
-                        console.error("Error:", error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Login Gagal',
+                            text: 'Terjadi kesalahan pada sistem',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     }
+                } finally {
+                    isLoading.value = false
                 }
+                // try {
+                //     const response = await initApi('post', 'login', data, null)
+                //     const datas = response.data
+                //     if (datas.success == true) {
+                //     let type
+                //     if(datas.customer) type = datas.customer
+                //     if(datas.consultant) type = datas.consultant
+                //     if(!datas.consultant && !datas.customer) type = datas.user
+                //     console.log(datas)
+                //     localStorage.setItem('userData', JSON.stringify(type));
+                //     localStorage.setItem('userRole', JSON.stringify(datas.user.role));
+                //     localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
+                //     // localStorage.setItem('token', JSON.stringify(datas.token))
+                //     Cookies.set('token', datas.token, { expires: 1 })
+                //     store.commit('user', type);
+                //     store.commit('userRole', datas.user.role);
+                //     store.commit('userEmail', datas.user.email);
 
-                isLoading.value = false
+                //     if(datas.staff){
+                //         localStorage.setItem('staffDetail', JSON.stringify(datas.staff));
+                //         localStorage.setItem('userData', JSON.stringify(type));
+                //         localStorage.setItem('userRole', JSON.stringify(datas.user.role));
+                //         localStorage.setItem('userEmail', JSON.stringify(datas.user.email));
+                //         localStorage.setItem('token', JSON.stringify(datas.token))
+                //         store.commit('user', type);
+                //         store.commit('userRole', datas.user.role);
+                //         store.commit('userEmail', datas.user.email);
+
+                //     }
+
+                //     router.push('/');
+                //     }
+                // } catch (error) {
+                //     // console.log(error.response.data)
+                //     if (error.response) {
+                //         Swal.fire({
+                //             icon: 'error',
+                //             title: 'Login Gagal',
+                //             text: error.response.data.message,
+                //             showConfirmButton: false,
+                //             timer: 2000
+                //         });
+                //     } else {
+                //         console.error("Error:", error);
+                //     }
+                // }
             }
         };
         return {
