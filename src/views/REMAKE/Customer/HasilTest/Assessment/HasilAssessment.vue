@@ -94,7 +94,7 @@
                             data-setup='{}'
                             >
                             <source
-                                src="https://api.jatidiri.app/additional_assets/chunks/instruksi/instruksi.m3u8"
+                                :src="dataAssessment.assessment.video"
                                 type="application/x-mpegURL">
                         </video>
                     </div>
