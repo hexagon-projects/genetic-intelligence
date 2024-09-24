@@ -169,6 +169,12 @@
                                     type="application/x-mpegURL">
                             </video>
                         </div>
+
+                        <div class="mb-[32px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
+                            <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">
+                                {{ sections[currentGim.index].name }}
+                            </h1>
+                        </div>
     
                         <!-- <div class="mb-[32px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
                             <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>
@@ -183,7 +189,7 @@
                                 Tipe kecerdasan tersebut dikendalikan dari luar diri anda menuju kedalam diri anda. Tajam dalam mengamati detail, cermat, menyukai keteraturan, menyukai sistematika, metode dan ketepatan. Membawa energi yang bisa diandalkan, tepat dan mandiri. pola dasar ini cenderung mengatakan yang dilakukan dan melakukan yang dikatakan, jujur, bisa dipercaya dan apa adanya. Pola dasar ini menjadi sebuah fondasi dan pijakan (grounded), sehingga anda mudah kecipratan banyak peluang baru.
                             </h1>
                         </div> -->
-                    <div v-html="currentGim.view"></div>
+                    <div v-html="currentGim.view" class="w-full"></div>
                     </div>
                 </div>
             </section>
@@ -221,8 +227,9 @@ const currentGim = ref({
 const showSection = (index) => {
     try {
         if (GIMDatas.value && GIMDatas.value.gim && GIMDatas.value.gim.gim_datas && GIMDatas.value.gim.gim_datas[index]) {
+            const toBeReplaced = '<h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>\n'
             currentGim.value = {
-                view: GIMDatas.value.gim.gim_datas[index].value,
+                view: GIMDatas.value.gim.gim_datas[index].value.includes(toBeReplaced) ? GIMDatas.value.gim.gim_datas[index].value.replace(toBeReplaced, '') : GIMDatas.value.gim.gim_datas[index].value,
                 index: index
             };
         } else {
@@ -235,7 +242,7 @@ const showSection = (index) => {
 
         if (GIMDatas.value.gim.gim_datas[index].value === "" || GIMDatas.value.gim.gim_datas[index].value === null)
         currentGim.value = {
-                view: "<div class='text-[#667084]'>204 | Konten kosong </div>",
+                view: "<div class='text-[#667084] text-lg font-roboto font-normal'>Content is not ready yet...</div>",
                 index: index
             };
     } catch (error) {
