@@ -152,8 +152,10 @@ const getUserData = async() => {
       // store.commit('userResultDetect', userData.data.customer.customers_results)
       // propsGIM.value = userData.data.customer.customers_results
 
-    if(userData.data.customer.customers_iq !== null) isTestedIQ.value = true
-      // propsIq.value = userData.data.customer.customers_iq
+    if(userData.data.customer.customers_iq !== null) {
+      isTestedIQ.value = true
+      propsIq.value = userData.data.customer.customers_iq
+    }
 
     if(userData.data.customer.customers_assessments !== null) isAssessment.value = true
       // propsAssessment.value = userData.data.customer.customers_assessments
