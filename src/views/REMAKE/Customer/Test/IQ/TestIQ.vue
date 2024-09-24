@@ -32,6 +32,13 @@
         :subMessage="subMessage"/>
 
         <section v-if="!isTested" class="pb-[34px] w-full bg-white">
+            <transition name="fade" mode="out-in">
+                <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+                >
+                    <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
+                </div>
+            </transition>
+            
             <div class="flex justify-center items-center">
                 <Instruksi v-if="isInstruksi"/>
             </div>

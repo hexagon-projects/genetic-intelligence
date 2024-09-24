@@ -3,13 +3,6 @@
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
-    <transition name="fade" mode="out-in">
-        <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
-        >
-            <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
-        </div>
-    </transition>
-
     <div v-if="dataProfileInclomplete">
         <modalCekProfile/>
     </div>
@@ -34,6 +27,13 @@
         subMessage="Terima kasih telah menyelesaikan Tes GIM! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
     
         <section v-if="statusTest == 'Belum'" class="bg-white pb-[34px]">
+            <transition name="fade" mode="out-in">
+                <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+                >
+                    <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
+                </div>
+            </transition>
+
             <div class="flex flex-col justify-center items-center gap-[24px]">
                 <div class="text-center text-black text-lg md:text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">
                     Tes Genetic Intelligence Mapping

@@ -3,13 +3,6 @@
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
-    <transition name="fade" mode="out-in">
-        <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
-        >
-            <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
-        </div>
-    </transition>
-
     <div v-if="dataProfileInclomplete">
         <modalCekProfile/>
     </div>
@@ -31,6 +24,13 @@
         :subMessage="subMessage"/>
 
         <section v-if="!isTested" class="bg-white pb-[34px]">
+            <transition name="fade" mode="out-in">
+                <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+                >
+                    <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
+                </div>
+            </transition>
+
             <SoalAssessment :customerId="customerId" @refreshData="getUserData"/>
         </section>
     
