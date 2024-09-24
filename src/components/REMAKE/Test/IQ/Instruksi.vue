@@ -10,7 +10,9 @@
     <div class="mx-[30px] md:mx-[60px] max-w-[700px] flex flex-col items-center justify-center shadow rounded-tl-3xl rounded-tr-3xl rounded-b-3xl bg-white">
         <div class="self-stretch min-h-[100px] py-4 bg-[#3030f8] rounded-tl-3xl rounded-tr-3xl flex-col justify-start items-start gap-2 flex">
             <div class="self-stretch text-center text-white text-lg md:text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">Intruksi Pengerjaan Tes IQ</div>
-            <div class="mx-4 self-stretch text-center text-white text-sm md:text-sm lg:text-base font-normal font-['Roboto'] leading-normal">Halo Fauzan Muhammad! Sebelum melakukan test perhatikan petunjuk dibawah ini.</div>
+            <div class="mx-4 self-stretch text-center text-white text-sm md:text-sm lg:text-base font-normal font-['Roboto'] leading-normal">
+                Halo {{ namaUser.first_name }}! Sebelum melakukan test perhatikan petunjuk dibawah ini.
+            </div>
         </div>
         <div class="py-[36px] w-full flex justify-center items-center">
             <div class="w-full mx-[16px] flex justify-between items-center gap-[24px]">
@@ -54,6 +56,8 @@ import Step3 from './StepInstruksi/Step3.vue';
 import SoalInstruksi from './SoalInstruksi/SoalInstruksi.vue';
 import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
+
+const namaUser = ref(JSON.parse(localStorage.getItem('userData')))
 
 const store = useStore()
 const showSoalInstruksi = computed(() => store.getters.getStatusContohSoalIQ)

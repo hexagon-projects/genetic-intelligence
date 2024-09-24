@@ -3,8 +3,8 @@
         <div class="w-full flex flex-col lg:flex-row md:justify-between items-center">
             <span class="text-black text-lg md:text-xl lg:text-2xl font-medium font-['Roboto'] leading-loose">Jawablah Pertanyaan Dibawah Ini</span>
             <div v-if="timer" class="justify-center flex items-center gap-1">
-                <h1 class="font-roboto text-sm md:text-md lg:text-md text-center text-dark font-normal">Waktu tersisa:</h1>
-                <span class="font-roboto text-sm md:text-md lg:text-md text-center text-dark font-normal">{{timer.minutes}} Menit : {{timer.seconds}} Detik</span>
+                <h1 class="font-roboto text-sm md:text-md lg:text-md text-center text-danger font-normal">Waktu tersisa:</h1>
+                <span class="font-roboto text-sm md:text-md lg:text-md text-center text-danger font-normal">{{timer.minutes}} Menit : {{timer.seconds}} Detik</span>
             </div>
         </div>
 
@@ -16,8 +16,7 @@
         <div v-if="!loading" class="self-start w-full">
             <div v-for="(question, index) in questions" :key="index" class="flex flex-col mb-[24px]">
                 <img class="max-w-[240px]" v-if="question.image" :src="baseUrl+ 'open/iq_questions/' +question.image" alt="image">
-                <div class="text-black text-base font-normal font-['Roboto'] leading-normal">
-                    {{ question.question }}
+                <div v-html="question.question" class="text-black text-base font-normal font-['Roboto'] leading-normal">
                 </div>
             </div>
     
@@ -43,7 +42,7 @@
 
 <script setup>
 import { useTimer } from 'vue-timer-hook'
-import { watchEffect, onMounted, computed, ref } from 'vue';
+import { watchEffect, onMounted, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
@@ -63,6 +62,7 @@ const store = useStore()
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 
 const timer = ref(null)
+const pauseTime = ref(null)
 
 const loading = ref(false)
 const questions = ref(null)
@@ -102,6 +102,7 @@ const getQuestion = async(param) => {
 }
 
 const initNextQuestion = () => {
+    pauseTime.value = true
     const text = jawaban.value !== '' ? 'Sudah yakin dengan jawabanmu?.' : 'Jawaban belum di isi, yakin untuk pindah soal?.'
 
     Swal.fire({
@@ -124,6 +125,9 @@ const initNextQuestion = () => {
                 jawaban.value = ''
             }
             await getQuestion('next')
+            pauseTime.value = false
+        } else {
+            pauseTime.value = false
         }
     })
 }
@@ -176,6 +180,16 @@ const btnAction = () => {
         submitJawaban()
     }
 }
+
+watch(pauseTime, (newVal) => {
+    if (timer.value) {
+        if (newVal == true) {
+            timer.value.pause(); // Pause timer
+        } else if(newVal == false) {
+            timer.value.resume(); // Resume timer
+        }
+    }
+});
 
 onMounted(async() => {
     await getQuestion()
