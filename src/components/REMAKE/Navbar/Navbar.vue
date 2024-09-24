@@ -29,10 +29,33 @@
             </div>
         </nav>
     </header>
+
+    <section id="bottom-navigation" class="block lg:hidden fixed inset-x-0 bottom-0 z-10 bg-white shadow">
+        <div id="tabs" class="flex justify-between">
+            <RouterLink :to="{name: 'views.dashboard'}" 
+                class="w-full flex flex-col justify-center text-center pt-2 pb-1"
+                :class="{'font-bold' : $route.name === 'views.dashboard'}"
+                >
+                <div class="self-center">
+                    <PhHouse :size="28" />
+                </div>
+                <span class="tab tab-home block text-xs">Beranda</span>
+            </RouterLink>
+
+            <customerBottom/>
+            <!-- <a v-if="userRole !== 'customer' && userRole !== 'consultant'" @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
+                <div class="self-center">
+                    <PhSignOut :size="28" />
+                </div>
+                <span class="tab tab-home block text-xs">Logout</span>
+            </a> -->
+        </div>
+</section>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { PhHouse } from "@phosphor-icons/vue";
 import NavCustomer from './Customer/NavCustomer.vue'
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
@@ -40,6 +63,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import customerBottom from '../../navbar/customer/customerBottom.vue';
 
 const router = useRouter()
 const store = useStore()
