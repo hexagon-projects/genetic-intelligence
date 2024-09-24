@@ -25,7 +25,7 @@
                     Test Assessment
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.iq'}" 
+            <RouterLink v-if="userData.institutions && (userData.institutions.type !== 'SD' && userData.institutions.type !== 'TK')" :to="{name: 'user.views.iq'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
@@ -33,7 +33,7 @@
                     Test IQ
                 </span>
             </RouterLink>
-            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.cpm'}" 
+            <RouterLink v-if="userData.is_student !== 0 && (userData.institutions.type == 'SD' || userData.institutions.type == 'TK')" :to="{name: 'user.views.cpm'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
@@ -70,7 +70,7 @@
                     Hasil Assessment
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.hasil_iq'}" 
+            <RouterLink v-if="userData.institutions && (userData.institutions.type !== 'SD' && userData.institutions.type !== 'TK')" :to="{name: 'user.views.hasil_iq'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
@@ -78,7 +78,7 @@
                     Hasil IQ
                 </span>
             </RouterLink>
-            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_cpm'}" 
+            <RouterLink v-if="userData.is_student !== 0 && (userData.institutions.type == 'SD' || userData.institutions.type == 'TK')" :to="{name: 'user.views.hasil_cpm'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
@@ -182,7 +182,8 @@ export default {
     },
     setup(){
         const store = useStore()
-        const userData = computed(() => store.getters.getUserData);
+        // const userData = computed(() => store.getters.getUserData);
+        const userData = JSON.parse(localStorage.getItem('userData'));
 
         const router = useRouter()
 

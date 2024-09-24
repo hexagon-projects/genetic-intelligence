@@ -30,7 +30,7 @@
         </nav>
     </header>
 
-    <section id="bottom-navigation" class="block lg:hidden fixed inset-x-0 bottom-0 z-10 bg-white shadow">
+    <section id="bottom-navigation" class="block lg:hidden fixed inset-x-0 bottom-0 z-50 bg-white shadow">
         <div id="tabs" class="flex justify-between">
             <RouterLink :to="{name: 'views.dashboard'}" 
                 class="w-full flex flex-col justify-center text-center pt-2 pb-1"
