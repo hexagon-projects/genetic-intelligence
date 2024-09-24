@@ -1,6 +1,6 @@
 <template>
     <div class="mx-9 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[798px]">
-        <div class="relative w-auto min-h-[498px] max-h-[510px] group p-9 bg-[#3030f8] rounded-3xl flex-col justify-between items-center gap-6 inline-flex">
+        <div v-if="props.propsAssessment" class="relative w-auto min-h-[498px] max-h-[510px] group p-9 bg-[#3030f8] rounded-3xl flex-col justify-between items-center gap-6 inline-flex">
             <div class="flex flex-col items-center gap-[16px]">
                 <h1 class="text-[#f0f7fd] text-base md:text-2xl font-semibold font-sora leading-loose">
                     Resume Assesment Kamu
@@ -23,22 +23,26 @@
                 <Bar :data="data" :options="options" />
             </div>
 
-            <div class="self-stretch text-center text-white text-base font-medium font-['Roboto'] underline leading-normal">Baca Selengkapnya</div>
+            <RouterLink :to="{name: 'user.views.hasil_assessment'}" class="self-stretch text-center text-white text-base font-medium font-['Roboto'] underline leading-normal">
+              Baca Selengkapnya
+            </RouterLink>
         </div>
 
-        <div class="relative w-auto min-h-[498px] max-h-[510px] group p-9 bg-[#3030f8] rounded-3xl flex-col justify-between items-center gap-6 inline-flex">
+        <div v-if="props.propsIq" class="relative w-auto min-h-[498px] max-h-[510px] group p-9 bg-[#3030f8] rounded-3xl flex-col justify-between items-center gap-6 inline-flex">
             <div class="flex flex-col items-center gap-[16px]">
                 <h1 class="text-[#f0f7fd] text-base md:text-2xl font-semibold font-sora leading-loose">
                     Resume IQ Kamu
                 </h1>
 
                 <div class="px-4 py-1 bg-[#d0fadf] rounded-[99px] justify-center items-center gap-2.5 flex">
-                    <div class="text-[#027947] text-lg font-normal font-roboto leading-[30px]">Average - Cukup</div>
+                    <div class="text-[#027947] text-lg font-normal font-roboto leading-[30px]">
+                      {{ props.propsIq.iq.category }}
+                    </div>
                 </div>
                 <div class="flex flex-col justify-cetner items-center gap-4">
                     
                     <div class="w-[268px] h-[268px] relative">
-                        <img src="@/assets/icons/Badges.svg" alt="badges">
+                        <img :src="baseUrl+'open/iq-icons/'+props.propsIq.iq.icon" alt="badges">
                     </div>
                 </div>
             </div>
@@ -57,7 +61,9 @@
                 </div>
             </div> -->
 
-            <div class="self-stretch text-center text-white text-base font-medium font-['Roboto'] underline leading-normal">Baca Selengkapnya</div>
+            <RouterLink :to="{name: 'user.views.hasil_iq'}" class="self-stretch text-center text-white text-base font-medium font-['Roboto'] underline leading-normal">
+              Baca Selengkapnya
+            </RouterLink>
         </div>
     </div>
 </template>
@@ -74,6 +80,19 @@ import {
   LinearScale
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
+import { RouterLink } from 'vue-router';
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL
+
+const props = defineProps(['propsIq', 'propsAssessment'])
+const persentaseJawaban = ref([])
+
+
+if(props.propsAssessment){
+  props.propsAssessment[0].total_answer.forEach(element => {
+      persentaseJawaban.value.push(element.percentage) 
+  });
+}
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -85,7 +104,8 @@ const data = ref({
             backgroundColor: ['#9a89ff', '#feaeae', '#a9f4d0'], // Colors for each bar
             borderColor: ['#9a89ff', '#feaeae', '#a9f4d0'], 
             borderWidth: 1,
-            data: [70, 20, 10] 
+            // data: [70, 20, 10]
+            data: persentaseJawaban.value
         }
     ]
 })
