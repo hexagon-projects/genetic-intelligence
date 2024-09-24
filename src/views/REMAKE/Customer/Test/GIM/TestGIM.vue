@@ -3,6 +3,17 @@
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
+    <transition name="fade" mode="out-in">
+        <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+        >
+            <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
+        </div>
+    </transition>
+
+    <div v-if="dataProfileInclomplete">
+        <modalCekProfile/>
+    </div>
+
     <Layout v-if="!loading">
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
             <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
@@ -125,6 +136,12 @@ import Step2 from '@/components/REMAKE/Test/GIM/Step2.vue';
 import Step3 from '@/components/REMAKE/Test/GIM/Step3.vue';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
+import cekDataProfile from '@/components/cekProfile';
+import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
+
+const isKebijakanPrivasi = ref(true)
+const dataProfileInclomplete = cekDataProfile()
 
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Genetic Intelligence Mapping</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
@@ -243,6 +260,10 @@ const getUserData = async() => {
     }
 }
 
+const toggleKebijakanPrivasi = () => {
+    isKebijakanPrivasi.value = !isKebijakanPrivasi.value
+}
+
 onMounted(async() => {
    await getUserData()
 })
@@ -267,5 +288,14 @@ onMounted(async() => {
     opacity: 0;
     height: 0;
     overflow: hidden;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -5,6 +5,15 @@
 
   <div v-if="!loading && userDatas">
     <Layout>
+      <div v-if="dataProfileInclomplete" class="mx-[30px] lg:mx-[60px] mt-10">
+          <span class="text-xs text-danger flex justify-start gap-1 items-center p-6 bg-[#FFFCF1] rounded-2xl border border-danger hover:shadow-[0px_14px_28px_-5px_rgba(0,0,0,0.1)] transition-all duration-150 ease-in">
+              <a class="text-2xl"><PhWarning/></a>
+              <p class="font-roboto text-base font-medium">
+                  Kamu belum melengkapi data profile kamu, silahkan lengkapi <RouterLink :to="{name: 'user.views.profile'}" class="font-semibold underline">Disini.</RouterLink>
+              </p>
+          </span>
+      </div>
+
       <!-- Identitas -->
       <section class="py-[57px] bg-white">
           <Identitas :userDatas="userDatas" :propsGIM="propsGIM"/>
@@ -171,8 +180,10 @@ const getUserData = async() => {
 }
 
 
-onBeforeMount(() => {
-  getUserData()
+onBeforeMount(async() => {
+  await getUserData()
+
+  dataProfileInclomplete.value = cekDataProfile()
 })
 
 onMounted(() => {

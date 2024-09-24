@@ -294,13 +294,15 @@ const getAssessmentData = async(userId) => {
         console.log(`data assessment`, response.data)
     
         isTested.value = response.data.data.length > 0 ? true : false
-        dataAssessment.value = response.data.data[0]
-
-        response.data.data[0].total_answer.forEach(element => {
-            persentaseJawaban.value.push(element.percentage) 
-        });
+        if(response.data.data.length > 0){
+            dataAssessment.value = response.data.data[0]
+    
+            response.data.data[0].total_answer.forEach(element => {
+                persentaseJawaban.value.push(element.percentage) 
+            });
+        }
     } catch (error) {
-        console.log(error)
+        console.log(`error`,error)
         Swal.fire({
             icon: 'error',
             title: 'Error',

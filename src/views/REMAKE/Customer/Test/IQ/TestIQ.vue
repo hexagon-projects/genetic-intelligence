@@ -3,12 +3,17 @@
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
+    
     <transition name="fade" mode="out-in">
         <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
         >
             <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
         </div>
     </transition>
+
+    <div v-if="dataProfileInclomplete">
+        <modalCekProfile/>
+    </div>
 
     <Layout>
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
@@ -23,7 +28,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test IQ</div>
         </div>
 
-        <SelesaiTest v-if="isTested" message="Test IQ Selesai!"
+        <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_assessment" message="Test IQ Selesai!"
         :subMessage="subMessage"/>
 
         <section v-if="!isTested" class="pb-[34px] w-full bg-white">
@@ -50,8 +55,13 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
+// import cekDataProfile from '@/cekProfile'
+import cekDataProfile from '@/components/cekProfile';
+import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
+// import modalCekProfile from '../../modalCekProfile/modalCekProfile.vue';
 
 const isKebijakanPrivasi = ref(true)
+const dataProfileInclomplete = cekDataProfile()
 
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Intelligent Quotient (IQ)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
