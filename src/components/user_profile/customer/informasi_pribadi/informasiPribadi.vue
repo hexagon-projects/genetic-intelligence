@@ -38,7 +38,7 @@
             
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
-                    <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-dark">jenis_kelamin:</label>
+                    <label for="jenis_kelamin" class="block text-sm font-myFont font-medium text-dark">Jenis Kelamin:</label>
                     <select v-model="jenisKelamin" name="jenis_kelamin" id="jenis_kelamin" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
                         <option selected disabled>-- Jenis Kelamin --</option>
                         <option v-for="(option, index) in dataJenisKelamin" :key="index" :value="option.value">
@@ -185,7 +185,7 @@ export default {
 
         const namaDepan = ref(props.dataCustomer ? props.dataCustomer.first_name : '')
         const namaBelakang = ref(props.dataCustomer ? props.dataCustomer.last_name : '')
-        const emailVal = ref(JSON.parse(localStorage.getItem('userEmail')))
+        const emailVal = ref(props.dataCustomer ? props.dataCustomer.user.email : '')
         const noWhatsapp = ref(props.dataCustomer ? props.dataCustomer.number : '')
         const tempatLahir = ref(props.dataCustomer ? props.dataCustomer.birth_place : '')
         const tglLahir = ref(props.dataCustomer ? props.dataCustomer.birth_date : '')
