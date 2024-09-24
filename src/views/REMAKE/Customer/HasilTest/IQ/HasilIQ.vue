@@ -46,7 +46,7 @@
                             <div class="text-white text-base font-normal font-['Roboto'] leading-normal">Baca Selengkapnya</div>
                             <div class="p-2.5 bg-white rounded-3xl justify-start items-center gap-2.5 flex">
                                 <div class="w-3 h-3 relative">
-                                    <img src="@/assets/icons/arrow-go-biru.svg" alt="go">
+                                    <img class="rotate-90" src="@/assets/icons/arrow-go-biru.svg" alt="go">
                                 </div>
                             </div>
                         </button>
