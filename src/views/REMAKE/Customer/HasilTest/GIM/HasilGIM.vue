@@ -20,7 +20,7 @@
         <BelumTest v-if="statusTest == 'Belum'" routeUrl="user.views.deteksi" message="Kamu Belum Melakukan Test GIM!" 
         subMessage="Wah, sayang sekali kamu belum coba Tes GIM! Yuk, kenali dulu potensi dirimu lewat Tes GIM biar hasil Assessment kamu lebih maksimal!"/>
         
-        <DiProses v-if="statusTest == 'Sudah Disubmit' || statusTest == 'Dalam'" message="Test Kamu Sedang Diproses!" 
+        <DiProses v-if="statusTest == 'Sudah Disubmit' || statusTest == 'Dalam Review'" message="Test Kamu Sedang Diproses!" 
         subMessage="Terima kasih telah menyelesaikan Tes GIM! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
 
         <div v-if="statusTest == 'Selesai Terdeteksi'">
