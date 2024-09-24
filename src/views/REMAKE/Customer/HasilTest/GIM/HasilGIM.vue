@@ -343,7 +343,7 @@ onMounted(async() => {
 
     const videoId = document.getElementById('example-video')
     if(videoId){
-        const player = videojs('example-video');
+        const player = videojs(videoId);
         // player.play();
     
         onBeforeUnmount(() => {

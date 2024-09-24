@@ -39,8 +39,8 @@ const emitValidasiUpdate = (key, value) => {
 onMounted(() => {
     const videoId = document.getElementById('example-video')
     if(videoId){
-        const player = videojs('example-video');
-        player.play();
+        const player = videojs(videoId);
+        // player.play();
     
         onBeforeUnmount(() => {
             player.dispose()
