@@ -11,7 +11,7 @@
 
             <div @mouseenter="openSubmenu()" @mouseleave="scheduleCloseSubmenu()" class="cursor-pointer relative h-9 justify-end items-center gap-2 inline-flex">
                 <img v-if="userDatas && userDatas.customer.image == null" class="w-9 h-9 rounded-full" src="@/assets/img/profile-mock.png" />
-                <img v-if="userDatas && userDatas.customer.image !== null" class="w-9 h-9 rounded-full" :src="baseUrl+'open/customers/'+userDatas.image" />
+                <img v-if="userDatas && userDatas.customer.image !== null" class="w-9 h-9 rounded-full" :src="baseUrl+'open/customers/'+userDatas.customer.image" />
                 <img class="w-3 h-3" src="@/assets/icons/chevron-down.svg"/>
 
                 <ul v-show="activeMenu" class="w-32 p-2 transition-all duration-500 absolute top-12 -left-[44px] mt-2 bg-white text-black shadow-lg rounded-xl">

@@ -98,7 +98,8 @@
         <div class="self-stretch p-6 bg-white rounded-bl-3xl rounded-br-3xl shadow-md justify-start items-start gap-4 inline-flex">
             <div class="grow shrink basis-0 flex-col justify-start items-start gap-4 inline-flex">
                 <div class="justify-center items-center gap-4 inline-flex">
-                    <img class="w-14 h-14 rounded-full" src="https://via.placeholder.com/56x56" />
+                  <img v-if="props.userDatas.customer.image == null" class="w-14 h-14 rounded-full" src="@/assets/img/profile-mock.png" />
+                  <img v-if="props.userDatas.customer.image !== null" class="w-14 h-14 rounded-full" :src="baseUrl+'open/customers/'+props.userDatas.customer.image" />
                     <div class="w-[217px] flex-col justify-start items-start gap-2 inline-flex">
                         <div class="self-stretch text-[#0b0b79] text-lg font-medium font-['Roboto'] leading-7">
                           {{ props.userDatas.customer.name }}
@@ -221,7 +222,8 @@
         <div class="self-stretch p-6 bg-white rounded-bl-3xl rounded-br-3xl shadow-md justify-start items-start gap-4 inline-flex">
             <div class="grow shrink basis-0 flex-col justify-start items-start gap-4 inline-flex">
                 <div class="justify-center items-center gap-4 inline-flex">
-                    <img class="w-14 h-14 rounded-full" src="https://via.placeholder.com/56x56" />
+                    <img v-if="props.userDatas.customer.image == null" class="w-14 h-14 rounded-full" src="@/assets/img/profile-mock.png" />
+                    <img v-if="props.userDatas.customer.image !== null" class="w-14 h-14 rounded-full" :src="baseUrl+'open/customers/'+props.userDatas.customer.image" />
                     <div class="w-[217px] flex-col justify-start items-start gap-2 inline-flex">
                         <div class="self-stretch text-[#0b0b79] text-lg font-medium font-['Roboto'] leading-7">
                           {{ props.userDatas.customer.name }}
@@ -258,6 +260,8 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 const props = defineProps(['userDatas', 'propsGIM'])
 console.log(`props`, props.userDatas)
