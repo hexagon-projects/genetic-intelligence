@@ -3,6 +3,13 @@
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
+    <transition name="fade" mode="out-in">
+        <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+        >
+            <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
+        </div>
+    </transition>
+
     <Layout>
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
             <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
@@ -42,6 +49,9 @@ import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
+import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
+
+const isKebijakanPrivasi = ref(true)
 
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Intelligent Quotient (IQ)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
@@ -79,6 +89,10 @@ const getUserData = async() => {
     }
 }
 
+const toggleKebijakanPrivasi = () => {
+    isKebijakanPrivasi.value = !isKebijakanPrivasi.value
+}
+
 onMounted(async() => {
    await getUserData()
 })
@@ -87,6 +101,10 @@ onBeforeMount(() => {
     const doneInstruksi = localStorage.getItem('isInstruksi')
     if(doneInstruksi && doneInstruksi == 'done'){
         store.commit('setIsInstruksi', false)
+    }
+
+    if(localStorage.getItem('isKebijakanPrivasi') == 'Ya'){
+        isKebijakanPrivasi.value = false
     }
 })
 </script>
@@ -110,5 +128,14 @@ onBeforeMount(() => {
     opacity: 0;
     height: 0;
     overflow: hidden;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
