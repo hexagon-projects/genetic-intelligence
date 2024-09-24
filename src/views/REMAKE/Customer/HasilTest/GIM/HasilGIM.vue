@@ -5,7 +5,7 @@
 
     <Layout v-if="!loading">
         <!-- Breadcrumb -->
-        <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
+    <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
             <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
@@ -133,13 +133,15 @@
                             </h1>
     
                             <div class="flex flex-col gap-2">
-                                <div v-for="(section, index) in sections" :key="index" class="h-14 pl-6 pr-3 py-3 bg-[#f0f7fd] rounded-[56px] justify-between items-center inline-flex">
-                                    <div class="grow shrink basis-0 text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">
+                                <div v-for="(section, index) in sections" :key="index" class="h-14 pl-6 pr-3 py-3  rounded-[56px] justify-between items-center inline-flex cursor-pointer" :class="currentGim.index === index ? 'bg-[#D6D6FE] text-[#3030f8]' : 'bg-[#f0f7fd] text-[#667085]'" @click="showSection(index)">
+                                    <div class="grow shrink basis-0 text-base font-normal font-['Roboto'] leading-normal">
                                         {{ section.name }}
                                     </div>
-                                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                                    <div class="p-2.5 rounded-3xl justify-start items-center gap-2.5 flex"
+                                    :class="currentGim.index === index ? 'bg-[#3030f8]' : 'bg-white'"
+                                    >
                                         <div class="w-3 h-3 relative">
-                                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                                            <img :src="currentGim.index === index ? arrowGo : arrowGoBiru" alt="go">
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +170,7 @@
                             </video>
                         </div>
     
-                        <div class="mb-[32px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
+                        <!-- <div class="mb-[32px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
                             <h1 class="text-black text-lg lg:text-2xl font-medium font-roboto leading-loose">Rangkuman Tipe Kecerdasan</h1>
                         </div>
     
@@ -180,7 +182,8 @@
                             <h1 class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
                                 Tipe kecerdasan tersebut dikendalikan dari luar diri anda menuju kedalam diri anda. Tajam dalam mengamati detail, cermat, menyukai keteraturan, menyukai sistematika, metode dan ketepatan. Membawa energi yang bisa diandalkan, tepat dan mandiri. pola dasar ini cenderung mengatakan yang dilakukan dan melakukan yang dikatakan, jujur, bisa dipercaya dan apa adanya. Pola dasar ini menjadi sebuah fondasi dan pijakan (grounded), sehingga anda mudah kecipratan banyak peluang baru.
                             </h1>
-                        </div>
+                        </div> -->
+                    <div v-html="currentGim.view"></div>
                     </div>
                 </div>
             </section>
@@ -208,6 +211,42 @@ import Cookies from 'js-cookie';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import arrowGo from '@/assets/icons/arrow-go.svg';
+import arrowGoBiru from '@/assets/icons/arrow-go-biru.svg';
+const currentGim = ref({
+    view: "",
+    index: 0
+});
+
+const showSection = (index) => {
+    try {
+        if (GIMDatas.value && GIMDatas.value.gim && GIMDatas.value.gim.gim_datas && GIMDatas.value.gim.gim_datas[index]) {
+            currentGim.value = {
+                view: GIMDatas.value.gim.gim_datas[index].value,
+                index: index
+            };
+        } else {
+            console.warn("Invalid index or data not available. Showing fallback content.");
+            currentGim.value = {
+                view: "404 | Tidak Ditemukan",
+                index: 0
+            };
+        }
+
+        if (GIMDatas.value.gim.gim_datas[index].value === "" || GIMDatas.value.gim.gim_datas[index].value === null)
+        currentGim.value = {
+                view: "<div class='text-[#667084]'>204 | Konten kosong </div>",
+                index: index
+            };
+    } catch (error) {
+        console.error("An error occurred while showing the section:", error);
+        currentGim.value = {
+            view: "422 | Gagal Memuat Konten",
+            index: 0
+        };
+    }
+};
+
 
 const loading = ref(true)
 const isTested = ref(false)
@@ -245,6 +284,10 @@ const getUserData = async() => {
         
         if(userData.data.customer.customers_results !== null && userData.data.customer.customers_results.gim !== null){
             GIMDatas.value = userData.data.customer.customers_results
+            currentGim.value = {
+                view: GIMDatas.value.gim.gim_datas[0].value,
+                index: 0
+            };
         }
     } catch (error) {
         Swal.fire({
