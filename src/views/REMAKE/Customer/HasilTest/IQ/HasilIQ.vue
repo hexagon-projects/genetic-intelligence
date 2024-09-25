@@ -27,7 +27,7 @@
                             <div class="text-[#3030f8] text-base font-medium font-['Roboto'] leading-normal">Skor IQ</div>
                         </div>
     
-                        <img v-if="imageIQIcon" class="w-[75%] md:w-[100%] lg:w-[80%]" :src="baseUrl+'open/iq-icons/'+imageIQIcon" alt="grade">
+                        <img v-if="imageIQIcon" class="w-[240px] md:w-[340px] lg:w-[240px]" :src="baseUrl+'open/iq-icons/'+imageIQIcon" alt="grade">
                     </div>
     
                     <div class="w-auto h-auto lg:w-[498px] lg:h-[265px] flex-col justify-start items-start gap-6 inline-flex">

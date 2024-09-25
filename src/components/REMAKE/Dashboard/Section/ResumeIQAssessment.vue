@@ -42,7 +42,7 @@
                 <div class="flex flex-col justify-cetner items-center gap-4">
                     
                     <div class="w-[268px] h-[268px] relative">
-                        <img :src="baseUrl+'open/iq-icons/'+props.propsIq.iq.icon" alt="badges">
+                        <img class="mx-auto w-[240px] md:w-[240px] lg:w-[340px]" :src="baseUrl+'open/iq-icons/'+props.propsIq.iq.icon" alt="badges">
                     </div>
                 </div>
             </div>
