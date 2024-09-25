@@ -52,25 +52,25 @@
                     <span class="font-roboto">Test Assesment</span>
                 </div>
             </li>
-            <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+            <li v-if="cekTypeSekolah.is_student === 0 || (cekTypeSekolah.institutions && cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <a href="#" class="font-roboto">Test IQ</a>
+                    <span class="font-roboto">Test IQ</span>
                 </div>
             </li>
             <!-- <li class="group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <a href="#" class="font-roboto">Test Psikotest</a>
+                    <a  class="font-roboto">Test Psikotest</a>
                 </div>
             </li> -->
             <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'SD' || cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.cpm')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-cpm.svg"/>
-                    <a href="#" class="font-roboto">Test CPM</a>
+                    <span class="font-roboto">Test CPM</span>
                 </div>
             </li>
             </ul>
@@ -104,37 +104,37 @@
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
-                    <a href="#" class="font-roboto">Test GIM</a>
+                    <span class="font-roboto">Test GIM</span>
                 </div>
             </li>
             <li @click="goTo('user.views.hasil_assessment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/tes-assesment.svg"/>
-                    <a href="#" class="font-roboto">Test Assesment</a>
+                    <span class="font-roboto">Test Assesment</span>
                 </div>
             </li>
-            <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.hasil_iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+            <li v-if="cekTypeSekolah.is_student === 0 || (cekTypeSekolah.institutions && cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.hasil_iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <a href="#" class="font-roboto">Test IQ</a>
+                    <span class="font-roboto">Test IQ</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'SD' || cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.hasil_cpm')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-cpm.svg"/>
-                    <a href="#" class="font-roboto">Test CPM</a>
+                    <span class="font-roboto">Test CPM</span>
                 </div>
             </li>
             </ul>
         </li>
-        <li class="relative">
+        <li @click="goTo('user.views.reservasi')" class="relative cursor-pointer">
             <div class="flex items-center gap-[6px]">
                 <img class="transition-all duration-100" :class="{'grayscale': activeMenu !== 4, 'grayscale-0': activeMenu === 4}" 
                 src="@/assets/icons/reservasi.svg"/>
-                <a href="#" class="text-black font-roboto">Reservasi</a>
+                <span class="text-black font-roboto">Reservasi</span>
             </div>
         </li>
     </ul>
