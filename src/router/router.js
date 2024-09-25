@@ -117,7 +117,7 @@ const routes = [
         path: '/admin/dashboard',
         name: 'admin.views.dashboard',
         // component: () => import('../components/dashboard/newDashboard2.vue'),
-        component: () => import('@/views/REMAKE/Dashboard/Consultant/Dashboard.vue'),
+        component: () => import('@/views/REMAKE/Dashboard/Admin/Dashboard.vue'),
         meta: {
             showNavbar: true,
             showFooter: true

@@ -32,6 +32,17 @@
 			</nav>
 			<hr>
 			<nav class="mx-4 flex justify-start items-center gap-7">
+				<RouterLink :to="{name: 'views.dashboard'}" 
+					class="
+					flex justify-center items-end px-4 py-2 gap-1 font-myFont
+					hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
+					"
+					:class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'views.dashboard', 'text-dark bg-white': $route.name !== 'views.dashboard'}"
+					>
+					<PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru': $route.name !== 'views.dashboard'}" />
+					Beranda
+				</RouterLink>
+
 				<customerNav v-if="userRole == 'customer'"/>
 				<consultantNav v-if="userRole == 'consultant'"/>
 				<adminNav v-if="userRole == 'admin'"/>
@@ -82,7 +93,7 @@
 import router from '../../router/router';
 import { useStore } from 'vuex'
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-import { PhCaretDown, PhSignOut } from "@phosphor-icons/vue";
+import { PhHouse, PhCaretDown, PhSignOut } from "@phosphor-icons/vue";
 import customerNav from './customer/customer.vue';
 import customerBotNav from './customer/customerBottom.vue'
 import consultantNav from './consultant/consultant.vue'
@@ -97,6 +108,7 @@ import Cookies from 'js-cookie'
 export default{
     name: 'NavbarVue',
 	components: {
+		PhHouse,
 		PhCaretDown,
 		PhSignOut,
 		customerNav,

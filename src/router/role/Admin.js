@@ -5,7 +5,7 @@ export default [
     {
         path: '/data-customer',
         name: 'admin.views.customers',
-        component: () => import('@/components/admin/customers/customers.vue'),
+        component: () => import('@/views/REMAKE/Admin/Users/Customers.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -29,7 +29,7 @@ export default [
     {
         path: '/data-konsultan',
         name: 'admin.views.konsultan',
-        component: () => import('@/components/admin/konsultan/konsultan.vue'),
+        component: () => import('@/views/REMAKE/Admin/Consultants/Consultants.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -53,7 +53,7 @@ export default [
     {
         path: '/registrasi-konsultan',
         name: 'admin.views.konsultan.register',
-        component: () => import('@/components/admin/konsultan/registrasi.vue'),
+        component: () => import('@/views/REMAKE/Admin/Consultants/Registrasi.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -77,7 +77,7 @@ export default [
     {
         path: '/data-reservasi-gim',
         name: 'admin.views.reservasi',
-        component: () => import('@/components/admin/reservasi/reservasi.vue'),
+        component: () => import('@/views/REMAKE/Admin/Reservasi/ListReservasi.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -125,7 +125,7 @@ export default [
     {
         path: '/riwayat-pembayaran',
         name: 'admin.views.riwayat_pembayaran',
-        component: () => import('@/components/admin/riwayat_pembayaran/riwayatPembayaran.vue'),
+        component: () => import('@/views/REMAKE/Admin/Pembayaran/Riwayat.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -149,7 +149,7 @@ export default [
     {
         path: '/pengaturan-harga',
         name: 'admin.views.pengaturan_harga',
-        component: () => import('@/components/admin/pengaturan/harga/pengaturanHarga.vue'),
+        component: () => import('@/views/REMAKE/Admin/Pengaturan/Harga.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -173,7 +173,7 @@ export default [
     {
         path: '/pengaturan-soal-assessment',
         name: 'admin.views.pengaturan_soal_assessment',
-        component: () => import('@/components/admin/pengaturan/assessment/pengaturanSoal.vue'),
+        component: () => import('@/views/REMAKE/Admin/Pengaturan/SoalAssessment.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -197,7 +197,7 @@ export default [
     {
         path: '/pengaturan-hasil-assessment',
         name: 'admin.views.pengaturan_hasil_assessment',
-        component: () => import('@/components/admin/pengaturan/assessment/hasil.vue'),
+        component: () => import('@/views/REMAKE/Admin/Pengaturan/HasilAssessment.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -221,7 +221,7 @@ export default [
     {
         path: '/pengaturan-code',
         name: 'admin.views.pengaturan_code',
-        component: () => import('@/components/admin/pengaturan/code/code.vue'),
+        component: () => import('@/views/REMAKE/Admin/Pengaturan/CodeVoucher.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -245,7 +245,7 @@ export default [
     {
         path: '/data-guru',
         name: 'admin.views.guru',
-        component: () => import('@/components/admin/sekolah/guru/guru.vue'),
+        component: () => import('@/views/REMAKE/Admin/Staff/Guru.vue'),
         meta: {
             showNavbar: true,
             showFooter: true
@@ -269,7 +269,7 @@ export default [
     {
         path: '/data-sekolah',
         name: 'admin.views.sekolah',
-        component: () => import('@/components/admin/pengaturan/sekolah/sekolah.vue'),
+        component: () => import('@/views/REMAKE/Admin/Pengaturan/Sekolah.vue'),
         meta: {
             showNavbar: true,
             showFooter: true

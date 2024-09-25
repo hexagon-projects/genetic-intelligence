@@ -146,6 +146,9 @@ export default {
                         case 'consultant':
                             router.push({name: 'consultant.views.dashboard'})
                             break;
+                        case 'admin':
+                            router.push({name: 'admin.views.dashboard'})
+                            break;
                     }
                 } catch (error) {
                     if (error.response) {
