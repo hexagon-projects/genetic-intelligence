@@ -278,6 +278,7 @@ export default [
     {
         path: '/reservasi',
         name: 'user.views.reservasi',
+        // component: () => import('@/views/REMAKE/Customer/Reservasi/Reservasi.vue'),
         component: () => import('@/components/customer/reservasi/reservasi.vue'),
         meta: {
             showNavbar: true,

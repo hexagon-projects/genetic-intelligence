@@ -20,7 +20,8 @@ const routes = [
     {
         path: '/login',
         name: 'views.login',
-        component: () => import('../components/auth/login/newLogin.vue'),
+        component: () => import('@/views/REMAKE/Auth/Login/login.vue'),
+        // component: () => import('../components/auth/login/newLogin.vue'),
         meta: {
             showNavbar: false,
             showFooter: false
