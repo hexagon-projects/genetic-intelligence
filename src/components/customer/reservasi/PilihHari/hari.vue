@@ -69,6 +69,8 @@ import initAPI from '../../../../api/api'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import Cookies from 'js-cookie'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
     name: 'PilihHari',
@@ -170,6 +172,7 @@ export default {
                     activeIndex.value = index;
                     dataTgl.value = filterTgl
                 } catch (error) {
+                    console.log(`error aisia ie`, error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
