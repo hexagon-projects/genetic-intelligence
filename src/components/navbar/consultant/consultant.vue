@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="{name: 'consultant.views.dashboard'}" 
+    <!-- <RouterLink :to="{name: 'consultant.views.dashboard'}" 
         class="
         flex justify-center items-end px-4 py-2 gap-1 font-myFont
         hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
@@ -8,7 +8,7 @@
         >
         <PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru': $route.name !== 'views.dashboard'}" />
         Beranda
-    </RouterLink>
+    </RouterLink> -->
     <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark

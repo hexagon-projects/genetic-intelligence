@@ -1,8 +1,6 @@
 <template>
     <div v-if="isLoadingResources" class="loading-resource">
-        <div class="loader">
-            <span class="font-roboto">JATIDIRI</span>
-        </div>
+       <img class="animate-bounce w-[10%]" src="@/assets/img/logo-new.png" alt="logo">
     </div>
 
     <div v-else>
