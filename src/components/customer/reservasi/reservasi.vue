@@ -1,6 +1,6 @@
 <template>
     <Layout>
-        <section class="bg-gray-100 h-[75vh] text-dark">
+        <section class="bg-gray-100 pb-8 text-dark">
             <div class="mx-4 pt-4">
                 <ol class="mx-4 flex justify-start items-center text-gray-500 font-semibold">
                     <RouterLink :to="{name: 'views.dashboard'}" class="text-gray-400 text-base">
@@ -23,7 +23,7 @@
     
             <div v-else-if="isDetectedGIM !== 'Belum'">
                 <div class="flex flex-col lg:flex-row justify-center mx-7 mb-4 pt-4 gap-4">
-                   <PilihHari/>
+                   <PilihHari :userData="userData"/>
                    <!-- {{ userData }} -->
                 </div>
         
@@ -32,7 +32,7 @@
                         <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                     </div>
         
-                    <div v-if="userData.is_advance == 'Tidak' && !reservasiData" class="flex flex-col lg:flex-row items-center">
+                    <div v-if="userData.is_advance == 'Tidak' && !reservasiData && !loading" class="flex flex-col lg:flex-row items-center">
                         <div class="lg:w-1/2">
                             <div class="lg:mx-10 lg:ml-20 flex flex-col">
                                 <h1 class="font-myFont lg:text-3xl text-2xl text-start text-dark font-semibold">Kamu belum menentukan jadwal</h1>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
         
-                    <div v-if="userData.is_advance == 'Tidak' && reservasiData" class="flex flex-col md:flex-row lg:flex-row items-center">
+                    <div v-if="userData.is_advance == 'Tidak' && reservasiData && !loading" class="flex flex-col md:flex-row lg:flex-row items-center">
                         <div class="md:w-full lg:w-1/2 mb-2">
                             <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                             <p class="lg:ml-12 font-myFont text-start text-gray-500 text-base mb-4">Berikut adalah detail jadwal reservasi kamu</p>
@@ -148,7 +148,7 @@
                         </div>
                     </div>
         
-                    <div v-if="userData.is_advance == 'Ya' && dataReservasi" class="flex flex-col md:flex-row lg:flex-row items-center">
+                    <div v-if="userData.is_advance == 'Ya' && dataReservasi && !loading" class="flex flex-col md:flex-row lg:flex-row items-center">
                         <div class="w-full md:w-full lg:w-1/2 mb-2">
                             <h1 class="lg:ml-12 mb-1 font-myFont text-base lg:text-xl text-start text-dark font-semibold">Detail reservasi</h1>
                             <p class="lg:ml-12 font-myFont text-start text-sm text-gray-500 lg:text-base mb-4 lg:mb-0">Reservasi kamu sudah terjadwal</p>
@@ -235,7 +235,7 @@
                             </div>
                         </div>
         
-                        <div class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+                        <div v-if="isModalOpen" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
                             :class="{'hidden': !isModalOpen, 'block': isModalOpen}"
                         >
                             <div class="relative w-full lg:w-1/2 top-24 mx-auto shadow-xl rounded-md bg-white">
@@ -312,7 +312,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import { useRouter } from 'vue-router';
 import belumDeteksi from '../../Deteksi_GIM/BelumDeteksi/belum.vue';
 import Cookies from 'js-cookie'
-import Layout from '@/Layout/Customer/Layout.vue';
+import Layout from '@/Layout/Customer/Layout.vue'
 
 export default {
     name: 'Reservasi',
@@ -332,8 +332,29 @@ export default {
         const feePaymentCode = ref(null)
         const paymentForm = ref(null)        
 
-        const userData = ref(null)
         const isDetectedGIM = JSON.parse(localStorage.getItem('userData')).is_detected
+        const userData = ref('')
+        // const userData = JSON.parse(localStorage.getItem('userData'))
+        const getDataCustomer = async() => {
+            try {
+                const token = Cookies.get('token')
+                const formData = new FormData()
+                formData.append('refresh_user', 'true')
+                const response = await initAPI('post', 'login', formData, token)
+                // console.log(`abrakadabra`, response.data)
+                // return response.data.customer
+                userData.value = response.data.customer
+            } catch (error) {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data user',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+            }
+
+        }
         // const userData = computed(() => store.getters.getUserData)
         // const reservasiData = JSON.parse(localStorage.getItem('bookReservasi'))
         const reservasiData = computed(() => store.getters.getReservasi)
@@ -348,21 +369,17 @@ export default {
             const token = Cookies.get('token')
             if(token){
                 try {
-                    const formData = new FormData()
-                    formData.append('refresh_user', 'true')
-                    const userData = await initAPI('post', 'login', formData, token)
-
-                    const response = await initAPI('get', `customers/reservations?customer_id=${userData.data.customer.id}&only_one=true&is_active=true`, null, token)
-                    console.log(`cek weh reservasina`,response.data)
+                    const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true&is_active=true`, null, token)
+                    // console.log(`cek weh reservasina`,response.data)
                     dataReservasi.value = response.data
                     statusReservasi.value = response.data.status
                     // console.log(`status reservasi`, statusReservasi.value)
-                    console.log(`ini data reservasi`, dataReservasi.value)
+                    // console.log(`ini data reservasi`, dataReservasi.value)
                 } catch (error) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Terjadi kesalahan saat mengambil data',
+                        text: 'Terjadi kesalahan saat mengambil data reservasi',
                         showConfirmButton: false,
                         timer: 2000
                     });
@@ -374,40 +391,36 @@ export default {
             loading.value = !loading.value
         }
 
-        const getDataCustomer = async() => {
-            loading.value = !loading.value
-            const token = Cookies.get('token')
-            if(token){
-                try {
-                    const formData = new FormData()
-                    formData.append('refresh_user', 'true')
-                    const response = await initAPI('post', 'login', formData, token)
+        // const getDataCustomer = async() => {
+        //     loading.value = !loading.value
+        //     const token = Cookies.get('token')
+        //     if(token){
+        //         try {
+        //             const updatedCustomer = await initAPI('get', 'customers?id='+userData.id, null, token)
+        //             dataReservasi.value = updatedCustomer.data.data[0]
+        //             store.commit('user', updatedCustomer.data.data[0])
+        //             localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
+        //         } catch (error) {
+        //             console.log(error)
+        //             Swal.fire({
+        //                 icon: 'error',
+        //                 title: 'Error Terjadi',
+        //                 text: 'Terjadi error sistem',
+        //                 showConfirmButton: false,
+        //                 timer: 3500
+        //             });
+        //         }
+        //     } else {
+        //         router.push('/login')
+        //         localStorage.clear()
+        //     }
+        //     loading.value = !loading.value
+        // }
 
-                    const updatedCustomer = await initAPI('get', 'customers?id='+response.data.customer.id, null, token)
-                    // const updatedCustomer = await initAPI('get', 'customers?id='+userData.value.id, null, token)
-                    dataReservasi.value = updatedCustomer.data.data[0]
-                    store.commit('user', updatedCustomer.data.data[0])
-                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-                } catch (error) {
-                    console.log(error)
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error Terjadi',
-                        text: 'Terjadi error sistem',
-                        showConfirmButton: false,
-                        timer: 3500
-                    });
-                }
-            } else {
-                router.push('/login')
-                localStorage.clear()
-            }
-            loading.value = !loading.value
-        }
-
-        onBeforeMount(() => {
-            getDataReservasi()
-            getDataCustomer()
+        onBeforeMount(async() => {
+            await getDataCustomer()
+            await getDataReservasi()
+            // userData()
         })
 
         onMounted(() => {
@@ -419,7 +432,7 @@ export default {
             //     console.log(`cek weh reservasina`,response.data)
             // if(isReservasi.is_advance == 'Ya'){
             //     const token = JSON.parse(localStorage.getItem('token'))
-            //     const response = await initAPI('get', `customers/reservations?customer_id=${userData.value.id}&only_one=true`, null, token)
+            //     const response = await initAPI('get', `customers/reservations?customer_id=${userData.id}&only_one=true`, null, token)
             //     console.log(`cek weh reservasina`,response.data)
             //     const data = {
             //       date: response.data.date,
