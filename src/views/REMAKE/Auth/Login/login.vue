@@ -50,7 +50,7 @@
                                 Login
                             </button>
 
-                            <RouterLink :to="{name: 'views.dashboard'}" class="mx-auto text-[#6e6b8f] text-base font-normal font-roboto">
+                            <RouterLink :to="{name: 'views.forgot_password'}" class="mx-auto text-[#6e6b8f] text-base font-normal font-roboto">
                                 Lupa Password?
                             </RouterLink>
                         </div>
@@ -67,9 +67,9 @@
                             Belum punya akun?
                         </span>
 
-                        <button class="transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
+                        <RouterLink :to="{name: 'views.register'}" class="transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
                             Daftar
-                        </button>
+                        </RouterLink>
                     </div>
                 </div>
             </div>    
