@@ -67,7 +67,7 @@
                             Belum punya akun?
                         </span>
 
-                        <RouterLink :to="{name: 'views.register'}" class="transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
+                        <RouterLink :to="{name: 'views.register'}" class="text-center transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
                             Daftar
                         </RouterLink>
                     </div>
