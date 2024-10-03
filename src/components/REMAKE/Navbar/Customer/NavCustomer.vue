@@ -1,13 +1,23 @@
 <template>
    <ul class="flex space-x-8">
-        <li @click="goTo('views.dashboard')" class="relative cursor-pointer">
+        <li @click="goTo('views.dashboard')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
-                <img :class="{'grayscale': $route.name !== 'views.dashboard', 'grayscale-0': $route.name == 'views.dashboard'}" 
+                <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'views.dashboard', 'grayscale-0': $route.name == 'views.dashboard'}" 
                 src="@/assets/icons/beranda.svg"/>
                 <span class="text-black font-roboto">Beranda</span>
             </div>
             
             <div v-if="$route.name == 'views.dashboard'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+        </li>
+
+        <li @click="goTo('user.views.starter_pack')" class="relative group cursor-pointer">
+            <div class="flex items-center gap-[6px]">
+                <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.starter_pack', 'grayscale-0': $route.name == 'user.views.starter_pack'}" 
+                src="@/assets/icons/starter-pack.svg"/>
+                <span class="text-black font-roboto">Starter Pack</span>
+            </div>
+            
+            <div v-if="$route.name == 'user.views.starter_pack'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
         </li>
 
         <!-- Test Menu -->
@@ -130,9 +140,9 @@
             </li>
             </ul>
         </li>
-        <li @click="goTo('user.views.reservasi')" class="relative cursor-pointer">
+        <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
-                <img class="transition-all duration-100" :class="{'grayscale': activeMenu !== 4, 'grayscale-0': activeMenu === 4}" 
+                <img class="transition-all duration-100" :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.reservasi', 'grayscale-0': $route.name === 'user.views.reservasi'}" 
                 src="@/assets/icons/reservasi.svg"/>
                 <span class="text-black font-roboto">Reservasi</span>
             </div>

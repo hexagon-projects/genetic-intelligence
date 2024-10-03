@@ -13,6 +13,14 @@
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhPackage :size="20" />
+                    Starter Pack
+                </span>
+            </RouterLink>
+            <RouterLink :to="{name: 'user.views.deteksi'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhTarget :size="20" />
                     Test GIM
                 </span>
@@ -33,7 +41,7 @@
                     Test IQ
                 </span>
             </RouterLink>
-            <RouterLink v-if="userData.is_student !== 0 && (userData.institutions.type == 'SD' || userData.institutions.type == 'TK')" :to="{name: 'user.views.cpm'}" 
+            <RouterLink v-if="userData.is_student !== 0 && userData.institutions && (userData.institutions.type == 'SD' || userData.institutions.type == 'TK')" :to="{name: 'user.views.cpm'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
@@ -157,7 +165,7 @@
 
 <script>
 import {  
-    PhTarget, PhFileText, PhCalendar, 
+    PhPackage, PhTarget, PhFileText, PhCalendar, 
     PhDotsThree, PhTextAa, PhExam,
     PhUserFocus, PhUser, PhSignOut,
     PhBrain
@@ -169,6 +177,7 @@ import { useStore } from "vuex";
 export default {
     name: 'customerBotNav',
     components: {
+        PhPackage,
         PhTarget,
         PhBrain,
         PhFileText,

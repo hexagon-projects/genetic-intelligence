@@ -62,7 +62,10 @@ const router = useRouter()
 const payment_type = ref(route.params.tipePembayaran == 'test-iq' 
     ? 'IQ' 
     : route.params.tipePembayaran == 'test-gim' 
-    ? 'Genetic Intelligence Mapping' : 'Assessment')
+    ? 'Genetic Intelligence Mapping' 
+    : route.params.tipePembayaran == 'starter-pack' 
+    ? 'Starter Pack' 
+    : 'Assessment')
 
 const emit = defineEmits(['understand'])
 

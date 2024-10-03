@@ -176,7 +176,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment']
+            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment', 'starter-pack']
             const tipePembayaran = to.params.tipePembayaran;
     
             if (allowedPayments.includes(tipePembayaran)) {

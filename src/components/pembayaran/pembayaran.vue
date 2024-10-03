@@ -124,7 +124,10 @@ export default {
                     const endpoint = tipeParam.value == 'test-iq' 
                     ? 'test/payment?type=iq' 
                     : tipeParam.value == 'test-gim' 
-                    ? 'test/payment?type=gim' : 'test/payment?type=assessment'
+                    ? 'test/payment?type=gim'
+                    : tipeParam.value == 'starter-pack'
+                    ? 'test/payment?type=starter-pack' 
+                    : 'test/payment?type=assessment'
                     
                     const response = await initAPI('get', endpoint, null, null)
                     totalFee.value = response.data.price
@@ -163,7 +166,10 @@ export default {
             const endpoint = tipeParam.value == 'test-iq' 
             ? 'v2/payment/test/iq' 
             : tipeParam.value == 'test-gim' 
-            ? 'v2/payment/test/gim' : 'v2/payment/test/assessment'
+            ? 'v2/payment/test/gim'
+            : tipeParam.value == 'starter-pack'
+            ? 'v2/payment/test/starter-pack'
+            :'v2/payment/test/assessment'
 
             console.log(`bayar ke: `, endpoint)
             console.log(`data dikirim:`, data)
