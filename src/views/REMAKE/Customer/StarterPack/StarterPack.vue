@@ -77,7 +77,7 @@
                                         <div class="w-full flex items-center gap-2">
                                             <img src="@/assets/icons/starter_pack/check_circle.svg" alt="icon">
                                             <span class="text-[#170f49] text-base font-normal font-roboto leading-tight">
-                                                {{ testByTypeSekolak }}
+                                                {{ testByTypeSekolah }}
                                             </span>
                                         </div>
                                     </div>
@@ -184,11 +184,11 @@ const dataProfileInclomplete = cekDataProfile()
 
 const loading = ref(true)
 
-const isPaymentStatus = ref(false)
+const isPaymentStatus = ref('')
 
 const hargaTest = ref('')
 const userData = ref('')
-const testByTypeSekolak = ref('')
+const testByTypeSekolah = ref('')
 
 const testLists = ref([
     {name: 'Genetic Intelligence Mapping'},
@@ -218,9 +218,10 @@ const getUserData = async() => {
 
         const response = await initAPI('post', 'login', formData, token)
         userData.value = response.data.customer
+        isPaymentStatus.value = response.data.customer.is_starter_pack == 'Ya' ? true : false
 
         if(response.data.customer.institutions !== null){
-            testByTypeSekolak.value = response.data.customer.institutions.type !== 'TK' || response.data.customer.institutions.type !== 'SD'
+            testByTypeSekolah.value = response.data.customer.institutions.type !== 'TK' || response.data.customer.institutions.type !== 'SD'
             ? 'Tes IQ' : 'Tes Colored Progressive Matrices'
         }
     } catch (error) {
