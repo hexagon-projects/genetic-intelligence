@@ -10,7 +10,9 @@ export const store = createStore({
       reviewImage: null,
       reservasi: null,
       reviewDetail: null,
-      isUnderstand: false
+      isUnderstand: false,
+      showContohSoalIQ: false,
+      isInstruksi: true
     }
   },
   mutations: {
@@ -37,6 +39,12 @@ export const store = createStore({
     },
     setIsUnderstand(state, understand){
       state.isUnderstand = understand
+    },
+    setContohSoalIQ(state, status){
+      state.showContohSoalIQ = status
+    },
+    setIsInstruksi(state, status){
+      state.isInstruksi = status
     }
   },
   getters: {
@@ -47,6 +55,8 @@ export const store = createStore({
     getReviewImage: (state) => state.reviewImage,
     getReservasi: (state) => state.reservasi,
     getReviewDetail: (state) => state.reviewDetail,
-    getIsUnderstand: (state) => state.isUnderstand
+    getIsUnderstand: (state) => state.isUnderstand,
+    getStatusContohSoalIQ: (state) => state.showContohSoalIQ,
+    getStatusIsInstruksi: (state) => state.isInstruksi
   },
 })

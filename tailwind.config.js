@@ -16,7 +16,9 @@ export default {
       },
       fontFamily: {
         'myFont': ['Rethink'],
-        'poppins': ['Poppins']
+        'poppins': ['Poppins'],
+        'sora': ['Sora'],
+        'roboto': ['Roboto']
       },
       colors: {
         'primary': '#4361ee',

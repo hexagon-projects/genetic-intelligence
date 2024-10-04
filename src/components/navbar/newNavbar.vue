@@ -12,11 +12,18 @@
 					<h2 v-if="userRole && userRole == 'admin'" class="font-myFont text-dark font-medium">Admin</h2>
 					<h2 v-if="userRole && userRole == 'staff'" class="font-myFont text-dark font-medium">{{ staffData.name }}</h2>
 					<h2 v-if="userRole && (userRole == 'customer' || userRole == 'consultant')" class="font-myFont text-dark font-medium">{{ userData.name }}</h2>
-					<a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
+					
+					<button @click="toggleDropdown()" ref="dropdownRef" class="flex items-center justify-center gap-1">
 						<img v-if="userData.image == null" class="w-6 rounded-full" src="../../assets/img/profile-mock.png">
 						<img v-else-if="userData.image !== null && userRole == 'customer'" class="w-6 rounded-full" :src="baseUrl+'open/customers/'+userData.image">
 						<img v-else-if="userData.image !== null && userRole == 'consultant'" class="w-6 rounded-full" :src="baseUrl+'open/consultant/'+userData.image">
-					</a>
+						<span class="font-bold text-dark text-base">
+							<PhCaretDown/>
+						</span>
+					</button>
+					<!-- <a @click="toggleDropdown()" ref="dropdownRef" class="cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:border-2 hover:border-primary">
+						
+					</a> -->
 				</div>
 				<div v-if="showDropdown == true" class="bg-white w-36 absolute right-4 top-20 p-2 flex flex-col gap-2 rounded-lg shadow-xl">
 					<RouterLink :to="{name: 'user.views.profile'}" class="mx-2 cursor-pointer font-myFont hover:text-primary">Edit Profile</RouterLink>
@@ -28,13 +35,14 @@
 				<RouterLink :to="{name: 'views.dashboard'}" 
 					class="
 					flex justify-center items-end px-4 py-2 gap-1 font-myFont
-					hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+					hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
 					"
 					:class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'views.dashboard', 'text-dark bg-white': $route.name !== 'views.dashboard'}"
 					>
-					<PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru hover:text-light': $route.name !== 'views.dashboard'}" />
+					<PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru': $route.name !== 'views.dashboard'}" />
 					Beranda
 				</RouterLink>
+
 				<customerNav v-if="userRole == 'customer'"/>
 				<consultantNav v-if="userRole == 'consultant'"/>
 				<adminNav v-if="userRole == 'admin'"/>
@@ -85,7 +93,7 @@
 import router from '../../router/router';
 import { useStore } from 'vuex'
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-import { PhHouse, PhSignOut } from "@phosphor-icons/vue";
+import { PhHouse, PhCaretDown, PhSignOut } from "@phosphor-icons/vue";
 import customerNav from './customer/customer.vue';
 import customerBotNav from './customer/customerBottom.vue'
 import consultantNav from './consultant/consultant.vue'
@@ -101,6 +109,7 @@ export default{
     name: 'NavbarVue',
 	components: {
 		PhHouse,
+		PhCaretDown,
 		PhSignOut,
 		customerNav,
 		customerBotNav,

@@ -24,13 +24,13 @@
                     >
                     <h1 v-if="tgl.available" class="flex flex-col text-biru sm:text-3xl text-xl text-center">
                         <span class="-mt-3 mb-1 text-sm">
-                            {{ splitMonth }}
+                            {{ tgl.month }}
                         </span>
                         {{ tgl.tglSplit }}
                     </h1>
                     <h1 v-else class="flex flex-col text-light sm:text-3xl text-xl text-center">
                         <span class="-mt-3 mb-1 text-sm">
-                            {{ splitMonth }}
+                            {{ tgl.month }}
                         </span>
                         {{ tgl.tglSplit }}
                     </h1>
@@ -64,15 +64,18 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeMount } from 'vue'
 import initAPI from '../../../../api/api'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import Cookies from 'js-cookie'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export default {
     name: 'PilihHari',
-    setup(){
+    props: ['userData'],
+    setup(props){
         const router = useRouter()
         const hariReservasi = ref('')
         const tglReservasi = ref('')
@@ -100,7 +103,7 @@ export default {
                 
                 try {
                     const fee = await initAPI('get', 'consultants', null, token)
-                    console.log(`harga fee`, fee.data.data[0])
+                    // console.log(`harga fee`, fee.data.data[0])
                     formattedFee.value = fee.data.data[0].formatted_fee
                     feeValue.value = fee.data.data[0].fee
                 } catch (error) {
@@ -119,7 +122,7 @@ export default {
         })
 
         const handleClick = (index, hari) => {
-            console.log(`${index} - ${hari}`)
+            // console.log(`${index} - ${hari}`)
             toggleActive(index)
             setHari(hari)
         }
@@ -160,7 +163,9 @@ export default {
                     const response = await initAPI('get', 'consultants/available-schedule/1?day='+indexHari, null, token)
                     const filterTgl = []
                     const arrTgl = response.data.filter(item => {
+                        // console.log(`ahuhuy`, item)
                         const data = {
+                            month: item.month,
                             tglSplit: item.date.split('-')[0],
                             tglFull: item.date,
                             available: item.available
@@ -170,6 +175,7 @@ export default {
                     activeIndex.value = index;
                     dataTgl.value = filterTgl
                 } catch (error) {
+                    // console.log(`error aisia ie`, error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -196,7 +202,7 @@ export default {
         const clickTgl = async(tgl) => {
             tglReservasi.value = tgl
             loading.value = !loading.value
-            console.log(`di klik`,tgl)
+            // console.log(`di klik`,tgl)
             const token = Cookies.get('token')
             if(token){
                 try {
@@ -217,11 +223,34 @@ export default {
             }
             loading.value = !loading.value
             // dataHari.value = response.data
-            console.log('hari',dataHari.value)
+            // console.log('hari',dataHari.value)
         }
 
         const store = useStore()
-        const userData = computed(() => store.getters.getUserData)
+
+        const userData = ref('')
+
+        const getDataCustomer = async() => {
+            try {
+                const token = Cookies.get('token')
+                const formData = new FormData()
+                formData.append('refresh_user', 'true')
+                const response = await initAPI('post', 'login', formData, token)
+                // console.log(`abrakadabra`, response.data)
+                // return response.data.customer
+                userData.value = response.data.customer
+            } catch (error) {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data user',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+            }
+
+        }
+        // const userData = computed(() => store.getters.getUserData)
 
         const clickJam = async(jam) => {
             const datas = {
@@ -233,8 +262,8 @@ export default {
                 fee: feeValue.value,
                 formatted_fee: formattedFee.value
             }
-            console.log(datas)
-            console.log(`klik jam`, jam)
+            // console.log(`kela cek hela`,datas)
+            // console.log(`klik jam`, jam)
             // localStorage.setItem('bookReservasi', JSON.stringify(datas))
 
             store.commit('setReservasi', datas)
@@ -244,6 +273,10 @@ export default {
             // const response = await initAPI('post', 'customers/reservations', datas, token)
             // console.log(response)
         }
+
+        onBeforeMount(async() => {
+            await getDataCustomer()
+        })
 
         return {
             userData,

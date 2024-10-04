@@ -13,6 +13,14 @@
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhPackage :size="20" />
+                    Starter Pack
+                </span>
+            </RouterLink>
+            <RouterLink :to="{name: 'user.views.deteksi'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhTarget :size="20" />
                     Test GIM
                 </span>
@@ -20,17 +28,25 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.assesment'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                <span class="text-center flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhTextAa :size="20" />
                     Test Assessment
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.iq'}" 
+            <RouterLink v-if="userData.institutions && (userData.institutions.type !== 'SD' && userData.institutions.type !== 'TK')" :to="{name: 'user.views.iq'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhBrain :size="20" />
                     Test IQ
+                </span>
+            </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0 && userData.institutions && (userData.institutions.type == 'SD' || userData.institutions.type == 'TK')" :to="{name: 'user.views.cpm'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhBrain :size="20" />
+                    Test CPM
                 </span>
             </RouterLink>
         </div>
@@ -57,17 +73,25 @@
             <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_assessment'}" 
                 class="items-center w-full flex flex-col text-center justify-center pt-2 pb-1"
                 >
-                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                <span class="text-center flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhExam :size="20" />
                     Hasil Assessment
                 </span>
             </RouterLink>
-            <RouterLink :to="{name: 'user.views.hasil_iq'}" 
+            <RouterLink v-if="userData.institutions && (userData.institutions.type !== 'SD' && userData.institutions.type !== 'TK')" :to="{name: 'user.views.hasil_iq'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhBrain :size="20" />
                     Hasil IQ
+                </span>
+            </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0 && (userData.institutions.type == 'SD' || userData.institutions.type == 'TK')" :to="{name: 'user.views.hasil_cpm'}" 
+                class="items-center w-full flex flex-col justify-center pt-2 pb-1"
+                >
+                <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
+                    <PhBrain :size="20" />
+                    Hasil CPM
                 </span>
             </RouterLink>
         </div>
@@ -141,7 +165,7 @@
 
 <script>
 import {  
-    PhTarget, PhFileText, PhCalendar, 
+    PhPackage, PhTarget, PhFileText, PhCalendar, 
     PhDotsThree, PhTextAa, PhExam,
     PhUserFocus, PhUser, PhSignOut,
     PhBrain
@@ -153,6 +177,7 @@ import { useStore } from "vuex";
 export default {
     name: 'customerBotNav',
     components: {
+        PhPackage,
         PhTarget,
         PhBrain,
         PhFileText,
@@ -166,7 +191,8 @@ export default {
     },
     setup(){
         const store = useStore()
-        const userData = computed(() => store.getters.getUserData);
+        // const userData = computed(() => store.getters.getUserData);
+        const userData = JSON.parse(localStorage.getItem('userData'));
 
         const router = useRouter()
 

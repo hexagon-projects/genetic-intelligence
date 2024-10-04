@@ -15,15 +15,20 @@
                 </RouterLink>
             </ol>
         </div>
+
+        <div v-if="dataProfileInclomplete">
+            <modalCekProfile/>
+        </div>
+
         <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
             <div class="flex flex-col bg-white lg:h-[400px] w-full lg:w-full rounded-lg shadow-lg p-7"
             :class="{'overflow-y-scroll': currForm == 1 && isKlikSiapTest !== 'tidak'}"
             >
-                <div v-if="isAssessment == true">
+                <div v-if="!dataProfileInclomplete && isAssessment == true">
                     <sudahTest/>
                 </div>
 
-                <div v-else-if="isAssessment == false">
+                <div v-else-if="!dataProfileInclomplete && isAssessment == false">
                     <div v-if="currForm == 0 && isKlikSiapTest == 'tidak'">
                         <belumTest @siapTest="siaptest"/>
                     </div>
@@ -38,7 +43,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import belumTest from './assessment_comps/belum_test/belum_test.vue'
 import sudahTest from './assessment_comps/sudah_test/sudah_test.vue'
 import siapTest from './assessment_comps/siapTest.vue';
@@ -48,11 +53,15 @@ import 'sweetalert2/dist/sweetalert2.css';
 import ModalConsent from '../../informedConsent/modal.vue'
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie'
+import cekDataProfile from '../../cekProfile';
+import modalCekProfile from '../../modalCekProfile/modalCekProfile.vue';
 
 export default{
     name: 'TestAssessment',
-    components: {belumTest, sudahTest, siapTest, ModalConsent},
+    components: {belumTest, sudahTest, siapTest, ModalConsent, modalCekProfile},
     setup() {
+        const dataProfileInclomplete = ref(false)
+
         const router = useRouter()
         const isAssessment = ref(false)
         const currForm = ref(0)
@@ -63,6 +72,16 @@ export default{
             isKlikSiapTest.value = 'ya'
             // getDataPertanyaan()
         }
+
+        onBeforeMount(() => {
+            const cekDataKosong = cekDataProfile()
+            
+            if(cekDataKosong){
+                dataProfileInclomplete.value = true
+            } else {
+                dataProfileInclomplete.value = false
+            }
+        })
 
         onMounted(async() => {
             const token = Cookies.get('token')
@@ -91,6 +110,7 @@ export default{
         })
 
         return {
+            dataProfileInclomplete,
             isAssessment,
             currForm,
             isKlikSiapTest,

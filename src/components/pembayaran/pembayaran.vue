@@ -1,14 +1,6 @@
 <template>
-    <section class="bg-gray-100 pb-16">
-        <div class="mx-4 pt-4">
-            <ol class="flex text-gray-500 font-semibold">
-                <li class="before:px-1.5">
-                    <a class="text-dark text-base cursor-default">
-                        Halaman Pembayaran
-                    </a>
-                </li>
-            </ol>
-        </div>
+    <section class="bg-gray-100 py-[6vh]">
+        <modalInfo v-if="showModal" @understand="toggleModal"/>
 
         <div class="flex flex-col items-center lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
             <div class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 shadow-sm rounded-lg">
@@ -73,7 +65,7 @@
                 </div>
                 <!-- end form pembayaran -->
 
-                <div v-if="loadingFetch" class="flex justify-center pt-8 w-full">
+                <div v-if="loadingFetch" class="flex justify-center h-52 pt-14 w-full">
                     <span class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
                 </div>
 
@@ -84,6 +76,12 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="flex justify-end pt-2">
+                    <button @click="submitPayment" class="bg-biru text-white font-myFont px-4 py-2 rounded-lg">
+                        Bayar
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -92,13 +90,23 @@
 <script>
 import { ref, onMounted } from 'vue'
 import initAPI from '../../api/api'
-import { watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import Cookies from 'js-cookie'
+import modalInfo from './modalInfo.vue'
+import DOMPurify from 'dompurify'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css'
+import { useStore } from 'vuex'
 
 export default {
     name: 'HalamanPembayaran',
+    components: { modalInfo },
     setup(){
+        const showModal = ref(true)
+
+        const store = useStore()
         const route = useRoute()
+        const router = useRouter()
         const loadingFetch = ref(false)
         const tipeParam = ref('')
 
@@ -110,29 +118,127 @@ export default {
 
         const paymentMethod = ref([])
 
+        const getHarga = async() => {
+            if(!totalFee.value){
+                try {
+                    const endpoint = tipeParam.value == 'test-iq' 
+                    ? 'test/payment?type=iq' 
+                    : tipeParam.value == 'test-gim' 
+                    ? 'test/payment?type=gim'
+                    : tipeParam.value == 'starter-pack'
+                    ? 'test/payment?type=starter-pack' 
+                    : 'test/payment?type=assessment'
+                    
+                    const response = await initAPI('get', endpoint, null, null)
+                    totalFee.value = response.data.price
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data harga pembayaran.',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            }
+        }
+
         const pilihPayment = (code, payment, fee) => {
-            console.log(`${payment} - ${fee}`)
             paymentType.value = payment
             paymentCode.value = code
             feePaymentMethod.value = fee
-            totalFee.value = 'Rp.'+biayaPendaftaran.value
-            // alert('wkwkwk ajg')
+            getHarga()
         }
 
         const submitPayment = async() => {
+            const token = Cookies.get('token')
+
             const data = {
-                type: tipeParam.value == 'test-iq' 
-                        ? 'iq' 
-                        : tipeParam.value == 'test-gim' 
-                        ? 'gim' 
-                        : tipeParam.value == 'test-assessment'
-                        ? 'assessment'
-                        : null
+                voucher_code: DOMPurify.sanitize(code_voucher.value),
+                // school_code: DOMPurify.sanitize(code_voucher.value),
+                customer_id: JSON.parse(localStorage.getItem('userData')).id,
+                payment_method_code: paymentCode.value,
+                fee: feePaymentMethod.value
+                // fee: parseInt(totalFee.value.replace(/\./g, ''), 10)
+                // fee: totalFee.value
             }
+
             const endpoint = tipeParam.value == 'test-iq' 
-            ? 'anu' 
+            ? 'v2/payment/test/iq' 
             : tipeParam.value == 'test-gim' 
-            ? 'blabla' : 'wakwaw'
+            ? 'v2/payment/test/gim'
+            : tipeParam.value == 'starter-pack'
+            ? 'v2/payment/test/starter-pack'
+            :'v2/payment/test/assessment'
+
+            console.log(`bayar ke: `, endpoint)
+            console.log(`data dikirim:`, data)
+
+            try {
+                loadingFetch.value = true
+                const response = await initAPI('post', endpoint, JSON.stringify(data), token)
+                console.log(response.data)
+                
+                
+                if(response.data.data && response.data.data.paymentUrl){
+                    const url = response.data.data.paymentUrl
+                    let fixedUrl = ''
+                    let refValue = ''
+
+                    localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
+    
+                    if(url.includes('ref=')){
+                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                        refValue = url.split('ref=')[1]
+                    }else if(url.includes('reference=')){
+                        console.log('reference', url)
+                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        refValue = url.split('reference=')[1]
+                    }
+
+                    window.location.href = fixedUrl+refValue
+                } else {
+                    const formData = new FormData()
+                    formData.append('refresh_user', 'true')
+                    const updatedCustomer = await initAPI('post', 'login', formData, token)
+                    // console.log(updatedCustomer.data.customer)
+                    store.commit('user', updatedCustomer.data.customer)
+                    localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Selamat! Pembayaran Berhasil.',
+                        showConfirmButton: true,
+                        confirmButtonColor: "#0b40f4",
+                        confirmButtonText: "Lanjutkan",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.push({
+                                name: tipeParam.value == 'test-iq' 
+                                    ? 'user.views.iq' 
+                                    : tipeParam.value == 'test-gim' 
+                                    ? 'user.views.deteksi' 
+                                    : 'user.views.assesment'
+                            })  
+                        }
+                    })
+                }
+
+
+            } catch (error) {
+                console.log(`error bayar ie`,error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat melakukan pembayaran.',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+            } finally {
+                loadingFetch.value = false
+            }
+
         }
 
         onMounted(async() => {
@@ -141,17 +247,29 @@ export default {
                 const response = await initAPI('get', 'payment/methods', null, null)
                 paymentMethod.value = response.data.paymentFee
 
-                console.log(response.data)
             } catch(error) {
-                console.log(error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Terjadi kesalahan saat mengambil data metode pembayaran.',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
             }
 
-            console.log(route.params.tipePembayaran)
+            // console.log(route.params.tipePembayaran)
+            tipeParam.value = route.params.tipePembayaran
             loadingFetch.value = !loadingFetch.value
         })
 
+        const toggleModal = () => {
+            showModal.value = !showModal.value
+        }
+
 
         return {
+            showModal,
+            toggleModal,
             loadingFetch,
             code_voucher,
             paymentType,
@@ -159,7 +277,8 @@ export default {
             totalFee,
             feePaymentMethod,
             paymentMethod,
-            pilihPayment
+            pilihPayment,
+            submitPayment
         }
     }
 }

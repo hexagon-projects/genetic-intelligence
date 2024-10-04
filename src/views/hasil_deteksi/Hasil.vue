@@ -73,11 +73,14 @@ import FileHasilDeteksi from '../../components/Deteksi_GIM/SudahDeteksi/FileHasi
 import VideoHasilDeteksi from '../../components/Deteksi_GIM/SudahDeteksi/VideoHasilDeteksi.vue'
 import NoteHasilDeteksi from '../../components/Deteksi_GIM/SudahDeteksi/NoteHasilDeteksi.vue'
 import DalamProses from '../../components/Deteksi_GIM/DalamProses/DalamProses.vue';
+import { useRouter } from 'vue-router';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'HasilDeteksi',
     components: {BelumDeteksi, FileHasilDeteksi, VideoHasilDeteksi, NoteHasilDeteksi, DalamProses},
     setup(){
+        const router = useRouter()
         const sudahTest = ref(true)
         const showModal = ref(false);
 
@@ -104,15 +107,30 @@ export default {
 
         onMounted(async() => {
             if(userResultDetect.value == null) {
-                const accessToken = JSON.parse(localStorage.getItem('token'))
+                const token = Cookies.get('token')
                 const userId = userData.value.id
-    
-                const response = await initApi('get', 'customers/gim-result/'+userId, null, accessToken)
-                if(response.data.is_detected == true){
-                    // console.log('aya ajig')
-                    store.commit('userResultDetect', response.data)
+                
+                if(token){
+                    try {
+                        const response = await initApi('get', 'customers/gim-result/'+userId, null, token)
+                        if(response.data.is_detected == true){
+                            // console.log('aya ajig')
+                            store.commit('userResultDetect', response.data)
+                        } else {
+                            store.commit('userResultDetect', false)
+                        }
+                    } catch (error) {
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    }
                 } else {
-                    store.commit('userResultDetect', false)
+                    router.push('/login')
+                    localStorage.clear()
                 }
             }
             // console.log(userResultDetect.value)

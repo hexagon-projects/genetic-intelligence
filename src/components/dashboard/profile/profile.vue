@@ -58,7 +58,7 @@
                                         <PhMapPin/>
                                     </div>
                                     <a class="lg:text-sm text-dark">
-                                        {{ userData.birth_place }}
+                                        {{ userData.birth_place ? userData.birth_place : '-' }}
                                     </a>
                                 </div>
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
@@ -66,7 +66,7 @@
                                         <PhCalendar/>
                                     </div>
                                     <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
-                                        {{ userData.birth_date }}
+                                        {{ userData.birth_date ? userData.birth_date : '-' }}
                                     </a>
                                 </div>
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
@@ -74,7 +74,7 @@
                                         <PhDna/>
                                     </div>
                                     <a class="font-myFont flex items-center gap-4 lg:text-sm text-dark">
-                                        {{ userData.blood_group }}
+                                        {{ userData.blood_group ? userData.blood_group : '-' }}
                                     </a>
                                 </div>
                                 <!-- <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
@@ -85,11 +85,12 @@
                                 </div> -->
                                 <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
                                     <div class="bg-white p-1 rounded-full">
+                                        <PhPerson v-if="userData.gender == null"/>
                                         <PhGenderMale v-if="userData.gender == 'Laki-laki'"/>
                                         <PhGenderFemale v-else-if="userData.gender == 'Perempuan'"/>
                                     </div>
                                     <a class="pb-font-myFont flex items-center gap-4 lg:text-sm text-dark">
-                                        {{ userData.gender }}
+                                        {{ userData.gender ? userData.gender : '-' }}
                                     </a>
                                 </div>
                                 <!-- <div class="font-myFont px-4 py-2 mx-0 w-full bg-biru bg-opacity-10 rounded-xl border flex justify-between items-center gap-28">
@@ -141,7 +142,7 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { 
-    PhMapPin, PhDna, PhHandsPraying, PhCalendar,
+    PhMapPin, PhDna, PhHandsPraying, PhCalendar, PhPerson,
     PhGenderMale, PhGenderFemale, PhUsers, PhUser, PhPencilSimple 
 } from '@phosphor-icons/vue'
 
@@ -156,7 +157,8 @@ export default {
         PhGenderFemale,
         PhUser,
         PhUsers,
-        PhPencilSimple
+        PhPencilSimple,
+        PhPerson
     },
     setup(){
         const store = useStore()

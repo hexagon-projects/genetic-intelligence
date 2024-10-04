@@ -2,7 +2,7 @@
     <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
-                hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+                hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
                 "
                 :class="{
                     'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'user.views.deteksi' 
@@ -21,7 +21,7 @@
                 || $route.name === 'user.views.assesment'
                 || $route.name === 'user.views.psikotest'
                 || $route.name === 'user.views.iq',
-                'text-biru hover:text-light': $route.name !== 'user.views.deteksi'
+                'text-biru': $route.name !== 'user.views.deteksi'
                 && $route.name !== 'user.views.assesment'
                 && $route.name !== 'user.views.psikotest'
                 && $route.name !== 'user.views.iq'
@@ -45,6 +45,9 @@
             <RouterLink :to="{name: 'user.views.iq'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Test IQ
             </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.cpm'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Test CPM
+            </RouterLink>
             </div>
         </div>
     </div>
@@ -52,13 +55,13 @@
     <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
-                hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+                hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
                 "
                 :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.hasil_deteksi', 'text-dark bg-white': $route.name !== 'user.views.hasil_deteksi'}"
                 @click="toggleFilter('hasil')"
                 ref="dropdownHasilRef"
             >
-                <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru hover:text-light': $route.name !== 'user.views.hasil_deteksi'}" />
+                <PhFileText :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.hasil_deteksi','text-biru': $route.name !== 'user.views.hasil_deteksi'}" />
             Hasil Test
             <PhCaretDown :size="16"/>
         </button>
@@ -75,6 +78,9 @@
             <RouterLink :to="{name: 'user.views.hasil_iq'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
                 Hasil IQ
             </RouterLink>
+            <RouterLink v-if="userData.is_student !== 0" :to="{name: 'user.views.hasil_cpm'}" class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1">
+                Hasil CPM
+            </RouterLink>
             </div>
         </div>
     </div>
@@ -82,13 +88,13 @@
     <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
-                hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+                hover:text-biru border border-transparent hover:border-biru rounded-lg hover:shadow-sm transition
                 "
                 :class="{'bg-biru px-4 py-2 rounded-lg shadow-sm text-light' : $route.name === 'user.views.reservasi', 'text-dark bg-white': $route.name !== 'user.views.reservasi'}"
                 @click="toggleFilter('reservasi')"
                 ref="dropdownReservasiRef"
             >
-                <PhCalendarCheck :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.reservasi','text-biru hover:text-light': $route.name !== 'user.views.reservasi'}" />
+                <PhCalendarCheck :size="24" weight="duotone" :class="{'text-light': $route.name == 'user.views.reservasi','text-biru': $route.name !== 'user.views.reservasi'}" />
             Reservasi
             <PhCaretDown :size="16"/>
         </button>
