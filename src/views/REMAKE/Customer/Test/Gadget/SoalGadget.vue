@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col items-center gap-[56px]">
         <div class="mx-[30px] md:mx-[60px] h-[76px] flex-col justify-start items-start gap-4 inline-flex">
-            <span class="self-stretch text-center text-black text-xl md:text-3xl font-semibold font-['Sora'] leading-9">Tes Kecanduan Gadget</span>
-            <span class="self-stretch text-center text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">Jawablah pertanyaan berikut ini pilih salah satu dari 5 pilihan berdasarkan kondisimu saat menggunakan smartphone atau internet</span>
+            <span class="self-stretch text-center text-black text-xl md:text-3xl font-semibold font-['Sora'] leading-9">Tes Internet Addiction Assessment</span>
+            <span class="self-stretch text-center text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">Pilihlah salah satu dari 5 pilihan ini untuk menjawab seberapa sering situasi di bawah ini sesuai dengan kebiasaan kamu saat menggunakan smartphone atau internet:</span>
         </div>
 
         <div id="soal" v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
@@ -41,11 +41,9 @@
                     </div>
                 </div>
     
-                <div class="gap-2 flex flex-col md:flex-row justify-center md:justify-between items-center">
-                    <span class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
-                    </span>
+                <div class="gap-2 flex flex-col md:flex-row justify-center items-center">
                     <button @click="handleNextQuestion" class="hover:translate-x-1 hover:shadow-2xl transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
-                        <div class="text-white text-base font-normal font-['Roboto'] leading-normal justify-center">Submit</div>
+                        <div class="text-white text-base font-normal font-['Roboto'] leading-normal justify-center">Kirim Jawaban</div>
                         <div class="w-6 h-6 relative">
                             <img src="@/assets/icons/test_gim/chevron_right.svg" alt="icon">
                         </div>
