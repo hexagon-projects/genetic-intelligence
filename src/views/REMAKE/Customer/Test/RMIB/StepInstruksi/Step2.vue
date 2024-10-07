@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center gap-[56px]">
+    <div class="flex flex-col items-center gap-[56px] py-7">
         <img src="../img/intruksi2.svg" alt="icon"/>
 
         <span class="text-justify text-[#667084] text-sm md:text-base font-normal font-['Roboto'] leading-normal">

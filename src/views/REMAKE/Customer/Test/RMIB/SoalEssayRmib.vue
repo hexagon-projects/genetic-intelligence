@@ -7,15 +7,15 @@
 
         <!-- Soal --> 
         <div class="self-start w-full">
-            <div class="flex flex-col mb-[24px]">
-                <div class="text-black text-base font-normal font-['Roboto'] leading-normal">
+            <div class="flex flex-col mb-[50px]">
+                <div class="text-black text-base font-normal font-['Roboto'] leading-normal text-justify">
                     <span class="w-full text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
                         Tuliskan di bawah ini tiga (3) macam pekerjaan yang paling ingin Kamu lakukan atau paling Kamu sukai (tidak harus pekerjaan yang tercantum dalam daftar yang sebelumnya ada)
                     </span>
                 </div>
             </div>
 
-            <div class="w-full flex flex-col gap-4">
+            <div class="w-full flex flex-col gap-5">
                 <div class="flex items-center">
                     <span class="text-black text-base font-normal">1.</span>
                     <input type="text" class="w-full p-2 border rounded-md border-[#3030f8] text-[#667084] outline-none ml-2" placeholder="Masukkan pekerjaan yang paling Anda sukai" />
