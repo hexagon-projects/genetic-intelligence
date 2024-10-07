@@ -5,7 +5,7 @@
             <span class="w-full text-black text-xl md:text-3xl font-semibold font-['Sora'] leading-9 text-center">
             Tentukan Urutan Prioritas Pekerjaan
             </span>
-            <span class="w-full text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
+            <span class="w-full text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal text-justify">
             Pilih pekerjaan dari daftar berikut dengan memberikan nomor (1 hingga 12) sesuai minat kamu, 1 untuk yang paling kamu sukai dan 12 untuk yang paling tidak kamu sukai.
             </span>
         </div>
