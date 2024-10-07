@@ -42,6 +42,8 @@
                 </div>
     
                 <div class="gap-2 flex flex-col md:flex-row justify-center md:justify-between items-center">
+                    <span class="text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
+                    </span>
                     <button @click="handleNextQuestion" class="hover:translate-x-1 hover:shadow-2xl transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
                         <div class="text-white text-base font-normal font-['Roboto'] leading-normal justify-center">Submit</div>
                         <div class="w-6 h-6 relative">
