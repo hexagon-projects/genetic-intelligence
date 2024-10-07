@@ -162,7 +162,7 @@ const postAnswers = async () => {
         data.append('customer_id', props.customerId);
 
         // Konversi jawaban dari string ke integer
-        const integerAnswers = arrCodeJawabanPertanyaan.value.map(answer => parseInt(answer, 10));
+        const integerAnswers = arrCodeJawabanPertanyaan.value.map(answer => parseInt(answer, 5));
         
         data.append('answers', JSON.stringify(integerAnswers));
         const token = Cookies.get('token');
