@@ -27,13 +27,13 @@
                 <div v-for="(job, index) in jobs" :key="index" class="w-full flex items-center justify-between max-w-[900px] mb-3">
                     <label class="text-sm md:text-base font-normal font-['Roboto'] w-1/2 text-left">{{ job }}</label>
                     <input 
-                    type="text"
+                    type="number"
                     v-model="answers[index]"
+                    @input="validateInput(index)"
                     class="w-[157px] md:w-[180px] p-2 text-sm md:text-base bg-white border border-[#3030f8] text-black rounded-lg focus:outline-none focus:ring focus:ring-blue-500" 
-                    placeholder="Masukkan Urutan 1-12"
+                    placeholder="Masukkan 1 s/d 12"
                     />
-                    <span v-if="errors[index]" class="text-red-500 text-xs">Field ini wajib di isi!
-                    </span>
+                    <span v-if="errors[index]" class="text-red-500 text-xs">Masukkan angka antara 1 hingga 12</span>
                 </div>
             </div>
 
@@ -61,8 +61,8 @@ const soalIndex = ref(0); // Menggunakan index untuk melacak soal keberapa yang 
 const allQuestions = ref([]); // Semua soal yang diambil dari API
 
 // State untuk jawaban dan error
-const answers = ref(Array(jobs.value.length).fill(''));  // Menyimpan jawaban pengguna
-const errors = ref(Array(jobs.value.length).fill(false)); // Menyimpan status error
+const answers = ref([]);
+const errors = ref([]);
 
 
 // Fungsi untuk get data dari API
@@ -94,45 +94,81 @@ const updateSoal = () => {
     errors.value = Array(jobs.value.length).fill(false); // Reset status error
 };
 
-// Fungsi untuk menuju soal berikutnya
+const validateInput = (index) => {
+    const value = answers.value[index];
+    
+    // Cek apakah nilai kosong
+    if (!value) {
+        errors.value[index] = 'Field tidak boleh kosong';
+        return; // Keluar dari fungsi jika input kosong
+    }
+    
+    // Cek apakah nilai berada di antara 1 hingga 12
+    if (value < 1 || value > 12 || isNaN(value)) {
+        errors.value[index] = 'Masukkan angka antara 1 hingga 12';
+        return; // Keluar dari fungsi jika input tidak valid
+    } 
+
+    // Cek apakah angka sudah digunakan di jawaban sebelumnya
+    const duplicate = answers.value.some((answer, i) => i !== index && answer === value);
+
+    if (duplicate) {
+        errors.value[index] = 'Angka sudah digunakan, masukkan angka yang berbeda';
+    } else {
+        errors.value[index] = false; // Input valid
+    }
+};
+
+// Fungsi untuk melanjutkan ke soal berikutnya dengan validasi input
 const nextSoal = () => {
     let valid = true;
 
-    // Periksa setiap jawaban, jika kosong tandai sebagai error
+    // Periksa setiap jawaban
     answers.value.forEach((answer, index) => {
-        if (!answer) {
-            errors.value[index] = true; // Tandai sebagai error
-            valid = false;
-        } else {
-            errors.value[index] = false; // Jika ada jawaban, reset error
+        validateInput(index); // Panggil validasi
+        if (errors.value[index]) {
+            valid = false; // Jika ada error, tandai validasi sebagai false
         }
     });
 
-    // Jika semua jawaban sudah valid, lanjutkan ke soal berikutnya
+    // Jika semua jawaban valid, lanjutkan ke soal berikutnya
     if (valid) {
-        if (soalIndex.value < allQuestions.value.length -1) {
+        // Simpan jawaban ke Local Storage
+        const typeSoalKey = `typeSoal_${typeSoal.value}`; // Buat kunci berdasarkan tipe soal
+        const previousAnswers = JSON.parse(localStorage.getItem(typeSoalKey)) || []; // Ambil jawaban sebelumnya, jika ada
+
+        // Simpan jawaban saat ini
+        previousAnswers.push(...answers.value); // Tambahkan jawaban saat ini ke jawaban sebelumnya
+        localStorage.setItem(typeSoalKey, JSON.stringify(previousAnswers)); // Simpan ke Local Storage
+
+        // Cek apakah kita sudah di soal terakhir (I)
+        if (soalIndex.value < allQuestions.value.length - 1) {
             soalIndex.value++;
             updateSoal();
             answers.value = Array(jobs.value.length).fill(''); // Reset jawaban untuk soal berikutnya
-            errors.value = Array(jobs.value.length).fill(false) // Reset status error
+            errors.value = Array(jobs.value.length).fill(false); // Reset status error
         } else {
+            // Jika sudah di soal terakhir (I), arahkan ke halaman esai
             Swal.fire({
                 icon: 'success',
                 title: 'Selesai',
-                test: 'Semua soal telah selesai di isi!',
+                text: 'Semua soal telah selesai diisi! Anda akan diarahkan ke halaman esai.',
                 showConfirmButton: true,
+            }).then(() => {
+                router.push({ name: 'SoalEssayRmib' }); // Ganti 'SoalEssayRmib' dengan nama route yang sesuai
             });
         }
     } else {
-        // Tampilkan pesan kesalahan jika ada jawaban yang kosong
         Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                test: 'Semua field harus di isi sebelum melanjutkan!',
-                showConfirmButton: true,
+            icon: 'error',
+            title: 'Error',
+            text: 'Masukkan angka yang valid, tidak boleh kosong dan tidak duplikat!',
+            showConfirmButton: true,
         });
     }
 };
+
+
 
 // Panggil API saat komponen dipasang
 onMounted(() => {
