@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center gap-[168px] pt-20">
+    <div class="flex flex-col items-center gap-[200px] py-11">
         <span class="text-center text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
            Bekerjalah secepatnya, dan tuliskan nomor-nomor sesuai dengan kesan dan keinginan Kamu yang pertama muncul.
         </span>
@@ -13,9 +13,14 @@
 <script setup>
 import { useStore } from 'vuex';
 
-const store = useStore()
+const store = useStore();
 
+// Function to handle button click
 const showSoal = () => {
-    store.commit('setContohSoalIQ', true)
-}
+  // Commit to the Vuex store
+  store.commit('setIsInstruksi', false);
+  
+  // Set the value in localStorage
+  localStorage.setItem('isInstruksi', 'good udah baca intruksi');
+};
 </script>
