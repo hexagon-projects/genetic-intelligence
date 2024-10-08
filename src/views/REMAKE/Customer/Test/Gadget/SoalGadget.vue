@@ -81,9 +81,6 @@ const loadingSubmit = ref(false)
 const loadingQuestion = ref(false)
 
 const dataPertanyaan = ref(null)
-const soalDari = ref('')
-const soalKe = ref('')
-const totalSoal = ref('')
 const nextPages = ref('')
 const jawabanPertanyaan = ref([])
 
@@ -208,9 +205,6 @@ const getDataPertanyaan = async(page = 1) => {
             
             jawabanPertanyaan.value = response.data.data.map(() => []);
             dataPertanyaan.value = response.data
-            soalDari.value = response.data.from
-            soalKe.value = response.data.to
-            totalSoal.value = response.data.total
             nextPages.value = response.data.next_page_url
 
             scrollToSection()
