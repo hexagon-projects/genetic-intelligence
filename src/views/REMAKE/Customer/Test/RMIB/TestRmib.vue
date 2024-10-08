@@ -44,7 +44,7 @@
             </div>
 
             <div v-if="!isInstruksi" class="mb-[48px] w-full flex justify-center items-center">
-                <SoalTest/>
+                <SoalRmib/>
             </div>
         </section>
     </Layout>
@@ -54,8 +54,8 @@
 import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import Layout from '@/Layout/Customer/Layout.vue';
 import Instruksi from './intruksi.vue';
-import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
-import SoalTest from '@/components/REMAKE/Test/IQ/SoalTest/SoalTest.vue';
+// import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
+import SoalRmib from '@/views/REMAKE/Customer/Test/RMIB/SoalRmib.vue';
 import { useStore } from 'vuex';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
@@ -80,28 +80,28 @@ const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 // const customerId = ref(null)
 
-const getUserData = async() => {
-    try {
-        const token = Cookies.get('token')
-        const userData = await initAPI('get', 'rmib/questions?gender=1', null, token)
+// const getUserData = async() => {
+//     try {
+//         const token = Cookies.get('token')
+//         const userData = await initAPI('get', 'rmib/questions?gender=1', null, token)
+//         jobs.value = userData.data.data[0].job.map(job => job.name)
+//         console.log(userData.data)
+//     } catch (error) {
+//         Swal.fire({
+//             icon: 'error',
+//             title: 'Error',
+//             text: 'Terjadi kesalahan saat mengambil data user',
+//             showConfirmButton: false,
+//             timer: 2000
+//         });
+//     } finally {
+//         // loading.value = false
+//     }
+// }
 
-        console.log(userData.data)
-    } catch (error) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Terjadi kesalahan saat mengambil data user',
-            showConfirmButton: false,
-            timer: 2000
-        });
-    } finally {
-        // loading.value = false
-    }
-}
-
-onMounted(()=>{
-    getUserData()
-})
+// onMounted(()=>{
+//     getUserData()
+// })
 
 const toggleKebijakanPrivasi = () => {
     isKebijakanPrivasi.value = !isKebijakanPrivasi.value
