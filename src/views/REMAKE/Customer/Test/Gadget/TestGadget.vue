@@ -20,7 +20,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test Kecanduan Gadget</div>
         </div>
 
-        <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_assessment" message="Test Assessment Selesai!"
+        <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_gadget" message="Test Internet Addiction Assessment Selesai!"
         :subMessage="subMessage"/>
 
         <section v-if="!isTested" class="bg-white pb-[34px]">
@@ -48,7 +48,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import Layout from '@/Layout/Customer/Layout.vue';
 import ReservasiFooter from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
-import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
+import SelesaiTest from '@/views/REMAKE/Customer/Test/Gadget/SelesaiTest.vue';
 import SoalGadget from '@/views/REMAKE/Customer/Test/Gadget/SoalGadget.vue';
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
 import cekDataProfile from '@/components/cekProfile';
@@ -71,7 +71,7 @@ const getUserData = async() => {
         const userData = await initAPI('post', 'login', formData, token)
 
         customerId.value = userData.data.customer.id
-        isTested.value = userData.data.customer.customers_assessments == null ? false : true
+        isTested.value = userData.data.customer.customers_iaa == null ? false : true
     } catch (error) {
         Swal.fire({
             icon: 'error',

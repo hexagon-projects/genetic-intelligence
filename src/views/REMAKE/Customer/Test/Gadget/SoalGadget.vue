@@ -8,39 +8,42 @@
         <div id="soal" v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
             <div v-if="!loadingSubmit">
                 <div v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4">
-                    <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
-                        {{ (currPage - 1) * itemsPerPage + qIndex + 1 }}. {{ q.question }}
-                    </label>
-                    <div class="flex flex-col mx-2">
-                        <div v-for="(answer, aIndex) in q.answers" :key="aIndex" class="px-2">
-                            <div class="flex flex-col gap-2">
-                                <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
-                                    {{ answer.answer }}
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-2 flex items-center justify-center gap-4">
-                            <button @click="pilihJawaban(answer.value, qIndex)" 
-                            v-for="(answer, aIndex) in q.answers" :key="aIndex"
-                            :class="{
-                                'bg-[#3030f8] border-[#3030f8] text-white': isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value),
-                                'border-[#667084] text-[#667084]': !isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value)
-                            }"
-                            class="group size-10 md:w-14 md:h-14 rounded-lg border transition-all hover:border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
-                            <div 
-                                :class="{
-                                    'text-white': isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value),
-                                    'group-hover:text-[#3030f8] text-[#667084]': !isSelectedAnswer((currPage - 1) * itemsPerPage + qIndex, answer.value)
-                                }"
-                                class="text-[#667084] text-base md:text-2xl font-semibold font-['Roboto'] leading-loose uppercase">
-                                    {{ answer.value }}
-                                </div>
-                            </button>
+                 <!-- Tampilkan nomor urut pertanyaan -->
+                  <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
+                    {{ qIndex + 1 }}. {{ q.question }}
+                  </label>
+    
+                  <!-- Daftar jawaban untuk setiap pertanyaan -->
+                   <div class="flex flex-col mx-2">
+                    <div v-for="(answer, aIndex) in q.answers" :key="aIndex" class="px-2">
+                        <div class="flex flex-col gap-2">
+                            <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
+                                {{ answer.answer }}
+                            </span>
                         </div>
                     </div>
-                </div>
-    
+                    <!-- Tombol pilihan jawaban -->
+                     <div class="mt-2 flex items-center justify-center gap-4">
+                        <button @click="pilihJawaban(answer.value, qIndex)" 
+                        v-for="(answer, aIndex) in q.answers" :key="aIndex"
+                        :class="{
+                        'bg-[#3030f8] border-[#3030f8] text-white': isSelectedAnswer(qIndex, answer.value),
+                        'border-[#667084] text-[#667084]': !isSelectedAnswer(qIndex, answer.value)
+                        }"
+                        class="group size-10 md:w-14 md:h-14 rounded-lg border transition-all hover:border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
+                        <div 
+                        :class="{
+                        'text-white': isSelectedAnswer(qIndex, answer.value),
+                        'group-hover:text-[#3030f8] text-[#667084]': !isSelectedAnswer(qIndex, answer.value)
+                        }"
+                        class="text-[#667084] text-base md:text-2xl font-semibold font-['Roboto'] leading-loose uppercase">
+                        {{ answer.value }}
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
                 <div class="gap-2 flex flex-col md:flex-row justify-center items-center">
                     <button @click="handleNextQuestion" class="hover:translate-x-1 hover:shadow-2xl transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
                         <div class="text-white text-base font-normal font-['Roboto'] leading-normal justify-center">Kirim Jawaban</div>
@@ -78,8 +81,6 @@ const loadingSubmit = ref(false)
 const loadingQuestion = ref(false)
 
 const dataPertanyaan = ref(null)
-const currPage = ref('')
-const itemsPerPage = ref('')
 const soalDari = ref('')
 const soalKe = ref('')
 const totalSoal = ref('')
@@ -97,13 +98,12 @@ const scrollToSection = () => {
     }, 100); 
 };
 
-const isSelectedAnswer = (globalIndex, value) => {
-    return arrCodeJawabanPertanyaan.value[globalIndex] === value;
+const isSelectedAnswer = (qIndex, value) => {
+    return arrCodeJawabanPertanyaan.value[qIndex] === value;
 };
 
 const pilihJawaban = (answerValue, qIndex) => {
-    const globalIndex = (currPage.value - 1) * itemsPerPage.value + qIndex; // Hitung indeks global
-    arrCodeJawabanPertanyaan.value[globalIndex] = answerValue;
+    arrCodeJawabanPertanyaan.value[qIndex] = answerValue;
     console.log('Updated answers:', arrCodeJawabanPertanyaan.value);
 };
 
@@ -113,21 +113,50 @@ const checkAllQuestionsAnswered = () => {
 };
 
 const handleNextQuestion = () => {
-    if (nextPages.value == null) {
+    if(nextPages.value == null) {
         Swal.fire({
-            title: "Kirim jawaban sekarang?",
-            text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
-            icon: "question",
-            showCancelButton: true,
-            cancelButtonColor: "#3b3f5c",
-            cancelButtonText: "Cek Ulang",
-            confirmButtonColor: "#3030f8",
-            confirmButtonText: "Ya, kirim"
-        }).then(async (result) => {
+        title: "Kirim jawaban sekarang?",
+        text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonColor: "#3b3f5c",
+        cancelButtonText: "Cek Ulang",
+        confirmButtonColor: "#3030f8",
+        confirmButtonText: "Ya, kirim"
+        }).then(async(result) => {
             if (result.isConfirmed) {
-                await postAnswers();
+                // console.log('jawaban yg dikirim', arrCodeJawabanPertanyaan)
+                try {
+                    const data = new FormData();
+                    data.append('customer_id', props.customerId)
+                    data.append('answers', JSON.stringify(arrCodeJawabanPertanyaan.value));
+                    const token = Cookies.get('token');
+
+                    const response = await initAPI('post', 'customers/iaa', data, token);
+
+                    Swal.fire({
+                        title: "Jawaban kamu sudah direkam",
+                        text: "Kamu bisa melihat hasil test kamu setelah ini.",
+                        icon: "success",
+                        confirmButtonColor: "#3030f8",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            emit('refreshData')
+                        }
+                    })
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to submit answers',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                }
             }
         });
+        
     } else {
         // Jika ada jawaban yang belum diisi, tampilkan peringatan
         if (!checkAllQuestionsAnswered()) {
@@ -142,75 +171,29 @@ const handleNextQuestion = () => {
         } else {
             // Jika semua jawaban sudah diisi, tampilkan konfirmasi
             Swal.fire({
-                title: "Kirim Jawabanmu Sekarang",
+                title: "Selesai",
                 text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
                 icon: "question",
                 showCancelButton: true,
                 cancelButtonColor: "#3b3f5c",
                 cancelButtonText: "Cek Ulang",
                 confirmButtonColor: "#3030f8",
-                confirmButtonText: "Lanjutkan",
+                confirmButtonText: "Selesai",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    postAnswers();
+                    // Jika dikonfirmasi, panggil getNextQuestion
                 }
             });
         }
     }
 };
 
-const postAnswers = async () => {
-    try {
-        const data = new FormData();
-        data.append('customer_id', props.customerId);
-
-        // Konversi jawaban dari string ke integer
-        const integerAnswers = arrCodeJawabanPertanyaan.value.map(answer => parseInt(answer, 5));
-        
-        data.append('answers', JSON.stringify(integerAnswers));
-        const token = Cookies.get('token');
-
-        const response = await initAPI('post', '/api/customers/iaa', data, token);
-
-        Swal.fire({
-            title: "Jawaban kamu sudah direkam",
-            text: "Kamu bisa melihat hasil test kamu setelah ini.",
-            icon: "success",
-            confirmButtonColor: "#3030f8",
-            confirmButtonText: "OK",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                emit('refreshData');
-            }
-        });
-    } catch (error) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Failed to submit answers',
-            showConfirmButton: false,
-            timer: 2000,
-        });
-    }
-};
-
-
-
-const getNextQuestion = async() => {
-    if(nextPages.value !== null){
-        const page = nextPages.value.split('?page=')[1]
-        console.log(`next page`, page)
-        await getDataPertanyaan(page)
-        // scrollToSection()
-    }
-}
-
 const getDataPertanyaan = async(page = 1) => {
     loadingQuestion.value = !loadingQuestion.value
     const token = Cookies.get('token')
     if(token){
         try {
-            const response = await initAPI('get', `assessments/questions?status=1&page=${page}`, null, token)
+            const response = await initAPI('get', `iaa/questions?status=1&page=${page}`, null, token)
             
             const totalSoalSaatIni = response.data.data.length;
             const fromIndex = (page - 1) * totalSoalSaatIni; // Indeks global pertama di halaman ini
@@ -228,8 +211,6 @@ const getDataPertanyaan = async(page = 1) => {
             soalDari.value = response.data.from
             soalKe.value = response.data.to
             totalSoal.value = response.data.total
-            itemsPerPage.value = response.data.per_page
-            currPage.value = response.data.current_page
             nextPages.value = response.data.next_page_url
 
             scrollToSection()
