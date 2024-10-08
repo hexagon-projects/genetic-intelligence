@@ -16,9 +16,12 @@
                   <!-- Daftar jawaban untuk setiap pertanyaan -->
                    <div class="flex flex-col mx-2">
                     <div v-for="(answer, aIndex) in q.answers" :key="aIndex" class="px-2">
+                        <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
+                               {{ aIndex+1 }}. {{ answer.text }}
+                            </span>
                         <div class="flex flex-col gap-2">
                             <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
-                                {{ answer.answer }}
+                                {{ answer.answers }}
                             </span>
                         </div>
                     </div>
@@ -110,50 +113,75 @@ const checkAllQuestionsAnswered = () => {
 };
 
 const handleNextQuestion = () => {
-    if(nextPages.value == null) {
+    // Cek apakah nextPages adalah null untuk menentukan submit akhir
+    const isSubmit = nextPages.value == null;
+
+    if (isSubmit) {
         Swal.fire({
-        title: "Kirim jawaban sekarang?",
-        text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonColor: "#3b3f5c",
-        cancelButtonText: "Cek Ulang",
-        confirmButtonColor: "#3030f8",
-        confirmButtonText: "Ya, kirim"
-        }).then(async(result) => {
+            title: "Kirim jawaban sekarang?",
+            text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
+            icon: "question",
+            showCancelButton: true,
+            cancelButtonColor: "#3b3f5c",
+            cancelButtonText: "Cek Ulang",
+            confirmButtonColor: "#3030f8",
+            confirmButtonText: "Ya, kirim"
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                // console.log('jawaban yg dikirim', arrCodeJawabanPertanyaan)
                 try {
-                    const data = new FormData();
-                    data.append('customer_id', props.customerId)
-                    data.append('answers', JSON.stringify(arrCodeJawabanPertanyaan.value));
+                    // Buat payload data jawaban
+                    const payload = {
+                        customer_id: props.customerId, // Ambil ID pelanggan dari props
+                        answers: arrCodeJawabanPertanyaan.value // Array jawaban yang akan dikirim
+                    };
+
+                    // Dapatkan token dari cookie
                     const token = Cookies.get('token');
+                    if (!token) {
+                        throw new Error("Token tidak valid. Silakan login ulang.");
+                    }
 
-                    const response = await initAPI('post', 'customers/iaa', data, token);
-
-                    Swal.fire({
-                        title: "Jawaban kamu sudah direkam",
-                        text: "Kamu bisa melihat hasil test kamu setelah ini.",
-                        icon: "success",
-                        confirmButtonColor: "#3030f8",
-                        confirmButtonText: "OK",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            emit('refreshData')
+                    // Kirim request menggunakan JSON payload
+                    const response = await initAPI(
+                        'post', 
+                        'customers/iaa', 
+                        payload, 
+                        token, 
+                        {
+                            headers: { 'Content-Type': 'application/json' }
                         }
-                    })
+                    );
+
+                    // Cek respons dari API
+                    if (response && response.status === 200) {
+                        Swal.fire({
+                            title: "Jawaban kamu sudah direkam",
+                            text: "Kamu bisa melihat hasil test kamu setelah ini.",
+                            icon: "success",
+                            confirmButtonColor: "#3030f8",
+                            confirmButtonText: "OK",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                emit('refreshData'); // Emit event untuk refresh data
+                            }
+                        });
+                    } else {
+                        // Tampilkan error jika respons tidak sesuai harapan
+                        throw new Error("Failed to submit answers: " + (response?.data?.message || 'Unknown error'));
+                    }
                 } catch (error) {
+                    // Tampilkan error jika pengiriman gagal
+                    console.error("Error submitting answers:", error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Failed to submit answers',
+                        text: error.message || 'Failed to submit answers',
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 3000, // Tampilkan pesan error lebih lama agar terlihat
                     });
                 }
             }
         });
-        
     } else {
         // Jika ada jawaban yang belum diisi, tampilkan peringatan
         if (!checkAllQuestionsAnswered()) {
@@ -168,22 +196,38 @@ const handleNextQuestion = () => {
         } else {
             // Jika semua jawaban sudah diisi, tampilkan konfirmasi
             Swal.fire({
-                title: "Selesai",
+                title: "Lanjut ke halaman berikutnya?",
                 text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
                 icon: "question",
                 showCancelButton: true,
                 cancelButtonColor: "#3b3f5c",
                 cancelButtonText: "Cek Ulang",
                 confirmButtonColor: "#3030f8",
-                confirmButtonText: "Selesai",
+                confirmButtonText: "Lanjutkan",
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Jika dikonfirmasi, panggil getNextQuestion
+                    getNextQuestion();
                 }
             });
         }
     }
 };
+
+// Fungsi getNextQuestion diubah menjadi submit langsung ketika tidak ada nextPages
+const getNextQuestion = async () => {
+    if (nextPages.value !== null) {
+        const page = nextPages.value.split('?page=')[1];
+        console.log(`next page`, page);
+        await getDataPertanyaan(page);
+        // scrollToSection();
+    } else {
+        // Jika nextPages null, berarti submit jawaban
+        handleNextQuestion();
+    }
+};
+
+
 
 const getDataPertanyaan = async(page = 1) => {
     loadingQuestion.value = !loadingQuestion.value
