@@ -81,6 +81,7 @@ const routes = [
 
                 if(decodeRoleUser == 'consultant') next({name: 'consultant.views.dashboard'})
                 if(decodeRoleUser == 'admin') next({name: 'admin.views.dashboard'})
+                if(decodeRoleUser == 'staff') next({name: 'staff.views.dashboard'})
 
                 next()
             } 
@@ -136,6 +137,35 @@ const routes = [
 
                 if(decodeRoleUser == 'customer') next({name: 'views.dashboard'})
                 if(decodeRoleUser == 'consultant') next({name: 'consultant.views.dashboard'})
+
+                next()
+            } 
+        }
+    },
+
+    {
+        path: '/staff/dashboard',
+        name: 'staff.views.dashboard',
+        // component: () => import('../components/dashboard/newDashboard2.vue'),
+        component: () => import('@/views/REMAKE/Dashboard/Kepsek/Dashboard.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if(!isAuth || !token){
+                localStorage.clear()
+                Cookies.remove('token')
+                next({ name: 'views.login' })
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role
+
+                if(decodeRoleUser == 'customer') next({name: 'views.dashboard'})
+                if(decodeRoleUser == 'consultant') next({name: 'consultant.views.dashboard'})
+                if(decodeRoleUser == 'admin') next({name: 'admin.views.dashboard'})
 
                 next()
             } 
