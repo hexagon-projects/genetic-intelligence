@@ -28,13 +28,13 @@
                 </div>
                 <section class="flex flex-col items-center gap-14 md:w-[1000px]">
                   <span class="w-full text-[#0B0B79] text-2xl font-semibold text-center font-['Sora'] leading-[32px]">Hasil Tes Internet Addiction Assessment</span>
-                    <div class=" box-border md:box-content flex flex-col justify-center gap-6 px-6 py-6 rounded-2xl bg-[#3030F8] w-auto shadow-lg self-stretch self-center">
+                    <div class=" box-border md:box-content flex flex-col justify-center gap-6 px-6 py-6 rounded-2xl bg-[#3030F8] w-auto shadow-lg self-stretch items-center">
                         <div class="flex justify-between items-center gap-6 leading-[24px] ">
                             <div class="w-[100px] h-[100px] flex mx-auto justify-center items-center">
                                 <img src="@/assets/icons/reshot-icon-search-results.svg">
                             </div>
                             <div class="flex flex-col flex-[1 0 0] items-start gap-4 w-full">
-                              <span class=" text-[#FFF] text-base font-normal font-['Roboto'] font-semibold self-stretch leading-8 not-italic">
+                              <span class=" text-[#FFF] text-base font-['Roboto'] font-semibold self-stretch leading-8 not-italic">
                                 {{ category }}
                             </span>
                             <span class=" text-[#FFF] text-base font-normal font-['Roboto'] leading-6 mt-2 not-italic">
