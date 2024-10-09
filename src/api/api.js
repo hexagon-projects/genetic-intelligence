@@ -50,7 +50,7 @@ import { useRouter } from 'vue-router'
 const initAPI = async (method, endpoint, data, token) => {
   const router = useRouter()
   // const baseUrl = import.meta.env.VITE_API_BASE_URL
-  const baseUrl = 'http://192.168.1.55:8001/api/'
+  const baseUrl = 'http://192.168.38.226:8001/api/'
   // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/') || endpoint.includes('consultants/')
   console.log(check)
