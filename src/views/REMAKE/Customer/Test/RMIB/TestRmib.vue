@@ -1,9 +1,8 @@
 <template>
-    <!-- <div v-if="loading" class="preloader-overlay">
+    <div v-if="loading" class="preloader-overlay">
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
-    </div> -->
+    </div>
 
-    
     <transition name="fade" mode="out-in">
         <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
         >
@@ -11,9 +10,9 @@
         </div>
     </transition>
 
-    <!-- <div v-if="dataProfileInclomplete">
+    <div v-if="dataProfileInclomplete">
         <modalCekProfile/>
-    </div> -->
+    </div>
 
     <Layout>
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
@@ -44,7 +43,7 @@
             </div>
 
             <div v-if="!isInstruksi" class="mb-[48px] w-full flex justify-center items-center">
-                <SoalRmib/>
+                <SoalTest :customerId="customerId" @refreshData="getUserData"/>
             </div>
         </section>
     </Layout>
@@ -55,49 +54,50 @@ import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import Layout from '@/Layout/Customer/Layout.vue';
 import Instruksi from './intruksi.vue';
 // import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
-import SoalRmib from '@/views/REMAKE/Customer/Test/RMIB/SoalRmib.vue';
+import SoalTest from './SoalRmib.vue';
 import { useStore } from 'vuex';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
-// import cekDataProfile from '@/cekProfile'
-// import cekDataProfile from '@/components/cekProfile';
+import cekDataProfile from '@/components/cekProfile';
 import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
-// import modalCekProfile from '../../modalCekProfile/modalCekProfile.vue';
 
 const isKebijakanPrivasi = ref(true)
-// const dataProfileInclomplete = cekDataProfile()
+const dataProfileInclomplete = cekDataProfile()
 
 // const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Intelligent Quotient (IQ)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const store = useStore()
 
-// const loading = ref(true)
+const loading = ref(true)
 
 const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
-// const customerId = ref(null)
+const customerId = ref(null)
 
-// const getUserData = async() => {
-//     try {
-//         const token = Cookies.get('token')
-//         const userData = await initAPI('get', 'rmib/questions?gender=1', null, token)
-//         jobs.value = userData.data.data[0].job.map(job => job.name)
-//         console.log(userData.data)
-//     } catch (error) {
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Error',
-//             text: 'Terjadi kesalahan saat mengambil data user',
-//             showConfirmButton: false,
-//             timer: 2000
-//         });
-//     } finally {
-//         // loading.value = false
-//     }
-// }
+const getUserData = async() => {
+    try {
+        const token = Cookies.get('token')
+        const formData = new FormData()
+        formData.append('refresh_user', 'true')
+        const userData = await initAPI('post', 'login', formData, token)
+
+        customerId.value = userData.data.customer.id
+        isTested.value = userData.data.customer.customers_rmib == null ? false : true
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi kesalahan saat mengambil data user',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    } finally {
+        loading.value = false
+    }
+}
 
 // onMounted(()=>{
 //     getUserData()
@@ -107,13 +107,13 @@ const toggleKebijakanPrivasi = () => {
     isKebijakanPrivasi.value = !isKebijakanPrivasi.value
 }
 
-// onMounted(async() => {
-//    await getUserData()
-// })
+onMounted(async() => {
+   await getUserData()
+})
 
 onBeforeMount(() => {
     const doneInstruksi = localStorage.getItem('isInstruksi')
-    if(doneInstruksi && doneInstruksi == 'done'){
+    if(doneInstruksi && doneInstruksi == 'good udah baca intruksi'){
         store.commit('setIsInstruksi', false)
     }
 
