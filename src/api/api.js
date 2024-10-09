@@ -50,7 +50,7 @@ import { useRouter } from 'vue-router'
 const initAPI = async (method, endpoint, data, token) => {
   const router = useRouter()
   const baseUrl = import.meta.env.VITE_API_BASE_URL
-  // const baseUrl = 'http://178.128.110.149/api/'
+  // const baseUrl = 'http://192.168.38.226:8001/api/'
   // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/') || endpoint.includes('consultants/')
   console.log(check)
@@ -58,11 +58,11 @@ const initAPI = async (method, endpoint, data, token) => {
     method: method,
     maxBodyLength: Infinity,
     url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
-    headers: { 
+    headers: {
       'Content-Type': check ? 'multipart/form-data' : 'application/json',
       'Authorization': token !== null ? `Bearer ${token}` : null
     },
-    data : data !== null ? data : null
+    data: data !== null ? data : null
   };
 
   try {

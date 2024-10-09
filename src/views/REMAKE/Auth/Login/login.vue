@@ -152,8 +152,13 @@ const Login = async () => {
                 case 'consultant':
                     router.push({name: 'consultant.views.dashboard'})
                     break;
+
                 case 'admin':
                     router.push({name: 'admin.views.dashboard'})
+                    break;
+                
+                case 'staff':
+                    router.push({name: 'staff.views.dashboard'})
                     break;
             }
         } catch (error) {
