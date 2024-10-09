@@ -28,7 +28,7 @@
     "vue": "^3.3.11",
     "vue-chartjs": "^5.3.0",
     "vue-image-zoomer": "^2.2.3",
-    "vue-router": "^4.2.5",
+    "vue-router": "^4.4.5",
     "vue-timer-hook": "^1.0.84",
     "vue3-select2-component": "^0.1.7",
     "vuex": "^4.0.2"

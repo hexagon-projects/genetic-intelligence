@@ -8,7 +8,7 @@ import Consultant from "./role/Consultant"
 import Customer from "./role/Customer"
 
 const routes = [
-    { 
+    {
         path: '/:pathMatch(.*)*',
         name: 'views.404notfound',
         component: () => import('../views/404notfound/notfound.vue'),
@@ -28,7 +28,7 @@ const routes = [
         },
         beforeEnter: (to, from, next) => {
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(to.name == 'views.login' && isAuth) next({ name: 'views.dashboard' })
+            if (to.name == 'views.login' && isAuth) next({ name: 'views.dashboard' })
             else next()
         }
     },
@@ -71,7 +71,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || !token){
+            if (!isAuth || !token) {
                 localStorage.clear()
                 Cookies.remove('token')
                 next({ name: 'views.login' })
@@ -79,11 +79,11 @@ const routes = [
                 const decodedToken = jwtDecode(token);
                 const decodeRoleUser = decodedToken.role
 
-                if(decodeRoleUser == 'consultant') next({name: 'consultant.views.dashboard'})
-                if(decodeRoleUser == 'admin') next({name: 'admin.views.dashboard'})
+                if (decodeRoleUser == 'consultant') next({ name: 'consultant.views.dashboard' })
+                if (decodeRoleUser == 'admin') next({ name: 'admin.views.dashboard' })
 
                 next()
-            } 
+            }
         }
     },
     {
@@ -98,7 +98,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || !token){
+            if (!isAuth || !token) {
                 localStorage.clear()
                 Cookies.remove('token')
                 next({ name: 'views.login' })
@@ -106,11 +106,65 @@ const routes = [
                 const decodedToken = jwtDecode(token);
                 const decodeRoleUser = decodedToken.role
 
-                if(decodeRoleUser == 'customer') next({name: 'views.dashboard'})
-                if(decodeRoleUser == 'admin') next({name: 'admin.views.dashboard'})
+                if (decodeRoleUser == 'customer') next({ name: 'views.dashboard' })
+                if (decodeRoleUser == 'admin') next({ name: 'admin.views.dashboard' })
 
                 next()
-            } 
+            }
+        }
+    },
+    {
+        path: '/kepsek/dashboard',
+        name: 'kepsek.views.dashboard',
+        // component: () => import('../components/dashboard/newDashboard2.vue'),
+        component: () => import('@/views/REMAKE/Dashboard/Kepsek/Dashboard.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!isAuth || !token) {
+                localStorage.clear()
+                Cookies.remove('token')
+                next({ name: 'views.login' })
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role
+
+                if (decodeRoleUser == 'customer') next({ name: 'views.dashboard' })
+                if (decodeRoleUser == 'admin') next({ name: 'admin.views.dashboard' })
+
+                next()
+            }
+        }
+    },
+    {
+        path: '/kepsek/siswa/dashboard',
+        name: 'kepsek.siswa.dashboard',
+        // component: () => import('../components/dashboard/newDashboard2.vue'),
+        component: () => import('@/views/REMAKE/Dashboard/Kepsek/Siswa/Dashboard.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!isAuth || !token) {
+                localStorage.clear()
+                Cookies.remove('token')
+                next({ name: 'views.login' })
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role
+
+                if (decodeRoleUser == 'customer') next({ name: 'views.dashboard' })
+                if (decodeRoleUser == 'admin') next({ name: 'admin.views.dashboard' })
+
+                next()
+            }
         }
     },
 
@@ -126,7 +180,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if(!isAuth || !token){
+            if (!isAuth || !token) {
                 localStorage.clear()
                 Cookies.remove('token')
                 next({ name: 'views.login' })
@@ -134,11 +188,11 @@ const routes = [
                 const decodedToken = jwtDecode(token);
                 const decodeRoleUser = decodedToken.role
 
-                if(decodeRoleUser == 'customer') next({name: 'views.dashboard'})
-                if(decodeRoleUser == 'consultant') next({name: 'consultant.views.dashboard'})
+                if (decodeRoleUser == 'customer') next({ name: 'views.dashboard' })
+                if (decodeRoleUser == 'consultant') next({ name: 'consultant.views.dashboard' })
 
                 next()
-            } 
+            }
         }
     },
 
@@ -166,7 +220,7 @@ const routes = [
             }
         }
     },
-    
+
     {
         path: '/pembayaran/:tipePembayaran',
         name: 'user.views.pembayaran',
@@ -178,7 +232,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             const allowedPayments = ['test-gim', 'test-iq', 'test-assessment', 'starter-pack']
             const tipePembayaran = to.params.tipePembayaran;
-    
+
             if (allowedPayments.includes(tipePembayaran)) {
                 next()
             } else {
@@ -219,7 +273,7 @@ const routes = [
     // },
 ]
 
-const router =  createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes
 })
