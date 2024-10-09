@@ -1,9 +1,8 @@
 <template>
-    <!-- <div v-if="loading" class="preloader-overlay">
+    <div v-if="loading" class="preloader-overlay">
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
-    </div> -->
+    </div>
 
-    
     <transition name="fade" mode="out-in">
         <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
         >
@@ -11,9 +10,9 @@
         </div>
     </transition>
 
-    <!-- <div v-if="dataProfileInclomplete">
+    <div v-if="dataProfileInclomplete">
         <modalCekProfile/>
-    </div> -->
+    </div>
 
     <Layout>
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
@@ -31,7 +30,7 @@
         <!-- <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_iq" message="Test IQ Selesai!"
         :subMessage="subMessage"/> -->
 
-        <section v-if="!isTested" class="pb-[34px] w-full bg-white">
+        <section class="pb-[34px] w-full bg-white">
             <transition name="fade" mode="out-in">
                 <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
                 >
@@ -44,8 +43,10 @@
             </div>
 
             <div v-if="!isInstruksi" class="mb-[48px] w-full flex justify-center items-center">
-                <SoalTest/>
+                <SoalTest v-if="!showEssay && customerGen" :customerGen="customerGen" :customerId="customerId" @refreshData="getUserData" @soalSelesai="handleSoalSelesai"/>
+
             </div>
+                <SoalEssayRmib v-if="showEssay"/>
         </section>
     </Layout>
 </template>
@@ -54,39 +55,44 @@
 import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import Layout from '@/Layout/Customer/Layout.vue';
 import Instruksi from './intruksi.vue';
-import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
-import SoalTest from '@/components/REMAKE/Test/IQ/SoalTest/SoalTest.vue';
+// import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
+import SoalTest from './SoalRmib.vue';
+import SoalEssayRmib from './SoalEssayRmib.vue';
 import { useStore } from 'vuex';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
-// import cekDataProfile from '@/cekProfile'
-// import cekDataProfile from '@/components/cekProfile';
+import cekDataProfile from '@/components/cekProfile';
 import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
-// import modalCekProfile from '../../modalCekProfile/modalCekProfile.vue';
 
 const isKebijakanPrivasi = ref(true)
-// const dataProfileInclomplete = cekDataProfile()
+const dataProfileInclomplete = cekDataProfile()
 
 // const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Intelligent Quotient (IQ)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const store = useStore()
-
-// const loading = ref(true)
-
-const isTested = ref(false)
+const loading = ref(true)
+// const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
-// const customerId = ref(null)
+const customerId = ref(null)
+const customerGen = ref('')
+const showEssay = ref(false); // State untuk menampilkan soal essay
 
 const getUserData = async() => {
     try {
         const token = Cookies.get('token')
-        const userData = await initAPI('get', 'rmib/questions?gender=1', null, token)
+        const formData = new FormData()
+        formData.append('refresh_user', 'true')
 
-        console.log(userData.data)
+        const userData = await initAPI('post', 'login', formData, token)
+        console.log(`data user`, userData.data)
+        customerId.value = userData.data.customer.id
+        // isTested.value = userData.data.customer.customers_rmib == null ? false : true
+        customerGen.value = userData.data.customer.gender == 'Perempuan' ? 2 : 1
     } catch (error) {
+        console.log(`cek`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -95,30 +101,37 @@ const getUserData = async() => {
             timer: 2000
         });
     } finally {
-        // loading.value = false
+        loading.value = false
     }
 }
 
-onMounted(()=>{
-    getUserData()
-})
+// onMounted(()=>{
+//     getUserData()
+// })
 
 const toggleKebijakanPrivasi = () => {
     isKebijakanPrivasi.value = !isKebijakanPrivasi.value
 }
 
-// onMounted(async() => {
-//    await getUserData()
-// })
+const handleSoalSelesai = () => {
+    showEssay.value = true;
+};
+
+onMounted(async() => {
+   await getUserData()
+})
 
 onBeforeMount(() => {
     const doneInstruksi = localStorage.getItem('isInstruksi')
-    if(doneInstruksi && doneInstruksi == 'done'){
+    if(doneInstruksi && doneInstruksi == 'good udah baca intruksi'){
         store.commit('setIsInstruksi', false)
     }
 
     if(localStorage.getItem('isKebijakanPrivasi') == 'Ya'){
         isKebijakanPrivasi.value = false
+    }
+    if(localStorage.getItem('selesaibagianpilihan') == 'done'){
+        showEssay.value = true
     }
 })
 </script>

@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col items-center gap-[24px]">
+        <div class="flex flex-col items-center gap-[24px] pb-4">
             <button class="hover:shadow-2xl hover:translate-x-1 transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
                 <div class="text-white text-base font-normal font-['Roboto'] leading-normal">Kirim Jawaban</div>
                 <div class="w-6 h-6 relative">
