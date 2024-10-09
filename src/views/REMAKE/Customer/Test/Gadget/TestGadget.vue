@@ -48,7 +48,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import Layout from '@/Layout/Customer/Layout.vue';
 import ReservasiFooter from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
-import SelesaiTest from '@/views/REMAKE/Customer/Test/Gadget/SelesaiTest.vue';
+import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
 import SoalGadget from '@/views/REMAKE/Customer/Test/Gadget/SoalGadget.vue';
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
 import cekDataProfile from '@/components/cekProfile';
@@ -57,7 +57,7 @@ import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
 const isKebijakanPrivasi = ref(true)
 const dataProfileInclomplete = cekDataProfile()
 
-const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Assesment</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
+const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Assesment Internet Addiction</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const loading = ref(true)
 const customerId = ref('')
