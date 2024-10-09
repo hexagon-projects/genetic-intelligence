@@ -15,139 +15,112 @@
             </div>
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test IAA</div>
         </div>
-        <div class="flex items-center bg-white">
-            <img src="@/assets/img/logo-jatidiri-hasi-cpm.png">
-            <span class="text-center text-[#0B0B79] font-normal font-['Sora']">Hasil Tes Internet Addiction Assessment</span>
-        </div>
 
-        <BelumTest v-if="!isTested" routeUrl="user.views.gadget" message="Kamu Belum Melakukan Test Assessment!" 
-        subMessage="Wah, sayang sekali kamu belum coba Tes Asesment! Yuk, kenali dulu gaya belajarmu lewat Tes Assessment!"/>
+        <BelumTest v-if="!isTested" routeUrl="user.views.test_gadget" message="Kamu Belum Melakukan Test Kecanduan Gadget!" 
+        subMessage="Wah, sayang sekali kamu belum coba Tes Kecanduan Gadget! Yuk, lakukan tes sekarang juga!"/>
 
-        <div v-if="isTested">
-            <section class="flex flex-col items-center gap-14 w-[1216px]">
-            <!-- Gambar -->
-                <div class="flex justify-center">
-                   <img src="@/assets/img/logo-jatidiri-hasi-cpm.png" alt="Internet Addiction Assessment" class="w-[200px] h-[158.54px]" />
-                </div>
-                <!-- Tulisan Hasil Tes -->
-                <div class="w-full text-[#0B0B79] text-2xl font-semibold text-center font-['Sora'] leading-[32px]">Hasil Tes Internet Addiction Assessment
+        <div v-if="isTested" >
+          <section class=" md:w-[1000px] h-auto mx-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-14 items-center">
+            <div class="flex flex-col items-center gap-14 md:w-[1000px]">
+              <div class="flex flex-col items-center gap-2 self-stretch justify-center ">
+                  <div class="md:w-[200px] md:h-[158.54px] mx-auto">
+                      <img src="@/assets/img/logo-jatidiri-hasi-cpm.png">
+                  </div>
+                  <section class="flex flex-col items-center gap-14 md:w-[1000px]">
+                    <span class="w-full text-[#0B0B79] text-2xl font-semibold text-center font-['Sora'] leading-[32px]">Hasil Tes Internet Addiction Assessment</span>
+                      <div class=" box-border md:box-content flex flex-col justify-center gap-6 px-6 py-6 rounded-2xl bg-[#3030F8] w-auto shadow-lg self-stretch self-center">
+                          <div class="flex justify-between items-center gap-6 leading-[24px] ">
+                              <div class="w-[100px] h-[100px] flex mx-auto justify-center items-center">
+                                  <img src="@/assets/icons/reshot-icon-search-results.svg">
+                              </div>
+                              <div class="flex flex-col flex-[1 0 0] items-start gap-4 w-full">
+                                <span class=" text-[#FFF] text-base font-normal font-['Roboto'] font-semibold self-stretch leading-8 not-italic">Coba
+                                  {{ category }}
+                              </span>
+                              <span class=" text-[#FFF] text-base font-normal font-['Roboto'] leading-6 mt-2 not-italic">Coba lagi
+                                  {{ description }}
+                              </span>
+                              </div>
+                          </div>
+                      </div> 
+                  </section>
+              </div>
+            </div>
+              
+          </section>
 
-                </div>
-                <!-- Jarak antar elemen -->
-                <div class="flex flex-col items-center gap-14 w-[1216px]">
-                    <!-- Box dengan Konten -->
-                        <div class="flex justify-center items-center gap-6 p-6 rounded-lg bg-[#3030F8]">
-                            <!-- Icon sebagai Gambar -->
-                            <div class="flex justify-center">
-                                <img src="@assets/icons/reshot-icon-search-results.svg" alt="Icon" class="w-[100px] h-[100px]" />
-                            </div>
-                            <!-- Tulisan Penggunaan Normal -->
-                            <div class="w-full text-[#FFF] text-2xl font-semibold font-['Roboto'] leading-[32px]">Penggunaan Normal</div>
-                            <!-- Tulisan Deskripsi -->
-                            <p class="w-full text-[#FFF] text-base font-normal font-['Roboto'] leading-[24px]">Kamu punya kontrol yang baik atas penggunaan internet dan jarang mengalami masalah karena waktu yang dihabiskan online.</p>
-                        </div>
-                    </div>
-            </section>
 
-            <section id="penjelasan" class="bg-white py-[52px]">
-                <div class="mx-[30px] md:mx-[120px] bg-white flex flex-col gap-9">
-                    <div class="flex-col justify-start items-center gap-4 inline-flex">
-                        <div class="px-4 py-1 bg-[#d6d6fe] rounded-[99px] justify-center items-center gap-2.5 inline-flex">
-                            <div class="text-[#3030f8] text-sm lg:text-base font-medium font-['Roboto'] leading-normal">Keterangan</div>
-                        </div>
-                        <div class="self-stretch text-center text-[#0b0b79] text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">Mengenal Berbagai Tipe Gaya Belajar</div>
-                        <div class="self-stretch text-center text-[#667084] text-sm lg:text-base font-normal font-['Roboto'] leading-normal">Tipe gaya belajar Audio, Visual, Kinestetik, dan campuran adalah salah satu model yang paling dikenal dan digunakan dalam memahami preferensi belajar individu. Berikut adalah penjelasan mengenai masing-masing gaya belajar tersebut:</div>
-                    </div>
-
-                    <div class="mb-[20px] pb-2 md:pb-0 flex flex-row justify-start overflow-x-scroll lg:overflow-x-auto lg:justify-center items-center gap-5">
-                        <div class="w-[270px] h-[220px] px-[57px] py-4 bg-[#acacfc] rounded-3xl shadow justify-center items-center inline-flex">
-                            <div class="flex flex-col items-center gap-2">
-                                <img src="@/assets/icons/icon-visual.svg" alt="visual">
-                                <span class="text-white text-base font-medium font-['Roboto'] leading-normal">Visual</span>
-                            </div>
-                        </div>
-
-                        <div class="w-[270px] h-[220px] px-[57px] py-4 bg-[#8383FB] rounded-3xl shadow justify-center items-center inline-flex">
-                            <div class="flex flex-col items-center gap-2">
-                                <img src="@/assets/icons/icon-auditori.svg" alt="auditori">
-                                <span class="text-white text-base font-medium font-['Roboto'] leading-normal">Auditori</span>
-                            </div>
-                        </div>
-
-                        <div class="w-[270px] h-[220px] px-[57px] py-4 bg-[#5959F9] rounded-3xl shadow justify-center items-center inline-flex">
-                            <div class="flex flex-col items-center gap-2">
-                                <img src="@/assets/icons/icon-kinestetik.svg" alt="kinestetik">
-                                <span class="text-white text-base font-medium font-['Roboto'] leading-normal">Kinestetik</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-6">
-                        <div v-for="(item, index) in items" :key="index"  @click="toggleOpen(index)"
-                        :class="{'border-[#3030f8]': isOpenArray[index]}" 
-                        class="transition-all duration-500 ease-in-out cursor-pointer h-auto p-9 bg-white rounded-3xl border shadow-md flex-col justify-start items-start gap-2.5 inline-flex">
-                            <div class="self-stretch justify-center items-center gap-6 inline-flex">
-                                <div class="grow shrink basis-0 flex-col justify-start items-start gap-4 inline-flex">
-                                    <div class="self-stretch text-[#031b4e] text-base lg:text-2xl font-medium font-['Roboto'] leading-loose">
-                                        {{ item.title }}
-                                    </div>
-                                </div>
-                                <div class="w-[50.66px] h-[50.66px] relative">
-                                    <div :class="{'bg-[#3030f8]': isOpenArray[index], 'bg-white': !isOpenArray[index]}" class="w-[50.66px] h-[50.66px] flex items-center justify-center rounded-full shadow">
-                                        <span :class="{'rotate-90 text-white': isOpenArray[index], 'text-black': !isOpenArray[index]}" class="transition-all duration-150 text-xl lg:text-2xl"><PhCaretRight/></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <transition
-                            name="slide-fade"
-                            >
-                                <div v-if="isOpenArray[index]" v-html="item.content" class="w-[90%] text-xs lg:text-base"></div>
-                            </transition>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="bg-white py-[46px]">
-                <Reservasi/>
-            </section>
-        </div>
+          <section class="bg-white py-[46px]">
+              <Reservasi/>
+          </section>
+      </div>
     </Layout>
 </template>
-<script>
+
+<script setup>
 import Layout from '@/Layout/Customer/Layout.vue';
 import Reservasi from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
-import BelumTest from '@/views/REMAKE/Customer/Test/Gadget/BelumTest.vue';
+import BelumTest from '@/components/REMAKE/HasilTest/BelumTest/BelumTest.vue';
+//import HasilTest from '@/views/REMAKE/Customer/Test/Gadget/HasilTest';
 import { onMounted, onBeforeUnmount, ref } from 'vue';
-import 'video.js/dist/video-js.css';
-import '@videojs/http-streaming';
-import { PhCaretRight } from '@phosphor-icons/vue';
 import Cookies from 'js-cookie';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const category = route.query.category || 'Tidak Diketahui'; // Ambil kategori dari query parameter
+const description = route.query.description || ''; // Ambil deskripsi dari query parameter
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+
 const loading = ref(true)
 const isTested = ref(true)
-const isOpen = ref(false)
 
-const dataAssessment = ref(null)
+const dataIaa = ref(null)
+
+const scrollToSection = () => {
+  const section = document.getElementById('penjelasan');
+  section.scrollIntoView({ behavior: 'smooth' });
+};
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+
 const items = ref([
   {
-    title: 'Pengunaan Normal',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Kamu punya kontrol yang baik atas penggunaan internet dan jarang mengalami masalah karena waktu yang dihabiskan online<br/></span>`,
+    title: 'Maksimalkan Belajar dengan Gaya Visual',
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui penglihatan. Mereka lebih mudah memahami dan mengingat informasi yang disajikan dalam bentuk gambar, grafik, diagram, peta, dan media visual lainnya.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka membuat catatan dan menggambar peta konsep.<br/>Memiliki ketertarikan pada warna dan tata letak yang menarik.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan grafik, diagram, dan peta konsep untuk mengorganisir informasi.<br/>Gunakan penyorot warna-warni pada buku atau catatan untuk membedakan informasi penting.<br/>Tonton video edukatif yang relevan dengan materi pelajaran.<br/>Buat mind map atau peta pikiran untuk menghubungkan konsep-konsep.</span>`,
   },
   {
-    title: 'Cenderung Kecanduan',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Kamu mulai menunjuk tanda-tanda bahwa penggunaan internet mungkin sudah terlalu banyak dan mengganggu aktivitas seperti sekolah atau hubungan dengan orang lain.<br/></span>`,
+    title: 'Maksimalkan Belajar dengan Gaya Auditori',
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui pendengaran. Mereka lebih mudah mengingat informasi yang didengar melalui ceramah, diskusi, dan rekaman audio.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka mendengarkan penjelasan daripada membaca teks.<br/>Mampu mengingat detail percakapan dan suara.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Dengarkan rekaman ceramah atau podcast tentang topik yang sedang dipelajari.<br/>Ikuti diskusi kelompok atau belajar dengan teman untuk berdiskusi tentang materi.<br/>Baca materi pelajaran dengan suara keras.<br/>Gunakan teknik mnemonik auditori seperti rima atau lagu untuk menghafal informasi.</span>`,
   },
   {
-    title: 'Kecanduan Serius',
-    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Penggunaan internet sudah terlalu banyak dan mulai menyebabkan masalah besar dalam hidupmu. Perlu ada tindakan untuk mengurangi ketergantungan ini.<br/></span>`,
+    title: 'Pembelajaran Aktif melalui Gaya Kinestetik',
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/>Gaya belajar di mana individu belajar paling efektif melalui gerakan dan pengalaman fisik. Mereka lebih mudah memahami dan mengingat informasi ketika terlibat dalam aktivitas fisik atau praktis.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Suka belajar dengan melakukan dan menyentuh objek.<br/>Memiliki kesulitan duduk diam untuk waktu yang lama.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gunakan alat bantu fisik atau model saat belajar konsep baru.<br/>Terlibat dalam eksperimen atau proyek praktis yang relevan dengan materi pelajaran.<br/>Gunakan permainan peran atau simulasi untuk memahami konsep.<br/>Beristirahat secara teratur untuk bergerak dan melepaskan energi.</span>`,
   },
+  {
+    title: 'Kombinasi Optimal dengan Gaya Belajar Campuran',
+    content: `<span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Definisi: <br/> Gaya belajar di mana individu memiliki kombinasi dari dua atau lebih gaya belajar (visual, auditori, kinestetik, dan membaca/menulis). Mereka dapat menyesuaikan strategi belajar berdasarkan situasi dan materi pelajaran.<br/><br/>Karakteristik:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Fleksibel dalam pendekatan belajar dan dapat menyesuaikan strategi berdasarkan situasi dan materi pelajaran.<br/>Dapat menggabungkan berbagai teknik belajar untuk meningkatkan pemahaman dan retensi informasi.<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal"> <br/>Strategi Belajar:<br/></span><span class="text-[#667084]  font-normal font-['Roboto'] leading-normal">Gabungkan berbagai metode belajar yang sesuai dengan gaya belajar dominan. Misalnya, baca catatan (visual), diskusikan dengan teman (auditori), dan lakukan eksperimen (kinestetik).<br/>Gunakan alat bantu visual saat mendengarkan penjelasan audio.<br/>Buat catatan dan kemudian bacakan dengan suara keras sambil bergerak.<br/>Ikuti kelas yang menawarkan berbagai metode pengajaran, seperti kuliah interaktif yang mencakup diskusi, presentasi visual, dan aktivitas praktis.</span>`,
+  }
 ])
-const getAssessmentData = async(userId) => {
+
+const isOpenArray = ref(items.value.map(() => false))
+
+const toggleOpen = (index) => {
+  isOpenArray.value[index] = !isOpenArray.value[index]
+}
+
+const getIaaData = async(userId) => {
     try {
         const token = Cookies.get('token')
     
@@ -156,7 +129,7 @@ const getAssessmentData = async(userId) => {
     
         isTested.value = response.data.data.length > 0 ? true : false
         if(response.data.data.length > 0){
-            dataAssessment.value = response.data.data[0]
+            dataIaa.value = response.data.data[0]
     
             response.data.data[0].total_answer.forEach(element => {
                 persentaseJawaban.value.push(element.percentage) 
@@ -167,7 +140,7 @@ const getAssessmentData = async(userId) => {
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Terjadi error saat mengambil data IAA user',
+            text: 'Terjadi error saat mengambil data iaa user',
             showConfirmButton: false,
             timer: 2000
         });
@@ -182,7 +155,7 @@ const getUserData = async() => {
         const userData = await initAPI('post', 'login', formData, token)
         console.log(`data hasil`, userData.data)
 
-        await getAssessmentData(userData.data.customer.id)
+        await getIaaData(userData.data.customer.id)
     } catch (error) {
         Swal.fire({
             icon: 'error',
@@ -201,3 +174,43 @@ onMounted(async() => {
     await getUserData()
 })
 </script>
+
+<style scoped>
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 100%;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+.preloader-overlay.hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Transition for fade and slide effect */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: transform 0.3s ease-out;
+}
+
+/* Mengatur elemen saat mulai masuk dan menghilang */
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px); /* Efek geser saat elemen muncul dan menghilang */
+}
+
+/* Mengatur elemen saat masuk ke posisi akhir */
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+  transform: translateX(0); /* Posisi akhir elemen */
+}
+</style>
