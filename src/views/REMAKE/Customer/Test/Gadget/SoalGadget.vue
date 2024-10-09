@@ -82,12 +82,13 @@ const router = useRouter()
 
 const loadingSubmit = ref(false)
 const loadingQuestion = ref(false)
-
 const dataPertanyaan = ref(null)
 const nextPages = ref('')
 const jawabanPertanyaan = ref([])
 
 const arrCodeJawabanPertanyaan = ref([])
+//const isSubmit = ref(false)
+
 
 const scrollToSection = () => {
     setTimeout(() => {
@@ -163,6 +164,8 @@ const handleNextQuestion = () => {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 emit('refreshData'); // Emit event untuk refresh data
+                                // router.push({ name: 'views.SelesaiTest' })
+                                router.go()
                             }
                         });
                     } else {
@@ -212,6 +215,8 @@ const handleNextQuestion = () => {
             });
         }
     }
+    //isSubmit.value = true; //Tampilkan
+    //HasilGadget.vueisSubmit.value = true; // Tampilkan HasilGadget.vue
 };
 
 // Fungsi getNextQuestion diubah menjadi submit langsung ketika tidak ada nextPages
@@ -226,8 +231,6 @@ const getNextQuestion = async () => {
         handleNextQuestion();
     }
 };
-
-
 
 const getDataPertanyaan = async(page = 1) => {
     loadingQuestion.value = !loadingQuestion.value
@@ -267,6 +270,8 @@ const getDataPertanyaan = async(page = 1) => {
     }
     loadingQuestion.value = !loadingQuestion.value
 }
+
+
 
 onMounted(async() => {
     await getDataPertanyaan()
