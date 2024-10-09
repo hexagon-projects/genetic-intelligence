@@ -30,7 +30,7 @@
         <!-- <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_iq" message="Test IQ Selesai!"
         :subMessage="subMessage"/> -->
 
-        <section v-if="!isTested" class="pb-[34px] w-full bg-white">
+        <section class="pb-[34px] w-full bg-white">
             <transition name="fade" mode="out-in">
                 <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
                 >
@@ -43,8 +43,10 @@
             </div>
 
             <div v-if="!isInstruksi" class="mb-[48px] w-full flex justify-center items-center">
-                <SoalTest :customerId="customerId" @refreshData="getUserData"/>
+                <SoalTest v-if="!showEssay && customerGen" :customerGen="customerGen" :customerId="customerId" @refreshData="getUserData" @soalSelesai="handleSoalSelesai"/>
+
             </div>
+                <SoalEssayRmib v-if="showEssay"/>
         </section>
     </Layout>
 </template>
@@ -55,6 +57,7 @@ import Layout from '@/Layout/Customer/Layout.vue';
 import Instruksi from './intruksi.vue';
 // import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
 import SoalTest from './SoalRmib.vue';
+import SoalEssayRmib from './SoalEssayRmib.vue';
 import { useStore } from 'vuex';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
@@ -70,23 +73,26 @@ const dataProfileInclomplete = cekDataProfile()
 // const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Intelligent Quotient (IQ)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const store = useStore()
-
 const loading = ref(true)
-
-const isTested = ref(false)
+// const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 const customerId = ref(null)
+const customerGen = ref('')
+const showEssay = ref(false); // State untuk menampilkan soal essay
 
 const getUserData = async() => {
     try {
         const token = Cookies.get('token')
         const formData = new FormData()
         formData.append('refresh_user', 'true')
-        const userData = await initAPI('post', 'login', formData, token)
 
+        const userData = await initAPI('post', 'login', formData, token)
+        console.log(`data user`, userData.data)
         customerId.value = userData.data.customer.id
-        isTested.value = userData.data.customer.customers_rmib == null ? false : true
+        // isTested.value = userData.data.customer.customers_rmib == null ? false : true
+        customerGen.value = userData.data.customer.gender == 'Perempuan' ? 2 : 1
     } catch (error) {
+        console.log(`cek`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -107,6 +113,10 @@ const toggleKebijakanPrivasi = () => {
     isKebijakanPrivasi.value = !isKebijakanPrivasi.value
 }
 
+const handleSoalSelesai = () => {
+    showEssay.value = true;
+};
+
 onMounted(async() => {
    await getUserData()
 })
@@ -119,6 +129,9 @@ onBeforeMount(() => {
 
     if(localStorage.getItem('isKebijakanPrivasi') == 'Ya'){
         isKebijakanPrivasi.value = false
+    }
+    if(localStorage.getItem('selesaibagianpilihan') == 'done'){
+        showEssay.value = true
     }
 })
 </script>
