@@ -71,19 +71,19 @@ import 'sweetalert2/dist/sweetalert2.css';
 const loading = ref(true)
 const isTested = ref(true)
 const dataIaa = ref(null)
-const category = ref("")
+const inicategory = ref("")
 const description = ref("")
 
-const hasilTest = ref(
-  {
-    "message": "Success",
-    "total": 90,
-    "category": "Kecanduan Serius: Penggunaan internet terlalu banyak dan mengganggu hidupmu."
-  }
-)
+// const hasilTest = ref(
+//   {
+//     "message": "Success",
+//     "total": 90,
+//     "category": "Kecanduan Serius: Penggunaan internet terlalu banyak dan mengganggu hidupmu."
+//   }
+// )
 
-const formattedCategoryHeader = hasilTest.value.category.split(': ')[0]
-const formattedCategoryDesc = hasilTest.value.category.split(': ')[1]
+const formattedCategoryHeader = ref('')
+const formattedCategoryDesc = ref('')
 // console.log(`output`, formattedCategory)
 
 const getIaaData = async(userId) => {
@@ -91,13 +91,9 @@ const getIaaData = async(userId) => {
       const token = Cookies.get('token')
       const response = await initAPI('get', `customers/iaa?customer_id=${userId}`, null, token)
       console.log(`data iaa`, response.data)
-  
-      // isTested.value = response.data.data.length > 0 ? true : false
-      // if(response.data.data.length > 0){
-      //     dataIaa.value = response.data.data.map(() => []);
-      //     category.value = dataIaa.value.category // Assign the category from API
-      //     description.value = dataIaa.value.description // Assign the description from API
-      // }
+
+      formattedCategoryHeader.value = response.data.data[0].category.split(': ')[0]
+      formattedCategoryDesc.value = response.data.data[0].category.split(': ')[1]
   } catch (error) {
       console.log(`error`,error)
       Swal.fire({
@@ -118,7 +114,7 @@ const getUserData = async() => {
       const userData = await initAPI('post', 'login', formData, token)
       console.log(`data hasil`, userData.data)
 
-      // await getIaaData(userData.data.customer.id)
+      await getIaaData(userData.data.customer.id)
   } catch (error) {
       Swal.fire({
           icon: 'error',
