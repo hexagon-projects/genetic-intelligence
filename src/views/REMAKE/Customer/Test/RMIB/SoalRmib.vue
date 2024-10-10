@@ -1,9 +1,9 @@
 <template>
   <div class="w-full h-auto flex justify-center">
-      <div class="mx-[30px] md:mx-[60px] w-[872px] h-auto p-9 bg-white rounded-3xl shadow flex-col justify-center items-center gap-6 inline-flex">
+      <div class="mx-[30px] md:mx-[80px] w-[872px] h-auto p-6 bg-white rounded-3xl shadow flex-col justify-center items-center gap-6 inline-flex">
           <div class="w-full flex flex-col justify-between items-center gap-5 relative">
-              <div class="text-left lg:text-center">
-                  <span class="text-black text-3xl md:text-3xl font-semibold font-['Sora'] leading-9">
+              <div class="text-ce lg:text-center">
+                  <span class="text-black text-xl md:text-3xl font-semibold font-['Sora'] leading-9">
                       Tentukan Urutan Prioritas Pekerjaan
                   </span>
               </div>
@@ -12,10 +12,10 @@
                       Pilih pekerjaan dari daftar berikut dengan memberikan nomor (1 hingga 12) sesuai minat kamu, 1 untuk yang paling kamu sukai dan 12 untuk yang paling tidak kamu sukai.
                   </span>
               </div>
-              <span class="text-sm font-semibold font-['Roboto'] text-[#3030f8] text-center md:hidden absolute top-6 right-2">
+              <!-- <span class="text-sm font-semibold font-['Roboto'] text-[#3030f8] text-center md:hidden absolute top-7 right-1">
                   Tipe Soal: {{ typeSoal }}
-              </span>
-              <span class="text-sm font-semibold font-['Roboto'] text-[#3030f8] text-center hidden md:block mt-2">
+              </span> -->
+              <span class="text-sm font-semibold font-['Roboto'] text-[#3030f8] text-center md:block mt-2">
                   Tipe Soal: {{ typeSoal }}
               </span>
           </div>

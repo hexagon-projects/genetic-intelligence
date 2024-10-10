@@ -1,7 +1,7 @@
 <template>
-<div class="w-full h-auto flex justify-center pt-2 pb-28">
-    <div class="mx-[30px] md:mx-[60px] w-[872px] h-auto p-9 bg-white rounded-3xl shadow flex-col justify-center items-center gap-6 inline-flex">
-        <div class="w-full flex flex-col lg:flex-row md:justify-between items-center">
+<div class="w-full h-auto flex justify-center pb-[170px]">
+    <div class="mx-[30px] md:mx-[80px] w-[872px] h-auto p-6 bg-white rounded-2xl shadow flex-col justify-center items-center gap-4 inline-flex">
+        <div class="w-full flex flex-col lg:flex-row md:justify-between">
             <span class="text-black text-lg md:text-xl lg:text-2xl font-medium font-['Roboto'] leading-loose">Jawablah Pertanyaan Dibawah Ini</span>
         </div>
 
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col items-center gap-[24px] pb-4">
+        <div class="flex flex-col items-center">
             <button class="hover:shadow-2xl hover:translate-x-1 transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
                 <div class="text-white text-base font-normal font-['Roboto'] leading-normal">Kirim Jawaban</div>
                 <div class="w-6 h-6 relative">
