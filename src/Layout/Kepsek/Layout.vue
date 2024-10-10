@@ -11,7 +11,7 @@
       currentRouteName !== 'user.views.download_hasil_cpm'
     "
   >
-    <!-- <navbar/> -->
+    <navbar/>
   </div>
 
   <slot></slot>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-// import navbar from '@/components/REMAKE/Navbar/Navbar.vue'
+import navbar from '@/components/REMAKE/Navbar/NavbarStaff.vue'
 // import navbar from './components/navbar/newNavbar.vue'
 import footerComp from "@/components/REMAKE/Footer/NewFooter.vue";
 // import footerComp from './components/footer/footer.vue';
