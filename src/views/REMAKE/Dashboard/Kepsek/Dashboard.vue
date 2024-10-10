@@ -405,9 +405,14 @@
                     }}</span>
                   </p>
                   <p class="text-sm mb-1">Catatan untuk siswa:</p>
-                  <p class="text-sm">
+                  <p v-if="index !== 1" class="text-sm">
                     {{ index == 2 ? desc[1].desc : desc[1].description }}
                   </p>
+                  <div v-if="index == 1">
+                      <p v-for="(item, index) in parsedDesc" class="text-sm">
+                        {{ item }}
+                      </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -466,18 +471,18 @@
             </thead>
 
             <tbody>
-              <tr class="border-b">
+              <tr v-for="(item, index) in dataSiswa" :key="index" class="border-b">
                 <td class="py-3 px-4 flex items-center gap-2">
                   <img
-                    src="../Kepsek/karina.jpg"
-                    alt="Eka"
+                    src="@/assets/img/profile-mock.png"
+                    alt="user"
                     class="w-8 h-8 rounded-full mr-2"
                   />
-                  Eka
+                  {{ item.name }}
                 </td>
-                <td class="py-3 px-4">10 rpl 1</td>
-                <td class="py-3 px-4">SMKN 1 Cianjur</td>
-                <td class="py-3 px-4">22 MAR, 2024</td>
+                <td class="py-3 px-4">{{ item.grade }} {{ item.majoring }}</td>
+                <td class="py-3 px-4">{{ item.institutions.name }}</td>
+                <td class="py-3 px-4">{{ item.updated_at }}</td>
                 <td class="py-3 px-4">1</td>
                 <td class="py-3 px-4">
                   <button
@@ -517,6 +522,8 @@ import Cookies from "js-cookie";
 import { RouterLink } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 import Swal from "sweetalert2";
+
+const dataSiswa = ref('')
 
 const data_test_counts = ref([0, 0, 0, 0]);
 
@@ -640,11 +647,14 @@ const data_pie_2 = ref({
 });
 
 const data_desc = ref([]);
+const parsedDesc = ref('')
 
 const token = Cookies.get("token");
 const fetchDataStatusAPI = async () => {
   try {
     const response = await initAPI("get", "staff/data-stats", null, token);
+
+    console.log(`asisia`, Math.max(...response.data.data_gim_result.percentage))
 
     data_test_counts.value = response.data.data_test_counts;
     data_bar.value.series[0].data = response.data.data_gim_result.counts;
@@ -654,23 +664,27 @@ const fetchDataStatusAPI = async () => {
     arrAssessment.value.map(
       (item, index) =>
         (item.persentase =
-          response.data.data_assessment_result.percentage[index] + "%")
+        Math.floor(response.data.data_assessment_result.percentage[index]) + "%")
     );
     arrIq.value.map(
       (item, index) =>
-        (item.persentase = response.data.data_iq_result.percentage[index] + "%")
+        (item.persentase = Math.floor(response.data.data_iq_result.percentage[index]) + "%")
     );
 
     data_desc.value.push([
-      Math.max(...response.data.data_gim_result.percentage),
+    //   Math.max(...response.data.data_gim_result.percentage),
+    Math.floor(Math.max(...response.data.data_gim_result.percentage)),
       response.data.data_gim_result.desc,
     ]);
+
+    parsedDesc.value = JSON.parse(response.data.data_assessment_result.desc.description)
     data_desc.value.push([
-      Math.max(...response.data.data_assessment_result.percentage),
+    Math.floor(Math.max(...response.data.data_assessment_result.percentage)),
       response.data.data_assessment_result.desc,
     ]);
+
     data_desc.value.push([
-      Math.max(...response.data.data_iq_result.percentage),
+      Math.floor(Math.max(...response.data.data_iq_result.percentage)),
       response.data.data_iq_result.desc,
     ]);
 
@@ -687,8 +701,27 @@ const fetchDataStatusAPI = async () => {
   }
 };
 
+const getSiswa = async() => {
+    try {
+        const institutionId = localStorage.getItem('userData')
+        ? JSON.parse(localStorage.getItem('userData')).staff.institution_id : null
+        const response = await initAPI("get", `customers?institution_id=${institutionId}`, null, token);
+        console.log(response.data)
+
+        dataSiswa.value = response.data.data
+    } catch (error) {
+        Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Terjadi error saat mengambil data Assessment user.",
+        showConfirmButton: false,
+        timer: 2000,
+        });
+    }
+}
+
 onMounted(async () => {
-  await fetchDataStatusAPI();
+    await Promise.all([fetchDataStatusAPI(), getSiswa()]);
 });
 
 const arrAssessment = ref([
