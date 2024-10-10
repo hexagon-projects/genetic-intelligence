@@ -137,7 +137,7 @@ const Login = async () => {
             let type
             if(response.data.customer) type = response.data.customer
             if(response.data.consultant) type = response.data.consultant
-            if(!response.data.consultant && !response.data.customer) type = response.data.user
+            if(!response.data.consultant && !response.data.customer) type = response.data
             // console.log(response.data.user.role)
             localStorage.setItem('userData', JSON.stringify(type));
             Cookies.set('token', response.data.token, { expires: 1 })
