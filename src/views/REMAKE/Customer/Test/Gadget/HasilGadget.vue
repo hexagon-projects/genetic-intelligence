@@ -20,25 +20,27 @@
       subMessage="Wah, sayang sekali kamu belum coba Tes Kecanduan Gadget! Yuk, lakukan tes sekarang juga!"/>
 
       <div v-if="isTested" >
-        <section id="penjelasan" class=" md:w-[1000px] h-auto mx-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-14 items-center">
-          <div class="flex flex-col items-center gap-14 md:w-[1000px]">
+        <section id="penjelasan" class=" h-auto mx-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-14 items-center">
+          <div class="flex flex-col items-center gap-14">
             <div class="flex flex-col items-center gap-2 self-stretch justify-center ">
                 <div class="md:w-[200px] md:h-[158.54px] mx-auto">
                     <img src="@/assets/img/logo-jatidiri-hasi-cpm.png">
                 </div>
-                <section class="flex flex-col items-center gap-14 md:w-[1000px]">
-                  <span class="w-full text-[#0B0B79] text-2xl font-semibold text-center font-['Sora'] leading-[32px]">Hasil Tes Internet Addiction Assessment</span>
-                    <div class=" box-border md:box-content flex flex-col justify-center gap-6 px-6 py-6 rounded-2xl bg-[#3030F8] w-auto shadow-lg self-stretch items-center">
-                        <div class="flex justify-between items-center gap-6 leading-[24px] ">
-                            <div class="w-[100px] h-[100px] flex mx-auto justify-center items-center">
+                <section class="flex flex-col items-center gap-14">
+                  <span class="w-full text-[#0B0B79] text-2xl font-semibold text-center font-['Sora'] leading-[32px]">
+                    Hasil Tes Internet Addiction Assessment
+                  </span>
+                    <div class="flex flex-col justify-center gap-6 px-6 py-6 rounded-2xl bg-[#3030F8] shadow-lg self-stretch">
+                        <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 leading-[24px] ">
+                            <div class="size-[80px] md:size-[100px] flex mx-auto justify-center items-center">
                                 <img src="@/assets/icons/reshot-icon-search-results.svg">
                             </div>
-                            <div class="flex flex-col flex-[1 0 0] items-start gap-4 w-full">
+                            <div class="flex flex-col items-start gap-4 w-full">
                               <span class=" text-[#FFF] text-base font-['Roboto'] font-semibold self-stretch leading-8 not-italic">
-                                {{ category }}
+                                {{ formattedCategoryHeader }}
                             </span>
                             <span class=" text-[#FFF] text-base font-normal font-['Roboto'] leading-6 mt-2 not-italic">
-                                {{ description }}
+                                {{ formattedCategoryDesc }}
                             </span>
                             </div>
                         </div>
@@ -72,18 +74,30 @@ const dataIaa = ref(null)
 const category = ref("")
 const description = ref("")
 
+const hasilTest = ref(
+  {
+    "message": "Success",
+    "total": 90,
+    "category": "Kecanduan Serius: Penggunaan internet terlalu banyak dan mengganggu hidupmu."
+  }
+)
+
+const formattedCategoryHeader = hasilTest.value.category.split(': ')[0]
+const formattedCategoryDesc = hasilTest.value.category.split(': ')[1]
+// console.log(`output`, formattedCategory)
+
 const getIaaData = async(userId) => {
   try {
       const token = Cookies.get('token')
       const response = await initAPI('get', `customers/iaa?customer_id=${userId}`, null, token)
       console.log(`data iaa`, response.data)
   
-      isTested.value = response.data.data.length > 0 ? true : false
-      if(response.data.data.length > 0){
-          dataIaa.value = response.data.data[0]
-          category.value = dataIaa.value.category // Assign the category from API
-          description.value = dataIaa.value.description // Assign the description from API
-      }
+      // isTested.value = response.data.data.length > 0 ? true : false
+      // if(response.data.data.length > 0){
+      //     dataIaa.value = response.data.data.map(() => []);
+      //     category.value = dataIaa.value.category // Assign the category from API
+      //     description.value = dataIaa.value.description // Assign the description from API
+      // }
   } catch (error) {
       console.log(`error`,error)
       Swal.fire({
@@ -104,7 +118,7 @@ const getUserData = async() => {
       const userData = await initAPI('post', 'login', formData, token)
       console.log(`data hasil`, userData.data)
 
-      await getIaaData(userData.data.customer.id)
+      // await getIaaData(userData.data.customer.id)
   } catch (error) {
       Swal.fire({
           icon: 'error',
@@ -114,12 +128,13 @@ const getUserData = async() => {
           timer: 2000
       });
   } finally {
-      loading.value = false
+      // loading.value = false
   }
 }
 
 onMounted(async() => {
   await getUserData()
+  loading.value = false
 })
 </script>
 
