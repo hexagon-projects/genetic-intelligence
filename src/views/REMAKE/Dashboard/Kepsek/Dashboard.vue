@@ -483,7 +483,7 @@
                 <td class="py-3 px-4">{{ item.grade }} {{ item.majoring }}</td>
                 <td class="py-3 px-4">{{ item.institutions.name }}</td>
                 <td class="py-3 px-4">{{ item.updated_at }}</td>
-                <td class="py-3 px-4">1</td>
+                <td class="py-3 px-4">{{ item.total_test }}</td>
                 <td class="py-3 px-4">
                   <button
                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
