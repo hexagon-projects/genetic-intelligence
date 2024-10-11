@@ -7,7 +7,7 @@
         <modalCekProfile/>
     </div>
 
-    <Layout v-if="!loading">
+    <Layout v-if="!loading && !dataProfileInclomplete">
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
             <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
             <div class="w-4 h-4 relative opacity-75">
@@ -73,6 +73,7 @@ const getUserData = async() => {
         customerId.value = userData.data.customer.id
         isTested.value = userData.data.customer.customers_iaa == null ? false : true
     } catch (error) {
+        console.log(`error`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error',

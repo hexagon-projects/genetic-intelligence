@@ -13,7 +13,7 @@
           <h1
             class="text-[#0c141c] text-3xl md:text-4xl font-semibold font-['Roboto'] leading-10"
           >
-            Welcome Back,
+            Welcome Back, {{ staffName }}
           </h1>
           <span
             class="self-stretch text-[#4c7099] text-sm font-normal font-['Roboto'] leading-tight"
@@ -523,6 +523,7 @@ import { RouterLink } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 import Swal from "sweetalert2";
 
+const staffName = ref(JSON.parse(localStorage.getItem('userData')).staff.name)
 const dataSiswa = ref('')
 
 const data_test_counts = ref([0, 0, 0, 0]);

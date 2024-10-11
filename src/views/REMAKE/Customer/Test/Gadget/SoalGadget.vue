@@ -8,46 +8,46 @@
         <div id="soal" v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
             <div v-if="!loadingSubmit">
                 <div v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4">
-                 <!-- Tampilkan nomor urut pertanyaan -->
-                  <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
-                    {{ qIndex + 1 }}. {{ q.question }}
-                  </label>
-    
-                  <!-- Daftar jawaban untuk setiap pertanyaan -->
-                   <div class="flex flex-col mx-2">
-                    <div v-for="(answer, aIndex) in q.answers" :key="aIndex" class="px-2">
-                        <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
-                               {{ aIndex+1 }}. {{ answer.text }}
-                            </span>
-                        <div class="flex flex-col gap-2">
+                    <!-- Tampilkan nomor urut pertanyaan -->
+                    <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
+                        {{ qIndex + 1 }}. {{ q.question }}
+                    </label>
+        
+                    <!-- Daftar jawaban untuk setiap pertanyaan -->
+                    <div class="flex flex-col mx-2">
+                        <div v-for="(answer, aIndex) in q.answers" :key="aIndex" class="px-2">
                             <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
-                                {{ answer.answers }}
-                            </span>
+                                {{ aIndex+1 }}. {{ answer.text }}
+                                </span>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
+                                    {{ answer.answers }}
+                                </span>
+                            </div>
                         </div>
+                        <!-- Tombol pilihan jawaban -->
+                        <div class="mt-2 flex items-center justify-center gap-4">
+                            <button @click="pilihJawaban(answer.value, qIndex)" 
+                            v-for="(answer, aIndex) in q.answers" :key="aIndex"
+                            :class="{
+                            'bg-[#3030f8] border-[#3030f8] text-white': isSelectedAnswer(qIndex, answer.value),
+                            'border-[#667084] text-[#667084]': !isSelectedAnswer(qIndex, answer.value)
+                            }"
+                            class="group size-10 md:w-14 md:h-14 rounded-lg border transition-all hover:border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
+                            <div 
+                            :class="{
+                            'text-white': isSelectedAnswer(qIndex, answer.value),
+                            'group-hover:text-[#3030f8] text-[#667084]': !isSelectedAnswer(qIndex, answer.value)
+                            }"
+                            class="text-[#667084] text-base md:text-2xl font-semibold font-['Roboto'] leading-loose uppercase">
+                            {{ answer.value }}
+                        </div>
+                        </button>
                     </div>
-                    <!-- Tombol pilihan jawaban -->
-                     <div class="mt-2 flex items-center justify-center gap-4">
-                        <button @click="pilihJawaban(answer.value, qIndex)" 
-                        v-for="(answer, aIndex) in q.answers" :key="aIndex"
-                        :class="{
-                        'bg-[#3030f8] border-[#3030f8] text-white': isSelectedAnswer(qIndex, answer.value),
-                        'border-[#667084] text-[#667084]': !isSelectedAnswer(qIndex, answer.value)
-                        }"
-                        class="group size-10 md:w-14 md:h-14 rounded-lg border transition-all hover:border-[#3030f8] flex-col justify-center items-center gap-2.5 inline-flex">
-                        <div 
-                        :class="{
-                        'text-white': isSelectedAnswer(qIndex, answer.value),
-                        'group-hover:text-[#3030f8] text-[#667084]': !isSelectedAnswer(qIndex, answer.value)
-                        }"
-                        class="text-[#667084] text-base md:text-2xl font-semibold font-['Roboto'] leading-loose uppercase">
-                        {{ answer.value }}
-                    </div>
-                </button>
+                </div>
             </div>
-        </div>
-    </div>
 
-                <div class="gap-2 flex flex-col md:flex-row justify-center items-center">
+            <div class="mt-10 gap-2 flex flex-col md:flex-row justify-center items-center">
                     <button @click="handleNextQuestion" class="hover:translate-x-1 hover:shadow-2xl transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
                         <div class="text-white text-base font-normal font-['Roboto'] leading-normal justify-center">Kirim Jawaban</div>
                         <div class="w-6 h-6 relative">
@@ -114,10 +114,10 @@ const checkAllQuestionsAnswered = () => {
 };
 
 const handleNextQuestion = () => {
-    // Cek apakah nextPages adalah null untuk menentukan submit akhir
-    const isSubmit = nextPages.value == null;
+    // Cek apakah semua pertanyaan sudah dijawab
+    const isAllAnswered = checkAllQuestionsAnswered();
 
-    if (isSubmit) {
+    if (isAllAnswered) {
         Swal.fire({
             title: "Kirim jawaban sekarang?",
             text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
@@ -130,105 +130,47 @@ const handleNextQuestion = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    // Buat payload data jawaban
                     const payload = {
-                        customer_id: props.customerId, // Ambil ID pelanggan dari props
-                        answers: arrCodeJawabanPertanyaan.value // Array jawaban yang akan dikirim
+                        customer_id: props.customerId,
+                        answers: arrCodeJawabanPertanyaan.value
                     };
 
-                    // Dapatkan token dari cookie
                     const token = Cookies.get('token');
-                    if (!token) {
-                        throw new Error("Token tidak valid. Silakan login ulang.");
-                    }
+                    const response = await initAPI('post', 'customers/iaa', payload, token);
 
-                    // Kirim request menggunakan JSON payload
-                    const response = await initAPI(
-                        'post', 
-                        'customers/iaa', 
-                        payload, 
-                        token, 
-                        {
-                            headers: { 'Content-Type': 'application/json' }
+                    Swal.fire({
+                        title: "Jawaban kamu sudah direkam",
+                        text: "Kamu bisa melihat hasil test kamu setelah ini.",
+                        icon: "success",
+                        confirmButtonColor: "#3030f8",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            emit('refreshData');
                         }
-                    );
-
-                    // Cek respons dari API
-                    if (response && response.status === 200) {
-                        Swal.fire({
-                            title: "Jawaban kamu sudah direkam",
-                            text: "Kamu bisa melihat hasil test kamu setelah ini.",
-                            icon: "success",
-                            confirmButtonColor: "#3030f8",
-                            confirmButtonText: "OK",
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                emit('refreshData'); // Emit event untuk refresh data
-                                // router.push({ name: 'views.SelesaiTest' })
-                                router.go()
-                            }
-                        });
-                    } else {
-                        // Tampilkan error jika respons tidak sesuai harapan
-                        throw new Error("Failed to submit answers: " + (response?.data?.message || 'Unknown error'));
-                    }
+                    });
                 } catch (error) {
                     // Tampilkan error jika pengiriman gagal
                     console.error("Error submitting answers:", error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.message || 'Failed to submit answers',
+                        text: error.response?.message || 'Terjadi kesalahan saat mengirim jawaban.',
                         showConfirmButton: false,
-                        timer: 3000, // Tampilkan pesan error lebih lama agar terlihat
+                        timer: 2500,
                     });
                 }
             }
         });
     } else {
-        // Jika ada jawaban yang belum diisi, tampilkan peringatan
-        if (!checkAllQuestionsAnswered()) {
-            Swal.fire({
-                title: "Oopss Perhatikan jawabanmu",
-                text: "Ada beberapa jawaban yang belum kamu isi",
-                icon: "warning",
-                showCancelButton: false,
-                confirmButtonColor: "#3030f8",
-                confirmButtonText: "Cek Ulang",
-            });
-        } else {
-            // Jika semua jawaban sudah diisi, tampilkan konfirmasi
-            Swal.fire({
-                title: "Lanjut ke halaman berikutnya?",
-                text: "Jika belum yakin dengan jawabanmu klik tombol Cek Ulang dibawah.",
-                icon: "question",
-                showCancelButton: true,
-                cancelButtonColor: "#3b3f5c",
-                cancelButtonText: "Cek Ulang",
-                confirmButtonColor: "#3030f8",
-                confirmButtonText: "Lanjutkan",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika dikonfirmasi, panggil getNextQuestion
-                    getNextQuestion();
-                }
-            });
-        }
-    }
-    //isSubmit.value = true; //Tampilkan
-    //HasilGadget.vueisSubmit.value = true; // Tampilkan HasilGadget.vue
-};
-
-// Fungsi getNextQuestion diubah menjadi submit langsung ketika tidak ada nextPages
-const getNextQuestion = async () => {
-    if (nextPages.value !== null) {
-        const page = nextPages.value.split('?page=')[1];
-        console.log(`next page`, page);
-        await getDataPertanyaan(page);
-        // scrollToSection();
-    } else {
-        // Jika nextPages null, berarti submit jawaban
-        handleNextQuestion();
+        Swal.fire({
+            title: "Oopss Perhatikan jawabanmu",
+            text: "Ada beberapa jawaban yang belum kamu isi",
+            icon: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#3030f8",
+            confirmButtonText: "Cek Ulang",
+        });
     }
 };
 
@@ -237,7 +179,7 @@ const getDataPertanyaan = async(page = 1) => {
     const token = Cookies.get('token')
     if(token){
         try {
-            const response = await initAPI('get', `iaa/questions?status=1&page=${page}`, null, token)
+            const response = await initAPI('get', `iaa/questions`, null, token)
             
             const totalSoalSaatIni = response.data.data.length;
             const fromIndex = (page - 1) * totalSoalSaatIni; // Indeks global pertama di halaman ini

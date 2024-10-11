@@ -335,10 +335,6 @@ export default [
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 next({ name: 'views.login' });
-            } else if(isAuth && isAuth.is_payment_iaa == 'Tidak') {
-                next('/pembayaran/test-iaa')
-                // router.push('/pembayaran/test-iq')
-                next()
             } else {
                 const decodedToken = jwtDecode(token);
                 //console.log(`di deocde cek`, decodedToken);
@@ -347,6 +343,12 @@ export default [
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
                 else next()
             }
+
+            // else if(isAuth && isAuth.is_payment_iaa == 'Tidak') {
+            //     next('/pembayaran/test-iaa')
+            //     // router.push('/pembayaran/test-iq')
+            //     next()
+            // }
         }
     },
     {
