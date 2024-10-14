@@ -48,6 +48,9 @@
             </div>
                 <SoalEssayRmib v-if="showEssay"/>
         </section>
+        <section class="bg-white py-[40px]">
+            <ReservasiFooter/>
+        </section>
     </Layout>
 </template>
 
