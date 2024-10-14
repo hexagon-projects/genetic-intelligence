@@ -433,7 +433,7 @@
           </div>
 
           <RouterLink
-            :to="{ name: 'kepsek.siswa.dashboard' }"
+            :to="{ name: 'staff.views.list_siswa' }"
             class="text-blue-500 hover:text-blue-700 font-medium flex items-center gap-3"
           >
             Lihat Selengkapnya
