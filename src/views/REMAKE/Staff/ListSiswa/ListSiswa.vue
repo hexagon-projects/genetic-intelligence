@@ -11,7 +11,7 @@
           <div class="flex justify-between items-center mb-5">
             <div class="text-[#32324D] font-['Roboto'] leading-loose">
               <div class="text-xl md:text-3xl font-semibold">List Siswa</div>
-              <span class="text-gray-500 text-sm">200 entries found</span>
+              <span class="text-gray-500 text-sm">{{ totalSiswa }} entries found</span>
             </div>
   
             <button
@@ -71,43 +71,41 @@
                 />
             </div>
 
-            <div class="flex gap-4">
+            <div class="flex items-center gap-4">
               <div class="text-[#32324D] font-['Roboto'] leading-loose relative">
                 <select
-                  name="Sort By"
-                  class="p-1 px-3 pr-10 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                  name="sortBy"
+                  v-model="sortBy"
+                  class="p-1 px-3 pr-10 rounded-lg bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                 >
-                  <option selected>Sort By</option>
-                  <option value="#">A-Z</option>
-                  <option value="#">Z-A</option>
+                  <option v-for="option in sortByOptions" :key="option" :value="option.value" class="font-roboto">
+                    {{ option.label }}
+                  </option>
                 </select>
-                <!-- SVG Icon for Sort By -->
-                <svg
-                  width="8"
-                  height="4"
-                  viewBox="0 0 8 4"
-                  fill="none"
-                  class="absolute right-3 top-1/2 transform -translate-y-1/2"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M7.5 0.444444C7.5 0.564815 7.45671 0.668981 7.37012 0.756944L4.30762 3.86806C4.22103 3.95602 4.11849 4 4 4C3.88151 4 3.77897 3.95602 3.69238 3.86806L0.629883 0.756944C0.543294 0.668981 0.5 0.564815 0.5 0.444444C0.5 0.324074 0.543294 0.219907 0.629883 0.131944C0.716471 0.0439815 0.81901 0 0.9375 0H7.0625C7.18099 0 7.28353 0.0439815 7.37012 0.131944C7.45671 0.219907 7.5 0.324074 7.5 0.444444Z"
-                    fill="#8E8EA9"
-                  />
-                </svg>
+
+                  <svg
+                      width="8"
+                      height="4"
+                      viewBox="0 0 8 4"
+                      fill="none"
+                      class="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      xmlns="http://www.w3.org/2000/svg"
+                  >
+                      <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.5 0.444444C7.5 0.564815 7.45671 0.668981 7.37012 0.756944L4.30762 3.86806C4.22103 3.95602 4.11849 4 4 4C3.88151 4 3.77897 3.95602 3.69238 3.86806L0.629883 0.756944C0.543294 0.668981 0.5 0.564815 0.5 0.444444C0.5 0.324074 0.543294 0.219907 0.629883 0.131944C0.716471 0.0439815 0.81901 0 0.9375 0H7.0625C7.18099 0 7.28353 0.0439815 7.37012 0.131944C7.45671 0.219907 7.5 0.324074 7.5 0.444444Z"
+                      fill="#8E8EA9"
+                      />
+                  </svg>
               </div>
-              <div class="text-[#32324D] font-['Roboto'] leading-loose fles fles-row">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.92188 8.40146L7.71354 6.16506C8.07292 5.53762 8.26042 4.83989 8.26042 4.13694C8.26042 1.85629 6.40625 0 4.13021 0C1.85417 0 0 1.85629 0 4.13694C0 6.4176 1.85417 8.27389 4.13021 8.27389C4.85677 8.27389 5.57552 8.07342 6.21615 7.69071L8.41406 9.91929C8.46354 9.96876 8.53385 10 8.60417 10C8.67448 10 8.74479 9.97136 8.79427 9.91929L9.92188 8.77896C10.026 8.67222 10.026 8.5056 9.92188 8.40146ZM4.12972 1.61133C5.52034 1.61133 6.65055 2.74385 6.65055 4.13671C6.65055 5.52958 5.52034 6.6621 4.12972 6.6621C2.7391 6.6621 1.60889 5.52958 1.60889 4.13671C1.60889 2.74385 2.7391 1.61133 4.12972 1.61133Z" fill="#8E8EA9"/>
-  </svg>
-  
-                <input
-                  type="search"
-                  placeholder="Search for an entry"
-                  class="p-1 px-3 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              <div class="text-[#32324D] font-['Roboto'] leading-loose flex flex-row">
+                  <input
+                    v-model="searchQuery"
+                    type="text"
+                    placeholder="Cari data siswa"
+                    class="p-1 px-3 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
               </div>
             </div>
           </div>
@@ -121,59 +119,65 @@
              <div class="flex justify-between items-center mb-5"></div>
      
              <div class="overflow-auto w-full">
-               <table
-                 class="w-full border-separate border-spacing-0 text-left text-gray-500 text-sm font-['Roboto'] leading-normal"
-               >
-                 <thead class="text-[#344053]">
-                   <tr>
-                     <th class="py-3 px-4">PROFIL</th>
-                     <th class="py-3 px-4">KELAS</th>
-                     <th class="py-3 px-4">NAMA SEKOLAH</th>
-                     <th class="py-3 px-4">TERAKHIR TES</th>
-                     <th class="py-3 px-4">TOTAL TES</th>
-                     <th class="py-3 px-4">AKSI</th>
-                   </tr>
-                 </thead>
-     
-                 <tbody v-for="(siswa, index) in listSiswa" :key="index">
-                   <tr class="border-b">
-                     <td class="py-3 px-4 flex items-center gap-2">
-                        <img
-                            src="@/assets/img/profile-mock.png"
-                            alt="user"
-                            class="w-8 h-8 rounded-full mr-2"
-                        />
-                       {{ siswa.name }}
-                     </td>
-                     <td class="py-3 px-4">{{ siswa.grade }} {{ siswa.majoring }}</td>
-                     <td class="py-3 px-4">{{ siswa.institutions.name }}</td>
-                     <td class="py-3 px-4">{{ siswa.updated_at }}</td>
-                     <td class="py-3 px-4">{{ siswa.total_test }}</td>
-                     <td class="py-3 px-4">
-                       <button
-                         class="bg-[#3030F8] text-white px-4 py-2 rounded flex items-center gap-2"
-                       >
-                         Lihat Detail
-                         <svg
-                           width="10"
-                           height="10"
-                           viewBox="0 0 10 10"
-                           fill="none"
-                           xmlns="http://www.w3.org/2000/svg"
-                         >
-                           <path
-                             d="M1.66669 8.33335L8.33335 1.66669M8.33335 1.66669H1.66669M8.33335 1.66669V8.33335"
-                             stroke="white"
-                             stroke-width="2"
-                             stroke-linecap="round"
-                             stroke-linejoin="round"
-                           />
-                         </svg>
-                       </button>
-                     </td>
-                   </tr>
-                 </tbody>
-               </table>
+               <table v-if="listSiswa.length > 0"
+                  class="w-full border-separate border-spacing-0 text-left text-gray-500 text-sm font-['Roboto'] leading-normal"
+                >
+                  <thead class="text-[#344053]">
+                    <tr>
+                      <th class="py-3 px-4">PROFIL</th>
+                      <th class="py-3 px-4">KELAS</th>
+                      <th class="py-3 px-4">NAMA SEKOLAH</th>
+                      <th class="py-3 px-4">TERAKHIR TES</th>
+                      <th class="py-3 px-4">TOTAL TES</th>
+                      <th class="py-3 px-4">AKSI</th>
+                    </tr>
+                  </thead>
+      
+                  <tbody v-for="(siswa, index) in listSiswa" :key="index">
+                    <tr class="border-b">
+                      <td class="py-3 px-4 flex items-center gap-2">
+                          <img
+                              src="@/assets/img/profile-mock.png"
+                              alt="user"
+                              class="w-8 h-8 rounded-full mr-2"
+                          />
+                        {{ siswa.name }}
+                      </td>
+                      <td class="py-3 px-4">{{ siswa.grade }} {{ siswa.majoring }}</td>
+                      <td class="py-3 px-4">{{ siswa.institutions.name }}</td>
+                      <td class="py-3 px-4">{{ siswa.updated_at }}</td>
+                      <td class="py-3 px-4">{{ siswa.total_test }}</td>
+                      <td class="py-3 px-4">
+                        <button
+                          class="bg-[#3030F8] text-white px-4 py-2 rounded flex items-center gap-2"
+                        >
+                          Lihat Detail
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 10 10"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1.66669 8.33335L8.33335 1.66669M8.33335 1.66669H1.66669M8.33335 1.66669V8.33335"
+                              stroke="white"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div v-else class="w-full flex justify-center">
+                  <span class="mx-auto font-roboto text-lg text-black">
+                    Data Kosong...
+                  </span>
+                </div>
              </div>
            </div>
            <div class="flex items-center justify-between">
@@ -225,11 +229,12 @@
   
   <script setup>
     import Layout from "@/Layout/Kepsek/Layout.vue";
-    import { PhX } from "@phosphor-icons/vue";
+    import { PhX, PhMagnifyingGlass } from "@phosphor-icons/vue";
     import initAPI from "@/api/api";
     import Cookies from "js-cookie";
     import { ref, onMounted, watch } from "vue";
     import Swal from "sweetalert2";
+    import { debounce } from 'lodash'
     import FilterItem from "@/components/REMAKE/Staff/FilterItem/FilterItem.vue";
  
     const kepsekData = ref(JSON.parse(localStorage.getItem('userData')))
@@ -247,42 +252,51 @@
 
     const tipeKecerdasan = ref('')
     const tipeKecerdasanOptions = ref([
-        '',
-        'Neokorteks Kiri Introvert',
-        'Limbik Kanan Ekstrovert',
-        'Limbik Kiri Introvert',
-        'Limbik Kiri Ekstrovert',
-        'Limbik Kanan Introvert',
-        'Neokorteks Kanan Ekstrovert',
-        'Neokorteks Kanan Introvert',
-        'Neokorteks Kiri Ekstrovert',
-        'Otak Tengah',
+        {value: '', label: 'Tipe Kecerdasan'},
+        {value: 'Neokorteks Kiri Introvert', label: 'Neokorteks Kiri Introvert'},
+        {value: 'Limbik Kanan Ekstrovert', label: 'Limbik Kanan Ekstrovert'},
+        {value: 'Limbik Kiri Introvert', label: 'Limbik Kiri Introvert'},
+        {value: 'Limbik Kiri Ekstrovert', label: 'Limbik Kiri Ekstrovert'},
+        {value: 'Limbik Kanan Introvert', label: 'Limbik Kanan Introvert'},
+        {value: 'Neokorteks Kanan Ekstrovert', label: 'Neokorteks Kanan Ekstrovert'},
+        {value: 'Neokorteks Kanan Introvert', label: 'Neokorteks Kanan Introvert'},
+        {value: 'Neokorteks Kiri Ekstrovert', label: 'Neokorteks Kiri Ekstrovert'},
+        {value: 'Otak Tengah', label: 'Otak Tengah'},
       ])
 
     const gayaBelajar = ref('')
     const gayaBelajarOptions = ref(
         [
-            '',
-            'Visual',
-            'Auditori',
-            'Kinestik',
-            'Visual & Auditori',
-            'Visual & Kinestetik',
-            'Auditori &  Kinestetik',
+            {value: '', label: 'Gaya Belajar'},
+            {value: 1, label: 'Visual'},
+            {value: 2, label: 'Auditori'},
+            {value: 3, label: 'Kinestik'},
+            {value: 4, label: 'Visual & Auditori'},
+            {value: 5, label: 'Visual & Kinestetik'},
+            {value: 6, label: 'Auditori &  Kinestetik'},
         ]
     )
 
     const skorIq = ref('')
     const skorIqOptions = ref(
         [
-            '',
-            '> 119',
-            '111 - 119',
-            '91 - 110',
-            '80 - 90',
-            '< 80',
+            {value: '', label: 'Grade IQ'},
+            {value: 1, label: '> 119'},
+            {value: 2, label: '111 - 119'},
+            {value: 3, label: '91 - 110'},
+            {value: 4, label: '80 - 90'},
+            {value: 5, label: '< 80'},
         ]
     )
+
+    const sortBy = ref('')
+    const sortByOptions = ref([
+      {label: 'Sort By', value: ''},
+      {label: 'A - Z', value: 'ascending'},
+      {label: 'Z - A', value: 'descending'},
+    ])
+
+    const searchQuery = ref('')
 
     const isFilter = ref({
         type: 'Kelas'
@@ -311,6 +325,7 @@
     }
 
     const listSiswa = ref([]);
+    const totalSiswa = ref('')
 
     const getSiswa = async() => {
         try {
@@ -322,24 +337,29 @@
             let query = `institution_id=${institutionId}`;
 
             if (kelas.value) {
-                query += `&kelas=${kelas.value}`;
+                query += `&grade=${kelas.value}`;
             }
 
             if (tipeKecerdasan.value) {
-                query += `&tipe_kecerdasan=${tipeKecerdasan.value}`;
+                query += `&gim=${tipeKecerdasan.value}`;
             }
 
             if (skorIq.value) {
-                query += `&skor_iq=${skorIq.value}`;
+                query += `&iq_id=${skorIq.value}`;
             }
 
             if (gayaBelajar.value) {
-                query += `&gaya_belajar=${gayaBelajar.value}`;
+                query += `&assessment_id=${gayaBelajar.value}`;
+            }
+
+            if (searchQuery.value) {
+                query += `&search=${searchQuery.value}`;
             }
 
             const response = await initAPI("get", `customers?${query}`, null, token);
 
             listSiswa.value = response.data.data
+            totalSiswa.value = response.data.total
         } catch (error) {
             Swal.fire({
             icon: "error",
@@ -351,12 +371,20 @@
         }
     }
 
+const debouncedSearch = debounce(() => {
+  getSiswa();
+}, 500)
+
 onMounted(() => {
     getSiswa()
 })
 
 watch([kelas, tipeKecerdasan, skorIq, gayaBelajar], () => {
     getSiswa();
+});
+
+watch(searchQuery, () => {
+    debouncedSearch(); // Panggil yang di-debounce
 });
 </script>
   

@@ -29,8 +29,8 @@ watch(() => props.modelValue, (newValue) => {
         @input="$emit('update:modelValue', $event.target.value)"
         class="p-1 px-3 pr-10 rounded-lg bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
       >
-        <option v-for="option in options" :key="option" :value="option" class="font-roboto">
-          {{ option === '' ? label : option }}
+        <option v-for="(option, index) in options" :key="index" :value="option.value" class="font-roboto">
+          {{ option.value === '' ? label : option.label }}
         </option>
       </select>
 
