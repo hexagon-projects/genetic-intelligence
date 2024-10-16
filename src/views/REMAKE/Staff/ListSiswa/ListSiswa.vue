@@ -38,8 +38,58 @@
           </div>
         </div>
   
-        <div class="flex flex-col mb-3">
+        <div class="flex flex-col gap-[13px] mb-3">
           <div class="flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+              <button @click="showFilter = !showFilter" 
+                :class="{'bg-[#f6f6f9]': showFilter, 'bg-white': !showFilter}"
+                class="transition-all py-2 px-3 rounded-lg border border-gray-300 shadow-sm flex gap-2">
+                <img src="@/assets/icons/filter.svg" alt="icon">
+                Filter
+              </button>
+
+              <div class="text-[#32324D] font-['Roboto'] leading-loose relative">
+                <select
+                  name="sortBy"
+                  v-model="sortBy"
+                  class="p-1 px-3 pr-10 rounded-lg bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                >
+                  <option v-for="option in sortByOptions" :key="option" :value="option.value" class="font-roboto">
+                    {{ option.label }}
+                  </option>
+                </select>
+
+                  <svg
+                      width="8"
+                      height="4"
+                      viewBox="0 0 8 4"
+                      fill="none"
+                      class="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      xmlns="http://www.w3.org/2000/svg"
+                  >
+                      <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7.5 0.444444C7.5 0.564815 7.45671 0.668981 7.37012 0.756944L4.30762 3.86806C4.22103 3.95602 4.11849 4 4 4C3.88151 4 3.77897 3.95602 3.69238 3.86806L0.629883 0.756944C0.543294 0.668981 0.5 0.564815 0.5 0.444444C0.5 0.324074 0.543294 0.219907 0.629883 0.131944C0.716471 0.0439815 0.81901 0 0.9375 0H7.0625C7.18099 0 7.28353 0.0439815 7.37012 0.131944C7.45671 0.219907 7.5 0.324074 7.5 0.444444Z"
+                      fill="#8E8EA9"
+                      />
+                  </svg>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <div class="text-[#32324D] font-['Roboto'] leading-loose flex flex-row">
+                  <input
+                    v-model="searchQuery"
+                    type="text"
+                    placeholder="Cari data siswa"
+                    class="p-1 px-3 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+              </div>
+            </div>
+          </div>
+
+          <div v-if="showFilter" class="p-4 bg-white rounded-xl border border-[#cfd4dc]">
             <div class="flex flex-wrap gap-4">
                 <FilterItem
                 label="Kelas"
@@ -69,44 +119,6 @@
                 :options="skorIqOptions"
                 @reset="resetFilter('skorIq')"
                 />
-            </div>
-
-            <div class="flex items-center gap-4">
-              <div class="text-[#32324D] font-['Roboto'] leading-loose relative">
-                <select
-                  name="sortBy"
-                  v-model="sortBy"
-                  class="p-1 px-3 pr-10 rounded-lg bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-                >
-                  <option v-for="option in sortByOptions" :key="option" :value="option.value" class="font-roboto">
-                    {{ option.label }}
-                  </option>
-                </select>
-
-                  <svg
-                      width="8"
-                      height="4"
-                      viewBox="0 0 8 4"
-                      fill="none"
-                      class="absolute right-3 top-1/2 transform -translate-y-1/2"
-                      xmlns="http://www.w3.org/2000/svg"
-                  >
-                      <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M7.5 0.444444C7.5 0.564815 7.45671 0.668981 7.37012 0.756944L4.30762 3.86806C4.22103 3.95602 4.11849 4 4 4C3.88151 4 3.77897 3.95602 3.69238 3.86806L0.629883 0.756944C0.543294 0.668981 0.5 0.564815 0.5 0.444444C0.5 0.324074 0.543294 0.219907 0.629883 0.131944C0.716471 0.0439815 0.81901 0 0.9375 0H7.0625C7.18099 0 7.28353 0.0439815 7.37012 0.131944C7.45671 0.219907 7.5 0.324074 7.5 0.444444Z"
-                      fill="#8E8EA9"
-                      />
-                  </svg>
-              </div>
-              <div class="text-[#32324D] font-['Roboto'] leading-loose flex flex-row">
-                  <input
-                    v-model="searchQuery"
-                    type="text"
-                    placeholder="Cari data siswa"
-                    class="p-1 px-3 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-              </div>
             </div>
           </div>
         </div>
@@ -182,43 +194,45 @@
            </div>
            <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
-              <div class="text-[#32324D] font-['Roboto'] leading-loose relative">
-                <select
-                  name="Kelas"
-                  class="p-1 px-3 pr-10 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-                >
-                  <option value="20" selected>20</option>
-                  <option value="10">10</option>
-                  <option value="5">5</option>
-                </select>
-                <!-- SVG Icon for Kelas -->
-                <svg
-                  width="8"
-                  height="4"
-                  viewBox="0 0 8 4"
-                  fill="none"
-                  class="absolute right-3 top-1/2 transform -translate-y-1/2"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M7.5 0.444444C7.5 0.564815 7.45671 0.668981 7.37012 0.756944L4.30762 3.86806C4.22103 3.95602 4.11849 4 4 4C3.88151 4 3.77897 3.95602 3.69238 3.86806L0.629883 0.756944C0.543294 0.668981 0.5 0.564815 0.5 0.444444C0.5 0.324074 0.543294 0.219907 0.629883 0.131944C0.716471 0.0439815 0.81901 0 0.9375 0H7.0625C7.18099 0 7.28353 0.0439815 7.37012 0.131944C7.45671 0.219907 7.5 0.324074 7.5 0.444444Z"
-                    fill="#8E8EA9"
-                  />
-                </svg>
-              </div>
-              <p>Entries per page.</p>
+              <FilterItem
+                label="10"
+                v-model="perPage"
+                :options="perPageOptions"
+                @reset="resetFilter('perPage')"
+                />
+              
+              <div class="text-[#8e8ea9] text-base font-normal font-['Roboto'] leading-none">Entries per page</div>
             </div>
   
-            <div class="flex gap-2">
-              <button>&lt;</button>
-                <button class="py-1 px-3 hover:text-[#271FE0]" :class="{'rounded-md shadow-md bg-white' : true}">1</button>
-                <button class="py-1 px-3 hover:text-[#271FE0]" :class="{'rounded-md shadow-md bg-white' : false}">2</button>
-                <button class="py-1 px-3 hover:text-[#271FE0]" :class="{'rounded-md shadow-md bg-white' : false}">3</button>
-                <button class="py-1 px-3 hover:text-[#271FE0]" :class="{'rounded-md shadow-md bg-white' : false}">...</button>
-                <button class="py-1 px-3 hover:text-[#271FE0]" :class="{'rounded-md shadow-md bg-white' : false}">10</button>
-              <button>></button>
+            <div class="flex items-center gap-3">
+              <!-- Button Previous -->
+              <button 
+              :class="{'opacity-40 cursor-not-allowed': currentPage == 1}"
+              class="flex items-center gap-[6px]" @click="prevPage" :disabled="currentPage === 1">
+                <img class="size-[12px]" src="@/assets/icons/chevron_left.svg" alt="icon">
+                <span class="font-roboto text-black">First</span>
+              </button>
+
+              <!-- Tampilkan halaman yang visible -->
+              <button
+                v-for="page in pagesToShow"
+                :key="page"
+                @click="goToPage(page)"
+                class="font-roboto py-1 px-3 hover:text-[#271FE0]"
+                :class="{
+                  'rounded-md shadow-md border bg-white text-[#271FE0]': page === currentPage
+                }"
+              >
+                {{ page }}
+              </button>
+
+              <!-- Button Next -->
+              <button 
+              :class="{'opacity-40 cursor-not-allowed': currentPage == lastPage}"
+              class="flex items-center gap-[6px]" @click="nextPage" :disabled="currentPage === totalPages">
+                <span class="font-roboto text-black">Last</span>
+                <img class="size-[12px]" src="@/assets/icons/chevron_right.svg" alt="icon">
+              </button>
             </div>
            </div>
   
@@ -232,22 +246,32 @@
     import { PhX, PhMagnifyingGlass } from "@phosphor-icons/vue";
     import initAPI from "@/api/api";
     import Cookies from "js-cookie";
-    import { ref, onMounted, watch } from "vue";
+    import { ref, onMounted, watch, computed } from "vue";
     import Swal from "sweetalert2";
     import { debounce } from 'lodash'
     import FilterItem from "@/components/REMAKE/Staff/FilterItem/FilterItem.vue";
  
     const kepsekData = ref(JSON.parse(localStorage.getItem('userData')))
 
+    const currentPage = ref('');
+    const lastPage = ref('')
+    const totalPages = ref('');
+    const firstPageUrl = ref('')
+    const lastPageUrl = ref('')
+
+    const perPage = ref(10)
+    const perPageOptions = ref([
+      {value: '', label: '10 (Default)'},
+      {value: 10, label: '10'},
+      {value: 15, label: '15'},
+      {value: 20, label: '20'},
+    ])
+
     const kelas = ref('')
     const kelasOptions = ref(
-        kepsekData.value.staff.institutions.type !== 'SMK' ||
-        kepsekData.value.staff.institutions.type !== 'SMA' ||
-        kepsekData.value.staff.institutions.type !== 'SMP' ?
-        ['', '1', '2', '3'] 
-        : kepsekData.value.staff.institutions.type == 'SD' ?
-        ['', '1', '2', '3', '4', '5', '6']
-        : ['', '1', '2']
+        [
+          {value: '', label: 'Kelas'}
+        ]
     )
 
     const tipeKecerdasan = ref('')
@@ -292,12 +316,13 @@
     const sortBy = ref('')
     const sortByOptions = ref([
       {label: 'Sort By', value: ''},
-      {label: 'A - Z', value: 'ascending'},
-      {label: 'Z - A', value: 'descending'},
+      {label: 'Latest', value: 'latest'},
+      {label: 'Oldest', value: 'oldest'},
     ])
 
     const searchQuery = ref('')
 
+    const showFilter = ref(false)
     const isFilter = ref({
         type: 'Kelas'
     })
@@ -319,6 +344,10 @@
             case 'gayaBelajar':
                 gayaBelajar.value = '';
                 break;
+
+            case 'perPage':
+                perPage.value = ''
+                break;
         }
         
         isFilter.value.show = false;
@@ -327,40 +356,71 @@
     const listSiswa = ref([]);
     const totalSiswa = ref('')
 
-    const getSiswa = async() => {
+    const getSiswa = async(jumpEndpoint = null) => {
         try {
             const token = Cookies.get("token");
 
             const institutionId = localStorage.getItem('userData')
             ? JSON.parse(localStorage.getItem('userData')).staff.institution_id : null
 
-            let query = `institution_id=${institutionId}`;
+            let endpoint = `institution_id=${institutionId}`;
 
             if (kelas.value) {
-                query += `&grade=${kelas.value}`;
+                endpoint += `&grade=${kelas.value}`;
             }
 
             if (tipeKecerdasan.value) {
-                query += `&gim=${tipeKecerdasan.value}`;
+                endpoint += `&gim=${tipeKecerdasan.value}`;
             }
 
             if (skorIq.value) {
-                query += `&iq_id=${skorIq.value}`;
+                endpoint += `&iq_id=${skorIq.value}`;
             }
 
             if (gayaBelajar.value) {
-                query += `&assessment_id=${gayaBelajar.value}`;
+                endpoint += `&assessment_id=${gayaBelajar.value}`;
+            }
+
+            if (sortBy.value) {
+                endpoint += `&sort_by=${sortBy.value}`;
             }
 
             if (searchQuery.value) {
-                query += `&search=${searchQuery.value}`;
+                endpoint += `&search=${searchQuery.value}`;
             }
 
-            const response = await initAPI("get", `customers?${query}`, null, token);
+            if (perPage.value) {
+              endpoint += `&perpage=${perPage.value}`
+            }
 
-            listSiswa.value = response.data.data
-            totalSiswa.value = response.data.total
+            if (currentPage.value) {
+              endpoint += `&page=${currentPage.value}`
+            }
+
+            if(jumpEndpoint !== null){
+              const formattedEndpoint = jumpEndpoint.split('api/')[1]
+              console.log(`splited`, formattedEndpoint)
+              const response = await initAPI("get", formattedEndpoint, null, token);
+              listSiswa.value = response.data.data
+              totalSiswa.value = response.data.total
+              currentPage.value = response.data.current_page
+              lastPage.value = response.data.last_page
+              totalPages.value = response.data.last_page
+              firstPageUrl.value = response.data.first_page_url
+              lastPageUrl.value = response.data.last_page_url
+            } else {
+              const response = await initAPI("get", `customers?${endpoint}`, null, token);
+              listSiswa.value = response.data.data
+              totalSiswa.value = response.data.total
+              currentPage.value = response.data.current_page
+              lastPage.value = response.data.last_page
+              totalPages.value = response.data.last_page
+              firstPageUrl.value = response.data.first_page_url
+              lastPageUrl.value = response.data.last_page_url
+            }
+
         } catch (error) {
+          console.log(error)
             Swal.fire({
             icon: "error",
             title: "Error",
@@ -375,16 +435,80 @@ const debouncedSearch = debounce(() => {
   getSiswa();
 }, 500)
 
-onMounted(() => {
-    getSiswa()
+const getKelas = async() => {
+  try {
+    const token = Cookies.get("token");
+
+    const institutionId = localStorage.getItem('userData')
+    ? JSON.parse(localStorage.getItem('userData')).staff.institution_id : null
+
+    const response = await initAPI("get", `grades?institution_id=${institutionId}`, null, token);
+
+    const arrFormattedData = response.data.map((item) => ({
+        value: item.grade,
+        label: item.grade
+    }));
+
+    kelasOptions.value = [...kelasOptions.value, ...arrFormattedData]
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+onMounted(async() => {
+  await Promise.all([getSiswa(), getKelas()])
 })
 
-watch([kelas, tipeKecerdasan, skorIq, gayaBelajar], () => {
+watch([kelas, tipeKecerdasan, skorIq, gayaBelajar, sortBy, perPage], () => {
     getSiswa();
 });
 
 watch(searchQuery, () => {
     debouncedSearch(); // Panggil yang di-debounce
 });
+
+watch([currentPage, totalPages], () => {
+  // calculateVisiblePages();
+  getSiswa();
+});
+
+const pagesToShow = computed(() => {
+    const pageCount = 5; // Jumlah halaman yang ingin ditampilkan
+    const current = currentPage.value ? Number(currentPage.value) : 1; // Pastikan currentPage adalah angka
+    const total = lastPage.value ? Number(lastPage.value) : 0; // Pastikan lastPage adalah angka
+
+    // Hitung halaman awal dan akhir
+    const startPage = Math.max(1, Math.min(current - Math.floor(pageCount / 2), total - pageCount + 1));
+    const endPage = Math.min(startPage + pageCount - 1, total);
+
+    let pages = [];
+    for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+    }
+    return pages;
+});
+
+
+const goToPage = (page) => {
+  currentPage.value = page;
+};
+
+const nextPage = () => {
+  if(lastPageUrl.value !== null){
+    getSiswa(lastPageUrl.value)
+  }
+  // if (currentPage.value < totalPages.value) {
+  //   currentPage.value++;
+  // }
+};
+
+const prevPage = () => {
+  if(firstPageUrl.value !== null){
+    getSiswa(firstPageUrl.value)
+  }
+  // if (currentPage.value > 1) {
+  //   currentPage.value--;
+  // }
+};
 </script>
   
