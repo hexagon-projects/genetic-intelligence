@@ -61,4 +61,31 @@ export default [
             } 
         }
     },
+    {
+        path: '/staff/detail-siswa',
+        name: 'staff.views.detail_siswa',
+        component: () => import('@/views/REMAKE/Staff/DetailSiswa/DetailSiswa.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token');
+            const isAuth = JSON.parse(localStorage.getItem('userData'));
+            if (!isAuth || !token) {
+                localStorage.clear();
+                Cookies.remove('token');
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role;
+    
+                if (decodeRoleUser === 'customer') next({ name: 'views.dashboard' });
+                if (decodeRoleUser === 'consultant') next({ name: 'consultant.views.dashboard' });
+                if (decodeRoleUser === 'admin') next({ name: 'admin.views.dashboard' });
+    
+                next();
+            }
+        }
+    }    
 ]

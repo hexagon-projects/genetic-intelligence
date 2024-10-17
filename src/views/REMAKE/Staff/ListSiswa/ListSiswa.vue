@@ -160,7 +160,7 @@
                       <td class="py-3 px-4">{{ siswa.updated_at }}</td>
                       <td class="py-3 px-4">{{ siswa.total_test }}</td>
                       <td class="py-3 px-4">
-                        <button
+                        <button @click="detailSiswa(siswa.id)"
                           class="bg-[#3030F8] text-white px-4 py-2 rounded flex items-center gap-2"
                         >
                           Lihat Detail
@@ -250,6 +250,7 @@
     import Swal from "sweetalert2";
     import { debounce } from 'lodash'
     import FilterItem from "@/components/REMAKE/Staff/FilterItem/FilterItem.vue";
+import { useRouter } from "vue-router";
  
     const kepsekData = ref(JSON.parse(localStorage.getItem('userData')))
 
@@ -420,7 +421,6 @@
             }
 
         } catch (error) {
-          console.log(error)
             Swal.fire({
             icon: "error",
             title: "Error",
@@ -451,7 +451,13 @@ const getKelas = async() => {
 
     kelasOptions.value = [...kelasOptions.value, ...arrFormattedData]
   } catch (error) {
-    console.log(error)
+    Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: "Terjadi error saat mengambil data kelas.",
+    showConfirmButton: false,
+    timer: 2000,
+    });
   }
 }
 
@@ -510,5 +516,26 @@ const prevPage = () => {
   //   currentPage.value--;
   // }
 };
+
+const router = useRouter()
+
+const detailSiswa = (id)  => {
+  try {
+    const encodedId = btoa(id)
+
+    router.push({
+      name: 'staff.views.detail_siswa',
+      query: { student_id: encodedId }
+    })
+  } catch (error) {
+    Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: "Terjadi error saat navigasi ke detail siswa.",
+    showConfirmButton: false,
+    timer: 2000,
+    });
+  }
+}
 </script>
   

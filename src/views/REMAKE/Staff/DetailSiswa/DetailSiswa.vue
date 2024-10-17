@@ -1,0 +1,136 @@
+<template>
+    <div v-if="loading" class="preloader-overlay">
+      <span
+        class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"
+      ></span>
+    </div>
+
+    <Layout v-else>
+        <section class="bg-white py-[32px]">
+            <div class="mx-[30px] lg:mx-[60px]">
+                <div class="flex items-start gap-[26px]">
+                    <div class="w-[20%] flex-col justify-start items-start gap-4 inline-flex">
+                        <div class="text-[#0c141c] text-base font-medium font-['Roboto'] leading-normal">
+                            Menu
+                        </div>
+    
+                        <div class="flex flex-col w-full">
+                            <div v-for="(item, index) in sidebarItems" :key="index" 
+                                :class="['cursor-pointer px-[12px] py-[8px] flex items-center gap-[12px]', { 'bg-[#f0f7fd] rounded-xl': selectedItemIndex === index || pageType == item.text }]"
+                                @click="selectItem(index, item.text)">
+                                <img :class="{'grayscale-0': selectedItemIndex === index || pageType == item.text, 'grayscale': selectedItemIndex !== index}" class="size-[24px]" :src="item.image" alt="icon">
+                                <span :class="{'text-[#3030f8]': selectedItemIndex === index || pageType == item.text}" class="font-roboto font-medium text-[#0c141c] text-sm">{{ item.text }}</span>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="w-full px-6 rounded-xl border border-[#cfd4dc] flex-col justify-start items-start flex">
+                        <div class="mb-[32px] w-full px-4 py-8 flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <img class="w-14 h-14 rounded-full" src="https://via.placeholder.com/56x56" />
+                                <div class="text-[#0c141c] text-2xl font-semibold font-['Roboto'] leading-loose">Monica Dolflinger</div>
+                            </div>
+
+                            <button class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
+                                Download PDF
+                            </button>
+                        </div>
+                        
+                        <!-- Personal Information -->
+                        <PersonalInfo v-if="pageType == 'Profile Siswa' && siswaDatas" :siswaDatas="siswaDatas"/>
+
+                        <!-- Hasil Tes GIM -->
+                         <HasilGIM v-if="pageType == 'Hasil Tes GIM' && siswaDatas" :siswaDatas="siswaDatas"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </Layout>
+</template>
+
+<script setup>
+import Layout from "@/Layout/Kepsek/Layout.vue";
+import { PhX, PhMagnifyingGlass } from "@phosphor-icons/vue";
+import initAPI from "@/api/api";
+import Cookies from "js-cookie";
+import { ref, onMounted, watch, computed, onBeforeMount } from "vue";
+import Swal from "sweetalert2";
+import PersonalInfo from "@/components/staffs/DetailSiswa/PersonalInfo.vue";
+import HasilGIM from "@/components/staffs/DetailSiswa/HasilGIM.vue";
+import { useRoute, useRouter } from "vue-router";
+
+const sidebarItems = ref([
+    {image: new URL('@/assets/icons/profile-siswa.svg', import.meta.url).href, text: 'Profile Siswa'},
+    {image: new URL('@/assets/icons/tes-gim.svg', import.meta.url).href, text: 'Hasil Tes GIM'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Assessment'},
+    {image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href, text: 'Hasil Tes IQ'},
+    {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes CPM'},
+    {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes RMIB'},
+])
+
+const selectedItemIndex = ref(null);
+const pageType = ref('Profile Siswa')
+
+const selectItem = (index, type) => {
+    console.log(`diplih`, index)
+    selectedItemIndex.value = index;
+    pageType.value = type
+};
+
+const route = useRoute()
+const router = useRouter()
+
+const siswaId = ref('')
+const siswaDatas = ref('')
+
+const isValidStudentId = (id) => {
+    return !isNaN(id) && Number.isInteger(+id) && +id > 0;
+}
+
+const getDataSiswa = async() => {
+    try {
+        const token = Cookies.get("token");
+        const response = await initAPI('get', `customers?id=${siswaId.value}`, null, token)
+
+        console.log(`response`, response.data)
+        siswaDatas.value = response.data.data[0]
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+onBeforeMount(() => {
+    const encodedStudentId = route.query.student_id
+    if (!encodedStudentId) {
+        router.push({name: 'staff.views.list_siswa'})
+        return;
+    }
+
+    try {
+        const decodedId = atob(encodedStudentId); // Menggunakan Base64 decode
+
+        // Validasi: Pastikan ID adalah angka
+        if (!isValidStudentId(decodedId)) {
+            router.push({name: 'staff.views.list_siswa'})
+            return;
+        }
+
+        siswaId.value = decodedId
+
+    } catch (error) {
+        Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Terjadi error saat decoded data siswa.",
+        showConfirmButton: false,
+        timer: 2000,
+        });
+
+        router.push({name: 'staff.views.list_siswa'})
+    }
+})
+
+onMounted(async() => {
+    await getDataSiswa()
+})
+</script>
