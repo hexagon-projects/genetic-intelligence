@@ -9,7 +9,7 @@
         <section class="bg-white py-[32px]">
             <div class="mx-[30px] lg:mx-[60px]">
                 <div class="flex items-start gap-[26px]">
-                    <div class="w-[20%] flex-col justify-start items-start gap-4 inline-flex">
+                    <div class="sticky top-4 w-[20%] flex-col justify-start items-start gap-4 inline-flex">
                         <div class="text-[#0c141c] text-base font-medium font-['Roboto'] leading-normal">
                             Menu
                         </div>
@@ -27,8 +27,10 @@
                     <div class="w-full px-6 rounded-xl border border-[#cfd4dc] flex-col justify-start items-start flex">
                         <div class="mb-[32px] w-full px-4 py-8 flex justify-between items-center">
                             <div class="flex items-center gap-2">
-                                <img class="w-14 h-14 rounded-full" src="https://via.placeholder.com/56x56" />
-                                <div class="text-[#0c141c] text-2xl font-semibold font-['Roboto'] leading-loose">Monica Dolflinger</div>
+                                <img class="w-14 h-14 rounded-full" src="@/assets/img/profile-mock.png" alt="profile"/>
+                                <div class="text-[#0c141c] text-2xl font-semibold font-['Roboto'] leading-loose">
+                                    {{ siswaDatas.name }}
+                                </div>
                             </div>
 
                             <button class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
@@ -40,7 +42,13 @@
                         <PersonalInfo v-if="pageType == 'Profile Siswa' && siswaDatas" :siswaDatas="siswaDatas"/>
 
                         <!-- Hasil Tes GIM -->
-                         <HasilGIM v-if="pageType == 'Hasil Tes GIM' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        <HasilGIM v-if="pageType == 'Hasil Tes GIM' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Assessment -->
+                        <HasilAssessment v-if="pageType == 'Hasil Tes Assessment' && siswaDatas" :siswaDatas="siswaDatas"/>
+                    
+                        <!-- Hasil IQ -->
+                        <HasilIQ v-if="pageType == 'Hasil Tes IQ' && siswaDatas" :siswaDatas="siswaDatas"/>
                     </div>
                 </div>
             </div>
@@ -57,6 +65,8 @@ import { ref, onMounted, watch, computed, onBeforeMount } from "vue";
 import Swal from "sweetalert2";
 import PersonalInfo from "@/components/staffs/DetailSiswa/PersonalInfo.vue";
 import HasilGIM from "@/components/staffs/DetailSiswa/HasilGIM.vue";
+import HasilAssessment from "@/components/staffs/DetailSiswa/HasilAssessment.vue";
+import HasilIQ from "@/components/staffs/DetailSiswa/HasilIQ.vue";
 import { useRoute, useRouter } from "vue-router";
 
 const sidebarItems = ref([

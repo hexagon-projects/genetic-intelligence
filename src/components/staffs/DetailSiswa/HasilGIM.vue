@@ -32,7 +32,7 @@
                 </span>
             </div>
 
-            <div class="mt-[9px] flex flex-col gap-[12px]">
+            <div class="mt-[9px] mb-4 flex flex-col gap-[12px]">
                 <h1 class="text-[#111416] text-lg font-bold font-['Roboto']">
                     Result Analysis
                 </h1>

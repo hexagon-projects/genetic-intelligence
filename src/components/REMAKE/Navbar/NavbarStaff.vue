@@ -7,6 +7,28 @@
         <nav class="w-full mx-[50px] flex justify-between items-center gap-4">
             <img class="w-[121.28px] h-12" src="@/assets/img/logo-new.png" alt="Logo">
 
+            <ul class="flex space-x-8">
+                <li @click="goTo('staff.views.dashboard')" class="relative group cursor-pointer">
+                    <div class="flex items-center gap-[6px]">
+                        <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.dashboard', 'grayscale-0': $route.name == 'staff.views.dashboard'}" 
+                        src="@/assets/icons/beranda.svg"/>
+                        <span class="text-black font-roboto">Beranda</span>
+                    </div>
+                    
+                    <div v-if="$route.name == 'staff.views.dashboard'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+                </li>
+
+                <li @click="goTo('staff.views.list_siswa')" class="relative group cursor-pointer">
+                    <div class="flex items-center gap-[6px]">
+                        <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.list_siswa' || $route.name !== 'staff.views.detail_siswa', 'grayscale-0': $route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'}" 
+                        src="@/assets/icons/nav-datasiswa.svg"/>
+                        <span class="text-black font-roboto">Data Siswa</span>
+                    </div>
+                    
+                    <div v-if="$route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+                </li>
+            </ul>
+
             <div @mouseenter="openSubmenu()" @mouseleave="scheduleCloseSubmenu()" class="cursor-pointer relative h-9 justify-end items-center gap-2 inline-flex">
                 <img v-if="userDatas && userDatas.customer.image == null" class="w-9 h-9 rounded-full" src="@/assets/img/profile-mock.png" />
                 <!-- <img v-if="userDatas && userDatas.customer.image !== null" class="w-9 h-9 rounded-full" :src="baseUrl+'open/customers/'+userDatas.customer.image" /> -->
