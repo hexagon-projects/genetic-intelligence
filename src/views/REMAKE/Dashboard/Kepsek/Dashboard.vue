@@ -485,7 +485,7 @@
                 <td class="py-3 px-4">{{ item.updated_at }}</td>
                 <td class="py-3 px-4">{{ item.total_test }}</td>
                 <td class="py-3 px-4">
-                  <button
+                  <button @click="detailSiswa(item.id)"
                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
                   >
                     Lihat Detail
@@ -522,6 +522,7 @@ import Cookies from "js-cookie";
 import { RouterLink } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
 
 const staffName = ref(JSON.parse(localStorage.getItem('userData')).staff.name)
 const dataSiswa = ref('')
@@ -745,4 +746,26 @@ const arrIq = ref([
   { kategori: "80 - 90", persentase: "0%", color: "bg-[#53B1FD]" },
   { kategori: "< 80", persentase: "0%", color: "bg-[#84CAFF]" },
 ]);
+
+const router = useRouter()
+
+const detailSiswa = (id)  => {
+  console.log(`wakwaw`, id)
+  try {
+    const encodedId = btoa(id)
+
+    router.push({
+      name: 'staff.views.detail_siswa',
+      query: { student_id: encodedId }
+    })
+  } catch (error) {
+    Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: "Terjadi error saat navigasi ke detail siswa.",
+    showConfirmButton: false,
+    timer: 2000,
+    });
+  }
+}
 </script>
