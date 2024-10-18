@@ -15,7 +15,7 @@
                         </div>
     
                         <div class="flex flex-col w-full">
-                            <div v-for="(item, index) in sidebarItems" :key="index" 
+                            <div v-for="(item, index) in filteredSidebarItems" :key="index" 
                                 :class="['cursor-pointer px-[12px] py-[8px] flex items-center gap-[12px]', { 'bg-[#f0f7fd] rounded-xl': selectedItemIndex === index || pageType == item.text }]"
                                 @click="selectItem(index, item.text)">
                                 <img :class="{'grayscale-0': selectedItemIndex === index || pageType == item.text, 'grayscale': selectedItemIndex !== index}" class="size-[24px]" :src="item.image" alt="icon">
@@ -75,8 +75,22 @@ const sidebarItems = ref([
     {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Assessment'},
     {image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href, text: 'Hasil Tes IQ'},
     {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes CPM'},
-    {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes RMIB'},
+    {image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href, text: 'Hasil Tes RMIB'},
+    {image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href, text: 'Hasil Tes IAA'},
 ])
+
+const filteredSidebarItems = computed(() => {
+    const institutionType = JSON.parse(localStorage.getItem('userData')).staff.institutions.type;
+    
+    return sidebarItems.value.filter(item => {
+        if (['SMP', 'SMK', 'SMA'].includes(institutionType)) {
+            return item.text !== 'Hasil Tes CPM';
+        } else if (['TK', 'SD'].includes(institutionType)) {
+            return item.text !== 'Hasil Tes IQ';
+        }
+        return true; // Tampilkan semua item jika tidak termasuk kategori di atas
+    });
+});
 
 const selectedItemIndex = ref(null);
 const pageType = ref('Profile Siswa')
