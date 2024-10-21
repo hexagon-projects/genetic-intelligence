@@ -1,16 +1,16 @@
 <template>
-    <div v-if="props.siswaDatas.customer_iq !== null" class="w-full px-4 pt-5 pb-3 flex flex-col gap-[16px]">
+    <div v-if="props.siswaDatas.customers_cpm !== null" class="w-full px-4 pt-5 pb-3 flex flex-col gap-[16px]">
         <div class="text-[#0c141c] text-xl font-bold font-['Roboto'] leading-7">
-            Hasil Tes IQ
+            Hasil Tes CPM
         </div>
 
         <div class="flex flex-col gap-[16px]">
             <div class="flex flex-col">
                 <h1 class="text-[#111416] text-base font-semibold font-sora leading-normal">
-                    Skor
+                    Jumlah soal yang dijawab benar
                 </h1>
                 <span class="text-[#111416] text-base font-normal font-roboto leading-normal">
-                    {{ props.siswaDatas.customer_iq.customer_iq }}
+                    {{ props.siswaDatas.customers_cpm.cpm_score }}
                 </span>
             </div>
 
@@ -19,7 +19,7 @@
                     Grade
                 </h1>
                 <span class="text-[#111416] text-base font-normal font-roboto leading-normal">
-                    {{ props.siswaDatas.customer_iq.iq.category }} ({{ props.siswaDatas.customer_iq.iq.aliases }})
+                    {{ props.siswaDatas.customers_cpm.cpm.name }}
                 </span>
             </div>
 
@@ -28,7 +28,7 @@
                     Interpretation
                 </h1>
                 <span class="text-[#111416] text-base font-normal font-['Roboto'] leading-normal">
-                    {{ props.siswaDatas.customer_iq.iq.desc }}
+                    {{ props.siswaDatas.customers_cpm.cpm.desc }}
                 </span>
             </div>
         </div>

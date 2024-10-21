@@ -49,6 +49,9 @@
                     
                         <!-- Hasil IQ -->
                         <HasilIQ v-if="pageType == 'Hasil Tes IQ' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil CPM -->
+                        <HasilCPM v-if="pageType == 'Hasil Tes CPM' && siswaDatas" :siswaDatas="siswaDatas"/>
                     </div>
                 </div>
             </div>
@@ -67,6 +70,7 @@ import PersonalInfo from "@/components/staffs/DetailSiswa/PersonalInfo.vue";
 import HasilGIM from "@/components/staffs/DetailSiswa/HasilGIM.vue";
 import HasilAssessment from "@/components/staffs/DetailSiswa/HasilAssessment.vue";
 import HasilIQ from "@/components/staffs/DetailSiswa/HasilIQ.vue";
+import HasilCPM from "@/components/staffs/DetailSiswa/HasilCPM.vue";
 import { useRoute, useRouter } from "vue-router";
 
 const sidebarItems = ref([

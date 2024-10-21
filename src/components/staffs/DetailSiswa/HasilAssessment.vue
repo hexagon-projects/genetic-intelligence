@@ -45,10 +45,12 @@ const props = defineProps(['siswaDatas'])
 
 onMounted(() => {
   setTimeout(() => {
-    const parsedPercentage = JSON.parse(props.siswaDatas.customer_assessment.total_answer)
-    dataAssessment.value[0].percentage = parsedPercentage[0].percentage
-    dataAssessment.value[1].percentage = parsedPercentage[1].percentage
-    dataAssessment.value[2].percentage = parsedPercentage[2].percentage
+    if(props.siswaDatas.customer_assessment !== null){
+        const parsedPercentage = JSON.parse(props.siswaDatas.customer_assessment.total_answer)
+        dataAssessment.value[0].percentage = parsedPercentage[0].percentage
+        dataAssessment.value[1].percentage = parsedPercentage[1].percentage
+        dataAssessment.value[2].percentage = parsedPercentage[2].percentage
+    }
   }, 150);
 });
 </script>
