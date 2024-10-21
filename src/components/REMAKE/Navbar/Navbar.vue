@@ -82,7 +82,7 @@ const getUserData = async() => {
         formData.append('refresh_user', 'true')
         const userData = await initAPI('post', 'login', formData, token)
         userDatas.value = userData.data
-        console.log(`navbar`, userData.data)
+        // console.log(`navbar`, userData.data)
     } catch (error) {
         Swal.fire({
             icon: 'error',

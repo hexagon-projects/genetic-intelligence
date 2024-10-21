@@ -48,7 +48,7 @@
                     <label for="grade" class="block text-sm font-myFont font-medium text-dark">
                         {{ jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas:' : 'Semester' }}
                     </label>
-                    <input v-model="kelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" :placeholder="jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas' : 'Semester'" />
+                    <input v-model="kelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" :placeholder="jenjangPendidikan !== 'perguruan_tinggi' ? 'Contoh: 1' : 'Contoh: 1'" />
                 </div>
             </div>
 

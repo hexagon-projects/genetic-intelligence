@@ -25,9 +25,16 @@ export default [
                 const decodedToken = jwtDecode(token);
                 //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
-                const roleUser = JSON.parse(localStorage.getItem('userRole'))
-                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
-                else next()
+                if (decodeRoleUser !== 'customer') {
+                    next({ name: 'views.login' });
+                } else {
+                    const isStudent = isAuth.is_student;
+                    if (isStudent === 0) {
+                        next({ name: 'views.dashboard' });
+                    } else {
+                        next();
+                    }
+                }
             }
         }
     },

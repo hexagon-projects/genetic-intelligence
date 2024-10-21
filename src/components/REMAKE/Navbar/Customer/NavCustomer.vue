@@ -10,7 +10,7 @@
             <div v-if="$route.name == 'views.dashboard'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
         </li>
 
-        <li @click="goTo('user.views.starter_pack')" class="relative group cursor-pointer">
+        <li v-if="cekTypeSekolah.is_student === 1" @click="goTo('user.views.starter_pack')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
                 <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.starter_pack', 'grayscale-0': $route.name == 'user.views.starter_pack'}" 
                 src="@/assets/icons/starter-pack.svg"/>
