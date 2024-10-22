@@ -64,8 +64,8 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-// import customerBottom from '../../navbar/customer/customerBottom.vue';
-import customerBottom from './Customer/customerBottom.vue';
+import customerBottom from '../../navbar/customer/customerBottom.vue';
+// import customerBottom from './Customer/customerBottom.vue';
 
 const router = useRouter()
 const store = useStore()
