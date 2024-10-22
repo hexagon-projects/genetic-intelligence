@@ -33,13 +33,14 @@
     <section id="bottom-navigation" class="block lg:hidden fixed inset-x-0 bottom-0 z-50 bg-white shadow">
         <div id="tabs" class="flex justify-between">
             <RouterLink :to="{name: 'views.dashboard'}" 
-                class="w-full flex flex-col justify-center text-center pt-2 pb-1"
-                :class="{'font-bold' : $route.name === 'views.dashboard'}"
+                class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
+                :class="{'font-medium' : $route.name === 'views.dashboard'}"
                 >
                 <div class="self-center">
-                    <PhHouse :size="28" />
+                    <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.dashboard', 'grayscale-0': $route.name == 'user.views.dashboard'}" 
+                    src="@/assets/icons/beranda.svg"/>
                 </div>
-                <span class="tab tab-home block text-xs">Beranda</span>
+                <span :class="{'text-[#667085]': $route.name !== 'user.views.dashboard', 'text-black font-medium': $route.name == 'user.views.dashboard'}" class="font-roboto block text-xs">Beranda</span>
             </RouterLink>
 
             <customerBottom/>
@@ -63,7 +64,8 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import customerBottom from '../../navbar/customer/customerBottom.vue';
+// import customerBottom from '../../navbar/customer/customerBottom.vue';
+import customerBottom from './Customer/customerBottom.vue';
 
 const router = useRouter()
 const store = useStore()

@@ -28,11 +28,13 @@
                    || $route.name !== 'user.views.assesment'
                    || $route.name !== 'user.views.cpm'
                    || $route.name !== 'user.views.psikotest'
+                   || $route.name !== 'user.views.test_gadget'
                    || $route.name !== 'user.views.iq', 
                 'grayscale-0': activeMenu === 2 || $route.name == 'user.views.deteksi'
                    || $route.name == 'user.views.cpm'
                    || $route.name == 'user.views.assesment'
                    || $route.name == 'user.views.psikotest'
+                   || $route.name == 'user.views.test_gadget'
                    || $route.name == 'user.views.iq'
                 }" 
                 src="@/assets/icons/lakukan-tes.svg"/>
@@ -43,6 +45,7 @@
                     || $route.name == 'user.views.cpm'
                     || $route.name == 'user.views.assesment'
                     || $route.name == 'user.views.psikotest'
+                    || $route.name == 'user.views.test_gadget'
                     || $route.name == 'user.views.iq'" 
                 class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]">
             </div>
@@ -67,6 +70,13 @@
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
                     <span class="font-roboto">Test IQ</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.test_gadget')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
+                    src="@/assets/icons/test-iaa.svg"/>
+                    <span class="font-roboto">Test IAA</span>
                 </div>
             </li>
             <!-- <li class="group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
