@@ -130,7 +130,7 @@ const hasilDatas = ref([
 ])
 
 const lainyaDatas = ref([
-    {name: 'Profile', route: 'user.views.hasil_deteksi', img:  new URL('@/assets/icons/icon-profile.svg', import.meta.url).href},
+    {name: 'Profile', route: 'user.views.profile', img:  new URL('@/assets/icons/icon-profile.svg', import.meta.url).href},
     {name: 'Keluar', route: null, img:  new URL('@/assets/icons/icon-logout.svg', import.meta.url).href},
 ])
 

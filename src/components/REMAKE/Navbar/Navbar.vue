@@ -37,10 +37,10 @@
                 :class="{'font-medium' : $route.name === 'views.dashboard'}"
                 >
                 <div class="self-center">
-                    <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.dashboard', 'grayscale-0': $route.name == 'user.views.dashboard'}" 
+                    <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'views.dashboard', 'grayscale-0': $route.name == 'views.dashboard'}" 
                     src="@/assets/icons/beranda.svg"/>
                 </div>
-                <span :class="{'text-[#667085]': $route.name !== 'user.views.dashboard', 'text-black font-medium': $route.name == 'user.views.dashboard'}" class="font-roboto block text-xs">Beranda</span>
+                <span :class="{'text-[#667085]': $route.name !== 'views.dashboard', 'text-black font-medium': $route.name == 'views.dashboard'}" class="font-roboto block text-xs">Beranda</span>
             </RouterLink>
 
             <customerBottom :userDatas="userDatas"/>
