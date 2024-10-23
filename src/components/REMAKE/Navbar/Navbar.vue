@@ -43,7 +43,7 @@
                 <span :class="{'text-[#667085]': $route.name !== 'user.views.dashboard', 'text-black font-medium': $route.name == 'user.views.dashboard'}" class="font-roboto block text-xs">Beranda</span>
             </RouterLink>
 
-            <customerBottom/>
+            <customerBottom :userDatas="userDatas"/>
             <!-- <a v-if="userRole !== 'customer' && userRole !== 'consultant'" @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
                 <div class="self-center">
                     <PhSignOut :size="28" />
@@ -64,8 +64,8 @@ import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import customerBottom from '../../navbar/customer/customerBottom.vue';
-// import customerBottom from './Customer/customerBottom.vue';
+// import customerBottom from '../../navbar/customer/customerBottom.vue';
+import customerBottom from './Customer/customerBottom.vue';
 
 const router = useRouter()
 const store = useStore()

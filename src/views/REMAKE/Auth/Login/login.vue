@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLoadingResources" class="loading-resource">
-       <img class="animate-bounce w-[10%]" src="@/assets/img/logo-new.png" alt="logo">
+       <img class="animate-bounce w-[30%] lg:w-[10%]" src="@/assets/img/logo-new.png" alt="logo">
     </div>
 
     <div v-else>
