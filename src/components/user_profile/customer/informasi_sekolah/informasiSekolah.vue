@@ -111,9 +111,9 @@ export default {
         }, 500)
 
         const getSearchData = async() => {
-            console.log(`nyari`)
+            // console.log(`nyari`)
             const response = await initAPI('get', `institutions?search=${namaPendidikan.value}`, null, null)
-            console.log(response.data)
+            // console.log(response.data)
             pilihanSekolah.value = response.data.data
         }
 
@@ -151,7 +151,7 @@ export default {
                     store.commit('user', updatedCustomer.data.customer)
                     localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
                 } catch (error) {
-                    console.log(`gagal ajig`, error)
+                    // console.log(`gagal ajig`, error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',

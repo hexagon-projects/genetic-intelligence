@@ -142,7 +142,7 @@ export default {
                     loading.value = !loading.value
                     const userId = JSON.parse(localStorage.getItem('userData')).id
                     const response = await initAPI('get', `customers?id=${userId}`, null, token)
-                    console.log(response.data.data[0])
+                    // console.log(response.data.data[0])
      
                     isTestedIQ.value = response.data.data[0].customer_iq !== null ? true : false
      
@@ -154,7 +154,7 @@ export default {
      
                     loading.value = !loading.value
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         title: "Error",
                         text: "Terjadi error saat mengambil data assessment.",

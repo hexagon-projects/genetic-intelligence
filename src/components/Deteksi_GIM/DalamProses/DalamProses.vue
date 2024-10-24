@@ -49,9 +49,9 @@ export default {
             const token = Cookies.get('token')
             if(token){
                 try {
-                    console.log(`id refresh`, userId)
+                    // console.log(`id refresh`, userId)
                     const refreshedCustomer = await initAPI('get', 'customers?id='+userId, null, token)
-                    console.log(refreshedCustomer.data.data[0])
+                    // console.log(refreshedCustomer.data.data[0])
                     store.commit('user', refreshedCustomer.data.data[0])
                     localStorage.setItem('userData', JSON.stringify(refreshedCustomer.data.data[0]))
         

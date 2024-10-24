@@ -453,7 +453,7 @@ export default {
             const token = Cookies.get('token')
             if(token){
                 const response = await initAPI('post', 'customers/reservations', reservasiData.value, token)
-                console.log(`konfir`,response.data)
+                // console.log(`konfir`,response.data)
                 if(response.data.success == true){
                     Swal.fire({
                         icon: 'success',
@@ -510,19 +510,19 @@ export default {
                 email: JSON.parse(localStorage.getItem('userEmail')),
                 number: userData.value.number
             }
-            console.log(`datas`,datas)
+            // console.log(`datas`,datas)
             paymentForm.value = datas
         }
 
         const konfirPembayaran = async() => {
-            console.log(`payment form`, paymentForm.value)
+            // console.log(`payment form`, paymentForm.value)
             const token = Cookies.get('token')
             if(token){
                 try {
                     modalLoading.value = !modalLoading.value
                     const response = await initAPI('post', 'customers/reservations/payment', paymentForm.value, token)
-                    console.log(`konfir pembayaran`,response.data)
-                    console.log(`merchant reservasi`,response.data.payment_data.merchant_order_id)
+                    // console.log(`konfir pembayaran`,response.data)
+                    // console.log(`merchant reservasi`,response.data.payment_data.merchant_order_id)
                     localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
                     localStorage.setItem('bayarReservasi', true)
                     const url = response.data.data.paymentUrl
@@ -532,7 +532,7 @@ export default {
                         fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
                         refValue = url.split('ref=')[1]
                     }else if(url.includes('reference=')){
-                        console.log('reference', url)
+                        // console.log('reference', url)
                         fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
                         refValue = url.split('reference=')[1]
                     }

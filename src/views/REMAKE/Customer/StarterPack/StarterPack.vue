@@ -225,7 +225,7 @@ const getUserData = async() => {
             ? 'Tes IQ' : 'Tes Colored Progressive Matrices'
         }
     } catch (error) {
-        console.log(`error ie`, error)
+        // console.log(`error ie`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error',

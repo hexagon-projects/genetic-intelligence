@@ -57,9 +57,9 @@ export default {
         const baseUrl = import.meta.env.VITE_API_BASE_URL
 
         const downloadFile = async (fileUrl) => {
-            console.log(`aisia`, fileUrl)
+            // console.log(`aisia`, fileUrl)
             const imageUrl = baseUrl + 'open/results/' + fileUrl
-            console.log(imageUrl)
+            // console.log(imageUrl)
 
 
             const response = await fetch(imageUrl)

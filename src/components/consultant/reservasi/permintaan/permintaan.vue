@@ -291,9 +291,9 @@ export default{
 
         const clickDetail = (id) => {
             toggleModal()
-            console.log(id)
+            // console.log(id)
             const unik = dataPermintaan.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailCustomers.value = unik
         }
 
@@ -319,7 +319,7 @@ export default{
         }
 
         const approve = async(reservationId) => {
-            console.log(`ini id`, reservationId)
+            // console.log(`ini id`, reservationId)
             const token = Cookies.get('token')
             const data = new FormData();
             data.append('status', 1);
@@ -327,7 +327,7 @@ export default{
             if(token){
                 try {
                     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil!',
@@ -353,13 +353,13 @@ export default{
         }
 
         const confirmNotApprove = async(reservationId) => {
-            console.log(reservationId)
+            // console.log(reservationId)
             const token = Cookies.get('token')
             if(token){
                 try {
                     const data = { status: 99 }
                     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     if(response.data.success == true){
                         Swal.fire({
                             title: "Berhasil",
@@ -372,7 +372,7 @@ export default{
                         await getAllData()
                     }
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         title: "Gagal",
                         text: "Terjadi error saat membatalkan permintaan.",
@@ -415,7 +415,7 @@ export default{
             if(token){
                 try {
                     const response = await initAPI('get', 'customers/reservations?status=0', null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     itemsPerPage.value = response.data.per_page
                     currPage.value = response.data.current_page
                     nextPage.value = response.data.next_page_url
@@ -426,7 +426,7 @@ export default{
                     totalData.value = response.data.total
                     dataPermintaan.value = response.data.data
                     detailCustomers.value = response.data.data.customers 
-                    console.log(`response`,response.data.data)
+                    // console.log(`response`,response.data.data)
                 } catch (error) {
                     Swal.fire({
                         icon: 'error',
@@ -483,7 +483,7 @@ export default{
                     if(url !== null && cari.value){
                         loading.value = !loading.value
                         const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                        console.log(response.data)
+                        // console.log(response.data)
                         dataSubmit.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -494,11 +494,11 @@ export default{
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataSubmit.value)
+                        // console.log(`data`,dataSubmit.value)
                     } else if(url !== null && !cari.value) {
                         loading.value = !loading.value
                         const response = await initAPI('get', url, null, token)
-                        console.log(response.data)
+                        // console.log(response.data)
                         dataSubmit.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -509,7 +509,7 @@ export default{
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataSubmit.value)
+                        // console.log(`data`,dataSubmit.value)
                     }
                 } catch (error) {
                     Swal.fire({
@@ -530,11 +530,11 @@ export default{
             const token = Cookies.get('token')
             if(token){
                 try {
-                    console.log(url)
+                    // console.log(url)
                     if(url !== null && cari.value){
                         loading.value = !loading.value
                         const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                        console.log(response.data)
+                        // console.log(response.data)
                         dataSubmit.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -545,11 +545,11 @@ export default{
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataSubmit.value)
+                        // console.log(`data`,dataSubmit.value)
                     } else if(url !== null && !cari.value) {
                         loading.value = !loading.value
                         const response = await initAPI('get', url, null, token)
-                        console.log(response.data)
+                        // console.log(response.data)
                         dataSubmit.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -560,7 +560,7 @@ export default{
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataSubmit.value)
+                        // console.log(`data`,dataSubmit.value)
                     }
                 } catch (error) {
                     Swal.fire({

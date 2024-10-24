@@ -170,7 +170,7 @@ export default {
             const token = Cookies.get('token')
             if(token){
                 try {
-                    console.log(`lulus - ${idSiswa}`)
+                    // console.log(`lulus - ${idSiswa}`)
     
                     const dataLulus = new FormData();
                     dataLulus.append('new_is_student', '0')
@@ -187,7 +187,7 @@ export default {
     
                     getAllData()
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal Meluluskan Siswa',
@@ -204,13 +204,13 @@ export default {
 
         const btnAction = (id, type) => {
             if(type == 'detail'){
-                console.log(id)
+                // console.log(id)
                 const unik = dataSiswa.value.find(item => item.id === id);
-                console.log(`unik`,unik)
+                // console.log(`unik`,unik)
                 detailSiswa.value = unik
                 toggleModal()
             } else if(type == 'lulus'){
-                console.log(`siswa yg mau di luluskan`, id)
+                // console.log(`siswa yg mau di luluskan`, id)
                 Swal.fire({
                     icon: 'question',
                     title: 'Luluskan Siswa Ini?',
@@ -294,11 +294,11 @@ export default {
 
         const getAllData = async() => {
             let allParams = ''
-            console.log(queryParams)
+            // console.log(queryParams)
             for (const [key, value] of Object.entries(queryParams)) {
                 allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
             }
-            console.log(`semua`,allParams)
+            // console.log(`semua`,allParams)
 
             loading.value = !loading.value
             const token = Cookies.get('token')
@@ -306,7 +306,7 @@ export default {
                 try {
                     const institution_id = JSON.parse(localStorage.getItem('staffDetail')).institution_id
                     const response = await initAPI('get', `customers?is_student=1&institution_id=${institution_id}${allParams}`, null, token)
-                    console.log(`customers`,response.data)
+                    // console.log(`customers`,response.data)
                     dataSiswa.value = response.data.data
                     totalHalaman.value = response.data.last_page
                     itemsPerPage.value = response.data.per_page

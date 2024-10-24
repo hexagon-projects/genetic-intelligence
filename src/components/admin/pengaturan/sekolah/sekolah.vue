@@ -171,7 +171,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('delete', `institutions/${id}`, null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
     
                     Swal.fire({
                         icon: 'success',
@@ -198,7 +198,7 @@ export default {
         }
 
         const btnAction = (id, method) => {
-            console.log(`${id} - ${method}`)
+            // console.log(`${id} - ${method}`)
 
             if(method == 'update'){
                 const unik = dataSekolah.value.find(item => item.id === id)
@@ -260,21 +260,21 @@ export default {
         }
 
         const getAllData = async() => {
-            console.log('di refresh')
+            // console.log('di refresh')
             loading.value = !loading.value
             
             let allParams = '?'
-            console.log(queryParams)
+            // console.log(queryParams)
             for (const [key, value] of Object.entries(queryParams)) {
                 allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
             }
-            console.log(`semua`,allParams)
+            // console.log(`semua`,allParams)
 
             const token = Cookies.get('token')
             if(token){
                 try {
                     const response = await initAPI('get', `institutions`+allParams.replace('?&', '?'), null, token)
-                    console.log(`customers`,response.data)
+                    // console.log(`customers`,response.data)
                     dataSekolah.value = response.data.data
                     totalHalaman.value = response.data.last_page
                     itemsPerPage.value = response.data.per_page
@@ -285,7 +285,7 @@ export default {
                     totalKe.value = response.data.to
                     totalData.value = response.data.total
                     loading.value = !loading.value
-                    console.log(`data`,dataSekolah.value)
+                    // console.log(`data`,dataSekolah.value)
                 } catch (error) {
                     Swal.fire({
                         icon: 'error',

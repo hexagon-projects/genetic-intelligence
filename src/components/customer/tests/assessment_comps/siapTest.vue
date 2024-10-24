@@ -58,7 +58,7 @@ export default {
         const arrCodeJawabanPertanyaan = []
 
         const submitJawaban = async() => {
-            console.log(`jawaban final`, arrCodeJawabanPertanyaan)
+            // console.log(`jawaban final`, arrCodeJawabanPertanyaan)
             const token = Cookies.get('token')
             if(token){
                 const userId = JSON.parse(localStorage.getItem('userData'))
@@ -66,7 +66,7 @@ export default {
                     const data = new FormData();
                     data.append('customer_id', userId.id)
                     data.append('answers', JSON.stringify(arrCodeJawabanPertanyaan));
-                    console.log(`FD`, data)
+                    // console.log(`FD`, data)
                     const response = await initAPI('post', 'customers/assessments', data, token)
                     if(response.data.message){
                         Swal.fire({
@@ -129,18 +129,18 @@ export default {
         const updateJawaban = (qIndex, aIndex, isChecked, code) => {
             // jawabanPertanyaan.value[qIndex][aIndex] = isChecked
             jawabanPertanyaan.value[qIndex] = [isChecked ? code : ''];
-            console.log('jawaban dipilih', jawabanPertanyaan)
+            // console.log('jawaban dipilih', jawabanPertanyaan)
 
             // arrCodeJawabanPertanyaan.push(code)
-            console.log('code jawaban', code)
-            console.log('array', arrCodeJawabanPertanyaan)
+            // console.log('code jawaban', code)
+            // console.log('array', arrCodeJawabanPertanyaan)
         }
 
         const selanjutnya = (nextPage) => {
             const adaPertanyaanBelumTerjawab = jawabanPertanyaan.value.some(jawaban => jawaban.length === 0);
-            console.log(adaPertanyaanBelumTerjawab)
+            // console.log(adaPertanyaanBelumTerjawab)
             if (adaPertanyaanBelumTerjawab) {
-                console.log("Harap isi semua pertanyaan sebelum melanjutkan.");
+                // console.log("Harap isi semua pertanyaan sebelum melanjutkan.");
                 Swal.fire({
                 title: "Oopss Perhatikan jawabanmu",
                 text: "Ada beberapa jawaban yang belum kamu isi",
@@ -171,10 +171,10 @@ export default {
         };
 
         const getNextDataPertanyaan = async(nextPage) => {
-            console.log(`nextPage`, nextPage)
-            console.log('jawaban yeuh', jawabanPertanyaan.value)
+            // console.log(`nextPage`, nextPage)
+            // console.log('jawaban yeuh', jawabanPertanyaan.value)
 
-            console.log(`data jawaban`, arrCodeJawabanPertanyaan)
+            // console.log(`data jawaban`, arrCodeJawabanPertanyaan)
 
             loadingQuestion.value = !loadingQuestion.value
 
@@ -182,7 +182,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', nextPage, null, token)
-                    console.log(`qna`, response.data)
+                    // console.log(`qna`, response.data)
                     jawabanPertanyaan.value = response.data.data.map(() => []);
                     dataPertanyaan.value = response.data
                     itemsPerPage.value = response.data.per_page
@@ -210,7 +210,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', 'assessments/questions?status=1', null, token)
-                    console.log(`qna`, response.data)
+                    // console.log(`qna`, response.data)
                     jawabanPertanyaan.value = response.data.data.map(() => []);
                     dataPertanyaan.value = response.data
                     itemsPerPage.value = response.data.per_page

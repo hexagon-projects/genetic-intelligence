@@ -368,16 +368,16 @@ export default {
         }
         const valueTotal = ref(null)
         
-        console.log(`user yeuh`,userData.value)
+        // console.log(`user yeuh`,userData.value)
 
         loading.value = !loading.value
         onMounted(async() => {
             const token = Cookies.get('token')
-            console.log(`cookie token`, token)
+            // console.log(`cookie token`, token)
             // const const token = Cookies.get('token')
             if(token){
                 const decodedToken = jwtDecode(token)
-                console.log(`decode dashboard`, decodedToken)
+                // console.log(`decode dashboard`, decodedToken)
                 newRole.value = decodedToken.role
             } else {
                 localStorage.clear()

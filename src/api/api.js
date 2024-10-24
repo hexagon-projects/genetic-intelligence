@@ -53,7 +53,7 @@ const initAPI = async (method, endpoint, data, token) => {
   // const baseUrl = 'http://192.168.38.226:8001/api/'
   // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/') || endpoint.includes('consultants/')
-  console.log(check)
+  // console.log(check)
   const config = {
     method: method,
     maxBodyLength: Infinity,
@@ -74,7 +74,7 @@ const initAPI = async (method, endpoint, data, token) => {
     return response
   } catch (error) {
     if (error.response && error.response.status === 401 && localStorage.getItem('userData')) {
-      console.log(`rugi dong`)
+      // console.log(`rugi dong`)
       localStorage.clear()
       router.go()
     } else {

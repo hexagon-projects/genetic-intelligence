@@ -89,7 +89,7 @@ export default {
         }
 
         const kirimEmail = async() => {
-            console.log(`trim`, email.value.trim())
+            // console.log(`trim`, email.value.trim())
             if(!email.value || email.value.trim() == '' || validasiEmail.value !== null){
                 Swal.fire({
                         icon: 'error',

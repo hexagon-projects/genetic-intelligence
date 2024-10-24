@@ -100,7 +100,7 @@ const selectedItemIndex = ref(null);
 const pageType = ref('Profile Siswa')
 
 const selectItem = (index, type) => {
-    console.log(`diplih`, index)
+    // console.log(`diplih`, index)
     selectedItemIndex.value = index;
     pageType.value = type
 };
@@ -120,10 +120,16 @@ const getDataSiswa = async() => {
         const token = Cookies.get("token");
         const response = await initAPI('get', `customers?id=${siswaId.value}`, null, token)
 
-        console.log(`response`, response.data)
+        // console.log(`response`, response.data)
         siswaDatas.value = response.data.data[0]
     } catch (error) {
-        console.log(error)
+        Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Terjadi error saat mengambil data siswa.",
+        showConfirmButton: false,
+        timer: 2000,
+        });
     }
 }
 

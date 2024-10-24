@@ -410,16 +410,16 @@ export default {
       const getAllData = async() => {
           loading.value = !loading.value
           let allParams = 'is_detected=3'
-          console.log(queryParams)
+        //   console.log(queryParams)
           for (const [key, value] of Object.entries(queryParams)) {
             allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
           }
-          console.log(allParams)
+        //   console.log(allParams)
           const token = Cookies.get('token')
           if(token){
             try {
                 const response = await initAPI('get', 'customers?'+allParams, null, token)
-                console.log(response.data)
+                // console.log(response.data)
                 dataSubmit.value = response.data.data
                 totalHalaman.value = response.data.last_page
                 itemsPerPage.value = response.data.per_page
@@ -430,7 +430,7 @@ export default {
                 totalKe.value = response.data.to
                 totalData.value = response.data.total
                 loading.value = !loading.value
-                console.log(`data`,dataSubmit.value)
+                // console.log(`data`,dataSubmit.value)
             } catch(error) {
                 Swal.fire({
                     icon: 'error',
@@ -476,13 +476,13 @@ export default {
       }
 
       const nextPages = async(url) => {
-          console.log(url)
+        //   console.log(url)
           const token = Cookies.get('token')
           if(token){
               if(url !== null && cari.value){
                   loading.value = !loading.value
                   const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                  console.log(response.data)
+                //   console.log(response.data)
                   dataSubmit.value = response.data.data
                   totalHalaman.value = response.data.last_page
                   itemsPerPage.value = response.data.per_page
@@ -493,11 +493,11 @@ export default {
                   totalKe.value = response.data.to
                   totalData.value = response.data.total
                   loading.value = !loading.value
-                  console.log(`data`,dataSubmit.value)
+                //   console.log(`data`,dataSubmit.value)
               } else if(url !== null && !cari.value){
                   loading.value = !loading.value
                   const response = await initAPI('get', url, null, token)
-                  console.log(response.data)
+                //   console.log(response.data)
                   dataSubmit.value = response.data.data
                   totalHalaman.value = response.data.last_page
                   itemsPerPage.value = response.data.per_page
@@ -508,7 +508,7 @@ export default {
                   totalKe.value = response.data.to
                   totalData.value = response.data.total
                   loading.value = !loading.value
-                  console.log(`data`,dataSubmit.value)
+                //   console.log(`data`,dataSubmit.value)
               }
           } else {
             router.push('/login')
@@ -517,13 +517,13 @@ export default {
       }
 
       const prevPages = async(url) => {
-          console.log(url)
+        //   console.log(url)
           const token = Cookies.get('token')
           if(token){
               if(url !== null && cari.value){
                   loading.value = !loading.value
                   const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                  console.log(response.data)
+                //   console.log(response.data)
                   dataSubmit.value = response.data.data
                   totalHalaman.value = response.data.last_page
                   itemsPerPage.value = response.data.per_page
@@ -534,11 +534,11 @@ export default {
                   totalKe.value = response.data.to
                   totalData.value = response.data.total
                   loading.value = !loading.value
-                  console.log(`data`,dataSubmit.value)
+                //   console.log(`data`,dataSubmit.value)
               } else if(url !== null && !cari.value){
                   loading.value = !loading.value
                   const response = await initAPI('get', url, null, token)
-                  console.log(response.data)
+                //   console.log(response.data)
                   dataSubmit.value = response.data.data
                   totalHalaman.value = response.data.last_page
                   itemsPerPage.value = response.data.per_page
@@ -549,7 +549,7 @@ export default {
                   totalKe.value = response.data.to
                   totalData.value = response.data.total
                   loading.value = !loading.value
-                  console.log(`data`,dataSubmit.value)
+                //   console.log(`data`,dataSubmit.value)
               }
           } else {
             router.push('/login')
@@ -560,7 +560,7 @@ export default {
       const clickDetail = (id) => {
             toggleModal()
             const unik = dataSubmit.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailDataSubmit.value = unik
         }
 

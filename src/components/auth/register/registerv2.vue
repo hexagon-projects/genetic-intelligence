@@ -209,7 +209,7 @@ const Register = async() => {
         "password": DOMPurify.sanitize(passwordVal.value),
     })
 
-    console.log(data)
+    // console.log(data)
     try {
         const parsedData = JSON.parse(data)
         if(
@@ -222,7 +222,7 @@ const Register = async() => {
             const response = await initAPI('post', 'v2/register', data, null)
             currForm.value = 2
         } else {
-            console.log(`aya nu kosong yeuh`)
+            // console.log(`aya nu kosong yeuh`)
             Swal.fire({
                 icon: 'error',
                 title: 'Registrasi Gagal',
@@ -232,7 +232,7 @@ const Register = async() => {
             });
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         Swal.fire({
             icon: 'error',
             title: 'Registrasi Gagal',
@@ -256,7 +256,7 @@ const pilihTipe = async(params) => {
 
 const toggleTabs = (increment) => {
     const currTab = currForm.value + increment;
-    console.log('eh', currTab)
+    // console.log('eh', currTab)
 
     if (currTab >= 0 && currTab <= 2) {
         currForm.value = currTab;

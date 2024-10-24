@@ -74,7 +74,7 @@ export default {
                     const response = await initAPI('get', 'customers/reservations?status=2&today=true', null, token)
                     if(response.data.data.length > 0){
                         dataReservasi.value = response.data.data
-                        console.log(`wajig kie`,dataReservasi.value)
+                        // console.log(`wajig kie`,dataReservasi.value)
                     } else {
                         dataReservasi.value = 'Kosong'
                     }

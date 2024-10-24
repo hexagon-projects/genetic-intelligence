@@ -99,7 +99,7 @@ export default {
                     formData.append('_method', 'PUT');
                     formData.append('image', file);
     
-                    console.log(formData)
+                    // console.log(formData)
     
                     const response = await initAPI('post','customers/'+customerId, formData, token)
                     if(response.status == 200){

@@ -180,5 +180,5 @@
 import { RouterLink } from 'vue-router';
 
 const props = defineProps(['userData'])
-console.log(`props`, props.userData)
+// console.log(`props`, props.userData)
 </script>

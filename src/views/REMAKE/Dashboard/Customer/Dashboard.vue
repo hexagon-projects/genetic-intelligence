@@ -103,7 +103,7 @@ const token = Cookies.get('token')
 const getAssessmentResult = async(userId) => {
   try {
     const response = await initAPI('get', `customers/assessments?customer_id=${userId}`, null, token)
-    console.log(`respon assessment`, response.data)
+    // console.log(`respon assessment`, response.data)
     propsAssessment.value = response.data.data
   } catch (error) {
     Swal.fire({
@@ -119,7 +119,7 @@ const getAssessmentResult = async(userId) => {
 const getGIMResult = async(userId) => {
   try {
     const response = await initAPI('get', 'customers/gim-result/'+userId, null, token)
-    console.log(`respon gim`, response.data)
+    // console.log(`respon gim`, response.data)
     if(response.data.is_detected == true){
       propsGIM.value = response.data
         // console.log('aya ajig')
@@ -147,7 +147,7 @@ const getUserData = async() => {
     store.commit('user', userData.data.customer)
     localStorage.setItem('userData', JSON.stringify(userData.data.customer))
 
-    console.log(`data nih`, userData.data.customer)
+    // console.log(`data nih`, userData.data.customer)
     if(userData.data.customer.is_detected == 'Selesai Terdeteksi') isTestedGIM.value = true
       // store.commit('userResultDetect', userData.data.customer.customers_results)
       // propsGIM.value = userData.data.customer.customers_results
@@ -168,7 +168,7 @@ const getUserData = async() => {
         getAssessmentResult(userData.data.customer.id)
       ]);
   } catch (error) {
-    console.log(`error ie`, error)
+    // console.log(`error ie`, error)
     Swal.fire({
         icon: 'error',
         title: 'Error',

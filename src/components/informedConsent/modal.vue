@@ -107,7 +107,7 @@ export default {
         const checkSetuju = ref('')
 
         const setuju = () => {
-            console.log(`setuju`)
+            // console.log(`setuju`)
             emit('isSetuju')
         }
 

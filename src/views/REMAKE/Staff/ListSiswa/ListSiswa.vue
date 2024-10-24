@@ -400,7 +400,7 @@ import { useRouter } from "vue-router";
 
             if(jumpEndpoint !== null){
               const formattedEndpoint = jumpEndpoint.split('api/')[1]
-              console.log(`splited`, formattedEndpoint)
+              // console.log(`splited`, formattedEndpoint)
               const response = await initAPI("get", formattedEndpoint, null, token);
               listSiswa.value = response.data.data
               totalSiswa.value = response.data.total

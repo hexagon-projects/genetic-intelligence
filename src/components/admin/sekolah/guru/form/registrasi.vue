@@ -359,7 +359,7 @@ export default {
     name: 'FormRegistrasiKonsultan',
     props: ['detailData', 'modalType'],
     setup(props, { emit }){
-        console.log(props)
+        // console.log(props)
 
         const closeModal = () => {
             emit('initRegistrasi');
@@ -380,9 +380,9 @@ export default {
         const searched = ref(false)
 
         const getSearchData = async() => {
-            console.log(`nyari`)
+            // console.log(`nyari`)
             const response = await initAPI('get', `institutions?search=${sekolah.value}`, null, null)
-            console.log(response.data)
+            // console.log(response.data)
             pilihanSekolah.value = response.data.data
         }
 
@@ -411,12 +411,12 @@ export default {
             data.append('gender', DOMPurify.sanitize(jenisKelamin.value))
             data.append('type', DOMPurify.sanitize(tipe.value))
             data.append('institution_id', DOMPurify.sanitize(idSekolah.value))
-            console.log(data + token)
+            // console.log(data + token)
 
             if(token){
                 try {
                     const response = await initAPI('post', 'staffs', data, token)
-                    console.log(`register konsultan`, response.data)
+                    // console.log(`register konsultan`, response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Registrasi Berhasil',
@@ -428,7 +428,7 @@ export default {
                     closeModal()
                     router.go()
                 } catch (error) {
-                    console.log(`error`,error)
+                    // console.log(`error`,error)
                     Swal.fire({
                           icon: 'error',
                           title: 'Registrasi Gagal',
@@ -459,10 +459,10 @@ export default {
                 !jenisKelamin.value || 
                 !tipe.value
             ){
-                console.log(`kade kosong`)
+                // console.log(`kade kosong`)
                 return true
             } else {
-                console.log(`hilang`)
+                // console.log(`hilang`)
                 return false
             }
         })

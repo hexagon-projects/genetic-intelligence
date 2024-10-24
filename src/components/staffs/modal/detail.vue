@@ -39,7 +39,7 @@ export default {
     components: {modalLg, modalSm},
     props: ['detailSiswa'],
     setup(props, { emit }){
-        console.log(`props siswa`, props)
+        // console.log(`props siswa`, props)
 
         const closeModal = () => {
             emit('toggleModal')

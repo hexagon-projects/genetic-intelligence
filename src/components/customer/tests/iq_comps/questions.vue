@@ -91,7 +91,7 @@ export default {
             getQuestion(null)
             watchEffect(async () => {
                 if(timer.value && timer.value.isExpired) {
-                    console.log('IsExpired ieu waktuna')
+                    // console.log('IsExpired ieu waktuna')
                     Swal.fire({
                         icon: 'success',
                         title: 'Waktu habis.',
@@ -105,7 +105,7 @@ export default {
     
                             if(readyToPush){
                                 listJawaban.push(DOMPurify.sanitize(jawaban.value))
-                                console.log(`jawavan yeuh`, listJawaban)
+                                // console.log(`jawavan yeuh`, listJawaban)
                                 jawaban.value = ''
 
                                 submitJawaban('timeout')
@@ -135,7 +135,7 @@ export default {
 
                     if(readyToPush){
                         listJawaban.push(DOMPurify.sanitize(jawaban.value))
-                        console.log(`jawavan yeuh`, listJawaban)
+                        // console.log(`jawavan yeuh`, listJawaban)
                         jawaban.value = ''
                     }
                     getQuestion(param)
@@ -150,12 +150,12 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', endpoint, null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     questions.value = response.data.data
                     nextQuestion.value = response.data.next_page_url ? response.data.next_page_url.split('=')[1] : null
-                    console.log(`next yeuh`)
+                    // console.log(`next yeuh`)
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Error Terjadi',
@@ -185,11 +185,11 @@ export default {
             data.append('customer_id', customerId);
             data.append('answers', JSON.stringify(listJawaban))
     
-            console.log(`final jawaban`,data)
+            // console.log(`final jawaban`,data)
             if(token){
                 try {
                     const response = await initAPI('post', 'customers/iq', data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
     
                     Swal.fire({
                         icon: 'success',

@@ -184,12 +184,12 @@ export default {
             data.append('address', DOMPurify.sanitize(address.value))
             data.append('available_on', null)
             data.append('image', null)
-            console.log(data + token)
+            // console.log(data + token)
 
             if(token){
                 try {
                     const response = await initAPI('post', 'consultants', data, token)
-                    console.log(`register konsultan`, response.data)
+                    // console.log(`register konsultan`, response.data)
                     Swal.fire({
                           icon: 'success',
                           title: 'Registrasi Berhasil',
@@ -199,7 +199,7 @@ export default {
                       });
                     router.push({name: 'admin.views.konsultan'})
                 } catch (error) {
-                    console.log(`error`,error)
+                    // console.log(`error`,error)
                     Swal.fire({
                           icon: 'error',
                           title: 'Registrasi Gagal',
@@ -220,7 +220,7 @@ export default {
             } else if(isNaN(feeKonsultan.value)) {
                 validasiFee.value = 'Fee hanya bisa di isi oleh angka'
             } else if(email.value && !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email.value)) {
-                console.log('email salah')
+                // console.log('email salah')
                 validasiEmail.value = 'Email tidak valid'
             } else {
                 validasiWA.value = null

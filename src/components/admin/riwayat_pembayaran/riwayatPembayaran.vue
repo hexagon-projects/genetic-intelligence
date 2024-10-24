@@ -368,14 +368,14 @@ export default {
             if(token){
                 try {
                     let allParams = '?'
-                    console.log(queryParams)
+                    // console.log(queryParams)
                     for (const [key, value] of Object.entries(queryParams)) {
                         allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
                     }
-                    console.log(allParams)
+                    // console.log(allParams)
     
                     const response = await initAPI('get', 'payment_histories'+allParams.replace('?&', '?'), null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     dataRiwayatPembayaran.value = response.data.data
                     totalDari.value = response.data.from
                     totalKe.value = response.data.to

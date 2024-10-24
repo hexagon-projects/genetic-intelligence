@@ -89,7 +89,7 @@ const kirimPassword = async() => {
                 email: localStorage.getItem('resetEmailReq'),
                 password: DOMPurify.sanitize(password2.value)
             }
-            console.log(data)
+            // console.log(data)
             const response = await initAPI('post', 'v2/reset-password', JSON.stringify(data), null)
             originalCodeRef.value = ''
             Swal.fire({
@@ -107,7 +107,7 @@ const kirimPassword = async() => {
                 }
             })
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',

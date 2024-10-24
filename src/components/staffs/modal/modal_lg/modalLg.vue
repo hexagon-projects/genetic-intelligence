@@ -322,7 +322,7 @@ export default{
     components: {PhXCircle, PhCheckFat},
     props: ['detailSiswa'],
     setup(props){
-        console.log(`props modal lg`, props)
+        // console.log(`props modal lg`, props)
 
         return {
             props

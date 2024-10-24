@@ -62,7 +62,7 @@ const getUserData = async() => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const response = await initAPI('post', 'login', formData, token)
-        console.log(`cpm`,response.data)
+        // console.log(`cpm`,response.data)
     
         isTestedCPM.value = response.data.customer.customers_cpm !== null ? true : false
     } catch (error) {

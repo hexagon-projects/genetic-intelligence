@@ -228,7 +228,7 @@ export default {
 
             const totalReview = await initAPI('get', 'customers?is_detected=1', null, token)
             const totalPermintaan = await initAPI('get', 'customers/reservations?status=0', null, token)
-            console.log(totalPermintaan.data.total)
+            // console.log(totalPermintaan.data.total)
 
             const totalReservasiTerjadwal = await initAPI('get', 'customers/reservations?status=2', null, token)
             const totalReservasiSelesai = await initAPI('get', 'customers/reservations?status=4', null, token)
@@ -248,7 +248,7 @@ export default {
                 };
 
                 countDashboard.value = dataDashboardValue;
-                console.log(`didie`,countDashboard.value)
+                // console.log(`didie`,countDashboard.value)
             })
             loadingData.value = !loadingData.value
             // const player = videojs('example-video');

@@ -442,7 +442,7 @@ export default{
                 try {
                     if(search !== null){
                         const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest&search='+search, null, token)
-                        console.log('filter proses', response.data)
+                        // console.log('filter proses', response.data)
                         itemsPerPage.value = response.data.per_page
                         currPage.value = response.data.current_page
                         nextPage.value = response.data.next_page_url
@@ -455,7 +455,7 @@ export default{
                         detailCustomers.value = response.data.data.customers 
                     } else {
                         const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
-                        console.log('filter proses', response.data)
+                        // console.log('filter proses', response.data)
                         itemsPerPage.value = response.data.per_page
                         currPage.value = response.data.current_page
                         nextPage.value = response.data.next_page_url
@@ -490,7 +490,7 @@ export default{
             try {
                 const token = JSON.parse(localStorage.getItem('token'))
                 const response = await initAPI('get', 'customers/reservations?status=2&sort_by_date=oldest&sort_by_time=oldest', null, token)
-                console.log('filter scheduled', response.data)
+                // console.log('filter scheduled', response.data)
                 itemsPerPage.value = response.data.per_page
                 currPage.value = response.data.current_page
                 nextPage.value = response.data.next_page_url
@@ -522,7 +522,7 @@ export default{
             const filterParams = cari.value == null 
             ? `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest` 
             : `status=${filterStatusCode.value}&sort_by_date=oldest&sort_by_time=oldest&search=${cari.value}`
-            console.log(`params yeuh`, params)
+            // console.log(`params yeuh`, params)
 
             if(token){
                 try {
@@ -537,7 +537,7 @@ export default{
                     totalHalaman.value = response.data.last_page
                     dataJadwal.value = response.data.data
                     detailCustomers.value = response.data.data.customers 
-                    console.log(`response`,response.data.data)
+                    // console.log(`response`,response.data.data)
                     loading.value = !loading.value
                 } catch(error) {
                     Swal.fire({
@@ -556,9 +556,9 @@ export default{
 
         const clickDetail = (id) => {
             toggleModal()
-            console.log(id)
+            // console.log(id)
             const unik = dataJadwal.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailCustomers.value = unik
         }
 
@@ -567,7 +567,7 @@ export default{
         }
 
         const cancel = async(reservationId) => {
-            console.log(`cancel`, reservationId)
+            // console.log(`cancel`, reservationId)
             Swal.fire({
             title: "Batalkan Reservasi?",
             text: "Reservasi untuk user ini akan di batalkan.",
@@ -590,7 +590,7 @@ export default{
                 try {
                     const data = { status: 99 }
                     const response = await initAPI('post', 'customers/reservations/change-status/'+id, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     if(response.data.success == true){
                         Swal.fire({
                             title: "Berhasil",
@@ -603,7 +603,7 @@ export default{
                         await getAllData()
                     }
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         title: "Gagal",
                         text: "Terjadi error saat membatalkan reservasi.",
@@ -619,7 +619,7 @@ export default{
         }
 
         const mulai = async(reservationId) => {
-            console.log(`mulai`, reservationId)
+            // console.log(`mulai`, reservationId)
             Swal.fire({
             title: "Mulai Reservasi?",
             text: "Reservasi untuk user ini akan di mulai.",
@@ -640,12 +640,12 @@ export default{
             const token = Cookies.get('token')
             if(token){
                 try {
-                    console.log(`ini id mulai`, reservationId)
+                    // console.log(`ini id mulai`, reservationId)
                     const data = new FormData();
                     data.append('status', 3);
     
                     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil!',
@@ -671,7 +671,7 @@ export default{
         }
 
         const selesai = async(reservationId) => {
-            console.log(`selesai`, reservationId)
+            // console.log(`selesai`, reservationId)
             Swal.fire({
             title: "Selesaikan Reservasi?",
             text: "Reservasi untuk user ini akan diselesaikan.",
@@ -689,7 +689,7 @@ export default{
         }
 
         const confirmSelesai = async(reservationId) => {
-            console.log(`ini id selesai`, reservationId)
+            // console.log(`ini id selesai`, reservationId)
             const token = Cookies.get('token')
             const data = new FormData();
             data.append('status', 4);
@@ -697,7 +697,7 @@ export default{
             if(token){
                 try {
                     const response = await initAPI('post', 'customers/reservations/change-status/'+reservationId, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil!',
@@ -760,7 +760,7 @@ export default{
                     totalHalaman.value = response.data.last_page
                     dataJadwal.value = response.data.data
                     detailCustomers.value = response.data.data.customers 
-                    console.log(`response`,response.data.data)
+                    // console.log(`response`,response.data.data)
                 } catch (error) {
                     Swal.fire({
                         icon: 'error',
@@ -824,7 +824,7 @@ export default{
                         totalHalaman.value = response.data.last_page
                         dataJadwal.value = response.data.data
                         detailCustomers.value = response.data.data.customers 
-                        console.log(`response`,response.data.data)
+                        // console.log(`response`,response.data.data)
                         // console.log(response.data.data[0].customers)
                         loading.value = !loading.value
                     } else if(url !== null && cari.value && filterStatusCode.value !== null) {
@@ -840,7 +840,7 @@ export default{
                         totalHalaman.value = response.data.last_page
                         dataJadwal.value = response.data.data
                         detailCustomers.value = response.data.data.customers 
-                        console.log(`response`,response.data.data)
+                        // console.log(`response`,response.data.data)
                         // console.log(response.data.data[0].customers)
                         loading.value = !loading.value
                     } else {
@@ -856,7 +856,7 @@ export default{
                         totalHalaman.value = response.data.last_page
                         dataJadwal.value = response.data.data
                         detailCustomers.value = response.data.data.customers 
-                        console.log(`response`,response.data.data)
+                        // console.log(`response`,response.data.data)
                         // console.log(response.data.data[0].customers)
                         loading.value = !loading.value
                     }
@@ -892,7 +892,7 @@ export default{
                         totalHalaman.value = response.data.last_page
                         dataJadwal.value = response.data.data
                         detailCustomers.value = response.data.data.customers 
-                        console.log(`response`,response.data.data)
+                        // console.log(`response`,response.data.data)
                         // console.log(response.data.data[0].customers)
                         loading.value = !loading.value
                     } else if(url !== null && cari.value && filterStatusCode.value !== null) {
@@ -908,7 +908,7 @@ export default{
                         totalHalaman.value = response.data.last_page
                         dataJadwal.value = response.data.data
                         detailCustomers.value = response.data.data.customers 
-                        console.log(`response`,response.data.data)
+                        // console.log(`response`,response.data.data)
                         // console.log(response.data.data[0].customers)
                         loading.value = !loading.value
                     } else {
@@ -924,7 +924,7 @@ export default{
                         totalHalaman.value = response.data.last_page
                         dataJadwal.value = response.data.data
                         detailCustomers.value = response.data.data.customers 
-                        console.log(`response`,response.data.data)
+                        // console.log(`response`,response.data.data)
                         // console.log(response.data.data[0].customers)
                         loading.value = !loading.value
                     }

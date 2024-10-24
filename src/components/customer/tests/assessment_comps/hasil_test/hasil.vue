@@ -162,7 +162,7 @@ export default {
                     }
                     loading.value = !loading.value
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         title: "Error",
                         text: "Terjadi error saat mengambil data assessment.",

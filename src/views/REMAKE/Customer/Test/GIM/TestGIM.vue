@@ -213,10 +213,10 @@ const uploadImage = async() => {
 }
 
 const btnAction = (params) => {
-    console.log(`aya`)
+    // console.log(`aya`)
   switch (params) {
     case 'Back':
-        console.log('back');
+        // console.log('back');
         if(currentIndex.value > 1) currentIndex.value--
       break;
     

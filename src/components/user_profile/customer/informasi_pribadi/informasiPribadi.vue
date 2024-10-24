@@ -214,7 +214,7 @@ export default {
             // console.log(tanggal)
             if(tanggal){
                 const [day, month, year] = tanggal.split("-");
-                console.log(`${year}-${month}-${day}`)
+                // console.log(`${year}-${month}-${day}`)
                 return `${year}-${month}-${day}`;
             }
         };
@@ -278,7 +278,7 @@ export default {
             // console.log(`kota:`, provinsi.value)
             const endpoint = provinsi.value ? 'region/regencies?province_id='+provinsi.value : 'region/regencies'
             const kota = await initAPI('get', endpoint, null, null)
-            console.log(`kota`, kota)
+            // console.log(`kota`, kota)
             const formattedKota = kota.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -308,7 +308,7 @@ export default {
         }
 
         const saveVillagesId = () => {
-            console.log(`ie yeuh villagena`, kelurahan.value)
+            // console.log(`ie yeuh villagena`, kelurahan.value)
         }
 
         const ubahData = async() => {
@@ -334,7 +334,7 @@ export default {
             formData.append('village_id', DOMPurify.sanitize(kelurahan.value));
             formData.append('address', DOMPurify.sanitize(alamatLengkap.value));
 
-            console.log('update', formData)
+            // console.log('update', formData)
             if(token){
                 try{
                     const response = await initAPI(
@@ -359,7 +359,7 @@ export default {
                         localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
                     }
                 }catch(err){
-                    console.log(`aimaneh ie error`, err)
+                    // console.log(`aimaneh ie error`, err)s
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',

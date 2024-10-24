@@ -48,7 +48,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', 'customers/reservations?status=3&sort_by_date=oldest&sort_by_time=oldest', null, token)
-                    console.log(`hihi`,response.data)
+                    // console.log(`hihi`,response.data)
                 } catch(error) {
                     Swal.fire({
                         icon: 'error',

@@ -188,7 +188,7 @@ export default {
             // console.log(tanggal)
             if(tanggal){
                 const [day, month, year] = tanggal.split("-");
-                console.log(`${year}-${month}-${day}`)
+                // console.log(`${year}-${month}-${day}`)
                 return `${year}-${month}-${day}`;
             }
         };
@@ -224,7 +224,7 @@ export default {
             // console.log(`kota:`, provinsi.value)
             const endpoint = provinsi.value ? 'region/regencies?province_id='+provinsi.value : 'region/regencies'
             const kota = await initAPI('get', endpoint, null, null)
-            console.log(`kota`, kota)
+            // console.log(`kota`, kota)
             const formattedKota = kota.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -254,7 +254,7 @@ export default {
         }
 
         const saveVillagesId = () => {
-            console.log(`ie yeuh villagena`, kelurahan.value)
+            // console.log(`ie yeuh villagena`, kelurahan.value)
         }
 
         const ubahData = async() => {
@@ -293,7 +293,7 @@ export default {
                         localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
                     }
                 }catch(err){
-                    console.log(`aimaneh ie error`, err)
+                    // console.log(`aimaneh ie error`, err)
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',

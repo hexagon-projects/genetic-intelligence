@@ -329,7 +329,7 @@ export default {
                     // dataChartReg.value = dataDashboardValue.totalChartStatistik.total_registrations
                     // dataChartRes.value = dataDashboardValue.totalChartStatistik.total_reservations
                     // dataChartTes.value = dataDashboardValue.totalChartStatistik.total_test
-                    console.log(`didie`,countDashboard.value)
+                    // console.log(`didie`,countDashboard.value)
                 })
             } else {
                 router.push('/login')

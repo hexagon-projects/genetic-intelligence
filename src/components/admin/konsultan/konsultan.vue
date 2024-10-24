@@ -479,9 +479,9 @@ export default {
 
         const clickDetail = (id) => {
             toggleModal()
-            console.log(id)
+            // console.log(id)
             const unik = dataCustomer.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailCustomers.value = unik
         }
 
@@ -502,7 +502,7 @@ export default {
             const token = Cookies.get('token')
             if(token){
                 const response = await initAPI('get', 'consultants', null, token)
-                console.log(`consultants`,response.data)
+                // console.log(`consultants`,response.data)
                 dataCustomer.value = response.data.data
                 totalHalaman.value = response.data.last_page
                 itemsPerPage.value = response.data.per_page
@@ -513,7 +513,7 @@ export default {
                 totalKe.value = response.data.to
                 totalData.value = response.data.total
                 loading.value = !loading.value
-                console.log(`data`,dataCustomer.value)
+                // console.log(`data`,dataCustomer.value)
             } else {
                 router.push('/login')
                 localStorage.clear()
@@ -548,12 +548,12 @@ export default {
         const debouncedGetSearchData = _debounce(getSearchData, 500);
 
         const nextPages = async(url) => {
-            console.log(url)
+            // console.log(url)
             loading.value = !loading.value
             const token = Cookies.get('token')
             if(token){
                 const response = await initAPI('get', url, null, token)
-                console.log(`customers`,response.data)
+                // console.log(`customers`,response.data)
                 dataCustomer.value = response.data.data
                 totalHalaman.value = response.data.last_page
                 itemsPerPage.value = response.data.per_page
@@ -571,12 +571,12 @@ export default {
         }
 
         const prevPages = async(url) => {
-            console.log(url)
+            // console.log(url)
             loading.value = !loading.value
             const token = Cookies.get('token')
             if(token){
                 const response = await initAPI('get', url, null, token)
-                console.log(`customers`,response.data)
+                // console.log(`customers`,response.data)
                 dataCustomer.value = response.data.data
                 totalHalaman.value = response.data.last_page
                 itemsPerPage.value = response.data.per_page

@@ -127,7 +127,7 @@ export default {
                     nextPage.value = response.data.next_page_url
                     prevPage.value = response.data.prev_page_url
                     loading.value = !loading.value
-                    console.log(`data`,dataSubmit.value)
+                    // console.log(`data`,dataSubmit.value)
                 } catch (error) {
                     Swal.fire({
                         icon: 'error',

@@ -90,12 +90,12 @@ const getIaaData = async(userId) => {
   try {
       const token = Cookies.get('token')
       const response = await initAPI('get', `customers/iaa?customer_id=${userId}`, null, token)
-      console.log(`data iaa`, response.data)
+      // console.log(`data iaa`, response.data)
 
       formattedCategoryHeader.value = response.data.data[0].category.split(': ')[0]
       formattedCategoryDesc.value = response.data.data[0].category.split(': ')[1]
   } catch (error) {
-      console.log(`error`,error)
+      // console.log(`error`,error)
       Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -112,7 +112,7 @@ const getUserData = async() => {
       const formData = new FormData()
       formData.append('refresh_user', 'true')
       const userData = await initAPI('post', 'login', formData, token)
-      console.log(`data hasil`, userData.data)
+      // console.log(`data hasil`, userData.data)
 
       await getIaaData(userData.data.customer.id)
   } catch (error) {

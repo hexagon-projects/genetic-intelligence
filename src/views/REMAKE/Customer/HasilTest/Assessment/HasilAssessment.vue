@@ -291,7 +291,7 @@ const getAssessmentData = async(userId) => {
         const token = Cookies.get('token')
     
         const response = await initAPI('get', `customers/assessments?customer_id=${userId}`, null, token)
-        console.log(`data assessment`, response.data)
+        // console.log(`data assessment`, response.data)
     
         isTested.value = response.data.data.length > 0 ? true : false
         if(response.data.data.length > 0){
@@ -302,7 +302,7 @@ const getAssessmentData = async(userId) => {
             });
         }
     } catch (error) {
-        console.log(`error`,error)
+        // console.log(`error`,error)
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -319,7 +319,7 @@ const getUserData = async() => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const userData = await initAPI('post', 'login', formData, token)
-        console.log(`data hasil`, userData.data)
+        // console.log(`data hasil`, userData.data)
 
         await getAssessmentData(userData.data.customer.id)
     } catch (error) {

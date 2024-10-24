@@ -105,7 +105,7 @@ const isSelectedAnswer = (qIndex, value) => {
 
 const pilihJawaban = (answerValue, qIndex) => {
     arrCodeJawabanPertanyaan.value[qIndex] = answerValue;
-    console.log('Updated answers:', arrCodeJawabanPertanyaan.value);
+    // console.log('Updated answers:', arrCodeJawabanPertanyaan.value);
 };
 
 const checkAllQuestionsAnswered = () => {

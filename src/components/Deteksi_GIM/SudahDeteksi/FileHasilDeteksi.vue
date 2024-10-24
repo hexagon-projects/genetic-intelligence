@@ -71,7 +71,7 @@ export default {
         };
 
         const downloadImage = async () => {
-            console.log(`aisia`,userResultDetect.gim_result)
+            // console.log(`aisia`,userResultDetect.gim_result)
             const imageUrl = import.meta.env.VITE_API_BASE_URL + 'open/results/' + userResultDetect.gim_result
 
 

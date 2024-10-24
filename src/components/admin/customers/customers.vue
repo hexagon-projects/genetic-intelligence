@@ -677,9 +677,9 @@ export default {
 
         const clickDetail = (id) => {
             toggleModal()
-            console.log(id)
+            // console.log(id)
             const unik = dataCustomer.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailCustomers.value = unik
         }
 
@@ -702,7 +702,7 @@ export default {
         const getAllData = async() => {
             loading.value = !loading.value
             let allParams = ''
-            console.log(queryParams)
+            // console.log(queryParams)
             for (const [key, value] of Object.entries(queryParams)) {
                 allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
             }
@@ -710,7 +710,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', 'customers?'+allParams, null, token)
-                    console.log(`customers`,response.data)
+                    // console.log(`customers`,response.data)
                     dataCustomer.value = response.data.data
                     totalHalaman.value = response.data.last_page
                     itemsPerPage.value = response.data.per_page
@@ -721,7 +721,7 @@ export default {
                     totalKe.value = response.data.to
                     totalData.value = response.data.total
                     loading.value = !loading.value
-                    console.log(`data`,dataCustomer.value)
+                    // console.log(`data`,dataCustomer.value)
                 } catch(error) {
                     Swal.fire({
                         icon: 'error',

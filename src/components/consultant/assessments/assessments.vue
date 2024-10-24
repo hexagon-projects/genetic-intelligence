@@ -404,7 +404,7 @@ export default{
         try {
               const token = Cookies.get('token')
               const response = await initAPI('get', 'customers/assessments?'+filterParams, null, token)
-              console.log('filter scheduled', response.data)
+            //   console.log('filter scheduled', response.data)
               itemsPerPage.value = response.data.per_page
               currPage.value = response.data.current_page
               nextPage.value = response.data.next_page_url
@@ -429,9 +429,9 @@ export default{
 
       const clickDetail = (id) => {
           toggleModal()
-          console.log(id)
+        //   console.log(id)
           const unik = dataJadwal.value.find(item => item.id === id);
-          console.log(`unik`,unik)
+        //   console.log(`unik`,unik)
           detailCustomers.value = unik
       }
 
@@ -459,7 +459,7 @@ export default{
           totalHalaman.value = response.data.last_page
           dataJadwal.value = response.data.data
           detailCustomers.value = response.data.data.customers 
-          console.log(`response`,response.data.data)
+        //   console.log(`response`,response.data.data)
           // console.log(response.data.data[0].customers)
           loading.value = !loading.value
       }
@@ -503,7 +503,7 @@ export default{
               totalHalaman.value = response.data.last_page
               dataJadwal.value = response.data.data
               detailCustomers.value = response.data.data.customers 
-              console.log(`response`,response.data.data)
+            //   console.log(`response`,response.data.data)
               // console.log(response.data.data[0].customers)
               loading.value = !loading.value
           } else if(url !== null && cari.value && filterStatusCode.value !== null) {
@@ -520,7 +520,7 @@ export default{
               totalHalaman.value = response.data.last_page
               dataJadwal.value = response.data.data
               detailCustomers.value = response.data.data.customers 
-              console.log(`response`,response.data.data)
+            //   console.log(`response`,response.data.data)
               // console.log(response.data.data[0].customers)
               loading.value = !loading.value
           } else {
@@ -537,7 +537,7 @@ export default{
               totalHalaman.value = response.data.last_page
               dataJadwal.value = response.data.data
               detailCustomers.value = response.data.data.customers 
-              console.log(`response`,response.data.data)
+            //   console.log(`response`,response.data.data)
               // console.log(response.data.data[0].customers)
               loading.value = !loading.value
           }
@@ -558,7 +558,7 @@ export default{
               totalHalaman.value = response.data.last_page
               dataJadwal.value = response.data.data
               detailCustomers.value = response.data.data.customers 
-              console.log(`response`,response.data.data)
+            //   console.log(`response`,response.data.data)
               // console.log(response.data.data[0].customers)
               loading.value = !loading.value
           } else if(url !== null && cari.value && filterStatusCode.value !== null) {
@@ -575,7 +575,7 @@ export default{
               totalHalaman.value = response.data.last_page
               dataJadwal.value = response.data.data
               detailCustomers.value = response.data.data.customers 
-              console.log(`response`,response.data.data)
+            //   console.log(`response`,response.data.data)
               // console.log(response.data.data[0].customers)
               loading.value = !loading.value
           } else {
@@ -592,7 +592,7 @@ export default{
               totalHalaman.value = response.data.last_page
               dataJadwal.value = response.data.data
               detailCustomers.value = response.data.data.customers 
-              console.log(`response`,response.data.data)
+            //   console.log(`response`,response.data.data)
               // console.log(response.data.data[0].customers)
               loading.value = !loading.value
           }

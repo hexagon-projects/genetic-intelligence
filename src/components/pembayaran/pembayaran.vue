@@ -127,6 +127,10 @@ export default {
                     ? 'test/payment?type=gim'
                     : tipeParam.value == 'starter-pack'
                     ? 'test/payment?type=starter-pack' 
+                    : tipeParam.value == 'test-iaa'
+                    ? 'test/payment?type=iaa'
+                    : tipeParam.value == 'test-rmib'
+                    ? 'test/payment?type=rmib'
                     : 'test/payment?type=assessment'
                     
                     const response = await initAPI('get', endpoint, null, null)
@@ -169,15 +173,19 @@ export default {
             ? 'v2/payment/test/gim'
             : tipeParam.value == 'starter-pack'
             ? 'v2/payment/test/starter-pack'
-            :'v2/payment/test/assessment'
+            : tipeParam.value == 'test-iaa'
+            ? 'v2/payment/test/iaa'
+            : tipeParam.value == 'test-rmib'
+            ? 'v2/payment/test/rmib'
+            : 'v2/payment/test/assessment'
 
-            console.log(`bayar ke: `, endpoint)
-            console.log(`data dikirim:`, data)
+            // console.log(`bayar ke: `, endpoint)
+            // console.log(`data dikirim:`, data)
 
             try {
                 loadingFetch.value = true
                 const response = await initAPI('post', endpoint, JSON.stringify(data), token)
-                console.log(response.data)
+                // console.log(response.data)
                 
                 
                 if(response.data.data && response.data.data.paymentUrl){
@@ -191,7 +199,7 @@ export default {
                         fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
                         refValue = url.split('ref=')[1]
                     }else if(url.includes('reference=')){
-                        console.log('reference', url)
+                        // console.log('reference', url)
                         fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
                         refValue = url.split('reference=')[1]
                     }
@@ -227,7 +235,7 @@ export default {
 
 
             } catch (error) {
-                console.log(`error bayar ie`,error)
+                // console.log(`error bayar ie`,error)
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',

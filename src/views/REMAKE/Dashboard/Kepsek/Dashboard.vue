@@ -656,7 +656,7 @@ const fetchDataStatusAPI = async () => {
   try {
     const response = await initAPI("get", "staff/data-stats", null, token);
 
-    console.log(`asisia`, Math.max(...response.data.data_gim_result.percentage))
+    // console.log(`asisia`, Math.max(...response.data.data_gim_result.percentage))
 
     data_test_counts.value = response.data.data_test_counts;
     data_bar.value.series[0].data = response.data.data_gim_result.counts;
@@ -690,9 +690,9 @@ const fetchDataStatusAPI = async () => {
       response.data.data_iq_result.desc,
     ]);
 
-    console.log(data_desc);
+    // console.log(data_desc);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     Swal.fire({
       icon: "error",
       title: "Error",
@@ -708,7 +708,7 @@ const getSiswa = async() => {
         const institutionId = localStorage.getItem('userData')
         ? JSON.parse(localStorage.getItem('userData')).staff.institution_id : null
         const response = await initAPI("get", `customers?institution_id=${institutionId}`, null, token);
-        console.log(response.data)
+        // console.log(response.data)
 
         dataSiswa.value = response.data.data
     } catch (error) {
@@ -750,7 +750,7 @@ const arrIq = ref([
 const router = useRouter()
 
 const detailSiswa = (id)  => {
-  console.log(`wakwaw`, id)
+  // console.log(`wakwaw`, id)
   try {
     const encodedId = btoa(id)
 

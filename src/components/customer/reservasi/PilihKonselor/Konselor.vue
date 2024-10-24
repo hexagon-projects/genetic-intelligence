@@ -51,7 +51,7 @@ const formatAngka = (angka) => {
 const getKonselor = async() => {
     const token = Cookies.get('token') 
     const response = await initAPI('get', 'consultants', null, token) 
-    console.log(response.data)
+    // console.log(response.data)
 
     konselors.value = response.data.data
 }

@@ -86,7 +86,7 @@ export default{
 					store.commit('user', parsedUserData);
 					store.commit('userRole', parsedUserRole);
 				} else { 
-					console.log('localstorage kosong')
+					// console.log('localstorage kosong')
 				}
 			}
 		})

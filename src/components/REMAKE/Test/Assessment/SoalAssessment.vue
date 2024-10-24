@@ -108,7 +108,7 @@ const isSelectedAnswer = (globalIndex, value) => {
 const pilihJawaban = (answerValue, qIndex) => {
     const globalIndex = (currPage.value - 1) * itemsPerPage.value + qIndex; // Hitung indeks global
     arrCodeJawabanPertanyaan.value[globalIndex] = answerValue;
-    console.log('Updated answers:', arrCodeJawabanPertanyaan.value);
+    // console.log('Updated answers:', arrCodeJawabanPertanyaan.value);
 };
 
 const checkAllQuestionsAnswered = () => {
@@ -197,7 +197,7 @@ const handleNextQuestion = () => {
 const getNextQuestion = async() => {
     if(nextPages.value !== null){
         const page = nextPages.value.split('?page=')[1]
-        console.log(`next page`, page)
+        // console.log(`next page`, page)
         await getDataPertanyaan(page)
         // scrollToSection()
     }

@@ -159,17 +159,17 @@ export default {
             loading.value = !loading.value
 
             let allParams = '?'
-            console.log(queryParams)
+            // console.log(queryParams)
             for (const [key, value] of Object.entries(queryParams)) {
                 allParams = value != '' && value != 'All' ? allParams+='&'+key+'='+value : allParams
             }
-            console.log(`semua`,allParams)
+            // console.log(`semua`,allParams)
 
             const token = Cookies.get('token')
             if(token){
                 try {
                     const response = await initAPI('get', 'school_codes'+allParams.replace('?&', '?'), null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     dataCode.value = response.data.data
                     totalHalaman.value = response.data.last_page
                     itemsPerPage.value = response.data.per_page
@@ -212,7 +212,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('delete', `school_codes/${id}`, null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
     
                     Swal.fire({
                         icon: 'success',
@@ -240,7 +240,7 @@ export default {
         }
 
         const btnAction = (id, method) => {
-            console.log(`${id} - ${method}`)
+            // console.log(`${id} - ${method}`)
 
             if(method == 'update'){
                 const unik = dataCode.value.find(item => item.id === id)

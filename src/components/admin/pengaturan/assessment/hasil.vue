@@ -219,14 +219,14 @@ export default {
             const token = Cookies.get('token')
             if(token){
                 try {
-                    console.log(assessmentId)
-                    console.log(newAnswer.value)
+                    // console.log(assessmentId)
+                    // console.log(newAnswer.value)
                     const data = {
                         name: newNameAssessment.value,
                         description: newAnswer.value
                     }
                     const response = await initAPI('put', `assessments/${assessmentId}`, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil',
@@ -242,7 +242,7 @@ export default {
                         }
                     })
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Terjadi Error',
@@ -286,14 +286,14 @@ export default {
         const clickDetail = (id) => {
             toggleModal()
             const unik = dataAssessment.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailGayaBelajar.value = unik
             newNameAssessment.value = unik.name
             // descriptionBelajar.value = unik.description.join('\n\n')
             // descriptionBelajar.value = unik.description
             const arrayVal = unik.description
             descriptionBelajar.value = { description: arrayVal}
-            console.log('aheuheu', descriptionBelajar)
+            // console.log('aheuheu', descriptionBelajar)
             // Memasukkan data awal dari descriptionBelajar.description ke dalam newAnswer
             newAnswer.value = descriptionBelajar.value.description.slice();
         }
@@ -309,7 +309,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', 'assessments', null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     totalDari.value = response.data.from 
                     totalKe.value = response.data.to
                     totalData.value = response.data.total

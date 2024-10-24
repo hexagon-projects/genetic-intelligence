@@ -139,7 +139,7 @@ const handleClick = (type) => {
 }
 
 const closeModal = () => {
-    console.log(`diklik`)
+    // console.log(`diklik`)
     Object.keys(showModal.value).forEach(key => {
         // Jika nilai dari properti adalah true, ubah menjadi false
         if (showModal.value[key]) {

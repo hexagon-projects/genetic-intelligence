@@ -188,7 +188,7 @@ export default {
         loadingSubmit.value = !loadingSubmit.value
         const formData = new FormData();
         formData.append('detection_image', reviewImage.value[0]);
-        console.log(`form yeuh`, formData)
+        // console.log(`form yeuh`, formData)
 
         const customerId = userData.value.id
         const token = Cookies.get('token')
@@ -211,8 +211,8 @@ export default {
                 const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
                 store.commit('user', updatedCustomer.data.data[0])
                 localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
-                console.log('update', updatedCustomer.data.data[0])
-                console.log('Response from API:', response.data);
+                // console.log('update', updatedCustomer.data.data[0])
+                // console.log('Response from API:', response.data);
                 } else {
                 Swal.fire({
                     icon: 'error',
@@ -246,7 +246,7 @@ export default {
         const token = Cookies.get('token')
         if(token){
             try {
-                console.log(`id refresh`, userId)
+                // console.log(`id refresh`, userId)
                 const formData = new FormData()
                 formData.append('refresh_user', 'true')
                 // const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)

@@ -111,9 +111,9 @@ export default {
     name: 'FormRegistrasiKonsultan',
     props: ['method', 'detailData'],
     setup(props, { emit }){
-        console.log(props)
+        // console.log(props)
         // console.log(`ini props`, props.method)
-        console.log(`ini props`, props.detailData)
+        // console.log(`ini props`, props.detailData)
 
         const closeModal = () => {
             emit('initRegistrasi');
@@ -133,7 +133,7 @@ export default {
             data.append('name', DOMPurify.sanitize(name.value));
             data.append('type', DOMPurify.sanitize(type.value));
             data.append('region', DOMPurify.sanitize(region.value))
-            console.log(data + token)
+            // console.log(data + token)
             
             loadingAdd.value = !loadingAdd.value
             if(token){
@@ -141,7 +141,7 @@ export default {
                     const method = props.method == 'update' ? 'put' : 'post'
                     const endpoint = props.method == 'update' ? `institutions/${props.detailData.id}` : 'institutions'
                     const response = await initAPI(method, endpoint, data, token)
-                    console.log(`register sekolah`, response.data)
+                    // console.log(`register sekolah`, response.data)
                     Swal.fire({
                         icon: 'success',
                         title: props.method == 'update' ? 'Data Diubah' : 'Registrasi Berhasil',
@@ -153,7 +153,7 @@ export default {
                     closeModal()
                     router.go()
                 } catch (error) {
-                    console.log(`error`,error)
+                    // console.log(`error`,error)
                     Swal.fire({
                           icon: 'error',
                           title: props.method == 'update' ? 'Update Data Sekolah Gagal' : 'Tambah Data Sekolah Gagal',

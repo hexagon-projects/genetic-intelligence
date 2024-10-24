@@ -121,7 +121,7 @@ const initNextQuestion = () => {
 
             if(readyToPush){
                 listJawaban.push(DOMPurify.sanitize(jawaban.value))
-                console.log(`jawavan yeuh`, listJawaban)
+                // console.log(`jawavan yeuh`, listJawaban)
                 jawaban.value = ''
             }
             await getQuestion('next')
@@ -143,7 +143,7 @@ const submitJawaban = async() => {
         data.append('customer_id', customerId);
         data.append('answers', JSON.stringify(listJawaban))
 
-        console.log(`siap disubmit jawaban`, listJawaban)
+        // console.log(`siap disubmit jawaban`, listJawaban)
         const response = await initAPI('post', 'customers/iq', data, token)
 
         Swal.fire({
@@ -203,7 +203,7 @@ onMounted(async() => {
 
     watchEffect(async () => {
         if(timer.value && timer.value.isExpired) {
-            console.log('IsExpired ieu waktuna')
+            // console.log('IsExpired ieu waktuna')
             Swal.fire({
                 icon: 'success',
                 title: 'Waktu habis.',
@@ -217,7 +217,7 @@ onMounted(async() => {
 
                     if(readyToPush){
                         listJawaban.push(DOMPurify.sanitize(jawaban.value))
-                        console.log(`jawavan yeuh`, listJawaban)
+                        // console.log(`jawavan yeuh`, listJawaban)
                         jawaban.value = ''
 
                         submitJawaban()

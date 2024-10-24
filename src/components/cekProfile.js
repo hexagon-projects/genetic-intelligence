@@ -54,7 +54,7 @@ const cekDataProfile = () => {
 
     if (data.is_student === 1) {
         const institutionType = data.institutions?.type;
-        console.log(`sakolana`, data.institutions?.type)
+        // console.log(`sakolana`, data.institutions?.type)
 
         // If the institution type is TK, SD, or SMP, don't check 'majoring'
         if (['TK', 'SD', 'SMP'].includes(institutionType)) {

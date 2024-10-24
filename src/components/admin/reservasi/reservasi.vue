@@ -551,9 +551,9 @@ export default {
 
         const clickDetail = (id) => {
             toggleModal()
-            console.log(id)
+            // console.log(id)
             const unik = dataCustomer.value.find(item => item.id === id);
-            console.log(`unik`,unik)
+            // console.log(`unik`,unik)
             detailCustomers.value = unik
         }
 
@@ -583,7 +583,7 @@ export default {
             if(token){
                 try {
                     const response = await initAPI('get', `customers/reservations?${filterParams}`, null, token)
-                    console.log(`customers`,response.data)
+                    // console.log(`customers`,response.data)
                     dataCustomer.value = response.data.data
                     totalHalaman.value = response.data.last_page
                     itemsPerPage.value = response.data.per_page
@@ -594,7 +594,7 @@ export default {
                     totalKe.value = response.data.to
                     totalData.value = response.data.total
                     loading.value = !loading.value
-                    console.log(`data`,dataCustomer.value)
+                    // console.log(`data`,dataCustomer.value)
                 } catch(error) {
                     Swal.fire({
                         icon: 'error',
@@ -693,10 +693,10 @@ export default {
             if(token){
                 try {
                     if(cari.value && filterStatusCode.value == null){
-                        console.log(url)
+                        // console.log(url)
                         loading.value = !loading.value
                         const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                        console.log(`customers`,response.data)
+                        // console.log(`customers`,response.data)
                         dataCustomer.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -707,12 +707,12 @@ export default {
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataCustomer.value)
+                        // console.log(`data`,dataCustomer.value)
                     } else if(cari.value && filterStatusCode.value !== null) {
-                        console.log(url)
+                        // console.log(url)
                         loading.value = !loading.value
                         const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
-                        console.log(`customers`,response.data)
+                        // console.log(`customers`,response.data)
                         dataCustomer.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -723,12 +723,12 @@ export default {
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataCustomer.value)
+                        // console.log(`data`,dataCustomer.value)
                     } else {
-                        console.log(url)
+                        // console.log(url)
                         loading.value = !loading.value
                         const response = await initAPI('get', url, null, token)
-                        console.log(`customers`,response.data)
+                        // console.log(`customers`,response.data)
                         dataCustomer.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -739,7 +739,7 @@ export default {
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataCustomer.value)
+                        // console.log(`data`,dataCustomer.value)
                     }
                 } catch (error) {
                     Swal.fire({
@@ -758,10 +758,10 @@ export default {
             if(token){
                 try {
                     if(cari.value && filterStatusCode.value == null){
-                        console.log(url)
+                        // console.log(url)
                         loading.value = !loading.value
                         const response = await initAPI('get', url+'&search='+cari.value, null, token)
-                        console.log(`customers`,response.data)
+                        // console.log(`customers`,response.data)
                         dataCustomer.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -772,12 +772,12 @@ export default {
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataCustomer.value)
+                        // console.log(`data`,dataCustomer.value)
                     } else if(cari.value && filterStatusCode.value !== null) {
-                        console.log(url)
+                        // console.log(url)
                         loading.value = !loading.value
                         const response = await initAPI('get', url+'&search='+cari.value+'&status='+filterStatusCode.value, null, token)
-                        console.log(`customers`,response.data)
+                        // console.log(`customers`,response.data)
                         dataCustomer.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -788,12 +788,12 @@ export default {
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataCustomer.value)
+                        // console.log(`data`,dataCustomer.value)
                     } else {
-                        console.log(url)
+                        // console.log(url)
                         loading.value = !loading.value
                         const response = await initAPI('get', url, null, token)
-                        console.log(`customers`,response.data)
+                        // console.log(`customers`,response.data)
                         dataCustomer.value = response.data.data
                         totalHalaman.value = response.data.last_page
                         itemsPerPage.value = response.data.per_page
@@ -804,7 +804,7 @@ export default {
                         totalKe.value = response.data.to
                         totalData.value = response.data.total
                         loading.value = !loading.value
-                        console.log(`data`,dataCustomer.value)
+                        // console.log(`data`,dataCustomer.value)
                     }
                 } catch (error) {
                     Swal.fire({

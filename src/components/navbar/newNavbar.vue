@@ -135,11 +135,11 @@ export default{
 			if(token){
 				try {
 					const decodedToken = jwtDecode(token)
-					console.log(`di deocde`, decodedToken)
+					// console.log(`di deocde`, decodedToken)
 	
 					userRole.value = decodedToken.role
 				} catch (error) {
-					console.log('invalid token')
+					// console.log('invalid token')
 					router.push('/login')
 					Cookies.remove('token')
 				}
@@ -213,7 +213,7 @@ export default{
 					store.commit('userRole', null);
 				}
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 			}
 			router.push('/login')
 			loading.value = !loading.value

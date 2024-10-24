@@ -63,7 +63,7 @@ const props = defineProps({
 
 const router = useRouter()
 const goTo = (route) => {
-    console.log(`diklik`)
+    // console.log(`diklik`)
     router.push({name: route})
 }
 </script>

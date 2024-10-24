@@ -38,7 +38,7 @@ export default {
         const store = useStore()
         const userData = ref(props.dataCustomer)
 
-        console.log(`ubah paswor nih`, userData.value)
+        // console.log(`ubah paswor nih`, userData.value)
         const currPass = ref('')
         const newPass = ref('')
 
@@ -54,7 +54,7 @@ export default {
                         new_password: DOMPurify.sanitize(newPass.value),
                     })
     
-                    console.log(`sanitasi`, data)
+                    // console.log(`sanitasi`, data)
     
                     const response = await initAPI(
                         'put','change-password/'+userId, data, token
@@ -73,7 +73,7 @@ export default {
                         localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.data[0]))
                     }
                 } catch (error) {
-                    console.log(`ubah password error yeuh`, error)
+                    // console.log(`ubah password error yeuh`, error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',

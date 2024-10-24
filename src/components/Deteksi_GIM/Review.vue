@@ -46,8 +46,8 @@ export default {
 
       if(token){
         try {
-          console.log('form', formData)
-          console.log('id', customerId)
+          // console.log('form', formData)
+          // console.log('id', customerId)
           if(files.value.length > 0){
             const response = await initAPI(
               'post','customers/gim-result/upload-test/'+customerId, formData, token
@@ -63,7 +63,7 @@ export default {
             }
             const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
             store.commit('user', updatedCustomer.data.data[0])
-            console.log('update', updatedCustomer.data.data[0])
+            // console.log('update', updatedCustomer.data.data[0])
             // console.log('Response from API:', response.data);
           } else {
             Swal.fire({

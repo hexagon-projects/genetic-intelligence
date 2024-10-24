@@ -287,7 +287,7 @@ const getUserData = async() => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const userData = await initAPI('post', 'login', formData, token)
-        console.log(`data hasil`, userData.data)
+        // console.log(`data hasil`, userData.data)
 
         statusTest.value = userData.data.customer.is_detected
 
@@ -318,9 +318,9 @@ const getUserData = async() => {
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 const downloadFile = async (fileUrl) => {
-    console.log(`aisia`, fileUrl)
+    // console.log(`aisia`, fileUrl)
     const imageUrl = baseUrl + 'open/results/' + fileUrl
-    console.log(imageUrl)
+    // console.log(imageUrl)
 
 
     const response = await fetch(imageUrl)

@@ -124,7 +124,7 @@ setup() {
         if(dataReview.value == null){
             if(localStorage.getItem('reviewData')){
                 store.commit('reviewGrafologi', JSON.parse(localStorage.getItem('reviewData')));
-                console.log(`review`,datas.value)
+                // console.log(`review`,datas.value)
             }
         }
 
@@ -132,7 +132,7 @@ setup() {
         if(token){
             try {
                 const response = await initAPI('post', 'customers/gim-result/in-review/'+dataReview.value.id, null, token)
-                console.log(response.data)
+                // console.log(response.data)
                 datas.value = response.data
             } catch (error) {
                 Swal.fire({
@@ -153,7 +153,7 @@ setup() {
     const downloadImage = async (imgUrl) => {
             const imageUrl = import.meta.env.VITE_API_BASE_URL+'open/detections/'+imgUrl
             // const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/detections/'+imgUrl
-            console.log(`url`,imageUrl)
+            // console.log(`url`,imageUrl)
             // const imageUrl = 'http://gim.app.api.hexagon.co.id/api/open/results/' + userResultDetect.value.gim_result
 
             const response = await fetch(imageUrl)
@@ -179,11 +179,11 @@ setup() {
             const data = new FormData();
             data.append('gim_id', gimId);
             data.append('note', note);
-            console.log(`kirim nnote`,data)
+            // console.log(`kirim nnote`,data)
             if(token){
                 try {
                     const response = await initAPI('post', 'customers/gim-result/'+customer_id, data, token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                           icon: 'success',
                           title: 'Berhasil!',

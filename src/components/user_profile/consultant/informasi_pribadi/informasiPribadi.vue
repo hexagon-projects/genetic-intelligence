@@ -77,7 +77,7 @@ export default {
         const convertToInputDate = (tanggal) => {
             // console.log(tanggal)
             const [day, month, year] = tanggal.split("-");
-            console.log(`ie ${year}-${month}-${day}`)
+            // console.log(`ie ${year}-${month}-${day}`)s
             return `${year}-${month}-${day}`;
         }
 

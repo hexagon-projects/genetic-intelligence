@@ -122,13 +122,13 @@ export default {
         });
 
         const toLogin = () => {
-            console.log('back to login')
+            // console.log('back to login')
             localStorage.removeItem('merchantId')
             router.push('/login')
         }
 
         const toDashboard = async() => {
-            console.log('back to login')
+            // console.log('back to login')
             localStorage.removeItem('merchantId')
 
             const token = Cookies.get('token')
@@ -137,13 +137,13 @@ export default {
 
             try {
                 const response = await initAPI('post', 'login', formData, token)
-                console.log(`response`, response.data)
+                // console.log(`response`, response.data)
                 if(response.data.success){
                     localStorage.setItem('userData', JSON.stringify(response.data.customer))
                     router.push('/')
                 }
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
         }
 
@@ -154,7 +154,7 @@ export default {
         }
 
         const checkUlang = async() => {
-            console.log(`cek ulang`, dataCheckUlang.value)
+            // console.log(`cek ulang`, dataCheckUlang.value)
             try {
                 const token = Cookies.get('token')
                 const response = await initAPI('post', dataCheckUlang.value.check_url, qs.stringify(dataCheckUlang.value.body
@@ -164,11 +164,11 @@ export default {
                     isSuccess.value = response.data.success
                 }else if(response.data.success == false){
                     isSuccess.value = response.data.success
-                    console.log(`harusnya false`, isSuccess.value)
+                    // console.log(`harusnya false`, isSuccess.value)
                 }
-                console.log('Response cek ulang:', response.data);
+                // console.log('Response cek ulang:', response.data);
             } catch (error) {
-                console.error('Error:', error);
+                // console.error('Error:', error);
             }
         }
 

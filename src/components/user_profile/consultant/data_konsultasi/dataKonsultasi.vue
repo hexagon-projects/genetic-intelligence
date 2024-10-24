@@ -60,7 +60,7 @@ export default {
     name: 'DataKonsultasiKonsultan',
     props: ['userData'],
     setup(props){
-        console.log(`lodaded dk`, props)
+        // console.log(`lodaded dk`, props)
         const store = useStore()
         const router = useRouter()
         const consultant_fee = ref(props.userData.fee)

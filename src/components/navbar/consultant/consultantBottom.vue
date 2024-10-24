@@ -202,7 +202,7 @@ export default {
 				loading.value = !loading.value
 				router.push('/login')
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 			}
 			
 		}

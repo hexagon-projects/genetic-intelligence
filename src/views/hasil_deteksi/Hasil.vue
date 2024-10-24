@@ -90,7 +90,7 @@ export default {
 		const userRole = computed(() => store.getters.getUserRole);
 		const userResultDetect = computed(() => store.getters.getUserResultDetect);
 
-        console.log(userResultDetect.value)
+        // console.log(userResultDetect.value)
 
         // if (!userData.value && !userRole.value) {
         //     const localStorageUserData = localStorage.getItem('userData');

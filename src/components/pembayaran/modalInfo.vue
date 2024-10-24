@@ -65,6 +65,10 @@ const payment_type = ref(route.params.tipePembayaran == 'test-iq'
     ? 'Genetic Intelligence Mapping' 
     : route.params.tipePembayaran == 'starter-pack' 
     ? 'Starter Pack' 
+    : route.params.tipePembayaran == 'test-rmib'
+    ? 'RMIB'
+    : route.params.tipePembayaran == 'test-iaa'  
+    ? 'Kecanduan Gadget'
     : 'Assessment')
 
 const emit = defineEmits(['understand'])

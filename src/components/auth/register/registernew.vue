@@ -531,7 +531,7 @@ export default{
     components: {VueDatePicker, PhInfo},
     setup(){
         const formFillData = JSON.parse(localStorage.getItem("formValue"))
-        console.log(formFillData)
+        // console.log(formFillData)
 
         const loadingSubmit = ref(false)
         const router = useRouter()
@@ -548,9 +548,9 @@ export default{
         const pilihanSekolah = ref([])
 
         const getSearchData = async() => {
-            console.log(`nyari`)
+            // console.log(`nyari`)
             const response = await initAPI('get', `institutions?search=${nama_sekolah.value}`, null, null)
-            console.log(response.data)
+            // console.log(response.data)
             pilihanSekolah.value = response.data.data
         }
 
@@ -621,7 +621,7 @@ export default{
             paymentMethod.value = response.data.paymentFee
 
             const province = await initAPI('get', 'region/provinces', null, null)
-            console.log(province.data)
+            // console.log(province.data)
             const formattedProvince = province.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -639,9 +639,9 @@ export default{
         })
 
         const getKota = async() => {
-            console.log(`kota:`, provinsi.value)
+            // console.log(`kota:`, provinsi.value)
             const kota = await initAPI('get', 'region/regencies?province_id='+provinsi.value, null, null)
-            console.log(`kota`, kota)
+            // console.log(`kota`, kota)
             const formattedKota = kota.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -650,9 +650,9 @@ export default{
         }
 
         const getKecamatan = async() => {
-            console.log(`kecataman:`, kota.value)
+            // console.log(`kecataman:`, kota.value)
             const kecamatan = await initAPI('get', 'region/districts?regency_id='+kota.value, null, null)
-            console.log(`kecamatan`, kecamatan)
+            // console.log(`kecamatan`, kecamatan)
             const formattedKecamatan = kecamatan.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -661,9 +661,9 @@ export default{
         }
 
         const getKelurahan = async() => {
-            console.log(`kelurahan yeuh:`, kecamatan.value)
+            // console.log(`kelurahan yeuh:`, kecamatan.value)
             const kelurahan = await initAPI('get', 'region/villages?district_id='+kecamatan.value, null, null)
-            console.log(`kelurahan`, kelurahan)
+            // console.log(`kelurahan`, kelurahan)
             const formattedKelurahan = kelurahan.data.map(item => ({
                 id: item.id,
                 text: item.name
@@ -672,11 +672,11 @@ export default{
         }
 
         const saveVillagesId = () => {
-            console.log(`ie yeuh villagena`, kelurahan.value)
+            // console.log(`ie yeuh villagena`, kelurahan.value)
         }
 
         const pilihPayment = (code, payment, fee) => {
-            console.log(`${payment} - ${fee}`)
+            // console.log(`${payment} - ${fee}`)
             paymentType.value = payment
             paymentCode.value = code
             feePaymentMethod.value = fee
@@ -686,7 +686,7 @@ export default{
 
         const toggleTabs = (increment) => {
             const currTab = currForm.value + increment;
-            console.log('eh', currTab)
+            // console.log('eh', currTab)
 
             if (currTab >= 0 && currTab <= 4) {
                 currForm.value = currTab;
@@ -761,7 +761,7 @@ export default{
         }
 
         const Register = async(param) => {
-            console.log(`ie date entah`,date.value)
+            // console.log(`ie date entah`,date.value)
             const rawDate = new Date(date.value);
 
             const year = rawDate.getFullYear();
@@ -769,7 +769,7 @@ export default{
             const day = rawDate.getDate().toString().padStart(2, '0')
 
             const formattedDate = `${year}-${month}-${day}`;
-            console.log(`diolah`, formattedDate)
+            // console.log(`diolah`, formattedDate)
 
             const data = JSON.stringify({
                 "first_name": DOMPurify.sanitize(namaDepan.value),
@@ -800,7 +800,7 @@ export default{
                 "child_number": DOMPurify.sanitize(child_number.value),
                 "from_child_number": DOMPurify.sanitize(from_child_number.value)
             })
-            console.log(data)
+            // console.log(data)
 
             // sessionStorage.setItem("formValue", data);
 
@@ -808,7 +808,7 @@ export default{
             try {
                 const endpoint = param == 'nonbayar' ? 'v2/register' : 'v2/register/payment'
                 const response = await initAPI('post', endpoint, data, null)
-                console.log(`register nih`,response.data)
+                // console.log(`register nih`,response.data)
                 if (response.status === 200) {
                     if(response.data.is_free == true){
                         Swal.fire({
@@ -825,7 +825,7 @@ export default{
                         })
                     } else if(response.data.is_free == false){
                         localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
-                        console.log('Register berhasil:', response.data.data.paymentUrl)
+                        // console.log('Register berhasil:', response.data.data.paymentUrl)
                         const url = response.data.data.paymentUrl
                         let fixedUrl = ''
                         let refValue = ''
@@ -833,13 +833,13 @@ export default{
                             fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
                             refValue = url.split('ref=')[1]
                         }else if(url.includes('reference=')){
-                            console.log('reference', url)
+                            // console.log('reference', url)
                             fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
                             refValue = url.split('reference=')[1]
                         }
                         window.location.href = fixedUrl+refValue
-                        console.log('ref',refValue)
-                        console.log(`${fixedUrl}-${refValue}`)
+                        // console.log('ref',refValue)
+                        // console.log(`${fixedUrl}-${refValue}`)
                     }
                 }
             } catch (error) {

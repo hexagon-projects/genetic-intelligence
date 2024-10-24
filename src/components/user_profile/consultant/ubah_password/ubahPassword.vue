@@ -32,7 +32,7 @@ export default {
     name: 'UbahPasswordConsultant',
     props: ['userData'],
     setup(props){
-        console.log(`loadded`, props)
+        // console.log(`loadded`, props)
         const router = useRouter()
         const currPass = ref('')
         const newPass = ref('')

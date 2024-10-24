@@ -38,11 +38,11 @@ export default {
 			if(token){
 				try {
 					const decodedToken = jwtDecode(token)
-					console.log(`dcd userprofile`, decodedToken)
+					// console.log(`dcd userprofile`, decodedToken)
 	
 					userRole.value = decodedToken.role
 				} catch (error) {
-					console.log('invalid token')
+					// console.log('invalid token')
 					router.push('/login')
 					Cookies.remove('token')
 				}

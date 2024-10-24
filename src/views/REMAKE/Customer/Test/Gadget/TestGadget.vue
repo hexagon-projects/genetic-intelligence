@@ -73,7 +73,7 @@ const getUserData = async() => {
         customerId.value = userData.data.customer.id
         isTested.value = userData.data.customer.customers_iaa == null ? false : true
     } catch (error) {
-        console.log(`error`, error)
+        // console.log(`error`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error',

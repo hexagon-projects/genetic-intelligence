@@ -255,7 +255,7 @@ const getCPMInfo = async(userId) => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const response = await initAPI('get', 'customers/cpm/'+userId, null, token)
-        console.log(`user info cpm`,response.data)
+        // console.log(`user info cpm`,response.data)
     
         userInfo.value.tanggal_tes = response.data[0].test_date
         userInfo.value.usia = response.data[0].age
@@ -290,7 +290,7 @@ const getUserInfo = async() => {
         const formData = new FormData()
         formData.append('refresh_user', 'true')
         const response = await initAPI('post', 'login', formData, token)
-        console.log(`user info`,response.data)
+        // console.log(`user info`,response.data)
     
         userId.value = response.data.customer.id
         userInfo.value.nama = response.data.customer.name

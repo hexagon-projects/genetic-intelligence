@@ -117,8 +117,8 @@ import Cookies from 'js-cookie'
 export default {
     props: ['method', 'detailData'],
     setup(props, { emit }){
-        console.log(props.detailData)
-        console.log(props.method)
+        // console.log(props.detailData)
+        // console.log(props.method)
         const nama = ref('')
         const code = ref('')
         const diskon = ref(props.method == 'update' ? props.detailData.disc_percentage : '')
@@ -146,7 +146,7 @@ export default {
                     const method = props.method == 'update' ? 'put' : 'post'
                     const endpoint = props.method == 'update' ? `school_codes/${props.detailData.id}` : 'school_codes'
                     const response = await initAPI(method, endpoint, data, token)
-                    console.log(`register konsultan`, response.data)
+                    // console.log(`register konsultan`, response.data)
                     Swal.fire({
                         icon: 'success',
                         title: props.method == 'registrasi' ? 'Registrasi Berhasil' : 'Data Code Diubah',
@@ -158,7 +158,7 @@ export default {
                     toggleModal()
                     router.go()
                 } catch (error) {
-                    console.log(`error`,error)
+                    // console.log(`error`,error)
                     Swal.fire({
                           icon: 'error',
                           title: 'Tambah Code Gagal',

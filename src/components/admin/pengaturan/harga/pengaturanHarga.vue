@@ -138,7 +138,7 @@ export default {
     
                     let endpoint = params == 'student' ? 'register-student' : 'register-non-student'
                     const response = await initAPI('put', `register/payment/${endpoint}`, JSON.stringify(data), token)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Harga Diubah',
@@ -172,13 +172,13 @@ export default {
                 try {
                     loading.value = !loading.value
                     const studentPrice = await initAPI('get', 'register/payment?type=register-student', null, token)
-                    console.log(studentPrice.data)
+                    // console.log(studentPrice.data)
             
                     const nonStudentPrice = await initAPI('get', 'register/payment?type=register-non-student', null, token)
             
                     Promise.all([studentPrice, nonStudentPrice])
                         .then(results => {
-                            console.log(results)
+                            // console.log(results)
                             hargaStudent.value = results[0].data.price
                             hargaNonStudent.value = results[1].data.price
                         })

@@ -137,7 +137,7 @@ export default {
                 try {
                     const customerId = JSON.parse(localStorage.getItem('userData')).id
                     const response = await initAPI('get', `customers?id=${customerId}`, null, token)
-                    console.log(response.data)
+                    // console.log(response.data)
     
                     isTestedIQ.value = response.data.data[0].customer_iq !== null ? true : false
                 } catch (error) {

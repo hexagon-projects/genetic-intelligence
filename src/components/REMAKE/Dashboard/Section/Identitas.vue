@@ -266,7 +266,7 @@ import { RouterLink } from 'vue-router';
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 const props = defineProps(['userDatas', 'propsGIM'])
-console.log(`props`, props.userDatas)
+// console.log(`props`, props.userDatas)
 </script>
 
 <style scoped>

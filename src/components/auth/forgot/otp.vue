@@ -43,7 +43,7 @@
     export default {
         props: ['email'],
         setup(props){
-            console.log(`prop email`, props)
+            // console.log(`prop email`, props)
             const router = useRouter()
             const codes = ref('')
 
@@ -55,7 +55,7 @@
 
                 try {
                     const response = await initAPI('post', 'v2/forgot-password-verification', JSON.stringify(data), null)
-                    console.log(response.data)
+                    // console.log(response.data)
                     Swal.fire({
                         icon: 'success',
                         title: 'Verifikasi Code Berhasil',
@@ -85,7 +85,7 @@
             }
 
             onMounted(() => {
-                console.log(`otp yeuh`)
+                // console.log(`otp yeuh`)
                 const form = document.getElementById('otp-form')
                 const inputs = [...form.querySelectorAll('input[type=text]')]
                 const submit = document.getElementById('submitCode')

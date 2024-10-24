@@ -41,7 +41,7 @@ export default {
         const store = useStore()
         const stateUserResult = computed(() => store.getters.getUserResultDetect);
         const userResultDetect = JSON.parse(localStorage.getItem('userResult'))
-        console.log(`cikan`,userResultDetect)
+        // console.log(`cikan`,userResultDetect)
         return {
             userResultDetect, stateUserResult
         }

@@ -215,7 +215,7 @@ const getIQData = async() => {
         // imgHasilCategoryIQ.value = new URL(`../../../assets/icons/iq/grade-${dataIQ.value.iq_id}.svg`, import.meta.url).href
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         Swal.fire({
             icon: 'error',
             title: 'Error',

@@ -122,7 +122,7 @@ const getCPMInfo = async(userId) => {
         cpmInfo.value.saran = response.data[0].cpm.suggestion
         cpmInfo.value.pemahaman_empati = response.data[0].cpm.warning
     } catch (error) {
-        console.log(`err`, error)
+        // console.log(`err`, error)
         Swal.fire({
             icon: 'error',
             title: 'Error Terjadi',
