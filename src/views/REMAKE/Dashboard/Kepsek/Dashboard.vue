@@ -416,6 +416,12 @@
                 </div>
               </div>
             </div>
+
+            <div v-if="data_desc.length == 0" class="bg-[#F4F3FF] p-5 rounded-lg">
+              <span class="mx-auto text-black text-base font-roboto font-normal">
+                Siswa belum melakukan test yang tersedia
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -525,6 +531,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 
 const staffName = ref(JSON.parse(localStorage.getItem('userData')).staff.name)
+const schoolType = ref('')
 const dataSiswa = ref('')
 
 const data_test_counts = ref([0, 0, 0, 0]);
@@ -673,22 +680,41 @@ const fetchDataStatusAPI = async () => {
         (item.persentase = Math.floor(response.data.data_iq_result.percentage[index]) + "%")
     );
 
-    data_desc.value.push([
-    //   Math.max(...response.data.data_gim_result.percentage),
-    Math.floor(Math.max(...response.data.data_gim_result.percentage)),
-      response.data.data_gim_result.desc,
-    ]);
+    if(response.data.data_gim_result.desc !== null){
+      data_desc.value.push([
+        //   Math.max(...response.data.data_gim_result.percentage),
+        Math.floor(Math.max(...response.data.data_gim_result.percentage)),
+          response.data.data_gim_result.desc,
+      ]);
+    }
 
-    parsedDesc.value = JSON.parse(response.data.data_assessment_result.desc.description)
-    data_desc.value.push([
-    Math.floor(Math.max(...response.data.data_assessment_result.percentage)),
-      response.data.data_assessment_result.desc,
-    ]);
+    if(response.data.data_assessment_result.desc !== null){
+      parsedDesc.value = JSON.parse(response.data.data_assessment_result.desc.description)
+      data_desc.value.push([
+      Math.floor(Math.max(...response.data.data_assessment_result.percentage)),
+        response.data.data_assessment_result.desc,
+      ]);
+    }
 
-    data_desc.value.push([
-      Math.floor(Math.max(...response.data.data_iq_result.percentage)),
-      response.data.data_iq_result.desc,
-    ]);
+    if(response.data.data_cpm_result.desc !== null && (
+        schoolType.value !== 'SMK' || schoolType.value !== 'SMA' ||
+        schoolType.value !== 'SMP' || schoolType.value !== 'Perguruan Tinggi'
+      )){
+      data_desc.value.push([
+        Math.floor(Math.max(...response.data.data_cpm_result.percentage)),
+        response.data.data_cpm_result.desc,
+      ]);
+    }
+
+    if(response.data.data_iq_result.desc !== null && (
+        schoolType.value !== 'TK' || schoolType.value !== 'SD'
+      )){
+      data_desc.value.push([
+        Math.floor(Math.max(...response.data.data_iq_result.percentage)),
+        response.data.data_iq_result.desc,
+      ]);
+    }
+
 
     // console.log(data_desc);
   } catch (error) {
@@ -696,7 +722,7 @@ const fetchDataStatusAPI = async () => {
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: "Terjadi error saat mengambil data Assessment user.",
+      text: "Terjadi error saat mengambil data statistic dashboard.",
       showConfirmButton: false,
       timer: 2000,
     });
@@ -722,8 +748,16 @@ const getSiswa = async() => {
     }
 }
 
+const getCurrentLoginData = async() => {
+  const formData = new FormData()
+  formData.append('refresh_user', 'true')
+
+  const userData = await initAPI('post', 'login', formData, token)
+  schoolType.value = userData.data.customer.institution.type
+}
+
 onMounted(async () => {
-    await Promise.all([fetchDataStatusAPI(), getSiswa()]);
+    await Promise.all([fetchDataStatusAPI(), getSiswa(), getCurrentLoginData()]);
 });
 
 const arrAssessment = ref([
