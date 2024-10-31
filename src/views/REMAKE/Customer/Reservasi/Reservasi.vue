@@ -61,9 +61,9 @@
                                             {{ consultant.name }}
                                         </div>
                                     </div>
-                                    <div class="h-11 px-6 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
+                                    <button @click="goTo('user.views.reservasi_consultant', consultant.id)" class="h-11 px-6 py-1.5 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
                                         <div class="text-white text-base font-normal font-['Roboto'] leading-normal">Lihat Selengkapnya</div>
-                                    </div>
+                                    </button>
                                 </div>
                             </div>
                             <!-- <div class="p-6 bg-white rounded-2xl shadow justify-center items-start gap-5 inline-flex">
@@ -148,8 +148,10 @@ import Layout from '@/Layout/Customer/Layout.vue';
 import { onMounted, ref, computed } from 'vue';
 import initAPI from '@/api/api'
 import Cookies from 'js-cookie'
+import { useRouter } from 'vue-router';
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
+const router = useRouter()
 
 const loading = ref(false)
 
@@ -201,5 +203,14 @@ const goFirstPage = () => {
     if(firstPageUrl.value.split('?page=')[1] !== null){
         getConsultant(firstPageUrl.value.split('?page=')[1])
     }
+}
+
+const goTo = (route, query) => {
+    const based64Id = btoa(query)
+
+    router.push({
+      name: route,
+      query: { consultant: based64Id }
+    })
 }
 </script>
