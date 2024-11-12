@@ -160,7 +160,7 @@
                   <div
                     class="text-[#344053] text-sm font-medium font-sora leading-normal"
                   >
-                    Total Test IQ
+                    Total Test IQ<span v-if="institutionType == 'TK' || institutionType == 'SD' || institutionType == 'SDLB'"> CPM</span>
                   </div>
                 </div>
                 <div class="h-8">
@@ -531,6 +531,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 
 const staffName = ref(JSON.parse(localStorage.getItem('userData')).staff.name)
+const institutionType = ref(JSON.parse(localStorage.getItem('userData')).staff.institutions.type)
 const schoolType = ref('')
 const dataSiswa = ref('')
 
