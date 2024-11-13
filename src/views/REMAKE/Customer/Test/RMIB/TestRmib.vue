@@ -78,12 +78,11 @@ const loading = ref(true)
 const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 const customerId = ref(null)
-const customerRmibId = ref(null)
+const customerRmibId = ref(null);
 const customerGen = ref('')
 const showEssay = ref(false); // State untuk menampilkan soal essay
 const soalJawaban = ref([]); // Jawaban soal yang diisi user
 const essayJawaban = ref(''); // Jawaban soal essay
-const customerRmibId = ref (null); // Tambahkan state untuk customer_rmib_id
 
 // Fungsi untuk mengambil data user
 const getUserData = async() => {
