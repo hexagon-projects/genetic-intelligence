@@ -13,7 +13,7 @@
         <modalCekProfile/>
     </div>
 
-    <Layout>
+    <Layout v-if="!loading">
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
             <div class="text-[#3030f8] text-sm font-normal font-roboto leading-tight">Beranda</div>
             <div class="w-4 h-4 relative opacity-75">
@@ -26,8 +26,11 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test RMIB</div>
         </div>
 
-        <!-- Bagian Test -->
-        <section class="pb-[34px] w-full bg-white">
+        <SelesaiTest v-if="isTested" message="Test RMIB Selesai!"
+        :subMessage="subMessage"/>
+        <!-- routeUrl="user.views.hasil_RMIB" -->
+
+        <section v-if="!isTested" class="pb-[34px] w-full bg-white">
             <transition name="fade" mode="out-in">
                 <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal">
                     <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
@@ -41,10 +44,9 @@
             <div v-if="!isInstruksi" class="mb-[48px] w-full flex justify-center items-center">
                 <SoalTest v-if="!showEssay && customerGen" :customerGen="customerGen" :customerId="customerId" @refreshData="getUserData" @soalSelesai="handleSoalSelesai" @submitTest="submitAnswers"/>
             </div>
-            <SoalEssayRmib v-if="showEssay" :customerRmibId="customerRmibId" @submitEssay="submitAnswers"/>
+                <SoalEssayRmib v-if="showEssay" :customerRmibId="customerRmibId" @essaySelesai="handleEssaySelesai"/>
         </section>
         <section class="bg-white py-[40px]">
-            <ReservasiFooter/>
         </section>
     </Layout>
 </template>
@@ -53,7 +55,8 @@
 import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import Layout from '@/Layout/Customer/Layout.vue';
 import Instruksi from './intruksi.vue';
-import SoalTest from './SoalRmib.vue';
+import SelesaiTest from '@/components/REMAKE/HasilTest/SelesaiTest/SelesaiTest.vue';
+import SoalTest from './soalrmib1.vue';
 import SoalEssayRmib from './SoalEssayRmib.vue';
 import { useStore } from 'vuex';
 import initAPI from '@/api/api';
@@ -68,10 +71,14 @@ import axios from 'axios';
 const isKebijakanPrivasi = ref(true)
 const dataProfileInclomplete = cekDataProfile()
 
+const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Rothwell Miller Interest Blank (RMIB)</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
+
 const store = useStore()
 const loading = ref(true)
+const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 const customerId = ref(null)
+const customerRmibId = ref(null)
 const customerGen = ref('')
 const showEssay = ref(false); // State untuk menampilkan soal essay
 const soalJawaban = ref([]); // Jawaban soal yang diisi user
@@ -109,6 +116,18 @@ const getUserData = async() => {
     }
 }
 
+const toggleKebijakanPrivasi = () => {
+    isKebijakanPrivasi.value = !isKebijakanPrivasi.value
+}
+
+const handleSoalSelesai = () => {
+    showEssay.value = true;
+};
+
+const handleEssaySelesai = () => {
+    isTested.value = true;
+};
+
 onMounted(async() => {
     try {
    await getUserData()
@@ -126,11 +145,13 @@ onBeforeMount(() => {
     if (localStorage.getItem('isKebijakanPrivasi') === 'Ya') {
         isKebijakanPrivasi.value = false;
     }
-
-    if (localStorage.getItem('selesaibagianpilihan') === 'done') {
-        showEssay.value = true;
+    if(localStorage.getItem('soalrmib1') == 'selesai'){
+        showEssay.value = true
     }
-});
+    if (localStorage.getItem('soalrmib2') === 'selesai') {
+        isTested.value = true;
+    }
+})
 </script>
 
 <style scoped>
