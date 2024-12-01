@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col items-center gap-[100px] pt-[85px] pb-[31px]">
-      <span class="text-center text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
-         Bekerjalah secepatnya, dan tuliskan nomor-nomor sesuai dengan kesan dan keinginan Kamu yang pertama muncul.
-      </span>
+    <div class="flex flex-col items-center gap-[56px] pt-[80px] pb-[25px]">
+        <span class="text-center text-[#667084] text-base font-normal font-['Roboto'] leading-normal">
+           Bekerjalah secepatnya, dan tuliskan nomor-nomor sesuai dengan kesan dan keinginan Kamu yang pertama muncul.
+        </span>
 
         <form id="rmibForm">
             <input type="hidden" id="customer_id" name="customer_id" :value="formData.customer_id">
