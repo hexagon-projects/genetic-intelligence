@@ -1,9 +1,9 @@
 <template>
-    <!-- <div v-if="loading" class="preloader-overlay">
+    <div v-if="loading" class="preloader-overlay">
         <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
-    </div> -->
+    </div>
 
-    <div>
+    <div v-if="!loading">
         <Layout>
             <!-- Breadcrumb -->
             <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">
@@ -31,12 +31,12 @@
                     </p>
                     <div class="mt-4">
                         <h2 class="font-semibold">Identitas</h2>
-                        <p>Nama : John Doe</p>
-                        <p>Gender : Laki - laki</p>
-                        <p>Tanggal lahir : 04-04-2016</p>
-                        <p>Tanggal tes : 27-08-2024</p>
-                        <p>Usia : 8 Tahun 4 bulan 22 hari</p>
-                        <p>Durasi Pengerjaan : 10:45</p>
+                        <p>Nama: {{ identitas.nama }}</p>
+                        <p>Gender: {{ identitas.jenis_kelamin }}</p>
+                        <p>Tanggal lahir: {{ identitas.tanggal_lahir }}</p>
+                        <p>Tanggal tes: {{ identitas.tanggal_tes }}</p>
+                        <p>Usia: {{ identitas.usia }}</p>
+                        <p>Durasi Pengerjaan: {{ identitas.durasi_tes }}</p>
                     </div>
                     <div class="mt-4 mb-5"> <!-- Added margin-bottom for spacing -->
                         <h2 class="font-semibold mb-2">Kata Kunci</h2> <!-- Added margin-bottom to the heading -->
@@ -187,6 +187,59 @@
 
 <script setup>
 import Layout from '@/Layout/Customer/Layout.vue';
+import { onMounted, ref } from 'vue'
+import initAPI from '@/api/api';
+import Cookies from "js-cookie"
+
+const loading = ref(true)
+
+
+const identitas = ref({
+    nama: '',
+    jenis_kelamin: '',
+    tanggal_lahir: '',
+    tanggal_tes: '',
+    usia: '',
+    durasi_tes: ''
+})
+
+const getUserInfo = async () => {
+  try {
+    const token = Cookies.get('token');
+    const formData = new FormData();
+    formData.append('refresh_user', 'true');
+    const response = await initAPI('post', 'login', formData, token);
+
+    identitas.value.nama = response.data.customer.name;
+    identitas.value.jenis_kelamin = response.data.customer.gender;
+    identitas.value.tanggal_lahir = response.data.customer.birth_date;
+
+    if (response.data.customer.customers_rmib) {
+      // Assuming there is a similar endpoint for RMIB
+      const rmibResponse = await initAPI('get', `customers/rmib/${response.data.customer.id}`, null, token);
+      identitas.value.tanggal_tes = rmibResponse.data[0].test_date;
+      identitas.value.usia = rmibResponse.data[0].age;
+      identitas.value.durasi_tes = rmibResponse.data[0].time;
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error Terjadi',
+      text: 'Terjadi error saat mengambil data pengguna',
+      showConfirmButton: true,
+      confirmButtonColor: '#3030f8',
+      confirmButtonText: 'OK'
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+    getUserInfo()
+})
+
 </script>
 
 <style scoped>

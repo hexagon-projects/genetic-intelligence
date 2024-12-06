@@ -27,7 +27,57 @@ import { useStore } from 'vuex';
 import Cookies from 'js-cookie';
 import initAPI from '@/api/api'; 
 
-const store = useStore();
+const store = useStore()
+
+const submitTestResult = async () => {
+const userData = JSON.parse(localStorage.getItem('userData'));
+
+const customerId = userData.data.customer.id
+const customerRmibId = userData.data.customer.customers_rmib.id || ''; 
+
+  const payload = {
+      customer_id: customerId,
+      rmib_1_id: null,
+      rmib_2_id: null,
+      rmib_3_id: null,
+      answers: null,
+      essay_answers: null,
+      time: null,
+      age: null,
+      id: customerRmibId || null,
+  };
+
+  try {
+      const response = await axios.post('https://staging.api.jatidiri.app/api/rmib/hit', payload);
+      console.log('API Response:', response.data);
+      // Store the returned customerRmibID from the API hit response to localStorage
+      if (response.data && response.data.id) {
+        localStorage.setItem('customerRmibId', response.data.id);
+        console.log('Response Data', response.data)
+      }
+      handleStartTest();
+  } catch (error) {
+      console.error('Error submitting data:', error);
+      Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Customer ID tidak ditemukan. Harap periksa kembali atau hubungi admin.',
+      showConfirmButton: true,
+    });
+  }
+};
+
+
+// Function to retrieve and parse userData from localStorage
+const getUserData = () => {
+  try{
+const userData = localStorage.getItem('userData');
+return userData ? JSON.parse(userData) : null;
+} catch (error) {
+  console.error("Error parsing userData from localStorage:", error);
+  return null;
+}
+};
 
 const showSoal = () => {
   store.commit('setIsInstruksi', false);

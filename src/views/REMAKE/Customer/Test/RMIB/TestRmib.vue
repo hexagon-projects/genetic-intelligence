@@ -4,8 +4,7 @@
     </div>
 
     <transition name="fade" mode="out-in">
-        <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
-        >
+        <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal">
             <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
         </div>
     </transition>
@@ -32,8 +31,7 @@
 
         <section v-if="!isTested" class="pb-[34px] w-full bg-white">
             <transition name="fade" mode="out-in">
-                <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
-                >
+                <div v-if="isKebijakanPrivasi" class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal">
                     <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
                 </div>
             </transition>
@@ -43,8 +41,7 @@
             </div>
 
             <div v-if="!isInstruksi" class="mb-[48px] w-full flex justify-center items-center">
-                <SoalTest v-if="!showEssay && customerGen" :customerGen="customerGen" :customerId="customerId" @refreshData="getUserData" @soalSelesai="handleSoalSelesai"/>
-
+                <SoalTest v-if="!showEssay && customerGen" :customerGen="customerGen" :customerId="customerId" @refreshData="getUserData" @soalSelesai="handleSoalSelesai" @submitTest="submitAnswers"/>
             </div>
                 <SoalEssayRmib v-if="showEssay" :customerRmibId="customerRmibId" @essaySelesai="handleEssaySelesai"/>
         </section>
@@ -68,6 +65,7 @@ import Cookies from 'js-cookie'
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
 import cekDataProfile from '@/components/cekProfile';
 import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
+import axios from 'axios';
 
 const isKebijakanPrivasi = ref(true)
 const dataProfileInclomplete = cekDataProfile()
@@ -79,10 +77,11 @@ const loading = ref(true)
 const isTested = ref(false)
 const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 const customerId = ref(null)
-const customerRmibId = ref(null)
+const customerRmibId = ref(null);
 const customerGen = ref('')
 const showEssay = ref(false); 
 
+// Fungsi untuk mengambil data user
 const getUserData = async() => {
     try {
         const token = Cookies.get('token')
@@ -126,17 +125,21 @@ const handleEssaySelesai = () => {
 };
 
 onMounted(async() => {
+    try {
    await getUserData()
-})
+} catch (error) {
+    console.error('Error saat onMounted:', error);
+}
+});
 
 onBeforeMount(() => {
-    const doneInstruksi = localStorage.getItem('isInstruksi')
-    if(doneInstruksi && doneInstruksi == 'good udah baca intruksi'){
-        store.commit('setIsInstruksi', false)
+    const doneInstruksi = localStorage.getItem('isInstruksi');
+    if (doneInstruksi === 'good udah baca intruksi') {
+        store.commit('setIsInstruksi', false);
     }
 
-    if(localStorage.getItem('isKebijakanPrivasi') == 'Ya'){
-        isKebijakanPrivasi.value = false
+    if (localStorage.getItem('isKebijakanPrivasi') === 'Ya') {
+        isKebijakanPrivasi.value = false;
     }
     if(localStorage.getItem('soalrmib1') == 'selesai'){
         showEssay.value = true
@@ -154,7 +157,6 @@ onBeforeMount(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 100%;
     background: rgba(255, 255, 255, 1);
     display: flex;
     justify-content: center;
@@ -162,18 +164,12 @@ onBeforeMount(() => {
     z-index: 9999;
     transition: opacity 0.5s ease, height 0.5s ease;
 }
-.preloader-overlay.hidden {
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-}
-
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+    transition: opacity 0.5s;
 }
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
 </style>
