@@ -245,6 +245,30 @@ export default [
         }
     },
     {
+        path: '/hasil-rmib',
+        name: 'user.views.hasil_rmib',
+        component: () => import('@/views/REMAKE/Customer/Test/RMIB/HasilRmib1.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/hasil-cpm',
         name: 'user.views.hasil_cpm',
         component: () => import('@/views/customers/CPM/Hasil/HasilCPM.vue'),
