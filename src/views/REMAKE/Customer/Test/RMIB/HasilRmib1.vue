@@ -22,39 +22,39 @@
                 <!-- <BelumTest v-if="!sudahTest"/> -->
                 
                 <div class="flex flex-col md:flex-row p-6 bg-white rounded-lg">
-                    <div class="flex-1">
-                    <h1 class="text-2xl font-bold">Hasil Tes RMIB</h1>
-                    <p class="mt-2 text-gray-600">
-                        Tes Rothwell-Miller Interest Blank (RMIB), merupakan test yang bertujuan untuk
-                        mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan. Berikut Hasil dari
-                        test yang telah kamu lakukan:
-                    </p>
-                    <div class="mt-4">
-                        <h2 class="font-semibold">Identitas</h2>
-                        <p>Nama: {{ identitas.nama }}</p>
-                        <p>Gender: {{ identitas.jenis_kelamin }}</p>
-                        <p>Tanggal lahir: {{ identitas.tanggal_lahir }}</p>
-                        <p>Tanggal tes: {{ identitas.tanggal_tes }}</p>
-                        <p>Usia: {{ identitas.usia }}</p>
-                        <p>Durasi Pengerjaan: {{ identitas.durasi_tes }}</p>
-                    </div>
-                    <div class="mt-4 mb-5"> <!-- Added margin-bottom for spacing -->
-                        <h2 class="font-semibold mb-2">Kata Kunci</h2> <!-- Added margin-bottom to the heading -->
-                        <div class="flex space-x-2">
-                            <button class="bg-[#3030f8] text-white px-3 py-2 rounded-lg">Outdoor (OUT)</button>
-                            <button class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">Medical (ME)</button>
-                            <button class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">Computational (COMP)</button>
+                    <div class="flex-1 order-2 md:order-1"> <!-- Set order for mobile and desktop -->
+                        <h1 class="text-2xl font-bold">Hasil Tes RMIB</h1>
+                        <p class="mt-2 text-gray-600 text-justify"> <!-- Added text-justify class -->
+                            Tes Rothwell-Miller Interest Blank (RMIB), merupakan test yang bertujuan untuk
+                            mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan. Berikut Hasil dari
+                            test yang telah kamu lakukan:
+                        </p>
+                        <div class="mt-4">
+                            <h2 class="font-semibold">Identitas</h2>
+                            <p>Nama: {{ identitas.nama }}</p>
+                            <p>Gender: {{ identitas.jenis_kelamin }}</p>
+                            <p>Tanggal lahir: {{ identitas.tanggal_lahir }}</p>
+                            <p>Tanggal tes: {{ identitas.tanggal_tes }}</p>
+                            <p>Usia: {{ identitas.usia }}</p>
+                            <p>Durasi Pengerjaan: {{ identitas.durasi_tes }}</p>
+                        </div>
+                        <div class="mt-4 mb-5"> <!-- Added margin-bottom for spacing -->
+                            <h2 class="font-semibold mb-2">Kata Kunci</h2> <!-- Added margin-bottom to the heading -->
+                            <div class="flex space-x-2">
+                                <button class="bg-[#3030f8] text-white px-3 py-2 rounded-lg">Outdoor (OUT)</button>
+                                <button class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">Medical (ME)</button>
+                                <button class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">Computational (COMP)</button>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                    <div class="flex-1 flex justify-center items-center">
-                    <img src="./img/19962851_6203998 2.svg" alt="Illustration" class="w-1/2" />
+                    <div class="flex-1 flex justify-center items-center pb-7 order-1 md:order-2"> <!-- Set order for mobile and desktop -->
+                        <img src="./img/19962851_6203998 2.svg" alt="Illustration" class="w-[300px] md:w-[360px]" /> 
                     </div>
                 </div>
-                <div class="mt-4 mb-5"> 
-                    <h1 class="text-2xl font-bold mx-0 lg:mx-[20px]">Detail Hasil Test</h1> 
+                <div class="flex flex-col md:flex-row px-[24px] pb-[20px] bg-white rounded-lg"> 
+                    <h1 class="text-2xl font-bold mx-0 lg:mx">Detail Hasil Test</h1> 
                 </div>
-                <div class="flex flex-wrap w-full lg:w-[100%] mx-0 lg:mx-[20px] gap-6"> 
+                <div class="flex flex-wrap w-full lg:w-[107%] mx-0 gap-6 px-6"> 
                     <div class="px-6 py-2 bg-white rounded-lg border border-[#667084] flex-col justify-start items-center gap-3 inline-flex mb-5 w-full lg:w-[30%]"> <!-- Added width for responsiveness -->
                         <div class="w-full rounded-2xl py-5 flex items-center justify-center">
                             <div class="flex items-center">
