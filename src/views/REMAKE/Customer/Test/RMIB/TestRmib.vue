@@ -27,9 +27,8 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test RMIB</div>
         </div>
 
-        <SelesaiTest v-if="isTested" message="Test RMIB Selesai!"
+        <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_rmib" message="Test RMIB Selesai!"
         :subMessage="subMessage"/>
-        <!-- routeUrl="user.views.hasil_RMIB" -->
 
         <section v-if="!isTested" class="pb-[34px] w-full bg-white">
             <transition name="fade" mode="out-in">
@@ -82,7 +81,7 @@ const isInstruksi = computed(() => store.getters.getStatusIsInstruksi)
 const customerId = ref(null)
 const customerRmibId = ref(null)
 const customerGen = ref('')
-const showEssay = ref(false); // State untuk menampilkan soal essay
+const showEssay = ref(false); 
 
 const getUserData = async() => {
     try {
@@ -98,8 +97,8 @@ const getUserData = async() => {
         if (userData.data.customer.customers_rmib) {
             customerRmibId.value = userData.data.customer.customers_rmib.id || ''; 
         } else {
-            customerRmibId.value = null; // Explicitly set to null if not available
-        }        // isTested.value = userData.data.customer.customers_rmib == null ? false : true
+            customerRmibId.value = null; 
+        }       
     } catch (error) {
         console.log(`cek`, error)
         Swal.fire({

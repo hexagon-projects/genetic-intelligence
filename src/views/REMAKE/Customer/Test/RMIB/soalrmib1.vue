@@ -28,7 +28,10 @@
             <div v-else class="w-full mx-[30px] md:mx-[60px] flex flex-col items-center">
                 <div v-for="(job, index) in jobs" :key="index" class="w-full flex items-center justify-between max-w-[900px] mb-3">
                     <label class="text-sm md:text-base font-normal font-['Roboto'] w-1/2 text-left">{{ job }}</label>
-                    <input v-model="jawaban[index]" class="w-[157px] md:w-[180px] p-2 text-sm md:text-base bg-white border border-[#3030f8] text-black rounded-lg focus:outline-none focus:ring focus:ring-blue-500" placeholder="Masukkan Urutan 1-12">
+                    <select v-model="jawaban[index]" class="w-[157px] md:w-[180px] p-2 text-sm md:text-base bg-white border border-[#3030f8] text-black rounded-lg focus:outline-none focus:ring focus:ring-blue-500">
+                        <option value="" disabled>Pilih Urutan 1-12</option>
+                        <option v-for="number in availableNumbers(index)" :key="number" :value="number">{{ number }}</option>
+                    </select>
                 </div>
             </div>
             <button @click="btnAction" type="submit" class="hover:translate-x-1 hover:shadow-2xl transition-all h-11 pl-6 pr-4 py-1.5 bg-[#3030f8] rounded-full flex justify-center items-center gap-3" :disabled="loading">
@@ -152,6 +155,11 @@ const formatTime = computed(() => {
 const indexToLetter = (index) => {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     return alphabet[index] || 'Z'; 
+};
+
+const availableNumbers = (currentIndex) => {
+    const numbers = Array.from({ length: 12 }, (_, i) => i + 1);
+    return numbers.filter(number => !jawaban.value.includes(number) || jawaban.value[currentIndex] === number);
 };
 
 const initNextQuestion = () => {
