@@ -26,7 +26,7 @@
             <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test RMIB</div>
         </div>
 
-        <SelesaiTest v-if="isTested" message="Test RMIB Selesai!"
+        <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_rmib" message="Test RMIB Selesai!"
         :subMessage="subMessage"/>
         <!-- routeUrl="user.views.hasil_RMIB" -->
 
