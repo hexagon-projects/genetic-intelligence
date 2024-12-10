@@ -190,9 +190,9 @@ import Layout from '@/Layout/Customer/Layout.vue';
 import { onMounted, ref } from 'vue'
 import initAPI from '@/api/api';
 import Cookies from "js-cookie"
-
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 const loading = ref(true)
-
 
 const identitas = ref({
     nama: '',
@@ -203,42 +203,53 @@ const identitas = ref({
     durasi_tes: ''
 })
 
-const getUserInfo = async () => {
-  try {
-    const token = Cookies.get('token');
-    const formData = new FormData();
-    formData.append('refresh_user', 'true');
-    const response = await initAPI('post', 'login', formData, token);
+const getUserData = async () => {
+    try {
+        const token = Cookies.get('token');
+        const formData = new FormData();
+        formData.append('refresh_user', 'true');
 
-    identitas.value.nama = response.data.customer.name;
-    identitas.value.jenis_kelamin = response.data.customer.gender;
-    identitas.value.tanggal_lahir = response.data.customer.birth_date;
+        const userData = await initAPI('post', 'login', formData, token);
+        console.log(`data user`, userData.data)
 
-    if (response.data.customer.customers_rmib) {
-      // Assuming there is a similar endpoint for RMIB
-      const rmibResponse = await initAPI('get', `customers/rmib/${response.data.customer.id}`, null, token);
-      identitas.value.tanggal_tes = rmibResponse.data[0].test_date;
-      identitas.value.usia = rmibResponse.data[0].age;
-      identitas.value.durasi_tes = rmibResponse.data[0].time;
+        identitas.value.nama = userData.data.customer.name;
+        identitas.value.jenis_kelamin = userData.data.customer.gender;
+        identitas.value.tanggal_lahir = userData.data.customer.birth_date;
+
+ // Format tanggal tes ke DD-MM-YYYY
+        const rawTanggalTes = userData.data.customer.customers_rmib.created_at.split('T')[0]; // Ambil bagian tanggal saja
+        const [year, month, day] = rawTanggalTes.split('-'); // Pisahkan tahun, bulan, dan hari
+        identitas.value.tanggal_tes = `${day}-${month}-${year}`; // Gabungkan dalam format DD-MM-YYYY
+
+        // identitas.value.tanggal_tes = userData.data.customer.customers_rmib.created_at;
+        identitas.value.usia = userData.data.customer.customers_rmib.age;
+        identitas.value.durasi_tes = userData.data.customer.customers_rmib.time;
+
+        // if (userData.data.customer.customers_rmib) {
+        //     await getRMIBInfo(userData.data.customer.id);
+        // }
+``
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Terjadi error saat mengambil data user RMIB',
+            confirmButtonColor: "#3030f8",
+            showconfirmButton: false,
+            timer: 2000
+        });
+    } finally {
+        loading.value = false;
     }
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error Terjadi',
-      text: 'Terjadi error saat mengambil data pengguna',
-      showConfirmButton: true,
-      confirmButtonColor: '#3030f8',
-      confirmButtonText: 'OK'
-    });
-  } finally {
-    loading.value = false;
-  }
 };
 
-onMounted(() => {
-    getUserInfo()
-})
+onMounted(async() => {
+    try {
+   await getUserData()
+} catch (error) {
+    console.error('Error saat onMounted:', error);
+}
+});
 
 </script>
 
