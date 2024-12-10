@@ -218,32 +218,28 @@ const getUserData = async () => {
         identitas.value.usia = userData.data.customer.customers_rmib.age;
         identitas.value.durasi_tes = userData.data.customer.customers_rmib.time;
 
-        // Get kata kunci from localStorage
-        const userDataFromLocalStorage = JSON.parse(localStorage.getItem('userData'));
-        if (userDataFromLocalStorage && userDataFromLocalStorage.customers_rmib) {
+        // Get Hasil Test
+        if (userData && userData.data.customer.customers_rmib) {
             hasil.value.rmib1 = {
-                slug: userDataFromLocalStorage.customers_rmib.rmib1.slug,
-                name: userDataFromLocalStorage.customers_rmib.rmib1.name,
-                desc: userDataFromLocalStorage.customers_rmib.rmib1.desc,
-                job_recommendation: userDataFromLocalStorage.customers_rmib.rmib1.job_recommendation,
-                advice: userDataFromLocalStorage.customers_rmib.rmib1.advice,
-                score: userDataFromLocalStorage.customers_rmib.rmib1.score
+                slug: userData.data.customer.customers_rmib.rmib1.slug,
+                name: userData.data.customer.customers_rmib.rmib1.name,
+                desc: userData.data.customer.customers_rmib.rmib1.desc,
+                job_recommendation: userData.data.customer.customers_rmib.rmib1.job_recommendation,
+                advice: userData.data.customer.customers_rmib.rmib1.advice,
             };
             hasil.value.rmib2 = {
-                slug: userDataFromLocalStorage.customers_rmib.rmib2.slug,
-                name: userDataFromLocalStorage.customers_rmib.rmib2.name,
-                desc: userDataFromLocalStorage.customers_rmib.rmib2.desc,
-                job_recommendation: userDataFromLocalStorage.customers_rmib.rmib2.job_recommendation,
-                advice: userDataFromLocalStorage.customers_rmib.rmib2.advice,
-                score: userDataFromLocalStorage.customers_rmib.rmib2.score
+                slug: userData.data.customer.customers_rmib.rmib2.slug,
+                name: userData.data.customer.customers_rmib.rmib2.name,
+                desc: userData.data.customer.customers_rmib.rmib2.desc,
+                job_recommendation: userData.data.customer.customers_rmib.rmib2.job_recommendation,
+                advice: userData.data.customer.customers_rmib.rmib2.advice,
             };
             hasil.value.rmib3 = {
-                slug: userDataFromLocalStorage.customers_rmib.rmib3.slug,
-                name: userDataFromLocalStorage.customers_rmib.rmib3.name,
-                desc: userDataFromLocalStorage.customers_rmib.rmib3.desc,
-                job_recommendation: userDataFromLocalStorage.customers_rmib.rmib3.job_recommendation,
-                advice: userDataFromLocalStorage.customers_rmib.rmib3.advice,
-                score: userDataFromLocalStorage.customers_rmib.rmib3.score
+                slug: userData.data.customer.customers_rmib.rmib3.slug,
+                name: userData.data.customer.customers_rmib.rmib3.name,
+                desc: userData.data.customer.customers_rmib.rmib3.desc,
+                job_recommendation: userData.data.customer.customers_rmib.rmib3.job_recommendation,
+                advice: userData.data.customer.customers_rmib.rmib3.advice,
             };
         }
 
