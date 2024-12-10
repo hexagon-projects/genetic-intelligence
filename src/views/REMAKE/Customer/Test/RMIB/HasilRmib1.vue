@@ -19,12 +19,10 @@
             </div>
         
             <section class="mx-0 lg:mx-[40px] bg-white pb-20">
-                <!-- <BelumTest v-if="!sudahTest"/> -->
-                
                 <div class="flex flex-col md:flex-row p-6 bg-white rounded-lg">
-                    <div class="flex-1 order-2 md:order-1"> <!-- Set order for mobile and desktop -->
+                    <div class="flex-1 order-2 md:order-1">
                         <h1 class="text-2xl font-bold">Hasil Tes RMIB</h1>
-                        <p class="mt-2 text-gray-600 text-justify"> <!-- Added text-justify class -->
+                        <p class="mt-2 text-gray-600 text-justify">
                             Tes Rothwell-Miller Interest Blank (RMIB), merupakan test yang bertujuan untuk
                             mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan. Berikut Hasil dari
                             test yang telah kamu lakukan:
@@ -38,16 +36,16 @@
                             <p>Usia: {{ identitas.usia }}</p>
                             <p>Durasi Pengerjaan: {{ identitas.durasi_tes }}</p>
                         </div>
-                        <div class="mt-4 mb-5"> <!-- Added margin-bottom for spacing -->
-                            <h2 class="font-semibold mb-2">Kata Kunci</h2> <!-- Added margin-bottom to the heading -->
+                        <div class="mt-4 mb-5">
+                            <h2 class="font-semibold mb-2">Kata Kunci</h2>
                             <div class="flex space-x-2">
-                                <button class="bg-[#3030f8] text-white px-3 py-2 rounded-lg">Outdoor (OUT)</button>
-                                <button class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">Medical (ME)</button>
-                                <button class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">Computational (COMP)</button>
+                                <button v-if="hasil.rmib1" class="bg-[#3030f8] text-white px-3 py-2 rounded-lg">{{ hasil.rmib1.name }} ({{hasil.rmib1?.slug}})</button>
+                                <button v-if="hasil.rmib2" class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">{{ hasil.rmib2.name }} ({{hasil.rmib2?.slug}})</button>
+                                <button v-if="hasil.rmib3" class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">{{ hasil.rmib3.name }} ({{hasil.rmib3?.slug}})</button>
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1 flex justify-center items-center pb-7 order-1 md:order-2"> <!-- Set order for mobile and desktop -->
+                    <div class="flex-1 flex justify-center items-center pb-7 order-1 md:order-2">
                         <img src="./img/19962851_6203998 2.svg" alt="Illustration" class="w-[300px] md:w-[360px]" /> 
                     </div>
                 </div>
@@ -55,129 +53,121 @@
                     <h1 class="text-2xl font-bold mx-0 lg:mx">Detail Hasil Test</h1> 
                 </div>
                 <div class="flex flex-wrap w-full lg:w-[107%] mx-0 gap-6 px-6"> 
-                    <div class="px-6 py-2 bg-white rounded-lg border border-[#667084] flex-col justify-start items-center gap-3 inline-flex mb-5 w-full lg:w-[30%]"> <!-- Added width for responsiveness -->
-                        <div class="w-full rounded-2xl py-5 flex items-center justify-center">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 relative mr-2">
-                                    <img src="./img/Grade(1).svg" alt="Outdoor Icon" />
-                                </div>
-                                <div class="text-[#3030f8] text-xl font-medium font-roboto leading-9">
-                                    Outdoor (OUT): Skor [Skor Klien]
-                                </div>
+                    <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 flex justify-center items-center mr-3">
+                                <img src="./img/Grade(1).svg" alt="Outdoor Icon" class="w-10 h-10" />
                             </div>
+                            <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib1?.name }} ({{hasil.rmib1?.slug}})</h2>
                         </div>
-                        <hr class="border-t border-[#667084] w-full mb-3"> 
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/ReadCvLogo.svg" alt="Detail Icon" />
+                        <hr class="border-t border-[#667084] mb-3"> 
+                        <div class="flex items-start mb-3">
+                            <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
                             </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                            <div class="text-[#3030f8] text-sm font-medium">
                                 <strong>Interpretasi</strong>
-                                <p class="text-[#667084] text-sm font-normal">Klien menunjukkan minat yang rendah/sedang/tinggi terhadap pekerjaan yang melibatkan aktivitas di luar ruangan. Ini berarti klien cenderung menikmati bekerja di lingkungan yang dinamis, di luar kantor, dan senang berpindah dari satu lokasi ke lokasi lain.</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/IdentificationBadge.svg" alt="Detail Icon" />
+                        <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib1?.desc }}</p>
+                        
+                        <div class="flex items-start mb-3">
+                            <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
                             </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                            <div class="text-[#3030f8] text-sm font-medium">
                                 <strong>Contoh Pekerjaan</strong>
-                                <p class="text-[#667084] text-sm font-normal">Surveyor lapangan, pemandu wisata, insinyur lapangan.</p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/Mailbox.svg" alt="Detail Icon" />
+                        <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib1?.job_recommendation }}</p>
+                    
+                        <div class="flex items-start mb-3">
+                            <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
                             </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                            <div class="text-[#3030f8] text-sm font-medium">
                                 <strong>Saran</strong>
-                                <p class="text-[#667084] text-sm font-normal">Klien sebaiknya mencari peluang kerja yang menawarkan mobilitas tinggi, seperti posisi yang memungkinkan perjalanan atau pekerjaan di lingkungan alam terbuka.</p>
                             </div>
                         </div>
+                        <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib1?.advice }}</p>
+                    </div>
+                    
+                    <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 flex justify-center items-center mr-3">
+                                    <img src="./img/Grade (2).svg" alt="Outdoor Icon" class="w-10 h-10" />
+                                </div>
+                                <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib2?.name }} ({{hasil.rmib2?.slug}})</h2>
+                            </div>
+                            <hr class="border-t border-[#667084] mb-3"> 
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Interpretasi</strong>
+                                </div>
+                            </div>
+                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib2?.desc }}</p>
+                            
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Contoh Pekerjaan</strong>
+                                </div>
+                            </div>
+                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib2?.job_recommendation }}</p>
+                        
+                        <div class="flex items-start mb-3">
+                            <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
+                            </div>
+                            <div class="text-[#3030f8] text-sm font-medium">
+                                <strong>Saran</strong>
+                            </div>
+                        </div>
+                        <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib2?.advice }}</p>
                     </div>
 
-                    <!-- Mechanical Section -->
-                    <div class="px-5 py-2 bg-white rounded-lg border border-[#667084] flex-col justify-start items-center gap-3 inline-flex mb-5 w-full lg:w-[30%]"> <!-- Added width for responsiveness -->
-                        <div class="w-full rounded-2xl py-5 flex items-center justify-center">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 relative mr-2">
-                                    <img src="./img/Grade (2).svg" alt="Mechanical Icon" />
+                    <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
+                            <div class="flex items-center mb-3">
+                                <div class="w-12 h-12 flex justify-center items-center mr-3">
+                                    <img src="./img/Grade (3).svg" alt="Outdoor Icon" class="w-10 h-10" />
                                 </div>
-                                <div class="text-[#3030f8] text-xl font-medium font-roboto leading-9">
-                                    Mechanical (ME): Skor [Skor Klien]
+                                <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib3?.name }} ({{hasil.rmib3?.slug}})</h2>
+                            </div>
+                            <hr class="border-t border-[#667084] mb-3"> 
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Interpretasi</strong>
                                 </div>
                             </div>
-                        </div>
-                        <hr class="border-t border-[#667084] w-full mb-3"> 
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/ReadCvLogo.svg" alt="Detail Icon" />
+                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib3?.desc}}</p>
+                            
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Contoh Pekerjaan</strong>
+                                </div>
                             </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
-                                <strong>Interpretasi</strong>
-                                <p class="text-[#667084] text-sm font-normal">Klien menunjukkan minat yang rendah/sedang/tinggi terhadap pekerjaan yang melibatkan aktivitas di luar ruangan. Ini berarti klien cenderung menikmati bekerja di lingkungan yang dinamis, di luar kantor, dan senang berpindah dari satu lokasi ke lokasi lain.</p>
+                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib3?.job_recommendation}}</p>
+                        
+                        <div class="flex items-start mb-3">
+                            <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
                             </div>
-                        </div>
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/IdentificationBadge.svg" alt="Detail Icon" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
-                                <strong>Contoh Pekerjaan</strong>
-                                <p class="text-[#667084] text-sm font-normal">Surveyor lapangan, pemandu wisata, insinyur lapangan.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/Mailbox.svg" alt="Detail Icon" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
+                            <div class="text-[#3030f8] text-sm font-medium">
                                 <strong>Saran</strong>
-                                <p class="text-[#667084] text-sm font-normal">Klien sebaiknya mencari peluang kerja yang menawarkan mobilitas tinggi, seperti posisi yang memungkinkan perjalanan atau pekerjaan di lingkungan alam terbuka.</p>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Computational Section -->
-                    <div class="px-5 py-2 bg-white rounded-lg border border-[#667084] flex-col justify-start items-center gap-3 inline-flex mb-5 w-full lg:w-[30%]"> <!-- Added width for responsiveness -->
-                        <div class="w-full rounded-2xl py-5 flex items-center justify-center">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 relative mr-2">
-                                    <img src="./img/Grade (3).svg" alt="Computational Icon" />
-                                </div>
-                                <div class="text-[#3030f8] text-xl font-medium font-roboto leading-9">
-                                    Computational (COMP): Skor
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="border-t border-[#667084] w-full mb-3"> 
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/ReadCvLogo.svg" alt="Detail Icon" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
-                                <strong>Interpretasi</strong>
-                                <p class="text-[#667084] text-sm font-normal">Klien menunjukkan minat yang rendah/sedang/tinggi terhadap pekerjaan yang melibatkan aktivitas di luar ruangan. Ini berarti klien cenderung menikmati bekerja di lingkungan yang dinamis, di luar kantor, dan senang berpindah dari satu lokasi ke lokasi lain.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/IdentificationBadge.svg" alt="Detail Icon" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
-                                <strong>Contoh Pekerjaan</strong>
-                                <p class="text-[#667084] text-sm font-normal">Surveyor lapangan, pemandu wisata, insinyur lapangan.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 w-full">
-                            <div class="w-6 h-6 relative">
-                                <img src="./img/Mailbox.svg" alt="Detail Icon" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium font-roboto leading-tight">
-                                <strong>Saran</strong>
-                                <p class="text-[#667084] text-sm font-normal">Klien sebaiknya mencari peluang kerja yang menawarkan mobilitas tinggi, seperti posisi yang memungkinkan perjalanan atau pekerjaan di lingkungan alam terbuka.</p>
-                            </div>
-                        </div>
+                        <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib3?.advice}}</p>
                     </div>
                 </div>
             </section>
@@ -192,8 +182,8 @@ import initAPI from '@/api/api';
 import Cookies from "js-cookie"
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-const loading = ref(true)
 
+const loading = ref(true);
 const identitas = ref({
     nama: '',
     jenis_kelamin: '',
@@ -201,7 +191,12 @@ const identitas = ref({
     tanggal_tes: '',
     usia: '',
     durasi_tes: ''
-})
+});
+const hasil = ref({
+    rmib1: {},
+    rmib2: {},
+    rmib3: {}
+});
 
 const getUserData = async () => {
     try {
@@ -216,19 +211,42 @@ const getUserData = async () => {
         identitas.value.jenis_kelamin = userData.data.customer.gender;
         identitas.value.tanggal_lahir = userData.data.customer.birth_date;
 
- // Format tanggal tes ke DD-MM-YYYY
-        const rawTanggalTes = userData.data.customer.customers_rmib.created_at.split('T')[0]; // Ambil bagian tanggal saja
-        const [year, month, day] = rawTanggalTes.split('-'); // Pisahkan tahun, bulan, dan hari
-        identitas.value.tanggal_tes = `${day}-${month}-${year}`; // Gabungkan dalam format DD-MM-YYYY
-
-        // identitas.value.tanggal_tes = userData.data.customer.customers_rmib.created_at;
+        // Format tanggal tes ke DD-MM-YYYY
+        const rawTanggalTes = userData.data.customer.customers_rmib.created_at.split('T')[0];
+        const [year, month, day] = rawTanggalTes.split('-');
+        identitas.value.tanggal_tes = `${day}-${month}-${year}`;
         identitas.value.usia = userData.data.customer.customers_rmib.age;
         identitas.value.durasi_tes = userData.data.customer.customers_rmib.time;
 
-        // if (userData.data.customer.customers_rmib) {
-        //     await getRMIBInfo(userData.data.customer.id);
-        // }
-``
+        // Get kata kunci from localStorage
+        const userDataFromLocalStorage = JSON.parse(localStorage.getItem('userData'));
+        if (userDataFromLocalStorage && userDataFromLocalStorage.customers_rmib) {
+            hasil.value.rmib1 = {
+                slug: userDataFromLocalStorage.customers_rmib.rmib1.slug,
+                name: userDataFromLocalStorage.customers_rmib.rmib1.name,
+                desc: userDataFromLocalStorage.customers_rmib.rmib1.desc,
+                job_recommendation: userDataFromLocalStorage.customers_rmib.rmib1.job_recommendation,
+                advice: userDataFromLocalStorage.customers_rmib.rmib1.advice,
+                score: userDataFromLocalStorage.customers_rmib.rmib1.score
+            };
+            hasil.value.rmib2 = {
+                slug: userDataFromLocalStorage.customers_rmib.rmib2.slug,
+                name: userDataFromLocalStorage.customers_rmib.rmib2.name,
+                desc: userDataFromLocalStorage.customers_rmib.rmib2.desc,
+                job_recommendation: userDataFromLocalStorage.customers_rmib.rmib2.job_recommendation,
+                advice: userDataFromLocalStorage.customers_rmib.rmib2.advice,
+                score: userDataFromLocalStorage.customers_rmib.rmib2.score
+            };
+            hasil.value.rmib3 = {
+                slug: userDataFromLocalStorage.customers_rmib.rmib3.slug,
+                name: userDataFromLocalStorage.customers_rmib.rmib3.name,
+                desc: userDataFromLocalStorage.customers_rmib.rmib3.desc,
+                job_recommendation: userDataFromLocalStorage.customers_rmib.rmib3.job_recommendation,
+                advice: userDataFromLocalStorage.customers_rmib.rmib3.advice,
+                score: userDataFromLocalStorage.customers_rmib.rmib3.score
+            };
+        }
+
     } catch (error) {
         Swal.fire({
             icon: 'error',
@@ -245,12 +263,11 @@ const getUserData = async () => {
 
 onMounted(async() => {
     try {
-   await getUserData()
-} catch (error) {
-    console.error('Error saat onMounted:', error);
-}
+        await getUserData();
+    } catch (error) {
+        console.error('Error saat onMounted:', error);
+    }
 });
-
 </script>
 
 <style scoped>
