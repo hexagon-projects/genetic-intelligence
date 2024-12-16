@@ -33,7 +33,7 @@
                                 </div>
                             </div>
 
-                            <button class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
+                            <button @click="downloadFile(siswaDatas.customers_results.gim.result_file)" v-if="(pageType == 'Profile Siswa' || pageType == 'Hasil Tes GIM') && siswaDatas.customers_results !== null" class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
                                 Download PDF
                             </button>
                         </div>
@@ -131,6 +131,29 @@ const getDataSiswa = async() => {
         timer: 2000,
         });
     }
+}
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL
+
+const downloadFile = async (fileUrl) => {
+    // console.log(`aisia`, fileUrl)
+    const imageUrl = baseUrl + 'open/results/' + fileUrl
+    // console.log(imageUrl)
+
+
+    const response = await fetch(imageUrl)
+    const blob = await response.blob()
+
+    const url = window.URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.target = '_blank'
+    link.download = fileUrl
+
+    link.click()
+
+    window.URL.revokeObjectURL(url)
 }
 
 onBeforeMount(() => {
