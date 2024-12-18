@@ -103,7 +103,7 @@ try {
   const token = Cookies.get('token'); 
   const firstQuestionAnswers = JSON.parse(localStorage.getItem('userAnswers')) || []; 
   const payload = {
-      customer_rmib_id: props.customerRmibId,
+      customer_rmib_id: localStorage.getItem('customerRmibId'),
       time: formatTime.value,   
       data:  
              firstQuestionAnswers,
@@ -118,19 +118,19 @@ try {
           title: 'Jawaban Terkirim',
           text: 'Terimakasih sudah melakukan test, hasil RMIB kamu akan keluar segera.',
           confirmButtonText: 'OK'
-      }).then(() => {
+        }).then(() => {
           stopTimer();
           localStorage.setItem('soalrmib2', 'selesai'); 
           emit('essaySelesai');
-      });
-  } else {
+        });
+    } else {
       Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Gagal mengirim jawaban. Silakan coba lagi.',
           confirmButtonText: 'OK'
-      });
-  }
+        });
+    }
 } catch (error) {
   console.error('Error:', error);
   Swal.fire({

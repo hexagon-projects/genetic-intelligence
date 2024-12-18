@@ -123,6 +123,7 @@ try {
   const response = await initAPI('post', 'rmib/hit', data, token);
 
 if (response.status === 201) {
+  localStorage.setItem('customerRmibId', response.data.data.id);
   console.log('yang test dengan customerId:', response.data);
 } else {
   console.error('Error:', response.status, response.data);
