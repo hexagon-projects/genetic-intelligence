@@ -16,7 +16,7 @@
           <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test IAA</div>
       </div>
 
-      <BelumTest v-if="!isTested" routeUrl="user.views.test_gadget" message="Kamu Belum Melakukan Test Kecanduan Gadget!" 
+      <BelumTest v-if="!isTested" routeUrl="user.views.test_gadget" message="Kamu Belum Melakukan Test Kecanduan Gadget (IAA)!" 
       subMessage="Wah, sayang sekali kamu belum coba Tes Kecanduan Gadget! Yuk, lakukan tes sekarang juga!"/>
 
       <div v-if="isTested" >
@@ -92,10 +92,11 @@ const getIaaData = async(userId) => {
       const response = await initAPI('get', `customers/iaa?customer_id=${userId}`, null, token)
       // console.log(`data iaa`, response.data)
 
-      formattedCategoryHeader.value = response.data.data[0].category.split(': ')[0]
-      formattedCategoryDesc.value = response.data.data[0].category.split(': ')[1]
+      isTested.value = response.data.data ? true : false
+      formattedCategoryHeader.value = response.data.data ? response.data.data[0].category.split(': ')[0] : null
+      formattedCategoryDesc.value = response.data.data ? response.data.data[0].category.split(': ')[1] : null
   } catch (error) {
-      // console.log(`error`,error)
+      console.log(`error`,error)
       Swal.fire({
           icon: 'error',
           title: 'Error',

@@ -17,126 +17,52 @@
                 </div>
                 <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test RMIB</div>
             </div>
-        
-            <section class="mx-0 lg:mx-[40px] bg-white pb-20">
-                <div class="flex flex-col md:flex-row p-6 bg-white rounded-lg">
-                    <div class="flex-1 order-2 md:order-1">
-                        <h1 class="text-2xl font-bold">Hasil Tes RMIB</h1>
-                        <p class="mt-2 text-gray-600 text-justify">
-                            Tes Rothwell-Miller Interest Blank (RMIB), merupakan test yang bertujuan untuk
-                            mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan. Berikut Hasil dari
-                            test yang telah kamu lakukan:
-                        </p>
-                        <div class="mt-4">
-                            <h2 class="font-semibold">Identitas</h2>
-                            <p>Nama: {{ identitas.nama }}</p>
-                            <p>Gender: {{ identitas.jenis_kelamin }}</p>
-                            <p>Tanggal lahir: {{ identitas.tanggal_lahir }}</p>
-                            <p>Tanggal tes: {{ identitas.tanggal_tes }}</p>
-                            <p>Usia: {{ identitas.usia }}</p>
-                            <p>Durasi Pengerjaan: {{ identitas.durasi_tes }}</p>
-                        </div>
-                        <div class="mt-4 mb-5">
-                            <h2 class="font-semibold mb-2">Kata Kunci</h2>
-                            <div class="flex space-x-2">
-                                <button v-if="hasil.rmib1" class="bg-[#3030f8] text-white px-3 py-2 rounded-lg">{{ hasil.rmib1.name }} ({{hasil.rmib1?.slug}})</button>
-                                <button v-if="hasil.rmib2" class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">{{ hasil.rmib2.name }} ({{hasil.rmib2?.slug}})</button>
-                                <button v-if="hasil.rmib3" class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">{{ hasil.rmib3.name }} ({{hasil.rmib3?.slug}})</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-1 flex justify-center items-center pb-7 order-1 md:order-2">
-                        <img src="./img/19962851_6203998 2.svg" alt="Illustration" class="w-[300px] md:w-[360px]" /> 
-                    </div>
-                </div>
-                <div class="flex flex-col md:flex-row px-[24px] pb-[20px] bg-white rounded-lg"> 
-                    <h1 class="text-2xl font-bold mx-0 lg:mx">Detail Hasil Test</h1> 
-                </div>
-                <div class="flex flex-wrap w-full lg:w-[107%] mx-0 gap-6 px-6"> 
-                    <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
-                        <div class="flex items-center mb-3">
-                            <div class="w-12 h-12 flex justify-center items-center mr-3">
-                                <img src="./img/Grade(1).svg" alt="Outdoor Icon" class="w-10 h-10" />
-                            </div>
-                            <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib1?.name }} ({{hasil.rmib1?.slug}})</h2>
-                        </div>
-                        <hr class="border-t border-[#667084] mb-3"> 
-                        <div class="flex items-start mb-3">
-                            <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium">
-                                <strong>Interpretasi</strong>
-                            </div>
-                        </div>
-                        <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib1?.desc }}</p>
-                        
-                        <div class="flex items-start mb-3">
-                            <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium">
-                                <strong>Contoh Pekerjaan</strong>
-                            </div>
-                        </div>
-                        <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib1?.job_recommendation }}</p>
-                    
-                        <div class="flex items-start mb-3">
-                            <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium">
-                                <strong>Saran</strong>
-                            </div>
-                        </div>
-                        <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib1?.advice }}</p>
-                    </div>
-                    
-                    <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
-                            <div class="flex items-center mb-3">
-                                <div class="w-12 h-12 flex justify-center items-center mr-3">
-                                    <img src="./img/Grade (2).svg" alt="Outdoor Icon" class="w-10 h-10" />
-                                </div>
-                                <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib2?.name }} ({{hasil.rmib2?.slug}})</h2>
-                            </div>
-                            <hr class="border-t border-[#667084] mb-3"> 
-                            <div class="flex items-start mb-3">
-                                <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                    <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
-                                </div>
-                                <div class="text-[#3030f8] text-sm font-medium">
-                                    <strong>Interpretasi</strong>
-                                </div>
-                            </div>
-                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib2?.desc }}</p>
-                            
-                            <div class="flex items-start mb-3">
-                                <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                    <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
-                                </div>
-                                <div class="text-[#3030f8] text-sm font-medium">
-                                    <strong>Contoh Pekerjaan</strong>
-                                </div>
-                            </div>
-                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib2?.job_recommendation }}</p>
-                        
-                        <div class="flex items-start mb-3">
-                            <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
-                            </div>
-                            <div class="text-[#3030f8] text-sm font-medium">
-                                <strong>Saran</strong>
-                            </div>
-                        </div>
-                        <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib2?.advice }}</p>
-                    </div>
 
-                    <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
+            <BelumTest v-if="!isTested" routeUrl="user.views.rmib" message="Kamu Belum Melakukan Tes Minat Bakat (RMIB)!" 
+            subMessage="Wah, sayang sekali kamu belum coba Tes Minat Bakat! Yuk, lakukan tes sekarang juga!"/>
+        
+            <div v-if="isTested" >
+                <section class="mx-0 lg:mx-[40px] bg-white pb-20">
+                    <div class="flex flex-col md:flex-row p-6 bg-white rounded-lg">
+                        <div class="flex-1 order-2 md:order-1">
+                            <h1 class="text-2xl font-bold">Hasil Tes RMIB</h1>
+                            <p class="mt-2 text-gray-600 text-justify">
+                                Tes Rothwell-Miller Interest Blank (RMIB), merupakan test yang bertujuan untuk
+                                mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan. Berikut Hasil dari
+                                test yang telah kamu lakukan:
+                            </p>
+                            <div class="mt-4">
+                                <h2 class="font-semibold">Identitas</h2>
+                                <p>Nama: {{ identitas.nama }}</p>
+                                <p>Gender: {{ identitas.jenis_kelamin }}</p>
+                                <p>Tanggal lahir: {{ identitas.tanggal_lahir }}</p>
+                                <p>Tanggal tes: {{ identitas.tanggal_tes }}</p>
+                                <p>Usia: {{ identitas.usia }}</p>
+                                <p>Durasi Pengerjaan: {{ identitas.durasi_tes }}</p>
+                            </div>
+                            <div class="mt-4 mb-5">
+                                <h2 class="font-semibold mb-2">Kata Kunci</h2>
+                                <div class="flex space-x-2">
+                                    <button v-if="hasil.rmib1" class="bg-[#3030f8] text-white px-3 py-2 rounded-lg">{{ hasil.rmib1.name }} ({{hasil.rmib1?.slug}})</button>
+                                    <button v-if="hasil.rmib2" class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">{{ hasil.rmib2.name }} ({{hasil.rmib2?.slug}})</button>
+                                    <button v-if="hasil.rmib3" class="bg-[#3030f8] text-white px-4 py-2 rounded-lg">{{ hasil.rmib3.name }} ({{hasil.rmib3?.slug}})</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 flex justify-center items-center pb-7 order-1 md:order-2">
+                            <img src="./img/19962851_6203998 2.svg" alt="Illustration" class="w-[300px] md:w-[360px]" /> 
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row px-[24px] pb-[20px] bg-white rounded-lg"> 
+                        <h1 class="text-2xl font-bold mx-0 lg:mx">Detail Hasil Test</h1> 
+                    </div>
+                    <div class="flex flex-wrap w-full lg:w-[107%] mx-0 gap-6 px-6"> 
+                        <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
                             <div class="flex items-center mb-3">
                                 <div class="w-12 h-12 flex justify-center items-center mr-3">
-                                    <img src="./img/Grade (3).svg" alt="Outdoor Icon" class="w-10 h-10" />
+                                    <img src="./img/Grade(1).svg" alt="Outdoor Icon" class="w-10 h-10" />
                                 </div>
-                                <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib3?.name }} ({{hasil.rmib3?.slug}})</h2>
+                                <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib1?.name }} ({{hasil.rmib1?.slug}})</h2>
                             </div>
                             <hr class="border-t border-[#667084] mb-3"> 
                             <div class="flex items-start mb-3">
@@ -147,7 +73,7 @@
                                     <strong>Interpretasi</strong>
                                 </div>
                             </div>
-                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib3?.desc}}</p>
+                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib1?.desc }}</p>
                             
                             <div class="flex items-start mb-3">
                                 <div class="w-6 h-6 flex justify-center items-center mr-3">
@@ -157,26 +83,106 @@
                                     <strong>Contoh Pekerjaan</strong>
                                 </div>
                             </div>
-                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib3?.job_recommendation}}</p>
+                            <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib1?.job_recommendation }}</p>
                         
-                        <div class="flex items-start mb-3">
-                            <div class="w-6 h-6 flex justify-center items-center mr-3">
-                                <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Saran</strong>
+                                </div>
                             </div>
-                            <div class="text-[#3030f8] text-sm font-medium">
-                                <strong>Saran</strong>
-                            </div>
+                            <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib1?.advice }}</p>
                         </div>
-                        <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib3?.advice}}</p>
+                        
+                        <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 flex justify-center items-center mr-3">
+                                        <img src="./img/Grade (2).svg" alt="Outdoor Icon" class="w-10 h-10" />
+                                    </div>
+                                    <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib2?.name }} ({{hasil.rmib2?.slug}})</h2>
+                                </div>
+                                <hr class="border-t border-[#667084] mb-3"> 
+                                <div class="flex items-start mb-3">
+                                    <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                        <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
+                                    </div>
+                                    <div class="text-[#3030f8] text-sm font-medium">
+                                        <strong>Interpretasi</strong>
+                                    </div>
+                                </div>
+                                <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib2?.desc }}</p>
+                                
+                                <div class="flex items-start mb-3">
+                                    <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                        <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
+                                    </div>
+                                    <div class="text-[#3030f8] text-sm font-medium">
+                                        <strong>Contoh Pekerjaan</strong>
+                                    </div>
+                                </div>
+                                <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib2?.job_recommendation }}</p>
+                            
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Saran</strong>
+                                </div>
+                            </div>
+                            <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib2?.advice }}</p>
+                        </div>
+    
+                        <div class="px-5 py-4 bg-white rounded-2xl border border-[#667084] mb-5 w-full lg:w-[30%]">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-12 h-12 flex justify-center items-center mr-3">
+                                        <img src="./img/Grade (3).svg" alt="Outdoor Icon" class="w-10 h-10" />
+                                    </div>
+                                    <h2 class="text-[#3030f8] text-xl font-medium font-roboto font-bold">{{ hasil.rmib3?.name }} ({{hasil.rmib3?.slug}})</h2>
+                                </div>
+                                <hr class="border-t border-[#667084] mb-3"> 
+                                <div class="flex items-start mb-3">
+                                    <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                        <img src="./img/ReadCvLogo.svg" alt="Interpretation Icon" class="w-6 h-6" />
+                                    </div>
+                                    <div class="text-[#3030f8] text-sm font-medium">
+                                        <strong>Interpretasi</strong>
+                                    </div>
+                                </div>
+                                <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib3?.desc}}</p>
+                                
+                                <div class="flex items-start mb-3">
+                                    <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                        <img src="./img/IdentificationBadge.svg" alt="Job Recommendation Icon" class="w-6 h-6" />
+                                    </div>
+                                    <div class="text-[#3030f8] text-sm font-medium">
+                                        <strong>Contoh Pekerjaan</strong>
+                                    </div>
+                                </div>
+                                <p class="text-[#667084] text-sm mb-3 text-justify">{{ hasil.rmib3?.job_recommendation}}</p>
+                            
+                            <div class="flex items-start mb-3">
+                                <div class="w-6 h-6 flex justify-center items-center mr-3">
+                                    <img src="./img/Mailbox.svg" alt="Advice Icon" class="w-6 h-6" />
+                                </div>
+                                <div class="text-[#3030f8] text-sm font-medium">
+                                    <strong>Saran</strong>
+                                </div>
+                            </div>
+                            <p class="text-[#667084] text-sm text-justify">{{ hasil.rmib3?.advice}}</p>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </Layout>
     </div>
 </template>
 
 <script setup>
 import Layout from '@/Layout/Customer/Layout.vue';
+import BelumTest from '@/components/REMAKE/HasilTest/BelumTest/BelumTest.vue';
 import { onMounted, ref } from 'vue'
 import initAPI from '@/api/api';
 import Cookies from "js-cookie"
@@ -184,6 +190,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 const loading = ref(true);
+const isTested = ref(true)
 const identitas = ref({
     nama: '',
     jenis_kelamin: '',
@@ -207,42 +214,45 @@ const getUserData = async () => {
         const userData = await initAPI('post', 'login', formData, token);
         console.log(`data user`, userData.data)
 
-        identitas.value.nama = userData.data.customer.name;
-        identitas.value.jenis_kelamin = userData.data.customer.gender;
-        identitas.value.tanggal_lahir = userData.data.customer.birth_date;
-
-        // Format tanggal tes ke DD-MM-YYYY
-        const rawTanggalTes = userData.data.customer.customers_rmib.created_at.split('T')[0];
-        const [year, month, day] = rawTanggalTes.split('-');
-        identitas.value.tanggal_tes = `${day}-${month}-${year}`;
-        identitas.value.usia = userData.data.customer.customers_rmib.age;
-        identitas.value.durasi_tes = userData.data.customer.customers_rmib.time;
-
-        // Get Hasil Test
-        if (userData && userData.data.customer.customers_rmib) {
-            hasil.value.rmib1 = {
-                slug: userData.data.customer.customers_rmib.rmib1.slug,
-                name: userData.data.customer.customers_rmib.rmib1.name,
-                desc: userData.data.customer.customers_rmib.rmib1.desc,
-                job_recommendation: userData.data.customer.customers_rmib.rmib1.job_recommendation,
-                advice: userData.data.customer.customers_rmib.rmib1.advice,
-            };
-            hasil.value.rmib2 = {
-                slug: userData.data.customer.customers_rmib.rmib2.slug,
-                name: userData.data.customer.customers_rmib.rmib2.name,
-                desc: userData.data.customer.customers_rmib.rmib2.desc,
-                job_recommendation: userData.data.customer.customers_rmib.rmib2.job_recommendation,
-                advice: userData.data.customer.customers_rmib.rmib2.advice,
-            };
-            hasil.value.rmib3 = {
-                slug: userData.data.customer.customers_rmib.rmib3.slug,
-                name: userData.data.customer.customers_rmib.rmib3.name,
-                desc: userData.data.customer.customers_rmib.rmib3.desc,
-                job_recommendation: userData.data.customer.customers_rmib.rmib3.job_recommendation,
-                advice: userData.data.customer.customers_rmib.rmib3.advice,
-            };
+        if(userData.data.customer.customers_rmib == null){
+            isTested.value = false
+        }else{
+            identitas.value.nama = userData.data.customer.name;
+            identitas.value.jenis_kelamin = userData.data.customer.gender;
+            identitas.value.tanggal_lahir = userData.data.customer.birth_date;
+            
+            // Format tanggal tes ke DD-MM-YYYY
+            const rawTanggalTes = userData.data.customer.customers_rmib.created_at.split('T')[0];
+            const [year, month, day] = rawTanggalTes.split('-');
+            identitas.value.tanggal_tes = `${day}-${month}-${year}`;
+            identitas.value.usia = userData.data.customer.customers_rmib.age;
+            identitas.value.durasi_tes = userData.data.customer.customers_rmib.time;
+    
+            // Get Hasil Test
+            if (userData && userData.data.customer.customers_rmib) {
+                hasil.value.rmib1 = {
+                    slug: userData.data.customer.customers_rmib.rmib1.slug,
+                    name: userData.data.customer.customers_rmib.rmib1.name,
+                    desc: userData.data.customer.customers_rmib.rmib1.desc,
+                    job_recommendation: userData.data.customer.customers_rmib.rmib1.job_recommendation,
+                    advice: userData.data.customer.customers_rmib.rmib1.advice,
+                };
+                hasil.value.rmib2 = {
+                    slug: userData.data.customer.customers_rmib.rmib2.slug,
+                    name: userData.data.customer.customers_rmib.rmib2.name,
+                    desc: userData.data.customer.customers_rmib.rmib2.desc,
+                    job_recommendation: userData.data.customer.customers_rmib.rmib2.job_recommendation,
+                    advice: userData.data.customer.customers_rmib.rmib2.advice,
+                };
+                hasil.value.rmib3 = {
+                    slug: userData.data.customer.customers_rmib.rmib3.slug,
+                    name: userData.data.customer.customers_rmib.rmib3.name,
+                    desc: userData.data.customer.customers_rmib.rmib3.desc,
+                    job_recommendation: userData.data.customer.customers_rmib.rmib3.job_recommendation,
+                    advice: userData.data.customer.customers_rmib.rmib3.advice,
+                };
+            }
         }
-
     } catch (error) {
         Swal.fire({
             icon: 'error',

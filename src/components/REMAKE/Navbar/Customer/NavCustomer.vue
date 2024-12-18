@@ -29,12 +29,14 @@
                    || $route.name !== 'user.views.cpm'
                    || $route.name !== 'user.views.psikotest'
                    || $route.name !== 'user.views.test_gadget'
+                   || $route.name !== 'user.views.rmib'
                    || $route.name !== 'user.views.iq', 
                 'grayscale-0': activeMenu === 2 || $route.name == 'user.views.deteksi'
                    || $route.name == 'user.views.cpm'
                    || $route.name == 'user.views.assesment'
                    || $route.name == 'user.views.psikotest'
                    || $route.name == 'user.views.test_gadget'
+                   || $route.name == 'user.views.rmib'
                    || $route.name == 'user.views.iq'
                 }" 
                 src="@/assets/icons/lakukan-tes.svg"/>
@@ -46,6 +48,7 @@
                     || $route.name == 'user.views.assesment'
                     || $route.name == 'user.views.psikotest'
                     || $route.name == 'user.views.test_gadget'
+                    || $route.name == 'user.views.rmib'
                     || $route.name == 'user.views.iq'" 
                 class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]">
             </div>
@@ -55,28 +58,35 @@
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
-                    <span class="font-roboto">Test GIM</span>
+                    <span class="font-roboto">Tes GIM</span>
                 </div>
             </li>
             <li @click="goTo('user.views.assesment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/tes-assesment.svg"/>
-                    <span class="font-roboto">Test Assesment</span>
+                    <span class="font-roboto">Tes Assessment</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.is_student === 0 || (cekTypeSekolah.institutions && cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <span class="font-roboto">Test IQ</span>
+                    <span class="font-roboto">Tes IQ</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.rmib')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
+                    src="@/assets/icons/test-rmib.svg"/>
+                    <span class="font-roboto">Tes RMIB</span>
                 </div>
             </li>
             <li @click="goTo('user.views.test_gadget')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/test-iaa.svg"/>
-                    <span class="font-roboto">Test IAA</span>
+                    <span class="font-roboto">Tes IAA</span>
                 </div>
             </li>
             <!-- <li class="group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
@@ -90,7 +100,7 @@
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-cpm.svg"/>
-                    <span class="font-roboto">Test CPM</span>
+                    <span class="font-roboto">Tes CPM</span>
                 </div>
             </li>
             </ul>
@@ -124,28 +134,42 @@
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
-                    <span class="font-roboto">Test GIM</span>
+                    <span class="font-roboto">Tes GIM</span>
                 </div>
             </li>
             <li @click="goTo('user.views.hasil_assessment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/tes-assesment.svg"/>
-                    <span class="font-roboto">Test Assesment</span>
+                    <span class="font-roboto">Tes Assessment</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.is_student === 0 || (cekTypeSekolah.institutions && cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.hasil_iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <span class="font-roboto">Test IQ</span>
+                    <span class="font-roboto">Tes IQ</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.hasil_rmib')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
+                    src="@/assets/icons/test-rmib.svg"/>
+                    <span class="font-roboto">Tes RMIB</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.hasil_gadget')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
+                    src="@/assets/icons/test-iaa.svg"/>
+                    <span class="font-roboto">Tes IAA</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'SD' || cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.hasil_cpm')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-cpm.svg"/>
-                    <span class="font-roboto">Test CPM</span>
+                    <span class="font-roboto">Tes CPM</span>
                 </div>
             </li>
             </ul>

@@ -13,29 +13,33 @@
             <img :class="{'grayscale': $route.name !== 'user.views.deteksi'
                    || $route.name !== 'user.views.assesment'
                    || $route.name !== 'user.views.cpm'
-                   || $route.name !== 'user.views.psikotest'
+                //    || $route.name !== 'user.views.psikotest'
                    || $route.name !== 'user.views.test_gadget'
+                   || $route.name !== 'user.views.rmib'
                    || $route.name !== 'user.views.iq', 
                 'grayscale-0': $route.name == 'user.views.deteksi'
                    || $route.name == 'user.views.cpm'
                    || $route.name == 'user.views.assesment'
-                   || $route.name == 'user.views.psikotest'
+                //    || $route.name == 'user.views.psikotest'
                    || $route.name == 'user.views.test_gadget'
+                   || $route.name == 'user.views.rmib'
                    || $route.name == 'user.views.iq'
                 }" 
                 src="@/assets/icons/lakukan-tes.svg" alt="icon">
         </div>
         <span :class="{'text-[#667085]': $route.name !== 'user.views.cpm'
                    || $route.name !== 'user.views.assesment'
-                   || $route.name !== 'user.views.psikotest'
+                //    || $route.name !== 'user.views.psikotest'
                    || $route.name !== 'user.views.test_gadget'
+                   || $route.name !== 'user.views.rmib'
                    || $route.name !== 'user.views.iq', 
                    'text-black':
                     $route.name == 'user.views.deteksi'
                    || $route.name == 'user.views.cpm'
                    || $route.name == 'user.views.assesment'
-                   || $route.name == 'user.views.psikotest'
+                //    || $route.name == 'user.views.psikotest'
                    || $route.name == 'user.views.test_gadget'
+                   || $route.name == 'user.views.rmib'
                    || $route.name == 'user.views.iq'
                 }" 
                 class="font-roboto block text-xs">Lakukan Tes</span>
@@ -50,9 +54,13 @@
                 :class="{'grayscale': $route.name !== 'user.views.hasil_deteksi'
                     || $route.name !== 'user.views.hasil_cpm'
                     || $route.name !== 'user.views.hasil_assessment'
+                    || $route.name !== 'user.views.hasil_rmib'
+                    || $route.name !== 'user.views.hasil_gadget'
                     || $route.name !== 'user.views.hasil_iq', 'grayscale-0': $route.name == 'user.views.hasil_deteksi'
                     || $route.name == 'user.views.hasil_cpm'
                     || $route.name == 'user.views.hasil_assessment'
+                    || $route.name == 'user.views.hasil_rmib'
+                    || $route.name == 'user.views.hasil_gadget'
                     || $route.name == 'user.views.hasil_iq'
                     }" 
                 src="@/assets/icons/hasil-tes.svg" alt="icon"/>
@@ -60,11 +68,15 @@
         <span :class="{'text-[#667085]': $route.name !== 'user.views.hasil_deteksi'
                     || $route.name !== 'user.views.hasil_cpm'
                     || $route.name !== 'user.views.hasil_assessment'
+                    || $route.name !== 'user.views.hasil_gadget'
+                    || $route.name !== 'user.views.hasil_rmib'
                     || $route.name !== 'user.views.hasil_iq', 
                    'text-black':
                    $route.name == 'user.views.hasil_deteksi'
                     || $route.name == 'user.views.hasil_cpm'
                     || $route.name == 'user.views.hasil_assessment'
+                    || $route.name == 'user.views.hasil_gadget'
+                    || $route.name == 'user.views.hasil_rmib'
                     || $route.name == 'user.views.hasil_iq'
                 }" 
                 class="font-roboto block text-xs">Hasil Tes</span>

@@ -210,12 +210,12 @@ const getIQData = async() => {
 
         isTested.value = userData.data.customer.customers_iq !== null ? true : false
         dataIQ.value = userData.data.customer.customers_iq
-        imageIQIcon.value = userData.data.customer.customers_iq.iq.icon
+        imageIQIcon.value = userData.data.customer.customers_iq !== null ? userData.data.customer.customers_iq.iq.icon : null
         
         // imgHasilCategoryIQ.value = new URL(`../../../assets/icons/iq/grade-${dataIQ.value.iq_id}.svg`, import.meta.url).href
 
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         Swal.fire({
             icon: 'error',
             title: 'Error',
