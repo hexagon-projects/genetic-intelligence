@@ -13,11 +13,11 @@
           <div class="w-4 h-4 relative opacity-75">
               <img src="@/assets/img/chevron_forward.svg">
           </div>
-          <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test IAA</div>
+          <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Jatidiri Kendali</div>
       </div>
 
-      <BelumTest v-if="!isTested" routeUrl="user.views.test_gadget" message="Kamu Belum Melakukan Test Kecanduan Gadget (IAA)!" 
-      subMessage="Wah, sayang sekali kamu belum coba Tes Kecanduan Gadget! Yuk, lakukan tes sekarang juga!"/>
+      <BelumTest v-if="!isTested" routeUrl="user.views.test_gadget" message="Test Jatidiri (Jatidiri Kendali)" 
+      subMessage="Tes untuk mengukur tingkat ketergantungan kamu pada internet serta memberikan saran untuk memperbaiki kebiasaan online."/>
 
       <div v-if="isTested" >
         <section id="penjelasan" class=" h-auto mx-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-14 items-center">
@@ -51,6 +51,10 @@
             
         </section>
 
+        <VidioHasil v-if="formattedCategoryHeader == 'Penggunaan Normal'" videoUrl="https://api.jatidiri.app/api/vidio/iaa/NORMAL/index.m3u8"/>
+        <VidioHasil v-if="formattedCategoryHeader == 'Cenderung Kecanduan'" videoUrl="https://api.jatidiri.app/api/vidio/iaa/KECANDUAN/index.m3u8"/>
+        <VidioHasil v-if="formattedCategoryHeader == 'Kecanduan Serius'" videoUrl="https://api.jatidiri.app/api/vidio/iaa/SERIUS/index.m3u8"/>
+
         <section class="bg-white py-[46px]">
             <Reservasi/>
         </section>
@@ -60,9 +64,13 @@
 
 <script setup>
 import Layout from '@/Layout/Customer/Layout.vue';
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
+import '@videojs/http-streaming';
 import Reservasi from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
 import BelumTest from '@/components/REMAKE/HasilTest/BelumTest/BelumTest.vue';
-import { onMounted, ref } from 'vue';
+import VidioHasil from '@/components/REMAKE/HasilTest/VidioHasil/VidioHasil.vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Cookies from 'js-cookie';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
@@ -82,9 +90,11 @@ const description = ref("")
 //   }
 // )
 
+// const testformat = ref('Penggunaan Normal')
 const formattedCategoryHeader = ref('')
 const formattedCategoryDesc = ref('')
-// console.log(`output`, formattedCategory)
+console.log(`output`, formattedCategoryHeader)
+console.log(`output`, formattedCategoryDesc)
 
 const getIaaData = async(userId) => {
   try {
@@ -128,10 +138,20 @@ const getUserData = async() => {
       // loading.value = false
   }
 }
-
+        
 onMounted(async() => {
-  await getUserData()
-  loading.value = false
+    await getUserData()
+    loading.value = false
+
+    const videoId = document.getElementById('example-video')
+    if(videoId){
+        const player = videojs(videoId);
+        player.play();
+    
+        onBeforeUnmount(() => {
+            player.dispose()
+        })
+    }
 })
 </script>
 

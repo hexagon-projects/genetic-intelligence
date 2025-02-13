@@ -33,7 +33,7 @@
       <section v-if="isTestedIQ || isAssessment" class="bg-white py-[50px]">
           <ResumeIQAssessment :propsIq="propsIq" :propsAssessment="propsAssessment"/>
       </section>
-  
+        
       <!-- Reservasi -->
       <section class="bg-white py-[46px]">
           <Reservasi/>
@@ -60,6 +60,7 @@ import Layout from '@/Layout/Customer/Layout.vue';
 // import DashboardConsultant from '@/components/consultant/dashboard/dashboard.vue'
 // import DashboardAdmin from '@/components//admin/dashboard/dashboard.vue'
 // import DashboardStaff from '../staffs/dashboard/dashboard.vue'
+
 import Identitas from '@/components/REMAKE/Dashboard/Section/Identitas.vue';
 import ProgressTest from '@/components/REMAKE/Dashboard/Section/Progress.vue';
 import ResumeGim from '@/components/REMAKE/Dashboard/Section/ResumeGim.vue';

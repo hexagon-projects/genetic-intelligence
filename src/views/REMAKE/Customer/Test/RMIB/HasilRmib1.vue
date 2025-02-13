@@ -15,11 +15,11 @@
                 <div class="w-4 h-4 relative opacity-75">
                     <img src="@/assets/img/chevron_forward.svg">
                 </div>
-                <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test RMIB</div>
+                <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Jatidiri Bakat</div>
             </div>
 
-            <BelumTest v-if="!isTested" routeUrl="user.views.rmib" message="Kamu Belum Melakukan Tes Minat Bakat (RMIB)!" 
-            subMessage="Wah, sayang sekali kamu belum coba Tes Minat Bakat! Yuk, lakukan tes sekarang juga!"/>
+            <BelumTest v-if="!isTested" routeUrl="user.views.rmib" message="Tes Jatidiri (Jatidiri Bakat)!" 
+            subMessage="Tes yang dirancang untuk mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai panduan karier."/>
         
             <div v-if="isTested" >
                 <section class="mx-0 lg:mx-[40px] bg-white pb-20">

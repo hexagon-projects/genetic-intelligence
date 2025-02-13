@@ -65,4 +65,5 @@ const confirmButton = () => {
         localStorage.setItem('isKebijakanPrivasi', 'Ya')
     }
 }
+
 </script>

@@ -25,7 +25,7 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test IQ</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Jatidiri Cerdas</div>
         </div>
 
         <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_iq" message="Test IQ Selesai!"

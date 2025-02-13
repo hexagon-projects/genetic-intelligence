@@ -14,14 +14,14 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test GIM</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Jatidiri Sejati</div>
         </div>
     
-        <BelumTest v-if="statusTest == 'Belum'" routeUrl="user.views.deteksi" message="Kamu Belum Melakukan Test GIM!" 
-        subMessage="Wah, sayang sekali kamu belum coba Tes GIM! Yuk, kenali dulu potensi dirimu lewat Tes GIM biar hasil Assessment kamu lebih maksimal!"/>
+        <BelumTest v-if="statusTest == 'Belum'" routeUrl="user.views.deteksi" message="Test Jatidiri (Jatidiri Sejati)" 
+        subMessage="Lewat Test ini, kamu bisa mengetahui potensi genetik dan kekuatan alami yang kamu miliki."/>
         
         <DiProses v-if="statusTest == 'Sudah Disubmit' || statusTest == 'Dalam Review'" message="Test Kamu Sedang Diproses!" 
-        subMessage="Terima kasih telah menyelesaikan Tes GIM! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
+        subMessage="Terima kasih telah menyelesaikan Tes Jatidiri Sejati! Saat ini, hasil tes kamu sedang diproses oleh tim konsultan kami. Kami akan menghubungi kamu segera setelah analisis selesai untuk memberikan laporan lengkapnya."/>
 
         <div v-if="statusTest == 'Selesai Terdeteksi'">
             <section class="bg-[#f0f7fd] py-[52px]">
@@ -168,6 +168,7 @@
                                     :src="GIMDatas.gim.url"
                                     type="application/x-mpegURL">
                             </video>
+                            <!-- <iframe class="w-full h-[500px]" :src="GIMDatas.gim.url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
                         </div>
 
                         <div class="mb-[32px] h-[52px] py-2.5 border-b border-[#667084] justify-start items-center gap-2.5 inline-flex">
@@ -219,6 +220,9 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import arrowGo from '@/assets/icons/arrow-go.svg';
 import arrowGoBiru from '@/assets/icons/arrow-go-biru.svg';
+
+// import "https://cdn.jsdelivr.net/npm/video.js/dist/video.js";
+
 const currentGim = ref({
     view: "",
     index: 0
@@ -344,7 +348,7 @@ onMounted(async() => {
     const videoId = document.getElementById('example-video')
     if(videoId){
         const player = videojs(videoId);
-        // player.play();
+        player.play();
     
         onBeforeUnmount(() => {
             player.dispose()
@@ -353,7 +357,10 @@ onMounted(async() => {
 })
 </script>
 
+
 <style scoped>
+/* @import "https://cdn.jsdelivr.net/npm/video.js/dist/video-js.css"; */
+
 .preloader-overlay {
     position: fixed;
     top: 0;

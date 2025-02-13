@@ -17,10 +17,10 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test GIM</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Jatidiri Sejati</div>
         </div>
     
-        <SelesaiTest v-if="statusTest == 'Selesai Terdeteksi'" routeUrl="user.views.hasil_deteksi" message="Test GIM Selesai!"
+        <SelesaiTest v-if="statusTest == 'Selesai Terdeteksi'" routeUrl="user.views.hasil_deteksi" message="Test Jatidiri Sejati Selesai!"
         :subMessage="subMessage"/>
 
         <DiProses v-if="statusTest == 'Sudah Disubmit' || statusTest == 'Dalam Review'" message="Test Kamu Sedang Diproses!" 
@@ -143,7 +143,7 @@ import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
 const isKebijakanPrivasi = ref(true)
 const dataProfileInclomplete = cekDataProfile()
 
-const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Genetic Intelligence Mapping</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
+const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Jatidiri Sejati</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
 const loading = ref(true)
 const loadingSubmit = ref(false)

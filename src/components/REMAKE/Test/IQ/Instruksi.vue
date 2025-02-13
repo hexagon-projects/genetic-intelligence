@@ -9,7 +9,7 @@
 
     <div class="mx-[30px] md:mx-[60px] max-w-[700px] flex flex-col items-center justify-center shadow rounded-tl-3xl rounded-tr-3xl rounded-b-3xl bg-white">
         <div class="self-stretch min-h-[100px] py-4 bg-[#3030f8] rounded-tl-3xl rounded-tr-3xl flex-col justify-start items-start gap-2 flex">
-            <div class="self-stretch text-center text-white text-lg md:text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">Intruksi Pengerjaan Tes IQ</div>
+            <div class="self-stretch text-center text-white text-lg md:text-xl lg:text-3xl font-semibold font-['Sora'] leading-9">Intruksi Pengerjaan Tes Kecerdasan</div>
             <div class="mx-4 self-stretch text-center text-white text-sm md:text-sm lg:text-base font-normal font-['Roboto'] leading-normal">
                 Halo {{ namaUser.first_name }}! Sebelum melakukan test perhatikan petunjuk dibawah ini.
             </div>

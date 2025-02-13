@@ -13,11 +13,11 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test Assessment</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test Assessment</div>
         </div>
     
-        <BelumTest v-if="!isTested" routeUrl="user.views.assesment" message="Kamu Belum Melakukan Test Assessment!" 
-        subMessage="Wah, sayang sekali kamu belum coba Tes Asesment! Yuk, kenali dulu gaya belajarmu lewat Tes Assessment!"/>
+        <BelumTest v-if="!isTested" routeUrl="user.views.assesment" message="Test Assessment!" 
+        subMessage="Tes ini membantu memahami gaya belajar kamu yang unik. dengan hasilnya, kamu bisa menemukan cara belajar yang paling efektif dan cocok untuk diri kamu."/>
     
         <div v-if="isTested">
             <section class="bg-white pb-[52px]">

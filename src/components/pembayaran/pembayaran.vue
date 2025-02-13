@@ -116,6 +116,8 @@ export default {
         const totalFee = ref('')
         const feePaymentMethod = ref('')
 
+        console.log(totalFee)
+
         const paymentMethod = ref([])
 
         const getHarga = async() => {
@@ -227,7 +229,13 @@ export default {
                                     ? 'user.views.iq' 
                                     : tipeParam.value == 'test-gim' 
                                     ? 'user.views.deteksi' 
-                                    : 'user.views.assesment'
+                                    : tipeParam.value == 'test-assessment'
+                                    ? 'user.views.assesment'
+                                    : tipeParam.value == 'test-rmib'
+                                    ? 'user.views.rmib'
+                                    : tipeParam.value == 'test-gadget'
+                                    ? 'user.views.test_gadget'
+                                    : 'views.dashboard'
                             })  
                         }
                     })

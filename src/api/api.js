@@ -49,9 +49,13 @@ import { useRouter } from 'vue-router'
 
 const initAPI = async (method, endpoint, data, token) => {
   const router = useRouter()
-  const baseUrl = import.meta.env.VITE_API_BASE_URL
+  // const baseUrl = import.meta.env.VITE_API_BASE_URL
   // const baseUrl = 'http://192.168.38.226:8001/api/'
   // const baseUrl = 'http://gim.app.api.hexagon.co.id/api/'
+  // const baseUrl = 'https://jatidiri.app/api/'
+  // const baseUrl = 'https://v2.api.jatidiri.app/api/'
+  // const baseUrl = 'http://127.0.0.1:8000/api/'
+  const baseUrl = 'https://api.jatidiri.app/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/') || endpoint.includes('consultants/')
   // console.log(check)
   const config = {

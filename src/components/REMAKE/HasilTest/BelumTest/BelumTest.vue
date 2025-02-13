@@ -46,14 +46,19 @@
                             </div>
                         </button>
                     </div>
-                </div>
+                </div>    
             </div>
         </div>
     </div>
+    <!-- Reservasi -->
+    <section class="bg-white py-16">
+        <Reservasi/>
+    </section>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
+import Reservasi from '@/components/REMAKE/ReservasiFooter/Reservasi.vue';
 
 const props = defineProps({
     message: String,

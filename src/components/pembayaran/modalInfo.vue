@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="block lg:hidden relative w-full top-10 mx-auto shadow-xl rounded-md bg-white">
             <!-- Modal body -->
             <div class="w-full p-4 flex flex-col">

@@ -58,35 +58,35 @@
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
-                    <span class="font-roboto">Tes GIM</span>
+                    <span class="font-roboto">Tes Jatidiri Sejati</span>
                 </div>
             </li>
             <li @click="goTo('user.views.assesment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/tes-assesment.svg"/>
-                    <span class="font-roboto">Tes Assessment</span>
+                    <span class="font-roboto">Tes Jatidiri Belajar</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.is_student === 0 || (cekTypeSekolah.institutions && cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <span class="font-roboto">Tes IQ</span>
+                    <span class="font-roboto">Tes Jatidiri Cerdas</span>
                 </div>
             </li>
             <li @click="goTo('user.views.rmib')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/test-rmib.svg"/>
-                    <span class="font-roboto">Tes RMIB</span>
+                    <span class="font-roboto">Tes Jatidiri Bakat</span>
                 </div>
             </li>
             <li @click="goTo('user.views.test_gadget')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/test-iaa.svg"/>
-                    <span class="font-roboto">Tes IAA</span>
+                    <span class="font-roboto">Tes Jatidiri Kendali</span>
                 </div>
             </li>
             <!-- <li class="group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
@@ -134,35 +134,35 @@
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
-                    <span class="font-roboto">Tes GIM</span>
+                    <span class="font-roboto">Tes Jatidiri Sejati</span>
                 </div>
             </li>
             <li @click="goTo('user.views.hasil_assessment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/tes-assesment.svg"/>
-                    <span class="font-roboto">Tes Assessment</span>
+                    <span class="font-roboto">Tes Jatidiri Belajar</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.is_student === 0 || (cekTypeSekolah.institutions && cekTypeSekolah.institutions.type !== 'SD' && cekTypeSekolah.institutions.type !== 'TK')" @click="goTo('user.views.hasil_iq')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-iq.svg"/>
-                    <span class="font-roboto">Tes IQ</span>
+                    <span class="font-roboto">Tes Jatidiri Cerdas</span>
                 </div>
             </li>
             <li @click="goTo('user.views.hasil_rmib')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/test-rmib.svg"/>
-                    <span class="font-roboto">Tes RMIB</span>
+                    <span class="font-roboto">Tes Jatidiri Bakat</span>
                 </div>
             </li>
             <li @click="goTo('user.views.hasil_gadget')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
                     src="@/assets/icons/test-iaa.svg"/>
-                    <span class="font-roboto">Tes IAA</span>
+                    <span class="font-roboto">Tes Jatidiri Kendali</span>
                 </div>
             </li>
             <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'SD' || cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.hasil_cpm')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">

@@ -371,7 +371,12 @@ export default [
             if (!token || !isAuth) {
                 // Jika token tidak ada, arahkan pengguna ke halaman login
                 next({ name: 'views.login' });
-            } else {
+            } 
+            else if(isAuth && isAuth.is_payment_rmib == 'Tidak') {
+                next('/pembayaran/test-rmib')
+                next() 
+            }
+            else {
                 const decodedToken = jwtDecode(token);
                 //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
@@ -385,12 +390,22 @@ export default [
         path:'/test-gadget',
         name:'user.views.test_gadget',
         component: () => import('@/views/REMAKE/Customer/Test/Gadget/TestGadget.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
                 next({ name: 'views.login' });
-            } else {
+            } 
+            else if(isAuth && isAuth.is_payment_iaa == 'Tidak') {
+                next('/pembayaran/test-iaa')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
                 const decodedToken = jwtDecode(token);
                 //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
@@ -398,12 +413,6 @@ export default [
                 if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
                 else next()
             }
-
-            // else if(isAuth && isAuth.is_payment_iaa == 'Tidak') {
-            //     next('/pembayaran/test-iaa')
-            //     // router.push('/pembayaran/test-iq')
-            //     next()
-            // }
         }
     },
     {

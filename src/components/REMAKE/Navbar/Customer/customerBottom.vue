@@ -124,21 +124,21 @@ const showModal = ref({
 
 const testDatas = ref([
     {name: 'Starter Pack', route: 'user.views.starter_pack', img:  new URL('@/assets/icons/starter-pack.svg', import.meta.url).href},
-    {name: 'Test GIM', route: 'user.views.deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
-    {name: 'Test Assessement', route: 'user.views.assesment', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
-    {name: 'Test IQ', route: 'user.views.iq', img:  new URL('@/assets/icons/tes-iq.svg', import.meta.url).href},
-    {name: 'Test CPM', route: 'user.views.cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
-    {name: 'Test IAA', route: 'user.views.test_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
-    {name: 'Test RMIB', route: 'user.views.deteksi', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Sejati', route: 'user.views.deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Belajar', route: 'user.views.assesment', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Cerdas', route: 'user.views.iq', img:  new URL('@/assets/icons/tes-iq.svg', import.meta.url).href},
+    // {name: 'Test CPM', route: 'user.views.cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Kendali', route: 'user.views.test_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Bakat', route: 'user.views.deteksi', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
 ])
 
 const hasilDatas = ref([
-    {name: 'Hasil Test GIM', route: 'user.views.hasil_deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
-    {name: 'Hasil Test Assessement', route: 'user.views.hasil_assessment', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
-    {name: 'Hasil Test IQ', route: 'user.views.hasil_iq', img:  new URL('@/assets/icons/tes-iq.svg', import.meta.url).href},
-    {name: 'Hasil Test CPM', route: 'user.views.hasil_cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
-    {name: 'Hasil Test IAA', route: 'user.views.hasil_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
-    {name: 'Hasil Test RMIB', route: 'user.views.deteksi', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
+    {name: 'Hasil Test Jatidiri Sejati', route: 'user.views.hasil_deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
+    {name: 'Hasil Test Jatidiri Belajar', route: 'user.views.hasil_assessment', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Hasil Test Jatidiri Cerdas', route: 'user.views.hasil_iq', img:  new URL('@/assets/icons/tes-iq.svg', import.meta.url).href},
+    // {name: 'Hasil Test CPM', route: 'user.views.hasil_cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
+    {name: 'Hasil Test Jatidiri Kendali', route: 'user.views.hasil_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
+    {name: 'Hasil Test Jatidiri Bakat', route: 'user.views.deteksi', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
 ])
 
 const lainyaDatas = ref([

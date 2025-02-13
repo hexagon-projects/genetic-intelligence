@@ -17,7 +17,7 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test Kecanduan Gadget</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Jatidiri Kendali</div>
         </div>
 
         <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_gadget" message="Test Internet Addiction Assessment Selesai!"
@@ -30,9 +30,12 @@
                     <KebijakanPrivasi @toggleKebijakanPrivasi="toggleKebijakanPrivasi"/>
                 </div>
             </transition>
+            
+            <VidioWelcomeTest />
 
             <SoalGadget :customerId="customerId" @refreshData="getUserData"/>
         </section>
+
     
         <section class="bg-white py-[46px]">
             <ReservasiFooter/>
@@ -53,9 +56,12 @@ import SoalGadget from '@/views/REMAKE/Customer/Test/Gadget/SoalGadget.vue';
 import KebijakanPrivasi from '@/components/REMAKE/Modal/KebijakanPrivasi/KebijakanPrivasi.vue';
 import cekDataProfile from '@/components/cekProfile';
 import modalCekProfile from '@/components/modalCekProfile/modalCekProfile.vue';
+import VidioWelcomeTest from '../../../../../components/REMAKE/Modal/VidioWelcomeTest/VidioWelcomeTest.vue';
 
 const isKebijakanPrivasi = ref(true)
+const IsWelcomeVidio = ref(true)
 const dataProfileInclomplete = cekDataProfile()
+
 
 const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Assesment Internet Addiction</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 
@@ -88,6 +94,10 @@ const getUserData = async() => {
 
 const toggleKebijakanPrivasi = () => {
     isKebijakanPrivasi.value = !isKebijakanPrivasi.value
+}
+
+const toggleWelcomeVidio = () => {
+    IsWelcomeVidio.value = !IsWelcomeVidio.value
 }
 
 onMounted(async() => {

@@ -87,6 +87,11 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie'
 
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const target = route.query.target;
+
 const email = ref('');
 const password = ref('');
 const store = useStore();
@@ -146,7 +151,15 @@ const Login = async () => {
             store.commit('userEmail', response.data.user.email);
             switch (role) {
                 case 'customer':
-                    router.push({name: 'views.dashboard'})
+                if (target === 'gim') {
+                    router.push({ name: 'user.views.deteksi' });
+                } else if (target === 'iaa') {
+                    router.push({ name: 'user.views.test_gadget' });
+                } else if (!target) {
+                    router.push({ name: 'views.dashboard' });
+                } else {
+                    router.push({ name: 'views.dashboard' });
+                }
                     break;
             
                 case 'consultant':

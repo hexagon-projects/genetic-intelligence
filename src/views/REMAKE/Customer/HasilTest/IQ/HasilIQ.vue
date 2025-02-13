@@ -13,11 +13,11 @@
             <div class="w-4 h-4 relative opacity-75">
                 <img src="@/assets/img/chevron_forward.svg">
             </div>
-            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Hasil Test IQ</div>
+            <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test IQ</div>
         </div>
     
-        <BelumTest v-if="!isTested" routeUrl="user.views.iq" message="Kamu Belum Melakukan Test IQ!" 
-        subMessage="Wah, sayang sekali kamu belum coba Tes IQ! Yuk, kenali dulu score IQ mu lewat Test IQ!"/>
+        <BelumTest v-if="!isTested" routeUrl="user.views.iq" message="Test IQ (Intelligent Quotient)" 
+        subMessage="Tes IQ ini memberikan gambaran jelas tentang kemampuan berfikir dan kecerdasan kamu. ukur seberapa cepat dan efisien kamu memecahkan berbagai masalah!"/>
 
         <div v-if="isTested">
             <section class="bg-white pb-[52px]">
