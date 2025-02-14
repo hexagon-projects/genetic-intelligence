@@ -52,6 +52,9 @@
                                     <th scope="col" class="py-3 px-6">Nama</th>
                                     <th scope="col" class="py-3 px-6">Code Voucher</th>
                                     <th scope="col" class="py-3 px-6">Diskon</th>
+                                    <th scope="col" class="py-3 px-6">Quantity Hit</th>
+                                    <th scope="col" class="py-3 px-6">Sisa Hit</th>
+                                    <th scope="col" class="py-3 px-6">Expired</th>
                                     <th scope="col" class="py-3 px-6">Aksi</th>
                                 </tr>
                                 </thead>
@@ -68,6 +71,15 @@
                                         </td>
                                         <td class="py-4 px-6">
                                             {{ data.disc_percentage }}
+                                        </td>
+                                        <td class="py-4 px-6">
+                                            {{ data.quantity_hit }}
+                                        </td>
+                                        <td class="py-4 px-6">
+                                            {{ data.hit }}
+                                        </td>
+                                        <td class="py-4 px-6">
+                                            {{ data.expired }}
                                         </td>
                                         <td class="flex items-center gap-2 py-4 px-6">
                                             <button @click="btnAction(data.id, 'update')" class="flex items-center gap-1 px-4 py-2 bg-biru font-myFont text-sm text-white rounded-lg hover:bg-opacity-75 hover:shadow-lg">

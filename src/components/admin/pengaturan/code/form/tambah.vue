@@ -27,6 +27,20 @@
                 </label>
                 <input v-model="diskon" id="diskon" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 50">
             </div>
+            
+            <div class="mb-4">
+                <label for="quantity_hit" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Jumlah Pemakaian
+                </label>
+                <input v-model="quantity_hit" id="quantity_hit" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 10">
+            </div>
+            
+            <div class="mb-4">
+                <label for="expired" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Tanggal Kadaluarsa
+                </label>
+                <input v-model="expired" id="expired" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="datetime-local">
+            </div>
         </div>
 
         <div v-else-if="method == 'update'" class="w-full p-4 flex flex-col gap-2">
@@ -79,6 +93,20 @@
                 </label>
                 <input v-model="diskon" id="diskon" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 50">
             </div>
+            
+            <div class="mb-4">
+                <label for="quantity_hit" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Jumlah Pemakaian
+                </label>
+                <input v-model="quantity_hit" id="quantity_hit" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 10">
+            </div>
+            
+            <div class="mb-4">
+                <label for="expired" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Tanggal Kadaluarsa
+                </label>
+                <input v-model="expired" id="expired" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="datetime-local">
+            </div>
         </div>
 
         <div v-else-if="method == 'update'" class="w-full p-4 flex flex-col gap-2">
@@ -117,11 +145,14 @@ import Cookies from 'js-cookie'
 export default {
     props: ['method', 'detailData'],
     setup(props, { emit }){
-        // console.log(props.detailData)
-        // console.log(props.method)
+        console.log(props.detailData)
+        console.log(props.method)
         const nama = ref('')
         const code = ref('')
         const diskon = ref(props.method == 'update' ? props.detailData.disc_percentage : '')
+        const quantity_hit = ref('')
+        const expired = ref('')
+
 
         const router = useRouter()
 
@@ -137,16 +168,19 @@ export default {
                 data.append('name', DOMPurify.sanitize(nama.value))
                 data.append('code', DOMPurify.sanitize(code.value))
                 data.append('disc_percentage', DOMPurify.sanitize(diskon.value))
+                data.append('quantity_hit', DOMPurify.sanitize(quantity_hit.value)) // Tambahkan ini
+                data.append('expired', DOMPurify.sanitize(expired.value)) // Tambahkan ini
             } else if(props.method == 'update') {
                 data.append('disc_percentage', DOMPurify.sanitize(diskon.value))
             }
+
 
             if(token){
                 try {
                     const method = props.method == 'update' ? 'put' : 'post'
                     const endpoint = props.method == 'update' ? `school_codes/${props.detailData.id}` : 'school_codes'
                     const response = await initAPI(method, endpoint, data, token)
-                    // console.log(`register konsultan`, response.data)
+                    console.log(`register konsultan`, response.data)
                     Swal.fire({
                         icon: 'success',
                         title: props.method == 'registrasi' ? 'Registrasi Berhasil' : 'Data Code Diubah',
@@ -171,13 +205,12 @@ export default {
                 router.push('/login')
                 localStorage.clear()
             }
-
         }
 
         const buttonDisabled = computed(() => {
-            if(method.props == 'registrasi' && (!nama.value || !code.value || !diskon.value)){
+            if(method.props == 'registrasi' && (!nama.value || !code.value || !diskon.value || !quantity_hit.value || !expired.value)){
                 return true
-            } else if(method.props == 'update' && !diskon.value) {
+            } else if(method.props == 'update' && !diskon.value && !quantity_hit.value && !expired.value) {
                 return true
             } else {
                 return false
@@ -189,6 +222,8 @@ export default {
             nama,
             code,
             diskon,
+            quantity_hit,
+            expired,
             buttonDisabled,
             toggleModal,
             tambahKode

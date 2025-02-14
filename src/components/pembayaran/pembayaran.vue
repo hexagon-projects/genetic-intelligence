@@ -243,11 +243,11 @@ export default {
 
 
             } catch (error) {
-                // console.log(`error bayar ie`,error)
+                // console.log(`error bayar ie`,error.response.data.error)
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Terjadi kesalahan saat melakukan pembayaran.',
+                    text: error.response.data.error,
                     showConfirmButton: false,
                     timer: 2500
                 });
