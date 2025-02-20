@@ -50,6 +50,18 @@
                 </label>
                 <input v-model="diskon" id="diskon" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 50">
             </div>
+            <div class="mb-4">
+                <label for="tambahHitVocher" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Tambah Hit Vocher
+                </label>
+                <input v-model="tambahHitVocher" id="tambahHitVocher" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 5">
+            </div>
+            <div class="mb-4">
+                <label for="masaKadaluarsa" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Masa Kadaluarsa
+                </label>
+                <input v-model="masaKadaluarsa" id="masaKadaluarsa" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="datetime-local">
+            </div>
         </div>
 
         <hr class="pt-4">
@@ -116,6 +128,18 @@
                 </label>
                 <input v-model="diskon" id="diskon" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 50">
             </div>
+            <div class="mb-4">
+                <label for="tambahHitVocher" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Tambah Hit Vocher
+                </label>
+                <input v-model="tambahHitVocher" id="tambahHitVocher" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Contoh: 5">
+            </div>
+            <div class="mb-4">
+                <label for="masaKadaluarsa" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                    Masa Kadaluarsa
+                </label>
+                <input v-model="masaKadaluarsa" id="masaKadaluarsa" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="datetime-local">
+            </div>
         </div>
 
         <hr class="pt-4">
@@ -150,6 +174,8 @@ export default {
         const nama = ref('')
         const code = ref('')
         const diskon = ref(props.method == 'update' ? props.detailData.disc_percentage : '')
+        const masaKadaluarsa = ref(props.method == 'update' ? props.detailData.expired : '')
+        const tambahHitVocher = ref('')
         const quantity_hit = ref('')
         const expired = ref('')
 
@@ -172,6 +198,8 @@ export default {
                 data.append('expired', DOMPurify.sanitize(expired.value)) // Tambahkan ini
             } else if(props.method == 'update') {
                 data.append('disc_percentage', DOMPurify.sanitize(diskon.value))
+                data.append('tambahHitVocher', DOMPurify.sanitize(tambahHitVocher.value))
+                data.append('expired', DOMPurify.sanitize(masaKadaluarsa.value))
             }
 
 
@@ -208,7 +236,7 @@ export default {
         }
 
         const buttonDisabled = computed(() => {
-            if(method.props == 'registrasi' && (!nama.value || !code.value || !diskon.value || !quantity_hit.value || !expired.value)){
+            if(method.props == 'registrasi' && (!nama.value || !code.value || !diskon.value || !quantity_hit.value || !expired.value || !tambahHitVocher.value || !masaKadaluarsa.value)){
                 return true
             } else if(method.props == 'update' && !diskon.value && !quantity_hit.value && !expired.value) {
                 return true
@@ -224,6 +252,8 @@ export default {
             diskon,
             quantity_hit,
             expired,
+            masaKadaluarsa,
+            tambahHitVocher,
             buttonDisabled,
             toggleModal,
             tambahKode

@@ -1,0 +1,88 @@
+<template>
+  <div>Logging in...</div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import Cookies from 'js-cookie';
+import initAPI from '../../../api/api';
+import { useStore } from 'vuex';
+
+const router = useRouter();
+const route = useRoute();
+const store = useStore(); // Pastikan store diakses dengan benar
+
+// Inisialisasi ref untuk menyimpan data user
+const userData = ref({
+  id: null,
+  email: '',
+  role: '',
+  token: ''
+});
+
+const handleCallback = async () => {
+  try {
+    const response = await initAPI('post', 'auth/google/login', userData.value, null);
+
+    if (!response.data || !response.data.user) {
+      throw new Error('User data not found in response');
+    }
+
+    const role = response.data.user.role;
+    let type = response.data.customer || response.data.consultant || response.data;
+
+    // Simpan data user
+    localStorage.setItem('userData', JSON.stringify(type));
+    Cookies.set('token', response.data.token, { expires: 1 });
+
+    // Simpan ke Vuex store
+    store.commit('user', type);
+    store.commit('userRole', role);
+    store.commit('userEmail', response.data.user.email);
+
+    // Redirect berdasarkan role
+    switch (role) {
+      case 'customer':
+        router.push({ name: 'views.dashboard' });
+        break;
+      case 'consultant':
+        router.push({ name: 'consultant.views.dashboard' });
+        break;
+      case 'admin':
+        router.push({ name: 'admin.views.dashboard' });
+        break;
+      case 'staff':
+        router.push({ name: 'staff.views.dashboard' });
+        break;
+      default:
+        console.error("Role tidak dikenal:", role);
+        router.push({ name: 'views.login' });
+        break;
+    }
+  } catch (error) {
+    console.error("Gagal mengambil data user:", error);
+    router.push({ name: 'views.login' });
+  }
+};
+
+// Jalankan fungsi saat komponen dimuat
+onMounted(() => {
+  // Ambil data dari query parameter
+  userData.value = {
+    id: route.query.id || null,
+    email: route.query.email || '',
+    role: route.query.role || '',
+    token: route.query.token || ''
+  };
+
+  // Pastikan token ada sebelum memanggil API
+  if (!userData.value.token) {
+    console.error("Token tidak ditemukan!");
+    router.push({ name: 'views.login' });
+    return;
+  }
+
+  handleCallback();
+});
+</script>

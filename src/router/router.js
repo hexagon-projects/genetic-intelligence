@@ -33,6 +33,11 @@ const routes = [
             else next()
         }
     },
+    { 
+        path: "/auth/google/callback",
+        name: 'callback',
+        component: import('../components/auth/register/CallbackGoogle.vue')
+    },
     {
         path: '/register',
         name: 'views.register',
