@@ -1,5 +1,7 @@
 <template>
-  <div>Logging in...</div>
+  <div class="preloader-overlay">
+    <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+  </div>
 </template>
 
 <script setup>
@@ -86,3 +88,33 @@ onMounted(() => {
   handleCallback();
 });
 </script>
+
+<style scoped>
+.preloader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 100%;
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, height 0.5s ease;
+}
+.preloader-overlay.hidden {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+}
+</style>
