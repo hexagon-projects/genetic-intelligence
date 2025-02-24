@@ -68,9 +68,10 @@ const handleCallback = async () => {
   }
 };
 
-// Jalankan fungsi saat komponen dimuat
 onMounted(() => {
-  // Ambil data dari query parameter
+  console.log("Full URL:", window.location.href);
+  console.log("Route Query:", route.query);
+
   userData.value = {
     id: route.query.id || null,
     email: route.query.email || '',
@@ -78,7 +79,6 @@ onMounted(() => {
     token: route.query.token || ''
   };
 
-  // Pastikan token ada sebelum memanggil API
   if (!userData.value.token) {
     console.error("Token tidak ditemukan!");
     router.push({ name: 'views.login' });

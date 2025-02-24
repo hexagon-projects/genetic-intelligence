@@ -4,38 +4,49 @@
     </div>
 
     <div v-else>
-        <section class="bg-white w-full h-[100vh] flex justify-center items-center">
+        <section class="bg-white w-full h-[100vh] flex items-center justify-center">
             <div
-                class="w-full flex flex-col lg:flex-row justify-start lg:justify-between my-[145px] mx-[30px] md:mx-[80px] lg:mx-[120px]">
-                <!-- Medium Screen Logo -->
-                <img class="hidden md:block lg:hidden z-20 mx-auto w-[35%] mb-[70px]" src="@/assets/img/logo-new.png"
-                    alt="logo">
+                class="w-full mx-5 flex flex-col lg:flex-row justify-start lg:justify-between md:mx-[80px] lg:mx-[120px]">
+                <div class="w-full lg:w-[50vw] h-screen lg:px-[39px] flex items-center justify-center">
+                    <div class="w-full lg:w-[65%] flex flex-col gap-[10px]">
+                        <h1 class="text-[#170f49] text-2xl font-bold text-center font-sora mb-3">LOGIN</h1>
+                        <!-- Login Google -->
+                        <div class="flex flex-col gap-[20px]">
+                            <button v-if="isLoadingGoogle" disabled @click="LoginGoogle"
+                                class="flex items-center justify-center transition-all hover:scale-105 rounded-[46px] px-4 py-2 bg-[#4a3aff] text-white border border-[#4a3aff] font-sora font-medium">
+                                <svg aria-hidden="true" role="status"
+                                    class="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="#E5E7EB"></path>
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentColor"></path>
+                                </svg>
+                                <span class="ml-2">Menghubungkan ke google ...</span>
+                            </button>
+                            <button v-if="!isLoadingGoogle" @click="LoginGoogle"
+                                class="flex items-center justify-center transition-all hover:scale-105 rounded-[46px] px-3 py-2 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
+                                <img src="@/assets/icons/google.png" alt="google">
+                                <span class="ml-2">Login dengan <b>google</b></span>
+                            </button>
+                        </div>
 
-                <div class="hidden w-[60%] lg:flex flex-col relative">
-                    <img class="z-20 w-[20%] mb-[70px]" src="@/assets/img/logo-new.png" alt="logo">
+                        <!-- sparate -->
+                        <div class="flex justify-between items-center my-[24px]">
+                            <div class="border border-neutral-200 w-full"></div>
+                            <span class="mx-8 text-[#6e6b8f] text-base font-normal font-roboto">Atau</span>
+                            <div class="border border-neutral-200 w-full"></div>
+                        </div>
 
-                    <div class="z-20 flex flex-col">
-                        <span class="font-roboto text-[#3030f8] font-medium text-2xl">#TemukanJatidirimu</span>
-                        <span class="font-roboto text-[#3030f8] font-medium text-5xl">Bersama</span>
-                        <span class="font-roboto text-[#3030f8] font-medium text-5xl">Jatidiri</span>
-
-                    </div>
-
-                    <img class="z-10 absolute -left-32 top-10 blur-2xl opacity-15" src="@/assets/img/login/Blob.svg"
-                        alt="blob">
-                </div>
-
-                <img class="z-[5] absolute right-14 bottom-0 blur-2xl opacity-20" src="@/assets/img/login/Blob.svg"
-                    alt="blob">
-                <div
-                    class="drop-shadow z-20 relative w-full lg:w-[40%] h-auto bg-white rounded-3xl py-[37px] px-[39px] flex flex-col gap-[10px]">
-                    <div class="w-full flex flex-col gap-[31px]">
+                        <!-- form -->
                         <div class="flex flex-col gap-[10px]">
                             <label for="email" class="text-[#170f49] text-lg font-medium font-roboto">Email
                                 Address</label>
                             <input v-model="email" @keyup="handleFormEmail" @keydown.enter.prevent="Login" id="email"
                                 type="text"
-                                class="text-[#170f49] px-5 py-[12px] rounded-[46px] shadow border border-[#eff0f6]"
+                                class="text-[#170f49] px-5 py-[10px] rounded-[46px] shadow border border-[#eff0f6]"
                                 placeholder="Email Address">
                             <a v-if="emailValidation && email.length < 1" class="text-xs text-red-500">Email tidak boleh
                                 kosong.</a>
@@ -46,7 +57,7 @@
                                 class="text-[#170f49] text-lg font-medium font-roboto">Password</label>
                             <input v-model="password" @keyup="handleFormPassword" @keydown.enter.prevent="Login"
                                 id="password" type="password"
-                                class="text-[#170f49] px-5 py-[12px] rounded-[46px] shadow border border-[#eff0f6]"
+                                class="text-[#170f49] px-5 py-[10px] rounded-[46px] shadow border border-[#eff0f6]"
                                 placeholder="Password">
                             <a v-if="passwordValidation && password.length < 1" class="text-xs text-red-500">Password
                                 tidak boleh kosong.</a>
@@ -54,7 +65,7 @@
 
                         <div class="flex flex-col gap-[20px]">
                             <button v-if="isLoading" disabled="" type="button"
-                                class="shadow-xl rounded-[46px] px-4 py-3 bg-[#4a3aff] text-white font-sora font-medium inline-flex justify-center items-center">
+                                class="shadow-xl rounded-[46px] px-4 py-2 bg-[#4a3aff] text-white font-sora font-medium inline-flex justify-center items-center">
                                 <svg aria-hidden="true" role="status"
                                     class="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,61 +79,45 @@
                                 Loading...
                             </button>
 
-                            <button v-if="!isLoading" @click="Login"
-                                class="transition-all hover:scale-105 shadow-xl rounded-[46px] px-4 py-3 bg-[#4a3aff] text-white font-sora font-medium">
-                                Login
-                            </button>
-
                             <RouterLink :to="{ name: 'views.forgot_password' }"
                                 class="mx-auto text-[#6e6b8f] text-base font-normal font-roboto">
                                 Lupa Password?
                             </RouterLink>
+
+                            <button v-if="!isLoading" @click="Login"
+                                class="transition-all hover:scale-105 shadow-xl rounded-[46px] px-4 py-2 bg-[#4a3aff] text-white font-sora font-medium">
+                                Login
+                            </button>
                         </div>
+
+                        <!-- belum punya akun -->
+                        <div class="flex flex-col gap-[20px] pt-5">
+                            <span class="mx-auto text-[#6e6b8f] text-base font-normal font-roboto">
+                                Belum punya akun?
+                            </span>
+
+                            <RouterLink :to="{ name: 'views.register' }"
+                                class="text-center transition-all hover:scale-105 rounded-[46px] px-4 py-2 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
+                                Daftar
+                            </RouterLink>
+                        </div>
+
                     </div>
+                </div>
 
-                    <div class="flex justify-between items-center my-[24px]">
-                        <div class="border border-neutral-200 w-full"></div>
-                        <span class="mx-8 text-[#6e6b8f] text-base font-normal font-roboto">Dengan</span>
-                        <div class="border border-neutral-200 w-full"></div>
-                    </div>
-
-                    <div class="flex flex-col gap-[20px]">
-                        <button v-if="isLoadingGoogle" disabled @click="LoginGoogle"
-                            class="flex items-center justify-center transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-[#4a3aff] text-white border border-[#4a3aff] font-sora font-medium">
-                            <svg aria-hidden="true" role="status"
-                                    class="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101"
-                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                        fill="#E5E7EB"></path>
-                                    <path
-                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                        fill="currentColor"></path>
-                                </svg>
-                            <span class="ml-2">Menghubungkan ke google ...</span>
-                        </button>
-                        <button v-if="!isLoadingGoogle" @click="LoginGoogle"
-                            class="flex items-center justify-center transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
-                            <img src="@/assets/icons/google.png" alt="google">
-                            <span class="ml-2">Login dengan google</span>
-                        </button>
-                    </div>
-
-                    <div class="flex justify-between items-center my-[24px]">
-                        <div class="border border-neutral-200 w-full"></div>
-                        <span class="mx-8 text-[#6e6b8f] text-base font-normal font-roboto">Atau</span>
-                        <div class="border border-neutral-200 w-full"></div>
-                    </div>
-
-                    <div class="flex flex-col gap-[20px]">
-                        <span class="mx-auto text-[#6e6b8f] text-base font-normal font-roboto">
-                            Belum punya akun?
-                        </span>
-
-                        <RouterLink :to="{ name: 'views.register' }"
-                            class="text-center transition-all hover:scale-105 rounded-[46px] px-4 py-3 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
-                            Daftar
-                        </RouterLink>
+                <!-- banner for dekstop -->
+                <div class="w-full h-screen items-center  justify-center hidden lg:w-[50vw] px-[39px] lg:flex flex-col gap-[10px] bg-login">
+                    <img src="@/assets/img/login/Jatidiri-white.png" alt="Jatidiri" class="mb-4">
+                    <div class="border border-[#fff] w-[360px] rounded-[20px] bg-opacity-20 bg-[#fff] relative">
+                        <div class="z-20 flex flex-col pt-5 px-5">
+                            <span class="font-roboto text-[#fff] font-medium text-2xl">#TemukanJatidirimu</span>
+                            <span class="font-roboto text-[#fff] font-medium text-5xl">Bersama</span>
+                            <span class="font-roboto text-[#fff] font-medium text-5xl">Jatidiri</span>
+                        </div>
+                        <img src="@/assets/img/login/dokter.png" alt="dokter" class="w-[80%] float-right z-20 mt-[-30px]">
+                        <div class="rounded-full bg-[#fff] bg-opacity-90 p-5 h-20 w-20 flex items-center justify-center border border-[#fff] z-999 absolute -left-10 top-52">
+                            <img src="@/assets/img/logo-singel.png" alt="logo-jatidiri">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,6 +275,13 @@ const LoginGoogle = async () => {
 </script>
 
 <style scoped>
+.bg-login {
+    background-image: url("../../../../assets/img/login/bg-login.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .drop-shadow {
     filter: drop-shadow(2px 3px 10px #e9e9e9);
 }

@@ -36,7 +36,7 @@ const routes = [
     { 
         path: "/auth/google/callback",
         name: 'callback',
-        component: import('../components/auth/register/CallbackGoogle.vue')
+        component: () => import('../components/auth/register/CallbackGoogle.vue')
     },
     {
         path: '/register',
