@@ -416,9 +416,87 @@ export default [
         }
     },
     {
+        path:'/test-kebahagiaan',
+        name:'user.views.test_kebahagiaan',
+        component: () => import('@/views/REMAKE/Customer/Test/TIK/TestKebahagiaan.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_tik == 'Tidak') {
+                next('/pembayaran/test-tik')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/soal-kebahagiaan',
+        name:'user.views.test_kebahagiaan_soal',
+        component: () => import('@/views/REMAKE/Customer/Test/TIK/SoalKebahagiaan.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_tik == 'Tidak') {
+                next('/pembayaran/test-tik')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/hasil-gadget',
         name: 'user.views.hasil_gadget',
         component: () => import('@/views/REMAKE/Customer/Test/Gadget/HasilGadget.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hasil-bahagia',
+        name: 'user.views.hasil_bahagia',
+        component: () => import('@/views/REMAKE/Customer/Test/TIK/HasilBahagia.vue'),
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))

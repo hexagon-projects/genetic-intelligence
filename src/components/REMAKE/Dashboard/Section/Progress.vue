@@ -119,11 +119,11 @@
                     Tes untuk mengukur tingkat ketergantungan kamu pada internet, serta memberikan saran untuk memperbaiki kebiasaan online.
                 </h1>
 
-                <h3 v-if="props.userData.customer.customers_iq !== null" class="h-11 font-roboto font-medium text-white text-base">
+                <h3 v-if="props.userData.customer.customers_iaa !== null" class="h-11 font-roboto font-medium text-white text-base">
                     Status : Selesai
                 </h3>
 
-                <RouterLink :to="{name: 'user.views.test_gadget'}" v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <RouterLink :to="{name: 'user.views.test_gadget'}" v-if="props.userData.customer.customers_iaa == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">
@@ -148,11 +148,41 @@
                     Tes yang dirancang untuk mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai panduan karier.
                 </h1>
 
+                <h3 v-if="props.userData.customer.customers_rmib !== null" class="h-11 font-roboto font-medium text-white text-base">
+                    Status : Selesai
+                </h3>
+
+                <RouterLink :to="{name: 'user.views.rmib'}" v-if="props.userData.customer.customers_rmib == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+            </div>
+        </div>
+        
+        <!-- test index kebahagian -->
+        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
+            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/tik_Overlay.svg" alt="tik">
+            <div class="flex flex-col items-start gap-[16px]">
+                <div class="flex items-center gap-[16px]">
+                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
+                        <span class="font-roboto font-medium text-base lg:text-2xl">06</span>
+                    </div>
+                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI BAHAGIAN</h1>
+                </div>
+
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
+                    Tes ini dirancang untuk mengukur tingkat kebahagiaan individu berbagai berdasarkan berbagai aspek kehidupan dan keseimbangan hidup
+                </h1>
+
                 <h3 v-if="props.userData.customer.customers_iq !== null" class="h-11 font-roboto font-medium text-white text-base">
                     Status : Selesai
                 </h3>
 
-                <RouterLink :to="{name: 'user.views.rmib'}" v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                <RouterLink :to="{name: 'user.views.test_kebahagiaan'}" v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
                     <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
                     <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                         <div class="w-3 h-3 relative">

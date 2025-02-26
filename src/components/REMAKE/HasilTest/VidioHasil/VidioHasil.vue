@@ -3,7 +3,7 @@
           <div class="flex items-center justify-center">
             <div class="mx-5 lg:mx-[60px] grid grid-cols-1 gap-1 w-full md:w-3/4">
               <div class="w-full">
-                <h1 class="text-3xl font-sora font-bold">Berikut Vidio Penjelasan Mengenai Hasil Jatidiri Kendali Kamu</h1>
+                <h1 class="text-3xl font-sora font-bold">Berikut Vidio Penjelasan Mengenai Hasil Test Kamu</h1>
               </div>
               <div class=" pt-7 pb-3 w-full">
                 <p class="text-red-700 flex flex-nowrap">
