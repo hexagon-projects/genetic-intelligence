@@ -130,7 +130,7 @@ const testDatas = ref([
     // {name: 'Test CPM', route: 'user.views.cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
     {name: 'Test Jatidiri Kendali', route: 'user.views.test_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
     {name: 'Test Jatidiri Bakat', route: 'user.views.deteksi', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
-    {name: 'Test Jatidiri Bahagia', route: 'user.views.test_kebahagiaan', img:  new URL('@/assets/icons/tes-tik.svg', import.meta.url).href},
+    // {name: 'Test Jatidiri Bahagia', route: 'user.views.test_kebahagiaan', img:  new URL('@/assets/icons/tes-tik.svg', import.meta.url).href},
 ])
 
 const hasilDatas = ref([
@@ -140,7 +140,7 @@ const hasilDatas = ref([
     // {name: 'Hasil Test CPM', route: 'user.views.hasil_cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
     {name: 'Hasil Test Jatidiri Kendali', route: 'user.views.hasil_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
     {name: 'Hasil Test Jatidiri Bakat', route: 'user.views.deteksi', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
-    {name: 'Hasil Test Jatidiri Bahagia', route: 'user.views.hasil_bahagia', img:  new URL('@/assets/icons/tes-tik.svg', import.meta.url).href},
+    // {name: 'Hasil Test Jatidiri Bahagia', route: 'user.views.hasil_bahagia', img:  new URL('@/assets/icons/tes-tik.svg', import.meta.url).href},
 ])
 
 const lainyaDatas = ref([

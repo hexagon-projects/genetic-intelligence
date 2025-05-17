@@ -1,4 +1,5 @@
 <template>
+  <InstallPrompt />
   <!-- <div v-if="currentRouteName !== 'views.login' 
   && currentRouteName !== 'views.register'
   && currentRouteName !== 'user.views.payment_status'
@@ -22,10 +23,12 @@
   ">
     <footerComp/>
   </div> -->
+
 </template>
 
 <script>
 import navbar from './components/REMAKE/Navbar/Navbar.vue'
+import InstallPrompt from './components/REMAKE/InstallPrompt.vue'
 // import navbar from './components/navbar/newNavbar.vue'
 import footerComp from './components/REMAKE/Footer/NewFooter.vue';
 // import footerComp from './components/footer/footer.vue';
@@ -34,10 +37,11 @@ import { useRoute } from 'vue-router';
 
 export default {
   name: 'App',
-  components: {navbar, footerComp},
+  components: {navbar, footerComp, InstallPrompt},
   setup() {
     const showNavbar = ref(true);
     const showFooter = ref(true);
+    const showInstallPrompt = ref(true)
     const router = useRoute()
 
     const currentRouteName = computed(() => router.name)
@@ -50,6 +54,7 @@ export default {
     return {
       showNavbar,
       showFooter,
+      showInstallPrompt,
       currentRouteName
     };
   },
