@@ -38,6 +38,16 @@ const routes = [
         name: 'callback',
         component: () => import('../components/auth/register/CallbackGoogle.vue')
     },
+    { 
+        path: "/auth/kunci/callback",
+        name: 'kunci',
+        component: () => import('../components/auth/register/KunciCek.vue')
+    },
+    { 
+        path: "/auth/kunci/login",
+        name: 'kunci.login',
+        component: () => import('../components/auth/register/CallbackKunci.vue')
+    },
     {
         path: '/register',
         name: 'views.register',
@@ -283,7 +293,7 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
 })
 
 // router.beforeEach((to, from, next) => {

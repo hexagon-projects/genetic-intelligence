@@ -202,11 +202,13 @@ export default {
                     localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
     
                     if(url.includes('ref=')){
-                        fixedUrl = 'https://sandbox.duitku.com/TopUp/v2/TopUpVAPage.aspx?ref='
+                        fixedUrl = 'https://sandbox.duitku.com/topup/topupdirectv2.aspx?ref='
+                        // fixedUrl = 'https://passport.duitku.com/topup/topupdirectv2.aspx?ref='
                         refValue = url.split('ref=')[1]
                     }else if(url.includes('reference=')){
                         // console.log('reference', url)
                         fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        // fixedUrl = 'https://passport.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
                         refValue = url.split('reference=')[1]
                     }
 

@@ -50,14 +50,14 @@
                     <div id="soal" v-if="dataPertanyaan" class="mx-[30px] md:mx-[60px] w-full h-auto p-9 bg-white rounded-3xl shadow flex flex-col gap-9">
                         <span class="self-stretch text-center text-black text-xl md:text-3xl font-semibold font-['Sora'] leading-9">Pertanyaan</span>
                         <div v-if="!loadingSubmit">
-                            <div v-for="(q, qIndex) in dataPertanyaan.data" class="mb-4 flex flex-nowrap justify-between items-center">
+                            <div v-for="(q, qIndex) in dataPertanyaan.data" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <!-- Tampilkan nomor urut pertanyaan -->
-                                <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal mb-2">
+                                <label class="block text-black text-sm md:text-base font-normal font-['Roboto'] leading-normal">
                                     {{ qIndex + 1 }}. {{ q.question }}
                                 </label>
                     
                                 <!-- Daftar jawaban untuk setiap pertanyaan -->
-                                <div class="flex flex-col mx-2">
+                                <div class="flex flex-col mx-2 mb-5">
                                     <!-- Tombol pilihan jawaban -->
                                     <div class="mt-2 flex items-center justify-center gap-4">
                                         <button @click="pilihJawaban(answer.value, qIndex)" 

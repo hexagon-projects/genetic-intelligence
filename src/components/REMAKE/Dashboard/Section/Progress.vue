@@ -163,8 +163,8 @@
             </div>
         </div>
         
-        <!-- test index kebahagian
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
+        <!-- test index kebahagian -->
+        <!-- <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
             <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/tik_Overlay.svg" alt="tik">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">

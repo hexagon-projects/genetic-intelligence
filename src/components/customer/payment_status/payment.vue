@@ -106,14 +106,14 @@ export default {
             if(merchantId){
                 const token = Cookies.get('token')
                 // const check = await initAPI('get', 'payment/check?merchant_order_id=65a4bfcf730a7', null, null)
-                const check = await initAPI('get', 'v2/payment/check?merchant_order_id='+merchantId, null, token)
+                const check = await initAPI('get', 'v2/payment/check?merchant_order_id=' + merchantId, null, token)
                 // console.log(`check status pembayaran`,check.data)
                 if(check.data.is_success == true){
                     isSuccess.value = check.data.is_success
-                    // console.log(`wakwaw`, isSuccess.value)
+                    console.log(`isSuccess = `, isSuccess.value)
                 } else if (check.data.is_success == false){
                     isSuccess.value = check.data.is_success
-                    // console.log(`wakwaw`, isSuccess.value)
+                    console.log(`isSuccess = `, isSuccess.value)
                     dataCheckUlang.value = check.data
                     // localStorage.setItem('formValue', JSON.stringify(check.data.data_user))
                 }

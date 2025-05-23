@@ -9,7 +9,7 @@
                 class="w-full mx-5 flex flex-col lg:flex-row justify-start lg:justify-between md:mx-[80px] lg:mx-[120px]">
                 <div class="w-full lg:w-[50vw] h-screen lg:px-[39px] flex items-center justify-center">
                     <div class="w-full lg:w-[65%] flex flex-col gap-[10px]">
-                        <h1 class="text-[#170f49] text-2xl font-bold text-center font-sora mb-3">LOGIN</h1>
+                        <h1 class="text-[#170f49] text-2xl font-bold text-center font-sora mb-3">LOGIN DENGAN</h1>
                         <!-- Login Google -->
                         <div class="flex flex-col gap-[20px]">
                             <button v-if="isLoadingGoogle" disabled @click="LoginGoogle"
@@ -24,12 +24,12 @@
                                         d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
                                         fill="currentColor"></path>
                                 </svg>
-                                <span class="ml-2">Menghubungkan ke google ...</span>
+                                <span class="ml-2">Menghubungkan ...</span>
                             </button>
                             <button v-if="!isLoadingGoogle" @click="LoginGoogle"
                                 class="flex items-center justify-center transition-all hover:scale-105 rounded-[46px] px-3 py-2 bg-white border border-[#4a3aff] text-[#4a3aff] font-sora font-medium">
                                 <img src="@/assets/icons/google.png" alt="google">
-                                <span class="ml-2">Login dengan <b>google</b></span>
+                                <span class="ml-2"><b>google</b></span>
                             </button>
                         </div>
 
