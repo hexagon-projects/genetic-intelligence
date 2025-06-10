@@ -115,10 +115,6 @@
                 </div>
             </div>
         </section>
-
-        <section class="bg-white py-[46px]">
-            <ReservasiFooter/>
-        </section>
     </Layout>
 </template>
 

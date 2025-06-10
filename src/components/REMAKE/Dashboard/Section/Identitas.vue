@@ -32,7 +32,7 @@
   
                 <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="bg-white w-[154px] rounded-3xl p-2 flex justify-center items-center">
                   <a class="text-[#3030f8] text-base font-normal font-roboto flex items-center gap-[12px]">
-                    {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Test Jatidiri Sejati' }}
+                    {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Jatidiri Sejati' }}
                     <div class="w-[32px] h-[32px] flex items-center justify-center bg-[#3030f8] rounded-[50%]">
                       <img src="@/assets/icons/arrow-go.svg" alt="go">
                     </div>

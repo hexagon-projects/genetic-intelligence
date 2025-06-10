@@ -133,6 +133,8 @@ export default {
                     ? 'test/payment?type=iaa'
                     : tipeParam.value == 'test-tik'
                     ? 'test/payment?type=tik'
+                    : tipeParam.value == 'test-jatidiri'
+                    ? 'test/payment?type=jatidiri'
                     : tipeParam.value == 'test-rmib'
                     ? 'test/payment?type=rmib'
                     : 'test/payment?type=assessment'
@@ -181,6 +183,8 @@ export default {
             ? 'v2/payment/test/iaa'
             : tipeParam.value == 'test-tik'
             ? 'v2/payment/test/tik'
+            : tipeParam.value == 'test-jatidiri'
+            ? 'v2/payment/test/jatidiri'
             : tipeParam.value == 'test-rmib'
             ? 'v2/payment/test/rmib'
             : 'v2/payment/test/assessment'
@@ -202,13 +206,13 @@ export default {
                     localStorage.setItem('merchantId', JSON.stringify(response.data.payment_data.merchant_order_id))
     
                     if(url.includes('ref=')){
-                        fixedUrl = 'https://sandbox.duitku.com/topup/topupdirectv2.aspx?ref='
-                        // fixedUrl = 'https://passport.duitku.com/topup/topupdirectv2.aspx?ref='
+                        // fixedUrl = 'https://sandbox.duitku.com/topup/topupdirectv2.aspx?ref='
+                        fixedUrl = 'https://passport.duitku.com/topup/topupdirectv2.aspx?ref='
                         refValue = url.split('ref=')[1]
                     }else if(url.includes('reference=')){
                         // console.log('reference', url)
-                        fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
-                        // fixedUrl = 'https://passport.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        // fixedUrl = 'https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+                        fixedUrl = 'https://passport.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
                         refValue = url.split('reference=')[1]
                     }
 

@@ -89,13 +89,13 @@
                     <span class="font-roboto">Tes Jatidiri Kendali</span>
                 </div>
             </li>
-            <!-- <li @click="goTo('user.views.test_kebahagiaan')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+            <li @click="goTo('user.views.test_kebahagiaan')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
                     src="@/assets/icons/tik_Overlay.svg"/>
                     <span class="font-roboto">Tes Jatidiri Bahagia</span>
                 </div>
-            </li> -->
+            </li>
             <!-- <li class="group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
@@ -172,13 +172,13 @@
                     <span class="font-roboto">Tes Jatidiri Kendali</span>
                 </div>
             </li>
-            <!-- <li @click="goTo('user.views.hasil_bahagia')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+            <li @click="goTo('user.views.hasil_bahagia')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
                     src="@/assets/icons/tik_Overlay.svg"/>
                     <span class="font-roboto">Tes Jatidiri Bahagia</span>
                 </div>
-            </li> -->
+            </li>
             <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'SD' || cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.hasil_cpm')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 

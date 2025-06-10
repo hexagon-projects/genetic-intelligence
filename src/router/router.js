@@ -44,7 +44,7 @@ const routes = [
         component: () => import('../components/auth/register/KunciCek.vue')
     },
     { 
-        path: "/auth/kunci/login",
+        path: "/api/auth/kunci/callback",
         name: 'kunci.login',
         component: () => import('../components/auth/register/CallbackKunci.vue')
     },
@@ -248,7 +248,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment', 'test-iaa', 'test-tik', 'test-rmib', 'starter-pack']
+            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment', 'test-iaa', 'test-tik', 'test-rmib', 'test-jatidiri', 'starter-pack']
             const tipePembayaran = to.params.tipePembayaran;
 
             if (allowedPayments.includes(tipePembayaran)) {

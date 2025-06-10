@@ -45,7 +45,7 @@
                             <video id="example-video" ref="videoPlayer"
                                 class="video-js vjs-big-play-centered vjs-theme-sea w-full h-full" controls preload="auto"
                                 fluid="true" data-setup='{}'>
-                                <source src="https://api.jatidiri.app/api/vidio/chunks/INTRUKSI/index.m3u8"
+                                <source src="https://api.jatidiri.app/api/vidio/bahagia/INSTRUKSI/index.m3u8"
                                     type="application/x-mpegURL">
                             </video>
                         </div>

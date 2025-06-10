@@ -133,9 +133,13 @@ import DOMPurify from 'dompurify'
 import initApi from '@/api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import { generatePKCE } from '@/utils/pkce';
 
 import { useRoute } from 'vue-router';
+
+import sha256 from 'crypto-js/sha256'
+import Base64 from 'crypto-js/enc-base64url'
 
 const route = useRoute();
 const target = route.query.target;
@@ -148,6 +152,7 @@ const emailValidation = ref(false);
 const passwordValidation = ref(false);
 const isLoading = ref(false)
 const isLoadingGoogle = ref(false)
+const isLoadingKunci = ref(false)
 const loadingResource = ref(true)
 
 onMounted(() => {
@@ -272,6 +277,25 @@ const LoginGoogle = async () => {
         }
     }
 };
+
+const LoginKunci = async () => {
+  const verifier = 'kunci' // Bisa diganti random string generator
+  const challenge = Base64.stringify(sha256(verifier))
+
+  localStorage.setItem('code_verifier', verifier)
+
+  const params = new URLSearchParams({
+    client_id: '4lgU2jueVphrDvFsQSIMEtP8kUut8CVM',
+    code_challenge: challenge,
+    code_challenge_method: 'S256',
+    redirect_uri: 'https://staging.jatidiri.app/api/auth/kunci/callback',
+    response_type: 'code',
+  })
+
+  // Redirect ke authorize endpoint
+  window.location.href = `https://be.kunci.co.id/sso/authorize?${params.toString()}`
+};
+
 </script>
 
 <style scoped>
