@@ -57,6 +57,7 @@ const initAPI = async (method, endpoint, data, token) => {
   // const baseUrl = 'http://127.0.0.1:8000/api/'
   const baseUrl = 'https://api.jatidiri.app/api/'
   // const baseUrl = 'https://api-staging.jatidiri.app/api/'
+  // const baseUrl = 'https://staging.jatidiri.app/api/'
   let check = endpoint.includes('upload-test') || endpoint.includes('customers/') || endpoint.includes('consultants/')
   // console.log(check)
   const config = {

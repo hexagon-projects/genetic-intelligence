@@ -165,7 +165,7 @@
         
         <!-- test index kebahagian -->
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/tik_Overlay.svg" alt="tik">
+            <img class="z-0 absolute top-16 md:top-10 right-2 opacity-25" src="@/assets/icons/tik_Overlay.svg" alt="tik">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
@@ -195,7 +195,7 @@
         
         <!-- test Jatidiri q1 dan q2 -->
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/tik_Overlay.svg" alt="tik">
+            <img class="z-0 absolute top-10 md:top-2 right-2 opacity-25 w-44 md:w-52" src="@/assets/icons/jatidiri.svg" alt="jatidiri">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
@@ -222,13 +222,115 @@
                 </RouterLink>
             </div>
         </div>
+        
+        <!-- Jatidiri Anxiety Self Reting Scale -->
+        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
+            <img class="z-0 absolute top-16 md:top-7 right-2 opacity-25 w-44" src="@/assets/icons/anxiety.svg" alt="anxiety">
+            <div class="flex flex-col items-start gap-[16px]">
+                <div class="flex items-center gap-[16px]">
+                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
+                        <span class="font-roboto font-medium text-base lg:text-2xl">08</span>
+                    </div>
+                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI ANXIETY</h1>
+                </div>
+
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
+                    Self-Rating Scale for Anxiety (SRA-Scale) adalah alat tes psikologis yang dirancang untuk mengukur tingkat kecemasan individu berdasarkan penilaian diri (self-rating).
+                </h1>
+
+                <RouterLink :to="{name: 'user.views.test_jatidiri_anxiety'}" v-if="props.userData.customer.customers_anxiety == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+                <RouterLink :to="{name: 'user.views.test_jatidiri_anxiety'}" v-if="props.userData.customer.customers_anxiety !== null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+            </div>
+        </div>
+
+        <!-- Jatidiri Perceived Stress Scale (PSS) -->
+        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
+            <img class="z-0 absolute top-10 md:top-5 right-0 opacity-25 w-52" src="@/assets/icons/stres.svg" alt="stres">
+            <div class="flex flex-col items-start gap-[16px]">
+                <div class="flex items-center gap-[16px]">
+                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
+                        <span class="font-roboto font-medium text-base lg:text-2xl">09</span>
+                    </div>
+                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI Perceived Stress Scale (PSS)</h1>
+                </div>
+
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
+                    Perceived Stress Scale (PSS) adalah alat tes psikologis yang dirancang untuk mengukur tingkat stres individu berdasarkan perasaan dan pikiran Anda selama sebulan terakhir.
+                </h1>
+
+                <RouterLink :to="{name: 'user.views.test_jatidiri_stres'}" v-if="props.userData.customer.customers_stres == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+                <RouterLink :to="{name: 'user.views.test_jatidiri_stres'}" v-if="props.userData.customer.customers_stres !== null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+            </div>
+        </div>
+        
+        <!-- Jatidiri Kesehatan Mental -->
+        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
+            <img class="z-0 absolute top-16 md:top-10 right-2 opacity-25 w-40 md:w-52" src="@/assets/icons/mental.svg" alt="mental">
+            <div class="flex flex-col items-start gap-[16px]">
+                <div class="flex items-center gap-[16px]">
+                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
+                        <span class="font-roboto font-medium text-base lg:text-2xl">10</span>
+                    </div>
+                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI Kesehatan Mental</h1>
+                </div>
+
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
+                    Kesehatan Mental adalah alat tes psikologis yang dirancang untuk mengukur tingkat kesehatan mental individu berdasarkan kondisi dan pikiran Anda selama seminggu terakhir.
+                </h1>
+
+                <RouterLink :to="{name: 'user.views.test_jatidiri_mental'}" v-if="props.userData.customer.customers_mental == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+                <RouterLink :to="{name: 'user.views.test_jatidiri_mental'}" v-if="props.userData.customer.customers_mental !== null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
+                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+            </div>
+        </div>
 
         <div v-if="props.userData.customer.institutions && (props.userData.customer.institutions.type == 'SD' || props.userData.customer.institutions.type == 'TK')" class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
             <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/cpm-overlay.svg" alt="cpm">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">04</span>
+                        <span class="font-roboto font-medium text-base lg:text-2xl">08</span>
                     </div>
                     <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">Test CPM</h1>
                 </div>

@@ -128,32 +128,26 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRouter, useRoute } from 'vue-router'
 import DOMPurify from 'dompurify'
 import initApi from '@/api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import Cookies from 'js-cookie';
 import { generatePKCE } from '@/utils/pkce';
-
-import { useRoute } from 'vue-router';
-
-import sha256 from 'crypto-js/sha256'
-import Base64 from 'crypto-js/enc-base64url'
-
-const route = useRoute();
-const target = route.query.target;
+import CryptoJS from 'crypto-js'
 
 const email = ref('');
 const password = ref('');
 const store = useStore();
 const router = useRouter();
+const route = useRoute(); 
 const emailValidation = ref(false);
 const passwordValidation = ref(false);
-const isLoading = ref(false)
-const isLoadingGoogle = ref(false)
-const isLoadingKunci = ref(false)
-const loadingResource = ref(true)
+const isLoading = ref(false);
+const isLoadingGoogle = ref(false);
+const isLoadingKunci = ref(false);
+const loadingResource = ref(true);
 
 onMounted(() => {
     setTimeout(() => {
@@ -278,22 +272,46 @@ const LoginGoogle = async () => {
     }
 };
 
+function generateRandomString(length = 64) {
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'
+  let result = ''
+  const array = new Uint8Array(length)
+  crypto.getRandomValues(array)
+  for (let i = 0; i < array.length; i++) {
+    result += charset[array[i] % charset.length]
+  }
+  return result
+}
+
 const LoginKunci = async () => {
-  const verifier = 'kunci' // Bisa diganti random string generator
-  const challenge = Base64.stringify(sha256(verifier))
+//   const codeVerifier = generateRandomString() // random 64 char
+  const codeVerifier = 'kuncixjatidiri' // random 64 char
+  const hashed = CryptoJS.SHA256(codeVerifier)
+  const codeChallenge = hashed.toString(CryptoJS.enc.Base64).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 
-  localStorage.setItem('code_verifier', verifier)
+  // Simpan di localStorage supaya dipakai saat request token
+  localStorage.setItem('code_verifier_1', codeVerifier)
+  
+  // Panggil backend authorize (melalui Laravel)
+  const response = await initApi('post', 'kunci/authorize', {
+    code_verifier: codeVerifier,
+    code_challenge: codeChallenge
+})
 
-  const params = new URLSearchParams({
-    client_id: '4lgU2jueVphrDvFsQSIMEtP8kUut8CVM',
-    code_challenge: challenge,
-    code_challenge_method: 'S256',
-    redirect_uri: 'https://staging.jatidiri.app/api/auth/kunci/callback',
-    response_type: 'code',
-  })
+  console.log('Authorize response:', response.data)
+  console.log('codeChallenge:', response.data.codeChallenge)
+  const CodeUnix = response.data.codeVerifier
+  localStorage.setItem('code_verifier', CodeUnix)
 
-  // Redirect ke authorize endpoint
-  window.location.href = `https://be.kunci.co.id/sso/authorize?${params.toString()}`
+  // Jika berhasil authorize, lanjutkan tukar token:
+//   const tokenResponse = await initApi('post', 'kunci/token', {
+//       code_verifier: CodeUnix
+//     })
+    
+//     console.log('Token Response:', tokenResponse.data)
+
+  // Simpan token di localStorage / Pinia / Vuex dsb
+  localStorage.setItem('kunci_token', tokenResponse.data.token)
 };
 
 </script>

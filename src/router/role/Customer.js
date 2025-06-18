@@ -6,6 +6,33 @@ const router = useRouter()
 
 export default [
     {
+        path: '/logout',
+        name: 'user.views.logout',
+        beforeEnter: async (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+
+            try {
+                if (token) {
+                    await initAPI('post', 'logout', null, token)
+                }
+            } catch (error) {
+                console.error('Logout error:', error)
+            } finally {
+                // Hapus semua data sesi
+                localStorage.clear()
+                Cookies.remove('token')
+                next({ name: 'views.login' });
+
+                // Kalau kamu pakai Vuex
+                if (store) {
+                    store.commit('user', null)
+                    store.commit('userRole', null)
+                }
+            }
+        }
+    },
+    {
         path: '/starter-pack',
         name: 'user.views.starter_pack',
         component: () => import('@/views/REMAKE/Customer/StarterPack/StarterPack.vue'),
@@ -682,6 +709,237 @@ export default [
         path: '/hasil-jatidiri-q2',
         name: 'user.views.hasil_jatidiri_q2',
         component: () => import('@/views/REMAKE/Customer/Test/Jatidiri/HasilQ2.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/test-jatidiri-anxiety',
+        name:'user.views.test_jatidiri_anxiety',
+        component: () => import('@/views/REMAKE/Customer/Test/Anxiety/Introduction.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_anxiety == 'Tidak') {
+                next('/pembayaran/test-anxiety')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/soal-jatidiri-anxiety',
+        name:'user.views.test_anxiety_soal',
+        component: () => import('@/views/REMAKE/Customer/Test/Anxiety/Soal.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_anxiety == 'Tidak') {
+                next('/pembayaran/test-anxiety')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hasil-jatidiri-anxiety',
+        name: 'user.views.hasil_jatidiri_anxiety',
+        component: () => import('@/views/REMAKE/Customer/Test/Anxiety/Hasil.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/test-jatidiri-stres',
+        name:'user.views.test_jatidiri_stres',
+        component: () => import('@/views/REMAKE/Customer/Test/Stres/Introduction.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_stres == 'Tidak') {
+                next('/pembayaran/test-stres')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/soal-jatidiri-stres',
+        name:'user.views.test_stres_soal',
+        component: () => import('@/views/REMAKE/Customer/Test/Stres/Soal.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_stres == 'Tidak') {
+                next('/pembayaran/test-stres')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hasil-jatidiri-stres',
+        name: 'user.views.hasil_jatidiri_stres',
+        component: () => import('@/views/REMAKE/Customer/Test/Stres/Hasil.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/test-jatidiri-mental',
+        name:'user.views.test_jatidiri_mental',
+        component: () => import('@/views/REMAKE/Customer/Test/Mental/Introduction.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_mental == 'Tidak') {
+                next('/pembayaran/test-mental')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path:'/soal-jatidiri-mental',
+        name:'user.views.test_mental_soal',
+        component: () => import('@/views/REMAKE/Customer/Test/Mental/Soal.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                next({ name: 'views.login' });
+            } 
+            else if(isAuth && isAuth.is_payment_stres == 'Tidak') {
+                next('/pembayaran/test-mental')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hasil-jatidiri-mental',
+        name: 'user.views.hasil_jatidiri_mental',
+        component: () => import('@/views/REMAKE/Customer/Test/Mental/Hasil.vue'),
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))

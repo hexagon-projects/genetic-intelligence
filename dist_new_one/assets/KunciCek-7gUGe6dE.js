@@ -1,0 +1,1 @@
+import{h as t,g as a,i as r,s as c}from"./index-Dthq0P5E.js";const i={__name:"KunciCek",setup(n){const s=t();return a(),r(async()=>{const o=s.query.code;if(o)try{const e=await c("post","auth/kunci/callback",{code:o})}catch(e){console.error("Login gagal:",e)}}),()=>{}}};export{i as default};

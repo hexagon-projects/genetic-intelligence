@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@phosphor-icons/vue": "^2.1.6",
+    "@tailwindcss/typography": "^0.5.16",
     "@videojs/http-streaming": "^3.9.1",
     "@vuepic/vue-datepicker": "^8.1.1",
     "apexcharts": "^3.54.0",
@@ -23,6 +24,7 @@
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
+    "pkce-challenge": "^5.0.0",
     "qs": "^6.11.2",
     "sweetalert2": "^11.10.2",
     "swiper": "^11.0.5",

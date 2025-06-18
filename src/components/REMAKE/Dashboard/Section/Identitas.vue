@@ -203,7 +203,7 @@
         <div class="z-10 mx-auto mt-[22px] ">
           <button class="w-[152px] h-11 pl-[13px] py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
             <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">
-              {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Test GIM' }}
+              {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Jatidiri Sejati' }}
             </div>
             <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                 <div class="w-3 h-3 relative">
