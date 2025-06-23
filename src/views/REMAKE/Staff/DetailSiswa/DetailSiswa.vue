@@ -33,25 +33,25 @@
                                 </div>
                             </div>
 
-                            <button @click="downloadFile(siswaDatas.customers_results.gim.result_file)" v-if="(pageType == 'Profile Siswa' || pageType == 'Hasil Tes GIM') && siswaDatas.customers_results !== null" class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
+                            <button @click="downloadFile(siswaDatas.customers_results.gim.result_file)" v-if="(pageType == 'Profile Pengguna' || pageType == 'Hasil Tes GIM') && siswaDatas.customers_results !== null" class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
                                 Download PDF
                             </button>
                         </div>
                         
                         <!-- Personal Information -->
-                        <PersonalInfo v-if="pageType == 'Profile Siswa' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        <PersonalInfo v-if="pageType == 'Profile Pengguna' && siswaDatas" :siswaDatas="siswaDatas"/>
 
                         <!-- Hasil Tes GIM -->
-                        <HasilGIM v-if="pageType == 'Hasil Tes GIM' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        <HasilGIM v-if="pageType == 'Hasil Tes Jatidiri Sejati' && siswaDatas" :siswaDatas="siswaDatas"/>
                         
                         <!-- Hasil Assessment -->
-                        <HasilAssessment v-if="pageType == 'Hasil Tes Assessment' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        <HasilAssessment v-if="pageType == 'Hasil Tes Jatidiri Belajar' && siswaDatas" :siswaDatas="siswaDatas"/>
                     
                         <!-- Hasil IQ -->
-                        <HasilIQ v-if="pageType == 'Hasil Tes IQ' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        <HasilIQ v-if="pageType == 'Hasil Tes Jatidiri Cerdas' && siswaDatas" :siswaDatas="siswaDatas"/>
                         
                         <!-- Hasil CPM -->
-                        <HasilCPM v-if="pageType == 'Hasil Tes CPM' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        <HasilCPM v-if="pageType == 'Hasil Tes Jatidiri Bakat' && siswaDatas" :siswaDatas="siswaDatas"/>
                     </div>
                 </div>
             </div>
@@ -74,13 +74,13 @@ import HasilCPM from "@/components/staffs/DetailSiswa/HasilCPM.vue";
 import { useRoute, useRouter } from "vue-router";
 
 const sidebarItems = ref([
-    {image: new URL('@/assets/icons/profile-siswa.svg', import.meta.url).href, text: 'Profile Siswa'},
-    {image: new URL('@/assets/icons/tes-gim.svg', import.meta.url).href, text: 'Hasil Tes GIM'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Assessment'},
-    {image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href, text: 'Hasil Tes IQ'},
+    {image: new URL('@/assets/icons/profile-siswa.svg', import.meta.url).href, text: 'Profile Pengguna'},
+    {image: new URL('@/assets/icons/tes-gim.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Sejati'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Belajar'},
+    {image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Cerdas'},
     {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes CPM'},
-    {image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href, text: 'Hasil Tes RMIB'},
-    {image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href, text: 'Hasil Tes IAA'},
+    {image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Bakat'},
+    {image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Kendali'},
 ])
 
 const filteredSidebarItems = computed(() => {

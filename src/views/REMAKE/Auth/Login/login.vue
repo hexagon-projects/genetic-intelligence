@@ -199,15 +199,7 @@ const Login = async () => {
             store.commit('userEmail', response.data.user.email);
             switch (role) {
                 case 'customer':
-                    if (target === 'gim') {
-                        router.push({ name: 'user.views.deteksi' });
-                    } else if (target === 'iaa') {
-                        router.push({ name: 'user.views.test_gadget' });
-                    } else if (!target) {
-                        router.push({ name: 'views.dashboard' });
-                    } else {
-                        router.push({ name: 'views.dashboard' });
-                    }
+                    router.push({ name: 'views.dashboard' });
                     break;
 
                 case 'consultant':

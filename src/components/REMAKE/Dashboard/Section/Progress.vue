@@ -12,7 +12,33 @@
     </div>
 
     <div class="mx-[30px] md:mx-[60px] grid grid-cols-1 md:grid-cols-2 gap-[32px]">
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
+        <div class="relative py-[24px] px-[36px] bg-gray-500 rounded-3xl">
+            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/dna-overlay.svg" alt="dna">
+            <div class="flex flex-col items-start gap-[16px]">
+                <div class="flex items-center gap-[16px]">
+                    <div class="bg-white inline-flex justify-center items-center text-gray-500 size-[36px] lg:size-[56px] rounded-[50%]">
+                        <span class="font-roboto font-medium text-base lg:text-2xl">01</span>
+                    </div>
+                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI SEJATI</h1>
+                </div>
+
+                <h1 class="z-20 font-roboto font-normal text-white text-base">
+                    Fitur ini akan segera hadir untuk membantumu memetakan karakter, potensi, dan kebutuhan psikologismu. Siap-siap ya, dalam waktu dekat bisa langsung kamu coba!
+                </h1>                
+
+                <RouterLink  class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+                    <div class="text-gray-500 text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
+                    <div class="p-2.5 bg-gray-500 rounded-3xl justify-start items-center gap-2.5 flex">
+                        <div class="w-3 h-3 relative">
+                            <img src="@/assets/icons/arrow-go.svg" alt="go">
+                        </div>
+                    </div>
+                </RouterLink>
+
+            </div>
+        </div>
+        
+        <!-- <div class="relative py-[24px] px-[36px] bg-gray-00 rounded-3xl">
             <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/dna-overlay.svg" alt="dna">
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
@@ -43,7 +69,7 @@
                     </div>
                 </RouterLink>
             </div>
-        </div>
+        </div> -->
 
         <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
             <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/task-list-overlay.svg" alt="assesment">

@@ -60,16 +60,28 @@ const router = useRouter()
 //   payment_type: String,
 // })
 const payment_type = ref(route.params.tipePembayaran == 'test-iq' 
-    ? 'IQ' 
+    ? 'Jatidiri Cerdas' 
     : route.params.tipePembayaran == 'test-gim' 
-    ? 'Genetic Intelligence Mapping' 
+    ? 'Jatidiri Sejati' 
     : route.params.tipePembayaran == 'starter-pack' 
     ? 'Starter Pack' 
     : route.params.tipePembayaran == 'test-rmib'
-    ? 'RMIB'
+    ? 'Jatidiri Bakat'
     : route.params.tipePembayaran == 'test-iaa'  
-    ? 'Kecanduan Gadget'
-    : 'Assessment')
+    ? 'Jatidiri Kendali'
+    : route.params.tipePembayaran == 'test-assessment'  
+    ? 'Jatidiri Belajar'
+    : route.params.tipePembayaran == 'test-tik'  
+    ? 'Jatidiri Bahagia'
+    : route.params.tipePembayaran == 'test-jatidiri'  
+    ? 'Jatidiri'
+    : route.params.tipePembayaran == 'test-anxiety'  
+    ? 'Jatidiri Anxiety'
+    : route.params.tipePembayaran == 'test-stres'  
+    ? 'Jatidiri Stres'
+    : route.params.tipePembayaran == 'test-mental'  
+    ? 'Jatidiri Kesehatan Mental'
+    : 'Jatidiri')
 
 const emit = defineEmits(['understand'])
 

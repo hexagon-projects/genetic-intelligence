@@ -22,7 +22,7 @@
                     <div class="flex items-center gap-[6px]">
                         <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.list_siswa' || $route.name !== 'staff.views.detail_siswa', 'grayscale-0': $route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'}" 
                         src="@/assets/icons/nav-datasiswa.svg"/>
-                        <span class="text-black font-roboto">Data Siswa</span>
+                        <span class="text-black font-roboto">Data Pengguna</span>
                     </div>
                     
                     <div v-if="$route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>

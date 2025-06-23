@@ -921,7 +921,7 @@ export default [
             if (!token || !isAuth) {
                 next({ name: 'views.login' });
             } 
-            else if(isAuth && isAuth.is_payment_stres == 'Tidak') {
+            else if(isAuth && isAuth.is_payment_mental == 'Tidak') {
                 next('/pembayaran/test-mental')
                 // router.push('/pembayaran/test-iq')
                 next()

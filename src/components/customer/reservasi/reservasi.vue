@@ -12,7 +12,7 @@
                     </a>
                     <span class="mx-2 text-base">/</span>
                     <RouterLink :to="{name: 'user.views.reservasi'}" class="text-base text-dark hover:text-dark/70">
-                        Reservasi GIM
+                        Reservasi
                     </RouterLink>
                 </ol>
             </div>

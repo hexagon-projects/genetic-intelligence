@@ -124,7 +124,7 @@ const showModal = ref({
 
 const testDatas = ref([
     // {name: 'Starter Pack', route: 'user.views.starter_pack', img:  new URL('@/assets/icons/starter-pack.svg', import.meta.url).href},
-    {name: 'Test Jatidiri Sejati', route: 'user.views.deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
+    // {name: 'Test Jatidiri Sejati', route: 'user.views.deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
     {name: 'Test Jatidiri Belajar', route: 'user.views.assesment', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
     {name: 'Test Jatidiri Cerdas', route: 'user.views.iq', img:  new URL('@/assets/icons/tes-iq.svg', import.meta.url).href},
     // {name: 'Test CPM', route: 'user.views.cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},
@@ -134,7 +134,7 @@ const testDatas = ref([
 ])
 
 const hasilDatas = ref([
-    {name: 'Hasil Test Jatidiri Sejati', route: 'user.views.hasil_deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
+    // {name: 'Hasil Test Jatidiri Sejati', route: 'user.views.hasil_deteksi', img:  new URL('@/assets/icons/tes-gim.svg', import.meta.url).href},
     {name: 'Hasil Test Jatidiri Belajar', route: 'user.views.hasil_assessment', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
     {name: 'Hasil Test Jatidiri Cerdas', route: 'user.views.hasil_iq', img:  new URL('@/assets/icons/tes-iq.svg', import.meta.url).href},
     // {name: 'Hasil Test CPM', route: 'user.views.hasil_cpm', img:  new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href},

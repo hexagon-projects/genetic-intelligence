@@ -45,16 +45,16 @@
               <div class="flex-grow flex flex-col justify-start items-start">
                 <div class="h-6">
                   <div
-                    class="text-[#344053] text-base font-medium font-sora leading-normal"
+                    class="text-[#344053] text-xs font-sora leading-normal"
                   >
-                    Total Siswa
+                    Total Pengguna
                   </div>
                 </div>
                 <div class="h-8">
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[0] }} Siswa
+                    {{ data_test_counts[0] }} Penggna
                   </div>
                 </div>
               </div>
@@ -83,16 +83,16 @@
               <div class="flex-grow flex flex-col justify-start items-start">
                 <div class="h-6">
                   <div
-                    class="text-[#344053] text-sm font-medium font-sora leading-normal"
+                    class="text-[#344053] text-xs font-sora leading-normal"
                   >
-                    Total Test GIM
+                    Total Mengikuti Test Jatidiri Sejati
                   </div>
                 </div>
                 <div class="h-8">
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[1] }} Siswa
+                    {{ data_test_counts[1] }} Pengguna
                   </div>
                 </div>
               </div>
@@ -121,16 +121,16 @@
               <div class="flex-grow flex flex-col justify-start items-start">
                 <div class="h-6">
                   <div
-                    class="text-[#344053] text-sm font-medium font-sora leading-normal"
+                    class="text-[#344053] text-xs font-sora leading-normal"
                   >
-                    Total Test Assessment
+                    Total Test Jatidiri Belajar
                   </div>
                 </div>
                 <div class="h-8">
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[2] }} Siswa
+                    {{ data_test_counts[2] }} Pengguna
                   </div>
                 </div>
               </div>
@@ -158,16 +158,16 @@
               <div class="flex-grow flex flex-col justify-start items-start">
                 <div class="h-6">
                   <div
-                    class="text-[#344053] text-sm font-medium font-sora leading-normal"
+                    class="text-[#344053] text-xs font-sora leading-normal"
                   >
-                    Total Test IQ<span v-if="institutionType == 'TK' || institutionType == 'SD' || institutionType == 'SDLB'"> CPM</span>
+                    Total Test Jatidiri Cerdas<span v-if="institutionType == 'TK' || institutionType == 'SD' || institutionType == 'SDLB'"> CPM</span>
                   </div>
                 </div>
                 <div class="h-8">
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[3] }} Siswa
+                    {{ data_test_counts[3] }} Pengguna
                   </div>
                 </div>
               </div>
@@ -178,12 +178,25 @@
         <!-- Bar Chart -->
         <div class="bg-white p-4 flex flex-col rounded-xl">
           <div
-            class="text-[#0c141c] text-lg font-medium font-['Roboto'] leading-loose"
+            class="text-[#0c141c] text-lg font-medium font-['Roboto'] leading-loose grid grid-cols-1 md:flex md:items-center md:justify-between"
           >
-            Statistik Sistem Operasi Kecerdasan Dominan
+            Statistik Sistem Operasi Kecerdasan Dominan Jatidiri Sejati
+            <button
+              class="bg-primary text-white text-xs px-3 py-1 rounded hover:bg-gradient-primary transition flex flex-nowrap gap-2 items-center justify-center mt-4 md:mt-0"
+              @click="downloadBarChart"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z"/>
+              <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+            </svg>
+              <small>Unduh Grafik</small>
+            </button>
           </div>
 
+
+
           <apexchart
+            ref="barChartRef"
             type="bar"
             height="300"
             :options="data_bar.chartOptions"
@@ -197,22 +210,33 @@
         <!-- Statistik Diagnostic Assessment -->
         <div class="bg-white p-4 flex flex-col rounded-xl">
           <div
-            class="text-[#0c141c] text-lg font-medium font-['Roboto'] leading-loose"
+            class="text-[#0c141c] text-lg font-medium font-['Roboto'] leading-loose grid grid-cols-1 md:flex md:items-center md:justify-between"
           >
-            Statistik Diagnostic Assessment
+            Statistik Diagnostic Jatidiri Belajar
+            <button
+              class="bg-primary text-white text-xs px-3 py-1 rounded hover:bg-gradient-primary transition flex flex-nowrap gap-2 items-center justify-center mt-4 md:mt-0"
+              @click="downloadBarChart2"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z"/>
+              <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+            </svg>
+              <small>Unduh Grafik</small>
+            </button>
           </div>
 
           <div class="px-8 py-2 flex flex-col lg:flex-row items-center gap-4">
             <div class="w-full">
               <apexchart
-                type="radialBar"
-                height="350"
+              ref="barChartRef2"
+                type="bar"
+                height="400"
                 :options="data_pie_1.chartOptions"
                 :series="data_pie_1.series"
               ></apexchart>
             </div>
 
-            <div class="w-full mx-[30px] flex flex-col gap-[12px]">
+            <!-- <div class="w-full mx-[30px] flex flex-col gap-[12px]">
               <div
                 v-for="(item, index) in arrAssessment"
                 :key="index"
@@ -232,29 +256,40 @@
                   {{ item.persentase }}
                 </span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <!-- Statistik Skor IQ -->
         <div class="bg-white p-4 flex flex-col rounded-xl">
           <div
-            class="text-[#0c141c] text-lg font-medium font-['Roboto'] leading-loose"
+            class="text-[#0c141c] text-lg font-medium font-['Roboto'] leading-loose grid grid-cols-1 md:flex md:items-center md:justify-between"
           >
-            Statistik Skor IQ
+            Statistik Jatidiri Cerdas
+            <button
+              class="bg-primary text-white text-xs px-3 py-1 rounded hover:bg-gradient-primary transition flex flex-nowrap gap-2 items-center justify-center mt-4 md:mt-0"
+              @click="downloadBarChart3"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z"/>
+              <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+            </svg>
+              <small>Unduh Grafik</small>
+            </button>
           </div>
 
           <div class="px-8 py-2 flex flex-col lg:flex-row items-center gap-4">
             <div class="w-full">
               <apexchart
-                type="polarArea"
-                height="350"
+                ref="barChartRef3"
+                type="radar"
+                height="400"
                 :options="data_pie_2.chartOptions"
                 :series="data_pie_2.series"
               ></apexchart>
             </div>
 
-            <div class="w-full mx-[30px] flex flex-col gap-[12px]">
+            <!-- <div class="w-full mx-[30px] flex flex-col gap-[12px]">
               <div
                 v-for="(item, index) in arrIq"
                 :key="index"
@@ -277,7 +312,7 @@
                   {{ item.persentase }}
                 </span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -435,7 +470,7 @@
             <div class="text-xl md:text-3xl font-semibold">
               Overview Data Siswa
             </div>
-            <span class="text-gray-500 text-sm">200 entries found</span>
+            <span class="text-gray-500 text-sm">{{ data_test_counts[0] }} entries found</span>
           </div>
 
           <RouterLink
@@ -467,8 +502,10 @@
           >
             <thead class="text-[#344053]">
               <tr>
+                <th class="py-3 px-4">#</th>
                 <th class="py-3 px-4">PROFIL</th>
                 <th class="py-3 px-4">KELAS</th>
+                <th class="py-3 px-4">JURUSAN</th>
                 <th class="py-3 px-4">NAMA SEKOLAH</th>
                 <th class="py-3 px-4">TERAKHIR TES</th>
                 <th class="py-3 px-4">TOTAL TES</th>
@@ -478,6 +515,7 @@
 
             <tbody>
               <tr v-for="(item, index) in dataSiswa" :key="index" class="border-b">
+                <td class="py-3 px-4">{{ index + 1}}</td>
                 <td class="py-3 px-4 flex items-center gap-2">
                   <img
                     src="@/assets/img/profile-mock.png"
@@ -486,7 +524,8 @@
                   />
                   {{ item.name }}
                 </td>
-                <td class="py-3 px-4">{{ item.grade }} {{ item.majoring }}</td>
+                <td class="py-3 px-4">{{ item.grade }}</td>
+                <td class="py-3 px-4">{{ item.majoring }}</td>
                 <td class="py-3 px-4">{{ item.institutions.name }}</td>
                 <td class="py-3 px-4">{{ item.updated_at }}</td>
                 <td class="py-3 px-4">{{ item.total_test }}</td>
@@ -535,7 +574,44 @@ const institutionType = ref(JSON.parse(localStorage.getItem('userData')).staff.i
 const schoolType = ref('')
 const dataSiswa = ref('')
 
+const barChartRef = ref(null); // <== ini untuk akses chart
+const barChartRef2 = ref(null); // <== ini untuk akses chart
+const barChartRef3 = ref(null); // <== ini untuk akses chart
 const data_test_counts = ref([0, 0, 0, 0]);
+
+
+const downloadBarChart = () => {
+  if (barChartRef.value) {
+    barChartRef.value.chart.dataURI().then(({ imgURI }) => {
+      const link = document.createElement("a");
+      link.href = imgURI;
+      link.download = "Jatidiri-Sejati.png";
+      link.click();
+    });
+  }
+};
+
+const downloadBarChart2 = () => {
+  if (barChartRef2.value) {
+    barChartRef2.value.chart.dataURI().then(({ imgURI }) => {
+      const link = document.createElement("a");
+      link.href = imgURI;
+      link.download = "Jatidiri-Belajar.png";
+      link.click();
+    });
+  }
+};
+const downloadBarChart3 = () => {
+  if (barChartRef3.value) {
+    barChartRef3.value.chart.dataURI().then(({ imgURI }) => {
+      const link = document.createElement("a");
+      link.href = imgURI;
+      link.download = "grafik-radar-iq.png";
+      link.click();
+    });
+  }
+};
+
 
 const data_bar = ref({
   series: [
@@ -547,6 +623,9 @@ const data_bar = ref({
     chart: {
       type: "bar",
       height: 300,
+      toolbar: {
+        show: false, // Sembunyikan tombol default
+      },
     },
     plotOptions: {
       bar: {
@@ -575,85 +654,98 @@ const data_bar = ref({
 });
 
 const data_pie_1 = ref({
-  series: [0, 0, 0, 0, 0, 0],
+  series: [
+    {
+      data: [0, 0, 0, 0, 0, 0],
+    },
+  ],
   chartOptions: {
     chart: {
-      height: 350,
-      type: "radialBar",
-    },
-    colors: ["#1ab7ea", "#0084ff", "#39539E", "#0077B5"],
-    plotOptions: {
-      radialBar: {
-        dataLabels: {
-          name: {
-            fontSize: "22px",
-          },
-          value: {
-            fontSize: "16px",
-          },
-          total: {
-            show: true,
-            label: "Total",
-            formatter: function (w) {
-              return w.globals.seriesTotals.reduce((a, b) => {
-                return a + b;
-              });
-            },
-          },
-        },
+      type: "bar",
+      height: 300,
+      toolbar: {
+        show: false, // Sembunyikan tombol default
       },
     },
-    labels: [
-      "Visual",
-      "Auditori",
-      "Kinestetik",
-      "Visual & Auditori",
-      "Visual & Kinestetik",
-      "Auditori & Kinestetik",
-    ],
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        borderRadiusApplication: "end",
+        horizontal: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      categories: [
+        "Visual",
+        "Auditori",
+        "Kinestetik",
+        "Visual & Auditori",
+        "Visual & Kinestetik",
+        "Auditori & Kinestetik",
+      ],
+    },
   },
 });
 
 const data_pie_2 = ref({
-  series: [0, 0, 0, 0, 0],
+  series: [{
+    name: "Jumlah", // opsional, bisa kamu ubah jadi "Persentase" dll
+    data: [0, 0, 0, 0, 0]
+  }],
   chartOptions: {
-    colors: ["#1ab7ea", "#0084ff", "#39539E", "#0077B5"],
     chart: {
-      width: 350,
-      type: "polarArea",
+      type: "radar",
+      height: 500,
+      toolbar: {
+        show: false, // Sembunyikan tombol default
+      },
     },
-    labels: ["> 119", "111 - 119", "91 - 110", "80 - 90", "< 80"],
-    fill: {
-      opacity: 1,
-    },
-    stroke: {
-      width: 1,
-      colors: undefined,
+    colors: ["#1ab7ea"],
+    xaxis: {
+      categories: [
+        "> 119",
+        "111 - 119",
+        "91 - 110",
+        "80 - 90",
+        "< 80"
+      ],
+      labels: {
+        style: {
+          colors: "#666",
+          fontSize: "14px"
+        }
+      }
     },
     yaxis: {
-      show: false,
+      show: true,
+      labels: {
+        style: {
+          colors: "#666",
+          fontSize: "12px"
+        }
+      }
+    },
+    stroke: {
+      width: 2
+    },
+    fill: {
+      opacity: 0.4
+    },
+    markers: {
+      size: 4
+    },
+    tooltip: {
+      y: {
+        formatter: (val) => `${val} siswa`
+      }
     },
     legend: {
-      show: false,
-    },
-    plotOptions: {
-      polarArea: {
-        rings: {
-          strokeWidth: 0,
-        },
-        spokes: {
-          strokeWidth: 0,
-        },
-      },
-    },
-    theme: {
-      monochrome: {
-        enabled: true,
-        shadeTo: "light",
-        shadeIntensity: 0.6,
-      },
-    },
-  },
+      show: false
+    }
+  }
 });
 
 const data_desc = ref([]);
@@ -668,8 +760,15 @@ const fetchDataStatusAPI = async () => {
 
     data_test_counts.value = response.data.data_test_counts;
     data_bar.value.series[0].data = response.data.data_gim_result.counts;
-    data_pie_1.value.series = response.data.data_assessment_result.counts;
-    data_pie_2.value.series = response.data.data_iq_result.counts;
+    data_pie_1.value.series[0].data = response.data.data_assessment_result.counts;
+    // data_pie_2.value.series = response.data.data_iq_result.counts;
+    data_pie_2.value.series = [
+      {
+        name: "Jumlah",
+        data: response.data.data_iq_result.counts
+      }
+    ];
+
 
     arrAssessment.value.map(
       (item, index) =>

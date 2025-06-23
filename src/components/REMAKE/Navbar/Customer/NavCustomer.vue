@@ -54,13 +54,13 @@
             </div>
             
             <ul v-show="activeMenu === 2" class="p-2 transition-all duration-500 absolute top-12 left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-xl">
-            <li @click="goTo('user.views.deteksi')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+            <!-- <li @click="goTo('user.views.deteksi')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
                     <span class="font-roboto">Tes Jatidiri Sejati</span>
                 </div>
-            </li>
+            </li> -->
             <li @click="goTo('user.views.assesment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"
@@ -137,13 +137,13 @@
             </div>
 
             <ul v-show="activeMenu === 3" class="p-2 transition-all duration-500 absolute top-12 left-0 mt-2 w-48 bg-white text-black shadow-lg rounded-xl">
-            <li @click="goTo('user.views.hasil_deteksi')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+            <!-- <li @click="goTo('user.views.hasil_deteksi')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
                     src="@/assets/icons/tes-gim.svg"/>
                     <span class="font-roboto">Tes Jatidiri Sejati</span>
                 </div>
-            </li>
+            </li> -->
             <li @click="goTo('user.views.hasil_assessment')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0"

@@ -10,7 +10,7 @@
         <div class="flex flex-col gap-[36px]">
           <div class="flex justify-between items-center mb-5">
             <div class="text-[#32324D] font-['Roboto'] leading-loose">
-              <div class="text-xl md:text-3xl font-semibold">List Siswa</div>
+              <div class="text-xl md:text-3xl font-semibold">List Pengguna</div>
               <span class="text-gray-500 text-sm">{{ totalSiswa }} entries found</span>
             </div>
   
@@ -82,7 +82,7 @@
                   <input
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Cari data siswa"
+                    placeholder="Cari data pengguna"
                     class="p-1 px-3 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
               </div>
@@ -136,8 +136,10 @@
                 >
                   <thead class="text-[#344053]">
                     <tr>
+                      <th class="py-3 px-4">#</th>
                       <th class="py-3 px-4">PROFIL</th>
                       <th class="py-3 px-4">KELAS</th>
+                      <th class="py-3 px-4">JURUSAN</th>
                       <th class="py-3 px-4">NAMA SEKOLAH</th>
                       <th class="py-3 px-4">TERAKHIR TES</th>
                       <th class="py-3 px-4">TOTAL TES</th>
@@ -147,6 +149,7 @@
       
                   <tbody v-for="(siswa, index) in listSiswa" :key="index">
                     <tr class="border-b">
+                      <td class="py-3 px-4">{{ index + 1 }}</td>
                       <td class="py-3 px-4 flex items-center gap-2">
                           <img
                               src="@/assets/img/profile-mock.png"
@@ -155,7 +158,8 @@
                           />
                         {{ siswa.name }}
                       </td>
-                      <td class="py-3 px-4">{{ siswa.grade }} {{ siswa.majoring }}</td>
+                      <td class="py-3 px-4">{{ siswa.grade }}</td>
+                      <td class="py-3 px-4">{{ siswa.majoring }}</td>
                       <td class="py-3 px-4">{{ siswa.institutions.name }}</td>
                       <td class="py-3 px-4">{{ siswa.updated_at }}</td>
                       <td class="py-3 px-4">{{ siswa.total_test }}</td>

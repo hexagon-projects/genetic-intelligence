@@ -197,6 +197,8 @@ export default {
             ? 'v2/payment/test/stres'
             : tipeParam.value == 'test-mental'
             ? 'v2/payment/test/mental'
+            : tipeParam.value == 'test-assessment'
+            ? 'v2/payment/test/assessment'
             : tipeParam.value == 'test-rmib'
             ? 'v2/payment/test/rmib'
             : 'v2/payment/test/assessment'

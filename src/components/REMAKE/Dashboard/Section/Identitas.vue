@@ -30,9 +30,17 @@
                 <div class="absolute bg-transparent pemisah bottom-0 -left-[2px]"></div>
                 <!-- End Inverted Radius -->
   
-                <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="bg-white w-[154px] rounded-3xl p-2 flex justify-center items-center">
+                <!-- <RouterLink :to="{name: 'user.views.hasil_deteksi'}" class="bg-white w-[154px] rounded-3xl p-2 flex justify-center items-center">
                   <a class="text-[#3030f8] text-base font-normal font-roboto flex items-center gap-[12px]">
                     {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Jatidiri Sejati' }}
+                    <div class="w-[32px] h-[32px] flex items-center justify-center bg-[#3030f8] rounded-[50%]">
+                      <img src="@/assets/icons/arrow-go.svg" alt="go">
+                    </div>
+                  </a>
+                </RouterLink> -->
+                <RouterLink  class="bg-white w-[154px] rounded-3xl p-2 flex justify-center items-center">
+                  <a class="text-[#3030f8] text-base font-normal font-roboto flex items-center gap-[12px]">
+                    {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Jatidiri' }}
                     <div class="w-[32px] h-[32px] flex items-center justify-center bg-[#3030f8] rounded-[50%]">
                       <img src="@/assets/icons/arrow-go.svg" alt="go">
                     </div>
@@ -155,7 +163,7 @@
               <!-- Belum Test -->
               <div v-if="props.userDatas.customer.is_detected == 'Belum'" class="mt-5 bg-[#f0f7fd] border-l-2 border-[#3030f8] justify-start items-center inline-flex">
                 <div class="p-3 justify-start items-center gap-6 flex">
-                    <div class="text-black text-base font-normal font-['Roboto'] leading-normal">Saatnya sekarang kamu untuk melakukan test GIM agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu. Ayo lakukan test sekarang juga!</div>
+                    <div class="text-black text-base font-normal font-['Roboto'] leading-normal">Saatnya sekarang kamu untuk melakukan test Jatidiri agar kamu mengetahui dan mengenal potensi terbaik yang ada pada diri kamu. Ayo lakukan test sekarang juga!</div>
                 </div>
               </div>
   
@@ -203,7 +211,7 @@
         <div class="z-10 mx-auto mt-[22px] ">
           <button class="w-[152px] h-11 pl-[13px] py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
             <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">
-              {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Jatidiri Sejati' }}
+              {{ props.userDatas.customer.is_detected == 'Selesai Terdeteksi' ? 'Lihat Hasil' : 'Jatidiri' }}
             </div>
             <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
                 <div class="w-3 h-3 relative">
