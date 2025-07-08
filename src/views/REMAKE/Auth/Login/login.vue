@@ -78,11 +78,11 @@
                                 </svg>
                                 Loading...
                             </button>
-
                             <RouterLink :to="{ name: 'views.forgot_password' }"
                                 class="mx-auto text-[#6e6b8f] text-base font-normal font-roboto">
                                 Lupa Password?
                             </RouterLink>
+
 
                             <button v-if="!isLoading" @click="Login"
                                 class="transition-all hover:scale-105 shadow-xl rounded-[46px] px-4 py-2 bg-[#4a3aff] text-white font-sora font-medium">
@@ -212,6 +212,13 @@ const Login = async () => {
 
                 case 'staff':
                     router.push({ name: 'staff.views.dashboard' })
+                    break;
+
+                case 'bk':
+                    router.push({ name: 'bk.views.dashboard' })
+                    break;
+                case 'admin-bk':
+                    router.push({ name: 'amdinbk.views.dashboard' })
                     break;
             }
         } catch (error) {

@@ -7,6 +7,8 @@ import Admin from "./role/Admin"
 import Consultant from "./role/Consultant"
 import Customer from "./role/Customer"
 import Staff from "./role/Staff"
+import Bk from "./role/Bk"
+import AdminBk from "./role/AdminBk"
 
 const routes = [
     {
@@ -58,6 +60,15 @@ const routes = [
         }
     },
     {
+        path: '/register-bk',
+        name: 'views.register-bk',
+        component: () => import('../components/auth/register/RegisterBk.vue'),
+        meta: {
+            showNavbar: false,
+            showFooter: false
+        }
+    },
+    {
         path: '/forgot-password',
         name: 'views.forgot_password',
         component: () => import('../components/auth/forgot/forgot.vue'),
@@ -98,6 +109,8 @@ const routes = [
                 if(decodeRoleUser == 'consultant') next({name: 'consultant.views.dashboard'})
                 if(decodeRoleUser == 'admin') next({name: 'admin.views.dashboard'})
                 if(decodeRoleUser == 'staff') next({name: 'staff.views.dashboard'})
+                if(decodeRoleUser == 'bk') next({name: 'bk.views.dashboard'})
+                if(decodeRoleUser == 'admin-bk') next({name: 'adminbk.views.dashboard'})
 
                 next()
             }
@@ -217,6 +230,8 @@ const routes = [
     ...Customer,
     ...Admin,
     ...Staff,
+    ...Bk,
+    ...AdminBk,
 
     {
         path: '/user-profile',

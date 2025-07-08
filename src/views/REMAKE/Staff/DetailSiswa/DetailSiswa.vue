@@ -97,7 +97,7 @@ const filteredSidebarItems = computed(() => {
 });
 
 const selectedItemIndex = ref(null);
-const pageType = ref('Profile Siswa')
+const pageType = ref('Profile Pengguna')
 
 const selectItem = (index, type) => {
     // console.log(`diplih`, index)
@@ -187,7 +187,13 @@ onBeforeMount(() => {
     }
 })
 
-onMounted(async() => {
-    await getDataSiswa()
-})
+onMounted(async () => {
+  await getDataSiswa();
+
+  // Set selected index berdasarkan pageType awal
+  const index = filteredSidebarItems.value.findIndex(item => item.text === pageType.value);
+  if (index !== -1) {
+    selectedItemIndex.value = index;
+  }
+});
 </script>

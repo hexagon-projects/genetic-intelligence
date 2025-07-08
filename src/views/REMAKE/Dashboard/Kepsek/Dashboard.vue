@@ -54,7 +54,7 @@
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[0] }} Penggna
+                    {{ data_test_counts[0] }} Pengguna
                   </div>
                 </div>
               </div>
