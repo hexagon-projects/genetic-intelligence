@@ -6,7 +6,11 @@
             </div>
 
             <div v-if="!loadingUpload" class="mx-4 flex justify-center items-center gap-2">
-                <img v-if="profileImageUrl || props.dataCustomer.image !== null" class="w-24 h-24 rounded-full border-2 border-biru" :src="profileImageUrl == '' ? baseUrl+'open/customers/'+props.dataCustomer.image : profileImageUrl" alt="Foto Profile">
+                <img
+  v-if="profileImageUrl || props.dataCustomer.image !== null"
+  class="w-24 h-24 rounded-full border-2 border-biru object-cover object-center"
+  :src="profileImageUrl == '' ? baseUrl+'open/customers/'+props.dataCustomer.image : profileImageUrl"
+  alt="Foto Profile">
                 <img v-else-if="!profileImageUrl && props.dataCustomer.image == null" class="w-24 h-24 rounded-full border-2 border-biru" src="../../../../assets/img/profile-mock.png" alt="Foto Profile">
                 <div class="flex flex-col">
                     <h2 class="font-myFont text-dark text-2xl">{{ props.dataCustomer.name }}</h2>

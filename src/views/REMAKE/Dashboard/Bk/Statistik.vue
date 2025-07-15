@@ -576,13 +576,14 @@
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody v-if="dataSiswa && dataSiswa.length">
                 <tr
                   v-for="(item, index) in dataSiswa"
                   :key="index"
                   class="border-b"
                 >
                   <td class="py-3 px-4">{{ index + 1 }}</td>
+
                   <td class="py-3 px-4 flex items-center gap-2">
                     <img
                       src="@/assets/img/profile-mock.png"
@@ -591,11 +592,18 @@
                     />
                     {{ item.name }}
                   </td>
+
                   <td class="py-3 px-4">{{ item.grade }}</td>
                   <td class="py-3 px-4">{{ item.majoring }}</td>
-                  <td class="py-3 px-4">{{ item.institutions.name }}</td>
+
+                  <!-- Aman dari error jika institutions null -->
+                  <td class="py-3 px-4">
+                    {{ item.institutions?.name ?? "-" }}
+                  </td>
+
                   <td class="py-3 px-4">{{ item.updated_at }}</td>
                   <td class="py-3 px-4">{{ item.total_test }}</td>
+
                   <td class="py-3 px-4">
                     <button
                       @click="detailSiswa(item.id)"
@@ -618,6 +626,15 @@
                         />
                       </svg>
                     </button>
+                  </td>
+                </tr>
+              </tbody>
+
+              <!-- Optional: Jika data kosong -->
+              <tbody v-else>
+                <tr>
+                  <td colspan="8" class="text-center py-6 text-gray-500">
+                    Tidak ada data siswa.
                   </td>
                 </tr>
               </tbody>
@@ -834,6 +851,13 @@ const getPlacementData = async () => {
 
 const fetchDataStatusAPI = async () => {
   const token = Cookies.get("token");
+
+  // 1. Cek apakah ID institusi tersedia
+  if (!selectedInstitutionId.value) {
+    resetDashboardData();
+    return;
+  }
+
   try {
     const response = await initAPI(
       "get",
@@ -843,8 +867,21 @@ const fetchDataStatusAPI = async () => {
     );
 
     const res = response.data;
-    data_desc.value = []; // ⬅️ Reset dulu
 
+    // 2. Cek apakah semua data kosong/null/0
+    const isEmpty =
+      (!res.data_test_counts || res.data_test_counts.length === 0) &&
+      (!res.data_gim_result?.counts || res.data_gim_result.counts.every(val => val === 0)) &&
+      (!res.data_assessment_result?.counts || res.data_assessment_result.counts.every(val => val === 0)) &&
+      (!res.data_iq_result?.counts || res.data_iq_result.counts.every(val => val === 0));
+
+    if (isEmpty) {
+      resetDashboardData();
+      return;
+    }
+
+    // 3. Isi data jika valid
+    data_desc.value = []; // Reset
     data_test_counts.value = res.data_test_counts;
     data_bar.value.series[0].data = res.data_gim_result?.counts ?? [];
     data_pie_1.value.series[0].data = res.data_assessment_result?.counts ?? [];
@@ -909,8 +946,27 @@ const fetchDataStatusAPI = async () => {
   }
 };
 
+// 🔁 Fungsi bantu untuk reset tampilan dashboard
+const resetDashboardData = () => {
+  data_test_counts.value = [];
+  data_bar.value.series[0].data = [];
+  data_pie_1.value.series[0].data = [];
+  data_pie_2.value.series = [];
+  data_desc.value = [];
+  arrAssessment.value.forEach(item => (item.persentase = "0%"));
+  arrIq.value.forEach(item => (item.persentase = "0%"));
+};
+
+
 const getSiswa = async () => {
   const token = Cookies.get("token");
+
+  // 1. Cek apakah ID institusi tersedia
+  if (!selectedInstitutionId.value) {
+    dataSiswa.value = []; // Kosongkan data
+    return;
+  }
+
   try {
     const response = await initAPI(
       "get",
@@ -918,9 +974,13 @@ const getSiswa = async () => {
       null,
       token
     );
-    // console.log(response.data)
 
-    dataSiswa.value = response.data.data;
+    // 2. Filter data: hanya siswa dengan total_test > 0 dan tidak null
+    const filteredData = (response.data.data || []).filter(item => {
+      return item.total_test && item.total_test !== 0;
+    });
+
+    dataSiswa.value = filteredData;
   } catch (error) {
     Swal.fire({
       icon: "error",
@@ -931,6 +991,7 @@ const getSiswa = async () => {
     });
   }
 };
+
 
 watch(selectedInstitutionId, (newVal, oldVal) => {
   console.log("Institusi berubah:", oldVal, "=>", newVal);

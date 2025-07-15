@@ -6,24 +6,11 @@
   </div>
 
   <Layout>
-    <div class="bg-gray-100 p-5 mb-20">
+    <div class="bg-gray-100 p-5 min-h-screen">
       <div class="w-full md:w-4/5 mx-auto">
         <div class="flex mb-5">
           <!-- navigation profile -->
-          <div class="bg-gray-400 flex p-3 rounded-full text-xs gap-1 md:gap-5">
-            <RouterLink
-              :to="{ name: 'bk.views.profile' }"
-              class="bg-biru text-white py-2 px-7 rounded-full hover:bg-blue-600 inline-flex justify-center items-center"
-            >
-              Profile
-            </RouterLink>
-            <RouterLink
-              :to="{ name: 'bk.views.placement' }"
-              class="text-biru py-2 px-7 rounded-full hover:bg-gray-50 font-semibold inline-flex justify-center items-center"
-            >
-              Placement
-            </RouterLink>
-          </div>
+          <NavigateProfile />
         </div>
         <!-- section -->
         <div class="grid grid-cols-1 md:grid-cols-9 gap-3 items-start">
@@ -76,6 +63,7 @@ import Card from "../../../../components/REMAKE/Bk/Card.vue";
 import Basic from "../../../../components/REMAKE/Bk/Basic.vue";
 import Address from "../../../../components/REMAKE/Bk/Address.vue";
 import Contact from "../../../../components/REMAKE/Bk/Contact.vue";
+import NavigateProfile from "../../../../components/REMAKE/Bk/NavigateProfile.vue";
 import { ref, onMounted, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";

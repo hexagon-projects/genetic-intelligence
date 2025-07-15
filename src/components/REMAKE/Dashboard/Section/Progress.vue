@@ -197,7 +197,7 @@
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
                         <span class="font-roboto font-medium text-base lg:text-2xl">06</span>
                     </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI BAHAGIAN</h1>
+                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI BAHAGIA</h1>
                 </div>
 
                 <h1 class="z-20 font-roboto font-normal text-white text-base">
@@ -356,7 +356,7 @@
             <div class="flex flex-col items-start gap-[16px]">
                 <div class="flex items-center gap-[16px]">
                     <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">08</span>
+                        <span class="font-roboto font-medium text-base lg:text-2xl">11</span>
                     </div>
                     <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">Test CPM</h1>
                 </div>

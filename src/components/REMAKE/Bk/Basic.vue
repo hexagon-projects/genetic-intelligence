@@ -37,9 +37,9 @@
 
       <!-- Data tampil -->
       <div v-for="(field, key) in fields" :key="key">
-        <div class="flex justify-between mb-3">
+        <div class="grid grid-cols-2 mb-3">
           <small class="font-sora font-semibold">{{ field.label }}</small>
-          <small class="font-sora font-semibold">{{
+          <small class="font-sora">{{
             userDatas[key] ?? "Belum diisi"
           }}</small>
         </div>
@@ -158,6 +158,7 @@ const store = useStore();
 
 // Mapping nama field
 const fields = {
+  nik: { label: "NIK", type: "text" },
   first_name: { label: "First Name", type: "text" },
   last_name: { label: "Last Name", type: "text" },
   birth_place: { label: "Birth Place", type: "text" },

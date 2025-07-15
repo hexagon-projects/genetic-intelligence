@@ -48,7 +48,7 @@
           </tr>
         </thead>
 
-        <tbody>
+        <tbody v-if="dataSiswa.length">
           <tr v-for="(item, index) in dataSiswa" :key="index" class="border-b">
             <td class="py-3 px-4">{{ index + 1 }}</td>
             <td class="py-3 px-4 flex items-center gap-2">
@@ -61,7 +61,7 @@
             </td>
             <td class="py-3 px-4">{{ item.grade }}</td>
             <td class="py-3 px-4">{{ item.majoring }}</td>
-            <td class="py-3 px-4">{{ item.institutions.name }}</td>
+            <td class="py-3 px-4">{{ item.institutions.name ?? '-' }}</td>
             <td class="py-3 px-4">{{ item.updated_at }}</td>
             <td class="py-3 px-4">{{ item.total_test }}</td>
             <td class="py-3 px-4">
@@ -86,6 +86,13 @@
                   />
                 </svg>
               </button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="8" class="text-center py-6 text-gray-500">
+              Data siswa tidak tersedia.
             </td>
           </tr>
         </tbody>
@@ -121,6 +128,13 @@ const getPlacementData = async () => {
 
 const getSiswa = async () => {
   const token = Cookies.get("token");
+
+  // Cek apakah ID institusi tersedia
+  if (!selectedInstitutionId.value) {
+    dataSiswa.value = []; // Kosongkan dataSiswa agar tabel tidak menampilkan apa-apa
+    return; // Stop eksekusi
+  }
+
   try {
     const response = await initAPI(
       "get",
@@ -128,7 +142,13 @@ const getSiswa = async () => {
       null,
       token
     );
-    dataSiswa.value = response.data.data;
+
+    // Filter data: hanya yang total_test tidak null dan tidak 0
+    const filteredData = (response.data.data || []).filter(item => {
+      return item.total_test && item.total_test !== 0;
+    });
+
+    dataSiswa.value = filteredData;
   } catch (error) {
     Swal.fire({
       icon: "error",
@@ -139,6 +159,7 @@ const getSiswa = async () => {
     });
   }
 };
+
 
 watch(selectedInstitutionId, () => {
   getSiswa();

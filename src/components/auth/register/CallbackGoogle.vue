@@ -25,7 +25,10 @@ const userData = ref({
 
 const handleCallback = async () => {
   try {
-    const response = await initAPI('post', 'auth/google/login', userData.value, null);
+    // const response = await initAPI('get', 'auth/google/login', userData.value, null);
+    const query = new URLSearchParams(userData.value).toString();
+    const response = await initAPI('get', `auth/google/login?${query}`, null, null);
+
 
     if (!response.data || !response.data.user) {
       throw new Error('User data not found in response');

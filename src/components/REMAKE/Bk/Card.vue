@@ -6,7 +6,7 @@
       <!-- unix_number -->
       <strong class="font-sora md:text-2xl my-3">
         <template v-if="userLicese">
-          {{ userLicese.unix_number ?? "Belum Terverivikasi" }}
+          {{ userLicese.unix_number ?? "Belum Terverifikasi" }}
         </template>
         <div v-else class="w-40 h-6 bg-white/20 rounded animate-pulse"></div>
       </strong>

@@ -52,6 +52,25 @@
             <span class="text-black font-roboto">Data Anggota</span>
           </div>
         </li>
+        <li
+          @click="goTo('amdinbk.views.transaksi')"
+          class="relative group cursor-pointer"
+        >
+          <div class="flex items-center gap-[6px]">
+            <img
+              :class="{
+                'grayscale group-hover:grayscale-0':
+                  $route.name !== 'staff.views.list_siswa' ||
+                  $route.name !== 'staff.views.detail_siswa',
+                'grayscale-0':
+                  $route.name == 'staff.views.list_siswa' ||
+                  $route.name == 'staff.views.detail_siswa',
+              }"
+              src="@/assets/icons/nav-datasiswa.svg"
+            />
+            <span class="text-black font-roboto">Transaksi</span>
+          </div>
+        </li>
       </ul>
 
       <div

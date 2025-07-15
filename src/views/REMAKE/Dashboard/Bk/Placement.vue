@@ -10,20 +10,7 @@
       <div class="w-full md:w-4/5 mx-auto">
         <div class="flex mb-5">
           <!-- navigation profile -->
-          <div class="bg-gray-400 flex p-3 rounded-full text-xs gap-5">
-            <RouterLink
-              :to="{ name: 'bk.views.profile' }"
-              class="text-biru py-2 px-7 rounded-full hover:bg-gray-50 font-semibold inline-flex justify-center items-center"
-            >
-              Profile
-            </RouterLink>
-            <RouterLink
-              :to="{ name: 'bk.views.placement' }"
-              class="bg-biru text-white py-2 px-7 rounded-full hover:bg-blue-600 inline-flex justify-center items-center"
-            >
-              Placement
-            </RouterLink>
-          </div>
+          <NavigateProfile />
         </div>
         <!-- section -->
         <div class="bg-gray-100 min-h-screen font-sora text-xs">
@@ -262,6 +249,7 @@
 
 <script setup>
 import Layout from "@/Layout/Bk/Layout.vue";
+import NavigateProfile from "../../../../components/REMAKE/Bk/NavigateProfile.vue";
 import { ref, onMounted } from "vue";
 import Swal from "sweetalert2";
 import initAPI from "@/api/api";

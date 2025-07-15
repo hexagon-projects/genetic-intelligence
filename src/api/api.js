@@ -62,6 +62,7 @@ const initAPI = async (method, endpoint, data, token) => {
             endpoint.includes('customers') ||
             endpoint.includes('consultants') ||
             endpoint.includes('interview-documentation') ||
+            endpoint.includes('bk/upload-profile') ||
             endpoint.includes('placement');
   // console.log(check)
   const config = {
@@ -70,7 +71,7 @@ const initAPI = async (method, endpoint, data, token) => {
     url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
     headers: {
       'Content-Type': check ? 'multipart/form-data' : 'application/json',
-      'Authorization': token !== null ? `Bearer ${token}` : null
+      'Authorization': token !== null ? `Bearer ${token}` : null,
     },
     data: data !== null ? data : null
   };

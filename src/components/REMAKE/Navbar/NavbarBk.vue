@@ -120,11 +120,20 @@
         class="cursor-pointer relative h-9 justify-end items-center gap-2 inline-flex"
       >
         <img
-          v-if="userDatas && userDatas.customer.image == null"
+          v-if="userDatas && userDatas.customer.profile == null"
           class="w-9 h-9 rounded-full"
           src="@/assets/img/profile-mock.png"
         />
-        <!-- <img v-if="userDatas && userDatas.customer.image !== null" class="w-9 h-9 rounded-full" :src="baseUrl+'open/customers/'+userDatas.customer.image" /> -->
+        <img
+          v-else
+          :src="
+            userDatas?.customer?.profile
+              ? `${baseURL}/storage/${userDatas.customer.profile}`
+              : profileDefault
+          "
+          alt="Profile"
+          class="w-9 h-9 object-cover rounded-full border-4 border-white shadow"
+        />
         <img class="w-3 h-3" src="@/assets/icons/chevron-down.svg" />
 
         <ul
@@ -228,11 +237,14 @@ import Cookies from "js-cookie";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import customerBottom from "../../navbar/customer/customerBottom.vue";
+import profiledefault from "@/assets/img/profile-mock.png";
+
+const baseURL =
+  import.meta.env.VITE_API_BASE_URL_STORAGE || "http://127.0.0.1:8000";
 
 const router = useRouter();
 const store = useStore();
 const loading = ref(false);
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const userDatas = ref(null);
 
 const goTo = (route) => {
