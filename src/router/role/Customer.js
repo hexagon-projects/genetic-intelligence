@@ -956,4 +956,247 @@ export default [
             }
         }
     },
+
+    {
+        path: '/hallopsy',
+        name: 'user.views.hallopsy',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Beranda.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+
+    {
+        path: '/hallopsy/reservasi',
+        name: 'user.views.reservasi',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Reservasi.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+{
+    path: '/hallopsy/reservasi/detail/:id',
+    name: 'user.views.reservasi_detail',
+    component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/ReservasiDetail.vue'),
+    beforeEnter: (to, from, next) => {
+        const token = Cookies.get('token')
+        const isAuth = JSON.parse(localStorage.getItem('userData'))
+        if (!token || !isAuth) {
+            next({ name: 'views.login' });
+        } else {
+            const decodedToken = jwtDecode(token);
+            const decodeRoleUser = decodedToken.role
+            const roleUser = JSON.parse(localStorage.getItem('userRole'))
+            if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+            else next()
+        }
+    }
+},
+    {
+        path: '/hallopsy/reservasi/detail/:id/book',
+        name: 'user.views.reservasi_detail_book',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/BookDetail.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hallopsy/reservasi/detail/medical',
+        name: 'user.views.reservasi_detail_medical',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Medical.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hallopsy/reservasi/detail/counseling',
+        name: 'user.views.reservasi_detail_counseling',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Counseling.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hallopsy/reservasi/detail/terms',
+        name: 'user.views.reservasi_detail_book_terms',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Terms.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/hallopsy/result/:id',
+        name: 'user.views.hallopsy_result',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Result.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+
+        {
+        path: '/hallopsy/booking/:id',
+        name: 'user.views.hallopsy_book_detail',
+        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/BookUserDetail.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+
+        {
+    path: '/hallopsy/reservasi/detail/:id/book/session/',
+    name: 'user.views.reservasi_detail_book_session',
+    component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/BookSession.vue'),
+    beforeEnter: (to, from, next) => {
+        const token = Cookies.get('token');
+        const isAuth = JSON.parse(localStorage.getItem('userData'));
+        if (!token || !isAuth) {
+            // Jika token tidak ada, arahkan pengguna ke halaman login
+            next({ name: 'views.login' });
+        } else {
+            const decodedToken = jwtDecode(token);
+            const decodeRoleUser = decodedToken.role;
+            const roleUser = JSON.parse(localStorage.getItem('userRole'));
+            if (decodeRoleUser !== 'customer') {
+                next({ name: 'views.login' });
+            } else {
+                next();
+            }
+        }
+    }
+},
+{
+    path: '/hallopsy/booking-history',
+    name: 'user.views.booking_history',
+    component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/BookHistory.vue'),
+    beforeEnter: (to, from, next) => {
+        const token = Cookies.get('token');
+        const isAuth = JSON.parse(localStorage.getItem('userData'));
+        if (!token || !isAuth) {
+            next({ name: 'views.login' });
+        } else {
+            const decodedToken = jwtDecode(token);
+            const decodeRoleUser = decodedToken.role;
+            if(decodeRoleUser !== 'customer') next({ name: 'views.login' });
+            else next();
+        }
+    }
+},
+{
+    path: '/hallopsy/book/time',
+    name: 'user.views.book_by_time',
+    component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/BookTime.vue'),
+    beforeEnter: (to, from, next) => {
+        const token = Cookies.get('token');
+        const isAuth = JSON.parse(localStorage.getItem('userData'));
+        if (!token || !isAuth) {
+            // Jika token tidak ada, arahkan pengguna ke halaman login
+            next({ name: 'views.login' });
+        } else {
+            const decodedToken = jwtDecode(token);
+            const decodeRoleUser = decodedToken.role;
+            const roleUser = JSON.parse(localStorage.getItem('userRole'));
+            if (decodeRoleUser !== 'customer') {
+                next({ name: 'views.login' });
+            } else {
+                next();
+            }
+        }
+    }
+},
 ]

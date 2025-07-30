@@ -188,11 +188,11 @@
             </li>
             </ul>
         </li>
-        <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
+        <li @click="goTo('user.views.hallopsy')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
-                <img class="transition-all duration-100" :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.reservasi', 'grayscale-0': $route.name === 'user.views.reservasi'}" 
+                <img class="transition-all duration-100" :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.hallopsy', 'grayscale-0': $route.name === 'user.views.hallopsy'}" 
                 src="@/assets/icons/reservasi.svg"/>
-                <span class="text-black font-roboto">Reservasi</span>
+                <span class="text-black font-roboto">HalloPsy</span>
             </div>
         </li>
     </ul>
