@@ -24,59 +24,87 @@ const bookingTimeFilter = ref(null);
 const fetchConsultants = async () => {
   try {
     isLoading.value = true
-    const timeFilter = localStorage.getItem('bookingTimeFilter');
-    if (timeFilter) {
-      bookingTimeFilter.value = JSON.parse(timeFilter);
-      localStorage.removeItem('bookingTimeFilter');
-    }
-
     const token = await Cookies.get('token');
-    let response;
+    const bookingFlow = localStorage.getItem('isBookingByTime');
 
-    if (bookingTimeFilter.value) {
-      response = await initAPI('get', `user/consultants/filter-by-time?date=${bookingTimeFilter.value.selectedDate}&start_time=${bookingTimeFilter.value.selectedTime}&end_time=${bookingTimeFilter.value.endTime}`, null, token);
-    } else {
-      response = await initAPI('get', 'user/consultants', null, token);
-    }
+    if (bookingFlow === 'true') {
+      const timeFilter = localStorage.getItem('bookingTimeFilter');
+      if (timeFilter) {
+        bookingTimeFilter.value = JSON.parse(timeFilter);
 
-    if (response.data.success) {
-      consultants.value = response.data.data.data.map(consultant => {
-        const testimonials = consultant.testimonials || [];
-        const totalRating = testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0);
-        const averageRating = testimonials.length > 0 ? (totalRating / testimonials.length).toFixed(1) : 0;
-        const slot = consultant.available_slots
+        const response = await initAPI('get',
+          `user/consultants/filter-by-time?date=${bookingTimeFilter.value.selectedDate}&start_time=${bookingTimeFilter.value.selectedTime}&end_time=${bookingTimeFilter.value.endTime}`,
+          null, token);
 
-        const bookingData = {
-          selectedDate: bookingTimeFilter.value?.selectedDate,
-          selectedTime: bookingTimeFilter.value?.selectedTime,
-          endTime: bookingTimeFilter.value?.end_time,
-          selectedPackage: bookingTimeFilter.value?.selectedPackage,
-          selectedSlot: slot[0],
-          isTimeFirst: true
-        };
+        if (response.data.success) {
+          consultants.value = response.data.data.data.map(consultant => {
+            const testimonials = consultant.testimonials || [];
+            const totalRating = testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0);
+            const averageRating = testimonials.length > 0 ? (totalRating / testimonials.length).toFixed(1) : 0;
+            const slot = consultant?.available_slots?.[0] || null;
 
-        localStorage.setItem('bookingTimeFilter2', JSON.stringify(bookingData));
+            if (bookingFlow === 'true') {
+              const bookingData = {
+                ...bookingTimeFilter.value,
+                selectedSlot: slot,
+                consultantId: consultant.id
+              };
+              localStorage.setItem('bookingTimeFilter2', JSON.stringify(bookingData));
+            }
 
-        return {
-          id: consultant.id,
-          image: consultant.image ? `http://127.0.0.1:8000/storage/consultants/${consultant.image}` : Doc,
-          name: consultant.name,
-          role: consultant.type || 'Konsultan',
-          rating: averageRating,
-          reviews: testimonials.length,
-          fee: consultant.fee,
-          type: consultant.type,
-          specializations: consultant.specializations.map(spec => spec.name).join(', ')
+            return {
+              id: consultant.id,
+              image: consultant.image ? `http://127.0.0.1:8000/storage/consultants/${consultant.image}` : Doc,
+              name: consultant.name,
+              role: consultant.type || 'Konsultan',
+              rating: averageRating,
+              reviews: testimonials.length,
+              fee: consultant.fee,
+              type: consultant.type,
+              specializations: consultant.specializations.map(spec => spec.name).join(', ')
+            };
+          });
+
+          const uniqueTypes = [...new Set(consultants.value.map(consultant => consultant.type).filter(Boolean))]
+          filters.value = [
+            { id: 'all', label: 'Semua' },
+            ...uniqueTypes.map(type => ({ id: type.toLowerCase(), label: type }))
+          ]
+
+          applyFilter(activeFilter.value)
         }
-      })
+      }
+    } else {
+      const response = await initAPI('get', 'user/consultants', null, token);
 
-      const uniqueTypes = [...new Set(consultants.value.map(consultant => consultant.type).filter(Boolean))]
-      filters.value = [
-        { id: 'all', label: 'Semua' },
-        ...uniqueTypes.map(type => ({ id: type.toLowerCase(), label: type }))
-      ]
+      if (response.data.success) {
+        consultants.value = response.data.data.data.map(consultant => {
+          const testimonials = consultant.testimonials || [];
+          const totalRating = testimonials.reduce((sum, testimonial) => sum + (testimonial.rating || 0), 0);
+          const averageRating = testimonials.length > 0 ? (totalRating / testimonials.length).toFixed(1) : 0;
+          const slot = consultant?.available_slots
 
-      applyFilter(activeFilter.value)
+          return {
+            id: consultant.id,
+            image: consultant.image ? `http://127.0.0.1:8000/storage/consultants/${consultant.image}` : Doc,
+            name: consultant.name,
+            role: consultant.type || 'Konsultan',
+            rating: averageRating,
+            reviews: testimonials.length,
+            fee: consultant.fee,
+            type: consultant.type,
+            specializations: consultant.specializations.map(spec => spec.name).join(', ')
+          }
+        })
+
+        const uniqueTypes = [...new Set(consultants.value.map(consultant => consultant.type).filter(Boolean))]
+        filters.value = [
+          { id: 'all', label: 'Semua' },
+          ...uniqueTypes.map(type => ({ id: type.toLowerCase(), label: type }))
+        ]
+
+        applyFilter(activeFilter.value)
+      }
     }
   } catch (error) {
     console.error('Error fetching consultants:', error)
@@ -112,6 +140,8 @@ const applyFilter = (filter) => {
 }
 
 const navigateToReservation = (id) => {
+  localStorage.removeItem('bookingTimeFilter');
+  localStorage.removeItem('isBookingByTime');
   router.push(`/hallopsy/reservasi/detail/${id}`);
 };
 

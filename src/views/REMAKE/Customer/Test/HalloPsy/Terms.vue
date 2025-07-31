@@ -66,7 +66,7 @@ const checkScreenSize = () => {
 }
 
 const initializeCheckedTerms = () => {
-  checkedTerms.value = [] 
+  checkedTerms.value = []
   termsAndConditions.forEach((item) => {
     item.items.forEach(() => {
       checkedTerms.value.push(false)
@@ -104,7 +104,6 @@ const processPayment = async () => {
     paymentError.value = null;
 
     const bookingData = store.state.bookingProcess;
-    console.log(bookingData)
     const token = Cookies.get('token');
 
     const bookingResponse = await initAPI('post', 'user/bookings', {
@@ -131,6 +130,8 @@ const processPayment = async () => {
     }, token);
 
     if (paymentResponse.data.success) {
+      clearStorage('bookingTimeFilter2')
+      clearStorage('bookingData')
       meetLink.value = paymentResponse.data.data.meet_link;
       paymentSuccess.value = true;
       ['bookingData', 'medicalAnswers', 'counselingAnswers', 'termsAccepted'].forEach(key => {
@@ -224,8 +225,8 @@ const handleCheckboxChange = (sectionIndex, itemIndex) => {
 }
 
 const allTermsAccepted = computed(() => {
-  return checkedTerms.value.length > 0 && 
-         checkedTerms.value.every(checked => checked)
+  return checkedTerms.value.length > 0 &&
+    checkedTerms.value.every(checked => checked)
 })
 
 const openPaymentModal = () => {

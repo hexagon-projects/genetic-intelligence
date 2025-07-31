@@ -10,24 +10,29 @@ import ExpertCard from './components/ExpertCard.vue';
 import Logo from '@/assets/img/logo-white.png';
 import Doc from '@/assets/img/doc.png';
 import { onMounted, ref, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 import initAPI from '@/api/api.js';
 import Cookies from 'js-cookie';
 import moment from 'moment-timezone';
 
+const router = useRouter();
+
 const data = [
     {
         title: 'Personal Consultation with Psychologist',
-        description: 'Lagi butuh tempat cerita yang aman? Di sini, kamu bisa ngobrol langsung dengan psikolog berlisensi untuk bantu pahami dan atasi masalah emosional atau mental yang kamu alami.',
+        description: '',
         image1: Logo,
         category: 'Psikologi',
-        image2: Doc
+        image2: Doc,
+        color: 'bg-primary'
     },
     {
-        title: 'Personal Consultation with Konselor',
-        description: 'Lagi butuh tempat cerita yang aman? Di sini, kamu bisa ngobrol langsung dengan psikolog berlisensi untuk bantu pahami dan atasi masalah emosional atau mental yang kamu alami.',
+        title: 'Professional Counseling Sessions',
+        description: '',
         image1: Logo,
         category: 'Konselor',
-        image2: Doc
+        image2: Doc,
+        color: 'bg-violet-500'
     },
 ]
 
@@ -70,6 +75,40 @@ const swiperVisible = ref(false);
 const packagesVisible = ref(false);
 const historyVisible = ref(false);
 const expertVisible = ref(false);
+
+// Popup state
+const showPopup = ref(false);
+const isClosing = ref(false);
+const isMobile = ref(false);
+const selectedCardData = ref(null);
+
+const checkScreenSize = () => {
+    isMobile.value = window.innerWidth < 768;
+};
+
+const openPopup = (card) => {
+    selectedCardData.value = card;
+    showPopup.value = true;
+    isClosing.value = false;
+};
+
+const closePopup = () => {
+    isClosing.value = true;
+    setTimeout(() => {
+        showPopup.value = false;
+    }, 500);
+};
+
+const navigateToReservation = () => {
+    if (selectedCardData.value) {
+        localStorage.setItem('selectedExpertType', selectedCardData.value.category.toLowerCase());
+        router.push('/hallopsy/reservasi');
+    }
+};
+
+const navigateToIgd = () => {
+    router.push('/hallopsy/book/time');
+};
 
 const formatDate = (dateString) => {
     if (!dateString) return 'Not specified';
@@ -170,6 +209,8 @@ const handleAddSession = (consultantId) => {
 
 onMounted(async () => {
     isLoaded.value = true;
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
 
     await nextTick();
 
@@ -200,7 +241,7 @@ onMounted(async () => {
 <template>
     <Layout>
         <div
-            class="p-4 lg:px-20 lg:py-10 space-y-6 md:space-y-8 lg:space-y-12 bg-[#F0F7FD] w-full h-full font-sora pb-20 relative">
+            class="p-4 lg:px-20 lg:py-10 space-y-6 md:space-y-8 lg:space-y-12 bg-[#F0F7FD] w-full h-full font-sora pb-20">
 
             <div class="space-y-2 transition-all duration-1000 ease-out"
                 :class="heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
@@ -215,8 +256,10 @@ onMounted(async () => {
                 <div class="md:hidden">
                     <Swiper :breakpoints="breakpoints" :slides-per-view="1.2">
                         <SwiperSlide v-for="(item, index) in data" :key="index">
-                            <Card :title="item.title" :category="item.category" :description="item.description" :image1="item.image1"
-                                :image2="item.image2" />
+                            <div @click="openPopup(item)">
+                                <Card :title="item.title" :category="item.category" :image1="item.image1"
+                                    :image2="item.image2" :color="item.color" />
+                            </div>
                         </SwiperSlide>
                     </Swiper>
                 </div>
@@ -224,14 +267,17 @@ onMounted(async () => {
                     <Swiper :slides-per-view="1" :modules="modules" :effect="'fade'"
                         :autoplay="{ delay: 3000, disableOnInteraction: false }">
                         <SwiperSlide v-for="(item, index) in data" :key="index">
-                            <Card :title="item.title" :category="item.category" :description="item.description" :image1="item.image1"
-                                :image2="item.image2" />
+                            <div @click="openPopup(item)">
+                                <Card :title="item.title" :category="item.category" :image1="item.image1"
+                                    :image2="item.image2" :color="item.color" />
+                            </div>
                         </SwiperSlide>
                     </Swiper>
                 </div>
             </div>
 
-            <div v-if="packages.length > 0" class="space-y-6 md:space-y-8 transition-all duration-1000 ease-out delay-300"
+            <div v-if="packages.length > 0"
+                class="space-y-6 md:space-y-8 transition-all duration-1000 ease-out delay-300"
                 :class="packagesVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
                 <div class="text-center space-y-2">
                     <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">Your Purchased
@@ -400,6 +446,101 @@ onMounted(async () => {
                     </div>
                 </div>
             </div>
+
+            <!-- Popup Section -->
+            <transition name="popup">
+                <div v-if="showPopup && isMobile"
+                    class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-end transition-all duration-300"
+                    @click.self="closePopup">
+                    <div
+                        :class="['w-full bg-white rounded-t-3xl relative', isClosing ? 'animate-slide-down' : 'animate-slide-up']">
+                        <div class="p-6 space-y-6">
+                            <h3 class="text-[20px] font-medium text-center">Mau Mulai Dari Mana?</h3>
+                            <p class="text-base text-center">Pilih cara yang paling nyaman buatmu untuk mulai sesi
+                                konseling.</p>
+                            <div class="w-full space-y-4">
+                                <div class="space-y-2 bg-[#A4A4A499] group hover:bg-primary cursor-pointer transition-all duration-500 p-4 md:p-6 rounded-3xl"
+                                    @click="navigateToReservation">
+                                    <div class="flex gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none">
+                                            <!-- SVG icon -->
+                                        </svg>
+                                        <p class="text-base text-white">Pilih Berdasarkan {{ selectedCardData?.category
+                                            }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-white">Lihat jadwal yang tersedia, lalu pilih {{
+                                            selectedCardData?.category.toLowerCase() }} yang cocok.</p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 bg-[#A4A4A499] group hover:bg-primary cursor-pointer transition-all duration-500 p-4 md:p-6 rounded-3xl"
+                                    @click="navigateToIgd">
+                                    <div class="flex gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none">
+                                            <!-- SVG icon -->
+                                        </svg>
+                                        <p class="text-base text-white">Pilih Berdasarkan Waktu</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-white">Lihat profil psikolog terlebih dahulu, lalu
+                                            tentukan jadwalnya.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+
+            <transition name="popup">
+                <div v-if="showPopup && !isMobile"
+                    class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center transition-all duration-300"
+                    @click.self="closePopup">
+                    <div
+                        :class="['bg-white rounded-3xl relative w-full max-w-md mx-4', isClosing ? 'animate-fade-out' : 'animate-fade-in']">
+                        <div class="p-6 space-y-6">
+                            <h3 class="text-[20px] font-medium text-center">Mau Mulai Dari Mana?</h3>
+                            <p class="text-base text-center">Pilih cara yang paling nyaman buatmu untuk mulai sesi
+                                konseling.</p>
+                            <div class="w-full space-y-4">
+                                <div class="space-y-2 bg-[#A4A4A499] group hover:bg-primary cursor-pointer transition-all duration-500 p-4 md:p-6 rounded-3xl"
+                                    @click="navigateToReservation">
+                                    <div class="flex gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none">
+                                            <!-- SVG icon -->
+                                        </svg>
+                                        <p class="text-base text-white">Pilih Berdasarkan {{ selectedCardData?.category
+                                            }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-white">Lihat jadwal yang tersedia, lalu pilih {{
+                                            selectedCardData?.category.toLowerCase() }} yang cocok.</p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 bg-[#A4A4A499] group hover:bg-primary cursor-pointer transition-all duration-500 p-4 md:p-6 rounded-3xl"
+                                    @click="navigateToIgd">
+                                    <div class="flex gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none">
+                                            <!-- SVG icon -->
+                                        </svg>
+                                        <p class="text-base text-white">Pilih Berdasarkan Waktu</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-white">Lihat profil psikolog terlebih dahulu, lalu
+                                            tentukan jadwalnya.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </div>
     </Layout>
 </template>
@@ -417,9 +558,79 @@ onMounted(async () => {
     }
 }
 
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
 .animate-fade-in-up {
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+}
+
+.animate-slide-down {
+    animation: slide-down 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-fade-out {
+    animation: fade-out 0.5s ease-out forwards;
+}
+
+.popup-enter-active,
+.popup-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.popup-enter-from,
+.popup-leave-to {
+    opacity: 0;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

@@ -74,7 +74,6 @@ const STORAGE_KEY = 'bookingData';
 const navigateToBook = () => {
     const timeFilter = localStorage.getItem('bookingTimeFilter2');
     const bookJson = JSON.parse(timeFilter)
-    console.log(bookJson)
     if (timeFilter && JSON.parse(timeFilter).isTimeFirst) {
         saveToStorage(STORAGE_KEY, {
             selectedDate: bookJson.selectedDate,

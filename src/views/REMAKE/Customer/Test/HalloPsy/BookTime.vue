@@ -317,6 +317,7 @@ const proceedToReservation = async () => {
         isTimeFirst: true
     };
 
+    localStorage.setItem('isBookingByTime', 'true');
     localStorage.setItem('bookingTimeFilter', JSON.stringify(bookingData));
 
     router.push('/hallopsy/reservasi');

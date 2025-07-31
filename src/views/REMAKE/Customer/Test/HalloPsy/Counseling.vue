@@ -65,7 +65,6 @@ const saveAnswers = () => {
   }
 
   try {
-    console.log(answers.value);
     store.commit('SET_COUNSELING_ANSWERS', answers.value);
     clearStorage(STORAGE_KEY);
     modalMessage.value = 'Counseling information saved successfully!';

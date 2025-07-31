@@ -207,7 +207,12 @@ export default {
           { title: "Sesi Hari Ini", value: statsResponse.data.data.today_sessions },
           { title: "Pendapatan Bulanan", value: `Rp ${this.formatCurrency(statsResponse.data.data.monthly_income)}` },
           { title: "Pasien Baru", value: statsResponse.data.data.new_patients },
-          { title: "Rating Rata-rata", value: statsResponse.data.data.average_rating ? statsResponse.data.data.average_rating : 'N/A' }
+          {
+            title: "Rating Rata-rata",
+            value: statsResponse.data.data.average_rating ?
+              parseFloat(statsResponse.data.data.average_rating).toFixed(1) :
+              'N/A'
+          }
         ]
 
         const calendarResponse = await initAPI('get', 'consultant-dashboard/calendar', null, token)
@@ -216,23 +221,23 @@ export default {
           switch (slot.status) {
             case 'available':
               backgroundColor = '#10B981';
-              borderColor = '#059669';    
+              borderColor = '#059669';
               break;
             case 'booked':
               backgroundColor = '#F59E0B';
-              borderColor = '#D97706';    
+              borderColor = '#D97706';
               break;
             case 'confirmed':
               backgroundColor = '#3B82F6';
-              borderColor = '#2563EB';    
+              borderColor = '#2563EB';
               break;
             case 'completed':
               backgroundColor = '#8B5CF6';
-              borderColor = '#7C3AED';    
+              borderColor = '#7C3AED';
               break;
             case 'cancelled':
               backgroundColor = '#EF4444';
-              borderColor = '#DC2626';    
+              borderColor = '#DC2626';
               break;
             default:
               backgroundColor = '#6B7280';
