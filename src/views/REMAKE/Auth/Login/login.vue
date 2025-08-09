@@ -186,17 +186,33 @@ const Login = async () => {
 
         try {
             const response = await initApi('post', 'login', data, null)
+            
+            // Handle consultant verification status
+            if (response.data.user.role === 'consultant' && response.data.consultant) {
+                if (response.data.consultant.status === 2) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Verifikasi Dibutuhkan',
+                        text: 'Akun Anda belum diverifikasi oleh admin. Silakan tunggu verifikasi.',
+                        showConfirmButton: true
+                    });
+                    isLoading.value = false;
+                    return;
+                }
+            }
+
             const role = response.data.user.role
             let type
             if (response.data.customer) type = response.data.customer
             if (response.data.consultant) type = response.data.consultant
             if (!response.data.consultant && !response.data.customer) type = response.data
-            // console.log(response.data.user.role)
+            
             localStorage.setItem('userData', JSON.stringify(type));
             Cookies.set('token', response.data.token, { expires: 1 })
             store.commit('user', type);
             store.commit('userRole', response.data.user.role);
             store.commit('userEmail', response.data.user.email);
+            
             switch (role) {
                 case 'customer':
                     router.push({ name: 'views.dashboard' });
@@ -223,13 +239,25 @@ const Login = async () => {
             }
         } catch (error) {
             if (error.response) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Gagal',
-                    text: error.response.data.message,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+                let errorMessage = error.response.data.message;
+                
+                // Handle consultant verification error specifically
+                if (error.response.status === 403 && error.response.data.message.includes('belum diverifikasi')) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Verifikasi Dibutuhkan',
+                        text: error.response.data.message,
+                        showConfirmButton: true
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Gagal',
+                        text: errorMessage,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
             } else {
                 Swal.fire({
                     icon: 'error',

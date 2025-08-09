@@ -56,14 +56,14 @@
 
             <div class="flex items-center gap-3">
               <button @click="clearFilters"
-                class="inline-flex items-center px-4 py-2.5 bg-slate-600 text-white text-sm font-medium rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors">
+                class="inline-flex items-center px-4 py-2 bg-slate-600 text-white text-sm font-medium rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
                 Reset Filter
               </button>
               <button @click="fetchBookings"
-                class="inline-flex items-center px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
@@ -178,6 +178,10 @@
                       @click.stop="showResultModal(booking)"
                       class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-purple-700 bg-purple-100 rounded-md hover:bg-purple-200 transition-colors">
                       Input Hasil
+                    </button>
+                    <button v-if="booking.status === 'completed' && booking.results" @click.stop="editResults(booking)"
+                      class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200 transition-colors">
+                      Edit Hasil
                     </button>
                     <button v-if="booking.status === 'completed' && booking.results" @click.stop="showResults(booking)"
                       class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-green-700 bg-green-100 rounded-md hover:bg-green-200 transition-colors">
@@ -326,11 +330,11 @@
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Konfirmasi Booking
               </button>
-              <button v-if="selectedBooking.status !== 'cancelled'"
+              <!-- <button v-if="selectedBooking.status !== 'cancelled'"
                 @click="updateBookingStatus(selectedBooking.id, 'cancelled')"
                 class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
                 Batalkan Booking
-              </button>
+              </button> -->
               <button @click="selectedBooking = null"
                 class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors">
                 Tutup
@@ -345,7 +349,7 @@
           <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
           <div class="relative bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6 border-b border-slate-200">
-              <h3 class="text-xl font-semibold text-slate-900">Input Hasil Konseling</h3>
+              <h3 class="text-xl font-semibold text-slate-900">{{ isEditingResults ? 'Edit Hasil Konseling' : 'Input Hasil Konseling' }}</h3>
             </div>
             <div class="p-6">
               <div class="mb-6">
@@ -402,6 +406,43 @@
                   </div>
                 </div>
               </div>
+
+              <div class="mt-6 bg-slate-50 rounded-lg p-4">
+                <h4 class="font-semibold text-slate-900 mb-3">Rekomendasi Spesialisasi</h4>
+                <div class="relative">
+                  <select v-model="recommendedSpecializations" multiple
+                    class="w-full border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option v-for="specialization in allSpecializations" :key="specialization.id"
+                      :value="specialization.id">
+                      {{ specialization.name }}
+                    </option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">Tekan Ctrl/Cmd untuk memilih lebih dari satu</p>
+              </div>
+
+              <div class="mt-6 bg-slate-50 rounded-lg p-4">
+                <h4 class="font-semibold text-slate-900 mb-3">Rekomendasi Assessment</h4>
+                <div class="relative">
+                  <select v-model="recommendedAssessments" multiple
+                    class="w-full border border-slate-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option v-for="assessment in allAssessments" :key="assessment.id" :value="assessment.id">
+                      {{ assessment.assesment_name }}
+                    </option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">Tekan Ctrl/Cmd untuk memilih lebih dari satu</p>
+              </div>
             </div>
             <div class="p-6 border-t border-slate-200 bg-slate-50 flex justify-end space-x-3">
               <button @click="showResultInputModal = false"
@@ -428,8 +469,31 @@
               <div class="space-y-6">
                 <div v-for="result in bookingResults" :key="result.id" class="bg-slate-50 rounded-lg p-4">
                   <h4 class="font-semibold text-slate-900 mb-2">{{ result.category?.name || 'Kategori Tidak Diketahui'
-                  }}</h4>
+                    }}</h4>
                   <p class="text-slate-700 whitespace-pre-line">{{ result.description }}</p>
+
+                  <!-- Tambahan rekomendasi psikolog (hanya tampilkan di hasil pertama) -->
+                  <div v-if="result.recommended_specializations?.length > 0 && result === bookingResults[0]"
+                    class="mt-4">
+                    <h5 class="font-medium text-slate-800 mb-2">Rekomendasi Spesialisasi:</h5>
+                    <div class="flex flex-wrap gap-2">
+                      <span v-for="specId in result.recommended_specializations" :key="specId"
+                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {{ getSpecializationName(specId) }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Tambahan rekomendasi assessment (hanya tampilkan di hasil pertama) -->
+                  <div v-if="result.recommended_assesments?.length > 0 && result === bookingResults[0]" class="mt-4">
+                    <h5 class="font-medium text-slate-800 mb-2">Rekomendasi Assessment:</h5>
+                    <div class="flex flex-wrap gap-2">
+                      <span v-for="assessId in result.recommended_assesments" :key="assessId"
+                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ getAssessmentName(assessId) }}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -442,13 +506,44 @@
           </div>
         </div>
       </div>
+
+      <div v-if="statusLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4 flex flex-col items-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+          <p class="text-center text-slate-700">Memproses perubahan status...</p>
+        </div>
+      </div>
+
+      <div v-if="showStatusModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+          <div class="text-center">
+            <div v-if="statusUpdateSuccess"
+              class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+              <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <div v-else class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+              <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-medium text-slate-900 mb-2">{{ statusModalTitle }}</h3>
+            <p class="text-sm text-slate-500 mb-4">{{ statusModalMessage }}</p>
+            <button @click="showStatusModal = false"
+              class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </template>
 
 <script>
 import newNavbar from '../../../../components/navbar/newNavbar.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import moment from 'moment';
 import 'moment/locale/id';
@@ -481,6 +576,16 @@ export default {
     const showResultsModal = ref(false);
     const bookingResults = ref([]);
     const searchTimeout = ref(null);
+    const allSpecializations = ref([]);
+    const recommendedSpecializations = ref([]);
+    const allAssessments = ref([]);
+    const recommendedAssessments = ref([]);
+    const statusLoading = ref(false);
+    const showStatusModal = ref(false);
+    const statusUpdateSuccess = ref(false);
+    const statusModalTitle = ref('');
+    const statusModalMessage = ref('');
+    const isEditingResults = ref(false);
 
     moment.locale('id');
 
@@ -561,15 +666,27 @@ export default {
     };
 
     const updateBookingStatus = async (id, status) => {
+      statusLoading.value = true;
       try {
         const token = await Cookies.get('token');
         await initAPI('put', `consultant-dashboard/bookings/${id}/status`, { status }, token);
+
+        statusUpdateSuccess.value = true;
+        statusModalTitle.value = 'Berhasil';
+        statusModalMessage.value = `Status booking berhasil diubah menjadi ${translateStatus(status)}`;
+
         await fetchBookings();
         if (selectedBooking.value && selectedBooking.value.id === id) {
           selectedBooking.value.status = status;
         }
       } catch (error) {
         console.error('Gagal memperbarui status booking:', error);
+        statusUpdateSuccess.value = false;
+        statusModalTitle.value = 'Gagal';
+        statusModalMessage.value = 'Gagal memperbarui status booking';
+      } finally {
+        statusLoading.value = false;
+        showStatusModal.value = true;
       }
     };
 
@@ -614,8 +731,37 @@ export default {
     };
 
     const showResultModal = (booking) => {
+      isEditingResults.value = false;
       resultBooking.value = booking;
+      selectedResults.value = [];
+      recommendedSpecializations.value = [];
+      recommendedAssessments.value = [];
       showResultInputModal.value = true;
+    };
+
+    const editResults = async (booking) => {
+      try {
+        isEditingResults.value = true;
+        resultBooking.value = booking;
+
+        const token = await Cookies.get('token');
+        const response = await initAPI('get', `consultant-dashboard/bookings/${booking.id}/results`, null, token);
+
+        selectedResults.value = response.data.data.map(result => ({
+          category_id: result.consulting_categories_id,
+          description: result.description
+        }));
+
+        if (response.data.data.length > 0) {
+          const firstResult = response.data.data[0];
+          recommendedSpecializations.value = firstResult.recommended_specializations || [];
+          recommendedAssessments.value = firstResult.recommended_assesments || [];
+        }
+
+        showResultInputModal.value = true;
+      } catch (error) {
+        console.error('Gagal memuat hasil untuk diedit:', error);
+      }
     };
 
     const availableCategories = computed(() => {
@@ -626,6 +772,26 @@ export default {
     const getCategoryName = (id) => {
       const category = consultingCategories.value.find(cat => cat.id === id);
       return category ? category.name : 'Unknown';
+    };
+
+    const fetchAllSpecializations = async () => {
+      try {
+        const token = await Cookies.get('token');
+        const response = await initAPI('get', 'consultant-dashboard/specializations-all', null, token);
+        allSpecializations.value = response.data.data;
+      } catch (error) {
+        console.error('Gagal mengambil spesialisasi:', error);
+      }
+    };
+
+    const fetchAllAssessments = async () => {
+      try {
+        const token = await Cookies.get('token');
+        const response = await initAPI('get', 'consultant-dashboard/assesments-all', null, token);
+        allAssessments.value = response.data.data;
+      } catch (error) {
+        console.error('Gagal mengambil assessments:', error);
+      }
     };
 
     const addCategory = () => {
@@ -646,10 +812,29 @@ export default {
     const submitResults = async () => {
       try {
         const token = await Cookies.get('token');
-        await initAPI('post', `consultant-dashboard/bookings/${resultBooking.value.id}/results`,
-          { results: selectedResults.value }, token);
+
+        const recommendedSpecs = recommendedSpecializations.value.map(id => parseInt(id));
+        const recommendedAssess = recommendedAssessments.value.map(id => parseInt(id));
+
+        const resultsData = selectedResults.value.map((result, index) => ({
+          category_id: result.category_id,
+          description: result.description,
+          recommended_specializations: index === 0 ? recommendedSpecs : null,
+          recommended_assesments: index === 0 ? recommendedAssess : null
+        }));
+
+        const response = await initAPI(
+          'post',
+          `consultant-dashboard/bookings/${resultBooking.value.id}/results`,
+          { results: resultsData },
+          token
+        );
+
         showResultInputModal.value = false;
         selectedResults.value = [];
+        recommendedSpecializations.value = [];
+        recommendedAssessments.value = [];
+        isEditingResults.value = false;
         await fetchBookings();
       } catch (error) {
         console.error('Gagal menyimpan hasil:', error);
@@ -707,7 +892,19 @@ export default {
     onMounted(() => {
       fetchBookings();
       fetchConsultingCategories();
+      fetchAllSpecializations();
+      fetchAllAssessments();
     });
+
+    const getSpecializationName = (id) => {
+      const spec = allSpecializations.value.find(s => s.id === id);
+      return spec ? spec.name : 'Spesialisasi Tidak Diketahui';
+    };
+
+    const getAssessmentName = (id) => {
+      const assess = allAssessments.value.find(a => a.id === id);
+      return assess ? assess.assesment_name : 'Assessment Tidak Diketahui';
+    };
 
     return {
       bookings,
@@ -747,8 +944,38 @@ export default {
       submitResults,
       showResultsModal,
       bookingResults,
-      showResults
+      showResults,
+      allSpecializations,
+      recommendedSpecializations,
+      allAssessments,
+      recommendedAssessments,
+      statusLoading,
+      showStatusModal,
+      statusUpdateSuccess,
+      statusModalTitle,
+      statusModalMessage,
+      isEditingResults,
+      editResults,
+      getSpecializationName,
+      getAssessmentName
     };
   }
 };
 </script>
+
+<style scoped>
+select[multiple] {
+  min-height: 100px;
+  background-image: none;
+  padding-right: 1.5rem;
+}
+
+select[multiple] option {
+  padding: 0.5rem;
+}
+
+select[multiple] option:checked {
+  background-color: #4361ee;
+  color: white;
+}
+</style>

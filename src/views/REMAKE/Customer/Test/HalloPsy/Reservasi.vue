@@ -11,15 +11,28 @@ const router = useRouter()
 const consultants = ref([])
 const filteredConsultants = ref([])
 const activeFilter = ref('all')
+const activeSpecialization = ref(null)
 const isLoading = ref(true)
-
+const allSpecializations = ref([]);
 const headerVisible = ref(false)
 const filterVisible = ref(false)
+const specializationFilterVisible = ref(false)
 const titleVisible = ref(false)
 const consultantsVisible = ref(false)
-
 const localStorage = window.localStorage;
 const bookingTimeFilter = ref(null);
+
+const showSpecializationPopup = ref(false)
+
+const fetchAllSpecializations = async () => {
+  try {
+    const token = await Cookies.get('token');
+    const response = await initAPI('get', 'user/consultants/specializations-all', null, token);
+    allSpecializations.value = response.data.data;
+  } catch (error) {
+    console.error('Gagal mengambil spesialisasi:', error);
+  }
+};
 
 const fetchConsultants = async () => {
   try {
@@ -31,7 +44,6 @@ const fetchConsultants = async () => {
       const timeFilter = localStorage.getItem('bookingTimeFilter');
       if (timeFilter) {
         bookingTimeFilter.value = JSON.parse(timeFilter);
-
         const response = await initAPI('get',
           `user/consultants/filter-by-time?date=${bookingTimeFilter.value.selectedDate}&start_time=${bookingTimeFilter.value.selectedTime}&end_time=${bookingTimeFilter.value.endTime}`,
           null, token);
@@ -61,7 +73,8 @@ const fetchConsultants = async () => {
               reviews: testimonials.length,
               fee: consultant.fee,
               type: consultant.type,
-              specializations: consultant.specializations.map(spec => spec.name).join(', ')
+              specializations: consultant.specializations,
+              specializationNames: consultant.specializations.map(spec => spec.name).join(', ')
             };
           });
 
@@ -70,13 +83,16 @@ const fetchConsultants = async () => {
             { id: 'all', label: 'Semua' },
             ...uniqueTypes.map(type => ({ id: type.toLowerCase(), label: type }))
           ]
-
           applyFilter(activeFilter.value)
         }
       }
     } else {
-      const response = await initAPI('get', 'user/consultants', null, token);
+      let endpoint = 'user/consultants';
+      if (activeSpecialization.value) {
+        endpoint = `user/consultants/by-specializations?specialization_ids[]=${activeSpecialization.value}`;
+      }
 
+      const response = await initAPI('get', endpoint, null, token);
       if (response.data.success) {
         consultants.value = response.data.data.data.map(consultant => {
           const testimonials = consultant.testimonials || [];
@@ -93,7 +109,8 @@ const fetchConsultants = async () => {
             reviews: testimonials.length,
             fee: consultant.fee,
             type: consultant.type,
-            specializations: consultant.specializations.map(spec => spec.name).join(', ')
+            specializations: consultant.specializations,
+            specializationNames: consultant.specializations.map(spec => spec.name).join(', ')
           }
         })
 
@@ -102,7 +119,6 @@ const fetchConsultants = async () => {
           { id: 'all', label: 'Semua' },
           ...uniqueTypes.map(type => ({ id: type.toLowerCase(), label: type }))
         ]
-
         applyFilter(activeFilter.value)
       }
     }
@@ -122,7 +138,6 @@ const filters = ref([
 
 const applyFilter = (filter) => {
   activeFilter.value = filter
-
   if (filter === 'all') {
     filteredConsultants.value = [...consultants.value]
   } else {
@@ -137,6 +152,12 @@ const applyFilter = (filter) => {
       consultantsVisible.value = true
     }, 50)
   }
+}
+
+const applySpecializationFilter = (specializationId) => {
+  activeSpecialization.value = specializationId === 'all' ? null : specializationId;
+  showSpecializationPopup.value = false;
+  fetchConsultants();
 }
 
 const navigateToReservation = (id) => {
@@ -159,12 +180,34 @@ const triggerAnimations = () => {
   }, 300);
 
   setTimeout(() => {
-    titleVisible.value = true;
+    specializationFilterVisible.value = true;
   }, 500);
+
+  setTimeout(() => {
+    titleVisible.value = true;
+  }, 700);
+};
+
+const getActiveSpecializationName = () => {
+  if (!activeSpecialization.value) return '';
+  const specialization = allSpecializations.value.find(spec => spec.id.toString() === activeSpecialization.value.toString());
+  return specialization ? specialization.name : '';
 };
 
 onMounted(() => {
   window.scrollTo(0, 0);
+  fetchAllSpecializations()
+
+  // Baca spesialisasi yang dipilih dari localStorage
+  const selectedSpecializations = localStorage.getItem('selectedSpecializations');
+  if (selectedSpecializations) {
+    const specs = JSON.parse(selectedSpecializations);
+    if (specs.length > 0) {
+      activeSpecialization.value = specs[0]; // Ambil spesialisasi pertama
+      localStorage.removeItem('selectedSpecializations'); // Hapus setelah digunakan
+    }
+  }
+
   fetchConsultants()
   triggerAnimations()
 
@@ -195,15 +238,57 @@ onMounted(() => {
       <div></div>
     </div>
 
-    <div class="bg-white rounded-full flex w-fit mx-auto md:mr-auto md:mx-0 p-2 transition-all duration-1000 ease-out"
-      :class="filterVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-      <div v-for="(filter, index) in filters" :key="filter.id" @click="applyFilter(filter.id)" :class="[
-        'py-2 px-6 md:px-12 group rounded-full transition-all duration-500 cursor-pointer',
-        activeFilter === filter.id
-          ? 'bg-primary shadow-sm shadow-primary text-white'
-          : 'hover:bg-primary hover:shadow-sm hover:shadow-primary'
-      ]" :style="filterVisible ? { transitionDelay: `${index * 100}ms` } : {}">
-        <p class="text-base">{{ filter.label }}</p>
+    <div class="space-y-4">
+      <div class="bg-white rounded-full flex w-fit mx-auto md:mr-auto md:mx-0 p-2 transition-all duration-1000 ease-out"
+        :class="filterVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+        <div v-for="(filter, index) in filters" :key="filter.id" @click="applyFilter(filter.id)" :class="[
+          'py-2 px-6 md:px-12 group rounded-full transition-all duration-500 cursor-pointer',
+          activeFilter === filter.id
+            ? 'bg-primary shadow-sm shadow-primary text-white'
+            : 'hover:bg-primary hover:shadow-sm hover:shadow-primary'
+        ]" :style="filterVisible ? { transitionDelay: `${index * 100}ms` } : {}">
+          <p class="text-base">{{ filter.label }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showSpecializationPopup"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      @click="showSpecializationPopup = false">
+      <div class="bg-white rounded-lg max-w-md w-full max-h-[80vh] overflow-y-auto" @click.stop>
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Filter Spesialisasi</h3>
+            <button @click="showSpecializationPopup = false"
+              class="text-gray-400 hover:text-gray-600 transition-colors">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="space-y-2">
+            <div @click="applySpecializationFilter('all')" :class="[
+              'p-3 rounded-lg cursor-pointer transition-all duration-200',
+              !activeSpecialization
+                ? 'bg-primary text-white'
+                : 'hover:bg-gray-100'
+            ]">
+              <p class="text-sm font-medium">Semua Spesialisasi</p>
+            </div>
+
+            <div v-for="specialization in allSpecializations" :key="specialization.id"
+              @click="applySpecializationFilter(specialization.id)" :class="[
+                'p-3 rounded-lg cursor-pointer transition-all duration-200',
+                activeSpecialization === specialization.id.toString()
+                  ? 'bg-primary text-white'
+                  : 'hover:bg-gray-100'
+              ]">
+              <p class="text-sm font-medium">{{ specialization.name }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -212,10 +297,53 @@ onMounted(() => {
     </div>
 
     <div v-else class="space-y-4">
-      <h1 class="text-xl font-bold text-left transition-all duration-1000 ease-out"
-        :class="titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
-        Pilih Konsultan
-      </h1>
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold text-left transition-all duration-1000 ease-out"
+          :class="titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+          Pilih Konsultan
+        </h1>
+
+        <div class="flex w-fit ml-auto md:mx-0 transition-all duration-1000 ease-out"
+          :class="specializationFilterVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
+          <button @click="showSpecializationPopup = true"
+            class="text-black px-4 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <g clip-path="url(#clip0_2565_9423)">
+                <mask id="mask0_2565_9423" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                  height="24">
+                  <path d="M24 0H0V24H24V0Z" fill="white" />
+                </mask>
+                <g mask="url(#mask0_2565_9423)">
+                  <path
+                    d="M17.9199 10.12C17.5899 10.04 17.2399 10 16.8799 10C14.2599 10 12.1299 12.13 12.1299 14.75C12.1299 15.64 12.3799 16.48 12.8199 17.2C13.1899 17.82 13.6999 18.35 14.3199 18.73C15.0599 19.22 15.9399 19.5 16.8799 19.5C18.6199 19.5 20.1299 18.57 20.9499 17.2C21.3899 16.48 21.6299 15.64 21.6299 14.75C21.6299 12.49 20.0499 10.59 17.9199 10.12ZM19.2499 14.13L16.7099 16.47C16.5699 16.6 16.3799 16.67 16.1999 16.67C16.0099 16.67 15.8199 16.6 15.6699 16.45L14.4999 15.28C14.2099 14.99 14.2099 14.51 14.4999 14.22C14.7899 13.93 15.2699 13.93 15.5599 14.22L16.2198 14.88L18.2299 13.03C18.5399 12.75 19.0099 12.77 19.2899 13.07C19.5699 13.38 19.5499 13.85 19.2499 14.13Z"
+                    fill="#6464FA" />
+                  <path opacity="0.4"
+                    d="M5.41016 2H18.5802C19.6802 2 20.5802 2.90999 20.5802 4.01999V6.23999C20.5802 7.04999 20.0802 8.06 19.5802 8.56L15.2902 12.4C14.6902 12.91 14.2902 13.92 14.2902 14.72V19.06C14.2902 19.67 13.8902 20.47 13.3902 20.78L11.9902 21.69C10.6902 22.5 8.90021 21.59 8.90021 19.97V14.62C8.90021 13.91 8.50016 13 8.10016 12.5L4.31018 8.45999C3.81018 7.94999 3.41016 7.05 3.41016 6.44V4.12C3.42016 2.91 4.32016 2 5.41016 2Z"
+                    fill="#6464FA" />
+                </g>
+              </g>
+              <defs>
+                <clipPath id="clip0_2565_9423">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+
+            <p class="text-sm">Filter</p>
+          </button>
+
+          <div v-if="activeSpecialization" class="flex items-center gap-2 bg-blue-50 px-3 py-1 rounded-full">
+            <span class="text-xs text-blue-700">{{ getActiveSpecializationName() }}</span>
+            <button @click="applySpecializationFilter('all')" class="text-blue-500">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div v-if="filteredConsultants.length === 0" class="text-center py-10 transition-all duration-700 ease-out"
         :class="consultantsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'">
@@ -229,7 +357,7 @@ onMounted(() => {
           :style="consultantsVisible ? { transitionDelay: `${index * 100}ms` } : {}">
           <ProfileCard @click="navigateToReservation(consultant.id)" :image="consultant.image" :name="consultant.name"
             :role="consultant.role" :rating="consultant.rating" :reviews="consultant.reviews" :fee="consultant.fee"
-            :specializations="consultant.specializations" />
+            :specializations="consultant.specializationNames" />
         </div>
       </div>
     </div>

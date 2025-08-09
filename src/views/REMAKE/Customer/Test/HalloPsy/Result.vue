@@ -3,7 +3,6 @@
         <div v-if="loading" class="flex justify-center items-center h-screen">
             <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
         </div>
-
         <div v-else
             class="lg:px-20 lg:py-10 space-y-6 md:space-y-8 lg:space-y-12 bg-[#F0F7FD] font-sora md:max-w-[60%] lg:max-w-[40%] mx-auto cursor-pointer">
             <div
@@ -41,10 +40,8 @@
                 </div>
                 <div class="flex gap-4 items-center text-white">
                     <h3 class="text-xl font-bold">Hasil Konseling</h3>
-                    <!-- <p class="text-base">Dengan {{ consultantDetails?.name }}</p> -->
                 </div>
             </div>
-
             <div class="p-4 space-y-6 md:space-y-8 lg:space-y-12">
                 <div class="space-y-3">
                     <div class="space-y-1">
@@ -52,7 +49,6 @@
                         <p class="text-sm">Berikut adalah hasil konseling Anda dengan {{ consultantDetails?.name }} pada
                             tanggal {{ formatDate(bookingDetails?.slot?.start_time) }}.</p>
                     </div>
-
                     <div v-for="result in results" :key="result.id" class="space-y-3">
                         <div class="flex gap-4 items-center">
                             <h3 class="text-xl text-primary font-bold">{{ result.category?.name }}</h3>
@@ -66,28 +62,122 @@
                                 </svg>
                             </div>
                         </div>
-
                         <div class="px-2 border-l border-primary overflow-hidden transition-all duration-300 ease-in-out"
                             :class="dropdownStates[`category-${result.id}`] ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'">
                             <p class="text-sm py-2 whitespace-pre-line">{{ result.description }}</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Testimonial Section - Direct Form -->
+                <div v-if="results.some(result => result.recommended_assesments && result.recommended_assesments.length > 0)"
+                    class="space-y-4">
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-bold">Rekomendasi Assessment</h2>
+                        <p class="text-sm text-gray-600">Berdasarkan hasil konseling, kami merekomendasikan assessment berikut untuk membantu Anda memahami diri lebih dalam.</p>
+                    </div>
+                                        
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="space-y-4">
+                            <div v-for="result in results" :key="'assessment-' + result.id">
+                                <div v-if="result.recommended_assesments && result.recommended_assesments.length > 0">
+                                    <div class="space-y-3">
+                                        <div v-for="(assessmentId, index) in result.recommended_assesments" :key="index"
+                                            class="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:shadow-md transition-all duration-200">
+                                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-[#6565A8] to-[#9898FC] flex items-center justify-center text-white font-bold text-sm">
+                                                {{ index + 1 }}
+                                            </div>
+                                            <div class="flex-1 space-y-2">
+                                                <h4 class="font-semibold text-gray-800 text-base">{{ getAssessmentName(assessmentId) }}</h4>
+                                                <div class="flex items-center gap-2 text-xs text-blue-600">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M9 11l3 3l8-8"/>
+                                                        <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9s4.03-9 9-9c1.51 0 2.93.37 4.18 1.03"/>
+                                                    </svg>
+                                                    <span>Direkomendasikan untuk Anda</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="recommendedConsultants.length > 0" class="space-y-4">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="space-y-4">
+                            <div class="space-y-2">
+                                <h2 class="text-xl font-bold text-gray-800">Rekomendasi</h2>
+                                <p class="text-sm text-gray-500">Lanjutkan sesi dengan psikolog relevan</p>
+                            </div>
+                                                        
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="flex -space-x-3">
+                                        <div v-for="(consultant, index) in recommendedConsultants.slice(0, 3)" :key="consultant.id"
+                                            class="relative">
+                                            <img :src="consultant.image || '/images/default-avatar.jpg'"
+                                                :alt="consultant.name"
+                                                class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+                                                :style="{ zIndex: 10 - index }" />
+                                        </div>
+                                        <div v-if="recommendedConsultants.length > 3"
+                                            class="w-12 h-12 rounded-full bg-gray-100 border-2 border-white shadow-sm flex items-center justify-center text-xs font-medium text-gray-600">
+                                            +{{ recommendedConsultants.length - 3 }}
+                                        </div>
+                                    </div>
+                                                                        
+                                    <div class="text-sm text-gray-500">
+                                        {{ recommendedConsultants.length }} Psikolog {{ getSpecializationText() }}
+                                    </div>
+                                </div>
+                                                                
+                                <button @click="goToReservationWithSpecialization"
+                                    class="px-6 py-2.5 bg-primary text-white rounded-full font-medium text-sm hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+                                    {{ 'Booking Sekarang' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                    <div v-if="showConsultantList" class="space-y-3 animate-fade-in">
+                        <div v-for="consultant in recommendedConsultants" :key="consultant.id"
+                            class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200 cursor-pointer"
+                            @click="goToConsultant(consultant.id)">
+                            <div class="flex items-center gap-4">
+                                <img :src="consultant.image || '/images/default-avatar.jpg'"
+                                    class="w-14 h-14 rounded-full object-cover border-2 border-gray-100">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 text-base">{{ consultant.name }}</h4>
+                                    <p class="text-sm font-medium text-green-600 mt-1">Rp {{ consultant.fee.toLocaleString() }}/sesi</p>
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        <span v-for="spec in consultant.specializations.slice(0, 2)" :key="spec.id"
+                                            class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full border border-blue-100">
+                                            {{ spec.name }}
+                                        </span>
+                                        <span v-if="consultant.specializations.length > 2"
+                                            class="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded-full border border-gray-200">
+                                            +{{ consultant.specializations.length - 2 }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center text-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"/>
+                                        <path d="M12 5l7 7-7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div v-if="bookingDetails?.status === 'completed'" class="pt-6 space-y-4">
                     <div class=" rounded-2xl space-y-6">
-                        <!-- Title -->
                         <h3 class="text-lg font-semibold text-gray-800 text-center">
                             {{ existingTestimonial ? 'Edit Testimoni Anda' : 'Apakah sesi ini membantumu?' }}
                         </h3>
-
-                        <!-- Subtitle -->
                         <p class="text-sm text-gray-600 text-center">
                             (1 tidak sama sekali, 5 sangat membantu)
                         </p>
-
-                        <!-- Star Rating -->
                         <div class="flex justify-center space-x-2">
                             <button v-for="star in 5" :key="star" @click="testimonialRating = star"
                                 class="text-3xl focus:outline-none transition-all duration-200 transform hover:scale-110"
@@ -95,14 +185,10 @@
                                 ★
                             </button>
                         </div>
-
-                        <!-- Question -->
                         <div class="space-y-3">
                             <h4 class="text-base font-medium text-gray-800">
                                 Apa Yang Paling Kamu Rasakan?
                             </h4>
-
-                            <!-- Tag Options -->
                             <div class="flex flex-wrap gap-2 justify-center">
                                 <button v-for="tag in testimonialTags" :key="tag" @click="toggleTag(tag)"
                                     class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
@@ -111,13 +197,10 @@
                                 </button>
                             </div>
                         </div>
-
-                        <!-- Comment Section -->
                         <div class="space-y-3">
                             <h4 class="text-base font-medium text-gray-800">
                                 Ingin menyampaikan sesuatu?
                             </h4>
-
                             <div class="relative">
                                 <div class="flex items-center gap-3 bg-white p-4 rounded-xl border border-gray-200">
                                     <div class="w-8 h-8 rounded-full flex items-center justify-center">
@@ -133,7 +216,7 @@
                                                         d="M16.24 3.65039H7.76004C5.29004 3.65039 3.29004 5.66039 3.29004 8.12039V17.5304C3.29004 19.9904 5.30004 22.0004 7.76004 22.0004H16.23C18.7 22.0004 20.7 19.9904 20.7 17.5304V8.12039C20.71 5.65039 18.7 3.65039 16.24 3.65039Z"
                                                         fill="#6464FA" />
                                                     <path
-                                                        d="M14.3498 2H9.64977C8.60977 2 7.75977 2.84 7.75977 3.88V4.82C7.75977 5.86 8.59977 6.7 9.63977 6.7H14.3498C15.3898 6.7 16.2298 5.86 16.2298 4.82V3.88C16.2398 2.84 15.3898 2 14.3498 2Z"
+                                                        d="M14.3498 2H9.64977C8.60977 2 7.75977 2.84 7.75977 3.88V4.82C7.75977 5.86 8.59977 6.7 9.63977 6.7H14.3498C15.3898 6.7 15.75 5.86 15.75 4.82V3.88C15.75 2.84 15.3898 2 14.3498 2Z"
                                                         fill="#6464FA" />
                                                     <path
                                                         d="M15 12.9492H8C7.59 12.9492 7.25 12.6092 7.25 12.1992C7.25 11.7892 7.59 11.4492 8 11.4492H15C15.41 11.4492 15.75 11.7892 15.75 12.1992C15.75 12.6092 15.41 12.9492 15 12.9492Z"
@@ -156,13 +239,9 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Error Message -->
                         <div v-if="testimonialError" class="text-red-500 text-sm text-center">
                             {{ testimonialError }}
                         </div>
-
-                        <!-- Action Buttons -->
                         <div class="flex gap-3">
                             <button @click="submitTestimonial"
                                 class="flex-1 py-3 px-4 bg-[#6B73FF] text-white rounded-xl font-medium hover:bg-[#5A63E8] transition-colors disabled:opacity-50"
@@ -177,8 +256,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- CTASection -->
                 <div class="w-full h-full pt-32">
                     <div class="relative">
                         <div class="absolute flex items-end bottom-0 right-1/2 translate-x-1/2 z-10">
@@ -218,7 +295,6 @@ import moment from 'moment';
 import 'moment/locale/id';
 import CTA from '@/assets/img/cta.png'
 
-
 const route = useRoute();
 const bookingId = route.params.id;
 const results = ref([]);
@@ -233,21 +309,43 @@ const existingTestimonial = ref(null);
 const isEditingTestimonial = ref(false);
 const isGeneratingPDF = ref(false);
 const selectedTags = ref([]);
-
+const recommendedConsultants = ref([]);
+const assessmentsList = ref([]);
 const dropdownStates = ref({});
+const showConsultantList = ref(false);
 const router = useRouter();
 
 const navigateToHome = () => {
-  router.push(`/hallopsy`);
+    router.push(`/hallopsy`);
 };
 
-const testimonialTags = ref([
+const testimonialTags = [
     'Mendengarkan empati',
     'Saran Jelas',
     'Suasana Nyaman',
     'Perasaan Tenang',
     'Pemahaman Diri'
-]);
+];
+
+const getAssessmentName = (id) => {
+    const assessment = assessmentsList.value.find(a => a.assesment_id == id);
+    return assessment ? assessment.assesment_name : `Assessment ${id}`;
+};
+
+const getSpecializationText = () => {
+    if (recommendedConsultants.value.length === 0) return '';
+    
+    const allSpecs = recommendedConsultants.value.flatMap(c => c.specializations);
+    const uniqueSpecs = [...new Set(allSpecs.map(s => s.name))];
+    
+    if (uniqueSpecs.length === 1) {
+        return uniqueSpecs[0].toLowerCase();
+    } else if (uniqueSpecs.length === 2) {
+        return uniqueSpecs.join(' & ').toLowerCase();
+    } else {
+        return 'berbagai spesialisasi';
+    }
+};
 
 moment.locale('id');
 
@@ -255,7 +353,6 @@ const fetchTestimonial = async () => {
     try {
         const token = await Cookies.get('token');
         const response = await initAPI('get', `user/bookings/${bookingId}/testimonial`, null, token);
-
         if (response.data.success && response.data.data) {
             existingTestimonial.value = response.data.data;
             testimonialRating.value = existingTestimonial.value.rating;
@@ -276,28 +373,48 @@ const fetchTestimonial = async () => {
     }
 };
 
+const fetchRecommendedConsultants = async () => {
+    try {
+        const specializationIds = results.value.flatMap(result =>
+            result.recommended_specializations || []
+        );
+        if (specializationIds.length > 0) {
+            const token = await Cookies.get('token');
+            const params = new URLSearchParams();
+            specializationIds.forEach(id => params.append('specialization_ids[]', id));
+            const url = `user/consultants/by-specializations?${params.toString()}`;
+            const response = await initAPI('get', url, null, token);
+            recommendedConsultants.value = response.data.data.data || [];
+            recommendedConsultants.value = recommendedConsultants.value.filter(
+                c => c.id !== bookingDetails.value.id
+            );
+        }
+    } catch (error) {
+        console.error('Failed to fetch recommended consultants:', error);
+        if (error.response) {
+            console.error('Error details:', error.response.data);
+        }
+    }
+};
+
 const fetchResults = async () => {
     try {
         const token = await Cookies.get('token');
         const bookingResponse = await initAPI('get', `user/bookings/${bookingId}`, null, token);
         bookingDetails.value = bookingResponse.data.data;
-
         const consultantResponse = await initAPI('get', `user/consultants/${bookingDetails.value.consultants_id}`, null, token);
         consultantDetails.value = consultantResponse.data.data;
-
         const resultsResponse = await initAPI('get', `user/bookings/${bookingId}/results`, null, token);
         results.value = resultsResponse.data.data;
-
+        const assessmentsResponse = await initAPI('get', 'user/assesments-all', null, token);
+        assessmentsList.value = assessmentsResponse.data.data;
         await fetchTestimonial();
-
         if (bookingResponse.data.data.testimonial) {
             existingTestimonial.value = bookingResponse.data.data.testimonial;
         }
-
         results.value.forEach(result => {
             dropdownStates.value[`category-${result.id}`] = false;
         });
-
     } catch (error) {
         console.error('Failed to fetch results:', error);
     } finally {
@@ -326,7 +443,6 @@ const startEditingTestimonial = () => {
     if (existingTestimonial.value) {
         testimonialRating.value = existingTestimonial.value.rating;
         testimonialComment.value = existingTestimonial.value.comment;
-
         selectedTags.value = [];
     }
     isEditingTestimonial.value = true;
@@ -345,31 +461,24 @@ const submitTestimonial = async () => {
         testimonialError.value = 'Harap beri rating';
         return;
     }
-
     if (!testimonialComment.value.trim()) {
         testimonialError.value = 'Harap tulis ulasan Anda';
         return;
     }
-
     try {
         isSubmittingTestimonial.value = true;
         testimonialError.value = null;
-
         const token = await Cookies.get('token');
-
         // Combine comment with selected tags
         const commentWithTags = selectedTags.value.length > 0
             ? testimonialComment.value + ' [Tags: ' + selectedTags.value.join(', ') + ']'
             : testimonialComment.value;
-
         const finalRating = testimonialRating.value || existingTestimonial.value?.rating;
-
         if (existingTestimonial.value) {
             const response = await initAPI('put', `user/testimonials/${existingTestimonial.value.id}`, {
                 rating: finalRating,
                 comment: commentWithTags
             }, token);
-
             existingTestimonial.value = response.data.data;
         } else {
             const response = await initAPI('post', 'user/testimonials', {
@@ -377,10 +486,8 @@ const submitTestimonial = async () => {
                 rating: finalRating,
                 comment: commentWithTags
             }, token);
-
             existingTestimonial.value = response.data.data;
         }
-
         // Update form with new data
         testimonialRating.value = existingTestimonial.value.rating;
         if (existingTestimonial.value.comment.includes('[Tags:')) {
@@ -392,7 +499,6 @@ const submitTestimonial = async () => {
         } else {
             testimonialComment.value = existingTestimonial.value.comment;
         }
-
     } catch (error) {
         console.error('Failed to submit testimonial:', error);
         testimonialError.value = error.response?.data?.message || 'Gagal mengirim testimoni';
@@ -402,6 +508,20 @@ const submitTestimonial = async () => {
 };
 
 const generatePDFContent = () => {
+    // Get all recommended assessments
+    const allRecommendedAssessments = results.value.flatMap(result => 
+        (result.recommended_assesments || []).map(assessmentId => ({
+            id: assessmentId,
+            name: getAssessmentName(assessmentId)
+        }))
+    );
+
+    // Get unique recommended consultants info
+    const consultantSpecializations = recommendedConsultants.value.flatMap(c => 
+        c.specializations.map(s => s.name)
+    );
+    const uniqueSpecializations = [...new Set(consultantSpecializations)];
+
     return `
         <!DOCTYPE html>
         <html>
@@ -456,18 +576,20 @@ const generatePDFContent = () => {
                     font-weight: 400;
                 }
                 
-                .summary-section {
+                .section {
                     margin: 40px 0;
                 }
                 
-                .summary-title {
+                .section-title {
                     color: #333;
                     font-size: 28px;
                     font-weight: 700;
                     margin-bottom: 10px;
+                    border-bottom: 2px solid #4361ee;
+                    padding-bottom: 10px;
                 }
                 
-                .summary-description {
+                .section-description {
                     color: #666;
                     font-size: 16px;
                     margin-bottom: 30px;
@@ -497,21 +619,96 @@ const generatePDFContent = () => {
                     margin: 0;
                 }
                 
-                .footer {
-                    margin-top: 50px;
-                    padding-top: 30px;
-                    border-top: 2px solid #e0e0e0;
-                    text-align: center;
-                    color: #666;
+                .assessment-section {
+                    background: #fff8e1;
+                    border-radius: 15px;
+                    padding: 25px;
+                    border-left: 5px solid #ffc107;
+                }
+                
+                .assessment-list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 20px 0;
+                }
+                
+                .assessment-item {
+                    background: white;
+                    margin: 15px 0;
+                    padding: 20px;
+                    border-radius: 10px;
+                    border: 1px solid #e3f2fd;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                }
+                
+                .assessment-number {
+                    background: linear-gradient(135deg, #6565A8, #9898FC);
+                    color: white;
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
                     font-size: 14px;
+                    flex-shrink: 0;
+                }
+                
+                .assessment-name {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #333;
+                    margin: 0;
+                }
+                
+                .consultant-section {
+                    background: #e8f5e8;
+                    border-radius: 15px;
+                    padding: 25px;
+                    border-left: 5px solid #4caf50;
+                }
+                
+                .consultant-info {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    margin: 15px 0;
+                    border: 1px solid #e8f5e8;
+                }
+                
+                .consultant-count {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #2e7d32;
+                    margin-bottom: 10px;
+                }
+                
+                .specialization-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    margin-top: 10px;
+                }
+                
+                .specialization-tag {
+                    background: #e3f2fd;
+                    color: #1976d2;
+                    padding: 10px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    border: 1px solid #bbdefb;
                 }
                 
                 .testimonial-section {
                     margin: 40px 0;
                     padding: 25px;
-                    background: #fff8e1;
+                    background: #fff3e0;
                     border-radius: 15px;
-                    border-left: 5px solid #ffc107;
+                    border-left: 5px solid #ff9800;
                 }
                 
                 .testimonial-title {
@@ -530,11 +727,29 @@ const generatePDFContent = () => {
                     color: #ffc107;
                 }
                 
+                .testimonial-comment {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                    font-style: italic;
+                    border-left: 3px solid #ff9800;
+                }
+                
+                .footer {
+                    margin-top: 50px;
+                    padding-top: 30px;
+                    border-top: 2px solid #e0e0e0;
+                    text-align: center;
+                    color: #666;
+                    font-size: 14px;
+                }
+                
                 @media print {
-                    body { 
-                        background: white; 
-                        padding: 20px; 
-                    }
+                    body {
+                         background: white;
+                         padding: 20px;
+                     }
                     .container {
                         box-shadow: none;
                         border: 1px solid #ddd;
@@ -550,11 +765,11 @@ const generatePDFContent = () => {
                     <div class="date">${formatDate(bookingDetails.value?.slot?.start_time)}</div>
                 </div>
                 
-                <div class="summary-section">
-                    <h2 class="summary-title">Ringkasan Konseling</h2>
-                    <p class="summary-description">
-                        Berikut adalah hasil konseling Anda dengan ${consultantDetails.value?.name || 'konsultan'} 
-                        pada tanggal ${formatDate(bookingDetails.value?.slot?.start_time)}.
+                <div class="section">
+                    <h2 class="section-title">Ringkasan Konseling</h2>
+                    <p class="section-description">
+                        Berikut adalah hasil konseling Anda dengan ${consultantDetails.value?.name || 'konsultan'}
+                         pada tanggal ${formatDate(bookingDetails.value?.slot?.start_time)}.
                     </p>
                     
                     ${results.value.map(result => `
@@ -565,6 +780,50 @@ const generatePDFContent = () => {
                     `).join('')}
                 </div>
                 
+                ${allRecommendedAssessments.length > 0 ? `
+                    <div class="section">
+                        <h2 class="section-title">Rekomendasi Assessment</h2>
+                        <div class="assessment-section">
+                            <p class="section-description">
+                                Berdasarkan hasil konseling, kami merekomendasikan assessment berikut untuk membantu Anda memahami diri lebih dalam.
+                            </p>
+                            <ul class="assessment-list">
+                                ${allRecommendedAssessments.map((assessment, index) => `
+                                    <li class="assessment-item">
+                                        <div class="assessment-number">${index + 1}</div>
+                                        <div>
+                                            <h4 class="assessment-name">${assessment.name}</h4>
+                                            <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">Direkomendasikan untuk Anda</p>
+                                        </div>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${recommendedConsultants.value.length > 0 ? `
+                    <div class="section">
+                        <h2 class="section-title">Rekomendasi Konsultan</h2>
+                        <div class="consultant-section">
+                            <p class="section-description">
+                                Lanjutkan sesi dengan psikolog yang relevan dengan kebutuhan Anda.
+                            </p>
+                            <div class="consultant-info">
+                                <div class="consultant-count">
+                                    ${recommendedConsultants.value.length} Psikolog ${getSpecializationText()}
+                                </div>
+                                <p style="color: #666; margin: 10px 0;">Spesialisasi yang direkomendasikan:</p>
+                                <div class="specialization-list">
+                                    ${uniqueSpecializations.map(spec => `
+                                        <span class="specialization-tag">${spec}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+                
                 ${existingTestimonial.value ? `
                     <div class="testimonial-section">
                         <h3 class="testimonial-title">Testimoni Anda</h3>
@@ -572,13 +831,28 @@ const generatePDFContent = () => {
                             ${'★'.repeat(existingTestimonial.value.rating)}${'☆'.repeat(5 - existingTestimonial.value.rating)}
                             (${existingTestimonial.value.rating}/5)
                         </div>
-                        <p>${existingTestimonial.value.comment}</p>
+                        <div class="testimonial-comment">
+                            "${existingTestimonial.value.comment.replace(/\s*\[Tags:.*?\]/, '')}"
+                        </div>
+                        ${selectedTags.value.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <p style="margin: 0 0 8px 0; font-weight: 600; color: #333;">Tags yang dipilih:</p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                    ${selectedTags.value.map(tag => `
+                                        <span style="background: #6B73FF; color: white; padding: 4px 10px; border-radius: 15px; font-size: 12px;">${tag}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
                 ` : ''}
                 
                 <div class="footer">
                     <p>Dokumen ini digenerate secara otomatis pada ${moment().format('DD MMMM YYYY, HH:mm')} WIB</p>
                     <p>Terima kasih telah menggunakan layanan konseling kami.</p>
+                    <p style="margin-top: 20px; font-style: italic; color: #888;">
+                        Untuk konsultasi lebih lanjut, silakan hubungi tim kami atau booking sesi berikutnya melalui aplikasi.
+                    </p>
                 </div>
             </div>
         </body>
@@ -589,12 +863,9 @@ const generatePDFContent = () => {
 const downloadPDF = async () => {
     try {
         isGeneratingPDF.value = true;
-
         // Dynamic import untuk html2pdf
         const html2pdf = (await import('html2pdf.js')).default;
-
         const htmlContent = generatePDFContent();
-
         const opt = {
             margin: 1,
             filename: `hasil-konseling-${consultantDetails.value?.name?.replace(/\s+/g, '-') || 'konsultan'}-${moment().format('DD-MM-YYYY')}.pdf`,
@@ -610,9 +881,7 @@ const downloadPDF = async () => {
                 orientation: 'portrait'
             }
         };
-
         html2pdf().set(opt).from(htmlContent).save();
-
     } catch (error) {
         console.error('Error generating PDF:', error);
         alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
@@ -621,9 +890,24 @@ const downloadPDF = async () => {
     }
 };
 
-onMounted(() => {
-    fetchResults();
+onMounted(async () => {
+    await fetchResults();
+    await fetchRecommendedConsultants();
 });
+
+const goToConsultant = (id) => {
+    router.push(`/consultants/${id}`);
+};
+
+const goToReservationWithSpecialization = () => {
+  const specializationIds = recommendedConsultants.value.flatMap(
+    consultant => consultant.specializations.map(spec => spec.id)
+  );
+  
+  localStorage.setItem('selectedSpecializations', JSON.stringify(specializationIds));
+  
+  router.push('/hallopsy/reservasi');
+};
 </script>
 
 <style scoped>
@@ -661,5 +945,20 @@ onMounted(() => {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease-out;
 }
 </style>
