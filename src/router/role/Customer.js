@@ -66,6 +66,26 @@ export default [
         }
     },
     {
+        path: '/overview-test',
+        name: 'user.views.overview-test',
+        component: () => import('@/views/REMAKE/Dashboard/Customer/HasilTest.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/deteksi',
         name: 'user.views.deteksi',
         component: () => import('@/views/REMAKE/Customer/Test/GIM/TestGIM.vue'),
