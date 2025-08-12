@@ -1,0 +1,99 @@
+<template>
+    <div class="fixed z-[999] inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 modal"
+    >
+        <div class="hidden lg:block relative w-3/4 top-10 mx-auto shadow-xl rounded-md bg-white">
+            <!-- Modal body -->
+            <div class="w-full my-4 p-4 flex flex-col">
+                <a class="my-4 mx-auto bg-red-500 px-6 py-6 rounded-full"><PhWarning size="38" fill="white"/></a>
+                <div class="text-center">
+                    <h3 class="uppercase md:text-2xl text-base text-gray-900 font-semibold text-center">Perhatian</h3>
+                    <p class="text-gray-600 my-2">
+                        Untuk melakukan Test {{ payment_type }}, Harap melakukan pembayaran terlebih dahulu.
+                    </p>
+
+                    <div class="gap-2 flex justify-center items-center pb-4 pt-6 text-center">
+                        <button @click="tidakSetuju" class="rounded-lg font-myFont px-12 bg-gray-300 hover:bg-opacity-75 hover:shadow-lg text-black font-medium py-3">
+                            Kembali
+                        </button>
+                        <button @click="mengerti" class="rounded-lg font-myFont px-12 bg-biru hover:bg-opacity-75 hover:shadow-lg text-white font-medium py-3">
+                        Mengerti
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="block lg:hidden relative w-full top-10 mx-auto shadow-xl rounded-md bg-white">
+            <!-- Modal body -->
+            <div class="w-full p-4 flex flex-col">
+                <a class="my-4 mx-auto bg-red-500 px-6 py-6 rounded-full"><PhWarning size="38" fill="white"/></a>
+                <div class="text-center">
+                    <h3 class="uppercase text-lg text-gray-900 font-semibold text-center">Perhatian</h3>
+                    <p class="text-gray-600 my-2 text-sm">
+                        Untuk melakukan Test {{ payment_type }}, Harap melakukan pembayaran terlebih dahulu.
+                    </p>
+
+                    <div class="w-3/4 mx-auto flex flex-col gap-2 pb-4 pt-6 text-center">
+                        <button @click="mengerti" class="rounded-lg font-myFont px-4 bg-biru hover:bg-opacity-75 hover:shadow-lg text-sm text-white font-medium py-2">
+                        Mengerti
+                        </button>
+                        <button @click="tidakSetuju" class="rounded-lg font-myFont px-4 bg-gray-300 hover:bg-opacity-75 hover:shadow-lg text-sm text-black font-medium py-2">
+                        Kembali ke Beranda
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { PhWarning } from '@phosphor-icons/vue'
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+
+const route = useRoute()
+const router = useRouter()
+
+// const props = defineProps({
+//   payment_type: String,
+// })
+const payment_type = ref(route.params.tipePembayaran == 'test-iq' 
+    ? 'Jatidiri Cerdas' 
+    : route.params.tipePembayaran == 'test-gim' 
+    ? 'Jatidiri Sejati' 
+    : route.params.tipePembayaran == 'starter-pack' 
+    ? 'Starter Pack' 
+    : route.params.tipePembayaran == 'test-rmib'
+    ? 'Jatidiri Bakat'
+    : route.params.tipePembayaran == 'test-iaa'  
+    ? 'Jatidiri Kendali'
+    : route.params.tipePembayaran == 'test-assessment'  
+    ? 'Jatidiri Belajar'
+    : route.params.tipePembayaran == 'test-tik'  
+    ? 'Jatidiri Bahagia'
+    : route.params.tipePembayaran == 'test-jatidiri'  
+    ? 'Jatidiri'
+    : route.params.tipePembayaran == 'test-anxiety'  
+    ? 'Jatidiri Anxiety'
+    : route.params.tipePembayaran == 'test-stres'  
+    ? 'Jatidiri Stres'
+    : route.params.tipePembayaran == 'test-mental'  
+    ? 'Jatidiri Kesehatan Mental'
+    : 'Jatidiri')
+
+const emit = defineEmits(['understand'])
+
+const mengerti = () => {
+    emit('understand')
+}
+
+const tidakSetuju = () => {
+    router.push('/')
+}
+
+onMounted(() => {
+    
+})
+</script>

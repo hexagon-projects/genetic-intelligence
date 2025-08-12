@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "743fdcd4-2f4e-4e8b-ae67-2a2861778905",
+		"name": "SSO Kunci",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1631597"
+	},
+	"item": [
+		{
+			"name": "Authorize",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://be.kunci.co.id/sso/authorize?client_id=XRkpyvumjuxgZ15YNqd2vXEzmPWP7yMZ&code_challenge=NzdhOWMyMTVhY2JkOTFiOWI4ZjM0NjQwZTRmYzNhYjk2MjhhOTYwZjk3NjA1OWI4ZmM0MGI0M2Q0ZTMyODNjYw==&code_challenge_method=S256&redirect_uri=https://google.com/&response_type=code",
+					"protocol": "https",
+					"host": [
+						"be",
+						"kunci",
+						"co",
+						"id"
+					],
+					"path": [
+						"sso",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "XRkpyvumjuxgZ15YNqd2vXEzmPWP7yMZ",
+							"description": "CLIENT ID from Generated APP"
+						},
+						{
+							"key": "code_challenge",
+							"value": "NzdhOWMyMTVhY2JkOTFiOWI4ZjM0NjQwZTRmYzNhYjk2MjhhOTYwZjk3NjA1OWI4ZmM0MGI0M2Q0ZTMyODNjYw==",
+							"description": "BASE64(SHA256)"
+						},
+						{
+							"key": "code_challenge_method",
+							"value": "S256",
+							"description": "plain or S256"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://google.com/",
+							"description": "url redirect"
+						},
+						{
+							"key": "response_type",
+							"value": "code",
+							"description": "code"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token Code",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://be.kunci.co.id/sso/token?client_id=XRkpyvumjuxgZ15YNqd2vXEzmPWP7yMZ&client_secret=qiBO67eM9GaTNNER7ZqaVkHvs4OGXP0G4MoppsWoUfXCfvyqejFRaDTp7PgigQ2U&redirect_uri=https://google.com/",
+					"protocol": "https",
+					"host": [
+						"be",
+						"kunci",
+						"co",
+						"id"
+					],
+					"path": [
+						"sso",
+						"token"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "XRkpyvumjuxgZ15YNqd2vXEzmPWP7yMZ"
+						},
+						{
+							"key": "client_secret",
+							"value": "qiBO67eM9GaTNNER7ZqaVkHvs4OGXP0G4MoppsWoUfXCfvyqejFRaDTp7PgigQ2U"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://google.com/"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bind School App",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"school_id\": \"01j523trdnjsgcwt3c42swhq4t\",\n    \"identifier\": \"2425011\",\n    \"secret\": \"123\",\n    \"type\": \"student\",\n    \"token\": \"ZQ24VE0HOQYa0vAzBZXzHO8jbzBFOACHp75X7R0DulbQ7VbDbeoiK8QpKtKYV35T\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://be.kunci.co.id/sso/bind",
+					"protocol": "https",
+					"host": [
+						"be",
+						"kunci",
+						"co",
+						"id"
+					],
+					"path": [
+						"sso",
+						"bind"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unbind School App",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"school_id\": \"01j523trdnjsgcwt3c42swhq4t\",\n    \"bind_id\": \"01jtk1psx6zbzht057xvspr2r6\",\n    \"token\": \"SsgfIjgqThf8qKYR3ziloJzZHFmex0Jx5JuKRRN0WqV1mJ5f3mt4GG41kCS753M7\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://be.kunci.co.id/sso/unbind",
+					"protocol": "https",
+					"host": [
+						"be",
+						"kunci",
+						"co",
+						"id"
+					],
+					"path": [
+						"sso",
+						"unbind"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get School List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://be.kunci.co.id/api/v1/guest/schools?page&search=demo&with_demo=true",
+					"protocol": "https",
+					"host": [
+						"be",
+						"kunci",
+						"co",
+						"id"
+					],
+					"path": [
+						"api",
+						"v1",
+						"guest",
+						"schools"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": null
+						},
+						{
+							"key": "search",
+							"value": "demo"
+						},
+						{
+							"key": "with_demo",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

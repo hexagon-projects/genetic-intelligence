@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+ 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #3b3f5c #f1f1f1;
+}
+
+/* Handle on hover */
+*:hover {
+    scrollbar-color: #3b3f5c #f1f1f1;
+}
+
+@layer base{
+    @font-face {
+        font-family: 'Rethink';
+        src: url('./assets/font/RethinkSans-VariableFont_wght.woff') format('woff');
+    }
+    @font-face {
+        font-family: 'Poppins';
+        src: url('./assets/font/Poppins-Medium.woff') format('woff');
+    }
+}
+
+@font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sora';
+    src:
+      url('../src/assets/font/Sora/Sora-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
+
+/* Roboto */
+@font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  
+  /* @font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-display: swap;
+    font-style: normal;
+  } */
+  
+  @font-face {
+    font-family: 'Roboto';
+    src:
+      url('../src/assets/font/Roboto/Roboto-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
