@@ -102,13 +102,13 @@
 
     <div class="w-full px-4 pt-5 pb-3 flex flex-col gap-[16px]">
         <div class="text-[#0c141c] text-xl font-bold font-['Roboto'] leading-7">
-            Educational Information
+            Institution Information
         </div>
 
         <div class="p-4 w-full flex items-center border-t">
             <div class="w-full flex flex-col">
                 <span class="text-[#4f7296] text-sm font-normal font-sora leading-[21px]">
-                    Jenjang Pendidikan
+                    Type institution
                 </span>
                 <span class="text-[#0c141c] text-sm font-normal font-sora leading-[21px]">
                     {{ props.siswaDatas.institutions.type }}
@@ -116,7 +116,7 @@
             </div>
             <div class="w-full flex flex-col">
                 <span class="text-[#4f7296] text-sm font-normal font-sora leading-[21px]">
-                    Nama Sekolah
+                    Institution
                 </span>
                 <span class="text-[#0c141c] text-sm font-normal font-sora leading-[21px]">
                     {{ props.siswaDatas.institutions.name }}
@@ -127,7 +127,7 @@
         <div class="p-4 w-full flex items-center border-t">
             <div class="w-full flex flex-col">
                 <span class="text-[#4f7296] text-sm font-normal font-sora leading-[21px]">
-                    Jurusan
+                    Division
                 </span>
                 <span class="text-[#0c141c] text-sm font-normal font-sora leading-[21px]">
                     {{ props.siswaDatas.majoring || '-' }}

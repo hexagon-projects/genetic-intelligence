@@ -197,6 +197,24 @@ const prevPage = () => {
 }
 
 const nextPage = async () => {
+  // ✅ Ambil jumlah pilihan di tahap sekarang
+  const selectedCount = selectedPerPage[currentPage.value].length;
+
+  // ✅ Validasi: harus 5 sampai 7 pilihan
+  if (selectedCount < 5 || selectedCount > 7) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Pilihan tidak valid',
+      text: 'Kamu harus memilih minimal 5 dan maksimal 7 pernyataan.',
+      confirmButtonText: 'OK',
+      customClass: {
+        confirmButton: 'bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded'
+      },
+      buttonsStyling: false
+    });
+    return;
+  }
+
   const confirm = await Swal.fire({
     title: 'Lanjut ke tahap berikutnya?',
     text: 'Pastikan pilihan kamu sudah sesuai sebelum melanjutkan.',
@@ -226,7 +244,7 @@ const nextPage = async () => {
       await submitAnswers();
     }
 
-    await new Promise(resolve => setTimeout(resolve, 1000)); // jeda
+    await new Promise(resolve => setTimeout(resolve, 1000));
     Swal.close();
 
     await Swal.fire({
@@ -241,15 +259,10 @@ const nextPage = async () => {
     });
 
     currentPage.value++;
-
-    // Tunggu DOM update, baru scroll
     await nextTick();
-
-    // Kalau scroll di window
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Kalau scroll di container khusus
-    const container = document.querySelector('.scroll-container'); // ganti selector sesuai container
+    const container = document.querySelector('.scroll-container');
     if (container) {
       container.scrollTo({ top: 0, behavior: 'smooth' });
     }

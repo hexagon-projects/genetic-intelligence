@@ -55,6 +55,30 @@
 
                         <!-- Hasil Bakat -->
                         <HasilBakat v-if="pageType == 'Hasil Tes Jatidiri Bakat' && siswaDatas" :siswaDatas="siswaDatas"/>
+
+                        <!-- Hasil Kendali -->
+                        <HasilKendali v-if="pageType == 'Hasil Tes Jatidiri Kendali' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Index Kebahagian -->
+                        <HasilBahagia v-if="pageType == 'Hasil Tes Jatidiri Bahagia' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Index Anxiiety -->
+                        <HasilAnxiety v-if="pageType == 'Hasil Tes Jatidiri Anxiety' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Index stres -->
+                        <HasilStres v-if="pageType == 'Hasil Tes Jatidiri Stress' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Index mental -->
+                        <HasilMental v-if="pageType == 'Hasil Tes Jatidiri Kesehatan Mental' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Jatidiri Q1 -->
+                        <HasilQ1 v-if="pageType == 'Hasil Tes Jatidiri Q1' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Jatidiri Q2 -->
+                        <HasilQ2 v-if="pageType == 'Hasil Tes Jatidiri Q2' && siswaDatas" :siswaDatas="siswaDatas"/>
+                        
+                        <!-- Hasil Jatidiri Potensi -->
+                        <HasilPotensi v-if="pageType == 'Hasil Tes Jatidiri Potensi' && siswaDatas" :siswaDatas="siswaDatas"/>
                     </div>
                 </div>
             </div>
@@ -75,6 +99,14 @@ import HasilAssessment from "@/components/staffs/DetailSiswa/HasilAssessment.vue
 import HasilIQ from "@/components/staffs/DetailSiswa/HasilIQ.vue";
 import HasilCPM from "@/components/staffs/DetailSiswa/HasilCPM.vue";
 import HasilBakat from "@/components/staffs/DetailSiswa/HasilBakat.vue";
+import HasilKendali from "@/components/staffs/DetailSiswa/HasilKendali.vue";
+import HasilBahagia from "@/components/staffs/DetailSiswa/HasilBahagia.vue";
+import HasilAnxiety from "@/components/staffs/DetailSiswa/HasilAnxiety.vue";
+import HasilStres from "@/components/staffs/DetailSiswa/HasilStres.vue";
+import HasilMental from "@/components/staffs/DetailSiswa/HasilMental.vue";
+import HasilQ1 from "@/components/staffs/DetailSiswa/HasilQ1.vue";
+import HasilQ2 from "@/components/staffs/DetailSiswa/HasilQ2.vue";
+import HasilPotensi from "@/components/staffs/DetailSiswa/HasilPotensi.vue";
 import { useRoute, useRouter } from "vue-router";
 
 const sidebarItems = ref([
@@ -85,6 +117,13 @@ const sidebarItems = ref([
     {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes CPM'},
     {image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Bakat'},
     {image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Kendali'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Bahagia'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Anxiety'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Stress'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Kesehatan Mental'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Q1'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Q2'},
+    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Potensi'},
 ])
 
 const filteredSidebarItems = computed(() => {
@@ -124,7 +163,7 @@ const getDataSiswa = async() => {
         const token = Cookies.get("token");
         const response = await initAPI('get', `customers?id=${siswaId.value}`, null, token)
 
-        // console.log(`response`, response.data)
+        console.log(`response`, response.data)
         siswaDatas.value = response.data.data[0]
     } catch (error) {
         Swal.fire({

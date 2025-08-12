@@ -138,11 +138,10 @@
                     <tr>
                       <th class="py-3 px-4">#</th>
                       <th class="py-3 px-4">PROFIL</th>
-                      <th class="py-3 px-4">KELAS</th>
-                      <th class="py-3 px-4">JURUSAN</th>
-                      <th class="py-3 px-4">NAMA SEKOLAH</th>
+                      <th class="py-3 px-4">GRADE</th>
+                      <th class="py-3 px-4">DIVISION</th>
+                      <th class="py-3 px-4">INSTITUTION</th>
                       <th class="py-3 px-4">TERAKHIR TES</th>
-                      <th class="py-3 px-4">TOTAL TES</th>
                       <th class="py-3 px-4">AKSI</th>
                     </tr>
                   </thead>
@@ -162,7 +161,6 @@
                       <td class="py-3 px-4">{{ siswa.majoring }}</td>
                       <td class="py-3 px-4">{{ siswa.institutions.name }}</td>
                       <td class="py-3 px-4">{{ siswa.updated_at }}</td>
-                      <td class="py-3 px-4">{{ siswa.total_test }}</td>
                       <td class="py-3 px-4">
                         <button @click="detailSiswa(siswa.id)"
                           class="bg-[#3030F8] text-white px-4 py-2 rounded flex items-center gap-2"

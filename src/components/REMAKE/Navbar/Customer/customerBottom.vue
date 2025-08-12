@@ -45,42 +45,18 @@
                 class="font-roboto block text-xs">Lakukan Tes</span>
     </button>
 
-    <button @click="handleClick('showHasil')"
+    <RouterLink :to="{name: 'user.views.overview-test'}" 
         class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
-        :class="{'font-medium' : $route.name === 'user.views.dashboard'}"
+        :class="{'font-medium' : $route.name === 'user.views.overview-test'}"
         >
         <div class="self-center">
             <img class="transition-all duration-100" 
-                :class="{'grayscale': $route.name !== 'user.views.hasil_deteksi'
-                    || $route.name !== 'user.views.hasil_cpm'
-                    || $route.name !== 'user.views.hasil_assessment'
-                    || $route.name !== 'user.views.hasil_rmib'
-                    || $route.name !== 'user.views.hasil_gadget'
-                    || $route.name !== 'user.views.hasil_iq', 'grayscale-0': $route.name == 'user.views.hasil_deteksi'
-                    || $route.name == 'user.views.hasil_cpm'
-                    || $route.name == 'user.views.hasil_assessment'
-                    || $route.name == 'user.views.hasil_rmib'
-                    || $route.name == 'user.views.hasil_gadget'
-                    || $route.name == 'user.views.hasil_iq'
-                    }" 
+                :class="{'grayscale': $route.name !== 'user.views.overview-test', 'grayscale-0': $route.name == 'user.views.overview-test'}" 
                 src="@/assets/icons/hasil-tes.svg" alt="icon"/>
         </div>
-        <span :class="{'text-[#667085]': $route.name !== 'user.views.hasil_deteksi'
-                    || $route.name !== 'user.views.hasil_cpm'
-                    || $route.name !== 'user.views.hasil_assessment'
-                    || $route.name !== 'user.views.hasil_gadget'
-                    || $route.name !== 'user.views.hasil_rmib'
-                    || $route.name !== 'user.views.hasil_iq', 
-                   'text-black':
-                   $route.name == 'user.views.hasil_deteksi'
-                    || $route.name == 'user.views.hasil_cpm'
-                    || $route.name == 'user.views.hasil_assessment'
-                    || $route.name == 'user.views.hasil_gadget'
-                    || $route.name == 'user.views.hasil_rmib'
-                    || $route.name == 'user.views.hasil_iq'
-                }" 
-                class="font-roboto block text-xs">Hasil Tes</span>
-    </button>
+        <span :class="{'text-[#667085]': $route.name !== 'user.views.reservasi', 'text-black': $route.name == 'user.views.reservasi'}" 
+        class="font-roboto block text-xs">Hasil Tes</span>
+    </RouterLink>
 
     <RouterLink :to="{name: 'user.views.reservasi'}" 
         class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
