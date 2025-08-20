@@ -9,6 +9,15 @@
         <PhHouse :size="24" :class="{'text-light': $route.name == 'views.dashboard','text-biru': $route.name !== 'views.dashboard'}" />
         Beranda
     </RouterLink> -->
+    <RouterLink :to="{ name: 'consultant.views.anak' }" class="
+            flex justify-center items-end px-4 py-2 gap-1 font-myFont
+            hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
+            "
+        :class="{ 'bg-biru px-4 py-2 rounded-lg shadow-sm text-light': $route.name === 'consultant.views.bookings', 'text-dark bg-white': $route.name !== 'consultant.views.bookings' }">
+        <PhFileSearch :size="24" weight="duotone"
+            :class="{ 'text-light': $route.name == 'consultant.views.bookings', 'text-biru hover:text-light': $route.name !== 'consultant.views.bookings' }" />
+        Daftar Anak
+    </RouterLink>
     <RouterLink :to="{ name: 'consultant.views.bookings' }" class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
