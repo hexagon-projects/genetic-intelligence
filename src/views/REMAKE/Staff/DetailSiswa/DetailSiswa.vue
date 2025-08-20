@@ -1,89 +1,182 @@
 <template>
-    <div v-if="loading" class="preloader-overlay">
-      <span
-        class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"
-      ></span>
-    </div>
+  <div v-if="loading" class="preloader-overlay">
+    <span
+      class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"
+    ></span>
+  </div>
 
-    <Layout v-else>
-        <section class="bg-white py-[32px]">
-            <div class="mx-[30px] lg:mx-[60px]">
-                <div class="flex items-start gap-[26px]">
-                    <div class="sticky top-4 w-[20%] flex-col justify-start items-start gap-4 inline-flex">
-                        <div class="text-[#0c141c] text-base font-medium font-['Roboto'] leading-normal">
-                            Menu
-                        </div>
-    
-                        <div class="flex flex-col w-full">
-                            <div v-for="(item, index) in filteredSidebarItems" :key="index" 
-                                :class="['cursor-pointer px-[12px] py-[8px] flex items-center gap-[12px]', { 'bg-[#f0f7fd] rounded-xl': selectedItemIndex === index || pageType == item.text }]"
-                                @click="selectItem(index, item.text)">
-                                <img :class="{'grayscale-0': selectedItemIndex === index || pageType == item.text, 'grayscale': selectedItemIndex !== index}" class="size-[24px]" :src="item.image" alt="icon">
-                                <span :class="{'text-[#3030f8]': selectedItemIndex === index || pageType == item.text}" class="font-roboto font-medium text-[#0c141c] text-sm">{{ item.text }}</span>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="w-full px-6 rounded-xl border border-[#cfd4dc] flex-col justify-start items-start flex">
-                        <div class="mb-[32px] w-full px-4 py-8 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <img class="w-14 h-14 rounded-full" src="@/assets/img/profile-mock.png" alt="profile"/>
-                                <div class="text-[#0c141c] text-2xl font-semibold font-['Roboto'] leading-loose">
-                                    {{ siswaDatas.name }}
-                                </div>
-                            </div>
-
-                            <button @click="downloadFile(siswaDatas.customers_results.gim.result_file)" v-if="(pageType == 'Profile Pengguna' || pageType == 'Hasil Tes GIM') && siswaDatas.customers_results !== null" class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg">
-                                Download PDF
-                            </button>
-                        </div>
-                        
-                        <!-- Personal Information -->
-                        <PersonalInfo v-if="pageType == 'Profile Pengguna' && siswaDatas" :siswaDatas="siswaDatas"/>
-
-                        <!-- Hasil Tes GIM -->
-                        <HasilGIM v-if="pageType == 'Hasil Tes Jatidiri Sejati' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Assessment -->
-                        <HasilAssessment v-if="pageType == 'Hasil Tes Jatidiri Belajar' && siswaDatas" :siswaDatas="siswaDatas"/>
-                    
-                        <!-- Hasil IQ -->
-                        <HasilIQ v-if="pageType == 'Hasil Tes Jatidiri Cerdas' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil CPM -->
-                        <HasilCPM v-if="pageType == 'Hasil Tes CPM' && siswaDatas" :siswaDatas="siswaDatas"/>
-
-                        <!-- Hasil Bakat -->
-                        <HasilBakat v-if="pageType == 'Hasil Tes Jatidiri Bakat' && siswaDatas" :siswaDatas="siswaDatas"/>
-
-                        <!-- Hasil Kendali -->
-                        <HasilKendali v-if="pageType == 'Hasil Tes Jatidiri Kendali' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Index Kebahagian -->
-                        <HasilBahagia v-if="pageType == 'Hasil Tes Jatidiri Bahagia' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Index Anxiiety -->
-                        <HasilAnxiety v-if="pageType == 'Hasil Tes Jatidiri Anxiety' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Index stres -->
-                        <HasilStres v-if="pageType == 'Hasil Tes Jatidiri Stress' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Index mental -->
-                        <HasilMental v-if="pageType == 'Hasil Tes Jatidiri Kesehatan Mental' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Jatidiri Q1 -->
-                        <HasilQ1 v-if="pageType == 'Hasil Tes Jatidiri Q1' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Jatidiri Q2 -->
-                        <HasilQ2 v-if="pageType == 'Hasil Tes Jatidiri Q2' && siswaDatas" :siswaDatas="siswaDatas"/>
-                        
-                        <!-- Hasil Jatidiri Potensi -->
-                        <HasilPotensi v-if="pageType == 'Hasil Tes Jatidiri Potensi' && siswaDatas" :siswaDatas="siswaDatas"/>
-                    </div>
-                </div>
+  <Layout v-else>
+    <section class="bg-white py-[32px]">
+      <div class="mx-[30px] lg:mx-[60px]">
+        <div class="flex items-start gap-[26px]">
+          <div
+            class="sticky top-4 w-[20%] flex-col justify-start items-start gap-4 inline-flex"
+          >
+            <div
+              class="text-[#0c141c] text-base font-medium font-['Roboto'] leading-normal"
+            >
+              Menu
             </div>
-        </section>
-    </Layout>
+
+            <div class="flex flex-col w-full">
+              <div
+                v-for="(item, index) in filteredSidebarItems"
+                :key="index"
+                :class="[
+                  'cursor-pointer px-[12px] py-[8px] flex items-center gap-[12px]',
+                  {
+                    'bg-[#f0f7fd] rounded-xl':
+                      selectedItemIndex === index || pageType == item.text,
+                  },
+                ]"
+                @click="selectItem(index, item.text)"
+              >
+                <img
+                  :class="{
+                    'grayscale-0':
+                      selectedItemIndex === index || pageType == item.text,
+                    grayscale: selectedItemIndex !== index,
+                  }"
+                  class="size-[24px]"
+                  :src="item.image"
+                  alt="icon"
+                />
+                <span
+                  :class="{
+                    'text-[#3030f8]':
+                      selectedItemIndex === index || pageType == item.text,
+                  }"
+                  class="font-roboto font-medium text-[#0c141c] text-sm"
+                  >{{ item.text }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="w-full px-6 rounded-xl border border-[#cfd4dc] flex-col justify-start items-start flex"
+          >
+            <div
+              class="mb-[32px] w-full px-4 py-8 flex justify-between items-center"
+            >
+              <div class="flex items-center gap-2">
+                <img
+                  class="w-14 h-14 rounded-full"
+                  src="@/assets/img/profile-mock.png"
+                  alt="profile"
+                />
+                <div
+                  class="text-[#0c141c] text-2xl font-semibold font-['Roboto'] leading-loose"
+                >
+                  {{ siswaDatas.name }}
+                </div>
+              </div>
+
+              <button
+                @click="
+                  downloadFile(siswaDatas.customers_results.gim.result_file)
+                "
+                v-if="
+                  (pageType == 'Profile Pengguna' ||
+                    pageType == 'Hasil Tes GIM') &&
+                  siswaDatas.customers_results !== null
+                "
+                class="bg-[#fee3e1] font-roboto font-medium text-[#f04437] px-4 py-2 rounded-lg"
+              >
+                Download PDF
+              </button>
+            </div>
+
+            <!-- Personal Information -->
+            <PersonalInfo
+              v-if="pageType == 'Profile Pengguna' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Tes GIM -->
+            <HasilGIM
+              v-if="pageType == 'Hasil Tes Jatidiri Sejati' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Assessment -->
+            <HasilAssessment
+              v-if="pageType == 'Hasil Tes Jatidiri Belajar' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil IQ -->
+            <HasilIQ
+              v-if="pageType == 'Hasil Tes Jatidiri Cerdas' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil CPM -->
+            <HasilCPM
+              v-if="pageType == 'Hasil Tes CPM' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Bakat -->
+            <HasilBakat
+              v-if="pageType == 'Hasil Tes Jatidiri Bakat' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Kendali -->
+            <HasilKendali
+              v-if="pageType == 'Hasil Tes Jatidiri Kendali' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Index Kebahagian -->
+            <HasilBahagia
+              v-if="pageType == 'Hasil Tes Jatidiri Bahagia' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Index Anxiiety -->
+            <HasilAnxiety
+              v-if="pageType == 'Hasil Tes Jatidiri Anxiety' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Index stres -->
+            <HasilStres
+              v-if="pageType == 'Hasil Tes Jatidiri Stress' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Index mental -->
+            <HasilMental
+              v-if="
+                pageType == 'Hasil Tes Jatidiri Kesehatan Mental' && siswaDatas
+              "
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Jatidiri Q1 -->
+            <HasilQ1
+              v-if="pageType == 'Hasil Tes Jatidiri Q1' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Jatidiri Q2 -->
+            <HasilQ2
+              v-if="pageType == 'Hasil Tes Jatidiri Q2' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+
+            <!-- Hasil Jatidiri Potensi -->
+            <HasilPotensi
+              v-if="pageType == 'Hasil Tes Jatidiri Potensi' && siswaDatas"
+              :siswaDatas="siswaDatas"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Layout>
 </template>
 
 <script setup>
@@ -109,132 +202,204 @@ import HasilQ2 from "@/components/staffs/DetailSiswa/HasilQ2.vue";
 import HasilPotensi from "@/components/staffs/DetailSiswa/HasilPotensi.vue";
 import { useRoute, useRouter } from "vue-router";
 
-const sidebarItems = ref([
-    {image: new URL('@/assets/icons/profile-siswa.svg', import.meta.url).href, text: 'Profile Pengguna'},
-    {image: new URL('@/assets/icons/tes-gim.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Sejati'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Belajar'},
-    {image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Cerdas'},
-    {image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href, text: 'Hasil Tes CPM'},
-    {image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Bakat'},
-    {image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Kendali'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Bahagia'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Anxiety'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Stress'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Kesehatan Mental'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Q1'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Q2'},
-    {image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href, text: 'Hasil Tes Jatidiri Potensi'},
-])
+const sidebarItems = computed(() => {
+  const items = [
+    {
+      image: new URL('@/assets/icons/profile-siswa.svg', import.meta.url).href,
+      text: 'Profile Pengguna',
+      show: true // selalu tampil
+    },
+    {
+      image: new URL('@/assets/icons/tes-gim.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Sejati',
+      show: true
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Belajar',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Cerdas',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href,
+      text: 'Hasil Tes CPM',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Bakat',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Kendali',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Bahagia',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Anxiety',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Stress',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Kesehatan Mental',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Q1',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Q2',
+      show: false
+    },
+    {
+      image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
+      text: 'Hasil Tes Jatidiri Potensi',
+      show: false
+    },
+  ]
+
+  // Hanya ambil yang `show` = true
+  return items.filter(item => item.show)
+})
 
 const filteredSidebarItems = computed(() => {
-    const institutionType = JSON.parse(localStorage.getItem('userData')).staff.institutions.type;
-    
-    return sidebarItems.value.filter(item => {
-        if (['SMP', 'SMK', 'SMA'].includes(institutionType)) {
-            return item.text !== 'Hasil Tes CPM';
-        } else if (['TK', 'SD'].includes(institutionType)) {
-            return item.text !== 'Hasil Tes IQ';
-        }
-        return true; // Tampilkan semua item jika tidak termasuk kategori di atas
+  const institutionType = JSON.parse(localStorage.getItem("userData")).staff
+    .institutions.type;
+
+  return sidebarItems.value
+    // Filter yang datanya ada
+    .filter(item => item.show) 
+    // Filter tambahan berdasarkan institutionType
+    .filter(item => {
+      if (["SMP", "SMK", "SMA"].includes(institutionType)) {
+        return item.text !== "Hasil Tes CPM";
+      } else if (["TK", "SD"].includes(institutionType)) {
+        return item.text !== "Hasil Tes IQ";
+      }
+      return true;
     });
 });
 
 const selectedItemIndex = ref(null);
-const pageType = ref('Profile Pengguna')
+const pageType = ref("Profile Pengguna");
 
 const selectItem = (index, type) => {
-    // console.log(`diplih`, index)
-    selectedItemIndex.value = index;
-    pageType.value = type
+  // console.log(`diplih`, index)
+  selectedItemIndex.value = index;
+  pageType.value = type;
 };
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
-const siswaId = ref('')
-const siswaDatas = ref('')
+const siswaId = ref("");
+const siswaDatas = ref("");
 
 const isValidStudentId = (id) => {
-    return !isNaN(id) && Number.isInteger(+id) && +id > 0;
-}
+  return !isNaN(id) && Number.isInteger(+id) && +id > 0;
+};
 
-const getDataSiswa = async() => {
-    try {
-        const token = Cookies.get("token");
-        const response = await initAPI('get', `customers?id=${siswaId.value}`, null, token)
+const getDataSiswa = async () => {
+  try {
+    const token = Cookies.get("token");
+    const response = await initAPI(
+      "get",
+      `customers?id=${siswaId.value}`,
+      null,
+      token
+    );
 
-        console.log(`response`, response.data)
-        siswaDatas.value = response.data.data[0]
-    } catch (error) {
-        Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Terjadi error saat mengambil data siswa.",
-        showConfirmButton: false,
-        timer: 2000,
-        });
-    }
-}
+    console.log(`response`, response.data);
+    siswaDatas.value = response.data.data[0];
+    console.log(`siswaDatas`, siswaDatas.value);
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Terjadi error saat mengambil data siswa.",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  }
+};
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const downloadFile = async (fileUrl) => {
-    // console.log(`aisia`, fileUrl)
-    const imageUrl = baseUrl + 'open/results/' + fileUrl
-    // console.log(imageUrl)
+  // console.log(`aisia`, fileUrl)
+  const imageUrl = baseUrl + "open/results/" + fileUrl;
+  // console.log(imageUrl)
 
+  const response = await fetch(imageUrl);
+  const blob = await response.blob();
 
-    const response = await fetch(imageUrl)
-    const blob = await response.blob()
+  const url = window.URL.createObjectURL(blob);
 
-    const url = window.URL.createObjectURL(blob)
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.download = fileUrl;
 
-    const link = document.createElement('a')
-    link.href = url
-    link.target = '_blank'
-    link.download = fileUrl
+  link.click();
 
-    link.click()
-
-    window.URL.revokeObjectURL(url)
-}
+  window.URL.revokeObjectURL(url);
+};
 
 onBeforeMount(() => {
-    const encodedStudentId = route.query.student_id
-    if (!encodedStudentId) {
-        router.push({name: 'staff.views.list_siswa'})
-        return;
+  const encodedStudentId = route.query.student_id;
+  if (!encodedStudentId) {
+    router.push({ name: "staff.views.list_siswa" });
+    return;
+  }
+
+  try {
+    const decodedId = atob(encodedStudentId); // Menggunakan Base64 decode
+
+    // Validasi: Pastikan ID adalah angka
+    if (!isValidStudentId(decodedId)) {
+      router.push({ name: "staff.views.list_siswa" });
+      return;
     }
 
-    try {
-        const decodedId = atob(encodedStudentId); // Menggunakan Base64 decode
+    siswaId.value = decodedId;
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Terjadi error saat decoded data siswa.",
+      showConfirmButton: false,
+      timer: 2000,
+    });
 
-        // Validasi: Pastikan ID adalah angka
-        if (!isValidStudentId(decodedId)) {
-            router.push({name: 'staff.views.list_siswa'})
-            return;
-        }
-
-        siswaId.value = decodedId
-
-    } catch (error) {
-        Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Terjadi error saat decoded data siswa.",
-        showConfirmButton: false,
-        timer: 2000,
-        });
-
-        router.push({name: 'staff.views.list_siswa'})
-    }
-})
+    router.push({ name: "staff.views.list_siswa" });
+  }
+});
 
 onMounted(async () => {
   await getDataSiswa();
 
   // Set selected index berdasarkan pageType awal
-  const index = filteredSidebarItems.value.findIndex(item => item.text === pageType.value);
+  const index = filteredSidebarItems.value.findIndex(
+    (item) => item.text === pageType.value
+  );
   if (index !== -1) {
     selectedItemIndex.value = index;
   }
