@@ -47,7 +47,7 @@ import { useRouter } from 'vue-router'
 //     return response
 // }
 
-const initAPI = async (method, endpoint, data, token) => {
+const initAPI = async (method, endpoint, data, token, customHeaders = {}) => {
   const router = useRouter()
   // const baseUrl = import.meta.env.VITE_API_BASE_URL
   // const baseUrl = 'http://192.168.38.226:8001/api/'
@@ -65,14 +65,21 @@ const initAPI = async (method, endpoint, data, token) => {
             endpoint.includes('bk/upload-profile') ||
             endpoint.includes('placement');
   // console.log(check)
+
+    const headers = {
+    ...(token !== null && { 'Authorization': `Bearer ${token}` }),
+    ...customHeaders
+  }
+
+  if (!(data instanceof FormData)) {
+    headers['Content-Type'] = 'application/json'
+  }
+
   const config = {
     method: method,
     maxBodyLength: Infinity,
-    url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
-    headers: {
-      'Content-Type': check ? 'multipart/form-data' : 'application/json',
-      'Authorization': token !== null ? `Bearer ${token}` : null,
-    },
+    url: endpoint.includes('https') ? endpoint : baseUrl + endpoint,
+     headers: headers,
     data: data !== null ? data : null
   };
 

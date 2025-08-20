@@ -12,7 +12,16 @@ export const store = createStore({
       reviewDetail: null,
       isUnderstand: false,
       showContohSoalIQ: false,
-      isInstruksi: true
+      isInstruksi: true,
+      bookingProcess: {
+        consultantId: null,
+        selectedDate: null,
+        selectedSlot: null,
+        selectedPackage: null,
+        medicalAnswers: {},
+        counselingAnswers: {},
+        termsAccepted: false
+      }
     }
   },
   mutations: {
@@ -45,6 +54,63 @@ export const store = createStore({
     },
     setIsInstruksi(state, status){
       state.isInstruksi = status
+    },
+    SET_BOOKING_DATA(state, payload) {
+      state.bookingProcess = {
+        ...state.bookingProcess,
+        ...payload
+      }
+    },
+    SET_MEDICAL_ANSWERS(state, answers) {
+      state.bookingProcess.medicalAnswers = answers
+    },
+    SET_COUNSELING_ANSWERS(state, answers) {
+      state.bookingProcess.counselingAnswers = answers
+    },
+    ACCEPT_TERMS(state) {
+      state.bookingProcess.termsAccepted = true
+    },
+    RESET_BOOKING_PROCESS(state) {
+      state.bookingProcess = {
+        consultantId: null,
+        selectedDate: null,
+        selectedSlot: null,
+        selectedPackage: null,
+        medicalAnswers: {},
+        counselingAnswers: {},
+        termsAccepted: false
+      }
+    }
+  },
+  actions: {
+    async submitBooking({ state, commit }) {
+      try {
+        const bookingData = {
+          consultant_id: state.bookingProcess.consultantId,
+          date: format(state.bookingProcess.selectedDate, 'yyyy-MM-dd'),
+          slot_id: state.bookingProcess.selectedSlot.id,
+          package_id: state.bookingProcess.selectedPackage.id,
+          medical_answers: Object.entries(state.bookingProcess.medicalAnswers)
+            .map(([questionId, answer]) => ({
+              question_id: parseInt(questionId),
+              answer
+            })),
+          counseling_answers: Object.entries(state.bookingProcess.counselingAnswers)
+            .map(([questionId, answer]) => ({
+              question_id: parseInt(questionId),
+              answer
+            }))
+        }
+
+        const token = Cookies.get('token')
+        const response = await initAPI('post', 'user/bookings', bookingData, token)
+        
+        commit('RESET_BOOKING_PROCESS')
+        return response.data
+      } catch (error) {
+        console.error('Booking submission failed:', error)
+        throw error
+      }
     }
   },
   getters: {
@@ -57,6 +123,9 @@ export const store = createStore({
     getReviewDetail: (state) => state.reviewDetail,
     getIsUnderstand: (state) => state.isUnderstand,
     getStatusContohSoalIQ: (state) => state.showContohSoalIQ,
-    getStatusIsInstruksi: (state) => state.isInstruksi
+    getStatusIsInstruksi: (state) => state.isInstruksi,
+    getBookingProcess: (state) => state.bookingProcess,
+    getMedicalAnswers: (state) => state.bookingProcess.medicalAnswers,
+    getCounselingAnswers: (state) => state.bookingProcess.counselingAnswers
   },
 })

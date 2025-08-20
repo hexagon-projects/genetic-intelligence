@@ -59,6 +59,15 @@ const routes = [
             showFooter: false
         }
     },
+        {
+        path: '/register-consultant',
+        name: 'views.register-consultant',
+        component: () => import('../components/auth/register/RegisterConsultant.vue'),
+        meta: {
+            showNavbar: false,
+            showFooter: false
+        }
+    },
     {
         path: '/register-bk',
         name: 'views.register-bk',

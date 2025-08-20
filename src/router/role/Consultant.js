@@ -78,6 +78,30 @@ export default [
         }
     },
     {
+        path: '/consultant/bookings',
+        name: 'consultant.views.bookings',
+        component: () => import('@/views/REMAKE/Consultant/Hallopsy/BookingView.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/consultant/permintaan-reservasi',
         name: 'consultant.views.permintaan',
         component: () => import('@/views/REMAKE/Consultant/Reservasi/PermintaanReservasi.vue'),
@@ -131,6 +155,30 @@ export default [
         path: '/consultant/list-assessments',
         name: 'consultant.views.assessments',
         component: () => import('@/views/REMAKE/Consultant/Assessment/ListAssessment.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'consultant') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
+        path: '/consultant/daftar-anak',
+        name: 'consultant.views.anak',
+        component: () => import('@/views/REMAKE/Consultant/JatidiriTk/ListAnak.vue'),
         meta: {
             showNavbar: true,
             showFooter: true

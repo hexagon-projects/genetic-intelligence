@@ -84,12 +84,42 @@
                 </div>
 
                 <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label for="typeExpert" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                        Tipe
+                    </label>
+                    <div class="relative">
+                        <select v-model="typeExpert" id="typeExpert" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-biru">
+                        <option value="pilih" selected disabled>Pilih Tipe</option>
+                        <option value="psikologi">Psikologi</option>
+                        <option value="konsultan">Konsultan</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                       
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                     <label for="alamat" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Alamat
                     </label>
                     <textarea v-model="address" id="alamat" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Alamat"></textarea>
                     <!-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> -->
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                    <label for="description" class="block tracking-wide font-myFont text-dark font-sm mb-2">
+                        Deskripsi
+                    </label>
+                    <textarea v-model="description" id="description" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Deskripsi tentang konsultan"></textarea>
                     </div>
                 </div>
 
@@ -127,6 +157,8 @@ export default {
         const gender = ref('pilih')
         const number = ref(null)
         const address = ref(null)
+        const typeExpert = ref('pilih')
+        const description = ref(null)
 
         const validasiWA = ref(null)
         const validasiFee = ref(null)
@@ -180,8 +212,10 @@ export default {
             data.append('birth_place', DOMPurify.sanitize(birth_place.value))
             data.append('birth_date', DOMPurify.sanitize(birth_date.value))
             data.append('gender', DOMPurify.sanitize(gender.value))
+            data.append('type', DOMPurify.sanitize(typeExpert.value))
             data.append('number', DOMPurify.sanitize(number.value))
             data.append('address', DOMPurify.sanitize(address.value))
+            data.append('description', DOMPurify.sanitize(description.value))
             data.append('available_on', null)
             data.append('image', null)
             // console.log(data + token)
@@ -239,7 +273,10 @@ export default {
                 !birth_date.value || 
                 !gender.value ||
                 !number.value ||
-                !address.value
+                !address.value ||
+                !description.value ||
+                gender.value === 'pilih' ||
+                typeExpert.value === 'pilih'
             ){
                 return true
             } else {
@@ -256,7 +293,9 @@ export default {
             birth_place,
             gender,
             number,
-            address, 
+            address,
+            typeExpert,
+            description,
             validasiWA,
             validasiFee,
             validasiEmail,

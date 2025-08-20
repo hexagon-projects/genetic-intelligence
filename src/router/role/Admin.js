@@ -290,4 +290,29 @@ export default [
             }
         }
     },
+
+    {
+        path: '/konsultan-pending',
+        name: 'admin.views.konsultan.pending',
+        component: () => import('@/views/REMAKE/Admin/Consultants/PendingConsultants.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'admin') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
 ]
