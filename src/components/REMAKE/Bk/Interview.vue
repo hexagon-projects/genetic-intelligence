@@ -25,7 +25,7 @@
                 type="text"
                 v-model="item.title"
                 class="w-full border my-3 px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 md:col-span-4"
-                placeholder="Title Conseling"
+                placeholder="Topik Catatan"
               />
               <select
                 v-model="item.type_aspek"
@@ -63,7 +63,7 @@
                   @click="saveNote(index)"
                   :disabled="isloadingsave"
                 >
-                  <span v-if="!isloadingsave">Save Note</span>
+                  <span v-if="!isloadingsave">Simpan Catatan</span>
                   <svg
                     v-if="!isloadingsave"
                     xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@
                   class="px-4 py-2 bg-white text-biru rounded-md hover:bg-biru hover:text-white border border-biru flex items-center gap-2"
                   @click="updateNote(index)"
                 >
-                  <span v-if="!isloadingupdate">Update Note</span>
+                  <span v-if="!isloadingupdate">Perbaharui Catatan</span>
                   <svg
                     v-if="!isloadingupdate"
                     xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +157,7 @@
                 class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-500 flex items-center gap-2"
                 @click="deleteNote(item.id, index)"
               >
-                <span>Delete</span>
+                <span>Hapus Catatan</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

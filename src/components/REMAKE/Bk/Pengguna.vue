@@ -5,7 +5,7 @@
       class="flex flex-col justify-start lg:flex-row lg:justify-between items-start lg:items-center mb-5 px-4"
     >
       <div class="text-[#0c141c] font-['Roboto'] leading-loose">
-        <div class="text-xl md:text-3xl font-semibold">Overview Data Siswa</div>
+        <div class="text-xl md:text-3xl font-semibold">Data Siswa</div>
       </div>
 
       <RouterLink

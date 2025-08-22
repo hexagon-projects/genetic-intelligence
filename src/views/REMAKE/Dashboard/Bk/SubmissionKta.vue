@@ -46,15 +46,15 @@
                 Upload New Photo
               </button>
               <p class="text-xs text-gray-500 mt-1 text-center">
-                At least 500x500 px recommended. <br />
-                JPG or PNG is allowed.
+                Disarankan minimal 500x500 piksel. <br />
+                JPG atau PNG diperbolehkan.
               </p>
             </div>
 
             <!-- Submission Completion Section -->
             <div class="text-center space-y-3">
               <h2 class="text-base font-semibold mb-5">
-                Complete Your Submission
+                Kelengkapan Informasi Anda
               </h2>
 
               <div class="grid grid-cols-2 gap-2 items-center">
@@ -178,7 +178,7 @@
                     d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5"
                   />
                 </svg>
-                <span>Apply for Membership</span>
+                <span>Ajukan Kartu Tanda Anggota</span>
               </button>
 
               <TermConditionModal
@@ -233,11 +233,11 @@ const placeDone = ref(false);
 
 const steps = computed(() => [
   {
-    label: "Photo Profile",
+    label: "Foto Profil",
     done: !!profilePreview.value,
   },
   {
-    label: "Basic Information",
+    label: "Informasi Pribadi",
     done: !!(
       userDatas.value?.first_name &&
       userDatas.value?.last_name &&
@@ -246,19 +246,19 @@ const steps = computed(() => [
     ),
   },
   {
-    label: "Address Information",
+    label: "Alamat Tempat Tinggal",
     done: !!userDatas.value?.address,
   },
   {
-    label: "Contact Information",
+    label: "Informasi Kontak",
     done: !!userDatas.value?.phone,
   },
   {
-    label: "Organization Information",
+    label: "Riwayat Organisasi",
     done: orgDone.value,
   },
   {
-    label: "Placment Information",
+    label: "Penempatan Sekolah",
     done: placeDone.value,
   },
 ]);

@@ -198,7 +198,11 @@ const handleNextQuestion = () => {
             cancelButtonColor: "#3b3f5c",
             cancelButtonText: "Cek Ulang",
             confirmButtonColor: "#3030f8",
-            confirmButtonText: "Ya, kirim"
+            confirmButtonText: "Ya, kirim",
+            customClass: {
+                confirmButton: 'bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded ml-5',
+                cancelButton: 'bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded'
+            },
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
@@ -216,6 +220,9 @@ const handleNextQuestion = () => {
                         icon: "success",
                         confirmButtonColor: "#3030f8",
                         confirmButtonText: "OK",
+                        customClass: {
+                            confirmButton: 'bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded',
+                        },
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.reload();
@@ -243,6 +250,10 @@ const handleNextQuestion = () => {
             showCancelButton: false,
             confirmButtonColor: "#3030f8",
             confirmButtonText: "Cek Ulang",
+            customClass: {
+                confirmButton: 'bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded ml-5',
+                cancelButton: 'bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded'
+            },
         });
     }
 };

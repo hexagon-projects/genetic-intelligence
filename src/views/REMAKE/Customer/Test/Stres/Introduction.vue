@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_jatidiri_anxiety" message="Test Anxiety Selesai!"
+    <SelesaiTest v-if="isTested" routeUrl="user.views.hasil_jatidiri_stres" message="Test Stres Selesai!"
         :subMessage="subMessage"/>
     <div
     v-if="!isTested"
@@ -219,7 +219,7 @@ import cekDataProfile from "@/components/cekProfile";
 import modalCekProfile from "@/components/modalCekProfile/modalCekProfile.vue";
 import { useRouter } from "vue-router";
 
-const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Anxiety</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
+const subMessage = `Kerja yang bagus! Kamu telah menyelesaikan Tes <span class="font-bold">Stres</span>. Mari lihat hasilnya dan temukan lebih banyak tentang potensi diri Kamu!`
 const isTested = ref(null);
 const customerId = ref("");
 

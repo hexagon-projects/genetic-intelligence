@@ -207,7 +207,18 @@
                 </li>
             </ul>
         </li>
-        <li @click="goTo('user.views.hallopsy')" class="relative group cursor-pointer">
+
+        <li @click="goTo('user.views.overview-test')" class="relative group cursor-pointer">
+            <div class="flex items-center gap-[6px]">
+                <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.overview-test', 'grayscale-0': $route.name == 'user.views.overview-test'}" 
+                src="@/assets/icons/hasil-tes.svg"/>
+                <span class="text-black font-roboto">Hasil Tes</span>
+            </div>
+            
+            <div v-if="$route.name == 'user.views.overview-test'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+        </li>
+
+        <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
                 <img class="transition-all duration-100"
                     :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'user.views.hallopsy', 'grayscale-0': $route.name === 'user.views.hallopsy' }"

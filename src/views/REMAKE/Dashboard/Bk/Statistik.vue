@@ -9,19 +9,19 @@
             <h1
               class="text-[#0c141c] text-3xl md:text-2xl font-semibold font-['Roboto'] leading-10"
             >
-              Welcome Back, {{ userData.customer.first_name }}
+              Selamat Datang, {{ userData.customer.first_name }}
               {{ userData.customer.last_name }}
             </h1>
             <span
               class="self-stretch text-[#4c7099] text-sm font-normal font-['Roboto'] leading-tight"
-              >Here's a summary of student testing activity</span
+              >Berikut ringkasan aktivitas pengujian siswa</span
             >
           </div>
           <!-- pilih sekolah -->
           <div class="flex flex-col gap-2">
             <span
               class="self-stretch text-[#4c7099] text-sm font-['Roboto'] leading-tight"
-              >Choice The School</span
+              >Pilih Sekolah</span
             >
             <select
               v-model="selectedInstitutionId"
@@ -39,7 +39,6 @@
           </div>
         </div>
 
-        <!-- statistik pengguna -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] mt-10"
         >
@@ -65,14 +64,14 @@
               <div class="flex-grow flex flex-col justify-start items-start">
                 <div class="h-6">
                   <div class="text-[#344053] text-xs font-sora leading-normal">
-                    Total Pengguna
+                    Total Siswa
                   </div>
                 </div>
                 <div class="h-8">
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[0] }} Pengguna
+                    {{ data_test_counts[0] }} Siswa
                   </div>
                 </div>
               </div>
@@ -108,7 +107,7 @@
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[1] }} Pengguna
+                    {{ data_test_counts[1] }} Siswa
                   </div>
                 </div>
               </div>
@@ -144,7 +143,7 @@
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[2] }} Pengguna
+                    {{ data_test_counts[2] }} Siswa
                   </div>
                 </div>
               </div>
@@ -187,7 +186,7 @@
                   <div
                     class="text-[#344053] text-2xl font-bold font-['Roboto'] leading-loose"
                   >
-                    {{ data_test_counts[3] }} Pengguna
+                    {{ data_test_counts[3] }} Siswa
                   </div>
                 </div>
               </div>
@@ -529,7 +528,7 @@
           >
             <div class="text-[#0c141c] font-['Roboto'] leading-loose">
               <div class="text-xl md:text-3xl font-semibold">
-                Overview Data Siswa
+                Data Siswa
               </div>
               <span class="text-gray-500 text-sm"
                 >{{ data_test_counts[0] }} entries found</span
