@@ -45,66 +45,42 @@
                 class="font-roboto block text-xs">Lakukan Tes</span>
     </button>
 
-    <button @click="handleClick('showHasil')"
+    <RouterLink :to="{name: 'user.views.overview-test'}" 
         class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
-        :class="{'font-medium' : $route.name === 'user.views.dashboard'}"
+        :class="{'font-medium' : $route.name === 'user.views.overview-test'}"
         >
         <div class="self-center">
             <img class="transition-all duration-100" 
-                :class="{'grayscale': $route.name !== 'user.views.hasil_deteksi'
-                    || $route.name !== 'user.views.hasil_cpm'
-                    || $route.name !== 'user.views.hasil_assessment'
-                    || $route.name !== 'user.views.hasil_rmib'
-                    || $route.name !== 'user.views.hasil_gadget'
-                    || $route.name !== 'user.views.hasil_iq', 'grayscale-0': $route.name == 'user.views.hasil_deteksi'
-                    || $route.name == 'user.views.hasil_cpm'
-                    || $route.name == 'user.views.hasil_assessment'
-                    || $route.name == 'user.views.hasil_rmib'
-                    || $route.name == 'user.views.hasil_gadget'
-                    || $route.name == 'user.views.hasil_iq'
-                    }" 
+                :class="{'grayscale': $route.name !== 'user.views.overview-test', 'grayscale-0': $route.name == 'user.views.overview-test'}" 
                 src="@/assets/icons/hasil-tes.svg" alt="icon"/>
         </div>
-        <span :class="{'text-[#667085]': $route.name !== 'user.views.hasil_deteksi'
-                    || $route.name !== 'user.views.hasil_cpm'
-                    || $route.name !== 'user.views.hasil_assessment'
-                    || $route.name !== 'user.views.hasil_gadget'
-                    || $route.name !== 'user.views.hasil_rmib'
-                    || $route.name !== 'user.views.hasil_iq', 
-                   'text-black':
-                   $route.name == 'user.views.hasil_deteksi'
-                    || $route.name == 'user.views.hasil_cpm'
-                    || $route.name == 'user.views.hasil_assessment'
-                    || $route.name == 'user.views.hasil_gadget'
-                    || $route.name == 'user.views.hasil_rmib'
-                    || $route.name == 'user.views.hasil_iq'
-                }" 
-                class="font-roboto block text-xs">Hasil Tes</span>
-    </button>
+        <span :class="{'text-[#667085]': $route.name !== 'user.views.reservasi', 'text-black': $route.name == 'user.views.reservasi'}" 
+        class="font-roboto block text-xs">Hasil Tes</span>
+    </RouterLink>
 
-    <RouterLink :to="{name: 'user.views.hallopsy'}" 
+    <RouterLink :to="{name: 'user.views.reservasi'}" 
         class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
-        :class="{'font-medium' : $route.name === 'user.views.hallopsy'}"
+        :class="{'font-medium' : $route.name === 'user.views.reservasi'}"
         >
         <div class="self-center">
             <img class="transition-all duration-100" 
-                :class="{'grayscale': $route.name !== 'user.views.hallopsy', 'grayscale-0': $route.name == 'user.views.hallopsy'}" 
+                :class="{'grayscale': $route.name !== 'user.views.reservasi', 'grayscale-0': $route.name == 'user.views.reservasi'}" 
                 src="@/assets/icons/reservasi.svg" alt="icon"/>
         </div>
-        <span :class="{'text-[#667085]': $route.name !== 'user.views.hallopsy', 'text-black': $route.name == 'user.views.hallopsy'}" 
-        class="font-roboto block text-xs">Hallopsy</span>
+        <span :class="{'text-[#667085]': $route.name !== 'user.views.reservasi', 'text-black': $route.name == 'user.views.reservasi'}" 
+        class="font-roboto block text-xs">Reservasi</span>
     </RouterLink>
 
     <button @click="handleClick('showLainya')"
         class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
-        :class="{'font-medium' : $route.name === 'user.views.hallopsy'}"
+        :class="{'font-medium' : $route.name === 'user.views.reservasi'}"
         >
         <div class="self-center">
             <img class="transition-all duration-100" 
-                :class="{'grayscale': $route.name !== 'user.views.hallopsy', 'grayscale-0': $route.name == 'user.views.hallopsy'}" 
+                :class="{'grayscale': $route.name !== 'user.views.reservasi', 'grayscale-0': $route.name == 'user.views.reservasi'}" 
                 src="@/assets/icons/nav-lainya.svg" alt="icon"/>
         </div>
-        <span :class="{'text-[#667085]': $route.name !== 'user.views.hallopsy', 'text-black': $route.name == 'user.views.hallopsy'}" 
+        <span :class="{'text-[#667085]': $route.name !== 'user.views.reservasi', 'text-black': $route.name == 'user.views.reservasi'}" 
         class="font-roboto block text-xs">Lainya</span>
     </button>
 </template>
@@ -131,6 +107,11 @@ const testDatas = ref([
     {name: 'Test Jatidiri Kendali', route: 'user.views.test_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
     {name: 'Test Jatidiri Bakat', route: 'user.views.rmib', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
     {name: 'Test Jatidiri Bahagia', route: 'user.views.test_kebahagiaan', img:  new URL('@/assets/icons/tes-tik.svg', import.meta.url).href},
+    {name: 'Test Jatidiri', route: 'user.views.test_jatidiri', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Anxiety', route: 'user.views.test_jatidiri_anxiety', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Kendali Stres', route: 'user.views.test_jatidiri_stres', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Kendali Mental', route: 'user.views.test_jatidiri_mental', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Potensi', route: 'user.views.test_talen_mapping', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
 ])
 
 const hasilDatas = ref([
@@ -141,6 +122,11 @@ const hasilDatas = ref([
     {name: 'Hasil Test Jatidiri Kendali', route: 'user.views.hasil_gadget', img:  new URL('@/assets/icons/test-iaa.svg', import.meta.url).href},
     {name: 'Hasil Test Jatidiri Bakat', route: 'user.views.rmib', img:  new URL('@/assets/icons/test-rmib.svg', import.meta.url).href},
     {name: 'Hasil Test Jatidiri Bahagia', route: 'user.views.hasil_bahagia', img:  new URL('@/assets/icons/tes-tik.svg', import.meta.url).href},
+    {name: 'Test Jatidiri', route: 'user.views.test_jatidiri', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Anxiety', route: 'user.views.test_jatidiri_anxiety', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Kendali Stres', route: 'user.views.test_jatidiri_stres', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Kendali Mental', route: 'user.views.test_jatidiri_mental', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
+    {name: 'Test Jatidiri Potensi', route: 'user.views.test_talen_mapping', img:  new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href},
 ])
 
 const lainyaDatas = ref([

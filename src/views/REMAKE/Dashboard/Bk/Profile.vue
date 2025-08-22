@@ -25,7 +25,7 @@
           <!-- KTA -->
           <div class="bg-white rounded-2xl p-5 md:col-span-3 order-1 md:order-2">
             <div class="mb-5">
-              <Card />
+              <!-- <Card /> -->
             </div>
             <div class="grid grid-cols-3 gap-3" v-if="userLicese">
               <div class="flex flex-col">

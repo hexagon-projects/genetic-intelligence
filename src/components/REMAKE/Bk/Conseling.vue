@@ -11,7 +11,7 @@
           class="bg-biru text-white px-4 py-2 rounded-xl"
           @click="isEditModalOpen = true"
         >
-          Add New Conseling
+          Tambah Rencana Layanan Baru
         </button>
       </div>
 
@@ -31,7 +31,7 @@
 
           <!-- Judul -->
           <h2 class="text-lg font-semibold text-gray-800 mb-4">
-            New Basic Information Conseling
+            Tambah Informasi Kegiatan Layanan Baru
           </h2>
 
           <!-- Form -->
@@ -39,40 +39,43 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Title</label
+                  >Topik Layanan</label
                 >
                 <input
                   v-model="form.title"
                   type="text"
                   class="w-full border rounded-lg px-3 py-2"
+                  placeholder="Topik Layanan..."
                 />
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >placment</label
+                  >Lokasi</label
                 >
                 <input
                   v-model="form.placment"
                   type="text"
                   class="w-full border rounded-lg px-3 py-2"
+                  placeholder="Lokasi..."
                 />
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Counseling Date</label
+                  >Tanggal Pelaksanaan</label
                 >
                 <input
                   v-model="form.conseling_date"
                   type="date"
                   class="w-full border rounded-lg px-3 py-2"
+                  placeholder="Tanggal Pelaksanaan..."
                 />
               </div>
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1"
-                  >Type Counseling</label
+                  >Jenis Layanan</label
                 >
                 <select
                   v-model="form.type_conseling"
@@ -98,12 +101,13 @@
 
             <div class="mb-4">
               <label class="block text-sm font-medium text-gray-700 mb-1"
-                >Description</label
+                >Deskripsi Layanan</label
               >
               <textarea
                 v-model="form.description"
                 rows="3"
                 class="w-full border rounded-lg px-3 py-2"
+                placeholder="Deskripsi Layanan..."
               ></textarea>
             </div>
 
@@ -136,7 +140,7 @@
                   ></path>
                 </svg>
                 <span>{{
-                  isloadingconseling ? "Menyimpan..." : "Create New Conseling"
+                  isloadingconseling ? "Menyimpan..." : "Tambah Kegiatan Baru"
                 }}</span>
               </button>
             </div>
@@ -168,10 +172,10 @@
             <thead class="text-[#344053]">
               <tr>
                 <th class="py-3 px-4">#</th>
-                <th class="py-3 px-4">Title</th>
-                <th class="py-3 px-4">Description</th>
-                <th class="py-3 px-4">Conseling Date</th>
-                <th class="py-3 px-4">placment</th>
+                <th class="py-3 px-4">Topik Layanan</th>
+                <th class="py-3 px-4">Deskripsi Layanan</th>
+                <th class="py-3 px-4">Tanggal Pelaksanaan</th>
+                <th class="py-3 px-4">Lokasi</th>
                 <th class="py-3 px-4">Status</th>
                 <th class="py-3 px-4">Aksi</th>
               </tr>

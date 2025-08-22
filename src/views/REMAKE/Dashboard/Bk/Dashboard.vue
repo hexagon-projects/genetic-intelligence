@@ -6,7 +6,7 @@
   </div>
 
   <Layout>
-    <div class="bg-gray-100 p-5">
+    <div class="bg-gray-100 p-5 min-h-screen">
       <div class="w-full md:w-4/5 mx-auto">
         <Hero />
         <Statistik />

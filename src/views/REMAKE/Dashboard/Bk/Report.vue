@@ -5,7 +5,7 @@
         onclick="window.print()"
         class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300"
       >
-        Download PDF
+        Print Laporan
       </button>
     </div>
 
@@ -65,7 +65,7 @@
           <h1
             class="section-title text-2xl font-semibold mb-6 break-inside-avoid"
           >
-            Basic Information Counseling
+            Informasi Dasar Layanan
           </h1>
 
           <form
@@ -78,7 +78,7 @@
                 <legend
                   class="info-label text-xs uppercase tracking-wider mb-1"
                 >
-                  Title
+                  Topik Layanan
                 </legend>
                 <div class="info-value text-sm leading-relaxed">
                   {{ conseling.title }}
@@ -91,10 +91,10 @@
                 <legend
                   class="info-label text-xs uppercase tracking-wider mb-1"
                 >
-                  Description
+                  Deskripsi Layanan
                 </legend>
                 <div class="info-value text-sm leading-relaxed">
-                  P{{ conseling.description }}
+                  {{ conseling.description }}
                 </div>
               </fieldset>
 
@@ -104,7 +104,7 @@
                 <legend
                   class="info-label text-xs uppercase tracking-wider mb-1"
                 >
-                  Placement
+                  Lokasi Pelaksanaan
                 </legend>
                 <div class="info-value text-sm leading-relaxed">
                   {{ conseling.placment }}
@@ -132,10 +132,10 @@
                 <legend
                   class="info-label text-xs uppercase tracking-wider mb-1"
                 >
-                  Type Conseling
+                  Jenis Layanan
                 </legend>
                 <div class="info-value text-sm leading-relaxed">
-                  {{ conseling.type_conseling }}
+                  {{ conseling.type_conseling  }}
                 </div>
               </fieldset>
 
@@ -145,10 +145,10 @@
                 <legend
                   class="info-label text-xs uppercase tracking-wider mb-1"
                 >
-                  Submission Date
+                  Tanggal Pengajuan Layanan
                 </legend>
                 <div class="info-value text-sm leading-relaxed">
-                  {{ conseling.submission_date }}
+                  {{ formatDate(conseling.submission_date) }}
                 </div>
               </fieldset>
 
@@ -158,23 +158,10 @@
                 <legend
                   class="info-label text-xs uppercase tracking-wider mb-1"
                 >
-                  Counseling Date
+                  Tanggal Pelaksanaan
                 </legend>
                 <div class="info-value text-sm leading-relaxed">
-                  {{ conseling.conseling_date }}
-                </div>
-              </fieldset>
-
-              <fieldset
-                class="info-item mb-4 border border-gray-100 rounded-xl p-2 break-inside-avoid"
-              >
-                <legend
-                  class="info-label text-xs uppercase tracking-wider mb-1"
-                >
-                  Counseling Duration
-                </legend>
-                <div class="info-value text-sm leading-relaxed">
-                  {{ conseling.conseling_time }}
+                  {{ formatDate(conseling.conseling_date) }}
                 </div>
               </fieldset>
             </div>
@@ -184,7 +171,7 @@
             <h2
               class="participant-title text-2xl font-semibold mb-5 break-inside-avoid"
             >
-              Participant
+              Pihak Yang Terlibat
             </h2>
 
             <div
@@ -201,23 +188,23 @@
                     <th
                       class="text-white py-3 px-3 text-left font-semibold text-sm"
                     >
-                      Name
+                      Nama Lengkap
                     </th>
                     <th
                       class="text-white py-3 px-3 text-left font-semibold text-sm"
                     >
-                      Department
+                      Sebagai
                     </th>
                     <th
                       class="text-white py-3 px-3 text-left font-semibold text-sm"
                     >
-                      Class
+                      Kelas
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, index) in participants"
+                    v-for="(item, index) in sortedParticipants"
                     :key="index"
                     class="border-b border-gray-300 hover:bg-gray-100"
                   >
@@ -230,7 +217,7 @@
                       <span v-else>-</span>
                     </td>
                     <td class="px-4 py-2">
-                      {{ item.user?.customers?.majoring || "-" }}
+                      {{ item.status || "-" }}
                     </td>
                     <td class="px-4 py-2">
                       {{ item.user?.customers?.grade || "-" }}
@@ -250,7 +237,7 @@
           <h1
             class="section-title text-primary-500 text-2xl font-semibold mb-10"
           >
-            Interview
+            Notulen
           </h1>
           <div class="timeline relative pl-0 timeline-line">
             <div
@@ -292,7 +279,7 @@
           <h1
             class="section-title text-primary-500 text-2xl font-semibold mb-10"
           >
-            Documentation
+            Dokumentasi
           </h1>
 
           <div
@@ -334,7 +321,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, onMounted } from "vue";
+import { ref, onBeforeMount, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
@@ -350,6 +337,18 @@ const conseling = ref(null);
 const participants = ref([]);
 const interviews = ref([]);
 const documentations = ref([]);
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '-';
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('id-ID', {
+    weekday: 'long', // opsional: "Senin"
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
 
 const isValidStudentId = (id) => {
   return !isNaN(id) && Number.isInteger(+id) && +id > 0;
@@ -373,6 +372,30 @@ const getReport = async () => {
     console.log(error);
   }
 };
+
+const statusPriority = [
+  'Kepala Sekolah',
+  'Lainnya',
+  'Wali Kelas',
+  'Orang Tua atau Wali',
+  'Peserta',
+];
+
+const sortedParticipants = computed(() => {
+  return [...participants.value].sort((a, b) => {
+    const mapStatus = (status) => {
+      if (status === 'Kepala Sekolah') return 0;
+      if (status.toLowerCase().includes('lain') || status.toLowerCase().includes('narasumber') || status.toLowerCase().includes('psikolog')) return 1;
+      if (status === 'Wali Kelas') return 2;
+      if (status === 'Orang Tua atau Wali') return 3;
+      if (status === 'Peserta') return 4;
+      return 5; // tidak dikenal
+    };
+
+    return mapStatus(a.status) - mapStatus(b.status);
+  });
+});
+
 
 onBeforeMount(() => {
   const encodedConselingId = route.query.conseling_id;

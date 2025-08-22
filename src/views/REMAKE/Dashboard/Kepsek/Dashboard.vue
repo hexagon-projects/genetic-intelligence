@@ -468,7 +468,7 @@
         >
           <div class="text-[#0c141c] font-['Roboto'] leading-loose">
             <div class="text-xl md:text-3xl font-semibold">
-              Overview Data Siswa
+              Overview Data Pengguna
             </div>
             <span class="text-gray-500 text-sm">{{ data_test_counts[0] }} entries found</span>
           </div>
@@ -504,11 +504,10 @@
               <tr>
                 <th class="py-3 px-4">#</th>
                 <th class="py-3 px-4">PROFIL</th>
-                <th class="py-3 px-4">KELAS</th>
-                <th class="py-3 px-4">JURUSAN</th>
-                <th class="py-3 px-4">NAMA SEKOLAH</th>
+                <th class="py-3 px-4">GRADE</th>
+                <th class="py-3 px-4">DIVISION</th>
+                <th class="py-3 px-4">INSTITUTION</th>
                 <th class="py-3 px-4">TERAKHIR TES</th>
-                <th class="py-3 px-4">TOTAL TES</th>
                 <th class="py-3 px-4">AKSI</th>
               </tr>
             </thead>
@@ -528,7 +527,6 @@
                 <td class="py-3 px-4">{{ item.majoring }}</td>
                 <td class="py-3 px-4">{{ item.institutions.name }}</td>
                 <td class="py-3 px-4">{{ item.updated_at }}</td>
-                <td class="py-3 px-4">{{ item.total_test }}</td>
                 <td class="py-3 px-4">
                   <button @click="detailSiswa(item.id)"
                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
@@ -834,7 +832,7 @@ const getSiswa = async() => {
         const institutionId = localStorage.getItem('userData')
         ? JSON.parse(localStorage.getItem('userData')).staff.institution_id : null
         const response = await initAPI("get", `customers?institution_id=${institutionId}`, null, token);
-        // console.log(response.data)
+        console.log(response.data)
 
         dataSiswa.value = response.data.data
     } catch (error) {

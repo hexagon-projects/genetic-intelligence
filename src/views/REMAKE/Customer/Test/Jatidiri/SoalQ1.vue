@@ -71,13 +71,13 @@
               berikut.</span
             >
             <div class="perposed">
-                <ol class="list-decimal list-inside">
+              <ol class="list-decimal list-inside">
                 <li>Sangat Tidak Sesuai</li>
                 <li>Tidak Sesuai</li>
                 <li>Netral</li>
                 <li>Sesuai</li>
                 <li>Sangat Sesuai</li>
-                </ol>
+              </ol>
             </div>
           </div>
 
@@ -215,8 +215,7 @@ const getUserData = async () => {
     const userData = await initAPI("post", "login", formData, token);
 
     customerId.value = userData.data.customer.id;
-    isTested.value =
-      userData.data.customer.customers_q1 == null ? false : true;
+    isTested.value = userData.data.customer.customers_q1 == null ? false : true;
     console.log(customerId.value);
     console.log(isTested.value);
   } catch (error) {
@@ -272,6 +271,12 @@ const handleNextQuestion = () => {
       cancelButtonText: "Cek Ulang",
       confirmButtonColor: "#3030f8",
       confirmButtonText: "Ya, kirim",
+      customClass: {
+        confirmButton:
+          "bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded ml-5",
+        cancelButton:
+          "bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded",
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -294,6 +299,10 @@ const handleNextQuestion = () => {
             icon: "success",
             confirmButtonColor: "#3030f8",
             confirmButtonText: "OK",
+            customClass: {
+              confirmButton:
+                "bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded",
+            },
           }).then((result) => {
             if (result.isConfirmed) {
               window.location.reload();
@@ -323,6 +332,12 @@ const handleNextQuestion = () => {
       showCancelButton: false,
       confirmButtonColor: "#3030f8",
       confirmButtonText: "Cek Ulang",
+      customClass: {
+        confirmButton:
+          "bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded ml-5",
+        cancelButton:
+          "bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded",
+      },
     });
   }
 };
@@ -356,6 +371,10 @@ const getDataPertanyaan = async (page = 1) => {
         title: "Error",
         text: "Terjadi kesalahan saat mengambil data",
         showConfirmButton: false,
+        customClass: {
+          confirmButton:
+            "bg-biru hover:bg-biru/80 text-white px-4 py-2 rounded",
+        },
         timer: 2000,
       });
     }

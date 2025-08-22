@@ -268,7 +268,6 @@ onMounted(async () => {
         getHarga(),
         getUserData()
     ]);
-
     loading.value = false
 })
 </script>
@@ -288,7 +287,6 @@ onMounted(async () => {
     z-index: 9999;
     transition: opacity 0.5s ease, height 0.5s ease;
 }
-
 .preloader-overlay.hidden {
     opacity: 0;
     height: 0;

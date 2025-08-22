@@ -66,6 +66,26 @@ export default [
         }
     },
     {
+        path: '/overview-test',
+        name: 'user.views.overview-test',
+        component: () => import('@/views/REMAKE/Dashboard/Customer/HasilTest.vue'),
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token')
+            const isAuth = JSON.parse(localStorage.getItem('userData'))
+            if (!token || !isAuth) {
+                // Jika token tidak ada, arahkan pengguna ke halaman login
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                //console.log(`di deocde cek`, decodedToken);
+                const decodeRoleUser = decodedToken.role
+                const roleUser = JSON.parse(localStorage.getItem('userRole'))
+                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
+                else next()
+            }
+        }
+    },
+    {
         path: '/deteksi',
         name: 'user.views.deteksi',
         component: () => import('@/views/REMAKE/Customer/Test/GIM/TestGIM.vue'),
@@ -956,77 +976,25 @@ export default [
             }
         }
     },
-
     {
-        path: '/hallopsy',
-        name: 'user.views.hallopsy',
-        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Beranda.vue'),
+        path:'/test-talen-mapping',
+        name:'user.views.test_talen_mapping',
+        component: () => import('@/views/REMAKE/Customer/Test/Mapping/Introduction.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
-                // Jika token tidak ada, arahkan pengguna ke halaman login
                 next({ name: 'views.login' });
-            } else {
-                const decodedToken = jwtDecode(token);
-                //console.log(`di deocde cek`, decodedToken);
-                const decodeRoleUser = decodedToken.role
-                const roleUser = JSON.parse(localStorage.getItem('userRole'))
-                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
-                else next()
-            }
-        }
-    },
-
-    {
-        path: '/hallopsy/reservasi',
-        name: 'user.views.reservasi',
-        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Reservasi.vue'),
-        beforeEnter: (to, from, next) => {
-            const token = Cookies.get('token')
-            const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if (!token || !isAuth) {
-                // Jika token tidak ada, arahkan pengguna ke halaman login
-                next({ name: 'views.login' });
-            } else {
-                const decodedToken = jwtDecode(token);
-                //console.log(`di deocde cek`, decodedToken);
-                const decodeRoleUser = decodedToken.role
-                const roleUser = JSON.parse(localStorage.getItem('userRole'))
-                if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
-                else next()
-            }
-        }
-    },
-{
-    path: '/hallopsy/reservasi/detail/:id',
-    name: 'user.views.reservasi_detail',
-    component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/ReservasiDetail.vue'),
-    beforeEnter: (to, from, next) => {
-        const token = Cookies.get('token')
-        const isAuth = JSON.parse(localStorage.getItem('userData'))
-        if (!token || !isAuth) {
-            next({ name: 'views.login' });
-        } else {
-            const decodedToken = jwtDecode(token);
-            const decodeRoleUser = decodedToken.role
-            const roleUser = JSON.parse(localStorage.getItem('userRole'))
-            if(decodeRoleUser !== 'customer') next({ name: 'views.login' })
-            else next()
-        }
-    }
-},
-    {
-        path: '/hallopsy/reservasi/detail/:id/book',
-        name: 'user.views.reservasi_detail_book',
-        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/BookDetail.vue'),
-        beforeEnter: (to, from, next) => {
-            const token = Cookies.get('token')
-            const isAuth = JSON.parse(localStorage.getItem('userData'))
-            if (!token || !isAuth) {
-                // Jika token tidak ada, arahkan pengguna ke halaman login
-                next({ name: 'views.login' });
-            } else {
+            } 
+            else if(isAuth && isAuth.is_payment_mapping == 'Tidak') {
+                next('/pembayaran/test-mapping')
+                next()
+            } 
+            else {
                 const decodedToken = jwtDecode(token);
                 //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
@@ -1037,16 +1005,25 @@ export default [
         }
     },
     {
-        path: '/hallopsy/reservasi/detail/medical',
-        name: 'user.views.reservasi_detail_medical',
-        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Medical.vue'),
+        path:'/soal-talent-mapping',
+        name:'user.views.test_talent_mapping',
+        component: () => import('@/views/REMAKE/Customer/Test/Mapping/Soal.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))
             if (!token || !isAuth) {
-                // Jika token tidak ada, arahkan pengguna ke halaman login
                 next({ name: 'views.login' });
-            } else {
+            } 
+            else if(isAuth && isAuth.is_payment_mapping == 'Tidak') {
+                next('/pembayaran/test-mapping')
+                // router.push('/pembayaran/test-iq')
+                next()
+            } 
+            else {
                 const decodedToken = jwtDecode(token);
                 //console.log(`di deocde cek`, decodedToken);
                 const decodeRoleUser = decodedToken.role
@@ -1057,9 +1034,9 @@ export default [
         }
     },
     {
-        path: '/hallopsy/reservasi/detail/counseling',
-        name: 'user.views.reservasi_detail_counseling',
-        component: () => import('@/views/REMAKE/Customer/Test/HalloPsy/Counseling.vue'),
+        path: '/hasil-talent-mapping',
+        name: 'user.views.hasil_talent_mapping',
+        component: () => import('@/views/REMAKE/Customer/Test/Mapping/Hasil.vue'),
         beforeEnter: (to, from, next) => {
             const token = Cookies.get('token')
             const isAuth = JSON.parse(localStorage.getItem('userData'))

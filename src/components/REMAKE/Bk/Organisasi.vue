@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between mb-5">
       <div class="flex gap-3 bg-gray-100 py-2 px-3 rounded-full items-center">
         <img src="@/assets/icons/basic.svg" class="w-5" alt="contact" />
-        <small class="font-sora font-semibold">History Organization Data</small>
+        <small class="font-sora font-semibold">Riwayat Organisasi</small>
       </div>
     </div>
     <!-- Address tampil -->
@@ -13,7 +13,7 @@
         <div class="grid grid-cols-7 mb-3 items-center">
           <div class="flex flex-col gap-2 col-span-4">
             <small class="font-sora font-semibold text-gray-500"
-              >Name of Organization</small
+              >Nama Organisasi</small
             >
             <small class="font-sora font-semibold">{{
               item.nama_organisasi
@@ -21,7 +21,7 @@
           </div>
           <div class="flex flex-col gap-2 col-span-2">
             <small class="font-sora font-semibold text-gray-500"
-              >Position in organization</small
+              >Posisi di Organisasi</small
             >
             <small class="font-sora font-semibold">{{ item.jabatan }}</small>
           </div>
@@ -52,11 +52,11 @@
       </div>
     </div>
     <div v-else class="text-center text-gray-500 text-sm italic mt-4 my-5">
-      There is no organizational data yet.
+      Belum Ada Riwayat Organisasi Yang Ditambahkan.
     </div>
     <div class="flex flex-col gap-2 items-start md:col-span-2">
         <button
-          class="flex gap-3 items-center cursor-pointer bg-primary text-white px-3 py-2 rounded-xl"
+          class="flex gap-3 items-center cursor-pointer bg-biru text-white px-3 py-2 rounded-xl"
           @click="openModal"
         >
           <svg
@@ -72,7 +72,7 @@
               d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"
             />
           </svg>
-          <small class="font-sora text-xs">Add new organization</small>
+          <small class="font-sora text-xs">Tambah Organisasi Lain</small>
         </button>
       </div>
   </div>

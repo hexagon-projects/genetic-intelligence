@@ -85,10 +85,10 @@ const route = useRoute();
 const router = useRouter();
 
 const tabs = [
-  { name: "Conseling" },
-  { name: "Participants" },
-  { name: "Interview" },
-  { name: "Documentations" },
+  { name: "Informasi Layanan" },
+  { name: "Pihak Yang Terlibat" },
+  { name: "Catatan Layanan" },
+  { name: "Dokumentasi" },
 ];
 
 const activeTab = ref(0);
@@ -116,6 +116,7 @@ const getConseling = async () => {
 
     conseling.value = response.data.data;
     participants.value = response.data.participants;
+    console.log("Participants : ", participants.value);
   } catch (error) {
     Swal.fire({
       icon: "error",

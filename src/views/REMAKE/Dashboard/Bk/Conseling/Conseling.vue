@@ -34,10 +34,9 @@ import Conseling from "../../../../../components/REMAKE/Bk/Conseling.vue";
 import { ref } from "vue";
 
 const navigations = [
-  { label: "Conseling Queue", status: "pengajuan" },
-  { label: "Conseling Approved", status: "approved" },
-  { label: "Conseling", status: "conseling" },
-  { label: "Post Conseling", status: "selesai" },
+  { label: "Antrian Layanan", status: "pengajuan" },
+  { label: "Layanan Berjalan", status: "conseling" },
+  { label: "Layanan Selesai", status: "selesai" },
 ];
 
 const currentStatus = ref("pengajuan"); // default

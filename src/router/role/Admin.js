@@ -290,7 +290,6 @@ export default [
             }
         }
     },
-
     {
         path: '/konsultan-pending',
         name: 'admin.views.konsultan.pending',

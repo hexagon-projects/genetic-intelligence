@@ -226,7 +226,9 @@
         <div class="self-stretch px-9 py-4 bg-[#3030f8] rounded-tl-3xl rounded-tr-3xl justify-center items-center gap-2.5 inline-flex">
             <div class="grow shrink basis-0 text-white text-2xl font-medium font-['Roboto'] leading-loose">Identitas</div>
             <div class="w-6 h-6 relative">
-              <img src="@/assets/icons/Edit.svg" alt="edit">
+              <RouterLink :to="{name: 'user.views.profile'}" class="w-6 h-6 relative">
+                <img src="@/assets/icons/Edit.svg" alt="edit">
+              </RouterLink>
             </div>
         </div>
         <div class="self-stretch p-6 bg-white rounded-bl-3xl rounded-br-3xl shadow-md justify-start items-start gap-4 inline-flex">

@@ -22,7 +22,7 @@
       </button>
 
       <!-- Header -->
-      <h1 class="text-lg font-semibold mb-4">Term & Condition</h1>
+      <h1 class="text-lg font-semibold mb-4">Syarat & Ketentuan</h1>
 
       <!-- Isi Term -->
       <p class="text-sm text-gray-800 mb-4 leading-relaxed">
@@ -55,7 +55,7 @@
           class="bg-white border border-biru text-biru px-6 py-2 rounded-full hover:bg-biru hover:text-white font-bold"
           @click="closeModal"
         >
-          Back
+          Kembali
         </button>
         <button
           v-if="!isLoading"
@@ -65,9 +65,9 @@
             'bg-gray-400 text-white cursor-not-allowed': !allChecked,
           }"
           :disabled="!allChecked"
-          @click="submit"
+          @click="submitPaymnat"
         >
-          Submit
+          Ya, Saya Setuju!
         </button>
         <button
           v-if="isLoading"
@@ -106,7 +106,9 @@ import { defineEmits, ref, computed } from "vue";
 import Swal from "sweetalert2";
 import initAPI from "@/api/api";
 import Cookies from "js-cookie";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const emit = defineEmits(["close", "submit"]);
 const isOpen = ref(true);
 
@@ -146,6 +148,24 @@ const allChecked = computed(() =>
 const isLoading = ref(false);
 
 const closeModal = () => emit("close");
+const submitPaymnat = () => {
+  try {
+    isLoading.value = true;
+    const paymant_type = "kta";
+    router.push({
+        name: "bk.views.paymant",
+        query: { paymant_type: paymant_type },
+      });
+    
+      emit("close");
+    
+  } catch (error) {
+    console.error("Gagal update:", error);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
 const submit = async () => {
   const token = Cookies.get("token");
   if (token) {

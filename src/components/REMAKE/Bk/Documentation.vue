@@ -1,6 +1,10 @@
 <template>
   <div class="flex items-center justify-between gap-4 my-5">
+<<<<<<< HEAD
     <h1 class="text-xl font-semibold text-gray-800 mb-6">Documentation</h1>
+=======
+    <h1 class="text-xl font-semibold text-gray-800 mb-6">Dokumentasi</h1>
+>>>>>>> 8ea4372 (Rebuild index after corruption)
     <!-- Tombol buka modal -->
     <button
       @click="isModalOpen = true"
@@ -21,7 +25,7 @@
           d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"
         />
       </svg>
-      Add New Documentation
+      Tambah Dokuemntasi
     </button>
   </div>
 
