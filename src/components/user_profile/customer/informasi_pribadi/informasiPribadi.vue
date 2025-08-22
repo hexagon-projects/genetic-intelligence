@@ -149,7 +149,7 @@
             </div>
 
             <button @click="ubahData" class="px-2 py-2 w-1/2 lg:w-1/4 self-center text-center rounded-lg bg-biru font-myFont font-medium text-light hover:opacity-75 hover:shadow-lg">
-                Ubah Data
+                Simpan Data
             </button>
         </div>
     </div>
@@ -247,8 +247,8 @@ export default {
             ]
 
             dataStatusNikah.value = [
-                {id: 1, text: 'Belum Kawin', value: 0},
-                {id: 2, text: 'Kawin', value: 1},
+                {id: 1, text: 'Belum Menikah', value: 0},
+                {id: 2, text: 'Menikah', value: 1},
                 {id: 3, text: 'Cerai Hidup', value: 2},
                 {id: 4, text: 'Cerai Mati', value: 3}
             ]
@@ -367,6 +367,8 @@ export default {
                         showConfirmButton: false,
                         timer: 2000
                     });
+                } finally {
+                    router.push('/')
                 }
             } else {
                 router.push('/login')

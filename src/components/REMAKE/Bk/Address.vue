@@ -7,11 +7,11 @@
     <div class="flex items-center justify-between mb-5">
       <div class="flex gap-3 bg-gray-100 py-2 px-3 rounded-full items-center">
         <img src="@/assets/icons/basic.svg" class="w-5" alt="address" />
-        <small class="font-sora font-semibold">Address</small>
+        <small class="font-sora font-semibold">Alamat Tempat Tinggal</small>
       </div>
       <div class="flex gap-3 items-end cursor-pointer" @click="openModal">
         <img src="@/assets/icons/edit-bk.svg" class="w-5" alt="edit" />
-        <small class="font-sora font-semibold">Edit</small>
+        <small class="font-sora font-semibold">Perbaharui</small>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] font-sora overflow-auto p-4"
     >
       <div class="bg-white p-6 rounded-xl w-full max-w-2xl mx-auto">
-        <h2 class="text-lg font-bold mb-4">Edit Alamat</h2>
+        <h2 class="text-lg font-bold mb-4">Perbaharui Alamat Tempat Tinggal</h2>
         <hr class="mb-4" />
 
         <div>
@@ -80,7 +80,7 @@
                   fill="currentColor"
                 ></path>
               </svg>
-              Loading...
+              Menyimpan ...
             </button>
         </div>
       </div>

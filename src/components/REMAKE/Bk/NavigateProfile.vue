@@ -7,21 +7,33 @@
         :to="{ name: 'bk.views.profile' }"
         :class="[buttonClass, isActive('bk.views.profile')]"
       >
-        Profile
+        Profil
       </RouterLink>
 
       <RouterLink
         :to="{ name: 'bk.views.placement' }"
         :class="[buttonClass, isActive('bk.views.placement')]"
       >
-        Placement
+        Penemmpatan Tugas
       </RouterLink>
 
       <RouterLink
         :to="{ name: 'bk.views.submision-kta' }"
         :class="[buttonClass, isActive('bk.views.submision-kta')]"
       >
-        Submission KTA
+        Pengajuan KTA
+      </RouterLink>
+      <RouterLink
+        :to="{ name: 'bk.views.journal' }"
+        :class="[buttonClass, isActive('bk.views.journal')]"
+      >
+        Journal Harian
+      </RouterLink>
+      <RouterLink
+        :to="{ name: 'bk.views.equivalen' }"
+        :class="[buttonClass, isActive('bk.views.equivalen')]"
+      >
+        Equivalensi
       </RouterLink>
     </div>
   </div>

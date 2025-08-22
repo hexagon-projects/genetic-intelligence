@@ -21,14 +21,14 @@
             >
               <div class="flex gap-3 bg-gray-100 py-2 px-3 rounded-full items-center">
                 <img src="@/assets/icons/basic.svg" class="w-5" alt="basic" />
-                <small class="font-sora font-semibold">Placement Scholl</small>
+                <small class="font-sora font-semibold">Penempatan Tugas</small>
               </div>
               <div class="flex items-center gap-3">
                 <button
                   @click="showModal = true"
                   class="bg-biru text-white px-4 py-2 rounded-full"
                 >
-                  Add Home Base
+                  Tambah Tempat Tugas Baru
                 </button>
               </div>
             </div>
@@ -208,9 +208,14 @@
                     </th>
                     <th class="px-4 py-2 font-medium">Home Based</th>
                     <th
-                      class="px-4 py-2 font-medium rounded-tr-xl rounded-br-xl"
+                      class="px-4 py-2 font-medium"
                     >
                       Status
+                    </th>
+                    <th
+                      class="px-4 py-2 font-medium rounded-tr-xl rounded-br-xl"
+                    >
+                      Aksi
                     </th>
                   </tr>
                 </thead>
@@ -233,8 +238,31 @@
                       {{ item.verifikasi ? formatDate(item.verifikasi) : "-" }}
                     </td>
                     <td class="px-4 py-3">{{ item.home_base }}</td>
-                    <td class="px-4 py-3 rounded-tr-xl rounded-br-xl">
+                    <td class="px-4 py-3">
                       {{ item.status }}
+                    </td>
+                    <td class="px-4 py-3 rounded-tr-xl rounded-br-xl">
+                      <button
+                        @click="goToDetail(item.id)"
+                        class="bg-[#3030F8] text-white px-4 py-2 rounded flex items-center gap-2"
+                      >
+                        Lihat Detail
+                        <svg
+                          width="10"
+                          height="10"
+                          viewBox="0 0 10 10"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1.66669 8.33335L8.33335 1.66669M8.33335 1.66669H1.66669M8.33335 1.66669V8.33335"
+                            stroke="white"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -255,7 +283,9 @@ import Swal from "sweetalert2";
 import initAPI from "@/api/api";
 import { debounce } from "lodash";
 import Cookies from "js-cookie";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const isLoading = ref(false);
 const showModal = ref(false);
 const homeBaseName = ref("");
@@ -377,6 +407,25 @@ const formatDate = (dateStr) => {
   if (!dateStr) return "-";
   const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateStr).toLocaleDateString("id-ID", options);
+};
+
+const goToDetail = (id) => {
+  try {
+    const encodedId = btoa(id);
+
+    router.push({
+      name: "bk.views.placement.detail",
+      query: { placemnet_id: encodedId },
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Terjadi error saat navigasi ke detail.",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  }
 };
 
 onMounted(() => {

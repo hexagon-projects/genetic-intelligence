@@ -175,7 +175,10 @@ const initNextQuestion = () => {
             icon: 'warning',
             title: 'Peringatan',
             text: 'Harap isi semua urutan sebelum melanjutkan!',
-            showConfirmButton: true
+            showConfirmButton: true,
+            customClass: {
+                confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+            },
         });
         loading.value = false;
         return;
@@ -186,7 +189,10 @@ const initNextQuestion = () => {
             icon: 'warning',
             title: 'Peringatan',
             text: 'Nomor urutan harus antara 1 hingga 12!',
-            showConfirmButton: true
+            showConfirmButton: true,
+            customClass: {
+                confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+            },
         });
         loading.value = false;
         return;
@@ -197,7 +203,10 @@ const initNextQuestion = () => {
             icon: 'warning',
             title: 'Peringatan',
             text: 'Tidak boleh ada nomor urutan yang sama!',
-            showConfirmButton: true
+            showConfirmButton: true,
+            customClass: {
+                confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+            },
         });
         loading.value = false;
         return;
@@ -209,10 +218,13 @@ const initNextQuestion = () => {
         text: 'Sudah yakin dengan jawabanmu?',
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonColor: "#0b40f4",
         confirmButtonText: "Ya, yakin",
-        cancelButtonColor: "#3b3f5c",
-        cancelButtonText: "Batal"
+        cancelButtonText: "Batal",
+        customClass: {
+            confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4',
+            cancelButton: 'bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded'
+        },
+        buttonsStyling: false // WAJIB supaya customClass tidak di-override
     }).then(async (result) => {
         if (result.isConfirmed) {
             const answer = {

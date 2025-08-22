@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between mb-5">
       <div class="flex gap-3 bg-gray-100 py-2 px-3 rounded-full items-center">
         <img src="@/assets/icons/basic.svg" class="w-5" alt="contact" />
-        <small class="font-sora font-semibold">Placment Schools</small>
+        <small class="font-sora font-semibold">Penempatan Sekolah</small>
       </div>
     </div>
     <!-- Address tampil -->
@@ -13,13 +13,13 @@
         <div v-for="(item, index) in placementData" :key="index">
           <div class="grid grid-cols-1 md:grid-cols-10 mb-3 items-start">
             <div class="flex flex-col gap-2 md:col-span-4">
-              <small class="font-sora font-semibold text-gray-500">Schools</small>
+              <small class="font-sora font-semibold text-gray-500">Nama Sekolah</small>
               <small class="font-sora font-semibold">{{
                 item.institution.name
               }}</small>
             </div>
             <div class="flex flex-col gap-2 md:col-span-2">
-              <small class="font-sora font-semibold text-gray-500">Ragion</small>
+              <small class="font-sora font-semibold text-gray-500">Tempat</small>
               <small class="font-sora font-semibold">{{
                 item.institution.region
               }}</small>
@@ -29,7 +29,7 @@
                 <div>
                   <span class="text-gray-800 font-medium">Home Base</span>
                   <p class="text-sm text-gray-500">
-                    Switch For the primary Placement
+                    Beralih Untuk Penempatan Utama
                   </p>
                 </div>
   
@@ -65,7 +65,7 @@
             </div>
             <div class="flex flex-col gap-2 md:col-span-1">
               <small class="font-sora font-semibold text-gray-500"
-                >Document</small
+                >SK Penempatan</small
               >
               <a
                 :href="`${baseURL}/storage/${item.file}`"
@@ -73,7 +73,7 @@
                 rel="noopener noreferrer"
                 class="text-blue-500 underline text-sm"
               >
-                View Doc
+                Lihat Dokument
               </a>
             </div>
           </div>
@@ -88,7 +88,7 @@
       <div class="flex flex-col gap-2 items-start md:col-span-2">
         <RouterLink
           :to="{ name: 'bk.views.placement' }"
-          class="flex gap-3 items-center cursor-pointer bg-primary text-white px-3 py-2 rounded-xl"
+          class="flex gap-3 items-center cursor-pointer bg-biru text-white px-3 py-2 rounded-xl"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +103,7 @@
               d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5"
             />
           </svg>
-          <small class="font-sora text-xs">Add new Placement</small>
+          <small class="font-sora text-xs">Tambah Penempatan Baru</small>
         </RouterLink>
       </div>
     </div>

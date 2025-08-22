@@ -63,23 +63,18 @@ const initAPI = async (method, endpoint, data, token, customHeaders = {}) => {
             endpoint.includes('consultants') ||
             endpoint.includes('interview-documentation') ||
             endpoint.includes('bk/upload-profile') ||
+            endpoint.includes('bk/upload-hero') ||
+            endpoint.includes('placement/set-report') ||
             endpoint.includes('placement');
   // console.log(check)
-
-    const headers = {
-    ...(token !== null && { 'Authorization': `Bearer ${token}` }),
-    ...customHeaders
-  }
-
-  if (!(data instanceof FormData)) {
-    headers['Content-Type'] = 'application/json'
-  }
-
   const config = {
     method: method,
     maxBodyLength: Infinity,
-    url: endpoint.includes('https') ? endpoint : baseUrl + endpoint,
-     headers: headers,
+    url: endpoint.includes('http') ? endpoint : baseUrl + endpoint,
+    headers: {
+      'Content-Type': check ? 'multipart/form-data' : 'application/json',
+      'Authorization': token !== null ? `Bearer ${token}` : null,
+    },
     data: data !== null ? data : null
   };
 

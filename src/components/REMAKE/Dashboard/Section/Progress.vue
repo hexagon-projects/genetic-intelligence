@@ -1,430 +1,209 @@
 <template>
-    <div class="flex flex-col gap-[16px] items-center mb-[56px]">
-      <div class="bg-[#D6D6FE] rounded-3xl flex justify-center items-center w-[122px] h-[32px]">
-        <span class="font-roboto font-medium text-[#3030F8]">Lakukan Tes</span>
-      </div>
 
-      <h1 class="text-[#0B0B79] font-semibold text-3xl font-sora">Progres Tes</h1>
-
-      <h3 class="mx-4 lg:mx-0 text-[#667085] text-center font-normal text-sm md:text-base font-sora">
-        Berikut tahapan proses dalam menggunakan Jatidiri.app untuk memahami diri melalui berbagai tes:
-      </h3>
+  <div class="flex flex-col gap-[16px] items-center mb-[56px]">
+    <div
+      class="bg-[#D6D6FE] rounded-3xl flex justify-center items-center w-[122px] h-[32px]"
+    >
+      <span class="font-roboto font-medium text-[#3030F8]">Pilih Tes</span>
     </div>
 
-    <div class="mx-[30px] md:mx-[60px] grid grid-cols-1 md:grid-cols-2 gap-[32px]">
-        <div class="relative py-[24px] px-[36px] bg-gray-500 rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/dna-overlay.svg" alt="dna">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-gray-500 size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">01</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI SEJATI</h1>
-                </div>
+    <h1 class="text-[#0B0B79] font-semibold text-3xl font-sora">
+      Assesment Jatidiri
+    </h1>
 
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Fitur ini akan segera hadir untuk membantumu memetakan karakter, potensi, dan kebutuhan psikologismu. Siap-siap ya, dalam waktu dekat bisa langsung kamu coba!
-                </h1>                
+    <h3
+      class="mx-4 lg:mx-0 text-[#667085] text-center font-normal text-sm md:text-base font-sora"
+    >
+      Berikut tahapan proses dalam menggunakan Jatidiri.app untuk memahami diri
+      melalui berbagai tes:
+    </h3>
+  </div>
 
-                <RouterLink  class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-gray-500 text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-gray-500 rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-
-            </div>
-        </div>
-        
-        <div class="relative py-[24px] px-[36px] bg-gray-00 rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/dna-overlay.svg" alt="dna">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">01</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI SEJATI</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes kepribadian untuk menemukan karakter, kekuatan, kelemahan, minat, potensi, serta pilihan karir kamu.
-                </h1>
-
-                <h3 v-if="props.userData.customer.is_detected == 'Selesai Terdeteksi'" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <h3 v-if="props.userData.customer.is_detected == 'Sudah Disubmit'" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : In Review
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.deteksi'}" v-if="props.userData.customer.is_detected == 'Belum'" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/task-list-overlay.svg" alt="assesment">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">02</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">
-                        JATIDIRI BELAJAR
-                    </h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_assessments !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.assesment'}" v-if="props.userData.customer.customers_assessments == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/brain-overlay.svg" alt="iq">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">03</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI CERDAS (Cetak Rekam Inteligensi Anak)</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes instrumen untuk mengetahui skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan kognitifmu.
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_iq !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.iq'}" v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-        
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/IAA_Overlay.svg" alt="iaa">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">04</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI KENDALI (Kenali Daya Adaptasi Layar Digital)</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes untuk mengukur tingkat ketergantungan kamu pada internet, serta memberikan saran untuk memperbaiki kebiasaan online.
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_iaa !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.test_gadget'}" v-if="props.userData.customer.customers_iaa == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-        
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/RMIB_Overlay.svg" alt="rmib">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">05</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI BAKAT (Baca Arah Karier dan Talenta)</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes yang dirancang untuk mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai panduan karier.
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_rmib !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.rmib'}" v-if="props.userData.customer.customers_rmib == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-        
-        <!-- test index kebahagian -->
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-16 md:top-10 right-2 opacity-25" src="@/assets/icons/tik_Overlay.svg" alt="tik">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">06</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI BAHAGIA</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes ini dirancang untuk mengukur tingkat kebahagiaan individu berbagai berdasarkan berbagai aspek kehidupan dan keseimbangan hidup
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_iq !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.test_kebahagiaan'}" v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-        
-        <!-- test Jatidiri q1 dan q2 -->
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 md:top-2 right-2 opacity-25 w-44 md:w-52" src="@/assets/icons/jatidiri.svg" alt="jatidiri">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">07</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes yang dirancang untuk mengukur kepercayaan diri yang meliputi keyakinan, nilai, tujuan, dan peran sosial.
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_iq !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.test_jatidiri'}" v-if="props.userData.customer.customers_iq == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-        
-        <!-- Jatidiri Anxiety Self Reting Scale -->
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-16 md:top-7 right-2 opacity-25 w-44" src="@/assets/icons/anxiety.svg" alt="anxiety">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">08</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI ANXIETY</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Self-Rating Scale for Anxiety (SRA-Scale) adalah alat tes psikologis yang dirancang untuk mengukur tingkat kecemasan individu berdasarkan penilaian diri (self-rating).
-                </h1>
-
-                <RouterLink :to="{name: 'user.views.test_jatidiri_anxiety'}" v-if="props.userData.customer.customers_anxiety == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-                <RouterLink :to="{name: 'user.views.test_jatidiri_anxiety'}" v-if="props.userData.customer.customers_anxiety !== null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-
-        <!-- Jatidiri Perceived Stress Scale (PSS) -->
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 md:top-5 right-0 opacity-25 w-52" src="@/assets/icons/stres.svg" alt="stres">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">09</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI Perceived Stress Scale (PSS)</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Perceived Stress Scale (PSS) adalah alat tes psikologis yang dirancang untuk mengukur tingkat stres individu berdasarkan perasaan dan pikiran Anda selama sebulan terakhir.
-                </h1>
-
-                <RouterLink :to="{name: 'user.views.test_jatidiri_stres'}" v-if="props.userData.customer.customers_stres == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-                <RouterLink :to="{name: 'user.views.test_jatidiri_stres'}" v-if="props.userData.customer.customers_stres !== null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-        
-        <!-- Jatidiri Kesehatan Mental -->
-        <div class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-16 md:top-10 right-2 opacity-25 w-40 md:w-52" src="@/assets/icons/mental.svg" alt="mental">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">10</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">JATIDIRI Kesehatan Mental</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Kesehatan Mental adalah alat tes psikologis yang dirancang untuk mengukur tingkat kesehatan mental individu berdasarkan kondisi dan pikiran Anda selama seminggu terakhir.
-                </h1>
-
-                <RouterLink :to="{name: 'user.views.test_jatidiri_mental'}" v-if="props.userData.customer.customers_mental == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-                <RouterLink :to="{name: 'user.views.test_jatidiri_mental'}" v-if="props.userData.customer.customers_mental !== null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Lihat Hasil</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-
-        <div v-if="props.userData.customer.institutions && (props.userData.customer.institutions.type == 'SD' || props.userData.customer.institutions.type == 'TK')" class="relative py-[24px] px-[36px] bg-[#3030F8] rounded-3xl">
-            <img class="z-0 absolute top-10 right-2 opacity-25" src="@/assets/icons/cpm-overlay.svg" alt="cpm">
-            <div class="flex flex-col items-start gap-[16px]">
-                <div class="flex items-center gap-[16px]">
-                    <div class="bg-white inline-flex justify-center items-center text-[#3030F8] size-[36px] lg:size-[56px] rounded-[50%]">
-                        <span class="font-roboto font-medium text-base lg:text-2xl">11</span>
-                    </div>
-                    <h1 class="text-white font-roboto text-base md:text-xl lg:text-2xl font-medium">Test CPM</h1>
-                </div>
-
-                <h1 class="z-20 font-roboto font-normal text-white text-base">
-                    Tes CPM yang dirancang untuk mengukur kemampuan penalaran logis dan intelegensi non-verbal Kamu.
-                </h1>
-
-                <h3 v-if="props.userData.customer.customers_cpm !== null" class="h-11 font-roboto font-medium text-white text-base">
-                    Status : Selesai
-                </h3>
-
-                <RouterLink :to="{name: 'user.views.cpm'}" v-if="props.userData.customer.customers_cpm == null" class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 pl-6 pr-2 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
-                    <div class="text-[#3030f8] text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                    <div class="p-2.5 bg-[#3030f8] rounded-3xl justify-start items-center gap-2.5 flex">
-                        <div class="w-3 h-3 relative">
-                            <img src="@/assets/icons/arrow-go.svg" alt="go">
-                        </div>
-                    </div>
-                </RouterLink>
-            </div>
-        </div>
-
+  <div class="flex justify-between items-center w-full px-5 md:px-32 md:my-5">
+    <div class="md:flex gap-2 items-center font-sora hidden">
+      <img src="@/assets/icons/progres.svg" alt="progres" />
+      <span class="md:font-semibold text-xs">Ayo Test Sekarang Juga</span>
     </div>
+    <div class="w-full md:w-auto">
+      <div
+        class="flex items-center max-w-md mx-auto bg-transparent border border-gray-300 rounded-full px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-400"
+      >
+        <!-- Ikon Search -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 text-gray-400"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
 
+        <!-- Input Search -->
+        <input
+          type="text"
+          placeholder="Cari Assement ..."
+          v-model="searchQuery"
+          class="ml-2 w-full border-none focus:ring-0 focus:outline-none bg-transparent text-gray-700"
+        />
+      </div>
+    </div>
+  </div>
 
-    <!-- <div class="bg-white h-auto mx-[60px] px-[24px] py-[32px] rounded-xl">
-      <div class="mb-6 flex flex-col items-center">
-        <img src="@/assets/img/Steper.svg">
-
-        <div class="mx-10 min-h-[146px] max-h-[386px] lg:max-h-[216px] justify-start items-start gap-7 inline-flex">
-          <div class="grow shrink basis-0 flex-col justify-between items-center gap-6 inline-flex">
-              <div class="px-4 justify-center items-center inline-flex">
-                  <div class="text-center text-black text-base lg:text-2xl font-medium font-['Roboto'] leading-loose">Test GIM</div>
-              </div>
-              <div class="self-stretch text-center text-[#667084] text-sm lg:text-base font-normal font-['Roboto'] leading-normal">Tes kepribadian untuk menemukan karakter, kekuatan, kelemahan, minat, potensi, serta pilihan karir kamu.</div>
-              <div class="self-stretch text-center text-[#3030f8] text-sm lg:text-base font-normal font-['Roboto'] leading-normal">Status : Selesai</div>
+  <div class="my-5 w-full px-5 md:px-32">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- card -->
+      <div
+        class="bg-biru p-3 md:p-5 rounded-[24px] md:rounded-[32px] flex flex-col gap-5"
+        v-for="(assement, index) in filteredAssesments"
+        :key="index"
+      >
+        <div class="flex justify-between">
+          <div
+            class="font-sora font-semibold text-xs md:text-xl col-span-2 text-white"
+          >
+            {{ assement.name }}
           </div>
-          <div class="grow shrink basis-0 flex-col justify-between items-center gap-6 inline-flex">
-              <div class="px-4 justify-center items-center inline-flex">
-                  <div class="text-center text-black text-base lg:text-2xl font-medium font-['Roboto'] leading-loose">Test Assesment</div>
-              </div>
-              <div class="self-stretch text-center text-[#667084] text-sm lgtext-base font-normal font-['Roboto'] leading-normal">Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.</div>
-              <div class="self-stretch text-center text-[#3030f8] text-sm lgtext-base font-normal font-['Roboto'] leading-normal">Status : Selesai</div>
-          </div>
-          <div class="grow shrink basis-0 flex-col justify-between items-center gap-6 inline-flex">
-              <div class="px-4 justify-center items-center inline-flex">
-                  <div class="text-center text-black text-base lg:text-2xl font-medium font-['Roboto'] leading-loose">Test IQ</div>
-              </div>
-              <div class="self-stretch text-center text-[#667084] text-base font-normal font-['Roboto'] leading-normal">Tes instrumen untuk mengetahui skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan kognitifmu.</div>
-              
-              <div class="h-11 pl-6 pr-2 bg-[#3030f8] rounded-full justify-center items-center gap-3 inline-flex">
-                  <div class="text-white text-base font-normal font-['Roboto'] leading-normal">Tes Sekarang</div>
-                  <div class="p-2.5 bg-white rounded-3xl justify-start items-center gap-2.5 flex">
-                      <div class="w-3 h-3 relative">
-                        <img src="@/assets/icons/arrow-go-biru.svg" alt="go">
-                      </div>
-                  </div>
-              </div>
+          <div>
+            <RouterLink
+              :to="{ name: assement.link }"
+              class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-5 md:h-10 w-5 md:w-10 flex justify-center items-center bg-white rounded-full"
+            >
+              <img src="@/assets/icons/rt.svg" alt="go" />
+            </RouterLink>
           </div>
         </div>
+        <span class="font-sora text-white hidden md:block min-h-[90px]">
+          {{ assement.desc }}
+        </span>
+        <div
+          class="w-full md:h-52 h-32 rounded-xl overflow-hidden flex items-center justify-center relative"
+        >
+          <div
+            class="absolute bottom-0 w-full bg-white md:h-44 h-32 rounded-xl overflow-hidden flex items-center justify-center"
+          ></div>
+          <div
+            class="w-full md:h-52 h-44 rounded-xl overflow-hidden flex items-center justify-center relative z-10"
+          >
+            <img
+              :src="assement.image"
+              :alt="assement.name"
+              class="object-contain absolute"
+            />
+          </div>
+        </div>
+
+        <RouterLink
+          :to="{ name: assement.link }"
+          class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex"
+        >
+          <div
+            class="text-[#3030f8] text-xs md:text-base font-normal font-sora leading-normal"
+          >
+            Cek Sekarang
+          </div>
+          <div class="w-3 h-3 relative">
+            <img src="@/assets/icons/rt.svg" alt="go" />
+          </div>
+        </RouterLink>
       </div>
-    </div> -->
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink } from "vue-router";
+import { ref, computed } from "vue";
 
-const props = defineProps(['userData'])
-// console.log(`props`, props.userData)
+const searchQuery = ref("");
+
+const assesments = ref([
+  // {
+  //   name: "Jatidiri Sejati",
+  //   desc: "Tes kepribadian untuk menemukan karakter, kekuatan, kelemahan, minat, potensi, serta pilihan karir kamu.",
+  //   link: "user.views.deteksi",
+  //   image: new URL("@/assets/icons/jatidiri-sejati.svg", import.meta.url).href,
+  // },
+  {
+    name: "Jatidiri Belajar",
+    desc: "Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.",
+    link: "user.views.assesment",
+    image: new URL("@/assets/icons/jatidiri-belajar.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Cerdas",
+    desc: "Tes instrumen untuk mengetahui skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan kognitifmu.",
+    link: "user.views.iq",
+    image: new URL("@/assets/icons/jatidiri-cerdas.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Kendali",
+    desc: "Tes untuk mengukur tingkat ketergantungan kamu pada internet, serta memberikan saran untuk memperbaiki kebiasaan online.",
+    link: "user.views.test_gadget",
+    image: new URL("@/assets/icons/jatidiri-kendali.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Bakat",
+    desc: "Tes yang dirancang untuk mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai panduan karier.",
+    link: "user.views.rmib",
+    image: new URL("@/assets/icons/jatidiri-bakat.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Bahagia",
+    desc: "Tes ini dirancang untuk mengukur tingkat kebahagiaan individu berbagai berdasarkan berbagai aspek kehidupan dan keseimbangan hidup",
+    link: "user.views.test_kebahagiaan",
+    image: new URL("@/assets/icons/jatidiri-bahagia.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri",
+    desc: "Tes yang dirancang untuk mengukur kepercayaan diri yang meliputi keyakinan, nilai, tujuan, dan peran sosial.",
+    link: "user.views.test_jatidiri",
+    image: new URL("@/assets/icons/jatidiri.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Anxiety",
+    desc: "Self-Rating Scale for Anxiety (SRA-Scale) adalah alat tes psikologis yang dirancang untuk mengukur tingkat kecemasan individu berdasarkan penilaian diri (self-rating).",
+    link: "user.views.test_jatidiri_anxiety",
+    image: new URL("@/assets/icons/jatidiri-anxiety.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Kendali Stres",
+    desc: "Perceived Stress Scale (PSS) adalah alat tes psikologis yang dirancang untuk mengukur tingkat stres individu berdasarkan perasaan dan pikiran Anda selama sebulan terakhir.",
+    link: "user.views.test_jatidiri_stres",
+    image: new URL("@/assets/icons/jatidiri-stres.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Kendali Mental",
+    desc: "Kesehatan Mental adalah alat tes psikologis yang dirancang untuk mengukur tingkat kesehatan mental individu berdasarkan kondisi dan pikiran Anda selama seminggu terakhir.",
+    link: "user.views.test_jatidiri_mental",
+    image: new URL("@/assets/icons/jatidiri-mental.svg", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Potensi",
+    desc: "Alat test untuk mengidentifikasi, menilai, dan memetakan potensi serta kompetensi individu dalam suatu organisasi atau bahkan pada tingkat individu",
+    link: "user.views.test_talen_mapping",
+    image: new URL("@/assets/icons/talent-mapping.svg", import.meta.url).href,
+  },
+  // {
+  //   name: "Jatidiri CPM",
+  //   desc: "Tes CPM yang dirancang untuk mengukur kemampuan penalaran logis dan intelegensi non-verbal Kamu.",
+  //   link: "user.views.cpm",
+  //   image: new URL("@/assets/icons/talent-mapping.svg", import.meta.url).href,
+  // },
+]);
+
+// filter data sesuai search
+const filteredAssesments = computed(() => {
+  if (!searchQuery.value) return assesments.value;
+  return assesments.value.filter(
+    (a) =>
+      a.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      a.desc.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+const props = defineProps(["userData"]);
 </script>

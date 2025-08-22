@@ -6,8 +6,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5 w-fullitems-start">
         <div class="bg-white shadow-lg rounded-2xl p-5">
             <div class="flex flex-col font-sora">
-                <span class="font-semibold">Number Of Case</span>
-                <small>Your spending stats simplified</small>
+                <span class="font-semibold">Jumlah Kasus</span>
+                <small>Tinjauansemua kasus yang dilaporkan</small>
                 <div class="outline outline-1 outline-gray-200 rounded-2xl flex gap-3 items-center p-3 mt-3">
                     <img src="@/assets/icons/statis-user.png" class="w-8" alt="basic">
                     <div class="flex flex-col py-3">
@@ -19,8 +19,8 @@
         </div>
         <div class="bg-white shadow-lg rounded-2xl p-5">
             <div class="flex flex-col font-sora">
-                <span class="font-semibold">Counseling Queue</span>
-                <small>Your spending stats simplified</small>
+                <span class="font-semibold">Antrian Konseling</span>
+                <small>Tinjauansemua kasus yang dilaporkan</small>
                 <div class="outline outline-1 outline-gray-200 rounded-2xl flex gap-3 items-center p-3 mt-3">
                     <img src="@/assets/icons/statis-user.png" class="w-8" alt="basic">
                     <div class="flex flex-col py-3">
@@ -32,8 +32,8 @@
         </div>
         <div class="bg-white shadow-lg rounded-2xl p-5">
             <div class="flex flex-col font-sora">
-                <span class="font-semibold">Pre-Counseling</span>
-                <small>Your spending stats simplified</small>
+                <span class="font-semibold">Konseling</span>
+                <small>Tinjauansemua kasus yang dilaporkan</small>
                 <div class="outline outline-1 outline-gray-200 rounded-2xl flex gap-3 items-center p-3 mt-3">
                     <img src="@/assets/icons/statis-user.png" class="w-8" alt="basic">
                     <div class="flex flex-col py-3">
@@ -45,8 +45,8 @@
         </div>
         <div class="bg-white shadow-lg rounded-2xl p-5">
             <div class="flex flex-col font-sora">
-                <span class="font-semibold">Post-Counseling</span>
-                <small>Your spending stats simplified</small>
+                <span class="font-semibold">Konseling Selesai</span>
+                <small>Tinjauansemua kasus yang dilaporkan</small>
                 <div class="outline outline-1 outline-gray-200 rounded-2xl flex gap-3 items-center p-3 mt-3">
                     <img src="@/assets/icons/statis-user.png" class="w-8" alt="basic">
                     <div class="flex flex-col py-3">

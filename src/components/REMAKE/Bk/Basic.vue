@@ -27,11 +27,11 @@
       <div class="flex items-center justify-between mb-5">
         <div class="flex gap-3 bg-gray-100 py-2 px-3 rounded-full items-center">
           <img src="@/assets/icons/basic.svg" class="w-5" alt="basic" />
-          <small class="font-sora font-semibold">Basic</small>
+          <small class="font-sora font-semibold">Informasi Pribadi</small>
         </div>
         <div class="flex gap-3 items-end cursor-pointer" @click="openModal">
           <img src="@/assets/icons/edit-bk.svg" class="w-5" alt="edit" />
-          <small class="font-sora font-semibold">Edit</small>
+          <small class="font-sora font-semibold">Perbaharui</small>
         </div>
       </div>
 
@@ -52,7 +52,7 @@
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] font-sora overflow-auto p-4"
       >
         <div class="bg-white p-6 rounded-xl w-full max-w-4xl mx-auto">
-          <h2 class="text-lg font-bold mb-4">Edit Basic Personal Data</h2>
+          <h2 class="text-lg font-bold mb-4">Ubah Informasi Pribadi</h2>
           <hr class="mb-4" />
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,7 +134,7 @@
                   fill="currentColor"
                 ></path>
               </svg>
-              Loading...
+              Menyimpan ...
             </button>
           </div>
         </div>
@@ -159,21 +159,21 @@ const store = useStore();
 // Mapping nama field
 const fields = {
   nik: { label: "NIK", type: "text" },
-  first_name: { label: "First Name", type: "text" },
-  last_name: { label: "Last Name", type: "text" },
-  birth_place: { label: "Birth Place", type: "text" },
-  birth_date: { label: "Birth Date", type: "date" },
+  first_name: { label: "Nama Depan", type: "text" },
+  last_name: { label: "Nama Belakang", type: "text" },
+  birth_place: { label: "Tempat Lahir", type: "text" },
+  birth_date: { label: "Tanggal Lahir", type: "date" },
   gender: {
-    label: "Gender",
+    label: "Jenis Kelamin",
     type: "select",
     options: ["Laki-laki", "Perempuan"],
   },
   religion: {
-    label: "Religion",
+    label: "Agama",
     type: "select",
     options: ["Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"],
   },
-  ethnic: { label: "Ethnic", type: "text" },
+  ethnic: { label: "Suku", type: "text" },
 };
 
 const formData = reactive({});

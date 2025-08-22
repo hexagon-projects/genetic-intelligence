@@ -6,7 +6,7 @@
   </div>
 
   <Layout v-if="!loading">
-    <div class="bg-gray-100 p-5">
+    <div class="bg-gray-100 p-5 min-h-screen">
       <div class="w-full md:w-4/5 mx-auto">
         <!-- header -->
         <div class="md:flex items-end justify-between grid grid-cols-1 gap-2">
@@ -15,19 +15,19 @@
             <h1
               class="text-[#0c141c] text-3xl md:text-2xl font-semibold font-['Roboto'] leading-10"
             >
-              Welcome Back, {{ userData.customer.first_name }}
+              Selamat Datang, {{ userData.customer.first_name }}
               {{ userData.customer.last_name }}
             </h1>
             <span
               class="self-stretch text-[#4c7099] text-sm font-normal font-['Roboto'] leading-tight"
-              >Here's a summary of student testing activity</span
+              >Berikut ringkasan aktivitas pengujian siswa</span
             >
           </div>
           <!-- pilih sekolah -->
           <div class="flex flex-col gap-2">
             <span
               class="self-stretch text-[#4c7099] text-sm font-['Roboto'] leading-tight"
-              >Choice The School</span
+              >Pilih Sekolah</span
             >
             <select
               v-model="selectedInstitutionId"
@@ -45,16 +45,16 @@
           </div>
         </div>
         <section
-          class="bg-white py-[66px] px-[20px] md:px-[60px] mt-10 rounded-2xl text-xs"
+          class="bg-white p-5 md:p-10 mt-10 rounded-2xl text-xs"
         >
           <div class="flex flex-col gap-[36px]">
             <div class="flex justify-between items-center mb-5">
               <div class="text-[#32324D] font-['Roboto'] leading-loose">
                 <div class="text-xl md:text-3xl font-semibold">
-                  List Pengguna
+                  Data Siswa
                 </div>
                 <span class="text-gray-500 text-sm"
-                  >{{ totalSiswa }} entries found</span
+                  >{{ totalSiswa }} Data Ditemukan</span
                 >
               </div>
             </div>
@@ -249,7 +249,7 @@
                 <div
                   class="text-[#8e8ea9] text-base font-normal font-['Roboto'] leading-none"
                 >
-                  Entries per page
+                  Data Perhalaman
                 </div>
               </div>
 
@@ -266,7 +266,7 @@
                     src="@/assets/icons/chevron_left.svg"
                     alt="icon"
                   />
-                  <span class="font-roboto text-black">First</span>
+                  <span class="font-roboto text-black">Pertama</span>
                 </button>
 
                 <!-- Tampilkan halaman yang visible -->
@@ -292,7 +292,7 @@
                   @click="nextPage"
                   :disabled="currentPage === totalPages"
                 >
-                  <span class="font-roboto text-black">Last</span>
+                  <span class="font-roboto text-black">Terakhir</span>
                   <img
                     class="size-[12px]"
                     src="@/assets/icons/chevron_right.svg"
@@ -381,9 +381,9 @@ const skorIqOptions = ref([
 
 const sortBy = ref("");
 const sortByOptions = ref([
-  { label: "Sort By", value: "" },
-  { label: "Latest", value: "latest" },
-  { label: "Oldest", value: "oldest" },
+  { label: "Urutkan Berdasarkan", value: "" },
+  { label: "Terbaru", value: "latest" },
+  { label: "Terlama", value: "oldest" },
 ]);
 
 const searchQuery = ref("");

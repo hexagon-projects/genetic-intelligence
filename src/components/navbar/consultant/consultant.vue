@@ -91,7 +91,6 @@
             </div>
         </div>
     </div>
-
     <RouterLink :to="{ name: 'consultant.views.assessments' }" class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm

@@ -34,6 +34,46 @@
         </li>
 
         <li
+          @click="goTo('bk.views.pengguna')"
+          class="relative group cursor-pointer"
+        >
+          <div class="flex items-center gap-[6px]">
+            <img
+              :class="{
+                'grayscale group-hover:grayscale-0':
+                  $route.name !== 'staff.views.list_siswa' ||
+                  $route.name !== 'staff.views.detail_siswa',
+                'grayscale-0':
+                  $route.name == 'staff.views.list_siswa' ||
+                  $route.name == 'staff.views.detail_siswa',
+              }"
+              src="@/assets/icons/nav-datasiswa.svg"
+            />
+            <span class="text-black font-roboto">Data Siswa</span>
+          </div>
+        </li>
+        
+        <li
+          @click="goTo('bk.views.pra.conseling')"
+          class="relative group cursor-pointer"
+        >
+          <div class="flex items-center gap-[6px]">
+            <img
+              :class="{
+                'grayscale group-hover:grayscale-0':
+                  $route.name !== 'staff.views.list_siswa' ||
+                  $route.name !== 'staff.views.detail_siswa',
+                'grayscale-0':
+                  $route.name == 'staff.views.list_siswa' ||
+                  $route.name == 'staff.views.detail_siswa',
+              }"
+              src="@/assets/icons/chat.svg"
+            />
+            <span class="text-black font-roboto">Layanan BK</span>
+          </div>
+        </li>
+
+        <li
           @click="goTo('bk.views.statistik')"
           class="relative group cursor-pointer"
         >
@@ -54,46 +94,7 @@
         </li>
 
         <li
-          @click="goTo('bk.views.pengguna')"
-          class="relative group cursor-pointer"
-        >
-          <div class="flex items-center gap-[6px]">
-            <img
-              :class="{
-                'grayscale group-hover:grayscale-0':
-                  $route.name !== 'staff.views.list_siswa' ||
-                  $route.name !== 'staff.views.detail_siswa',
-                'grayscale-0':
-                  $route.name == 'staff.views.list_siswa' ||
-                  $route.name == 'staff.views.detail_siswa',
-              }"
-              src="@/assets/icons/nav-datasiswa.svg"
-            />
-            <span class="text-black font-roboto">Data Pengguna</span>
-          </div>
-        </li>
 
-        <li
-          @click="goTo('bk.views.pra.conseling')"
-          class="relative group cursor-pointer"
-        >
-          <div class="flex items-center gap-[6px]">
-            <img
-              :class="{
-                'grayscale group-hover:grayscale-0':
-                  $route.name !== 'staff.views.list_siswa' ||
-                  $route.name !== 'staff.views.detail_siswa',
-                'grayscale-0':
-                  $route.name == 'staff.views.list_siswa' ||
-                  $route.name == 'staff.views.detail_siswa',
-              }"
-              src="@/assets/icons/konseling.svg"
-            />
-            <span class="text-black font-roboto">Konseling</span>
-          </div>
-        </li>
-
-        <li
           @click="goTo('bk.views.profile')"
           class="relative group cursor-pointer"
         >
@@ -107,9 +108,9 @@
                   $route.name == 'staff.views.list_siswa' ||
                   $route.name == 'staff.views.detail_siswa',
               }"
-              src="@/assets/icons/settings.svg"
+              src="@/assets/icons/task.svg"
             />
-            <span class="text-black font-roboto">Pengaturan</span>
+            <span class="text-black font-roboto">Aktivitas</span>
           </div>
         </li>
       </ul>

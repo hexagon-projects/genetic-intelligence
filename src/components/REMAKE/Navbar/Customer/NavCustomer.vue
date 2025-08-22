@@ -96,6 +96,41 @@
                     <span class="font-roboto">Tes Jatidiri Bahagia</span>
                 </div>
             </li>
+            <li @click="goTo('user.views.test_jatidiri')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.test_jatidiri_anxiety')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Anxiety</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.test_jatidiri_stres')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Kendali Stres</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.test_jatidiri_mental')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Kendali Mental</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.test_talen_mapping')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Potensi</span>
+                </div>
+            </li>
             <!-- <li class="group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
@@ -179,6 +214,41 @@
                     <span class="font-roboto">Tes Jatidiri Bahagia</span>
                 </div>
             </li>
+            <li @click="goTo('user.views.test_jatidiri')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.hasil_jatidiri_anxiety')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Anxiety</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.hasil_jatidiri_stres')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Kendali Stres</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.hasil_jatidiri_mental')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Kendali Mental</span>
+                </div>
+            </li>
+            <li @click="goTo('user.views.hasil_talent_mapping')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                <div class="pl-3 flex items-center gap-3">
+                    <img class="transition-all duration-100 grayscale group-hover:grayscale-0 h-6 w-6"
+                    src="@/assets/icons/tes-assesment.svg"/>
+                    <span class="font-roboto">Tes Jatidiri Potensi</span>
+                </div>
+            </li>
             <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'SD' || cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.hasil_cpm')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                 <div class="pl-3 flex items-center gap-3">
                     <img class="transition-all duration-100 grayscale group-hover:grayscale-0" 
@@ -188,11 +258,11 @@
             </li>
             </ul>
         </li>
-        <li @click="goTo('user.views.hallopsy')" class="relative group cursor-pointer">
+        <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
-                <img class="transition-all duration-100" :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.hallopsy', 'grayscale-0': $route.name === 'user.views.hallopsy'}" 
+                <img class="transition-all duration-100" :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.reservasi', 'grayscale-0': $route.name === 'user.views.reservasi'}" 
                 src="@/assets/icons/reservasi.svg"/>
-                <span class="text-black font-roboto">HalloPsy</span>
+                <span class="text-black font-roboto">Reservasi</span>
             </div>
         </li>
     </ul>

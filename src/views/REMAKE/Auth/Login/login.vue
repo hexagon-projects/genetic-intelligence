@@ -205,14 +205,14 @@ const Login = async () => {
             let type
             if (response.data.customer) type = response.data.customer
             if (response.data.consultant) type = response.data.consultant
+            if (response.data.bk) type = response.data.bk
             if (!response.data.consultant && !response.data.customer) type = response.data
-            
+            // console.log(response.data.user.role)
             localStorage.setItem('userData', JSON.stringify(type));
             Cookies.set('token', response.data.token, { expires: 1 })
             store.commit('user', type);
             store.commit('userRole', response.data.user.role);
             store.commit('userEmail', response.data.user.email);
-            
             switch (role) {
                 case 'customer':
                     router.push({ name: 'views.dashboard' });
@@ -239,25 +239,14 @@ const Login = async () => {
             }
         } catch (error) {
             if (error.response) {
-                let errorMessage = error.response.data.message;
-                
-                // Handle consultant verification error specifically
-                if (error.response.status === 403 && error.response.data.message.includes('belum diverifikasi')) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Verifikasi Dibutuhkan',
-                        text: error.response.data.message,
-                        showConfirmButton: true
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Gagal',
-                        text: errorMessage,
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             } else {
                 Swal.fire({
                     icon: 'error',
