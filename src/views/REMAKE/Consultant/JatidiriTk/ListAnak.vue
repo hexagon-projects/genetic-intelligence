@@ -1,34 +1,113 @@
 <script setup>
 import Layout from '@/Layout/Admin/Layout.vue';
-import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import initAPI from '../../../../api/api';
+import Cookies from 'js-cookie';
 
-// Data pengguna sesuai dengan gambar
-const users = [
-    { id: 1, initials: 'DC', name: 'Dulce Culhane', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'dulce.culhane@kemenag.go.id', phone: '0812-3456-7890' },
-    { id: 2, initials: 'LM', name: 'Livia Mango', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'livia.mango@kemenag.go.id', phone: '0812-3456-7891' },
-    { id: 3, initials: 'LD', name: 'Livia Dias', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'livia.dias@kemenag.go.id', phone: '0812-3456-7892' },
-    { id: 4, initials: 'RK', name: 'Roy Krajcik', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'roy.krajcik@kemenag.go.id', phone: '0812-3456-7893' },
-    { id: 5, initials: 'LN', name: 'Linda Nicolas', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'linda.nicolas@kemenag.go.id', phone: '0812-3456-7894' },
-    { id: 6, initials: 'KT', name: 'Krista Turcotte', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'krista.turcotte@kemenag.go.id', phone: '0812-3456-7895' },
-    { id: 7, initials: 'AB', name: 'Andrew Bosco', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'andrew.bosco@kemenag.go.id', phone: '0812-3456-7896' },
-    { id: 8, initials: 'TK', name: 'Terence Kihn', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'terence.kihn@kemenag.go.id', phone: '0812-3456-7897' },
-    { id: 9, initials: 'C', name: 'Courtney', instance: 'Kementrian Agama', division: 'Staff', test: '15.08.2025 21:01', email: 'courtney@kemenag.go.id', phone: '0812-3456-7898' }
-];
+const router = useRouter()
+const token = Cookies.get('token');
 
-// Modal state
-const showDetailModal = ref(false);
-const selectedUser = ref(null);
+// Data state
+const users = ref([]);
+const currentPage = ref(1);
+const itemsPerPage = ref(10);
+const selectedUsers = ref(new Set());
+const isLoading = ref(true);
 
-// Functions
-const openDetailModal = (user) => {
-    selectedUser.value = user;
-    showDetailModal.value = true;
+// Fetch data from API
+const fetchUsers = async () => {
+  try {
+    isLoading.value = true;
+    const response = await initAPI('GET', 'consultant/list-pengguna/tk', null, token);
+    if (response.data.data && Array.isArray(response.data.data)) {
+      users.value = response.data.data.slice(0,50);
+    } else {
+      console.error('Unexpected API response format:', response);
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
-const closeDetailModal = () => {
-    showDetailModal.value = false;
-    selectedUser.value = null;
+// Pagination
+const totalPages = computed(() => Math.ceil(users.value.length / itemsPerPage.value));
+const paginatedUsers = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return users.value.slice(start, end);
+});
+
+// Navigation
+const navigateToDetail = (id) => {
+  router.push({ path: '/consultant/daftar-anak/detail', query: { id } });
 };
+
+// Checkbox handling
+const toggleSelectUser = (id) => {
+  if (selectedUsers.value.has(id)) {
+    selectedUsers.value.delete(id);
+  } else {
+    selectedUsers.value.add(id);
+  }
+};
+
+const selectAllUsers = (event) => {
+  if (event.target.checked) {
+    paginatedUsers.value.forEach(user => selectedUsers.value.add(user.id));
+  } else {
+    selectedUsers.value.clear();
+  }
+};
+
+// Export CSV function
+const exportToCSV = () => {
+  if (users.value.length === 0) return;
+  
+  // Define CSV headers
+  const headers = ['Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Jenis Kelamin', 'Alamat', 'No. Telepon', 'Sekolah', 'Kelas'];
+  
+  // Map data to CSV rows
+  const dataToExport = selectedUsers.value.size > 0 
+    ? users.value.filter(user => selectedUsers.value.has(user.id))
+    : users.value;
+  
+  const csvData = dataToExport.map(user => {
+    return [
+      `${user.first_name || ''} ${user.last_name || ''}`.trim(),
+      user.birth_place || '',
+      user.birth_date || '',
+      user.gender === 1 ? 'Laki-laki' : 'Perempuan',
+      user.address || '',
+      user.number || '',
+      user.institutions ? user.institutions.name : '',
+      user.grade || ''
+    ].map(field => `"${field}"`).join(',');
+  });
+  
+  // Create CSV content
+  const csvContent = [headers.join(','), ...csvData].join('\n');
+  
+  // Create download link
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'data_pengguna.csv');
+  link.style.visibility = 'hidden';
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+// Initialize
+onMounted(() => {
+  fetchUsers();
+});
 </script>
 
 <template>
@@ -41,7 +120,7 @@ const closeDetailModal = () => {
                     <h1 class="text-xl font-semibold text-gray-900">Data Pengguna</h1>
                 </div>
 
-                <div class="py-3 px-6 rounded-3xl bg-primary cursor-pointer flex items-center gap-3 hover:bg-primary/90 transition-colors">
+                <div @click="exportToCSV" class="py-3 px-6 rounded-3xl bg-primary cursor-pointer flex items-center gap-3 hover:bg-primary/90 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <g clip-path="url(#clip0_3571_1286)">
                             <mask id="mask0_3571_1286" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0"
@@ -70,8 +149,13 @@ const closeDetailModal = () => {
                 </div>
             </div>
 
+            <!-- Loading State -->
+            <div v-if="isLoading" class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+                <p class="text-gray-600">Memuat data...</p>
+            </div>
+
             <!-- Table Section -->
-            <section class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <section v-else class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <!-- Mobile responsive wrapper -->
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[800px]">
@@ -79,7 +163,10 @@ const closeDetailModal = () => {
                         <thead class="bg-gray-50/50 border-b border-gray-100">
                             <tr>
                                 <th class="text-left px-6 py-4 text-sm font-medium text-gray-600 w-12">
-                                    <!-- Checkbox column -->
+                                    <input type="checkbox" 
+                                           @change="selectAllUsers"
+                                           :checked="selectedUsers.size === paginatedUsers.length && paginatedUsers.length > 0"
+                                           class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2">
                                 </th>
                                 <th class="text-left px-6 py-4 text-sm font-medium text-gray-600">
                                     Nama
@@ -88,9 +175,9 @@ const closeDetailModal = () => {
                                     </svg>
                                 </th>
                                 <th class="text-left px-6 py-4 text-sm font-medium text-gray-600">Instansi</th>
-                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-600">Divisi</th>
+                                <th class="text-left px-6 py-4 text-sm font-medium text-gray-600">Kelas</th>
                                 <th class="text-left px-6 py-4 text-sm font-medium text-gray-600">
-                                    Test
+                                    Tanggal Tes
                                     <svg class="inline-block ml-2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
                                     </svg>
@@ -101,12 +188,14 @@ const closeDetailModal = () => {
 
                         <!-- Table Body -->
                         <tbody class="bg-white divide-y divide-gray-100">
-                            <tr v-for="user in users" :key="user.id" 
+                            <tr v-for="user in paginatedUsers" :key="user.id" 
                                 class="hover:bg-gray-50/30 transition-colors">
                                 <!-- Checkbox -->
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
                                         <input type="checkbox" 
+                                               :checked="selectedUsers.has(user.id)"
+                                               @change="() => toggleSelectUser(user.id)"
                                                class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2">
                                     </div>
                                 </td>
@@ -115,30 +204,40 @@ const closeDetailModal = () => {
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                            <span class="text-sm font-semibold text-blue-600">{{ user.initials }}</span>
+                                            <span class="text-sm font-semibold text-blue-600">
+                                                {{ (user.first_name ? user.first_name.charAt(0) : '') + (user.last_name ? user.last_name.charAt(0) : '') }}
+                                            </span>
                                         </div>
-                                        <span class="text-sm font-medium text-gray-900">{{ user.name }}</span>
+                                        <span class="text-sm font-medium text-gray-900">
+                                            {{ (user.first_name || '') + ' ' + (user.last_name || '') }}
+                                        </span>
                                     </div>
                                 </td>
                                 
                                 <!-- Instance -->
                                 <td class="px-6 py-4">
-                                    <span class="text-sm text-gray-700">{{ user.instance }}</span>
+                                    <span class="text-sm text-gray-700">
+                                        {{ user.institutions ? user.institutions.name : 'Tidak ada data' }}
+                                    </span>
                                 </td>
                                 
                                 <!-- Division -->
                                 <td class="px-6 py-4">
-                                    <span class="text-sm text-gray-700">{{ user.division }}</span>
+                                    <span class="text-sm text-gray-700">
+                                        {{ user.grade || 'Tidak ada data' }}
+                                    </span>
                                 </td>
                                 
                                 <!-- Test Date -->
                                 <td class="px-6 py-4">
-                                    <span class="text-sm text-gray-700">{{ user.test }}</span>
+                                    <span class="text-sm text-gray-700">
+                                        {{ new Date(user.created_at).toLocaleDateString('id-ID') }}
+                                    </span>
                                 </td>
                                 
                                 <!-- Action -->
                                 <td class="px-6 py-4 text-center">
-                                    <button @click="openDetailModal(user)" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
+                                    <button @click="() => navigateToDetail(user.id)" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
                                         Details
                                     </button>
                                 </td>
@@ -147,122 +246,50 @@ const closeDetailModal = () => {
                     </table>
                 </div>
 
+                <!-- Empty State -->
+                <div v-if="users.length === 0" class="w-full p-8 text-center">
+                    <p class="text-gray-600">Tidak ada data pengguna</p>
+                </div>
+
                 <!-- Pagination -->
-                <div class="px-6 py-4 bg-gray-50/30 border-t border-gray-100">
+                <div v-if="users.length > 0" class="px-6 py-4 bg-gray-50/30 border-t border-gray-100">
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-sm text-gray-700">
+                            Menampilkan {{ Math.min((currentPage - 1) * itemsPerPage + 1, users.length) }} - 
+                            {{ Math.min(currentPage * itemsPerPage, users.length) }} dari {{ users.length }} hasil
+                        </div>
+                        
                         <div class="flex items-center gap-2">
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                            <button @click="currentPage = 1" :disabled="currentPage === 1" 
+                                    class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50 transition-colors">
                                 «
                             </button>
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                            <button @click="currentPage--" :disabled="currentPage === 1" 
+                                    class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50 transition-colors">
                                 ‹
                             </button>
-                            <button class="px-3 py-2 bg-blue-600 text-white text-sm rounded-md font-medium">
-                                1
+                            
+                            <button v-for="page in totalPages" :key="page" 
+                                    @click="currentPage = page"
+                                    :class="['px-3 py-2 text-sm rounded-md font-medium transition-colors', 
+                                            currentPage === page 
+                                            ? 'bg-blue-600 text-white' 
+                                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100']">
+                                {{ page }}
                             </button>
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                                2
-                            </button>
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                                3
-                            </button>
-                            <span class="px-2 text-sm text-gray-500">...</span>
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
-                                10
-                            </button>
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                            
+                            <button @click="currentPage++" :disabled="currentPage === totalPages" 
+                                    class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50 transition-colors">
                                 ›
                             </button>
-                            <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                            <button @click="currentPage = totalPages" :disabled="currentPage === totalPages" 
+                                    class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-50 transition-colors">
                                 »
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Detail Modal -->
-            <div v-if="showDetailModal" class="fixed inset-0 z-50 overflow-y-auto" @click="closeDetailModal">
-                <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                    <div class="fixed inset-0 transition-opacity">
-                        <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
-                    </div>
-
-                    <!-- Modal content -->
-                    <div @click.stop class="inline-block w-full max-w-md mx-auto my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                        <!-- Modal Header -->
-                        <div class="px-6 py-4 border-b border-gray-100">
-                            <div class="flex items-center justify-between">
-                                <div class="flex gap-3 items-center">
-                                    <div class="w-2 h-6 rounded-sm bg-primary"></div>
-                                    <h3 class="text-lg font-semibold text-gray-900">Detail Pengguna</h3>
-                                </div>
-                                <button @click="closeDetailModal" class="text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition-colors">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Modal Body -->
-                        <div class="px-6 py-6 space-y-6" v-if="selectedUser">
-                            <!-- User Avatar & Name -->
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <span class="text-xl font-bold text-blue-600">{{ selectedUser.initials }}</span>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg font-semibold text-gray-900">{{ selectedUser.name }}</h4>
-                                    <p class="text-sm text-gray-500">{{ selectedUser.division }}</p>
-                                </div>
-                            </div>
-
-                            <!-- User Details -->
-                            <div class="space-y-4">
-                                <div class="grid grid-cols-1 gap-4">
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">Instansi</label>
-                                        <p class="text-sm text-gray-900">{{ selectedUser.instance }}</p>
-                                    </div>
-                                    
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">Divisi</label>
-                                        <p class="text-sm text-gray-900">{{ selectedUser.division }}</p>
-                                    </div>
-                                    
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
-                                        <p class="text-sm text-gray-900">{{ selectedUser.email }}</p>
-                                    </div>
-                                    
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">No. Telepon</label>
-                                        <p class="text-sm text-gray-900">{{ selectedUser.phone }}</p>
-                                    </div>
-                                    
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <label class="block text-sm font-medium text-gray-600 mb-1">Waktu Test</label>
-                                        <p class="text-sm text-gray-900">{{ selectedUser.test }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal Footer -->
-                        <div class="px-6 py-4 bg-gray-50/50 border-t border-gray-100">
-                            <div class="flex justify-end gap-3">
-                                <button @click="closeDetailModal" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 transition-colors">
-                                    Tutup
-                                </button>
-                                <button class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 transition-colors">
-                                    Buat Laporan
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </Layout>
 </template>

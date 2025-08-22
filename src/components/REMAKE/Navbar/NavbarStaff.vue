@@ -1,6 +1,7 @@
 <template>
     <div v-if="loading" class="preloader-overlay">
-        <span class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
+        <span
+            class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
     <header class="h-[68px] hidden lg:flex lg:gap-4 bg-white sticky top-0 z-50 px-4 py-4">
@@ -10,37 +11,54 @@
             <ul class="flex space-x-8">
                 <li @click="goTo('staff.views.dashboard')" class="relative group cursor-pointer">
                     <div class="flex items-center gap-[6px]">
-                        <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.dashboard', 'grayscale-0': $route.name == 'staff.views.dashboard'}" 
-                        src="@/assets/icons/beranda.svg"/>
+                        <img :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.dashboard', 'grayscale-0': $route.name == 'staff.views.dashboard' }"
+                            src="@/assets/icons/beranda.svg" />
                         <span class="text-black font-roboto">Beranda</span>
                     </div>
-                    
-                    <div v-if="$route.name == 'staff.views.dashboard'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+
+                    <div v-if="$route.name == 'staff.views.dashboard'"
+                        class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
                 </li>
 
                 <li @click="goTo('staff.views.list_siswa')" class="relative group cursor-pointer">
                     <div class="flex items-center gap-[6px]">
-                        <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.list_siswa' || $route.name !== 'staff.views.detail_siswa', 'grayscale-0': $route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'}" 
-                        src="@/assets/icons/nav-datasiswa.svg"/>
+                        <img :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.list_siswa' || $route.name !== 'staff.views.detail_siswa', 'grayscale-0': $route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa' }"
+                            src="@/assets/icons/nav-datasiswa.svg" />
                         <span class="text-black font-roboto">Data Pengguna</span>
                     </div>
-                    
-                    <div v-if="$route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+
+                    <div v-if="$route.name == 'staff.views.list_siswa' || $route.name == 'staff.views.detail_siswa'"
+                        class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
+                </li>
+
+                <li @click="goTo('staff.views.list_anak')" class="relative group cursor-pointer">
+                    <div class="flex items-center gap-[6px]">
+                        <img :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.list_anak' || $route.name !== 'staff.views.detail_anak', 'grayscale-0': $route.name == 'staff.views.list_anak' || $route.name == 'staff.views.detail_anak' }"
+                            src="@/assets/icons/nav-datasiswa.svg" />
+                        <span class="text-black font-roboto">Data Anak</span>
+                    </div>
+
+                    <div v-if="$route.name == 'staff.views.list_anak' || $route.name == 'staff.views.detail_siswa'"
+                        class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
                 </li>
             </ul>
 
-            <div @mouseenter="openSubmenu()" @mouseleave="scheduleCloseSubmenu()" class="cursor-pointer relative h-9 justify-end items-center gap-2 inline-flex">
-                <img v-if="userDatas && userDatas.customer.image == null" class="w-9 h-9 rounded-full" src="@/assets/img/profile-mock.png" />
+            <div @mouseenter="openSubmenu()" @mouseleave="scheduleCloseSubmenu()"
+                class="cursor-pointer relative h-9 justify-end items-center gap-2 inline-flex">
+                <img v-if="userDatas && userDatas.customer.image == null" class="w-9 h-9 rounded-full"
+                    src="@/assets/img/profile-mock.png" />
                 <!-- <img v-if="userDatas && userDatas.customer.image !== null" class="w-9 h-9 rounded-full" :src="baseUrl+'open/customers/'+userDatas.customer.image" /> -->
-                <img class="w-3 h-3" src="@/assets/icons/chevron-down.svg"/>
+                <img class="w-3 h-3" src="@/assets/icons/chevron-down.svg" />
 
-                <ul v-show="activeMenu" class="w-32 p-2 transition-all duration-500 absolute top-12 -left-[44px] mt-2 bg-white text-black shadow-lg rounded-xl">
+                <ul v-show="activeMenu"
+                    class="w-32 p-2 transition-all duration-500 absolute top-12 -left-[44px] mt-2 bg-white text-black shadow-lg rounded-xl">
                     <!-- <li @click="goTo('user.views.profile')" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                         <div class="pl-3 flex items-center gap-3">
                             <span class="font-roboto">Edit Profile</span>
                         </div>
                     </li> -->
-                    <li @click="Logout" class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
+                    <li @click="Logout"
+                        class="hover:cursor-pointer group text-sm text-[#667085] px-[10px] py-[12px] rounded-lg hover:bg-[#F0F7FD] hover:text-black">
                         <div class="pl-3 flex items-center gap-3">
                             <span class="font-roboto">Logout</span>
                         </div>
@@ -52,17 +70,16 @@
 
     <section id="bottom-navigation" class="block lg:hidden fixed inset-x-0 bottom-0 z-50 bg-white shadow">
         <div id="tabs" class="flex justify-between">
-            <RouterLink :to="{name: 'views.dashboard'}" 
+            <RouterLink :to="{ name: 'views.dashboard' }"
                 class="w-full flex flex-col justify-center text-center pt-2 pb-1"
-                :class="{'font-bold' : $route.name === 'views.dashboard'}"
-                >
+                :class="{ 'font-bold': $route.name === 'views.dashboard' }">
                 <div class="self-center">
                     <PhHouse :size="28" />
                 </div>
                 <span class="tab tab-home block text-xs">Beranda</span>
             </RouterLink>
 
-            <customerBottom/>
+            <customerBottom />
             <!-- <a v-if="userRole !== 'customer' && userRole !== 'consultant'" @click="Logout" class="cursor-pointer w-full flex flex-col justify-center text-center pt-2 pb-1">
                 <div class="self-center">
                     <PhSignOut :size="28" />
@@ -70,7 +87,7 @@
                 <span class="tab tab-home block text-xs">Logout</span>
             </a> -->
         </div>
-</section>
+    </section>
 </template>
 
 <script setup>
@@ -92,10 +109,10 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL
 const userDatas = ref(null)
 
 const goTo = (route) => {
-    router.push({name: route})
+    router.push({ name: route })
 }
 
-const getUserData = async() => {
+const getUserData = async () => {
     try {
         const token = Cookies.get('token')
         const formData = new FormData()
@@ -112,7 +129,7 @@ const getUserData = async() => {
             showConfirmButton: false,
             timer: 2000
         });
-    } 
+    }
 }
 
 
@@ -120,26 +137,26 @@ const activeMenu = ref(null)
 let closeMenuTimeout = null;
 
 function openSubmenu() {
-  if (closeMenuTimeout) {
-    clearTimeout(closeMenuTimeout);
-  }
-  activeMenu.value = true;
+    if (closeMenuTimeout) {
+        clearTimeout(closeMenuTimeout);
+    }
+    activeMenu.value = true;
 }
 
 function scheduleCloseSubmenu() {
-  closeMenuTimeout = setTimeout(() => {
-    activeMenu.value = null;
-  }, 170); // Delay untuk menghindari hilangnya submenu saat pindah ke submenu
+    closeMenuTimeout = setTimeout(() => {
+        activeMenu.value = null;
+    }, 170); // Delay untuk menghindari hilangnya submenu saat pindah ke submenu
 }
 
 
-const Logout = async() => {
+const Logout = async () => {
     loading.value = !loading.value
     try {
         const token = Cookies.get('token')
         // const token = JSON.parse(localStorage.getItem('token'))
-        if(token){
-            const response = await initAPI('post', 'logout', null ,token)
+        if (token) {
+            const response = await initAPI('post', 'logout', null, token)
             localStorage.clear()
             Cookies.remove('token')
             // localStorage.removeItem('userData')
@@ -166,7 +183,7 @@ const Logout = async() => {
     router.push('/login')
     loading.value = !loading.value
 }
-onMounted(async() => {
+onMounted(async () => {
     await getUserData()
 })
 </script>
@@ -186,6 +203,7 @@ onMounted(async() => {
     z-index: 9999;
     transition: opacity 0.5s ease, height 0.5s ease;
 }
+
 .preloader-overlay.hidden {
     opacity: 0;
     height: 0;

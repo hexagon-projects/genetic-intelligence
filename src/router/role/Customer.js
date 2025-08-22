@@ -1203,6 +1203,28 @@ export default [
 
 //Jatidiri TK
 {
+    path: '/tk',
+    name: 'user.views.tk',
+    component: () => import('@/views/REMAKE/Customer/Kuisioner/Profile.vue'),
+    beforeEnter: (to, from, next) => {
+        const token = Cookies.get('token');
+        const isAuth = JSON.parse(localStorage.getItem('userData'));
+        if (!token || !isAuth) {
+            next({ name: 'views.login' });
+        } else {
+            const decodedToken = jwtDecode(token);
+            const decodeRoleUser = decodedToken.role;
+            const roleUser = JSON.parse(localStorage.getItem('userRole'));
+            if (decodeRoleUser !== 'customer') {
+                next({ name: 'views.login' });
+            } else {
+                next();
+            }
+        }
+    }
+},
+
+{
     path: '/tk/kuisioner',
     name: 'user.views.tk_kuisioner',
     component: () => import('@/views/REMAKE/Customer/Kuisioner/Kuisioner.vue'),
@@ -1224,104 +1246,14 @@ export default [
     }
 },
 
-//GURU TK
 {
-    path: '/guru',
-    name: 'user.views.guru_tk',
-    component: () => import('@/views/REMAKE/Dashboard/GuruTk/Beranda.vue'),
+    path: '/tk/kuisioner/result',
+    name: 'user.views.tk_kuisioner_result',
+    component: () => import('@/views/REMAKE/Customer/Kuisioner/KuisionerResult.vue'),
     beforeEnter: (to, from, next) => {
         const token = Cookies.get('token');
         const isAuth = JSON.parse(localStorage.getItem('userData'));
         if (!token || !isAuth) {
-            // Jika token tidak ada, arahkan pengguna ke halaman login
-            next({ name: 'views.login' });
-        } else {
-            const decodedToken = jwtDecode(token);
-            const decodeRoleUser = decodedToken.role;
-            const roleUser = JSON.parse(localStorage.getItem('userRole'));
-            if (decodeRoleUser !== 'customer') {
-                next({ name: 'views.login' });
-            } else {
-                next();
-            }
-        }
-    }
-},
-{
-    path: '/guru/profile',
-    name: 'user.views.guru_profile',
-    component: () => import('@/views/REMAKE/GuruTk/Profile.vue'),
-    beforeEnter: (to, from, next) => {
-        const token = Cookies.get('token');
-        const isAuth = JSON.parse(localStorage.getItem('userData'));
-        if (!token || !isAuth) {
-            // Jika token tidak ada, arahkan pengguna ke halaman login
-            next({ name: 'views.login' });
-        } else {
-            const decodedToken = jwtDecode(token);
-            const decodeRoleUser = decodedToken.role;
-            const roleUser = JSON.parse(localStorage.getItem('userRole'));
-            if (decodeRoleUser !== 'customer') {
-                next({ name: 'views.login' });
-            } else {
-                next();
-            }
-        }
-    }
-},
-{
-    path: '/guru/anak',
-    name: 'user.views.anak',
-    component: () => import('@/views/REMAKE/GuruTk/GuruListAnak.vue'),
-    beforeEnter: (to, from, next) => {
-        const token = Cookies.get('token');
-        const isAuth = JSON.parse(localStorage.getItem('userData'));
-        if (!token || !isAuth) {
-            // Jika token tidak ada, arahkan pengguna ke halaman login
-            next({ name: 'views.login' });
-        } else {
-            const decodedToken = jwtDecode(token);
-            const decodeRoleUser = decodedToken.role;
-            const roleUser = JSON.parse(localStorage.getItem('userRole'));
-            if (decodeRoleUser !== 'customer') {
-                next({ name: 'views.login' });
-            } else {
-                next();
-            }
-        }
-    }
-},
-{
-    path: '/guru/kuisioner',
-    name: 'user.views.guru_kuisioner',
-    component: () => import('@/views/REMAKE/GuruTk/Kuisioner.vue'),
-    beforeEnter: (to, from, next) => {
-        const token = Cookies.get('token');
-        const isAuth = JSON.parse(localStorage.getItem('userData'));
-        if (!token || !isAuth) {
-            // Jika token tidak ada, arahkan pengguna ke halaman login
-            next({ name: 'views.login' });
-        } else {
-            const decodedToken = jwtDecode(token);
-            const decodeRoleUser = decodedToken.role;
-            const roleUser = JSON.parse(localStorage.getItem('userRole'));
-            if (decodeRoleUser !== 'customer') {
-                next({ name: 'views.login' });
-            } else {
-                next();
-            }
-        }
-    }
-},
-{
-    path: '/guru/kuisioner-input',
-    name: 'user.views.guru_kuisioner_input',
-    component: () => import('@/views/REMAKE/GuruTk/KuisionerInput.vue'),
-    beforeEnter: (to, from, next) => {
-        const token = Cookies.get('token');
-        const isAuth = JSON.parse(localStorage.getItem('userData'));
-        if (!token || !isAuth) {
-            // Jika token tidak ada, arahkan pengguna ke halaman login
             next({ name: 'views.login' });
         } else {
             const decodedToken = jwtDecode(token);
