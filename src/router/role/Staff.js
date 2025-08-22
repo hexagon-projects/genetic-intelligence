@@ -87,5 +87,115 @@ export default [
                 next();
             }
         }
-    }    
+    },
+
+    // Jatidiri TK
+    {
+        path: '/staff/list-anak',
+        name: 'staff.views.list_anak',
+        component: () => import('@/views/REMAKE/Staff/ListAnak/ListAnak.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token');
+            const isAuth = JSON.parse(localStorage.getItem('userData'));
+            if (!isAuth || !token) {
+                localStorage.clear();
+                Cookies.remove('token');
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role;
+    
+                if (decodeRoleUser === 'customer') next({ name: 'views.dashboard' });
+                if (decodeRoleUser === 'consultant') next({ name: 'consultant.views.dashboard' });
+                if (decodeRoleUser === 'admin') next({ name: 'admin.views.dashboard' });
+    
+                next();
+            }
+        }
+    },
+    {
+        path: '/staff/detail-anak',
+        name: 'staff.views.anak_detail',
+        component: () => import('@/views/REMAKE/Staff/DetailAnak/DetailAnak.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token');
+            const isAuth = JSON.parse(localStorage.getItem('userData'));
+            if (!isAuth || !token) {
+                localStorage.clear();
+                Cookies.remove('token');
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role;
+    
+                if (decodeRoleUser === 'customer') next({ name: 'views.dashboard' });
+                if (decodeRoleUser === 'consultant') next({ name: 'consultant.views.dashboard' });
+                if (decodeRoleUser === 'admin') next({ name: 'admin.views.dashboard' });
+    
+                next();
+            }
+        }
+    },
+    {
+        path: '/staff/detail-anak/kuisioner',
+        name: 'staff.views.anak_kuisioner',
+        component: () => import('@/views/REMAKE/Staff/ListAnak/Kuisioner.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token');
+            const isAuth = JSON.parse(localStorage.getItem('userData'));
+            if (!isAuth || !token) {
+                localStorage.clear();
+                Cookies.remove('token');
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role;
+    
+                if (decodeRoleUser === 'customer') next({ name: 'views.dashboard' });
+                if (decodeRoleUser === 'consultant') next({ name: 'consultant.views.dashboard' });
+                if (decodeRoleUser === 'admin') next({ name: 'admin.views.dashboard' });
+    
+                next();
+            }
+        }
+    },
+    {
+        path: '/staff/detail-anak/kuisioner-input',
+        name: 'staff.views.anak_kuisioner_input',
+        component: () => import('@/views/REMAKE/Staff/ListAnak/KuisionerInput.vue'),
+        meta: {
+            showNavbar: true,
+            showFooter: true
+        },
+        beforeEnter: (to, from, next) => {
+            const token = Cookies.get('token');
+            const isAuth = JSON.parse(localStorage.getItem('userData'));
+            if (!isAuth || !token) {
+                localStorage.clear();
+                Cookies.remove('token');
+                next({ name: 'views.login' });
+            } else {
+                const decodedToken = jwtDecode(token);
+                const decodeRoleUser = decodedToken.role;
+    
+                if (decodeRoleUser === 'customer') next({ name: 'views.dashboard' });
+                if (decodeRoleUser === 'consultant') next({ name: 'consultant.views.dashboard' });
+                if (decodeRoleUser === 'admin') next({ name: 'admin.views.dashboard' });
+    
+                next();
+            }
+        }
+    }, 
 ]

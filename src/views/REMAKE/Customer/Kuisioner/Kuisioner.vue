@@ -1,8 +1,21 @@
 <script setup>
-import Layout from '../../../Layout/GuruTk/Layout.vue';
+import Layout from '@/Layout/Customer/Layout.vue';
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import initAPI from '../../../../api/api';
+import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
-// Data introduction
+const router = useRouter()
+const store = useStore()
+
+// Ambil data user dari store
+const userData = computed(() => store.getters.getUserData);
+
+// Data dari API
+const apiQuestions = ref([]);
 const introduction = {
   title: "Petunjuk",
   content: "Mohon berikan penilaian berdasarkan pengamatan Anda terhadap anak di rumah. Pilih salah satu angka yang paling sesuai dengan kondisi anak Anda saat ini.",
@@ -14,28 +27,58 @@ const introduction = {
   ]
 };
 
-// Data array untuk pertanyaan/kuisioner
-const questions = ref([
-  {
-    id: 1,
-    question: "Anak menunjukkan rasa ingin tahu dengan banyak bertanya 'apa,' 'kenapa,' atau 'bagaimana.'",
-    category: "Aspek Kognisi (Berpikir dan Memahami)",
-    selectedOption: null,
-    note: ""
-  },
-  {
-    id: 2,
-    question: "Ibu menunjukkan rasa ingin tahu dengan banyak bertanya 'apa,' 'kenapa,' atau 'bagaimana.'",
-    category: "Aspek Kognisi (Berpikir dan Memahami)",
-    selectedOption: null,
-    note: ""
-  },
-]);
+const questions = ref([]);
+const currentQuestionIndex = ref(-1);
+const slideDirection = ref('next');
+const hasStarted = ref(false);
+const isLoading = ref(false);
 
-// State aplikasi
-const currentQuestionIndex = ref(-1); // -1 berarti introduction
-const slideDirection = ref('next'); 
-const hasStarted = ref(false); // Menandai apakah kuis sudah dimulai
+// Fungsi untuk memetakan tipe dari API ke kunci yang sesuai
+const mapQuestionType = (type) => {
+  const typeMapping = {
+    'Kognisi': 'kognisi',
+    'Psikomotorik': 'psikomotorik',
+    'Emosi': 'emosi',
+    'Relasi': 'relasi',
+    'Kemandirian': 'mandiri'
+  };
+  
+  return typeMapping[type] || null;
+};
+
+// Fungsi untuk mengambil data pertanyaan dari API
+const fetchQuestions = async () => {
+  try {
+    isLoading.value = true;
+    const token = Cookies.get('token');
+    const response = await initAPI('get', 'parent/questions', null, token);
+    
+    if (response.data && response.data.data) {
+      apiQuestions.value = response.data.data;
+      
+      // Transform data dari API ke format yang digunakan komponen
+      questions.value = apiQuestions.value.map(q => ({
+        id: q.id,
+        question: q.question,
+        category: `Aspek ${q.type}`,
+        type: mapQuestionType(q.type), // Gunakan fungsi mapping
+        selectedOption: null,
+        answers: q.answers
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Gagal Memuat Pertanyaan',
+      text: 'Tidak dapat mengambil data pertanyaan dari server.',
+      showConfirmButton: false,
+      timer: 2000
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 const currentQuestion = computed(() => {
   return currentQuestionIndex.value >= 0 ? questions.value[currentQuestionIndex.value] : null;
@@ -53,13 +96,13 @@ const selectOption = (optionId) => {
 };
 
 const isOptionSelected = computed(() => {
-  if (currentQuestionIndex.value < 0) return true; // Selalu aktif untuk introduction
+  if (currentQuestionIndex.value < 0) return true;
   return currentQuestion.value.selectedOption !== null;
 });
 
-// Mulai kuis dari introduction
 const startQuestionnaire = () => {
   hasStarted.value = true;
+  slideDirection.value = 'next';
   currentQuestionIndex.value = 0;
 };
 
@@ -68,8 +111,7 @@ const nextQuestion = () => {
     slideDirection.value = 'next';
     currentQuestionIndex.value++;
   } else {
-    // Kuis selesai, lakukan sesuatu di sini
-    console.log("Kuis selesai");
+    submitAnswers();
   }
 };
 
@@ -79,9 +121,92 @@ const prevQuestion = () => {
     currentQuestionIndex.value--;
   } else if (currentQuestionIndex.value === 0) {
     // Kembali ke introduction
+    slideDirection.value = 'prev';
     currentQuestionIndex.value = -1;
   }
 };
+
+// Fungsi untuk mengirim jawaban ke API
+const submitAnswers = async () => {
+  try {
+    console.log(userData.value)
+    // Pastikan userData tersedia
+    if (!userData.value || !userData.value.id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Gagal Mengirim Jawaban',
+        text: 'Data pengguna tidak ditemukan. Silakan login kembali.',
+        showConfirmButton: true
+      }).then(() => {
+        router.push('/login');
+      });
+      return;
+    }
+    
+    isLoading.value = true;
+    
+    // Mengelompokkan jawaban berdasarkan tipe
+    const groupedAnswers = {
+      customer_id: userData.value.id,
+      kognisi: [],
+      psikomotorik: [],
+      emosi: [],
+      relasi: [],
+      mandiri: [] // Sesuai dengan format payload API
+    };
+    
+    // Mengisi jawaban berdasarkan tipe pertanyaan
+    questions.value.forEach(q => {
+      if (q.selectedOption !== null && q.type) {
+        // Pastikan tipe valid sebelum push
+        if (groupedAnswers[q.type]) {
+          groupedAnswers[q.type].push(q.selectedOption);
+        } else {
+          console.warn(`Tipe pertanyaan tidak dikenali: ${q.type}`);
+        }
+      }
+    });
+    
+    // Membuat payload sesuai format yang diminta
+    const payload = {
+      ...groupedAnswers
+    };
+    
+    // Mengirim data ke API dengan token
+    const token = Cookies.get('token');
+    console.log(payload)
+    const response = await initAPI('post', 'customers/parent', payload, token);
+    
+    if (response.data && response.data.message === "Jawaban Berhasil Direkam.") {
+      // Menampilkan modal sukses
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Jawaban kuisioner telah berhasil dikirim.',
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        router.push('/tk');
+      });
+    }
+  } catch (error) {
+    console.error('Error submitting answers:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Gagal Mengirim Jawaban',
+      text: 'Terjadi kesalahan saat mengirim jawaban. Silakan coba lagi.',
+      showConfirmButton: true
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Lifecycle hook untuk mengambil data pertanyaan saat komponen dimuat
+onMounted(() => {
+  fetchQuestions();
+  console.log(userData.value.id)
+});
 </script>
 
 <template>
@@ -97,104 +222,108 @@ const prevQuestion = () => {
           </svg>
         </div>
 
-        <div class="space-y-2">
-          <h5 class="text-md md:text-lg font-semibold">
-            {{ currentQuestionIndex >= 0 ? currentQuestion.category : introduction.title }}
-          </h5>
-          <!-- Progress Bar -->
-          <div class="w-full h-4 rounded-lg relative bg-[#E8E8E8]">
+        <!-- Loading indicator -->
+        <div v-if="isLoading" class="flex justify-center items-center py-8">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+
+        <div v-else class="space-y-2 overflow-hidden">
+          <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
+            <h5 :key="currentQuestionIndex >= 0 ? 'question' : 'intro'" class="text-md md:text-lg font-semibold">
+              {{ currentQuestionIndex >= 0 ? currentQuestion.category : introduction.title }}
+            </h5>
+          </Transition>
+          <div v-if="currentQuestionIndex >= 0" class="w-full h-4 rounded-lg relative bg-[#E8E8E8]">
             <div class="h-full bg-primary rounded-lg transition-all duration-500 ease-out"
               :style="{ width: progressPercentage + '%' }"></div>
           </div>
         </div>
 
-        <!-- Introduction Screen -->
-        <div v-if="currentQuestionIndex < 0" class="question-container overflow-hidden">
-          <div class="question-content">
-            <p class="text-sm md:text-base">{{ introduction.content }}</p>
-            
-            <!-- Option examples for introduction -->
-            <div class="w-full flex flex-col gap-4 mt-6">
-              <div v-for="option in introduction.options" :key="option.id"
-                class="py-2 px-3 rounded-2xl bg-[#F5F5F5] group transition-all duration-500 flex justify-between items-center gap-4">
-                <div class="w-fit flex gap-4 items-center">
-                  <div
-                    class="w-8 h-8 rounded-full text-[#8E8E8E] group-hover:text-primary group-hover:bg-[#C7C7FD] transition-all duration-500 flex justify-center items-center">
-                    <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
-                  </div>
-                  <p class="text-base text-[#8E8E8E] group-hover:text-primary transition-all duration-500 font-medium">
-                    {{ option.text }}
-                  </p>
-                </div>
+        <!-- Content with animation -->
+        <div v-if="!isLoading" class="question-container overflow-hidden">
+          <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
+            <!-- Introduction Screen -->
+            <div v-if="currentQuestionIndex < 0" key="introduction" class="question-content">
+              <p class="text-sm md:text-base">{{ introduction.content }}</p>
 
-                <div class="w-4 h-4 bg-[#8E8E8E] group-hover:bg-primary flex justify-center items-center transition-all duration-500 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
-                    <path d="M8.33317 2.5L3.74984 7.08333L1.6665 5" stroke="white" stroke-width="1.66667"
-                      stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+              <p class="text-md md:text-lg font-semibold mt-4">Skala Penilaian</p>
+
+              <!-- Option examples for introduction -->
+              <div class="w-full flex flex-col gap-4 mt-6">
+                <div v-for="option in introduction.options" :key="option.id"
+                  class="py-2 px-3 rounded-2xl bg-[#F5F5F5] group transition-all duration-500 flex justify-between items-center gap-4">
+                  <div class="w-fit flex gap-4 items-center">
+                    <div
+                      class="w-8 h-8 rounded-full text-[#8E8E8E] group-hover:text-primary group-hover:bg-[#C7C7FD] transition-all duration-500 flex justify-center items-center">
+                      <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
+                    </div>
+                    <p class="text-base text-[#8E8E8E] group-hover:text-primary transition-all duration-500 font-medium">
+                      {{ option.text }}
+                    </p>
+                  </div>
+
+                  <div
+                    class="w-4 h-4 bg-[#8E8E8E] group-hover:bg-primary flex justify-center items-center transition-all duration-500 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <path d="M8.33317 2.5L3.74984 7.08333L1.6665 5" stroke="white" stroke-width="1.66667"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Question Screen -->
-        <template v-else>
-          <!-- Question with animation -->
-          <div class="question-container overflow-hidden">
-            <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
-              <div :key="currentQuestion.id" class="question-content">
-                <p class="text-sm md:text-base">{{ currentQuestion.question }}</p>
-              </div>
-            </Transition>
-          </div>
+            <!-- Question Screen -->
+            <div v-else :key="'question-' + currentQuestion.id" class="question-content">
+              <!-- Question with animation -->
+              <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
+                <div :key="currentQuestion.id">
+                  <p class="text-sm md:text-base">{{ currentQuestion.question }}</p>
+                </div>
+              </Transition>
 
-          <!-- Option with animation -->
-          <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
-            <section :key="currentQuestion.id" class="space-y-4">
-              <div class="w-full flex flex-col gap-4">
-                <div v-for="option in introduction.options" :key="option.id"
-                  class="py-2 px-3 rounded-2xl cursor-pointer"
-                  :class="currentQuestion.selectedOption === option.id ? 'bg-[#E8E8FE]' : 'bg-[#F5F5F5]'"
-                  @click="selectOption(option.id)" :style="{ 'transition': 'all 0.5s' }">
-                  <div class="w-full flex justify-between items-center gap-4">
-                    <div class="w-fit flex gap-4 items-center">
-                      <div class="w-8 h-8 rounded-full flex justify-center items-center"
-                        :class="currentQuestion.selectedOption === option.id ? 'text-primary bg-[#C7C7FD]' : 'text-[#8E8E8E]'"
-                        :style="{ 'transition': 'all 0.5s' }">
-                        <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
+              <!-- Option with animation -->
+              <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
+                <section :key="currentQuestion.id" class="space-y-4 mt-6">
+                  <div class="w-full flex flex-col gap-4">
+                    <div v-for="option in introduction.options" :key="option.id"
+                      class="py-2 px-3 rounded-2xl cursor-pointer"
+                      :class="currentQuestion.selectedOption === option.id ? 'bg-[#E8E8FE]' : 'bg-[#F5F5F5]'"
+                      @click="selectOption(option.id)" :style="{ 'transition': 'all 0.5s' }">
+                      <div class="w-full flex justify-between items-center gap-4">
+                        <div class="w-fit flex gap-4 items-center">
+                          <div class="w-8 h-8 rounded-full flex justify-center items-center"
+                            :class="currentQuestion.selectedOption === option.id ? 'text-primary bg-[#C7C7FD]' : 'text-[#8E8E8E]'"
+                            :style="{ 'transition': 'all 0.5s' }">
+                            <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
+                          </div>
+                          <p class="text-base font-medium"
+                            :class="currentQuestion.selectedOption === option.id ? 'text-primary' : 'text-[#8E8E8E]'"
+                            :style="{ 'transition': 'all 0.5s' }">
+                            {{ option.text }}
+                          </p>
+                        </div>
+
+                        <div class="w-4 h-4 flex justify-center items-center rounded-full"
+                          :class="currentQuestion.selectedOption === option.id ? 'bg-primary' : 'bg-[#8E8E8E]'"
+                          :style="{ 'transition': 'all 0.5s' }">
+                          <svg v-if="currentQuestion.selectedOption === option.id" xmlns="http://www.w3.org/2000/svg"
+                            width="10" height="10" viewBox="0 0 10 10" fill="none">
+                            <path d="M8.33317 2.5L3.74984 7.08333L1.6665 5" stroke="white" stroke-width="1.66667"
+                              stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
                       </div>
-                      <p class="text-base font-medium"
-                        :class="currentQuestion.selectedOption === option.id ? 'text-primary' : 'text-[#8E8E8E]'"
-                        :style="{ 'transition': 'all 0.5s' }">
-                        {{ option.text }}
-                      </p>
-                    </div>
-
-                    <div class="w-4 h-4 flex justify-center items-center rounded-full"
-                      :class="currentQuestion.selectedOption === option.id ? 'bg-primary' : 'bg-[#8E8E8E]'"
-                      :style="{ 'transition': 'all 0.5s' }">
-                      <svg v-if="currentQuestion.selectedOption === option.id" xmlns="http://www.w3.org/2000/svg"
-                        width="10" height="10" viewBox="0 0 10 10" fill="none">
-                        <path d="M8.33317 2.5L3.74984 7.08333L1.6665 5" stroke="white" stroke-width="1.66667"
-                          stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div class="space-y-2">
-                <p class="text-xs md:text-sm text-[#8E8E8E]">Catatan Tambahan</p>
-                <input type="text" v-model="currentQuestion.note"
-                  class="bg-[#F5F5F5] text-sm md:text-base p-3 w-full rounded-lg"
-                  placeholder="Tuliskan contoh atau keterangan lain yang relevan">
-              </div>
-            </section>
+                </section>
+              </Transition>
+            </div>
           </Transition>
-        </template>
+        </div>
 
         <!-- Button -->
-        <div class="w-full flex justify-between items-center gap-4">
+        <div v-if="!isLoading" class="w-full flex justify-between items-center gap-4">
           <button @click="prevQuestion"
             class="py-3 text-sm md:text-base w-full border border-gray-300 rounded-xl cursor-pointer text-black font-medium">
             {{ currentQuestionIndex <= 0 ? 'Batal' : 'Kembali' }}
