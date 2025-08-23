@@ -83,7 +83,6 @@ const fetchPsychData = async () => {
   try {
     loading.value = true;
     const response = await initAPI("get", `staff/teacher/psikolog?customer_id=${idUser.value}`, null, token);
-    console.log(response)
     psychData.value = response.data.data;
   } catch (error) {
     console.error('Error fetching psych data:', error);
@@ -155,6 +154,7 @@ const closeModal = () => {
                     :note="note"
                     :report="report"
                     :loading="loading"
+                    :tk-id="tkId"
                     @navigate-to-quiz="navigateToQuiz"
                     @download-pdf="downloadPDF"
                 />
@@ -166,6 +166,7 @@ const closeModal = () => {
                     :note="note"
                     :report="report"
                     :loading="loading"
+                    :tk-id="tkId"
                     @navigate-to-quiz="navigateToQuiz"
                     @download-pdf="downloadPDF"
                 />
@@ -177,6 +178,7 @@ const closeModal = () => {
                     :note="note"
                     :report="report"
                     :loading="loading"
+                    :tk-id="tkId"
                     @navigate-to-quiz="navigateToQuiz"
                     @download-pdf="downloadPDF"
                 />

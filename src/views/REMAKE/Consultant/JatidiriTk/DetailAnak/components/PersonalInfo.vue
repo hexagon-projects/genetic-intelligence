@@ -31,7 +31,7 @@ defineProps({
                     <p class="text-base">{{ userData?.birth_date }}</p>
                 </div>
             </div>
-            <div class="space-y-2 flex flex-col">
+            <!-- <div class="space-y-2 flex flex-col">
                 <label for="" class="text-[#8E8E8E] text-sm">Nama Orang Tua</label>
                 <div type="text" class="p-3 rounded-lg bg-[#F5F5F5]">
                     <p class="text-base">Maria Culhane</p>
@@ -42,7 +42,7 @@ defineProps({
                 <div type="text" class="p-3 rounded-lg bg-[#F5F5F5]">
                     <p class="text-base">Bu Siti</p>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

@@ -6,6 +6,7 @@ const props = defineProps({
   activeStep: Number,
   scores: Object,
   notes: Object,
+  saving: Boolean,
   observations: Object,
   uploadedImages: Array,
   completedSteps: Array
@@ -58,7 +59,7 @@ const updateObservations = (value) => {
 
 const isNextButtonDisabled = computed(() => {
     const stepKey = getStepKey(props.activeStep);
-    return props.scores[stepKey] === null || props.notes[stepKey] === '';
+    return props.scores[stepKey] === null || props.notes[stepKey] === '' || props.saving;
 });
 
 const nextStep = () => {
@@ -119,16 +120,21 @@ const prevStep = () => {
         </div>
 
         <div class="w-full flex justify-between items-center">
-            <button @click="prevStep" :disabled="activeStep === 1"
+            <button @click="prevStep" :disabled="activeStep === 1 || saving"
                 class="py-3 px-6 rounded-full w-fit transition-all duration-300"
-                :class="activeStep === 1 ? 'bg-[#CBCBFD] text-white cursor-not-allowed' : 'bg-primary text-white cursor-pointer hover:bg-blue-700'">
+                :class="activeStep === 1 || saving ? 'bg-[#CBCBFD] text-white cursor-not-allowed' : 'bg-primary text-white cursor-pointer hover:bg-blue-700'">
                 <p class="text-base">Kembali</p>
             </button>
 
             <button @click="nextStep" :disabled="isNextButtonDisabled"
-                class="py-3 px-6 rounded-full w-fit transition-all duration-300"
+                class="py-3 px-6 rounded-full w-fit transition-all duration-300 flex items-center justify-center gap-2"
                 :class="isNextButtonDisabled ? 'bg-[#CBCBFD] text-white cursor-not-allowed' : 'bg-primary text-white cursor-pointer hover:bg-blue-700'">
-                <p class="text-base">{{ activeStep === 5 ? 'Selesai' : 'Selanjutnya' }}</p>
+
+                <svg v-if="saving" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-base">{{ saving ? 'Menyimpan...' : (activeStep === 5 ? 'Selesai' : 'Selanjutnya') }}</p>
             </button>
         </div>
     </div>

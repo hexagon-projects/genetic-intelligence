@@ -20,12 +20,15 @@ const changeTab = (tabName) => {
 
 <template>
     <div class="flex-col flex">
-        <div class="flex">
+        <!-- Tab Navigation - Responsive -->
+        <div class="flex flex-wrap sm:flex-nowrap overflow-x-auto scrollbar-hide">
             <!-- Psikomotor Tab -->
-            <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                :class="activeResultTab === 'psikomotor' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                :class="activeResultTab === 'psikomotor' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                 @click="changeTab('psikomotor')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     class="w-3 h-3 sm:w-4 sm:h-4 md:w-[17px] md:h-4 flex-shrink-0" 
+                     viewBox="0 0 17 16" fill="none">
                     <path d="M14.0415 8.43131L14.3861 7.14331C14.7888 5.63998 14.9908 4.88865 14.8395 4.23798C14.7195 3.72431 14.4499 3.25775 14.0648 2.89731C13.5775 2.44065 12.8255 2.23931 11.3221 1.83665C9.81881 1.43331 9.06681 1.23198 8.41681 1.38331C7.90314 1.50325 7.43658 1.77284 7.07614 2.15798C6.68481 2.57531 6.48081 3.18665 6.17748 4.29731L6.01481 4.90065L5.67014 6.18865C5.26681 7.69198 5.06548 8.44331 5.21681 9.09398C5.33675 9.60765 5.60634 10.0742 5.99148 10.4346C6.47881 10.8913 7.23081 11.0926 8.73414 11.496C10.0888 11.8586 10.8335 12.058 11.4435 11.9826C11.5101 11.9742 11.5755 11.9626 11.6395 11.948C12.153 11.8284 12.6195 11.5593 12.9801 11.1746C13.4368 10.6866 13.6381 9.93465 14.0415 8.43131Z"
                         :stroke="activeResultTab === 'psikomotor' ? '#6464FA' : '#8E8E8E'" />
                     <path d="M11.4433 11.9829C11.304 12.4098 11.0591 12.7946 10.7313 13.1015C10.244 13.5582 9.49198 13.7595 7.98865 14.1622C6.48531 14.5649 5.73331 14.7669 5.08331 14.6149C4.56972 14.4951 4.10317 14.2258 3.74265 13.8409C3.28598 13.3535 3.08398 12.6015 2.68131 11.0982L2.33665 9.81021C1.93331 8.30688 1.73198 7.55488 1.88331 6.90488C2.00325 6.3912 2.27284 5.92464 2.65798 5.56421C3.14531 5.10754 3.89731 4.90621 5.40065 4.50288C5.6842 4.42643 5.94309 4.35776 6.17731 4.29688"
@@ -33,14 +36,16 @@ const changeTab = (tabName) => {
                     <path d="M8.3515 6.6665L11.5715 7.52917M7.8335 8.5985L9.7655 9.11584"
                         :stroke="activeResultTab === 'psikomotor' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" />
                 </svg>
-                <p class="text-xs" :class="activeResultTab === 'psikomotor' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Psikomotor</p>
+                <p class="text-xs sm:text-sm" :class="activeResultTab === 'psikomotor' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Psikomotor</p>
             </div>
 
             <!-- Kognisi Tab -->
-            <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                :class="activeResultTab === 'kognisi' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                :class="activeResultTab === 'kognisi' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                 @click="changeTab('kognisi')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                     viewBox="0 0 13 12" fill="none">
                     <g clip-path="url(#clip0_3700_13523)">
                         <path d="M6.0035 10.5H5.3025C3.51 10.5 2.614 10.5 2.057 9.9325C1.5 9.365 1.5 8.452 1.5 6.625C1.5 4.7985 1.5 3.885 2.057 3.3175C2.614 2.75 3.51 2.75 5.3025 2.75H7.204C8.9965 2.75 9.893 2.75 10.45 3.3175C10.7285 3.6015 10.868 3.972 10.9375 4.5"
                             :stroke="activeResultTab === 'kognisi' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" />
@@ -53,54 +58,60 @@ const changeTab = (tabName) => {
                         </clipPath>
                     </defs>
                 </svg>
-                <p class="text-xs" :class="activeResultTab === 'kognisi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Kognisi</p>
+                <p class="text-xs sm:text-sm" :class="activeResultTab === 'kognisi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Kognisi</p>
             </div>
 
             <!-- Emosi Tab -->
-            <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                :class="activeResultTab === 'emosi' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                :class="activeResultTab === 'emosi' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                 @click="changeTab('emosi')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                     viewBox="0 0 13 12" fill="none">
                     <path d="M2 1.8C2 1.72044 2.03161 1.64413 2.08787 1.58787C2.14413 1.53161 2.22044 1.5 2.3 1.5H10.7C10.7796 1.5 10.8559 1.53161 10.9121 1.58787C10.9684 1.64413 11 1.72044 11 1.8V8.7C11 8.7394 10.9922 8.77841 10.9772 8.81481C10.9621 8.8512 10.94 8.88427 10.9121 8.91213C10.8843 8.93999 10.8512 8.96209 10.8148 8.97716C10.7784 8.99224 10.7394 9 10.7 9H8.63C8.58897 8.99994 8.54837 9.0083 8.5107 9.02455C8.47304 9.0408 8.4391 9.06461 8.411 9.0945L6.7185 10.893C6.69045 10.9228 6.65659 10.9466 6.61902 10.9628C6.58144 10.9791 6.54094 10.9874 6.5 10.9874C6.45906 10.9874 6.41856 10.9791 6.38098 10.9628C6.34341 10.9466 6.30955 10.9228 6.2815 10.893L4.589 9.0945C4.5609 9.06461 4.52696 9.0408 4.4893 9.02455C4.45163 9.0083 4.41103 8.99994 4.37 9H2.3C2.22044 9 2.14413 8.96839 2.08787 8.91213C2.03161 8.85587 2 8.77956 2 8.7V1.8Z"
                         :stroke="activeResultTab === 'emosi' ? '#6464FA' : '#8E8E8E'" />
                     <path d="M6.5 3.5L7.2125 4.7875L8.5 5.5L7.2125 6.2125L6.5 7.5L5.7875 6.2125L4.5 5.5L5.7875 4.7875L6.5 3.5Z"
                         :stroke="activeResultTab === 'emosi' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <p class="text-xs" :class="activeResultTab === 'emosi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Emosi</p>
+                <p class="text-xs sm:text-sm" :class="activeResultTab === 'emosi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Emosi</p>
             </div>
 
             <!-- Relasi Sosial Tab -->
-            <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                :class="activeResultTab === 'relasiSosial' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                :class="activeResultTab === 'relasiSosial' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                 @click="changeTab('relasiSosial')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                     viewBox="0 0 13 12" fill="none">
                     <path d="M2 1.8C2 1.72044 2.03161 1.64413 2.08787 1.58787C2.14413 1.53161 2.22044 1.5 2.3 1.5H10.7C10.7796 1.5 10.8559 1.53161 10.9121 1.58787C10.9684 1.64413 11 1.72044 11 1.8V8.7C11 8.7394 10.9922 8.77841 10.9772 8.81481C10.9621 8.8512 10.94 8.88427 10.9121 8.91213C10.8843 8.93999 10.8512 8.96209 10.8148 8.97716C10.7784 8.99224 10.7394 9 10.7 9H8.63C8.58897 8.99994 8.54837 9.0083 8.5107 9.02455C8.47304 9.0408 8.4391 9.06461 8.411 9.0945L6.7185 10.893C6.69045 10.9228 6.65659 10.9466 6.61902 10.9628C6.58144 10.9791 6.54094 10.9874 6.5 10.9874C6.45906 10.9874 6.41856 10.9791 6.38098 10.9628C6.34341 10.9466 6.30955 10.9228 6.2815 10.893L4.589 9.0945C4.5609 9.06461 4.52696 9.0408 4.4893 9.02455C4.45163 9.0083 4.41103 8.99994 4.37 9H2.3C2.22044 9 2.14413 8.96839 2.08787 8.91213C2.03161 8.85587 2 8.77956 2 8.7V1.8Z"
                         :stroke="activeResultTab === 'relasiSosial' ? '#6464FA' : '#8E8E8E'" />
                     <path d="M6.5 3.5L7.2125 4.7875L8.5 5.5L7.2125 6.2125L6.5 7.5L5.7875 6.2125L4.5 5.5L5.7875 4.7875L6.5 3.5Z"
                         :stroke="activeResultTab === 'relasiSosial' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <p class="text-xs" :class="activeResultTab === 'relasiSosial' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Relasi Sosial</p>
+                <p class="text-xs sm:text-sm" :class="activeResultTab === 'relasiSosial' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Relasi Sosial</p>
             </div>
 
             <!-- Kemandirian Tab -->
-            <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                :class="activeResultTab === 'kemandirian' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+            <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                :class="activeResultTab === 'kemandirian' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                 @click="changeTab('kemandirian')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                     viewBox="0 0 13 12" fill="none">
                     <path d="M2 1.8C2 1.72044 2.03161 1.64413 2.08787 1.58787C2.14413 1.53161 2.22044 1.5 2.3 1.5H10.7C10.7796 1.5 10.8559 1.53161 10.9121 1.58787C10.9684 1.64413 11 1.72044 11 1.8V8.7C11 8.7394 10.9922 8.77841 10.9772 8.81481C10.9621 8.8512 10.94 8.88427 10.9121 8.91213C10.8843 8.93999 10.8512 8.96209 10.8148 8.97716C10.7784 8.99224 10.7394 9 10.7 9H8.63C8.58897 8.99994 8.54837 9.0083 8.5107 9.02455C8.47304 9.0408 8.4391 9.06461 8.411 9.0945L6.7185 10.893C6.69045 10.9228 6.65659 10.9466 6.61902 10.9628C6.58144 10.9791 6.54094 10.9874 6.5 10.9874C6.45906 10.9874 6.41856 10.9791 6.38098 10.9628C6.34341 10.9466 6.30955 10.9228 6.2815 10.893L4.589 9.0945C4.5609 9.06461 4.52696 9.0408 4.4893 9.02455C4.45163 9.0083 4.41103 8.99994 4.37 9H2.3C2.22044 9 2.14413 8.96839 2.08787 8.91213C2.03161 8.85587 2 8.77956 2 8.7V1.8Z"
                         :stroke="activeResultTab === 'kemandirian' ? '#6464FA' : '#8E8E8E'" />
                     <path d="M6.5 3.5L7.2125 4.7875L8.5 5.5L7.2125 6.2125L6.5 7.5L5.7875 6.2125L4.5 5.5L5.7875 4.7875L6.5 3.5Z"
                         :stroke="activeResultTab === 'kemandirian' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <p class="text-xs" :class="activeResultTab === 'kemandirian' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Kemandirian</p>
+                <p class="text-xs sm:text-sm" :class="activeResultTab === 'kemandirian' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">Kemandirian</p>
             </div>
         </div>
 
         <!-- Tab Content with Animation -->
         <transition name="fade" mode="out-in">
-            <div :key="activeResultTab" class="p-4 bg-[#F5F5F5] rounded-b-xl rounded-tr-xl space-y-4">
-                <p class="text-xs">{{ assessmentResults[activeResultTab].content }}</p>
-                <div class="py-1 px-4 rounded-full bg-primary w-fit text-xs text-white">
+            <div :key="activeResultTab" class="p-3 md:p-4 bg-[#F5F5F5] rounded-xl md:rounded-b-xl md:rounded-tr-xl md:rounded-tl-none space-y-3 md:space-y-4">
+                <p class="text-xs sm:text-sm leading-relaxed">{{ assessmentResults[activeResultTab].content }}</p>
+                <div class="py-1 sm:py-1.5 px-3 sm:px-4 rounded-full bg-primary w-fit text-xs sm:text-sm text-white">
                     Skor {{ assessmentResults[activeResultTab].score }}
                 </div>
             </div>
@@ -114,5 +125,14 @@ const changeTab = (tabName) => {
 }
 .fade-enter-from, .fade-leave-to {
     opacity: 0;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
 }
 </style>

@@ -19,6 +19,10 @@ const props = defineProps({
     loading: {
         type: Boolean,
         default: false
+    },
+        tkId: {
+        type: String,
+        required: true
     }
 });
 
@@ -97,6 +101,7 @@ const assessmentResults = (report) => ({
             <ReportDownload 
                 :note="reports[activeReportIndex]?.notulen[0]?.description || note" 
                 :report="report" 
+                :tkId="tkId"
                 @download-pdf="handleDownloadPDF" 
             />
         </div>

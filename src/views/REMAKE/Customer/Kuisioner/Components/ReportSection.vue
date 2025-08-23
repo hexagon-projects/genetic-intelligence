@@ -31,40 +31,53 @@ const handleDownload = (reportName) => {
 </script>
 
 <template>
-    <div class="space-y-4 mt-4">
+    <div class="space-y-3 md:space-y-4 mt-3 md:mt-4">
+        <!-- Catatan Section -->
         <div class="space-y-2" :class="[status || '']">
-            <p class="text-xs text-[#8E8E8E] font-semibold">Catatan</p>
-            <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
-                <p class="text-xs">{{ note }}</p>
+            <p class="text-xs sm:text-sm text-[#8E8E8E] font-semibold">Catatan</p>
+            <div class="w-full bg-[#F5F5F5] p-3 md:p-4 rounded-lg md:rounded-xl">
+                <p class="text-xs sm:text-sm leading-relaxed">{{ note }}</p>
             </div>
         </div>
 
-        <div v-if="showImages && psikologData.length > 0" class="space-y-4">
+        <!-- Psikolog Reports Section (jika ada) -->
+        <div v-if="showImages && psikologData.length > 0" class="space-y-3 md:space-y-4">
             <div v-for="report in psikologData" :key="report.id" class="space-y-3">
+                <!-- Rekomendasi -->
                 <div v-if="report.rekomendasi" class="space-y-2">
-                    <p class="text-xs text-[#8E8E8E] font-semibold">Rekomendasi</p>
-                    <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
-                        <p class="text-xs">{{ report.rekomendasi }}</p>
+                    <p class="text-xs sm:text-sm text-[#8E8E8E] font-semibold">Rekomendasi</p>
+                    <div class="w-full bg-[#F5F5F5] p-3 md:p-4 rounded-lg md:rounded-xl">
+                        <p class="text-xs sm:text-sm leading-relaxed">{{ report.rekomendasi }}</p>
                     </div>
                 </div>
 
+                <!-- Dokumentasi Images -->
                 <div v-if="report.documentations && report.documentations.length > 0" class="space-y-2">
-                    <div class="flex flex-wrap items-center gap-4">
-                        <div v-for="doc in report.documentations" :key="doc.id">
+                    <p class="text-xs sm:text-sm text-[#8E8E8E] font-semibold">Dokumentasi</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4">
+                        <div v-for="doc in report.documentations" :key="doc.id" class="relative group">
                             <img :src="getImageUrl(doc.file)" :alt="doc.title || 'Dokumentasi'"
-                                class="w-32 h-32 rounded-xl object-cover border">
+                                class="w-full aspect-square rounded-lg md:rounded-xl object-cover border border-gray-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+                            <div v-if="doc.title"
+                                class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 rounded-b-lg md:rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                {{ doc.title }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="space-y-2">
-            <p class="text-xs text-[#8E8E8E] font-semibold">Laporan</p>
-            <div class="w-full bg-[#F5F5F5] p-4 rounded-xl flex justify-between items-center">
-                <a class="text-xs text-primary">{{ report }}</a>
-                <button @click="handleDownload(report)" class="cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+        <!-- Laporan Section -->
+        <div v-if="tkId" class="space-y-2">
+            <p class="text-xs sm:text-sm text-[#8E8E8E] font-semibold">Laporan</p>
+            <div
+                class="w-full bg-[#F5F5F5] p-3 md:p-4 rounded-lg md:rounded-xl flex justify-between items-center gap-3">
+                <a class="text-xs sm:text-sm text-primary flex-1 min-w-0 truncate">{{ report }}</a>
+                <button @click="handleDownload(report)"
+                    class="cursor-pointer flex-shrink-0 p-1 hover:bg-white rounded-lg transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 25 24"
+                        fill="none">
                         <g clip-path="url(#clip0_3700_13584)">
                             <mask id="mask0_3700_13584" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0"
                                 y="0" width="25" height="24">

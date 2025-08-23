@@ -29,7 +29,7 @@ const changeTab = (tabName) => {
 </script>
 
 <template>
-    <div class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
+    <div class="w-full bg-white p-4 md:p-6 rounded-xl md:rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
         <AssesmentTab 
             :assessmentResults="assessmentResults"
             :activeResultTab="activeResultTab"

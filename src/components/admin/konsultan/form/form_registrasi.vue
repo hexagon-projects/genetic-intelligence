@@ -84,7 +84,6 @@
                 </div>
 
                 <div class="flex flex-wrap -mx-3 mb-6">
-<<<<<<< HEAD
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label for="typeExpert" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Tipe
@@ -106,8 +105,6 @@
                 </div>
 
                 <div class="flex flex-wrap -mx-3 mb-6">
-=======
->>>>>>> 8ea4372 (Rebuild index after corruption)
                     <div class="w-full px-3">
                     <label for="alamat" class="block tracking-wide font-myFont text-dark font-sm mb-2">
                         Alamat
@@ -117,7 +114,6 @@
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                     <label for="description" class="block tracking-wide font-myFont text-dark font-sm mb-2">
@@ -126,9 +122,6 @@
                     <textarea v-model="description" id="description" rows="4" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-biru" type="text" placeholder="Deskripsi tentang konsultan"></textarea>
                     </div>
                 </div>
-
-=======
->>>>>>> 8ea4372 (Rebuild index after corruption)
                 <div class="flex justify-end">
                     <button @click="register"
                         :disabled="buttonDisabled" 
@@ -163,11 +156,8 @@ export default {
         const gender = ref('pilih')
         const number = ref(null)
         const address = ref(null)
-<<<<<<< HEAD
         const typeExpert = ref('pilih')
         const description = ref(null)
-=======
->>>>>>> 8ea4372 (Rebuild index after corruption)
 
         const validasiWA = ref(null)
         const validasiFee = ref(null)
@@ -221,15 +211,10 @@ export default {
             data.append('birth_place', DOMPurify.sanitize(birth_place.value))
             data.append('birth_date', DOMPurify.sanitize(birth_date.value))
             data.append('gender', DOMPurify.sanitize(gender.value))
-<<<<<<< HEAD
             data.append('type', DOMPurify.sanitize(typeExpert.value))
             data.append('number', DOMPurify.sanitize(number.value))
             data.append('address', DOMPurify.sanitize(address.value))
             data.append('description', DOMPurify.sanitize(description.value))
-=======
-            data.append('number', DOMPurify.sanitize(number.value))
-            data.append('address', DOMPurify.sanitize(address.value))
->>>>>>> 8ea4372 (Rebuild index after corruption)
             data.append('available_on', null)
             data.append('image', null)
             // console.log(data + token)
@@ -287,14 +272,10 @@ export default {
                 !birth_date.value || 
                 !gender.value ||
                 !number.value ||
-<<<<<<< HEAD
                 !address.value ||
                 !description.value ||
                 gender.value === 'pilih' ||
                 typeExpert.value === 'pilih'
-=======
-                !address.value
->>>>>>> 8ea4372 (Rebuild index after corruption)
             ){
                 return true
             } else {
@@ -311,13 +292,9 @@ export default {
             birth_place,
             gender,
             number,
-<<<<<<< HEAD
             address,
             typeExpert,
             description,
-=======
-            address, 
->>>>>>> 8ea4372 (Rebuild index after corruption)
             validasiWA,
             validasiFee,
             validasiEmail,

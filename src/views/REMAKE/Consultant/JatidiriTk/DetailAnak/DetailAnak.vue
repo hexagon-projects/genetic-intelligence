@@ -52,6 +52,7 @@ const quizReports = ref([]);
 const token = Cookies.get('token');
 const tkReports = ref([]);
 const tkId = ref(null);
+const saving = ref(false);
 
 const stepMapping = {
     1: { category: 'Psikomotor', key: 'psikomotor' },
@@ -114,6 +115,7 @@ const getQuizNotes = computed(() => {
 
 const saveReport = async () => {
     try {
+        saving.value = true;
         const storeReportResponse = await initAPI("post", "consultant/report", {
             customer_id: idUser.value
         }, token);
@@ -134,23 +136,26 @@ const saveReport = async () => {
             await initAPI("post", "consultant/report/detail", payload, token);
         }
 
+        // PERUBAHAN DI SINI - Kirim setiap gambar secara terpisah
         if (uploadedImages.value.length > 0) {
-            const formData = new FormData();
-            formData.append('tk_report_psikolog_id', reportId);
-            formData.append('title', 'Dokumentasi Observasi');
+            for (const image of uploadedImages.value) {
+                const formData = new FormData();
+                formData.append('tk_report_psikolog_id', reportId);
+                formData.append('title', 'Dokumentasi Observasi');
+                formData.append('file', image.file); // Hanya satu file per request
 
-            uploadedImages.value.forEach((image, index) => {
-                formData.append('file', image.file);
-            });
-
-            await initAPI("post", "consultant/report/documentation", formData, token, {
-                'Content-Type': 'multipart/form-data'
-            });
+                await initAPI("post", "consultant/report/documentation", formData, token, {
+                    'Content-Type': 'multipart/form-data'
+                });
+            }
         }
 
+        await checkQuizResult();
     } catch (error) {
         console.error('Error saving report:', error);
         alert('Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+    } finally {
+        saving.value = false;
     }
 };
 
@@ -190,14 +195,14 @@ const fetchTkReport = async () => {
     try {
         const response = await initAPI(
             'get',
-            `consultant/report/?customer_id=${userData.value}`,
+            `consultant/report/?customer_id=${userData.value.id}`,
             null,
             token
         );
 
         if (response.data && response.data.data) {
             tkReports.value = response.data.data;
-            tkId.value = response.data.data[0].details[0].tk_report_psikolog_id
+            tkId.value = response.data.data[0]?.details[0].tk_report_psikolog_id
         }
     } catch (error) {
         console.error('Error fetching tk Report:', error);
@@ -233,11 +238,12 @@ function changeTab(tabName) {
 }
 
 const downloadPDF = () => {
-    if (tkId.value) {
-        window.location.href = `https://api-staging.jatidiri.app/api/result-anak/${tkId.value}`;
-    } else {
-        console.log(`Download Dimulai `)
-    }
+    window.location.href = `https://api.jatidiri.app/api/result-anak/${tkId.value}`;
+};
+
+const getImageUrl = (filePath) => {
+    if (!filePath) return '';
+    return `https://api.jatidiri.app/storage/${filePath}`;
 };
 
 onMounted(async () => {
@@ -498,7 +504,7 @@ onMounted(async () => {
 
                         <div v-if="getQuizDocumentations.length > 0" class="flex flex-wrap items-center gap-4">
                             <div v-for="(doc, index) in getQuizDocumentations" :key="index">
-                                <img :src="'https://api-staging.jatidiri.app/storage/' + doc.file" alt="Dokumentasi"
+                                <img :src="getImageUrl(doc.file)" alt="Dokumentasi"
                                     class="w-32 h-32 rounded-xl object-contain">
                             </div>
                         </div>
@@ -558,7 +564,7 @@ onMounted(async () => {
                             :completedSteps="completedSteps" @update:scores="scores = $event"
                             @update:notes="notes = $event" @update:observations="observations = $event"
                             @update:uploadedImages="uploadedImages = $event" @nextStep="nextStep" @prevStep="prevStep"
-                            @finish="handleFinish" />
+                            @finish="handleFinish" :saving="saving" />
                     </div>
                 </div>
             </div>

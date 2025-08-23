@@ -1,10 +1,7 @@
 <template>
   <div class="flex items-center justify-between gap-4 my-5">
-<<<<<<< HEAD
-    <h1 class="text-xl font-semibold text-gray-800 mb-6">Documentation</h1>
-=======
+
     <h1 class="text-xl font-semibold text-gray-800 mb-6">Dokumentasi</h1>
->>>>>>> 8ea4372 (Rebuild index after corruption)
     <!-- Tombol buka modal -->
     <button
       @click="isModalOpen = true"

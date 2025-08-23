@@ -58,17 +58,17 @@
         class="font-roboto block text-xs">Hasil Tes</span>
     </RouterLink>
 
-    <RouterLink :to="{name: 'user.views.reservasi'}" 
+    <RouterLink :to="{name: 'user.views.tk'}" 
         class="w-full flex flex-col gap-2 justify-center text-center pt-2 pb-1"
-        :class="{'font-medium' : $route.name === 'user.views.reservasi'}"
+        :class="{'font-medium' : $route.name === 'user.views.tk'}"
         >
         <div class="self-center">
             <img class="transition-all duration-100" 
-                :class="{'grayscale': $route.name !== 'user.views.reservasi', 'grayscale-0': $route.name == 'user.views.reservasi'}" 
+                :class="{'grayscale': $route.name !== 'user.views.tk', 'grayscale-0': $route.name == 'user.views.tk'}" 
                 src="@/assets/icons/reservasi.svg" alt="icon"/>
         </div>
-        <span :class="{'text-[#667085]': $route.name !== 'user.views.reservasi', 'text-black': $route.name == 'user.views.reservasi'}" 
-        class="font-roboto block text-xs">Reservasi</span>
+        <span :class="{'text-[#667085]': $route.name !== 'user.views.tk', 'text-black': $route.name == 'user.views.tk'}" 
+        class="font-roboto block text-xs">Jatidiri TK</span>
     </RouterLink>
 
     <button @click="handleClick('showLainya')"

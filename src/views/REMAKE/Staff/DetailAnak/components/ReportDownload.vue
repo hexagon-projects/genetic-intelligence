@@ -13,6 +13,10 @@ const props = defineProps({
     status: {
         type: String,
         required: true
+    },
+    tkId: {
+        type: String,
+        required: true
     }
 });
 
@@ -26,7 +30,7 @@ const handleDownloadPDF = (filename) => {
 <template>
     <div class="space-y-4 mt-4">
         <!-- Notes Section -->
-        <div class="space-y-2" :class="[status || '']">
+        <div class="space-y-2 hidden" :class="[status || '']">
             <p class="text-xs text-[#8E8E8E] font-semibold">Catatan</p>
             <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
                 <p class="text-xs">{{ note }}</p>
@@ -34,7 +38,7 @@ const handleDownloadPDF = (filename) => {
         </div>
 
         <!-- Report Download Section -->
-        <div class="space-y-2">
+        <div v-if="tkId" class="space-y-2">
             <p class="text-xs text-[#8E8E8E] font-semibold">Laporan</p>
             <div class="w-full bg-[#F5F5F5] p-4 rounded-xl flex justify-between items-center">
                 <a class="text-xs text-primary">{{ report }}</a>

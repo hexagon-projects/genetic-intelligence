@@ -34,6 +34,7 @@ const psikologReports = ref([]);
 const tkReports = ref([]);
 const tkId = ref(null);
 const showQuizModal = ref(false);
+const isLoading = ref(true);
 const assessmentResults = ref({
     psikomotor: {
         title: "Psikomotor",
@@ -70,6 +71,7 @@ const fetchReportData = async () => {
     if (!token || !userData.value) return;
 
     try {
+        isLoading.value = true;
         const response = await initAPI(
             'get',
             `customers/parent?customer_id=${userData.value.id}`,
@@ -100,6 +102,8 @@ const fetchReportData = async () => {
             showConfirmButton: false,
             timer: 2000
         });
+    } finally {
+        isLoading.value = false;
     }
 };
 
@@ -136,7 +140,6 @@ const fetchPsikologData = async () => {
             token
         );
 
-        console.log(response)
 
         if (response.data && response.data.data) {
             psikologReports.value = response.data.data;
@@ -247,8 +250,9 @@ const handleTabChange = (tab) => {
     }
 };
 
-watch(parentReports, (newVal) => {
-    if (activeTab.value === 'report-home' && newVal.length === 0) {
+watch([teacherReports, parentReports, psikologReports, isLoading], () => {
+    // Hanya tampilkan pop up jika tidak sedang loading DAN data parent kosong
+    if (!isLoading.value && activeTab.value !== 'report-home' && parentReports.value.length === 0) {
         showQuizModal.value = true;
     }
 });
@@ -341,12 +345,12 @@ const navigateToQuiz = () => {
 
                 <div v-if="activeTab === 'report' && teacherReports.length === 0"
                     class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5 flex items-center justify-center">
-                    <p class="text-gray-500">Data laporan sekolah belum tersedia</p>
+                    <p class="text-sm md:text-base text-gray-500">Data laporan sekolah belum tersedia</p>
                 </div>
 
                 <div v-if="activeTab === 'report-child' && psikologReports.length === 0"
                     class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5 flex items-center justify-center">
-                    <p class="text-gray-500">Data laporan anak belum tersedia</p>
+                    <p class="text-sm md:text-base text-gray-500">Data laporan anak belum tersedia</p>
                 </div>
             </div>
 

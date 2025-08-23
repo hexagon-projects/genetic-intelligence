@@ -24,13 +24,13 @@ const emit = defineEmits([
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-1">
                         <input type="radio" id="male" name="gender" :value='1' 
-                            :checked="jenisKelamin == 1"
+                            :checked="jenisKelamin == 'Laki-laki'"
                             @change="emit('update:jenisKelamin', $event.target.value)">
                         <label for="male">Laki Laki</label>
                     </div>
                     <div class="flex items-center gap-1">
                         <input type="radio" id="female" name="gender" :value='2' 
-                            :checked="jenisKelamin == 2"
+                            :checked="jenisKelamin == 'Perempuan'"
                             @change="emit('update:jenisKelamin', $event.target.value)">
                         <label for="female">Perempuan</label>
                     </div>
@@ -39,28 +39,28 @@ const emit = defineEmits([
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
             <div class="space-y-2 flex flex-col">
-                <label for="" class="text-[#8E8E8E] text-sm">Nama Depan</label>
+                <label for="" class="text-[#8E8E8E] text-xs md:text-sm">Nama Depan</label>
                 <input type="text" class="p-3 rounded-lg bg-[#F5F5F5]" 
                     :value="namaDepan"
                     @input="emit('update:namaDepan', $event.target.value)"
                     placeholder="Nama Depan">
             </div>
             <div class="space-y-2 flex flex-col">
-                <label for="" class="text-[#8E8E8E] text-sm">Nama Belakang</label>
+                <label for="" class="text-[#8E8E8E] text-xs md:text-sm">Nama Belakang</label>
                 <input type="text" class="p-3 rounded-lg bg-[#F5F5F5]" 
                     :value="namaBelakang"
                     @input="emit('update:namaBelakang', $event.target.value)"
                     placeholder="Nama Belakang">
             </div>
             <div class="space-y-2 flex flex-col">
-                <label for="" class="text-[#8E8E8E] text-sm">Tempat Lahir</label>
+                <label for="" class="text-[#8E8E8E] text-xs md:text-sm">Tempat Lahir</label>
                 <input type="text" class="p-3 rounded-lg bg-[#F5F5F5]" 
                     :value="tempatLahir"
                     @input="emit('update:tempatLahir', $event.target.value)"
                     placeholder="Tempat Lahir">
             </div>
             <div class="space-y-2 flex flex-col">
-                <label for="" class="text-[#8E8E8E] text-sm">Tanggal Lahir</label>
+                <label for="" class="text-[#8E8E8E] text-xs md:text-sm">Tanggal Lahir</label>
                 <input type="date" class="p-3 rounded-lg bg-[#F5F5F5]" 
                     :value="tanggalLahir"
                     @input="emit('update:tanggalLahir', $event.target.value)">

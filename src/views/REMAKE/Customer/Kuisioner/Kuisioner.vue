@@ -12,7 +12,10 @@ const router = useRouter()
 const store = useStore()
 
 // Ambil data user dari store
-const userData = computed(() => store.getters.getUserData);
+// const userData = computed(() => store.getters.getUserData);
+
+const localStorageUserData = localStorage.getItem('userData');
+const userData = JSON.parse(localStorageUserData);
 
 // Data dari API
 const apiQuestions = ref([]);
@@ -129,9 +132,8 @@ const prevQuestion = () => {
 // Fungsi untuk mengirim jawaban ke API
 const submitAnswers = async () => {
   try {
-    console.log(userData.value)
     // Pastikan userData tersedia
-    if (!userData.value || !userData.value.id) {
+    if (!userData || !userData.id) {
       Swal.fire({
         icon: 'error',
         title: 'Gagal Mengirim Jawaban',
@@ -147,7 +149,7 @@ const submitAnswers = async () => {
     
     // Mengelompokkan jawaban berdasarkan tipe
     const groupedAnswers = {
-      customer_id: userData.value.id,
+      customer_id: userData.id,
       kognisi: [],
       psikomotorik: [],
       emosi: [],
@@ -174,7 +176,6 @@ const submitAnswers = async () => {
     
     // Mengirim data ke API dengan token
     const token = Cookies.get('token');
-    console.log(payload)
     const response = await initAPI('post', 'customers/parent', payload, token);
     
     if (response.data && response.data.message === "Jawaban Berhasil Direkam.") {
@@ -205,13 +206,12 @@ const submitAnswers = async () => {
 // Lifecycle hook untuk mengambil data pertanyaan saat komponen dimuat
 onMounted(() => {
   fetchQuestions();
-  console.log(userData.value.id)
 });
 </script>
 
 <template>
   <Layout>
-    <div class="w-full flex min-h-screen justify-center items-center font-sora">
+    <div class="w-full flex min-h-screen justify-center items-center font-sora pb-20 md:pb-0">
       <div
         class="bg-white rounded-2xl shadow-xl shadow-black/10 p-4 w-full max-w-[90%] md:max-w-[75%] lg:max-w-[50%] xl:max-w-[35%] mx-auto space-y-6">
         <div class="w-12 h-12 border rounded-md flex justify-center items-center">
@@ -244,9 +244,9 @@ onMounted(() => {
           <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
             <!-- Introduction Screen -->
             <div v-if="currentQuestionIndex < 0" key="introduction" class="question-content">
-              <p class="text-sm md:text-base">{{ introduction.content }}</p>
+              <p class="text-xs md:text-base">{{ introduction.content }}</p>
 
-              <p class="text-md md:text-lg font-semibold mt-4">Skala Penilaian</p>
+              <p class="text-sm md:text-lg font-semibold mt-4">Skala Penilaian</p>
 
               <!-- Option examples for introduction -->
               <div class="w-full flex flex-col gap-4 mt-6">
@@ -255,9 +255,9 @@ onMounted(() => {
                   <div class="w-fit flex gap-4 items-center">
                     <div
                       class="w-8 h-8 rounded-full text-[#8E8E8E] group-hover:text-primary group-hover:bg-[#C7C7FD] transition-all duration-500 flex justify-center items-center">
-                      <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
+                      <h6 class="text-xs md:text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
                     </div>
-                    <p class="text-base text-[#8E8E8E] group-hover:text-primary transition-all duration-500 font-medium">
+                    <p class="text-xs md:text-base text-[#8E8E8E] group-hover:text-primary transition-all duration-500 font-medium">
                       {{ option.text }}
                     </p>
                   </div>
@@ -295,9 +295,9 @@ onMounted(() => {
                           <div class="w-8 h-8 rounded-full flex justify-center items-center"
                             :class="currentQuestion.selectedOption === option.id ? 'text-primary bg-[#C7C7FD]' : 'text-[#8E8E8E]'"
                             :style="{ 'transition': 'all 0.5s' }">
-                            <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
+                            <h6 class="text-xs md:text-sm font-semibold">{{ option.id.toString().padStart(2, '0') }}</h6>
                           </div>
-                          <p class="text-base font-medium"
+                          <p class="text-sm md:text-base font-medium"
                             :class="currentQuestion.selectedOption === option.id ? 'text-primary' : 'text-[#8E8E8E]'"
                             :style="{ 'transition': 'all 0.5s' }">
                             {{ option.text }}
@@ -325,12 +325,12 @@ onMounted(() => {
         <!-- Button -->
         <div v-if="!isLoading" class="w-full flex justify-between items-center gap-4">
           <button @click="prevQuestion"
-            class="py-3 text-sm md:text-base w-full border border-gray-300 rounded-xl cursor-pointer text-black font-medium">
+            class="py-3 text-xs md:text-base w-full border border-gray-300 rounded-xl cursor-pointer text-black font-medium">
             {{ currentQuestionIndex <= 0 ? 'Batal' : 'Kembali' }}
           </button>
           <button 
             @click="currentQuestionIndex < 0 ? startQuestionnaire() : nextQuestion()"
-            class="py-3 text-sm md:text-base w-full border border-gray-300 rounded-xl cursor-pointer text-white font-medium"
+            class="py-3 text-xs md:text-base w-full border border-gray-300 rounded-xl cursor-pointer text-white font-medium"
             :class="isOptionSelected ? 'bg-primary' : 'bg-gray-400'"
             :disabled="!isOptionSelected">
             {{ currentQuestionIndex < 0 ? 'Mulai' : 'Selanjutnya' }}

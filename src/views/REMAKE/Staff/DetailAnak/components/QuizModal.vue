@@ -20,15 +20,15 @@ const handleCloseModal = () => {
                 <img :src="Search" alt="Icon Search" class="w-40 mx-auto object-contain">
             </div>
             <div class="text-center">
-                <h5 class="text-[18px] font-semibold">Bantu Kami Kenali Anak Lebih Baik</h5>
-                <p class="text-sm text-[#535862]">Orang tua punya peran penting dalam perjalanan anak. Yuk, isi kuesioner singkat ini supaya kami bisa memberikan rekomendasi yang tepat dan personal untuk anak Anda.</p>
+                <h5 class="text-sm md:text-[18px] font-semibold">Bantu Kami Kenali Anak Lebih Baik</h5>
+                <p class="text-xs md:text-sm text-[#535862]">Orang tua punya peran penting dalam perjalanan anak. Yuk, isi kuesioner singkat ini supaya kami bisa memberikan rekomendasi yang tepat dan personal untuk anak Anda.</p>
             </div>
             <div class="w-full flex justify-between items-center gap-4">
                 <button @click="handleCloseModal" class="py-3 px-6 rounded-full w-full bg-[#B1B1FC] text-white cursor-pointer transition-all duration-300">
-                    <p class="text-base">Batal</p>
+                    <p class="text-sm md:text-base">Batal</p>
                 </button>
                 <button @click="handleNavigateToQuiz" class="py-3 px-6 rounded-full w-full bg-primary text-white cursor-pointer transition-all duration-300">
-                    <p class="text-base">Selanjutnya</p>
+                    <p class="text-sm md:text-base">Selanjutnya</p>
                 </button>
             </div>
         </div>

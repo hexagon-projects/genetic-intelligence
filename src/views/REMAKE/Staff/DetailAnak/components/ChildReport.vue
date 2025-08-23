@@ -18,6 +18,10 @@ const props = defineProps({
     loading: {
         type: Boolean,
         default: false
+    },
+    tkId: {
+        type: String,
+        required: true
     }
 });
 
@@ -67,7 +71,7 @@ const downloadPDF = (filename) => {
 </script>
 
 <template>
-    <div class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
+    <div class="w-full bg-white p-4 md:p-6 rounded-2xl md:rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
         <!-- Loading state -->
         <div v-if="loading" class="flex justify-center items-center py-8">
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -80,12 +84,14 @@ const downloadPDF = (filename) => {
 
         <!-- Main content when data exists -->
         <div v-else class="flex-col flex">
-            <div class="flex">
+            <div class="flex flex-wrap sm:flex-nowrap overflow-x-auto scrollbar-hide">
                 <!-- Tab Psikomotor -->
-                <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                    :class="activeResultTab === 'psikomotor' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+                <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                    :class="activeResultTab === 'psikomotor' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                     @click="changeTab('psikomotor')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-3 h-3 sm:w-4 sm:h-4 md:w-[17px] md:h-4 flex-shrink-0" 
+                         viewBox="0 0 17 16" fill="none">
                         <path
                             d="M14.0415 8.43131L14.3861 7.14331C14.7888 5.63998 14.9908 4.88865 14.8395 4.23798C14.7195 3.72431 14.4499 3.25775 14.0648 2.89731C13.5775 2.44065 12.8255 2.23931 11.3221 1.83665C9.81881 1.43331 9.06681 1.23198 8.41681 1.38331C7.90314 1.50325 7.43658 1.77284 7.07614 2.15798C6.68481 2.57531 6.48081 3.18665 6.17748 4.29731L6.01481 4.90065L5.67014 6.18865C5.26681 7.69198 5.06548 8.44331 5.21681 9.09398C5.33675 9.60765 5.60634 10.0742 5.99148 10.4346C6.47881 10.8913 7.23081 11.0926 8.73414 11.496C10.0888 11.8586 10.8335 12.058 11.4435 11.9826C11.5101 11.9742 11.5755 11.9626 11.6395 11.948C12.153 11.8284 12.6195 11.5593 12.9801 11.1746C13.4368 10.6866 13.6381 9.93465 14.0415 8.43131Z"
                             :stroke="activeResultTab === 'psikomotor' ? '#6464FA' : '#8E8E8E'" />
@@ -96,16 +102,18 @@ const downloadPDF = (filename) => {
                             :stroke="activeResultTab === 'psikomotor' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" />
                     </svg>
 
-                    <p class="text-xs" :class="activeResultTab === 'psikomotor' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
+                    <p class="text-[10px] sm:text-xs" :class="activeResultTab === 'psikomotor' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
                         Psikomotor
                     </p>
                 </div>
 
                 <!-- Tab Kognisi -->
-                <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                    :class="activeResultTab === 'kognisi' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+                <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                    :class="activeResultTab === 'kognisi' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                     @click="changeTab('kognisi')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                         viewBox="0 0 13 12" fill="none">
                         <g clip-path="url(#clip0_3700_13523)">
                             <path
                                 d="M6.0035 10.5H5.3025C3.51 10.5 2.614 10.5 2.057 9.9325C1.5 9.365 1.5 8.452 1.5 6.625C1.5 4.7985 1.5 3.885 2.057 3.3175C2.614 2.75 3.51 2.75 5.3025 2.75H7.204C8.9965 2.75 9.893 2.75 10.45 3.3175C10.7285 3.6015 10.868 3.972 10.9375 4.5"
@@ -122,15 +130,18 @@ const downloadPDF = (filename) => {
                         </defs>
                     </svg>
 
-                    <p class="text-xs" :class="activeResultTab === 'kognisi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
+                    <p class="text-[10px] sm:text-xs" :class="activeResultTab === 'kognisi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
                         Kognisi
                     </p>
                 </div>
 
                 <!-- Tab Emosi -->
-                <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                    :class="activeResultTab === 'emosi' ? 'bg-[#f5f5f5] rounded-t-xl' : ''" @click="changeTab('emosi')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                    :class="activeResultTab === 'emosi' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''" 
+                    @click="changeTab('emosi')">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                         viewBox="0 0 13 12" fill="none">
                         <path
                             d="M2 1.8C2 1.72044 2.03161 1.64413 2.08787 1.58787C2.14413 1.53161 2.22044 1.5 2.3 1.5H10.7C10.7796 1.5 10.8559 1.53161 10.9121 1.58787C10.9684 1.64413 11 1.72044 11 1.8V8.7C11 8.7394 10.9922 8.77841 10.9772 8.81481C10.9621 8.8512 10.94 8.88427 10.9121 8.91213C10.8843 8.93999 10.8512 8.96209 10.8148 8.97716C10.7784 8.99224 10.7394 9 10.7 9H8.63C8.58897 8.99994 8.54837 9.0083 8.5107 9.02455C8.47304 9.0408 8.4391 9.06461 8.411 9.0945L6.7185 10.893C6.69045 10.9228 6.65659 10.9466 6.61902 10.9628C6.58144 10.9791 6.54094 10.9874 6.5 10.9874C6.45906 10.9874 6.41856 10.9791 6.38098 10.9628C6.34341 10.9466 6.30955 10.9228 6.2815 10.893L4.589 9.0945C4.5609 9.06461 4.52696 9.0408 4.4893 9.02455C4.45163 9.0083 4.41103 8.99994 4.37 9H2.3C2.22044 9 2.14413 8.96839 2.08787 8.91213C2.03161 8.85587 2 8.77956 2 8.7V1.8Z"
                             :stroke="activeResultTab === 'emosi' ? '#6464FA' : '#8E8E8E'" />
@@ -140,15 +151,17 @@ const downloadPDF = (filename) => {
                             stroke-linejoin="round" />
                     </svg>
 
-                    <p class="text-xs" :class="activeResultTab === 'emosi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
+                    <p class="text-[10px] sm:text-xs" :class="activeResultTab === 'emosi' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
                         Emosi</p>
                 </div>
 
                 <!-- Tab Relasi Sosial -->
-                <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                    :class="activeResultTab === 'relasiSosial' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+                <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                    :class="activeResultTab === 'relasiSosial' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                     @click="changeTab('relasiSosial')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                         viewBox="0 0 13 12" fill="none">
                         <path
                             d="M2 1.8C2 1.72044 2.03161 1.64413 2.08787 1.58787C2.14413 1.53161 2.22044 1.5 2.3 1.5H10.7C10.7796 1.5 10.8559 1.53161 10.9121 1.58787C10.9684 1.64413 11 1.72044 11 1.8V8.7C11 8.7394 10.9922 8.77841 10.9772 8.81481C10.9621 8.8512 10.94 8.88427 10.9121 8.91213C10.8843 8.93999 10.8512 8.96209 10.8148 8.97716C10.7784 8.99224 10.7394 9 10.7 9H8.63C8.58897 8.99994 8.54837 9.0083 8.5107 9.02455C8.47304 9.0408 8.4391 9.06461 8.411 9.0945L6.7185 10.893C6.69045 10.9228 6.65659 10.9466 6.61902 10.9628C6.58144 10.9791 6.54094 10.9874 6.5 10.9874C6.45906 10.9874 6.41856 10.9791 6.38098 10.9628C6.34341 10.9466 6.30955 10.9228 6.2815 10.893L4.589 9.0945C4.5609 9.06461 4.52696 9.0408 4.4893 9.02455C4.45163 9.0083 4.41103 8.99994 4.37 9H2.3C2.22044 9 2.14413 8.96839 2.08787 8.91213C2.03161 8.85587 2 8.77956 2 8.7V1.8Z"
                             :stroke="activeResultTab === 'relasiSosial' ? '#6464FA' : '#8E8E8E'" />
@@ -158,17 +171,19 @@ const downloadPDF = (filename) => {
                             stroke-linejoin="round" />
                     </svg>
 
-                    <p class="text-xs"
+                    <p class="text-[10px] sm:text-xs"
                         :class="activeResultTab === 'relasiSosial' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
                         Relasi
                         Sosial</p>
                 </div>
 
                 <!-- Tab Kemandirian -->
-                <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
-                    :class="activeResultTab === 'kemandirian' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+                <div class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-2 cursor-pointer transition-all duration-300 whitespace-nowrap min-w-fit"
+                    :class="activeResultTab === 'kemandirian' ? 'bg-[#f5f5f5] rounded-xl md:rounded-t-xl md:rounded-b-none' : ''"
                     @click="changeTab('kemandirian')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="12" viewBox="0 0 13 12" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-3 h-3 sm:w-4 sm:h-4 md:w-[13px] md:h-3 flex-shrink-0" 
+                         viewBox="0 0 13 12" fill="none">
                         <path
                             d="M2 1.8C2 1.72044 2.03161 1.64413 2.08787 1.58787C2.14413 1.53161 2.22044 1.5 2.3 1.5H10.7C10.7796 1.5 10.8559 1.53161 10.9121 1.58787C10.9684 1.64413 11 1.72044 11 1.8V8.7C11 8.7394 10.9922 8.77841 10.9772 8.81481C10.9621 8.8512 10.94 8.88427 10.9121 8.91213C10.8843 8.93999 10.8512 8.96209 10.8148 8.97716C10.7784 8.99224 10.7394 9 10.7 9H8.63C8.58897 8.99994 8.54837 9.0083 8.5107 9.02455C8.47304 9.0408 8.4391 9.06461 8.411 9.0945L6.7185 10.893C6.69045 10.9228 6.65659 10.9466 6.61902 10.9628C6.58144 10.9791 6.54094 10.9874 6.5 10.9874C6.45906 10.9874 6.41856 10.9791 6.38098 10.9628C6.34341 10.9466 6.30955 10.9228 6.2815 10.893L4.589 9.0945C4.5609 9.06461 4.52696 9.0408 4.4893 9.02455C4.45163 9.0083 4.41103 8.99994 4.37 9H2.3C2.22044 9 2.14413 8.96839 2.08787 8.91213C2.03161 8.85587 2 8.77956 2 8.7V1.8Z"
                             :stroke="activeResultTab === 'kemandirian' ? '#6464FA' : '#8E8E8E'" />
@@ -178,14 +193,14 @@ const downloadPDF = (filename) => {
                             stroke-linejoin="round" />
                     </svg>
 
-                    <p class="text-xs" :class="activeResultTab === 'kemandirian' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
+                    <p class="text-[10px] sm:text-xs" :class="activeResultTab === 'kemandirian' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
                         Kemandirian</p>
                 </div>
             </div>
 
             <transition name="fade" mode="out-in">
-                <div :key="activeResultTab" class="p-4 bg-[#F5F5F5] rounded-b-xl rounded-tr-xl space-y-4">
-                    <p class="text-xs">{{
+                <div :key="activeResultTab" class="p-3 md:p-4 bg-[#F5F5F5] rounded-xl md:rounded-b-xl md:rounded-tr-xl md:rounded-tl-none space-y-3 md:space-y-4">
+                    <p class="text-xs sm:text-sm">{{
                         getDetailByCategory(
                             activeResultTab === 'psikomotor' ? 'Psikomotor' :
                                 activeResultTab === 'kognisi' ? 'Kognisi' :
@@ -194,7 +209,7 @@ const downloadPDF = (filename) => {
                         )?.keterangan || 'Tidak ada data'
                     }}</p>
 
-                    <div class="py-1 px-4 rounded-full bg-primary w-fit text-xs text-white">
+                    <div class="py-1 sm:py-1.5 px-3 sm:px-4 rounded-full bg-primary w-fit text-xs sm:text-sm text-white">
                         Skor {{
                             getDetailByCategory(
                                 activeResultTab === 'psikomotor' ? 'Psikomotor' :
@@ -222,15 +237,15 @@ const downloadPDF = (filename) => {
 
         <div v-if="getReportDocumentations.length > 0" class="space-y-2">
             <p class="text-xs text-[#8E8E8E] font-semibold">Dokumentasi</p>
-            <div class="flex flex-wrap items-center gap-4">
+            <div class="flex flex-wrap items-center gap-2 md:gap-4">
                 <div v-for="(doc, index) in getReportDocumentations" :key="index">
                     <img :src="'https://api-staging.jatidiri.app/storage/' + doc.file" :alt="doc.title"
-                        class="w-32 h-32 rounded-xl object-contain">
+                        class="w-24 h-24 md:w-32 md:h-32 rounded-xl object-contain">
                 </div>
             </div>
         </div>
 
-        <div v-if="latestReport" class="space-y-2">
+        <div v-if="tkId" class="space-y-2">
             <p class="text-xs text-[#8E8E8E] font-semibold">Laporan</p>
             <div class="w-full bg-[#F5F5F5] p-4 rounded-xl flex justify-between items-center">
                 <a class="text-xs text-primary">Laporan.pdf</a>
@@ -272,5 +287,14 @@ const downloadPDF = (filename) => {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
 }
 </style>

@@ -26,8 +26,8 @@ const updateTab = (tabName) => {
         </div>
 
         <div class="space-y-2 text-center">
-            <h2 class="font-bold text-2xl">{{ userData?.name }}</h2>
-            <p class="text-base">{{ userData?.gender }}</p>
+            <h2 class="font-bold text-base md:text-2xl">{{ userData?.name }}</h2>
+            <p class="ttext-sm md:text-base">{{ userData?.gender }}</p>
         </div>
 
         <!-- Navigation Tabs -->

@@ -15,7 +15,7 @@ const downloadPDF = () => {
 </script>
 
 <template>
-    <div class="space-y-4">
+    <div v-if="tkId" class="space-y-4">
         <div class="space-y-2 mt-4">
             <p class="text-xs text-[#8E8E8E] font-semibold">Laporan</p>
             <div class="w-full bg-[#F5F5F5] p-4 rounded-xl flex justify-between items-center">

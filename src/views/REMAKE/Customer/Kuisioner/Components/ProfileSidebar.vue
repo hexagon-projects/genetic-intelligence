@@ -16,12 +16,12 @@ const setActiveTab = (tabName) => {
 <template>
     <div class="w-full md:w-[25%] p-3 md:p-6 rounded-3xl bg-white space-y-3 md:space-y-8 shadow-md shadow-black/5">
         <div class="w-full flex items-center">
-            <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="" class="w-36 h-36 rounded-full mx-auto border border-[#CBCBFD]">
+            <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="" class="w-24 h-24 md:w-36 md:h-36 rounded-full mx-auto border border-[#CBCBFD]">
         </div>
 
         <div class="space-y-2 text-center">
-            <h2 class="font-bold text-2xl">{{ userData?.name }}</h2>
-            <p class="text-base">{{ userData?.gender || 'Jenis Kelamin' }}</p>
+            <h2 class="font-bold text-base md:text-2xl">{{ userData?.name }}</h2>
+            <p class="text-sm md:text-base">{{ userData?.gender || 'Jenis Kelamin' }}</p>
         </div>
 
         <!-- List Tab -->

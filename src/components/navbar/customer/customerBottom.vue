@@ -103,15 +103,15 @@
             <div class="self-center">
                 <PhCalendar :size="28" />
             </div>
-            <span class="tab tab-home block text-xs">Reservasi</span>
+            <span class="tab tab-home block text-xs">Jatidiri TK</span>
         </button>
         <div v-if="showReservasi" class="absolute bg-white flex justify-center items-center w-full py-2 px-4 bottom-14 border">
-            <RouterLink :to="{name: 'user.views.reservasi'}" 
+            <RouterLink :to="{name: 'staff.views.list_anak'}" 
                 class="items-center w-full flex flex-col justify-center pt-2 pb-1"
                 >
                 <span class="text-start flex flex-col gap-1 items-center font-myFont text-sm">
                     <PhCalendar :size="20" />
-                    Reservasi GIM
+                    Jatidiri TK
                 </span>
             </RouterLink>
             <!-- <RouterLink :to="{name: 'user.views.hasil_assessment'}" 

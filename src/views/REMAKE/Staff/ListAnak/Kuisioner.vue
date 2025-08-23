@@ -173,10 +173,7 @@ const submitAnswers = async () => {
 
         // Mengirim data ke API dengan token
         const token = Cookies.get('token');
-        console.log(payload)
         const response = await initAPI('post', 'staff/teacher', payload, token);
-
-        console.log(response)
 
         if (response.data && response.data.message === "Jawaban Berhasil Direkam.") {
             Swal.fire({
@@ -212,7 +209,7 @@ onMounted(() => {
 
 <template>
     <Layout>
-        <div class="w-full flex min-h-screen justify-center items-center font-sora">
+        <div class="w-full flex min-h-screen justify-center items-center font-sora pb-20 lg:pb-0">
             <div
                 class="bg-white rounded-2xl shadow-xl shadow-black/10 p-4 w-full max-w-[90%] md:max-w-[75%] lg:max-w-[50%] xl:max-w-[35%] mx-auto space-y-6">
                 <div class="w-12 h-12 border rounded-md flex justify-center items-center">
@@ -231,7 +228,7 @@ onMounted(() => {
                 <div v-else class="space-y-2 overflow-hidden">
                     <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
                         <h5 :key="currentQuestionIndex >= 0 ? 'question' : 'intro'"
-                            class="text-md md:text-lg font-semibold">
+                            class="text-base md:text-lg font-semibold">
                             {{ currentQuestionIndex >= 0 ? currentQuestion.category : introduction.title }}
                         </h5>
                     </Transition>
@@ -248,7 +245,7 @@ onMounted(() => {
                         <div v-if="currentQuestionIndex < 0" key="introduction" class="question-content">
                             <p class="text-sm md:text-base">{{ introduction.content }}</p>
 
-                            <p class="text-md md:text-lg font-semibold mt-4">Skala Penilaian</p>
+                            <p class="text-base md:text-lg font-semibold mt-4">Skala Penilaian</p>
 
                             <!-- Option examples for introduction -->
                             <div class="w-full flex flex-col gap-4 mt-6">
@@ -257,11 +254,11 @@ onMounted(() => {
                                     <div class="w-fit flex gap-4 items-center">
                                         <div
                                             class="w-8 h-8 rounded-full text-[#8E8E8E] group-hover:text-primary group-hover:bg-[#C7C7FD] transition-all duration-500 flex justify-center items-center">
-                                            <h6 class="text-sm font-semibold">{{ option.id.toString().padStart(2, '0')
+                                            <h6 class="text-xs md:text-sm font-semibold">{{ option.id.toString().padStart(2, '0')
                                             }}</h6>
                                         </div>
                                         <p
-                                            class="text-base text-[#8E8E8E] group-hover:text-primary transition-all duration-500 font-medium">
+                                            class="text-sm md:text-base text-[#8E8E8E] group-hover:text-primary transition-all duration-500 font-medium">
                                             {{ option.text }}
                                         </p>
                                     </div>
@@ -300,10 +297,10 @@ onMounted(() => {
                                                     <div class="w-8 h-8 rounded-full flex justify-center items-center"
                                                         :class="currentQuestion.selectedOption === option.id ? 'text-primary bg-[#C7C7FD]' : 'text-[#8E8E8E]'"
                                                         :style="{ 'transition': 'all 0.5s' }">
-                                                        <h6 class="text-sm font-semibold">{{
+                                                        <h6 class="text-xs md:text-sm font-semibold">{{
                                                             option.id.toString().padStart(2, '0') }}</h6>
                                                     </div>
-                                                    <p class="text-base font-medium"
+                                                    <p class="text-sm md:text-base font-medium"
                                                         :class="currentQuestion.selectedOption === option.id ? 'text-primary' : 'text-[#8E8E8E]'"
                                                         :style="{ 'transition': 'all 0.5s' }">
                                                         {{ option.text }}

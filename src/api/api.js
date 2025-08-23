@@ -55,8 +55,8 @@ const initAPI = async (method, endpoint, data, token, customHeaders = {}) => {
   // const baseUrl = 'https://jatidiri.app/api/'
   // const baseUrl = 'https://v2.api.jatidiri.app/api/'
   // const baseUrl = 'http://127.0.0.1:8000/api/'
-  // const baseUrl = 'https://api.jatidiri.app/api/'
-  const baseUrl = 'https://api-staging.jatidiri.app/api/'
+  const baseUrl = 'https://api.jatidiri.app/api/'
+  // const baseUrl = 'https://api-staging.jatidiri.app/api/'
   // const baseUrl = 'https://staging.jatidiri.app/api/'
   let check = endpoint.includes('upload-test') ||
             endpoint.includes('customers') ||
@@ -65,7 +65,9 @@ const initAPI = async (method, endpoint, data, token, customHeaders = {}) => {
             endpoint.includes('bk/upload-profile') ||
             endpoint.includes('bk/upload-hero') ||
             endpoint.includes('placement/set-report') ||
+            endpoint.includes('consultant/report/documentation') ||
             endpoint.includes('placement');
+
   // console.log(check)
   const config = {
     method: method,

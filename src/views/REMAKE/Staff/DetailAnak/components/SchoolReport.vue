@@ -20,6 +20,10 @@ const props = defineProps({
     loading: {
         type: Boolean,
         default: false
+    },
+    tkId: {
+        type: String,
+        required: true
     }
 });
 
@@ -93,17 +97,11 @@ const assessmentResults = (report) => ({
             <!-- <MonthProgress /> -->
 
             <!-- Assessment Tabs -->
-            <AssessmentTabs 
-                :assessmentResults="assessmentResults(reports[activeReportIndex])" 
-            />
+            <AssessmentTabs :assessmentResults="assessmentResults(reports[activeReportIndex])" />
 
             <!-- Report Download -->
-            <ReportDownload 
-                :note="reports[activeReportIndex]?.notulen[0]?.description || note" 
-                :report="report" 
-                @download-pdf="handleDownloadPDF" 
-                :status="'hidden'"
-            />
+            <ReportDownload :note="reports[activeReportIndex]?.notulen[0]?.description || note" :report="report" :tk-id="tkId"
+                @download-pdf="handleDownloadPDF" :status="'hidden'" />
         </div>
     </div>
 </template>

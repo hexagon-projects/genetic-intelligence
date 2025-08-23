@@ -226,6 +226,7 @@
                 <span class="text-black font-roboto">HalloPsy</span>
             </div>
         </li>
+        
         <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.tk')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
                 <img class="transition-all duration-100"
