@@ -34,7 +34,7 @@
             <img class="w-1/2 md:w-full drop-shadow-xl" 
             src="@/assets/img/cpm/before-cpm.svg" alt="image">
             
-            <div class="h-[246px] flex-col justify-center items-center gap-6 inline-flex">
+            <div class="h-[246px] flex-col justify-center items-center gap-6 inline-flex relative z-10">
                 <div class="self-stretch h-40 flex-col justify-center items-center gap-4 flex">
                     <div class="self-stretch text-center text-[#0b0b79] text-2xl font-semibold font-sora leading-9">
                         Tes CPM (Coloured Progressive Matrices)

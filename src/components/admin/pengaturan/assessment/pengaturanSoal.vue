@@ -323,7 +323,7 @@ export default {
                   }
     
                   const response = await initAPI('put', `assessments/questions/${detailSoal.id}`, data, token)
-                //   console.log(response.data)
+                  console.log(response.data)
                   Swal.fire({
                       icon: 'success',
                       title: 'Berhasil',

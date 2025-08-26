@@ -148,7 +148,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 const emit = defineEmits(['refreshUser'])
 
 const router = useRouter()
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+const baseUrl = 'https://api.jatidiri.app/api/'
 
 const loadingFetch = ref(false)
 const loadingSubmit = ref(false)

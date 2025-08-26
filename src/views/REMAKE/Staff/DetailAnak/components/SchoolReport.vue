@@ -73,7 +73,7 @@ const assessmentResults = (report) => ({
 
         <!-- Empty State -->
         <div v-else-if="reports.length === 0" class="text-center py-8">
-            <p>Belum ada data laporan sekolah</p>
+            <p>Belum ada data laporan anak di sekolah</p>
         </div>
 
         <!-- Data Available -->

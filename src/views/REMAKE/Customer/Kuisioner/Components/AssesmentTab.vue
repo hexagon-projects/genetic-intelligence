@@ -14,38 +14,30 @@ const props = defineProps({
 
 const emit = defineEmits(['changeTab']);
 
-// Fungsi untuk mendapatkan konten berdasarkan tab aktif
 const getTabContent = () => {
     if (props.isPsikologReport && props.psikologData.length > 0) {
-        // Untuk report psikolog, ambil data dari API psikolog
         const activeCategory = props.activeResultTab.toLowerCase();
         
-        // Cari data yang sesuai dengan kategori aktif
         const detail = props.psikologData[0].details.find(d => 
             d.kategori.toLowerCase().includes(activeCategory)
         );
         
         return detail ? detail.keterangan : "Data tidak tersedia";
     } else {
-        // Untuk report biasa, gunakan data assessmentResults
         return props.assessmentResults[props.activeResultTab]?.content || "Data tidak tersedia";
     }
 };
 
-// Fungsi untuk mendapatkan skor berdasarkan tab aktif
 const getTabScore = () => {
     if (props.isPsikologReport && props.psikologData.length > 0) {
-        // Untuk report psikolog, ambil data dari API psikolog
         const activeCategory = props.activeResultTab.toLowerCase();
         
-        // Cari data yang sesuai dengan kategori aktif
         const detail = props.psikologData[0].details.find(d => 
             d.kategori.toLowerCase().includes(activeCategory)
         );
         
         return detail ? detail.skor : 0;
     } else {
-        // Untuk report biasa, gunakan data assessmentResults
         return props.assessmentResults[props.activeResultTab]?.score || 0;
     }
 };

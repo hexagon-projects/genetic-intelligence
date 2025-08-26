@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
     note: String,
     report: String,
@@ -16,6 +18,9 @@ const props = defineProps({
 
 const emit = defineEmits(['downloadPDF']);
 
+const showImageModal = ref(false);
+const activeImage = ref(null);
+
 const getImageUrl = (filePath) => {
     if (!filePath) return '';
     return `https://api.jatidiri.app/storage/${filePath}`;
@@ -28,11 +33,20 @@ const handleDownload = (reportName) => {
         emit('downloadPDF', reportName);
     }
 };
+
+const openImageModal = (doc) => {
+    activeImage.value = doc;
+    showImageModal.value = true;
+};
+
+const closeImageModal = () => {
+    showImageModal.value = false;
+    activeImage.value = null;
+};
 </script>
 
 <template>
     <div class="space-y-4 mt-4">
-        <!-- Menampilkan rekomendasi dari data psikolog -->
         <div v-if="psikologData && psikologData.length > 0">
             <div v-for="report in psikologData" :key="report.id" class="space-y-4">
                 <div v-if="report.rekomendasi" class="space-y-2">
@@ -42,13 +56,16 @@ const handleDownload = (reportName) => {
                     </div>
                 </div>
 
-                <!-- Menampilkan dokumentasi dari data psikolog -->
                 <div v-if="report.documentations && report.documentations.length > 0" class="space-y-2">
                     <p class="text-xs text-[#8E8E8E] font-semibold">Dokumentasi Observasi</p>
                     <div class="flex flex-wrap items-center gap-4">
                         <div v-for="doc in report.documentations" :key="doc.id">
-                            <img :src="getImageUrl(doc.file)" :alt="doc.title || 'Dokumentasi'"
-                                class="w-32 h-32 rounded-xl object-cover border">
+                            <img 
+                                :src="getImageUrl(doc.file)" 
+                                :alt="doc.title || 'Dokumentasi'"
+                                class="w-32 h-32 rounded-xl object-cover border cursor-pointer"
+                                @click="openImageModal(doc)"
+                            >
                         </div>
                     </div>
                 </div>
@@ -67,7 +84,6 @@ const handleDownload = (reportName) => {
             </div>
         </div>
 
-        <!-- Tampilan default jika tidak ada data psikolog -->
         <div v-else class="space-y-2" :class="[status || '']">
             <p class="text-xs text-[#8E8E8E] font-semibold">Catatan</p>
             <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
@@ -81,7 +97,6 @@ const handleDownload = (reportName) => {
                 <a class="text-xs text-primary">{{ report }}</a>
                 <button @click="handleDownload(report)" class="cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-                        <!-- SVG icon code tetap sama -->
                         <g clip-path="url(#clip0_3700_13584)">
                             <mask id="mask0_3700_13584" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0"
                                 y="0" width="25" height="24">
@@ -104,6 +119,24 @@ const handleDownload = (reportName) => {
                     </svg>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <div v-if="showImageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4" @click="closeImageModal">
+        <div class="relative max-w-4xl max-h-screen overflow-auto" @click.stop>
+            <button 
+                class="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 z-10"
+                @click="closeImageModal"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <img 
+                :src="getImageUrl(activeImage.file)" 
+                :alt="activeImage.title || 'Dokumentasi'"
+                class="max-w-full max-h-screen object-contain"
+            >
         </div>
     </div>
 </template>

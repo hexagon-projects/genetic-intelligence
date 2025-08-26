@@ -25,6 +25,11 @@ const namaBelakang = ref('')
 const tempatLahir = ref('')
 const tanggalLahir = ref('')
 const jenisKelamin = ref('')
+const golonganDarah = ref('')
+const alamatRumah = ref('')
+const suku = ref('')
+const anak = ref('')
+const jumlahSaudara = ref('')
 
 const activeTab = ref('informasi');
 const apiData = ref([]);
@@ -63,8 +68,43 @@ const assessmentResults = ref({
     }
 });
 
+const parentData = ref({
+    type: '',
+    name: '',
+    birth_date: '',
+    kewarganegaraan: '',
+    religion: '',
+    anak_ke: '',
+    jumlah_sodara: '',
+    pernikahan_ke: '',
+    umur_saat_menikah: '',
+    pendidikan: '',
+    pekerjaan: ''
+});
+
 const note = ref("Data tidak tersedia");
 const report = ref("laporan.pdf");
+
+const fetchParentData = async () => {
+    const token = Cookies.get('token');
+    if (!token || !userData.value) return;
+
+    try {
+        const response = await initAPI(
+            'get',
+            `customers/parents?customer_id=${userData.value.id}`,
+            null,
+            token
+        );
+
+        if (response.data && response.data.data) {
+            parentData.value = response.data.data[0];
+        }
+    } catch (error) {
+        console.error('Error fetching parent data:', error);
+    }
+};
+
 
 const fetchReportData = async () => {
     const token = Cookies.get('token');
@@ -139,7 +179,6 @@ const fetchPsikologData = async () => {
             null,
             token
         );
-
 
         if (response.data && response.data.data) {
             psikologReports.value = response.data.data;
@@ -227,10 +266,16 @@ onMounted(() => {
     tempatLahir.value = userData.value ? userData.value.birth_place : '';
     tanggalLahir.value = convertToInputDate(userData.value.birth_date);
     jenisKelamin.value = userData.value ? userData.value.gender : '';
+    golonganDarah.value = userData.value ? userData.value.blood_group : '';
+    alamatRumah.value = userData.value ? userData.value.address : '';
+    suku.value = userData.value ? userData.value.ethnic : '';
+    anak.value = userData.value ? userData.value.child_number : '';
+    jumlahSaudara.value = userData.value ? userData.value.from_child_number : '';
 
     fetchReportData();
     fetchPsikologData();
     fetchTkReport();
+    fetchParentData();
 })
 
 const handleTabChange = (tab) => {
@@ -251,7 +296,6 @@ const handleTabChange = (tab) => {
 };
 
 watch([teacherReports, parentReports, psikologReports, isLoading], () => {
-    // Hanya tampilkan pop up jika tidak sedang loading DAN data parent kosong
     if (!isLoading.value && activeTab.value !== 'report-home' && parentReports.value.length === 0) {
         showQuizModal.value = true;
     }
@@ -272,11 +316,16 @@ const handleSubmit = async () => {
     formData.append('birth_place', DOMPurify.sanitize(tempatLahir.value));
     formData.append('birth_date', DOMPurify.sanitize(tanggalLahir.value));
     formData.append('gender', DOMPurify.sanitize(jenisKelamin.value));
+    formData.append('blood_group', DOMPurify.sanitize(golonganDarah.value));
+    formData.append('address', DOMPurify.sanitize(alamatRumah.value));
+    formData.append('ethnic', DOMPurify.sanitize(suku.value));
+    formData.append('child_number', DOMPurify.sanitize(anak.value));
+    formData.append('from_child_number', DOMPurify.sanitize(jumlahSaudara.value));
 
     if (token) {
         try {
             const response = await initAPI(
-                'post', 'customers/' + customerId, formData, token
+                'put', 'customers/' + customerId, formData, token
             );
 
             if (response.status == 200) {
@@ -309,6 +358,53 @@ const handleSubmit = async () => {
     }
 }
 
+const saveParentData = async () => {
+    const token = Cookies.get('token');
+    if (!token || !userData.value) return;
+
+    try {
+        const response = await initAPI(
+            'post',
+            'customers/parents',
+            {
+                customer_id: userData.value.id,
+                type: DOMPurify.sanitize(parentData.value.type),
+                name: DOMPurify.sanitize(parentData.value.name),
+                birth_date: DOMPurify.sanitize(parentData.value.birth_date),
+                kewarganegaraan: DOMPurify.sanitize(parentData.value.kewarganegaraan),
+                religion: DOMPurify.sanitize(parentData.value.religion),
+                anak_ke: DOMPurify.sanitize(parentData.value.anak_ke),
+                jumlah_sodara: DOMPurify.sanitize(parentData.value.jumlah_sodara),
+                pernikahan_ke: DOMPurify.sanitize(parentData.value.pernikahan_ke),
+                umur_saat_menikah: DOMPurify.sanitize(parentData.value.umur_saat_menikah),
+                pendidikan: DOMPurify.sanitize(parentData.value.pendidikan),
+                pekerjaan: DOMPurify.sanitize(parentData.value.pekerjaan)
+            },
+            token
+        );
+
+        if (response.status === 200 || response.status === 201) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Data orang tua berhasil disimpan',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    } catch (error) {
+        console.error('Error saving parent data:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Gagal menyimpan data orang tua.',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+};
+
+
 const navigateToQuiz = () => {
     router.push('/tk/kuisioner')
 }
@@ -324,24 +420,46 @@ const navigateToQuiz = () => {
             <!-- Result Tab -->
             <div class="w-full md:w-[75%]">
                 <!-- Menggunakan PersonalTabInfo component -->
-                <PersonalTabInfo v-if="activeTab === 'informasi'" :namaDepan="namaDepan" :namaBelakang="namaBelakang"
+                <PersonalTabInfo v-if="activeTab === 'informasi'" :customerId="userData?.value?.id" :namaDepan="namaDepan" :namaBelakang="namaBelakang"
                     :tempatLahir="tempatLahir" :tanggalLahir="tanggalLahir" :jenisKelamin="jenisKelamin"
-                    @update:namaDepan="namaDepan = $event" @update:namaBelakang="namaBelakang = $event"
-                    @update:tempatLahir="tempatLahir = $event" @update:tanggalLahir="tanggalLahir = $event"
-                    @update:jenisKelamin="jenisKelamin = $event" @submit="handleSubmit" />
+                    :golonganDarah="golonganDarah" :suku="suku" :anak="anak" :jumlahSaudara="jumlahSaudara"
+                    :alamatRumah="alamatRumah" @update:namaDepan="namaDepan = $event"
+                    @update:namaBelakang="namaBelakang = $event" @update:tempatLahir="tempatLahir = $event"
+                    @update:tanggalLahir="tanggalLahir = $event" @update:golonganDarah="golonganDarah = $event"
+                    @update:alamatRumah="alamatRumah = $event" @update:suku="suku = $event" @update:anak="anak = $event"
+                    @update:jumlahSaudara="jumlahSaudara = $event" @update:jenisKelamin="jenisKelamin = $event"
+                    @submit="handleSubmit"
+                    
+                    :parentType="parentData.type" :parentName="parentData.name"
+                    :parentBirthDate="parentData.birth_date" :parentKewarganegaraan="parentData.kewarganegaraan"
+                    :parentReligion="parentData.religion" :parentAnakKe="parentData.anak_ke"
+                    :parentJumlahSodara="parentData.jumlah_sodara" :parentPernikahanKe="parentData.pernikahan_ke"
+                    :parentUmurMenikah="parentData.umur_saat_menikah" :parentPendidikan="parentData.pendidikan"
+                    :parentPekerjaan="parentData.pekerjaan" @update:parentType="parentData.type = $event"
+                    @update:parentName="parentData.name = $event"
+                    @update:parentBirthDate="parentData.birth_date = $event"
+                    @update:parentKewarganegaraan="parentData.kewarganegaraan = $event"
+                    @update:parentReligion="parentData.religion = $event"
+                    @update:parentAnakKe="parentData.anak_ke = $event"
+                    @update:parentJumlahSodara="parentData.jumlah_sodara = $event"
+                    @update:parentPernikahanKe="parentData.pernikahan_ke = $event"
+                    @update:parentUmurMenikah="parentData.umur_saat_menikah = $event"
+                    @update:parentPendidikan="parentData.pendidikan = $event"
+                    @update:parentPekerjaan="parentData.pekerjaan = $event" @saveParentData="saveParentData" />
 
                 <!-- Menggunakan ReportTab component untuk semua jenis report -->
                 <ReportTab v-if="activeTab === 'report' && teacherReports.length > 0"
-                    :assessmentResults="assessmentResults" :note="note" :report="report" :tk-id="tkId" :showImages="false" :status="'hidden'"
-                    @downloadPDF="" @navigateToQuiz="navigateToQuiz" />
+                    :assessmentResults="assessmentResults" :note="note" :report="report" :tk-id="tkId"
+                    :showImages="false" :status="'hidden'" @downloadPDF="" @navigateToQuiz="navigateToQuiz" />
 
                 <ReportTab v-if="activeTab === 'report-home' && parentReports.length > 0"
-                    :assessmentResults="assessmentResults" :note="note" :report="report" :tk-id="tkId" :showImages="false" :status="'hidden'"
-                    @downloadPDF="" @navigateToQuiz="navigateToQuiz" />
+                    :assessmentResults="assessmentResults" :note="note" :report="report" :tk-id="tkId"
+                    :showImages="false" :status="'hidden'" @downloadPDF="" @navigateToQuiz="navigateToQuiz" />
 
                 <ReportChild v-if="activeTab === 'report-child' && psikologReports.length > 0"
-                    :assessmentResults="assessmentResults" :note="note" :report="report" :tk-id="tkId" :showImages="true" :status="'hidden'"
-                    :psikologData="psikologReports" @downloadPDF="" @navigateToQuiz="navigateToQuiz" />
+                    :assessmentResults="assessmentResults" :note="note" :report="report" :tk-id="tkId"
+                    :showImages="true" :status="'hidden'" :psikologData="psikologReports" @downloadPDF=""
+                    @navigateToQuiz="navigateToQuiz" />
 
                 <div v-if="activeTab === 'report' && teacherReports.length === 0"
                     class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5 flex items-center justify-center">

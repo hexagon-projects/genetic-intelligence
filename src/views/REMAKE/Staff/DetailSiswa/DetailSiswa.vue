@@ -217,62 +217,62 @@ const sidebarItems = computed(() => {
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Belajar',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-iq.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Cerdas',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-cpm.svg', import.meta.url).href,
       text: 'Hasil Tes CPM',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/test-rmib.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Bakat',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/test-iaa.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Kendali',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Bahagia',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Anxiety',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Stress',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Kesehatan Mental',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Q1',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Q2',
-      show: false
+      show: true
     },
     {
       image: new URL('@/assets/icons/tes-assesment.svg', import.meta.url).href,
       text: 'Hasil Tes Jatidiri Potensi',
-      show: false
+      show: true
     },
   ]
 

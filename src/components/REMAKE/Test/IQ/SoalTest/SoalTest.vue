@@ -73,7 +73,7 @@ const question_last_page = ref(null)
 const jawaban = ref('')
 const listJawaban = []
 const readyToPush = ref(false)
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+const baseUrl = 'https://api.jatidiri.app/api/'
 
 const getQuestion = async(param) => {
     loading.value = !loading.value

@@ -300,9 +300,7 @@ const validation = () => {
 }
 
 const handleCvUpload = (event) => {
-    console.log('Event >>>>>>>', event)
     const file = event.target.files[0]
-    console.log('File >>>>>>>', file)
     if (file) {
         const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
         const maxSize = 2 * 1024 * 1024 // 2MB

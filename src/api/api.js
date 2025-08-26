@@ -66,6 +66,7 @@ const initAPI = async (method, endpoint, data, token, customHeaders = {}) => {
             endpoint.includes('bk/upload-hero') ||
             endpoint.includes('placement/set-report') ||
             endpoint.includes('consultant/report/documentation') ||
+            endpoint.includes('v2/register-consultant') ||
             endpoint.includes('placement');
 
   // console.log(check)

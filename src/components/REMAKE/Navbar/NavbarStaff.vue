@@ -38,7 +38,7 @@
                         <span class="text-black font-roboto">Data Anak</span>
                     </div>
 
-                    <div v-if="$route.name == 'staff.views.list_anak' || $route.name == 'staff.views.detail_siswa'"
+                    <div v-if="$route.name == 'staff.views.list_anak' || $route.name == 'staff.views.detail_anak'"
                         class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
                 </li>
             </ul>

@@ -304,7 +304,7 @@ const getQuestions = async () => {
       .map(({ q }) => q)
 
     questions.value = shuffled
-    console.log('Question Mapping (Shuffled)', questions.value)
+    // console.log('Question Mapping (Shuffled)', questions.value)
   } catch (error) {
     console.log(error)
   } finally {
@@ -323,8 +323,8 @@ const getUserData = async() => {
 
         customerId.value = userData.data.customer.id
         isTested.value = userData.data.customer.customers_mapping == null ? false : true
-        console.log(customerId.value)
-        console.log(isTested.value)   
+        // console.log(customerId.value)
+        // console.log(isTested.value)   
     } catch (error) {
         // console.log(`error`, error)
         Swal.fire({

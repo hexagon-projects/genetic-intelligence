@@ -203,7 +203,7 @@ const getQuestions = async () => {
   try {
     const respon = await initAPI("get", "customers/mapping", null, token);
     result.value = respon.data;
-    console.log("Result Mapping", result.value);
+    // console.log("Result Mapping", result.value);
   } catch (error) {
     console.log(error);
   }
