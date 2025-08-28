@@ -21,7 +21,7 @@ const props = defineProps({
 
 const emit = defineEmits(['downloadPDF', 'navigateToQuiz']);
 
-const activeResultTab = ref('psikomotor');
+const activeResultTab = ref('kesimpulan');
 
 const formattedPsikologData = computed(() => {
     if (!props.psikologData.length || !props.psikologData[0].details) return null;
@@ -37,6 +37,12 @@ const formattedPsikologData = computed(() => {
             score: parseInt(detail.skor) || 0
         };
     });
+    
+    result.kesimpulan = {
+        title: props.assessmentResults.kesimpulan.title,
+        content: props.assessmentResults.kesimpulan.content,
+        score: props.assessmentResults.kesimpulan.score
+    };
     
     return result;
 });

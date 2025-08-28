@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Tombol untuk membuka modal -->
-    <button @click="showCard = true" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+    <button @click="showCard = true" class="px-4 py-1 text-xs mt-3 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
       Lihat Kartu
     </button>
 
@@ -147,6 +147,7 @@ import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import initAPI from "@/api/api";
 import bgDepan from "@/assets/img/bg-kta-depan.svg";
+import profileDefault from "@/assets/img/profile-mock.png";
 
 const bgStyleDepan = computed(() => ({
   backgroundImage: `url(${bgDepan})`,

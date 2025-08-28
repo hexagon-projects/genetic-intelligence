@@ -125,7 +125,7 @@
         </li>
 
         <!-- Hasil Test Menu -->
-        <li class="relative cursor-pointer" @mouseenter="openSubmenu(3)" @mouseleave="scheduleCloseSubmenu(3)">
+        <li class="relative cursor-pointer hidden" @mouseenter="openSubmenu(3)" @mouseleave="scheduleCloseSubmenu(3)">
             <div class="flex items-center gap-[6px]">
                 <img class="transition-all duration-100" :class="{
                     'grayscale': activeMenu !== 3 || $route.name !== 'user.views.hasil_deteksi'
@@ -208,7 +208,7 @@
             </ul>
         </li>
 
-        <!-- <li @click="goTo('user.views.overview-test')" class="relative group cursor-pointer">
+        <li @click="goTo('user.views.overview-test')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
                 <img :class="{'grayscale group-hover:grayscale-0': $route.name !== 'user.views.overview-test', 'grayscale-0': $route.name == 'user.views.overview-test'}" 
                 src="@/assets/icons/hasil-tes.svg"/>
@@ -216,7 +216,7 @@
             </div>
             
             <div v-if="$route.name == 'user.views.overview-test'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
-        </li> -->
+        </li>
 
         <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
@@ -231,7 +231,7 @@
             <div class="flex items-center gap-[6px]">
                 <img class="transition-all duration-100"
                     :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'user.views.tk', 'grayscale-0': $route.name === 'user.views.tk' }"
-                    src="@/assets/icons/reservasi.svg" />
+                    src="@/assets/icons/jatidiritk.svg" />
                 <span class="text-black font-roboto">Jatidiri TK</span>
             </div>
         </li>

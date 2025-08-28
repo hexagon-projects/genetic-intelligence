@@ -1224,6 +1224,28 @@ export default [
 },
 
 {
+    path: '/tk/kuisioner-kids',
+    name: 'user.views.tk_kuisioner_kids',
+    component: () => import('@/views/REMAKE/Customer/Kuisioner/KuisionerKids.vue'),
+    beforeEnter: (to, from, next) => {
+        const token = Cookies.get('token');
+        const isAuth = JSON.parse(localStorage.getItem('userData'));
+        if (!token || !isAuth) {
+            next({ name: 'views.login' });
+        } else {
+            const decodedToken = jwtDecode(token);
+            const decodeRoleUser = decodedToken.role;
+            const roleUser = JSON.parse(localStorage.getItem('userRole'));
+            if (decodeRoleUser !== 'customer') {
+                next({ name: 'views.login' });
+            } else {
+                next();
+            }
+        }
+    }
+},
+
+{
     path: '/tk/kuisioner/result',
     name: 'user.views.tk_kuisioner_result',
     component: () => import('@/views/REMAKE/Customer/Kuisioner/KuisionerResult.vue'),

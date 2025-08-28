@@ -21,7 +21,7 @@ const props = defineProps({
 
 const emit = defineEmits(['downloadPDF', 'navigateToQuiz']);
 
-const activeResultTab = ref('psikomotor');
+const activeResultTab = ref('kesimpulan');
 
 const changeTab = (tabName) => {
     activeResultTab.value = tabName;

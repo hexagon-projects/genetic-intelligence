@@ -2,22 +2,16 @@
 import Layout from '@/Layout/Customer/Layout.vue';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import initAPI from '../../../../api/api';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 const router = useRouter()
-const store = useStore()
-
-// Ambil data user dari store
-// const userData = computed(() => store.getters.getUserData);
 
 const localStorageUserData = localStorage.getItem('userData');
 const userData = JSON.parse(localStorageUserData);
 
-// Data dari API
 const apiQuestions = ref([]);
 const introduction = {
   title: "Petunjuk",
@@ -36,7 +30,6 @@ const slideDirection = ref('next');
 const hasStarted = ref(false);
 const isLoading = ref(false);
 
-// Fungsi untuk memetakan tipe dari API ke kunci yang sesuai
 const mapQuestionType = (type) => {
   const typeMapping = {
     'Kognisi': 'kognisi',
@@ -49,9 +42,58 @@ const mapQuestionType = (type) => {
   return typeMapping[type] || null;
 };
 
-// Fungsi untuk mengambil data pertanyaan dari API
+const validateBiodata = () => {
+  if (!userData) return false;
+  
+  const requiredFields = ['birth_place', 'birth_date', 'gender'];
+  const missingFields = requiredFields.filter(field => !userData[field]);
+  
+  if (missingFields.length > 0) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Data Biodata Belum Lengkap',
+      html: `Silakan lengkapi biodata Anda terlebih dahulu di halaman profile.`,
+      confirmButtonText: 'Ke Halaman Profile',
+      showCancelButton: true,
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push('/tk');
+      }
+    });
+    return false;
+  }
+  
+  // Validasi umur (tidak boleh lebih dari 3 tahun)
+  if (userData.birth_date) {
+    const birthDate = new Date(userData.birth_date);
+    const today = new Date();
+    const ageInMonths = (today.getFullYear() - birthDate.getFullYear()) * 12 + 
+                        (today.getMonth() - birthDate.getMonth());
+    
+    if (ageInMonths < 36) { // 36 bulan = 3 tahun
+      Swal.fire({
+        icon: 'error',
+        title: 'Usia Tidak Sesuai',
+        text: 'Kuisioner ini hanya untuk anak usia diatas 3 tahun. Anak Anda berusia di bawah 3 tahun.',
+        confirmButtonText: 'Kembali ke Profile',
+        showCancelButton: false
+      }).then(() => {
+        router.push('/tk');
+      });
+      return false;
+    }
+  }
+  
+  return true;
+};
+
 const fetchQuestions = async () => {
   try {
+    if (!validateBiodata()) {
+      return;
+    }
+    
     isLoading.value = true;
     const token = Cookies.get('token');
     const response = await initAPI('get', 'parent/questions', null, token);
@@ -59,12 +101,11 @@ const fetchQuestions = async () => {
     if (response.data && response.data.data) {
       apiQuestions.value = response.data.data;
       
-      // Transform data dari API ke format yang digunakan komponen
       questions.value = apiQuestions.value.map(q => ({
         id: q.id,
         question: q.question,
         category: `Aspek ${q.type}`,
-        type: mapQuestionType(q.type), // Gunakan fungsi mapping
+        type: mapQuestionType(q.type),
         selectedOption: null,
         answers: q.answers
       }));
@@ -123,16 +164,13 @@ const prevQuestion = () => {
     slideDirection.value = 'prev';
     currentQuestionIndex.value--;
   } else if (currentQuestionIndex.value === 0) {
-    // Kembali ke introduction
     slideDirection.value = 'prev';
     currentQuestionIndex.value = -1;
   }
 };
 
-// Fungsi untuk mengirim jawaban ke API
 const submitAnswers = async () => {
   try {
-    // Pastikan userData tersedia
     if (!userData || !userData.id) {
       Swal.fire({
         icon: 'error',
@@ -147,20 +185,17 @@ const submitAnswers = async () => {
     
     isLoading.value = true;
     
-    // Mengelompokkan jawaban berdasarkan tipe
     const groupedAnswers = {
       customer_id: userData.id,
       kognisi: [],
       psikomotorik: [],
       emosi: [],
       relasi: [],
-      mandiri: [] // Sesuai dengan format payload API
+      mandiri: [] 
     };
-    
-    // Mengisi jawaban berdasarkan tipe pertanyaan
+
     questions.value.forEach(q => {
       if (q.selectedOption !== null && q.type) {
-        // Pastikan tipe valid sebelum push
         if (groupedAnswers[q.type]) {
           groupedAnswers[q.type].push(q.selectedOption);
         } else {
@@ -169,17 +204,14 @@ const submitAnswers = async () => {
       }
     });
     
-    // Membuat payload sesuai format yang diminta
     const payload = {
       ...groupedAnswers
     };
     
-    // Mengirim data ke API dengan token
     const token = Cookies.get('token');
     const response = await initAPI('post', 'customers/parent', payload, token);
     
     if (response.data && response.data.message === "Jawaban Berhasil Direkam.") {
-      // Menampilkan modal sukses
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
@@ -203,7 +235,6 @@ const submitAnswers = async () => {
   }
 };
 
-// Lifecycle hook untuk mengambil data pertanyaan saat komponen dimuat
 onMounted(() => {
   fetchQuestions();
 });
@@ -239,7 +270,6 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- Content with animation -->
         <div v-if="!isLoading" class="question-container overflow-hidden">
           <Transition :name="slideDirection === 'next' ? 'slide-left' : 'slide-right'" mode="out-in">
             <!-- Introduction Screen -->

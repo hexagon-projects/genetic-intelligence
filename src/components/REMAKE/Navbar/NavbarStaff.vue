@@ -31,7 +31,7 @@
                         class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
                 </li>
 
-                <li @click="goTo('staff.views.list_anak')" class="relative group cursor-pointer">
+                <li v-if="userDatas?.customer?.institution?.type === 'TK'" @click="goTo('staff.views.list_anak')" class="relative group cursor-pointer">
                     <div class="flex items-center gap-[6px]">
                         <img :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'staff.views.list_anak' || $route.name !== 'staff.views.detail_anak', 'grayscale-0': $route.name == 'staff.views.list_anak' || $route.name == 'staff.views.detail_anak' }"
                             src="@/assets/icons/nav-datasiswa.svg" />
@@ -119,7 +119,7 @@ const getUserData = async () => {
         formData.append('refresh_user', 'true')
         const userData = await initAPI('post', 'login', formData, token)
         userDatas.value = userData.data
-        // console.log(`navbar`, userData.data)
+        console.log(`navbar`, userData.data)
     } catch (error) {
         // console.log(`error`, error)
         Swal.fire({

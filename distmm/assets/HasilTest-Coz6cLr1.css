@@ -1,0 +1,1 @@
+@keyframes pulse-glow{0%{box-shadow:0 0 #3b82f6b3}70%{box-shadow:0 0 0 12px #3b82f600}to{box-shadow:0 0 #3b82f600}}.pulse-button{animation:pulse-glow 1.5s infinite}

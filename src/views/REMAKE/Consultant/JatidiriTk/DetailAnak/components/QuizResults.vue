@@ -6,7 +6,8 @@ const props = defineProps({
     getQuizDocumentations: Array,
     getImageUrl: Function,
     openImageModal: Function,
-    downloadPDF: Function
+    downloadPDF: Function,
+    teacherConclusion: Object
 });
 
 const emit = defineEmits(['changeTab']);
@@ -20,6 +21,25 @@ const changeTab = (tabName) => {
     <div class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
         <div class="flex-col flex">
             <div class="flex">
+                <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
+                    :class="activeResultTab === 'kesimpulan' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
+                    @click="changeTab('kesimpulan')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                        <path
+                            d="M14.0415 8.43131L14.3861 7.14331C14.7888 5.63998 14.9908 4.88865 14.8395 4.23798C14.7195 3.72431 14.4499 3.25775 14.0648 2.89731C13.5775 2.44065 12.8255 2.23931 11.3221 1.83665C9.81881 1.43331 9.06681 1.23198 8.41681 1.38331C7.90314 1.50325 7.43658 1.77284 7.07614 2.15798C6.68481 2.57531 6.48081 3.18665 6.17748 4.29731L6.01481 4.90065L5.67014 6.18865C5.26681 7.69198 5.06548 8.44331 5.21681 9.09398C5.33675 9.60765 5.60634 10.0742 5.99148 10.4346C6.47881 10.8913 7.23081 11.0926 8.73414 11.496C10.0888 11.8586 10.8335 12.058 11.4435 11.9826C11.5101 11.9742 11.5755 11.9626 11.6395 11.948C12.153 11.8284 12.6195 11.5593 12.9801 11.1746C13.4368 10.6866 13.6381 9.93465 14.0415 8.43131Z"
+                            :stroke="activeResultTab === 'kesimpulan' ? '#6464FA' : '#8E8E8E'" />
+                        <path
+                            d="M11.4433 11.9829C11.304 12.4098 11.0591 12.7946 10.7313 13.1015C10.244 13.5582 9.49198 13.7595 7.98865 14.1622C6.48531 14.5649 5.73331 14.7669 5.08331 14.6149C4.56972 14.4951 4.10317 14.2258 3.74265 13.8409C3.28598 13.3535 3.08398 12.6015 2.68131 11.0982L2.33665 9.81021C1.93331 8.30688 1.73198 7.55488 1.88331 6.90488C2.00325 6.3912 2.27284 5.92464 2.65798 5.56421C3.14531 5.10754 3.89731 4.90621 5.40065 4.50288C5.6842 4.42643 5.94309 4.35776 6.17731 4.29688"
+                            :stroke="activeResultTab === 'kesimpulan' ? '#6464FA' : '#8E8E8E'" />
+                        <path d="M8.3515 6.6665L11.5715 7.52917M7.8335 8.5985L9.7655 9.11584"
+                            :stroke="activeResultTab === 'kesimpulan' ? '#6464FA' : '#8E8E8E'" stroke-linecap="round" />
+                    </svg>
+
+                    <p class="text-xs" :class="activeResultTab === 'kesimpulan' ? 'text-[#6464FA]' : 'text-[#8E8E8E]'">
+                        Kesimpulan
+                    </p>
+                </div>
+
                 <!-- Tab Psikomotor -->
                 <div class="flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-300"
                     :class="activeResultTab === 'psikomotor' ? 'bg-[#f5f5f5] rounded-t-xl' : ''"
@@ -124,25 +144,34 @@ const changeTab = (tabName) => {
 
             <transition name="fade" mode="out-in">
                 <div :key="activeResultTab" class="p-4 bg-[#F5F5F5] rounded-b-xl rounded-tr-xl space-y-4">
-                    <p class="text-xs">{{
-                        getQuizDataByCategory(
-                            activeResultTab === 'psikomotor' ? 'Psikomotor' :
-                                activeResultTab === 'kognisi' ? 'Kognisi' :
-                                    activeResultTab === 'emosi' ? 'Emosi' :
-                                        activeResultTab === 'relasiSosial' ? 'Relasi Sosial' : 'Kemandirian'
-                        )?.keterangan || 'Tidak ada data'
-                    }}</p>
-
-                    <div class="py-1 px-4 rounded-full bg-primary w-fit text-xs text-white">
-                        Skor {{
+                    <template v-if="activeResultTab === 'kesimpulan' && teacherConclusion">
+                        <p class="text-xs">{{ teacherConclusion.content }}</p>
+                        <div class="py-1 px-4 rounded-full bg-primary w-fit text-xs text-white">
+                            Skor {{ teacherConclusion.score }}
+                        </div>
+                    </template>
+                    <template v-else>
+                        <p class="text-xs">{{
                             getQuizDataByCategory(
-                                activeResultTab === 'psikomotor' ? 'Psikomotor' :
-                                    activeResultTab === 'kognisi' ? 'Kognisi' :
-                                        activeResultTab === 'emosi' ? 'Emosi' :
-                                            activeResultTab === 'relasiSosial' ? 'Relasi Sosial' : 'Kemandirian'
+                                activeResultTab === 'kesimpulan' ? 'Kesimpulan' :
+                                    activeResultTab === 'psikomotor' ? 'Psikomotor' :
+                                        activeResultTab === 'kognisi' ? 'Kognisi' :
+                                            activeResultTab === 'emosi' ? 'Emosi' :
+                                                activeResultTab === 'relasiSosial' ? 'Relasi Sosial' : 'Kemandirian'
+                            )?.keterangan || 'Tidak ada data'
+                            }}</p>
+                        <div class="py-1 px-4 rounded-full bg-primary w-fit text-xs text-white">
+                            Skor {{
+                                getQuizDataByCategory(
+                                    activeResultTab === 'kesimpulan' ? 'Kesimpulan' :
+                                        activeResultTab === 'psikomotor' ? 'Psikomotor' :
+                                            activeResultTab === 'kognisi' ? 'Kognisi' :
+                                                activeResultTab === 'emosi' ? 'Emosi' :
+                                                    activeResultTab === 'relasiSosial' ? 'Relasi Sosial' : 'Kemandirian'
                             )?.skor || '0'
-                        }}
-                    </div>
+                            }}
+                        </div>
+                    </template>
                 </div>
             </transition>
         </div>

@@ -1,0 +1,30 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const activeTab = ref('informasi');
+const emit = defineEmits(['tabChange']);
+
+const setActiveTab = (tab: string) => {
+  activeTab.value = tab;
+  emit('tabChange', tab);
+};
+</script>
+
+<template>
+  <div class="flex flex-wrap items-center">
+    <div 
+      class="px-4 md:px-8 py-2 group text-sm md:text-base rounded-xl md:rounded-t-xl md:rounded-b-none transition-all duration-500 cursor-pointer"
+      :class="activeTab === 'informasi' ? 'bg-gray-100 font-medium' : 'hover:bg-gray-100 hover:font-medium'"
+      @click="setActiveTab('informasi')"
+    >
+      Informasi Keluarga
+    </div>
+    <div 
+      class="px-4 md:px-8 py-2 group text-sm md:text-base rounded-xl md:rounded-t-xl md:rounded-b-none transition-all duration-500 cursor-pointer"
+      :class="activeTab === 'pemeriksaan' ? 'bg-gray-100 font-medium' : 'hover:bg-gray-100 hover:font-medium'"
+      @click="setActiveTab('pemeriksaan')"
+    >
+      Catatan Pemeriksaan
+    </div>
+  </div>
+</template>

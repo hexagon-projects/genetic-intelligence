@@ -37,8 +37,6 @@ const tambahCatatan = () => {
   }
 };
 
-console.log(userId)
-
 // Fungsi untuk menyimpan data ke API
 const simpanData = async () => {
   try {

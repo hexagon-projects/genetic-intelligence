@@ -13,6 +13,7 @@ import StepProgress from './components/StepProgress.vue';
 import AssessmentForm from './components/AssessmentForm.vue';
 import ReportDownload from './components/ReportDownload.vue';
 import QuizResults from './components/QuizResults.vue';
+import CheckReport from './components/CheckReport.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -22,6 +23,8 @@ const loading = ref(false);
 const idUser = ref(null);
 const userData = ref(null);
 const activeTab = ref('informasi');
+const isParentDataReady = ref(false);
+const ageUser = ref('')
 
 const scores = ref({
     psikomotor: null,
@@ -44,6 +47,34 @@ const observations = ref({
     relasiSosial: '',
     kemandirian: ''
 });
+const parentData = ref({
+    ayah: {
+        type: 'Ayah',
+        name: '',
+        birth_date: '',
+        kewarganegaraan: '',
+        religion: '',
+        anak_ke: '',
+        jumlah_sodara: '',
+        pernikahan_ke: '',
+        umur_saat_menikah: '',
+        pendidikan: '',
+        pekerjaan: ''
+    },
+    ibu: {
+        type: 'Ibu',
+        name: '',
+        birth_date: '',
+        kewarganegaraan: '',
+        religion: '',
+        anak_ke: '',
+        jumlah_sodara: '',
+        pernikahan_ke: '',
+        umur_saat_menikah: '',
+        pendidikan: '',
+        pekerjaan: ''
+    }
+});
 const uploadedImages = ref([]);
 const activeStep = ref(1);
 const completedSteps = ref([]);
@@ -57,6 +88,98 @@ const saving = ref(false);
 
 const showImageModal = ref(false);
 const activeImage = ref(null);
+
+const calculateAge = (birthDate) => {
+    if (!birthDate) return null
+
+    const convertDate = (dateStr) => {
+        const [day, month, year] = dateStr.split('-')
+        return `${year}-${month}-${day}`
+    }
+
+    const today = new Date()
+    const convertedDate = convertDate(birthDate)
+    const birth = new Date(convertedDate)
+
+    if (isNaN(birth.getTime())) {
+        return null
+    }
+
+    let age = today.getFullYear() - birth.getFullYear()
+    const monthDiff = today.getMonth() - birth.getMonth()
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--
+    }
+
+    return age
+}
+
+async function fetchUserData() {
+    try {
+        const response = await initAPI("get", `customers?id=${idUser.value}`, null, token);
+        userData.value = response.data.data[0]
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}
+
+const fetchParentData = async () => {
+    const token = Cookies.get('token');
+
+    if (!token) return;
+
+    try {
+        const response = await initAPI(
+            'get',
+            `customers/parents?customer_id=${idUser.value}`,
+            null,
+            token
+        );
+
+        if (response.data && response.data.data) {
+            parentData.value.ayah = {
+                type: 'Ayah',
+                name: '',
+                birth_date: '',
+                kewarganegaraan: '',
+                religion: '',
+                anak_ke: '',
+                jumlah_sodara: '',
+                pernikahan_ke: '',
+                umur_saat_menikah: '',
+                pendidikan: '',
+                pekerjaan: ''
+            };
+
+            parentData.value.ibu = {
+                type: 'Ibu',
+                name: '',
+                birth_date: '',
+                kewarganegaraan: '',
+                religion: '',
+                anak_ke: '',
+                jumlah_sodara: '',
+                pernikahan_ke: '',
+                umur_saat_menikah: '',
+                pendidikan: '',
+                pekerjaan: ''
+            };
+
+            response.data.data.forEach(parent => {
+                if (parent.type === 'Ayah') {
+                    parentData.value.ayah = { ...parent };
+                } else if (parent.type === 'Ibu') {
+                    parentData.value.ibu = { ...parent };
+                }
+            });
+        }
+
+        isParentDataReady.value = true;
+    } catch (error) {
+        console.error('Error fetching parent data:', error);
+    }
+};
 
 const stepMapping = {
     1: { category: 'Psikomotor', key: 'psikomotor' },
@@ -163,10 +286,19 @@ const saveReport = async () => {
 };
 
 const fetchReportData = async () => {
+    const age = calculateAge(userData?.value?.birth_date)
+    ageUser.value = age
+
     try {
-        loading.value = true;
-        const response = await initAPI("get", `staff/teacher?customer_id=${idUser.value}`, null, token);
-        apiData.value = response.data.data;
+        if (age !== null && age <= 3) {
+            loading.value = true;
+            const response = await initAPI("get", `customers/kid?customer_id=${idUser.value}`, null, token);
+            apiData.value = response.data.data;
+        } else {
+            loading.value = true;
+            const response = await initAPI("get", `staff/teacher?customer_id=${idUser.value}`, null, token);
+            apiData.value = response.data.data;
+        }
     } catch (error) {
         console.error('Error fetching report data:', error);
     } finally {
@@ -174,21 +306,25 @@ const fetchReportData = async () => {
     }
 };
 
-async function fetchUserData() {
-    try {
-        const response = await initAPI("get", `customers?id=${idUser.value}`, null, token);
-        userData.value = response.data.data[0]
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-    }
-}
-
 const schoolReports = computed(() => {
-    return apiData?.value?.filter(item => item.customer?.type === 'teacher') || [];
+    const age = calculateAge(userData?.value?.birth_date)
+
+    if (age !== null && age <= 3) {
+        return apiData.value?.filter(item => item.customer?.type === 'teacher') || []
+    } else {
+        return apiData.value?.filter(item => item.customer?.type === 'teacher') || []
+    }
 });
 
+
 const homeReports = computed(() => {
-    return apiData?.value?.filter(item => item.customer?.type === 'parent') || [];
+    const age = calculateAge(userData?.value?.birth_date)
+
+    if (age !== null && age <= 3) {
+        return apiData.value?.filter(item => item.customer?.type === 'parent') || []
+    } else {
+        return apiData.value?.filter(item => item.customer?.type === 'parent') || []
+    }
 });
 
 const fetchTkReport = async () => {
@@ -212,7 +348,7 @@ const fetchTkReport = async () => {
     }
 };
 
-const activeResultTab = ref('psikomotor');
+const activeResultTab = ref('kesimpulan');
 
 function nextStep() {
     if (!completedSteps.value.includes(activeStep.value)) {
@@ -259,10 +395,38 @@ const closeImageModal = () => {
     activeImage.value = null;
 };
 
+const teacherReportConclusion = computed(() => {
+    if (!apiData.value || apiData.value.length === 0) return null;
+
+    let teacherReport = null;
+
+    if (ageUser.value !== null && ageUser.value <= 3) {
+        teacherReport = apiData.value.find(item => item.customer?.type === 'teacher');
+    } else {
+        teacherReport = apiData.value.find(item => item.customer?.type === 'teacher');
+    }
+
+    if (!teacherReport) return null;
+
+    if (ageUser.value !== null && ageUser.value <= 3) {
+        return teacherReport.customer.kid ? {
+            content: teacherReport.customer.kid.description,
+            score: teacherReport.customer.kid.score_to,
+        } : null;
+    } else {
+        return teacherReport.customer.tk ? {
+            content: teacherReport.customer.tk.desc,
+            score: teacherReport.customer.tk.score_to,
+        } : null;
+    }
+});
+
+
 onMounted(async () => {
     idUser.value = route.query.id;
 
     if (idUser.value) {
+        await fetchParentData();
         await fetchUserData();
         await fetchReportData();
         await checkQuizResult();
@@ -280,82 +444,170 @@ onMounted(async () => {
 
             <!-- Konten Tab -->
             <div class="w-full md:w-[75%]">
-                <PersonalInfo v-if="activeTab === 'informasi'" :userData="userData" />
+                <PersonalInfo v-if="activeTab === 'informasi' && isParentDataReady" :userData="userData"
+                    :ayah-data="parentData.ayah" :ibu-data="parentData.ibu" />
 
                 <!-- Konten Tab Report Anak Di Sekolah -->
                 <div v-if="activeTab === 'report'"
                     class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
-                    <div v-if="schoolReports.length > 0">
-                        <AssessmentTabs :activeResultTab="activeResultTab" :assessmentResults="{
-                            psikomotor: {
-                                title: 'Psikomotor',
-                                content: schoolReports[0].psikomotorik?.desc || 'Tidak ada data',
-                                score: schoolReports[0].customer?.psikomotorik || 0
-                            },
-                            kognisi: {
-                                title: 'Kognisi',
-                                content: schoolReports[0].kognisi?.desc || 'Tidak ada data',
-                                score: schoolReports[0].customer?.kognisi || 0
-                            },
-                            emosi: {
-                                title: 'Emosi',
-                                content: schoolReports[0].emosi?.desc || 'Tidak ada data',
-                                score: schoolReports[0].customer?.emosi || 0
-                            },
-                            relasiSosial: {
-                                title: 'Relasi Sosial',
-                                content: schoolReports[0].relasi?.desc || 'Tidak ada data',
-                                score: schoolReports[0].customer?.relasi || 0
-                            },
-                            kemandirian: {
-                                title: 'Kemandirian',
-                                content: schoolReports[0].mandiri?.desc || 'Tidak ada data',
-                                score: schoolReports[0].customer?.mandiri || 0
-                            }
-                        }" @changeTab="changeTab" />
+                    <div v-if="schoolReports.length">
+                        <div v-if="ageUser < 3">
+                            <AssessmentTabs :activeResultTab="activeResultTab" :assessmentResults="{
+                                kesimpulan: {
+                                    title: 'Kesimpulan',
+                                    content: schoolReports[0].customer?.kid?.description || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.kid?.score_to || 0
+                                },
+                                psikomotor: {
+                                    title: 'Psikomotor',
+                                    content: schoolReports[0].psikomotorik?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.psikomotorik || 0
+                                },
+                                kognisi: {
+                                    title: 'Kognisi',
+                                    content: schoolReports[0].kognisi?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.kognisi || 0
+                                },
+                                emosi: {
+                                    title: 'Emosi',
+                                    content: schoolReports[0].emosi?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.emosi || 0
+                                },
+                                relasiSosial: {
+                                    title: 'Relasi Sosial',
+                                    content: schoolReports[0].relasi?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.relasi || 0
+                                },
+                                kemandirian: {
+                                    title: 'Kemandirian',
+                                    content: schoolReports[0].mandiri?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.mandiri || 0
+                                }
+                            }" @changeTab="changeTab" />
 
-                        <ReportDownload :report="`Laporan.pdf`" :note="schoolReports[0].tk?.desc || 'Tidak ada catatan'"
-                            :tk-id="tkId" />
+                            <ReportDownload :report="`Laporan.pdf`"
+                                :note="schoolReports[0].tk?.desc || 'Tidak ada catatan'" />
+                        </div>
+                        <div v-else>
+                            <AssessmentTabs :activeResultTab="activeResultTab" :assessmentResults="{
+                                kesimpulan: {
+                                    title: 'Kesimpulan',
+                                    content: schoolReports[0].customer?.tk?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.tk?.score_to || 0
+                                },
+                                psikomotor: {
+                                    title: 'Psikomotor',
+                                    content: schoolReports[0].psikomotorik?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.psikomotorik || 0
+                                },
+                                kognisi: {
+                                    title: 'Kognisi',
+                                    content: schoolReports[0].kognisi?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.kognisi || 0
+                                },
+                                emosi: {
+                                    title: 'Emosi',
+                                    content: schoolReports[0].emosi?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.emosi || 0
+                                },
+                                relasiSosial: {
+                                    title: 'Relasi Sosial',
+                                    content: schoolReports[0].relasi?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.relasi || 0
+                                },
+                                kemandirian: {
+                                    title: 'Kemandirian',
+                                    content: schoolReports[0].mandiri?.desc || 'Tidak ada data',
+                                    score: schoolReports[0].customer?.mandiri || 0
+                                }
+                            }" @changeTab="changeTab" />
+
+                            <ReportDownload :report="`Laporan.pdf`"
+                                :note="schoolReports[0].tk?.desc || 'Tidak ada catatan'" />
+                        </div>
                     </div>
                     <div v-else class="text-center py-8">
                         <p class="text-gray-500">Tidak ada data laporan anak di sekolah</p>
                     </div>
                 </div>
-
                 <!-- Konten Tab Report Rumah -->
                 <div v-if="activeTab === 'report-home'"
                     class="w-full bg-white p-6 rounded-3xl space-y-4 md:space-y-6 shadow-md shadow-black/5">
-                    <div v-if=homeReports.length>
-                        <AssessmentTabs :activeResultTab="activeResultTab" :assessmentResults="{
-                            psikomotor: {
-                                title: 'Psikomotor',
-                                content: homeReports[0].psikomotorik?.desc || 'Tidak ada data',
-                                score: homeReports[0].customer?.psikomotorik || 0
-                            },
-                            kognisi: {
-                                title: 'Kognisi',
-                                content: homeReports[0].kognisi?.desc || 'Tidak ada data',
-                                score: homeReports[0].customer?.kognisi || 0
-                            },
-                            emosi: {
-                                title: 'Emosi',
-                                content: homeReports[0].emosi?.desc || 'Tidak ada data',
-                                score: homeReports[0].customer?.emosi || 0
-                            },
-                            relasiSosial: {
-                                title: 'Relasi Sosial',
-                                content: homeReports[0].relasi?.desc || 'Tidak ada data',
-                                score: homeReports[0].customer?.relasi || 0
-                            },
-                            kemandirian: {
-                                title: 'Kemandirian',
-                                content: homeReports[0].mandiri?.desc || 'Tidak ada data',
-                                score: homeReports[0].customer?.mandiri || 0
-                            }
-                        }" @changeTab="changeTab" />
+                    <div v-if="homeReports.length">
+                        <div v-if="ageUser < 3">
+                            <AssessmentTabs :activeResultTab="activeResultTab" :assessmentResults="{
+                                kesimpulan: {
+                                    title: 'Kesimpulan',
+                                    content: homeReports[0].customer?.kid?.description || 'Tidak ada data',
+                                    score: homeReports[0].customer?.kid?.score_to || 0
+                                },
+                                psikomotor: {
+                                    title: 'Psikomotor',
+                                    content: homeReports[0].psikomotorik?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.psikomotorik || 0
+                                },
+                                kognisi: {
+                                    title: 'Kognisi',
+                                    content: homeReports[0].kognisi?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.kognisi || 0
+                                },
+                                emosi: {
+                                    title: 'Emosi',
+                                    content: homeReports[0].emosi?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.emosi || 0
+                                },
+                                relasiSosial: {
+                                    title: 'Relasi Sosial',
+                                    content: homeReports[0].relasi?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.relasi || 0
+                                },
+                                kemandirian: {
+                                    title: 'Kemandirian',
+                                    content: homeReports[0].mandiri?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.mandiri || 0
+                                }
+                            }" @changeTab="changeTab" />
 
-                        <ReportDownload :report="`Laporan.pdf`"
-                            :note="homeReports[0].tk?.desc || 'Tidak ada catatan'" />
+                            <ReportDownload :report="`Laporan.pdf`"
+                                :note="homeReports[0].tk?.desc || 'Tidak ada catatan'" />
+                        </div>
+                        <div v-else>
+                            <AssessmentTabs :activeResultTab="activeResultTab" :assessmentResults="{
+                                kesimpulan: {
+                                    title: 'Kesimpulan',
+                                    content: homeReports[0].customer?.tk?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.tk?.score_to || 0
+                                },
+                                psikomotor: {
+                                    title: 'Psikomotor',
+                                    content: homeReports[0].psikomotorik?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.psikomotorik || 0
+                                },
+                                kognisi: {
+                                    title: 'Kognisi',
+                                    content: homeReports[0].kognisi?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.kognisi || 0
+                                },
+                                emosi: {
+                                    title: 'Emosi',
+                                    content: homeReports[0].emosi?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.emosi || 0
+                                },
+                                relasiSosial: {
+                                    title: 'Relasi Sosial',
+                                    content: homeReports[0].relasi?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.relasi || 0
+                                },
+                                kemandirian: {
+                                    title: 'Kemandirian',
+                                    content: homeReports[0].mandiri?.desc || 'Tidak ada data',
+                                    score: homeReports[0].customer?.mandiri || 0
+                                }
+                            }" @changeTab="changeTab" />
+
+                            <ReportDownload :report="`Laporan.pdf`"
+                                :note="homeReports[0].tk?.desc || 'Tidak ada catatan'" />
+                        </div>
                     </div>
                     <div v-else class="text-center py-8">
                         <p class="text-gray-500">Tidak ada data laporan anak di rumah</p>
@@ -364,11 +616,11 @@ onMounted(async () => {
 
                 <!-- Konten Quiz Tab Report Anak -->
                 <div v-if="activeTab === 'report-child'" class="space-y-6">
-                    <!-- Tampilkan hasil quiz jika ada -->
                     <QuizResults v-if="hasQuizResult && latestQuizResult" :activeResultTab="activeResultTab"
                         :latestQuizResult="latestQuizResult" :getQuizDataByCategory="getQuizDataByCategory"
                         :getQuizDocumentations="getQuizDocumentations" :getImageUrl="getImageUrl"
-                        :openImageModal="openImageModal" :downloadPDF="downloadPDF" @changeTab="changeTab" />
+                        :openImageModal="openImageModal" :downloadPDF="downloadPDF"
+                        :teacherConclusion="teacherReportConclusion" @changeTab="changeTab" />
 
                     <div v-else>
                         <StepProgress :activeStep="activeStep" :completedSteps="completedSteps" />
@@ -381,6 +633,10 @@ onMounted(async () => {
                             @finish="handleFinish" :saving="saving" />
                     </div>
                 </div>
+
+                <!-- Konten Cek Pemeriksaan -->
+                <CheckReport v-if="activeTab === 'check-report' && userData" :anak-data="userData"
+                    :ayahData="parentData.ayah" :ibuData="parentData.ibu" />
             </div>
 
             <!-- Pop Up Rekomendasi -->

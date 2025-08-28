@@ -21,7 +21,7 @@ const fetchUsers = async () => {
     isLoading.value = true;
     const response = await initAPI('GET', 'consultant/list-pengguna/tk', null, token);
     if (response.data.data && Array.isArray(response.data.data)) {
-      users.value = response.data.data.slice(0,50);
+      users.value = response.data.data;
     } else {
       console.error('Unexpected API response format:', response);
     }

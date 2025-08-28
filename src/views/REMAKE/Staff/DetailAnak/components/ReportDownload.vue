@@ -30,12 +30,12 @@ const handleDownloadPDF = (filename) => {
 <template>
     <div class="space-y-4 mt-4">
         <!-- Notes Section -->
-        <div class="space-y-2 hidden" :class="[status || '']">
+        <!-- <div class="space-y-2 hidden" :class="[status || '']">
             <p class="text-xs text-[#8E8E8E] font-semibold">Catatan</p>
             <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
                 <p class="text-xs">{{ note }}</p>
             </div>
-        </div>
+        </div> -->
 
         <!-- Report Download Section -->
         <div v-if="tkId" class="space-y-2">

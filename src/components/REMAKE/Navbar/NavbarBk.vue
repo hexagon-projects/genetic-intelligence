@@ -87,7 +87,7 @@
                   $route.name == 'staff.views.list_siswa' ||
                   $route.name == 'staff.views.detail_siswa',
               }"
-              src="@/assets/icons/statistik.svg"
+              src="@/assets/icons/nav-datasiswa.svg"
             />
             <span class="text-black font-roboto">Statistik</span>
           </div>

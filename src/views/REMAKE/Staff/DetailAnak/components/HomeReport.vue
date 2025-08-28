@@ -20,10 +20,14 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-        tkId: {
+    tkId: {
         type: String,
         required: true
-    }
+    },
+    ageUser: {
+        type: Number,
+        required: true
+    },
 });
 
 const emit = defineEmits(['navigate-to-quiz', 'download-pdf']);
@@ -33,34 +37,76 @@ const handleDownloadPDF = (filename) => {
     emit('download-pdf', filename);
 };
 
-// Format data untuk komponen AssessmentTabs
-const assessmentResults = (report) => ({
-    psikomotor: {
-        title: "Psikomotor",
-        content: report.psikomotorik?.desc || "Tidak ada data",
-        score: parseFloat(report.customer.psikomotorik) || 0
-    },
-    kognisi: {
-        title: "Kognisi",
-        content: report.kognisi?.desc || "Tidak ada data",
-        score: parseFloat(report.customer.kognisi) || 0
-    },
-    emosi: {
-        title: "Emosi",
-        content: report.emosi?.desc || "Tidak ada data",
-        score: parseFloat(report.customer.emosi) || 0
-    },
-    relasiSosial: {
-        title: "Relasi Sosial",
-        content: report.relasi?.desc || "Tidak ada data",
-        score: parseFloat(report.customer.relasi) || 0
-    },
-    kemandirian: {
-        title: "Kemandirian",
-        content: report.mandiri?.desc || "Tidak ada data",
-        score: parseFloat(report.customer.mandiri) || 0
+const assessmentResults = (report) => {
+    if (props.ageUser !== null && props.ageUser <= 3) {
+        return {
+            kesimpulan: {
+                title: "Kesimpulan",
+                content: report.customer?.kid?.description || "Tidak ada data",
+                score: parseFloat(report.customer?.kid?.score_to) || 0
+            },
+            psikomotor: {
+                title: "Psikomotor",
+                content: report.psikomotorik?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.psikomotorik) || 0
+            },
+            kognisi: {
+                title: "Kognisi",
+                content: report.kognisi?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.kognisi) || 0
+            },
+            emosi: {
+                title: "Emosi",
+                content: report.emosi?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.emosi) || 0
+            },
+            relasiSosial: {
+                title: "Relasi Sosial",
+                content: report.relasi?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.relasi) || 0
+            },
+            kemandirian: {
+                title: "Kemandirian",
+                content: report.mandiri?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.mandiri) || 0
+            }
+        }
+    } else {
+        return {
+            kesimpulan: {
+                title: "Kesimpulan",
+                content: report.customer?.tk?.desc || "Tidak ada data",
+                score: parseFloat(report.customer?.tk?.score_to) || 0
+            },
+            psikomotor: {
+                title: "Psikomotor",
+                content: report.psikomotorik?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.psikomotorik) || 0
+            },
+            kognisi: {
+                title: "Kognisi",
+                content: report.kognisi?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.kognisi) || 0
+            },
+            emosi: {
+                title: "Emosi",
+                content: report.emosi?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.emosi) || 0
+            },
+            relasiSosial: {
+                title: "Relasi Sosial",
+                content: report.relasi?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.relasi) || 0
+            },
+            kemandirian: {
+                title: "Kemandirian",
+                content: report.mandiri?.desc || "Tidak ada data",
+                score: parseFloat(report.customer.mandiri) || 0
+            }
+        }
     }
-});
+}
+
 </script>
 
 <template>
@@ -74,6 +120,7 @@ const assessmentResults = (report) => ({
         <div v-else-if="reports.length === 0" class="text-center py-8">
             <p>Belum ada data laporan anak di rumah</p>
         </div>
+
 
         <!-- Data Available -->
         <div v-else>
@@ -93,17 +140,10 @@ const assessmentResults = (report) => ({
             </div>
 
             <!-- Assessment Tabs -->
-            <AssessmentTabs 
-                :assessmentResults="assessmentResults(reports[activeReportIndex])" 
-            />
+            <AssessmentTabs :assessmentResults="assessmentResults(reports[activeReportIndex])" />
 
             <!-- Report Download -->
-            <ReportDownload 
-                :note="reports[activeReportIndex]?.notulen[0]?.description || note" 
-                :report="report" 
-                :tkId="tkId"
-                @download-pdf="handleDownloadPDF" 
-            />
+            <ReportDownload :report="report" :tkId="tkId" @download-pdf="handleDownloadPDF" />
         </div>
     </div>
 </template>

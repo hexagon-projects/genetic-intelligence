@@ -14,8 +14,8 @@ const store = useStore()
 const idUser = ref(null);
 
 const userData = computed(() => store.getters.getUserData);
+const ageUser = localStorage.getItem('ageUser')
 
-// Data dari API
 const apiQuestions = ref([]);
 const introduction = {
     title: "Petunjuk",
@@ -34,38 +34,54 @@ const slideDirection = ref('next');
 const hasStarted = ref(false);
 const isLoading = ref(false);
 
-// Fungsi untuk memetakan tipe dari API ke kunci yang sesuai
-const mapQuestionType = (type) => {
-    const typeMapping = {
-        'Kognisi': 'kognisi',
-        'Psikomotorik': 'psikomotorik',
-        'Emosi': 'emosi',
-        'Relasi': 'relasi',
-        'Kemandirian': 'mandiri' // Perhatikan: di API disebut 'Kemandirian' tapi di payload 'mandiri'
-    };
-
-    return typeMapping[type] || null;
+const mapQuestionType = (type, age) => {
+    if (!isNaN(age) && age <= 3) {
+        const typeMapping = {
+            'kognitif': 'kognisi',
+            'psikomotor': 'psikomotorik',
+            'emosi': 'emosi',
+            'relasi_sosial': 'relasi',
+            'kemandirian': 'mandiri'
+        };
+        return typeMapping[type] || null;
+    }
+    else {
+        const typeMapping = {
+            'Kognisi': 'kognisi',
+            'Psikomotorik': 'psikomotorik',
+            'Emosi': 'emosi',
+            'Relasi': 'relasi',
+            'Kemandirian': 'mandiri'
+        };
+        return typeMapping[type] || null;
+    }
 };
 
-// Fungsi untuk mengambil data pertanyaan dari API
 const fetchQuestions = async () => {
     try {
+        const age = parseInt(localStorage.getItem('ageUser'));
         isLoading.value = true;
         const token = Cookies.get('token');
-        const response = await initAPI('get', 'teacher/questions', null, token);
+
+        let endpoint = 'teacher/questions';
+        if (!isNaN(age) && age <= 3) {
+            endpoint = 'kids/questions';
+        }
+
+        const response = await initAPI('get', endpoint, null, token);
 
         if (response.data && response.data.data) {
             apiQuestions.value = response.data.data;
 
-            // Transform data dari API ke format yang digunakan komponen
             questions.value = apiQuestions.value.map(q => ({
                 id: q.id,
                 question: q.question,
                 category: `Aspek ${q.type}`,
-                type: mapQuestionType(q.type), // Gunakan fungsi mapping
+                type: mapQuestionType(q.type, age),
                 selectedOption: null,
                 answers: q.answers
             }));
+
         }
     } catch (error) {
         console.error('Error fetching questions:', error);
@@ -127,10 +143,10 @@ const prevQuestion = () => {
     }
 };
 
-// Fungsi untuk mengirim jawaban ke API
 const submitAnswers = async () => {
     try {
-        if (!idUser) {
+        // Pastikan idUser ada
+        if (!idUser.value) {
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal Mengirim Jawaban',
@@ -144,38 +160,51 @@ const submitAnswers = async () => {
 
         isLoading.value = true;
 
-        // Mengelompokkan jawaban berdasarkan tipe
         const groupedAnswers = {
             customer_id: parseInt(idUser.value),
             kognisi: [],
             psikomotorik: [],
             emosi: [],
             relasi: [],
-            mandiri: [] // Sesuai dengan format payload API
+            mandiri: []
         };
 
-        // Mengisi jawaban berdasarkan tipe pertanyaan
+        const age = parseInt(localStorage.getItem('ageUser'));
+        if (!isNaN(age) && age <= 3) {
+            groupedAnswers.type = 'teacher';
+        }
+
         questions.value.forEach(q => {
             if (q.selectedOption !== null && q.type) {
-                // Pastikan tipe valid sebelum push
-                if (groupedAnswers[q.type]) {
-                    groupedAnswers[q.type].push(q.selectedOption);
+                if (groupedAnswers.hasOwnProperty(q.type)) {
+                    groupedAnswers[q.type].push(parseInt(q.selectedOption));
                 } else {
-                    console.warn(`Tipe pertanyaan tidak dikenali: ${q.type}`);
+                    console.warn(`Tipe pertanyaan tidak dikenali: ${q.type}`, q);
                 }
             }
         });
 
-        // Membuat payload sesuai format yang diminta
-        const payload = {
-            ...groupedAnswers
-        };
+        const aspects = ['kognisi', 'psikomotorik', 'emosi', 'relasi', 'mandiri'];
+        aspects.forEach(aspect => {
+            if (groupedAnswers[aspect].length === 0) {
+                console.warn(`Tidak ada jawaban untuk aspek ${aspect}, mengisi dengan nilai default`);
+                groupedAnswers[aspect] = [0, 0, 0, 0, 0];
+            }
+        });
 
-        // Mengirim data ke API dengan token
         const token = Cookies.get('token');
-        const response = await initAPI('post', 'staff/teacher', payload, token);
+        let response;
 
-        if (response.data && response.data.message === "Jawaban Berhasil Direkam.") {
+        if (!isNaN(age) && age <= 3) {
+            response = await initAPI('post', 'customers/kid', groupedAnswers, token);
+        } else {
+            if (groupedAnswers.type) {
+                delete groupedAnswers.type;
+            }
+            response = await initAPI('post', 'staff/teacher', groupedAnswers, token);
+        }
+
+        if (response?.data?.message === "Jawaban Berhasil Direkam.") {
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil!',
@@ -183,13 +212,23 @@ const submitAnswers = async () => {
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {
-                localStorage.setItem('tk_id', response.data.data.tk_id);
+                if (!isNaN(age) && age <= 3) {
+                    localStorage.setItem('tk_id', response.data.data.kid_id);
+                } else {
+                    localStorage.setItem('tk_id', response.data.data.tk_id);
+                }
+
                 localStorage.setItem('userId', idUser.value);
+                localStorage.removeItem('ageUser');
+
                 router.push('/staff/detail-anak/kuisioner-input');
             });
         }
     } catch (error) {
         console.error('Error submitting answers:', error);
+        if (error.response) {
+            console.error('Response error:', error.response.data);
+        }
         Swal.fire({
             icon: 'error',
             title: 'Gagal Mengirim Jawaban',
@@ -254,7 +293,8 @@ onMounted(() => {
                                     <div class="w-fit flex gap-4 items-center">
                                         <div
                                             class="w-8 h-8 rounded-full text-[#8E8E8E] group-hover:text-primary group-hover:bg-[#C7C7FD] transition-all duration-500 flex justify-center items-center">
-                                            <h6 class="text-xs md:text-sm font-semibold">{{ option.id.toString().padStart(2, '0')
+                                            <h6 class="text-xs md:text-sm font-semibold">{{
+                                                option.id.toString().padStart(2, '0')
                                             }}</h6>
                                         </div>
                                         <p

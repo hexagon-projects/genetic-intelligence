@@ -16,7 +16,8 @@ const setActiveTab = (tabName) => {
 <template>
     <div class="w-full md:w-[25%] p-3 md:p-6 rounded-3xl bg-white space-y-3 md:space-y-8 shadow-md shadow-black/5">
         <div class="w-full flex items-center">
-            <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="" class="w-24 h-24 md:w-36 md:h-36 rounded-full mx-auto border border-[#CBCBFD]">
+            <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt=""
+                class="w-24 h-24 md:w-36 md:h-36 rounded-full mx-auto border border-[#CBCBFD]">
         </div>
 
         <div class="space-y-2 text-center">
@@ -37,8 +38,7 @@ const setActiveTab = (tabName) => {
             </div>
 
             <div class="p-4 rounded-full cursor-pointer transition-all duration-500 flex items-center gap-2"
-                :class="activeTab === 'report' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'"
-                @click="setActiveTab('report')">
+                :class="activeTab === 'report' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'" @click="setActiveTab('report')">
                 <TabIcon type="report" :active="activeTab === 'report'" />
                 <p class="transition-all duration-500 text-sm md:text-base"
                     :class="activeTab === 'report' ? 'text-primary' : 'text-[#8E8E8E] group-hover:text-primary'">
@@ -63,6 +63,16 @@ const setActiveTab = (tabName) => {
                 <p class="transition-all duration-500 text-sm md:text-base"
                     :class="activeTab === 'report-child' ? 'text-primary' : 'text-[#8E8E8E] group-hover:text-primary'">
                     Report Pertumbuhan Anak
+                </p>
+            </div>
+
+            <div class="p-4 rounded-full cursor-pointer transition-all duration-500 flex items-center gap-2"
+                :class="activeTab === 'check-report' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'"
+                @click="setActiveTab('check-report')">
+                <TabIcon type="check-report" :active="activeTab === 'check-report'" />
+                <p class="transition-all duration-500 text-sm md:text-base"
+                    :class="activeTab === 'check-report' ? 'text-primary' : 'text-[#8E8E8E] group-hover:text-primary'">
+                    Catatan Pemeriksaan
                 </p>
             </div>
         </div>
