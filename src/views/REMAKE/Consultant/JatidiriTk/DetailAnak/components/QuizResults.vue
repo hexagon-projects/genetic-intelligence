@@ -1,4 +1,13 @@
 <script setup>
+const translateStatus = (status) => {
+  const statusMap = {
+    'pending': 'Pending',
+    'proses': 'Proses', 
+    'approve': 'Disetujui'
+  };
+  return statusMap[status] || status;
+};
+
 const props = defineProps({
     activeResultTab: String,
     latestQuizResult: Object,
@@ -10,7 +19,7 @@ const props = defineProps({
     teacherConclusion: Object
 });
 
-const emit = defineEmits(['changeTab']);
+const emit = defineEmits(['changeTab', 'edit']);
 
 const changeTab = (tabName) => {
     emit('changeTab', tabName);
@@ -159,7 +168,7 @@ const changeTab = (tabName) => {
                                             activeResultTab === 'emosi' ? 'Emosi' :
                                                 activeResultTab === 'relasiSosial' ? 'Relasi Sosial' : 'Kemandirian'
                             )?.keterangan || 'Tidak ada data'
-                            }}</p>
+                        }}</p>
                         <div class="py-1 px-4 rounded-full bg-primary w-fit text-xs text-white">
                             Skor {{
                                 getQuizDataByCategory(
@@ -168,7 +177,7 @@ const changeTab = (tabName) => {
                                             activeResultTab === 'kognisi' ? 'Kognisi' :
                                                 activeResultTab === 'emosi' ? 'Emosi' :
                                                     activeResultTab === 'relasiSosial' ? 'Relasi Sosial' : 'Kemandirian'
-                            )?.skor || '0'
+                                )?.skor || '0'
                             }}
                         </div>
                     </template>
@@ -180,6 +189,34 @@ const changeTab = (tabName) => {
             <div v-for="(doc, index) in getQuizDocumentations" :key="index">
                 <img :src="getImageUrl(doc.file)" alt="Dokumentasi"
                     class="w-32 h-32 rounded-xl object-contain cursor-pointer" @click="openImageModal(doc)">
+            </div>
+        </div>
+
+        <div v-if="latestQuizResult?.rekomendasi" class="space-y-2">
+            <p class="text-xs text-[#8E8E8E] font-semibold">Rekomendasi</p>
+            <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                <p class="text-xs">{{ latestQuizResult.rekomendasi }}</p>
+            </div>
+        </div>
+
+        <div v-if="latestQuizResult?.status" class="space-y-2">
+            <p class="text-xs text-[#8E8E8E] font-semibold">Status</p>
+            <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                <p class="text-xs">{{ translateStatus(latestQuizResult.status) }}</p>
+            </div>
+        </div>
+
+        <div v-if="latestQuizResult?.consultan" class="space-y-2">
+            <p class="text-xs text-[#8E8E8E] font-semibold">Tester</p>
+            <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                <p class="text-xs">{{ latestQuizResult.consultan.name }}</p>
+            </div>
+        </div>
+
+        <div v-if="latestQuizResult?.aprove" class="space-y-2">
+            <p class="text-xs text-[#8E8E8E] font-semibold">Disetujui</p>
+            <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                <p class="text-xs">{{ latestQuizResult.aprove.name }}</p>
             </div>
         </div>
 
@@ -215,7 +252,7 @@ const changeTab = (tabName) => {
         </div>
 
         <div>
-            <button
+            <button @click="$emit('edit')"
                 class="py-3 px-6 rounded-full text-white flex items-center gap-2 ml-auto text-sm md:text-base bg-primary">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

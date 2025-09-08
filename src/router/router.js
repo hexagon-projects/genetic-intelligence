@@ -272,7 +272,7 @@ const routes = [
             showFooter: true
         },
         beforeEnter: (to, from, next) => {
-            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment', 'test-iaa', 'test-tik', 'test-rmib', 'test-jatidiri', 'starter-pack', 'test-anxiety', 'test-stres', 'test-mental', 'test-mapping']
+            const allowedPayments = ['test-gim', 'test-iq', 'test-assessment', 'test-iaa', 'test-tik', 'test-rmib', 'test-jatidiri', 'starter-pack', 'test-anxiety', 'test-stres', 'test-mental', 'test-mapping', 'test-ist']
             const tipePembayaran = to.params.tipePembayaran;
 
             if (allowedPayments.includes(tipePembayaran)) {

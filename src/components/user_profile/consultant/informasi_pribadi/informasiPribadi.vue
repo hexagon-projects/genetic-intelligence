@@ -86,7 +86,6 @@ export default {
             const token = Cookies.get('token')
 
             const formData = new FormData();
-            formData.append('_method', 'PUT');
             formData.append('name', DOMPurify.sanitize(nama.value));
             formData.append('gender', DOMPurify.sanitize(jenisKelamin.value));
             formData.append('birth_place', DOMPurify.sanitize(tempatLahir.value));
@@ -96,7 +95,7 @@ export default {
 
             if(token){
                 const response = await initAPI(
-                    'post','consultants/'+consultantId, formData, token
+                    'put','consultants/'+consultantId, formData, token
                 );
     
                 if(response.status == 200){

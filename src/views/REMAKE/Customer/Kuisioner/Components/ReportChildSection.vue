@@ -56,16 +56,34 @@ const closeImageModal = () => {
                     </div>
                 </div>
 
+                <div v-if="report.status" class="space-y-2">
+                    <p class="text-xs text-[#8E8E8E] font-semibold">Status</p>
+                    <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                        <p class="text-xs">{{ report.status }}</p>
+                    </div>
+                </div>
+
+                <div v-if="report.consultan?.name" class="space-y-2">
+                    <p class="text-xs text-[#8E8E8E] font-semibold">Tester</p>
+                    <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                        <p class="text-xs">{{ report.consultan?.name }}</p>
+                    </div>
+                </div>
+
+                <div v-if="report.aprove?.name" class="space-y-2">
+                    <p class="text-xs text-[#8E8E8E] font-semibold">Disetujui Oleh</p>
+                    <div class="w-full bg-[#F5F5F5] p-4 rounded-xl">
+                        <p class="text-xs">{{ report.aprove?.name }}</p>
+                    </div>
+                </div>
+
                 <div v-if="report.documentations && report.documentations.length > 0" class="space-y-2">
                     <p class="text-xs text-[#8E8E8E] font-semibold">Dokumentasi Observasi</p>
                     <div class="flex flex-wrap items-center gap-4">
                         <div v-for="doc in report.documentations" :key="doc.id">
-                            <img 
-                                :src="getImageUrl(doc.file)" 
-                                :alt="doc.title || 'Dokumentasi'"
+                            <img :src="getImageUrl(doc.file)" :alt="doc.title || 'Dokumentasi'"
                                 class="w-32 h-32 rounded-xl object-cover border cursor-pointer"
-                                @click="openImageModal(doc)"
-                            >
+                                @click="openImageModal(doc)">
                         </div>
                     </div>
                 </div>
@@ -122,21 +140,18 @@ const closeImageModal = () => {
         </div>
     </div>
 
-    <div v-if="showImageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4" @click="closeImageModal">
+    <div v-if="showImageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4"
+        @click="closeImageModal">
         <div class="relative max-w-4xl max-h-screen overflow-auto" @click.stop>
-            <button 
-                class="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 z-10"
-                @click="closeImageModal"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button class="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 z-10"
+                @click="closeImageModal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <img 
-                :src="getImageUrl(activeImage.file)" 
-                :alt="activeImage.title || 'Dokumentasi'"
-                class="max-w-full max-h-screen object-contain"
-            >
+            <img :src="getImageUrl(activeImage.file)" :alt="activeImage.title || 'Dokumentasi'"
+                class="max-w-full max-h-screen object-contain">
         </div>
     </div>
 </template>

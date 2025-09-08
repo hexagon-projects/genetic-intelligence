@@ -10,10 +10,16 @@ const token = Cookies.get('token');
 
 // Data state
 const users = ref([]);
+const filteredUsers = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
 const selectedUsers = ref(new Set());
 const isLoading = ref(true);
+
+// Search and filter states
+const searchQuery = ref('');
+const institutionFilter = ref('all');
+const uniqueInstitutions = ref([]);
 
 // Fetch data from API
 const fetchUsers = async () => {
@@ -22,6 +28,16 @@ const fetchUsers = async () => {
     const response = await initAPI('GET', 'consultant/list-pengguna/tk', null, token);
     if (response.data.data && Array.isArray(response.data.data)) {
       users.value = response.data.data;
+      filteredUsers.value = response.data.data;
+      
+      // Extract unique institutions
+      const institutions = new Set();
+      response.data.data.forEach(user => {
+        if (user.institutions && user.institutions.name) {
+          institutions.add(user.institutions.name);
+        }
+      });
+      uniqueInstitutions.value = ['all', ...Array.from(institutions).sort()];
     } else {
       console.error('Unexpected API response format:', response);
     }
@@ -32,12 +48,36 @@ const fetchUsers = async () => {
   }
 };
 
+// Filter users based on search and institution
+const applyFilters = () => {
+  let result = users.value;
+  
+  // Apply search filter
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase();
+    result = result.filter(user => {
+      const fullName = `${user.first_name || ''} ${user.last_name || ''}`.toLowerCase();
+      return fullName.includes(query);
+    });
+  }
+  
+  // Apply institution filter
+  if (institutionFilter.value !== 'all') {
+    result = result.filter(user => 
+      user.institutions && user.institutions.name === institutionFilter.value
+    );
+  }
+  
+  filteredUsers.value = result;
+  currentPage.value = 1; // Reset to first page when filters change
+};
+
 // Pagination
-const totalPages = computed(() => Math.ceil(users.value.length / itemsPerPage.value));
+const totalPages = computed(() => Math.ceil(filteredUsers.value.length / itemsPerPage.value));
 const paginatedUsers = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
   const end = start + itemsPerPage.value;
-  return users.value.slice(start, end);
+  return filteredUsers.value.slice(start, end);
 });
 
 // Navigation
@@ -64,15 +104,15 @@ const selectAllUsers = (event) => {
 
 // Export CSV function
 const exportToCSV = () => {
-  if (users.value.length === 0) return;
+  if (filteredUsers.value.length === 0) return;
   
   // Define CSV headers
   const headers = ['Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Jenis Kelamin', 'Alamat', 'No. Telepon', 'Sekolah', 'Kelas'];
   
   // Map data to CSV rows
   const dataToExport = selectedUsers.value.size > 0 
-    ? users.value.filter(user => selectedUsers.value.has(user.id))
-    : users.value;
+    ? filteredUsers.value.filter(user => selectedUsers.value.has(user.id))
+    : filteredUsers.value;
   
   const csvData = dataToExport.map(user => {
     return [
@@ -112,7 +152,7 @@ onMounted(() => {
 
 <template>
     <Layout>
-        <div class="p-4 space-y-4 md:space-y-6">
+        <div class="p-4 space-y-4 md:space-y-6 pb-20 lg:pb-0">
             <!-- Header Section -->
             <div class="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="flex gap-3 items-center">
@@ -149,6 +189,47 @@ onMounted(() => {
                 </div>
             </div>
 
+            <!-- Search and Filter Section -->
+            <div class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Search Input -->
+                    <div class="flex-1">
+                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Cari Nama</label>
+                        <div class="relative">
+                            <input 
+                                id="search"
+                                type="text" 
+                                v-model="searchQuery" 
+                                @input="applyFilters"
+                                placeholder="Masukkan nama anak..."
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            >
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Institution Filter -->
+                    <div class="flex-1">
+                        <label for="institution" class="block text-sm font-medium text-gray-700 mb-1">Filter Institusi</label>
+                        <select 
+                            id="institution"
+                            v-model="institutionFilter" 
+                            @change="applyFilters"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        >
+                            <option value="all">Semua Institusi</option>
+                            <option v-for="institution in uniqueInstitutions.slice(1)" :key="institution" :value="institution">
+                                {{ institution }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <!-- Loading State -->
             <div v-if="isLoading" class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
                 <p class="text-gray-600">Memuat data...</p>
@@ -156,6 +237,15 @@ onMounted(() => {
 
             <!-- Table Section -->
             <section v-else class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <!-- Results count -->
+                <div class="px-6 py-4 bg-gray-50/50 border-b border-gray-100">
+                    <p class="text-sm text-gray-600">
+                        Ditemukan {{ filteredUsers.length }} hasil
+                        <span v-if="searchQuery"> untuk pencarian "{{ searchQuery }}"</span>
+                        <span v-if="institutionFilter !== 'all'"> di institusi {{ institutionFilter }}</span>
+                    </p>
+                </div>
+
                 <!-- Mobile responsive wrapper -->
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[800px]">
@@ -247,16 +337,16 @@ onMounted(() => {
                 </div>
 
                 <!-- Empty State -->
-                <div v-if="users.length === 0" class="w-full p-8 text-center">
-                    <p class="text-gray-600">Tidak ada data pengguna</p>
+                <div v-if="filteredUsers.length === 0" class="w-full p-8 text-center">
+                    <p class="text-gray-600">Tidak ada data pengguna yang sesuai dengan filter</p>
                 </div>
 
                 <!-- Pagination -->
-                <div v-if="users.length > 0" class="px-6 py-4 bg-gray-50/30 border-t border-gray-100">
+                <div v-if="filteredUsers.length > 0" class="px-6 py-4 bg-gray-50/30 border-t border-gray-100">
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="text-sm text-gray-700">
-                            Menampilkan {{ Math.min((currentPage - 1) * itemsPerPage + 1, users.length) }} - 
-                            {{ Math.min(currentPage * itemsPerPage, users.length) }} dari {{ users.length }} hasil
+                            Menampilkan {{ Math.min((currentPage - 1) * itemsPerPage + 1, filteredUsers.length) }} - 
+                            {{ Math.min(currentPage * itemsPerPage, filteredUsers.length) }} dari {{ filteredUsers.length }} hasil
                         </div>
                         
                         <div class="flex items-center gap-2">

@@ -294,7 +294,7 @@ const fetchPsikologData = async () => {
         );
 
         if (response.data && response.data.data) {
-            psikologReports.value = response.data.data;
+            psikologReports.value = response.data.data.filter(report => report.status === 'approve');
         }
     } catch (error) {
         console.error('Error fetching psikolog data:', error);

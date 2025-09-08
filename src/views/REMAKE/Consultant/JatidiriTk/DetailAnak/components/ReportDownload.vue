@@ -7,7 +7,7 @@ const props = defineProps({
 
 const downloadPDF = () => {
     if (props.tkId) {
-        window.location.href = `https://api-staging.jatidiri.app/api/result-anak/${props.tkId}`;
+        window.location.href = `https://api.jatidiri.app/api/result-anak/${props.tkId}`;
     } else {
         console.log(`Download Dimulai `)
     }

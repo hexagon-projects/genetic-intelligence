@@ -18,12 +18,12 @@ const emit = defineEmits(['downloadPDF']);
 
 const getImageUrl = (filePath) => {
     if (!filePath) return '';
-    return `https://api-staging.jatidiri.app/storage/${filePath}`;
+    return `https://api.jatidiri.app/storage/${filePath}`;
 };
 
 const handleDownload = (reportName) => {
     if (props.tkId) {
-        window.location.href = `https://api-staging.jatidiri.app/api/result-anak/${props.tkId}`;
+        window.location.href = `https://api.jatidiri.app/api/result-anak/${props.tkId}`;
     } else {
         emit('downloadPDF', reportName);
     }

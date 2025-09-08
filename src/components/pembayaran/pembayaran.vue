@@ -322,6 +322,8 @@ export default {
           ? "v2/payment/test/assessment"
           : tipeParam.value == "test-rmib"
           ? "v2/payment/test/rmib"
+          : tipeParam.value == "test-ist"
+          ? "v2/payment/test/ist"
           : "v2/payment/test/assessment";
 
       // console.log(`bayar ke: `, endpoint)
@@ -427,6 +429,8 @@ export default {
                   ? "user.views.test_talen_mapping"
                   : tipeParam.value == "test-gadget"
                   ? "user.views.test_gadget"
+                  : tipeParam.value == "test-ist"
+                  ? "user.views.ist"
                   : "views.dashboard",
             });
           }
@@ -449,7 +453,7 @@ export default {
       loadingFetch.value = !loadingFetch.value;
       try {
         const response = await initAPI("get", "payment/methods", null, null);
-        paymentMethod.value = response.data.paymentFee;
+        paymentMethod.value = response.data.data.paymentFee;
       } catch (error) {
         Swal.fire({
           icon: "error",

@@ -79,13 +79,36 @@
             </div>
 
             <div class="flex items-center gap-4">
-              <div class="text-[#32324D] font-['Roboto'] leading-loose flex flex-row">
+              <div class="text-[#32324D] font-['Roboto'] leading-loose flex flex-row relative">
                   <input
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Cari data pengguna"
-                    class="p-1 px-3 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Cari berdasarkan nama"
+                    class="p-2 px-3 pr-10 rounded-lg bg-transparent border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+                  <svg 
+                    v-if="!searchQuery" 
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    stroke-width="2"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                  </svg>
+                  <button 
+                    v-if="searchQuery" 
+                    @click="clearSearch"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
               </div>
             </div>
           </div>
@@ -132,7 +155,7 @@
              <div class="flex justify-between items-center mb-5"></div>
      
              <div class="overflow-auto w-full">
-               <table v-if="listSiswa.length > 0"
+               <table v-if="filteredSiswa.length > 0"
                   class="w-full border-separate border-spacing-0 text-left text-gray-500 text-sm font-['Roboto'] leading-normal"
                 >
                   <thead class="text-[#344053]">
@@ -147,7 +170,7 @@
                     </tr>
                   </thead>
       
-                  <tbody v-for="(siswa, index) in listSiswa" :key="index">
+                  <tbody v-for="(siswa, index) in filteredSiswa" :key="index">
                     <tr class="border-b">
                       <td class="py-3 px-4">{{ (currentPage - 1) * perPage + index + 1 }}</td>
                       <td class="py-3 px-4 flex items-center gap-2">
@@ -188,10 +211,20 @@
                   </tbody>
                 </table>
 
-                <div v-else class="w-full flex justify-center">
-                  <span class="mx-auto font-roboto text-lg text-black">
-                    Data Kosong...
+                <div v-else class="w-full flex flex-col items-center py-8">
+                  <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                  <span class="mx-auto font-roboto text-lg text-gray-500">
+                    {{ searchQuery ? `Tidak ada data dengan nama "${searchQuery}"` : 'Data Kosong...' }}
                   </span>
+                  <button 
+                    v-if="searchQuery" 
+                    @click="clearSearch"
+                    class="mt-2 text-blue-500 hover:text-blue-700 text-sm"
+                  >
+                    Hapus pencarian
+                  </button>
                 </div>
              </div>
            </div>
@@ -363,6 +396,31 @@
     const totalSiswa = ref('')
     const loading = ref(true);
 
+    // Computed property untuk filter siswa berdasarkan search query
+    const filteredSiswa = computed(() => {
+        if (!searchQuery.value) {
+            return listSiswa.value;
+        }
+        
+        const query = searchQuery.value.toLowerCase();
+        return listSiswa.value.filter(siswa => {
+            const name = siswa.name ? siswa.name.toLowerCase() : '';
+            const firstName = siswa.first_name ? siswa.first_name.toLowerCase() : '';
+            const lastName = siswa.last_name ? siswa.last_name.toLowerCase() : '';
+            const email = siswa.user?.email ? siswa.user.email.toLowerCase() : '';
+            
+            return name.includes(query) || 
+                   firstName.includes(query) || 
+                   lastName.includes(query) ||
+                   email.includes(query);
+        });
+    });
+
+    // Fungsi untuk clear search
+    const clearSearch = () => {
+        searchQuery.value = '';
+    };
+
     const getSiswa = async(jumpEndpoint = null) => {
         try {
             loading.value = true;
@@ -393,9 +451,10 @@
                 endpoint += `&sort_by=${sortBy.value}`;
             }
 
-            if (searchQuery.value) {
-                endpoint += `&search=${searchQuery.value}`;
-            }
+            // Tidak perlu mengirim search query ke API karena kita filter di frontend
+            // if (searchQuery.value) {
+            //     endpoint += `&search=${searchQuery.value}`;
+            // }
 
             if (perPage.value) {
               endpoint += `&perpage=${perPage.value}`
@@ -408,6 +467,7 @@
             if(jumpEndpoint !== null){
               const formattedEndpoint = jumpEndpoint.split('api/')[1]
               const response = await initAPI("get", formattedEndpoint, null, token);
+
               listSiswa.value = response.data.data
               totalSiswa.value = response.data.total
               currentPage.value = response.data.current_page
@@ -439,9 +499,10 @@
         }
     }
 
-const debouncedSearch = debounce(() => {
-  getSiswa();
-}, 500)
+// Remove debounced search since we're filtering on frontend now
+// const debouncedSearch = debounce(() => {
+//   getSiswa();
+// }, 500)
 
 const getKelas = async() => {
   try {
@@ -451,7 +512,6 @@ const getKelas = async() => {
     ? JSON.parse(localStorage.getItem('userData')).staff.institution_id : null
 
     const response = await initAPI("get", `grades?institution_id=${institutionId}`, null, token);
-
     const arrFormattedData = response.data.map((item) => ({
         value: item.grade,
         label: item.grade
@@ -477,9 +537,10 @@ watch([kelas, tipeKecerdasan, skorIq, gayaBelajar, sortBy, perPage], () => {
     getSiswa();
 });
 
-watch(searchQuery, () => {
-    debouncedSearch();
-});
+// Remove search watcher since we're filtering on frontend
+// watch(searchQuery, () => {
+//     debouncedSearch();
+// });
 
 watch([currentPage, totalPages], () => {
   getSiswa();
@@ -521,10 +582,10 @@ const navigateToDetail = (id) => {
   router.push({ path: '/staff/detail-anak', query: { id } });
 };
 
-// Fungsi untuk export CSV
+// Fungsi untuk export CSV - update to use filtered data
 const exportCSV = () => {
   const headers = ['Nama', 'Email', 'No. Telepon', 'Tempat Lahir', 'Tanggal Lahir', 'Jenis Kelamin', 'Kelas', 'Status Deteksi'];
-  const csvData = listSiswa.value.map(user => [
+  const csvData = filteredSiswa.value.map(user => [
     user.name,
     user.user?.email || '',
     user.number || '',

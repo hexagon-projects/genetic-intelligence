@@ -1,9 +1,7 @@
 <template>
 
   <div class="flex flex-col gap-[16px] items-center mb-[56px]">
-    <div
-      class="bg-[#D6D6FE] rounded-3xl flex justify-center items-center w-[122px] h-[32px]"
-    >
+    <div class="bg-[#D6D6FE] rounded-3xl flex justify-center items-center w-[122px] h-[32px]">
       <span class="font-roboto font-medium text-[#3030F8]">Pilih Tes</span>
     </div>
 
@@ -11,9 +9,7 @@
       Assesment Jatidiri
     </h1>
 
-    <h3
-      class="mx-4 lg:mx-0 text-[#667085] text-center font-normal text-sm md:text-base font-sora"
-    >
+    <h3 class="mx-4 lg:mx-0 text-[#667085] text-center font-normal text-sm md:text-base font-sora">
       Berikut tahapan proses dalam menggunakan Jatidiri.app untuk memahami diri
       melalui berbagai tes:
     </h3>
@@ -26,29 +22,17 @@
     </div>
     <div class="w-full md:w-auto">
       <div
-        class="flex items-center max-w-md mx-auto bg-transparent border border-gray-300 rounded-full px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-400"
-      >
+        class="flex items-center max-w-md mx-auto bg-transparent border border-gray-300 rounded-full px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-400">
         <!-- Ikon Search -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 text-gray-400"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
             d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"
-            clip-rule="evenodd"
-          />
+            clip-rule="evenodd" />
         </svg>
 
         <!-- Input Search -->
-        <input
-          type="text"
-          placeholder="Cari Assement ..."
-          v-model="searchQuery"
-          class="ml-2 w-full border-none focus:ring-0 focus:outline-none bg-transparent text-gray-700"
-        />
+        <input type="text" placeholder="Cari Assement ..." v-model="searchQuery"
+          class="ml-2 w-full border-none focus:ring-0 focus:outline-none bg-transparent text-gray-700" />
       </div>
     </div>
   </div>
@@ -56,22 +40,15 @@
   <div class="my-5 w-full px-5 md:px-32">
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       <!-- card -->
-      <div
-        class="bg-biru p-3 md:p-5 rounded-[24px] md:rounded-[32px] flex flex-col gap-5"
-        v-for="(assement, index) in filteredAssesments"
-        :key="index"
-      >
+      <div class="bg-biru p-3 md:p-5 rounded-[24px] md:rounded-[32px] flex flex-col gap-5"
+        v-for="(assement, index) in filteredAssesments" :key="index">
         <div class="flex justify-between">
-          <div
-            class="font-sora font-semibold text-xs md:text-xl col-span-2 text-white"
-          >
+          <div class="font-sora font-semibold text-xs md:text-xl col-span-2 text-white">
             {{ assement.name }}
           </div>
           <div>
-            <RouterLink
-              :to="{ name: assement.link }"
-              class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-5 md:h-10 w-5 md:w-10 flex justify-center items-center bg-white rounded-full"
-            >
+            <RouterLink :to="{ name: assement.link }"
+              class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-5 md:h-10 w-5 md:w-10 flex justify-center items-center bg-white rounded-full">
               <img src="@/assets/icons/rt.svg" alt="go" />
             </RouterLink>
           </div>
@@ -79,30 +56,18 @@
         <span class="font-sora text-white hidden md:block min-h-[90px]">
           {{ assement.desc }}
         </span>
-        <div
-          class="w-full md:h-52 h-32 rounded-xl overflow-hidden flex items-center justify-center relative"
-        >
+        <div class="w-full md:h-52 h-32 rounded-xl overflow-hidden flex items-center justify-center relative">
           <div
-            class="absolute bottom-0 w-full bg-white md:h-44 h-32 rounded-xl overflow-hidden flex items-center justify-center"
-          ></div>
-          <div
-            class="w-full md:h-52 h-44 rounded-xl overflow-hidden flex items-center justify-center relative z-10"
-          >
-            <img
-              :src="assement.image"
-              :alt="assement.name"
-              class="object-contain absolute"
-            />
+            class="absolute bottom-0 w-full bg-white md:h-44 h-32 rounded-xl overflow-hidden flex items-center justify-center">
+          </div>
+          <div class="w-full md:h-52 h-44 rounded-xl overflow-hidden flex items-center justify-center relative z-10">
+            <img :src="assement.image" :alt="assement.name" class="object-contain absolute" />
           </div>
         </div>
 
-        <RouterLink
-          :to="{ name: assement.link }"
-          class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex"
-        >
-          <div
-            class="text-[#3030f8] text-xs md:text-base font-normal font-sora leading-normal"
-          >
+        <RouterLink :to="{ name: assement.link }"
+          class="hover:translate-x-1 hover:drop-shadow-2xl transition-all h-11 py-1.5 bg-white rounded-full justify-center items-center gap-3 inline-flex">
+          <div class="text-[#3030f8] text-xs md:text-base font-normal font-sora leading-normal">
             Cek Sekarang
           </div>
           <div class="w-3 h-3 relative">
@@ -161,7 +126,7 @@ const assesments = ref([
     name: "Jatidiri",
     desc: "Tes yang dirancang untuk mengukur kepercayaan diri yang meliputi keyakinan, nilai, tujuan, dan peran sosial.",
     link: "user.views.test_jatidiri",
-    image: new URL("@/assets/icons/jatidiri.svg", import.meta.url).href,
+    image: new URL("@/assets/icons/jatidiri.png", import.meta.url).href,
   },
   {
     name: "Jatidiri Anxiety",
@@ -193,6 +158,18 @@ const assesments = ref([
   //   link: "user.views.cpm",
   //   image: new URL("@/assets/icons/talent-mapping.svg", import.meta.url).href,
   // },
+  {
+    name: "Jatidiri Karir",
+    desc: "Petakan masa depan kariermu. Tes ini bantu kamu mengidentifikasi potensi dan kompetensi diri untuk menentukan jalur karier yang paling sesuai.",
+    link: "user.views.karir",
+    image: new URL("@/assets/icons/jatidiri-karir.png", import.meta.url).href,
+  },
+  {
+    name: "Jatidiri Cerdas dewasa",
+    desc: "Tes Jatidiri Cerdas dewasa mengukur berbagai aspek kecerdasan, termasuk kemampuan verbal, numerik, dan spasial, untuk memahami kekuatan intelektualmu.",
+    link: "user.views.ist",
+    image: new URL("@/assets/icons/ist.png", import.meta.url).href,
+  },
 ]);
 
 // filter data sesuai search

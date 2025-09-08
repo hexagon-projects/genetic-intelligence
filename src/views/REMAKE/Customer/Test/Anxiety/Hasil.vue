@@ -28,7 +28,7 @@
                   </div>
                   <section class="flex flex-col items-center gap-14">
                     <span class="w-full text-[#0B0B79] text-2xl font-semibold text-center font-['Sora'] leading-[32px]">
-                      Hasil Tes Anixiety
+                      Hasil Tes Anxiety
                     </span>
                       <div class="flex flex-col justify-center gap-6 px-6 py-6 rounded-2xl bg-[#3030F8] shadow-lg self-stretch max-w-[1000px]">
                           <div class="flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 leading-[24px] ">

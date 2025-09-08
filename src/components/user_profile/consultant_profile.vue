@@ -15,10 +15,10 @@
   
     <div class="lg:w-1/2">
         <div class="flex flex-col gap-5">
-            <div class="bg-white rounded-lg shadow-sm p-4">
+            <!-- <div class="bg-white rounded-lg shadow-sm p-4">
                 <h2 class="font-myFont text-dark text-2xl mb-4">Data Konsultasi</h2>
                 <DataKonsultasi v-if="userData" :userData="userData"/>
-            </div>
+            </div> -->
             <div class="bg-white rounded-lg shadow-sm p-4">
                 <h2 class="font-myFont text-dark text-2xl mb-4">Ubah Password</h2>
                 <UbahPassword v-if="userData" :userData="userData"/>
@@ -106,8 +106,6 @@ export default {
                 }
             }
         })
-
-       
 
         return {
             baseUrl,

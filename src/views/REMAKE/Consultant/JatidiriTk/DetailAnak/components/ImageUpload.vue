@@ -5,8 +5,12 @@ const props = defineProps({
   uploadedImages: {
     type: Array,
     default: () => []
+  },
+  existingDocumentations: {
+    type: Array,
+    default: () => []
   }
-})
+});
 
 const emit = defineEmits(['update:uploadedImages'])
 

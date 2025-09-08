@@ -88,6 +88,14 @@ const saving = ref(false);
 
 const showImageModal = ref(false);
 const activeImage = ref(null);
+const selectedTester = ref(null);
+
+const isEditing = ref(false);
+const editingReportId = ref(null);
+
+const rekomendasi = ref('');
+const approval = ref('');
+const status = ref('pending');
 
 const calculateAge = (birthDate) => {
     if (!birthDate) return null
@@ -249,6 +257,28 @@ const saveReport = async () => {
 
         const reportId = storeReportResponse.data.data.id;
 
+        if (selectedTester.value) {
+            await initAPI("put", `consultant/report/tester/${reportId}`, {
+                consultan_id: selectedTester.value.toString()
+            }, token);
+        }
+
+        if (rekomendasi.value) {
+            await initAPI("put", `consultant/report/${reportId}`, {
+                rekomendasi: rekomendasi.value
+            }, token);
+        }
+
+        if (approval.value) {
+            await initAPI("put", `consultant/report/aproval/${reportId}`, {
+                aprove_by: approval.value.toString()
+            }, token);
+        }
+
+        await initAPI("put", `consultant/report/status/${reportId}`, {
+            status: status.value
+        }, token);
+
         for (let step = 1; step <= 5; step++) {
             const stepData = stepMapping[step];
 
@@ -366,6 +396,10 @@ const handleFinish = () => {
     saveReport();
 };
 
+const handleUpdate = () => {
+    updateReport();
+};
+
 function prevStep() {
     if (activeStep.value > 1) {
         activeStep.value--;
@@ -375,6 +409,7 @@ function prevStep() {
 function changeTab(tabName) {
     activeResultTab.value = tabName;
 }
+
 
 const downloadPDF = () => {
     window.location.href = `https://api.jatidiri.app/api/result-anak/${tkId.value}`;
@@ -421,6 +456,141 @@ const teacherReportConclusion = computed(() => {
     }
 });
 
+const enterEditMode = () => {
+    if (latestQuizResult.value) {
+        isEditing.value = true;
+        editingReportId.value = latestQuizResult.value.id;
+
+        if (latestQuizResult.value.consultan) {
+            selectedTester.value = latestQuizResult.value.consultan_id;
+        }
+
+        latestQuizResult.value.details.forEach(detail => {
+            const key = Object.keys(stepMapping).find(
+                step => stepMapping[step].category === detail.kategori
+            );
+
+            if (key) {
+                const stepKey = stepMapping[key].key;
+                scores.value[stepKey] = Number(detail.skor);
+                notes.value[stepKey] = detail.keterangan;
+                observations.value[stepKey] = detail.catatan;
+            }
+        });
+
+        uploadedImages.value = [];
+        rekomendasi.value = latestQuizResult.value.rekomendasi || '';
+        approval.value = latestQuizResult.value.aprove_by || null;
+        status.value = latestQuizResult.value.status || 'pending';
+    }
+};
+
+const cancelEdit = () => {
+    isEditing.value = false;
+    editingReportId.value = null;
+    selectedTester.value = null;
+
+    Object.keys(scores.value).forEach(key => {
+        scores.value[key] = null;
+        notes.value[key] = '';
+        observations.value[key] = '';
+    });
+    uploadedImages.value = [];
+    rekomendasi.value = '';
+    approval.value = null;
+    status.value = 'pending';
+};
+
+const updateReport = async () => {
+    try {
+        saving.value = true;
+
+        if (selectedTester.value && editingReportId.value) {
+            await initAPI("put", `consultant/report/tester/${editingReportId.value}`, {
+                consultan_id: selectedTester.value.toString()
+            }, token);
+        }
+
+        if (rekomendasi.value && editingReportId.value) {
+            await initAPI("put", `consultant/report/${editingReportId.value}`, {
+                rekomendasi: rekomendasi.value
+            }, token);
+        }
+
+        if (approval.value && editingReportId.value) {
+            await initAPI("put", `consultant/report/aproval/${editingReportId.value}`, {
+                aprove_by: approval.value.toString()
+            }, token);
+        }
+
+        if (editingReportId.value) {
+            await initAPI("put", `consultant/report/status/${editingReportId.value}`, {
+                status: status.value
+            }, token);
+        }
+
+        for (let step = 1; step <= 5; step++) {
+            const stepData = stepMapping[step];
+            const existingDetail = latestQuizResult.value.details.find(
+                d => d.kategori === stepData.category
+            );
+
+            const payload = {
+                kategori: stepData.category,
+                skor: scores.value[stepData.key],
+                keterangan: notes.value[stepData.key],
+                catatan: observations.value[stepData.key]
+            };
+
+            if (existingDetail) {
+                await initAPI("put", `consultant/report/detail/${existingDetail.id}`, payload, token);
+            } else {
+                payload.tk_report_psikolog_id = editingReportId.value;
+                await initAPI("post", "consultant/report/detail", payload, token);
+            }
+        }
+
+        if (uploadedImages.value.length > 0) {
+            for (const image of uploadedImages.value) {
+                const formData = new FormData();
+                formData.append('tk_report_psikolog_id', editingReportId.value);
+                formData.append('title', 'Dokumentasi Observasi');
+                formData.append('file', image.file);
+
+                await initAPI("post", "consultant/report/documentation", formData, token, {
+                    'Content-Type': 'multipart/form-data'
+                });
+            }
+        }
+
+        // Refresh data
+        await checkQuizResult();
+        isEditing.value = false;
+        alert('Data berhasil diperbarui!');
+
+    } catch (error) {
+        console.error('Error updating report:', error);
+        alert('Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
+    } finally {
+        saving.value = false;
+    }
+};
+
+// Fungsi untuk menghapus dokumentasi
+const deleteDocumentation = async (docId) => {
+    if (confirm('Apakah Anda yakin ingin menghapus dokumentasi ini?')) {
+        try {
+            await initAPI("delete", `consultant/report/documentation/${docId}`, null, token);
+
+            // Refresh data untuk menampilkan perubahan
+            await checkQuizResult();
+            alert('Dokumentasi berhasil dihapus!');
+        } catch (error) {
+            console.error('Error deleting documentation:', error);
+            alert('Terjadi kesalahan saat menghapus dokumentasi.');
+        }
+    }
+};
 
 onMounted(async () => {
     idUser.value = route.query.id;
@@ -616,21 +786,54 @@ onMounted(async () => {
 
                 <!-- Konten Quiz Tab Report Anak -->
                 <div v-if="activeTab === 'report-child'" class="space-y-6">
-                    <QuizResults v-if="hasQuizResult && latestQuizResult" :activeResultTab="activeResultTab"
-                        :latestQuizResult="latestQuizResult" :getQuizDataByCategory="getQuizDataByCategory"
-                        :getQuizDocumentations="getQuizDocumentations" :getImageUrl="getImageUrl"
-                        :openImageModal="openImageModal" :downloadPDF="downloadPDF"
-                        :teacherConclusion="teacherReportConclusion" @changeTab="changeTab" />
+                    <!-- Tampilan hasil quiz (sebelumnya) -->
+                    <QuizResults v-if="hasQuizResult && latestQuizResult && !isEditing"
+                        :activeResultTab="activeResultTab" :latestQuizResult="latestQuizResult"
+                        :getQuizDataByCategory="getQuizDataByCategory" :getQuizDocumentations="getQuizDocumentations"
+                        :getImageUrl="getImageUrl" :openImageModal="openImageModal" :downloadPDF="downloadPDF"
+                        :teacherConclusion="teacherReportConclusion" @changeTab="changeTab" @edit="enterEditMode" />
 
+                    <!-- Tampilan form edit (sama seperti create) -->
+                    <div v-else-if="isEditing">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">Edit Hasil Assesment</h3>
+                            <button @click="cancelEdit" class="text-red-500 text-sm">Batal Edit</button>
+                        </div>
+
+                        <StepProgress :activeStep="activeStep" :completedSteps="completedSteps" />
+
+                        <AssessmentForm :activeStep="activeStep" :scores="scores" :notes="notes"
+                            :observations="observations" :uploadedImages="uploadedImages"
+                            :completedSteps="completedSteps" :tester="selectedTester" @update:scores="scores = $event"
+                            @update:notes="notes = $event" @update:observations="observations = $event"
+                            @update:uploadedImages="uploadedImages = $event" @update:tester="selectedTester = $event"
+                            @nextStep="nextStep" @prevStep="prevStep" @finish="handleUpdate" :saving="saving"
+                            :isEditing="true" :existingDocumentations="getQuizDocumentations"
+                            @delete-documentation="deleteDocumentation"
+                            :existingRekomendasi="latestQuizResult?.rekomendasi || ''"
+                            :existingApproval="latestQuizResult?.aprove_by || ''"
+                            :existingStatus="latestQuizResult?.status === 'approve'"
+                            @update:rekomendasi="rekomendasi = $event" @update:approval="approval = $event"
+                            @update:status="status = $event" />
+                    </div>
+
+                    <!-- Tampilan form create (sebelumnya) -->
                     <div v-else>
                         <StepProgress :activeStep="activeStep" :completedSteps="completedSteps" />
 
                         <AssessmentForm :activeStep="activeStep" :scores="scores" :notes="notes"
                             :observations="observations" :uploadedImages="uploadedImages"
-                            :completedSteps="completedSteps" @update:scores="scores = $event"
+                            :completedSteps="completedSteps" :tester="selectedTester" @update:scores="scores = $event"
                             @update:notes="notes = $event" @update:observations="observations = $event"
-                            @update:uploadedImages="uploadedImages = $event" @nextStep="nextStep" @prevStep="prevStep"
-                            @finish="handleFinish" :saving="saving" />
+                            @update:uploadedImages="uploadedImages = $event" @update:tester="selectedTester = $event"
+                            @nextStep="nextStep" @prevStep="prevStep" @finish="handleFinish" :saving="saving"
+                            :isEditing="isEditing" :existingDocumentations="getQuizDocumentations"
+                            @delete-documentation="deleteDocumentation"
+                            :existingRekomendasi="latestQuizResult?.rekomendasi || ''"
+                            :existingApproval="latestQuizResult?.aprove_by || ''"
+                            :existingStatus="latestQuizResult?.status === 'approve'"
+                            @update:rekomendasi="rekomendasi = $event" @update:approval="approval = $event"
+                            @update:status="status = $event" />
                     </div>
                 </div>
 
