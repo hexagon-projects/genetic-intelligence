@@ -35,6 +35,7 @@ import { ref } from "vue";
 
 const navigations = [
   { label: "Antrian Layanan", status: "pengajuan" },
+  { label: "Layanan Disetujui", status: "approved" },
   { label: "Layanan Berjalan", status: "conseling" },
   { label: "Layanan Selesai", status: "selesai" },
 ];

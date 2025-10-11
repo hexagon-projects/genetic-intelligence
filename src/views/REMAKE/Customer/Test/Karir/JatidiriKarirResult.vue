@@ -59,7 +59,7 @@ const handleDownload = async () => {
         downloading.value = true;
         const token = Cookies.get('token');
         const response = await fetch(
-            `https://api.jatidiri.app/api/result-bmw/${apiData.value.karier_id}`,
+            `https://api.jatidiri.app/api/result-bmw/${apiData.value.id}`,
             {
                 method: 'GET',
                 headers: {

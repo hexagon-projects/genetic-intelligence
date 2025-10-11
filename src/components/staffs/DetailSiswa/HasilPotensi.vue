@@ -187,5 +187,5 @@
 import NotFound from "./NotFound.vue";
 const props = defineProps(["siswaDatas"]);
 
-console.log(`props`, props.siswaDatas);
+// console.log(`props`, props.siswaDatas);
 </script>

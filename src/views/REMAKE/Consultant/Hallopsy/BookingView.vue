@@ -293,6 +293,28 @@
                 </div>
               </div>
 
+              <div class="mt-6 pt-6 border-t border-slate-200">
+                <div class="flex flex-col">
+                  <label class="text-sm font-medium text-slate-600 mb-2">Update Google Meet Link</label>
+                  <div class="flex gap-2">
+                    <input 
+                      v-model="gmeetLinkInput" 
+                      type="url" 
+                      placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                      class="flex-1 border border-slate-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                    <button 
+                      @click="updateGmeetLink" 
+                      :disabled="!gmeetLinkInput"
+                      class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Simpan
+                    </button>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-1">Pastikan link Google Meet valid</p>
+                </div>
+              </div>
+
               <div v-if="selectedBooking.structured_medical_answers?.length > 0" class="mt-6">
                 <h4 class="text-lg font-medium text-slate-900 mb-3">Jawaban Medis</h4>
                 <div class="space-y-4">
@@ -330,11 +352,6 @@
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 Konfirmasi Booking
               </button>
-              <!-- <button v-if="selectedBooking.status !== 'cancelled'"
-                @click="updateBookingStatus(selectedBooking.id, 'cancelled')"
-                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                Batalkan Booking
-              </button> -->
               <button @click="selectedBooking = null"
                 class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors">
                 Tutup
@@ -472,7 +489,6 @@
                     }}</h4>
                   <p class="text-slate-700 whitespace-pre-line">{{ result.description }}</p>
 
-                  <!-- Tambahan rekomendasi psikolog (hanya tampilkan di hasil pertama) -->
                   <div v-if="result.recommended_specializations?.length > 0 && result === bookingResults[0]"
                     class="mt-4">
                     <h5 class="font-medium text-slate-800 mb-2">Rekomendasi Spesialisasi:</h5>
@@ -484,7 +500,6 @@
                     </div>
                   </div>
 
-                  <!-- Tambahan rekomendasi assessment (hanya tampilkan di hasil pertama) -->
                   <div v-if="result.recommended_assesments?.length > 0 && result === bookingResults[0]" class="mt-4">
                     <h5 class="font-medium text-slate-800 mb-2">Rekomendasi Assessment:</h5>
                     <div class="flex flex-wrap gap-2">
@@ -586,6 +601,7 @@ export default {
     const statusModalTitle = ref('');
     const statusModalMessage = ref('');
     const isEditingResults = ref(false);
+    const gmeetLinkInput = ref('');
 
     moment.locale('id');
 
@@ -660,8 +676,35 @@ export default {
         const token = await Cookies.get('token');
         const response = await initAPI('get', `consultant-dashboard/bookings/${booking.id}`, null, token);
         selectedBooking.value = response.data.data;
+        gmeetLinkInput.value = selectedBooking.value.meet_link || '';
       } catch (error) {
         console.error('Gagal mengambil detail booking:', error);
+      }
+    };
+
+    const updateGmeetLink = async () => {
+      if (!gmeetLinkInput.value) return;
+      
+      try {
+        const token = await Cookies.get('token');
+        await initAPI('put', `consultant-dashboard/bookings/${selectedBooking.value.id}/meet-link`, {
+          meet_link: gmeetLinkInput.value
+        }, token);
+
+        selectedBooking.value.meet_link = gmeetLinkInput.value;
+        
+        statusUpdateSuccess.value = true;
+        statusModalTitle.value = 'Berhasil';
+        statusModalMessage.value = 'Google Meet link berhasil diperbarui';
+        showStatusModal.value = true;
+        
+        await fetchBookings();
+      } catch (error) {
+        console.error('Gagal memperbarui Google Meet link:', error);
+        statusUpdateSuccess.value = false;
+        statusModalTitle.value = 'Gagal';
+        statusModalMessage.value = 'Gagal memperbarui Google Meet link';
+        showStatusModal.value = true;
       }
     };
 
@@ -906,6 +949,12 @@ export default {
       return assess ? assess.assesment_name : 'Assessment Tidak Diketahui';
     };
 
+    watch(selectedBooking, (newVal) => {
+      if (newVal) {
+        gmeetLinkInput.value = newVal.meet_link || '';
+      }
+    });
+
     return {
       bookings,
       selectedBooking,
@@ -957,7 +1006,9 @@ export default {
       isEditingResults,
       editResults,
       getSpecializationName,
-      getAssessmentName
+      getAssessmentName,
+      gmeetLinkInput,
+      updateGmeetLink
     };
   }
 };

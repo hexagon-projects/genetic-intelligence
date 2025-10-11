@@ -367,12 +367,11 @@ const selectPaymentMethod = (method) => {
             </div>
           </div>
           <h3 class="text-2xl font-bold text-center mb-3 text-gray-800 opacity-0 title-fade">Success!</h3>
-          <p class="text-center mb-4 text-gray-600 leading-relaxed opacity-0 message-fade">Your booking has been
-            confirmed.</p>
-          <div class="mb-6 p-3 bg-gray-100 rounded opacity-0 message-fade">
-            <p class="font-medium text-center">Meeting Link:</p>
+          <p class="text-center mb-4 text-gray-600 leading-relaxed opacity-0 message-fade">Booking kamu telah berhasil.</p>
+          <p class="font-medium text-center">Silahkan tunggu notifikasi selanjutnya melalui email yang anda daftarkan.</p>
+          <!-- <div class="mb-6 p-3 bg-gray-100 rounded opacity-0 message-fade">
             <a :href="meetLink" target="_blank" class="text-blue-600 break-all text-center block">{{ meetLink }}</a>
-          </div>
+          </div> -->
           <button @click="router.push('/hallopsy')"
             class="w-full py-4 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 rounded-full text-white font-semibold text-lg shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/20 opacity-0 button-fade">
             Back to Home

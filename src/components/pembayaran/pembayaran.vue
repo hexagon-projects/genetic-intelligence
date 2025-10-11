@@ -3,26 +3,15 @@
   <section class="bg-gray-100 py-[6vh]">
     <modalInfo v-if="showModal" @understand="toggleModal" />
 
-    <div
-      class="flex flex-col items-center lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4"
-    >
-      <div
-        class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 shadow-sm rounded-lg"
-      >
+    <div class="flex flex-col items-center lg:flex-row justify-center mx-4 mb-4 pt-4 pb-10 gap-4">
+      <div class="bg-white mx-4 w-full lg:w-9/12 lg:mx-auto px-10 py-4 shadow-sm rounded-lg">
         <div class="lg:hidden flex flex-col items-center gap-2">
           <div class="w-full">
-            <label
-              for="code_voucher"
-              class="block text-xs md:text-sm font-myFont font-medium text-gray-600"
-              >Kode Voucher:</label
-            >
-            <input
-              v-model="code_voucher"
-              type="text"
-              name="code_voucher"
+            <label for="code_voucher" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Kode
+              Voucher:</label>
+            <input v-model="code_voucher" type="text" name="code_voucher"
               class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              placeholder="Kode"
-            />
+              placeholder="Kode" />
           </div>
           <div class="flex items-center gap-1">
             <PhInfo :size="28" />
@@ -37,49 +26,25 @@
 
         <div class="lg:hidden flex flex-col justify-center items-center gap-2">
           <div class="w-full">
-            <label
-              for="metode_pembayaran"
-              class="block text-xs md:text-sm font-myFont font-medium text-gray-600"
-              >Metode Pembayaran:</label
-            >
-            <input
-              v-model="paymentType"
-              type="text"
-              name="metode_pembayaran"
+            <label for="metode_pembayaran" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Metode
+              Pembayaran:</label>
+            <input v-model="paymentType" type="text" name="metode_pembayaran"
               class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              placeholder="Pilih Metode Pembayaran"
-              readonly
-            />
+              placeholder="Pilih Metode Pembayaran" readonly />
           </div>
           <div class="w-full">
-            <label
-              for="total_fee"
-              class="block text-xs md:text-sm font-myFont font-medium text-gray-600"
-              >Total Pembayaran:</label
-            >
-            <input
-              v-model="totalFee"
-              type="text"
-              name="total_fee"
+            <label for="total_fee" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Total
+              Pembayaran:</label>
+            <input v-model="totalFee" type="text" name="total_fee"
               class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              placeholder="Rp.0"
-              readonly
-            />
+              placeholder="Rp.0" readonly />
           </div>
           <div class="w-full mb-2">
-            <label
-              for="payment_code"
-              class="block text-xs md:text-sm font-myFont font-medium text-gray-600"
-              >Biaya Admin:</label
-            >
-            <input
-              v-model="feePaymentMethod"
-              type="text"
-              name="payment_code"
+            <label for="payment_code" class="block text-xs md:text-sm font-myFont font-medium text-gray-600">Biaya
+              Admin:</label>
+            <input v-model="feePaymentMethod" type="text" name="payment_code"
               class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              placeholder="Rp.0"
-              readonly
-            />
+              placeholder="Rp.0" readonly />
           </div>
         </div>
 
@@ -89,18 +54,10 @@
 
         <div class="hidden lg:flex items-center gap-4">
           <div class="w-1/4 mb-4">
-            <label
-              for="code_voucher"
-              class="block text-sm font-myFont font-medium text-gray-600"
-              >Kode Voucher:</label
-            >
-            <input
-              v-model="code_voucher"
-              type="text"
-              name="code_voucher"
+            <label for="code_voucher" class="block text-sm font-myFont font-medium text-gray-600">Kode Voucher:</label>
+            <input v-model="code_voucher" type="text" name="code_voucher"
               class="mt-1 p-2 border placeholder:text-sm rounded-md w-full bg-white focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              placeholder="Kode"
-            />
+              placeholder="Kode" />
           </div>
           <div class="flex items-center mt-2 gap-1">
             <PhInfo :size="20" />
@@ -115,85 +72,49 @@
 
         <div class="hidden lg:flex justify-center items-center gap-2 mt-2">
           <div class="w-1/3 mb-4">
-            <label
-              for="metode_pembayaran"
-              class="block text-sm font-myFont font-medium text-gray-600"
-              >Metode Pembayaran:</label
-            >
-            <input
-              v-model="paymentType"
-              type="text"
-              name="metode_pembayaran"
+            <label for="metode_pembayaran" class="block text-sm font-myFont font-medium text-gray-600">Metode
+              Pembayaran:</label>
+            <input v-model="paymentType" type="text" name="metode_pembayaran"
               class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              readonly
-            />
+              readonly />
           </div>
           <div class="w-1/3 mb-4">
-            <label
-              for="total_fee"
-              class="block text-sm font-myFont font-medium text-gray-600"
-              >Total Pembayaran:</label
-            >
-            <input
-              v-model="totalFee"
-              type="text"
-              name="total_fee"
+            <label for="total_fee" class="block text-sm font-myFont font-medium text-gray-600">Total Pembayaran:</label>
+            <input v-model="totalFee" type="text" name="total_fee"
               class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              readonly
-            />
+              readonly />
           </div>
           <div class="w-1/3 mb-4">
-            <label
-              for="payment_code"
-              class="block text-sm font-myFont font-medium text-gray-600"
-              >Biaya Admin:</label
-            >
-            <input
-              v-model="feePaymentMethod"
-              type="text"
-              name="payment_code"
+            <label for="payment_code" class="block text-sm font-myFont font-medium text-gray-600">Biaya Admin:</label>
+            <input v-model="feePaymentMethod" type="text" name="payment_code"
               class="mt-1 p-2 border rounded-md w-full read-only:bg-gray-200 focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru"
-              readonly
-            />
+              readonly />
           </div>
         </div>
         <!-- end form pembayaran -->
 
         <div v-if="loadingFetch" class="flex justify-center h-52 pt-14 w-full">
           <span
-            class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"
-          ></span>
+            class="mx-auto animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14"></span>
         </div>
 
-        <div
-          v-if="!loadingFetch && paymentMethod"
-          class="-ml-2 flex flex-col gap-2 max-h-36 lg:max-h-48 mb-2"
-        >
-          <div
-            class="py-2 px-2 grid grid-cols-4 gap-2 overflow-y-scroll w-full"
-          >
-            <a
-              @click="
-                pilihPayment(
-                  payment.paymentMethod,
-                  payment.paymentName,
-                  payment.totalFee
-                )
-              "
-              v-for="(payment, index) in paymentMethod"
-              :key="index"
-              class="cursor-pointer hover:animate-wiggle bg-white border rounded-lg shadow-sm px-2 py-2"
-            >
+        <div v-if="!loadingFetch && paymentMethod" class="-ml-2 flex flex-col gap-2 max-h-36 lg:max-h-48 mb-2">
+          <div class="py-2 px-2 grid grid-cols-4 gap-2 overflow-y-scroll w-full">
+            <a @click="
+              pilihPayment(
+                payment.paymentMethod,
+                payment.paymentName,
+                payment.totalFee
+              )
+              " v-for="(payment, index) in paymentMethod" :key="index"
+              class="cursor-pointer hover:animate-wiggle bg-white border rounded-lg shadow-sm px-2 py-2">
               <img :src="payment.paymentImage" :alt="payment.paymentName" />
             </a>
           </div>
         </div>
 
         <div class="flex justify-end pt-2">
-          <button
-            @click="submitPayment"
-            class="bg-biru text-white font-myFont px-4 py-2 rounded-lg"
-          >
+          <button @click="submitPayment" class="bg-biru text-white font-myFont px-4 py-2 rounded-lg">
             Bayar
           </button>
         </div>
@@ -242,26 +163,32 @@ export default {
             tipeParam.value == "test-iq"
               ? "test/payment?type=iq"
               : tipeParam.value == "test-gim"
-              ? "test/payment?type=gim"
-              : tipeParam.value == "starter-pack"
-              ? "test/payment?type=starter-pack"
-              : tipeParam.value == "test-iaa"
-              ? "test/payment?type=iaa"
-              : tipeParam.value == "test-tik"
-              ? "test/payment?type=tik"
-              : tipeParam.value == "test-jatidiri"
-              ? "test/payment?type=jatidiri"
-              : tipeParam.value == "test-anxiety"
-              ? "test/payment?type=anxiety"
-              : tipeParam.value == "test-stres"
-              ? "test/payment?type=stres"
-              : tipeParam.value == "test-mental"
-              ? "test/payment?type=mental"
-              : tipeParam.value == "test-mapping"
-              ? "test/payment?type=mapping"
-              : tipeParam.value == "test-rmib"
-              ? "test/payment?type=rmib"
-              : "test/payment?type=assessment";
+                ? "test/payment?type=gim"
+                : tipeParam.value == "starter-pack"
+                  ? "test/payment?type=starter-pack"
+                  : tipeParam.value == "test-iaa"
+                    ? "test/payment?type=iaa"
+                    : tipeParam.value == "test-tik"
+                      ? "test/payment?type=tik"
+                      : tipeParam.value == "test-jatidiri"
+                        ? "test/payment?type=jatidiri"
+                        : tipeParam.value == "test-anxiety"
+                          ? "test/payment?type=anxiety"
+                          : tipeParam.value == "test-stres"
+                            ? "test/payment?type=stres"
+                            : tipeParam.value == "test-mental"
+                              ? "test/payment?type=mental"
+                              : tipeParam.value == "test-mapping"
+                                ? "test/payment?type=mapping"
+                                : tipeParam.value == "test-rmib"
+                                  ? "test/payment?type=rmib"
+                                  : tipeParam.value == "test-ist"
+                                    ? "test/payment?type=ist"
+                                    : tipeParam.value == "test-bmw"
+                                      ? "test/payment?type=bmw"
+                                      : tipeParam.value == "test-tangguh"
+                                        ? "test/payment?type=tangguh"
+                                        : "test/payment?type=assessment";
 
           const response = await initAPI("get", endpoint, null, null);
           totalFee.value = response.data.price;
@@ -301,30 +228,34 @@ export default {
         tipeParam.value == "test-iq"
           ? "v2/payment/test/iq"
           : tipeParam.value == "test-gim"
-          ? "v2/payment/test/gim"
-          : tipeParam.value == "starter-pack"
-          ? "v2/payment/test/starter-pack"
-          : tipeParam.value == "test-iaa"
-          ? "v2/payment/test/iaa"
-          : tipeParam.value == "test-tik"
-          ? "v2/payment/test/tik"
-          : tipeParam.value == "test-jatidiri"
-          ? "v2/payment/test/jatidiri"
-          : tipeParam.value == "test-anxiety"
-          ? "v2/payment/test/anxiety"
-          : tipeParam.value == "test-stres"
-          ? "v2/payment/test/stres"
-          : tipeParam.value == "test-mental"
-          ? "v2/payment/test/mental"
-          : tipeParam.value == "test-mapping"
-          ? "v2/payment/test/mapping"
-          : tipeParam.value == "test-assessment"
-          ? "v2/payment/test/assessment"
-          : tipeParam.value == "test-rmib"
-          ? "v2/payment/test/rmib"
-          : tipeParam.value == "test-ist"
-          ? "v2/payment/test/ist"
-          : "v2/payment/test/assessment";
+            ? "v2/payment/test/gim"
+            : tipeParam.value == "starter-pack"
+              ? "v2/payment/test/starter-pack"
+              : tipeParam.value == "test-iaa"
+                ? "v2/payment/test/iaa"
+                : tipeParam.value == "test-tik"
+                  ? "v2/payment/test/tik"
+                  : tipeParam.value == "test-jatidiri"
+                    ? "v2/payment/test/jatidiri"
+                    : tipeParam.value == "test-anxiety"
+                      ? "v2/payment/test/anxiety"
+                      : tipeParam.value == "test-stres"
+                        ? "v2/payment/test/stres"
+                        : tipeParam.value == "test-mental"
+                          ? "v2/payment/test/mental"
+                          : tipeParam.value == "test-mapping"
+                            ? "v2/payment/test/mapping"
+                            : tipeParam.value == "test-assessment"
+                              ? "v2/payment/test/assessment"
+                              : tipeParam.value == "test-rmib"
+                                ? "v2/payment/test/rmib"
+                                : tipeParam.value == "test-ist"
+                                  ? "v2/payment/test/ist"
+                                  : tipeParam.value == "test-bmw"
+                                    ? "v2/payment/test/bmw"
+                                    : tipeParam.value == "test-tangguh"
+                                      ? "v2/payment/test/tangguh"
+                                      : "v2/payment/test/assessment";
 
       // console.log(`bayar ke: `, endpoint)
       // console.log(`data dikirim:`, data)
@@ -352,13 +283,13 @@ export default {
           if (url.includes("ref=")) {
             fixedUrl =
               // "https://sandbox.duitku.com/topup/topupdirectv2.aspx?ref=";
-            fixedUrl = 'https://passport.duitku.com/topup/topupdirectv2.aspx?ref='
+              fixedUrl = 'https://passport.duitku.com/topup/topupdirectv2.aspx?ref='
             refValue = url.split("ref=")[1];
           } else if (url.includes("reference=")) {
             // console.log('reference', url)
             fixedUrl =
               // "https://sandbox.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference=";
-            fixedUrl = 'https://passport.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
+              fixedUrl = 'https://passport.duitku.com/topup/v2/TopUpCreditCardPayment.aspx?reference='
             refValue = url.split("reference=")[1];
           }
 
@@ -408,30 +339,34 @@ export default {
                 tipeParam.value == "test-iq"
                   ? "user.views.iq"
                   : tipeParam.value == "test-gim"
-                  ? "user.views.deteksi"
-                  : tipeParam.value == "test-assessment"
-                  ? "user.views.assesment"
-                  : tipeParam.value == "test-rmib"
-                  ? "user.views.rmib"
-                  : tipeParam.value == "test-iaa"
-                  ? "user.views.test_gadget"
-                  : tipeParam.value == "test-tik"
-                  ? "user.views.test_kebahagiaan"
-                  : tipeParam.value == "test-jatidiri"
-                  ? "user.views.test_jatidiri"
-                  : tipeParam.value == "test-anxiety"
-                  ? "user.views.test_jatidiri_anxiety"
-                  : tipeParam.value == "test-stres"
-                  ? "user.views.test_jatidiri_stres"
-                  : tipeParam.value == "test-mental"
-                  ? "user.views.test_jatidiri_mental"
-                  : tipeParam.value == "test-mapping"
-                  ? "user.views.test_talen_mapping"
-                  : tipeParam.value == "test-gadget"
-                  ? "user.views.test_gadget"
-                  : tipeParam.value == "test-ist"
-                  ? "user.views.ist"
-                  : "views.dashboard",
+                    ? "user.views.deteksi"
+                    : tipeParam.value == "test-assessment"
+                      ? "user.views.assesment"
+                      : tipeParam.value == "test-rmib"
+                        ? "user.views.rmib"
+                        : tipeParam.value == "test-iaa"
+                          ? "user.views.test_gadget"
+                          : tipeParam.value == "test-tik"
+                            ? "user.views.test_kebahagiaan"
+                            : tipeParam.value == "test-jatidiri"
+                              ? "user.views.test_jatidiri"
+                              : tipeParam.value == "test-anxiety"
+                                ? "user.views.test_jatidiri_anxiety"
+                                : tipeParam.value == "test-stres"
+                                  ? "user.views.test_jatidiri_stres"
+                                  : tipeParam.value == "test-mental"
+                                    ? "user.views.test_jatidiri_mental"
+                                    : tipeParam.value == "test-mapping"
+                                      ? "user.views.test_talen_mapping"
+                                      : tipeParam.value == "test-gadget"
+                                        ? "user.views.test_gadget"
+                                        : tipeParam.value == "test-ist"
+                                          ? "user.views.ist"
+                                          : tipeParam.value == "test-bmw"
+                                            ? "user.views.karir"
+                                            : tipeParam.value == "test-tangguh"
+                                              ? "views.dashboard"
+                                              : "views.dashboard",
             });
           }
         }

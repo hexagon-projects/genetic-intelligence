@@ -54,7 +54,7 @@ const validateAge = () => {
     ? age - 1 
     : age
 
-  if (actualAge < 16 || actualAge > 60) {
+  if (actualAge < 14 || actualAge > 60) {
     Swal.fire({
       icon: 'warning',
       title: 'Peringatan',

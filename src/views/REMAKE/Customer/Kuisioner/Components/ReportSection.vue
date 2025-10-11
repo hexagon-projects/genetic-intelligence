@@ -69,7 +69,7 @@ const handleDownload = (reportName) => {
         </div>
 
         <!-- Laporan Section -->
-        <div v-if="tkId" class="space-y-2">
+        <!-- <div v-if="tkId" class="space-y-2">
             <p class="text-xs sm:text-sm text-[#8E8E8E] font-semibold">Laporan</p>
             <div
                 class="w-full bg-[#F5F5F5] p-3 md:p-4 rounded-lg md:rounded-xl flex justify-between items-center gap-3">
@@ -100,6 +100,6 @@ const handleDownload = (reportName) => {
                     </svg>
                 </button>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>

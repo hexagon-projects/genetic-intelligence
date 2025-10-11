@@ -1,10 +1,14 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import Layout from '../../../../../Layout/Consultant/Layout.vue';
 import Search from '../../../../../assets/img/search2.png'
 import initAPI from '../../../../../api/api';
 import Cookies from 'js-cookie';
+import DOMPurify from 'dompurify';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
+import { useStore } from 'vuex'
 
 import ProfileSidebar from './components/ProfileSidebar.vue';
 import PersonalInfo from './components/PersonalInfo.vue';
@@ -19,12 +23,24 @@ const route = useRoute();
 const router = useRouter();
 const apiData = ref([]);
 const loading = ref(false);
+const store = useStore()
 
 const idUser = ref(null);
 const userData = ref(null);
 const activeTab = ref('informasi');
 const isParentDataReady = ref(false);
 const ageUser = ref('')
+
+const namaDepan = ref('')
+const namaBelakang = ref('')
+const tempatLahir = ref('')
+const tanggalLahir = ref('')
+const jenisKelamin = ref('')
+const golonganDarah = ref('')
+const alamatRumah = ref('')
+const suku = ref('')
+const anak = ref('')
+const jumlahSaudara = ref('')
 
 const scores = ref({
     psikomotor: null,
@@ -89,6 +105,11 @@ const saving = ref(false);
 const showImageModal = ref(false);
 const activeImage = ref(null);
 const selectedTester = ref(null);
+
+const showQuizModal = ref(false);
+const showCompleteDataModal = ref(false);
+
+const isLoadingParents = ref(false);
 
 const isEditing = ref(false);
 const editingReportId = ref(null);
@@ -317,6 +338,7 @@ const saveReport = async () => {
 
 const fetchReportData = async () => {
     const age = calculateAge(userData?.value?.birth_date)
+    console.log(age)
     ageUser.value = age
 
     try {
@@ -592,6 +614,220 @@ const deleteDocumentation = async (docId) => {
     }
 };
 
+const handleSubmit = async () => {
+    const token = Cookies.get('token')
+
+    const genderValue = jenisKelamin.value === 'Laki-laki' ? 1 :
+        jenisKelamin.value === 'Perempuan' ? 2 :
+            jenisKelamin.value;
+
+    const formData = new FormData();
+    formData.append('_method', 'PUT');
+    formData.append('first_name', DOMPurify.sanitize(namaDepan.value));
+    formData.append('last_name', DOMPurify.sanitize(namaBelakang.value));
+    formData.append('birth_place', DOMPurify.sanitize(tempatLahir.value));
+    formData.append('birth_date', DOMPurify.sanitize(tanggalLahir.value));
+    formData.append('gender', genderValue);
+    formData.append('blood_group', DOMPurify.sanitize(golonganDarah.value));
+    formData.append('address', DOMPurify.sanitize(alamatRumah.value));
+    formData.append('ethnic', DOMPurify.sanitize(suku.value));
+    formData.append('child_number', DOMPurify.sanitize(anak.value));
+    formData.append('from_child_number', DOMPurify.sanitize(jumlahSaudara.value));
+
+    formData.append('religion', userData.value.religion || 1);
+    formData.append('village_id', userData.value.village_id || '');
+    formData.append('nationality', userData.value.nationality || 'Indonesia');
+    formData.append('number', userData.value.number || '');
+
+    if (token) {
+        try {
+            const response = await initAPI(
+                'post', 'customers/' + idUser.value, formData, token
+            );
+
+            if (response.status == 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                const refreshFormData = new FormData()
+                refreshFormData.append('refresh_user', 'true')
+                const updatedCustomer = await initAPI('post', 'login', refreshFormData, token)
+                store.commit('user', updatedCustomer.data.customer)
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
+
+                showCompleteDataModal.value = false;
+                // showQuizModal.value = true;
+            }
+        } catch (err) {
+            console.error('Error details:', err.response?.data || err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: err.response?.data?.message || 'Gagal mengubah data.',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    } else {
+        router.push('/login')
+        localStorage.clear()
+    }
+}
+
+const saveParentData = async (type) => {
+    const token = Cookies.get('token');
+    if (!token || !userData.value) return;
+
+    isLoadingParents.value = true;
+
+    try {
+        const dataToSave = parentData.value[type];
+        const formData = new FormData();
+
+        formData.append('customer_id', userData.value.id);
+        formData.append('type', DOMPurify.sanitize(dataToSave.type));
+        formData.append('name', DOMPurify.sanitize(dataToSave.name));
+        formData.append('birth_date', DOMPurify.sanitize(dataToSave.birth_date));
+        formData.append('kewarganegaraan', DOMPurify.sanitize(dataToSave.kewarganegaraan));
+        formData.append('religion', DOMPurify.sanitize(dataToSave.religion));
+        formData.append('anak_ke', DOMPurify.sanitize(dataToSave.anak_ke));
+        formData.append('jumlah_sodara', DOMPurify.sanitize(dataToSave.jumlah_sodara));
+        formData.append('pernikahan_ke', DOMPurify.sanitize(dataToSave.pernikahan_ke));
+        formData.append('umur_saat_menikah', DOMPurify.sanitize(dataToSave.umur_saat_menikah));
+        formData.append('pendidikan', DOMPurify.sanitize(dataToSave.pendidikan));
+        formData.append('pekerjaan', DOMPurify.sanitize(dataToSave.pekerjaan));
+
+        if (dataToSave.id) {
+            formData.append('_method', 'PUT');
+            const response = await initAPI(
+                'post',
+                `customers/parents/${dataToSave.id}`,
+                formData,
+                token,
+                {
+                    'Content-Type': 'multipart/form-data'
+                }
+            );
+
+            if (response.status === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: `Data ${type} berhasil diupdate`,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        } else {
+            const response = await initAPI(
+                'post',
+                'customers/parents',
+                formData,
+                token,
+                {
+                    'Content-Type': 'multipart/form-data'
+                }
+            );
+
+            if (response.status === 200 || response.status === 201) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: `Data ${type} berhasil disimpan`,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }
+
+        await fetchParentData();
+
+    } catch (error) {
+        console.error(`Error saving ${type} data:`, error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: `Gagal menyimpan data ${type}.`,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    } finally {
+        isLoadingParents.value = false;
+    }
+};
+
+const convertToInputDate = (tanggal) => {
+    if (tanggal) {
+        const [day, month, year] = tanggal.split("-");
+        return `${year}-${month}-${day}`;
+    }
+    return '';
+};
+
+const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('_method', 'PUT');
+    formData.append('image', file);
+
+    try {
+        const response = await initAPI(
+            'post',
+            `customers/${idUser.value}`,
+            formData,
+            token,
+            {
+                'Content-Type': 'multipart/form-data'
+            }
+        );
+
+        if (response.status === 200) {
+            await fetchUserData();
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Foto profil berhasil diupdate',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Gagal mengupload foto profil',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+};
+
+watch(userData, (newVal) => {
+    if (!newVal || Object.keys(newVal).length === 0) {
+        showCompleteDataModal.value = true;
+    } else {
+        showCompleteDataModal.value = false;
+        namaDepan.value = newVal.first_name || '';
+        namaBelakang.value = newVal.last_name || '';
+        tempatLahir.value = newVal.birth_place || '';
+        tanggalLahir.value = convertToInputDate(newVal.birth_date);
+        jenisKelamin.value = newVal.gender || '';
+        golonganDarah.value = newVal.blood_group || '';
+        alamatRumah.value = newVal.address || '';
+        suku.value = newVal.ethnic || '';
+        anak.value = newVal.child_number || '';
+        jumlahSaudara.value = newVal.from_child_number || '';
+    }
+}, { immediate: true, deep: true });
+
 onMounted(async () => {
     idUser.value = route.query.id;
 
@@ -602,6 +838,17 @@ onMounted(async () => {
         await checkQuizResult();
         await fetchTkReport();
     }
+
+    namaDepan.value = userData.value ? userData.value.first_name : '';
+    namaBelakang.value = userData.value ? userData.value.last_name : '';
+    tempatLahir.value = userData.value ? userData.value.birth_place : '';
+    tanggalLahir.value = convertToInputDate(userData.value.birth_date);
+    jenisKelamin.value = userData.value ? userData.value.gender : '';
+    golonganDarah.value = userData.value ? userData.value.blood_group : '';
+    alamatRumah.value = userData.value ? userData.value.address : '';
+    suku.value = userData.value ? userData.value.ethnic : '';
+    anak.value = userData.value ? userData.value.child_number : '';
+    jumlahSaudara.value = userData.value ? userData.value.from_child_number : '';
 });
 </script>
 
@@ -610,12 +857,23 @@ onMounted(async () => {
         <div
             class="w-full mb-16 md:mb-0 p-4 md:px-12 md:py-4 lg:px-16 lg:py-8 xl:px-20 xl:py-10 flex flex-col md:flex-row md:items-start gap-4 md:gap-6 font-sora bg-[#F6F6F6] min-h-screen relative">
 
-            <ProfileSidebar :userData="userData" :activeTab="activeTab" @update:activeTab="activeTab = $event" />
+            <ProfileSidebar :userData="userData" :activeTab="activeTab" @update:activeTab="activeTab = $event"
+                @imageUpload="handleImageUpload" />
 
             <!-- Konten Tab -->
             <div class="w-full md:w-[75%]">
-                <PersonalInfo v-if="activeTab === 'informasi' && isParentDataReady" :userData="userData"
-                    :ayah-data="parentData.ayah" :ibu-data="parentData.ibu" />
+                <PersonalInfo v-if="activeTab === 'informasi' && userData" :customerId="idUser" :namaDepan="namaDepan"
+                    :namaBelakang="namaBelakang" :tempatLahir="tempatLahir" :tanggalLahir="tanggalLahir"
+                    :jenisKelamin="jenisKelamin" :golonganDarah="golonganDarah" :suku="suku" :anak="anak"
+                    :jumlahSaudara="jumlahSaudara" :alamatRumah="alamatRumah" @update:namaDepan="val => namaDepan = val"
+                    @update:namaBelakang="val => namaBelakang = val" @update:tempatLahir="val => tempatLahir = val"
+                    @update:tanggalLahir="val => tanggalLahir = val" @update:golonganDarah="val => golonganDarah = val"
+                    @update:alamatRumah="val => alamatRumah = val" @update:suku="val => suku = val"
+                    @update:anak="val => anak = val" @update:jumlahSaudara="val => jumlahSaudara = val"
+                    @update:jenisKelamin="val => jenisKelamin = val" @submit="handleSubmit" :ayahData="parentData.ayah"
+                    :ibuData="parentData.ibu" @update:ayahData="val => parentData.ayah = val"
+                    @update:ibuData="val => parentData.ibu = val" @saveAyahData="saveParentData('ayah')"
+                    @saveIbuData="saveParentData('ibu')" />
 
                 <!-- Konten Tab Report Anak Di Sekolah -->
                 <div v-if="activeTab === 'report'"

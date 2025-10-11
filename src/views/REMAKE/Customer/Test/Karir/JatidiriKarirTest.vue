@@ -5,7 +5,7 @@ import NewButton from '../../../../../components/customer/NewButton.vue';
 import VectorDone from '../../../../../assets/icons/jatidiri-karir.png'
 import Cookies from 'js-cookie'
 import initAPI from '../../../../../api/api';
-import Swal from 'sweetalert2';
+import CustomModal from '../../../../../components/customer/CustomModal.vue';
 
 const token = Cookies.get('token')
 const userData = JSON.parse(localStorage.getItem('userData'))
@@ -23,6 +23,8 @@ const isAnimating = ref(false);
 const modalAnimating = ref(false);
 const router = useRouter()
 const hasTestResult = ref(false);
+const isSubmitting = ref(false);
+const showSuccessModal = ref(false);
 
 const STORAGE_KEY = 'karir_test_progress';
 const ANSWERS_KEY = 'karir_test_answers';
@@ -157,40 +159,30 @@ const formatAnswersForAPI = () => {
     };
 };
 
-const showSuccessModal = () => {
-    Swal.fire({
-        title: 'Test Selesai!',
-        text: 'Terima kasih telah menyelesaikan tes jatidiri karir. Anda akan diarahkan ke halaman hasil.',
-        icon: 'success',
-        confirmButtonText: 'Lihat Hasil',
-        confirmButtonColor: '#6464FA',
-        customClass: {
-            popup: 'rounded-2xl',
-            confirmButton: 'rounded-full px-6 py-2'
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            router.push('/karir/hasil');
-        }
-    });
+const handleSuccessModalConfirm = () => {
+    showSuccessModal.value = false;
+    router.push('/karir/hasil');
 };
 
 const submitAnswers = async () => {
     try {
+        isSubmitting.value = true;
         const payload = formatAnswersForAPI();
         const response = await initAPI('POST', 'customers/karier', payload, token);
 
         if (response.data && response.data.message === 'Jawaban Berhasil Direkam.') {
             localStorage.removeItem(STORAGE_KEY);
             localStorage.removeItem(ANSWERS_KEY);
-            showSuccessModal();
+            showSuccessModal.value = true;
         }
     } catch (err) {
+    } finally {
+        isSubmitting.value = false;
     }
 };
 
 const nextQuestion = () => {
-    if (isNextDisabled.value) return;
+    if (isNextDisabled.value || isSubmitting.value) return;
 
     if (currentQuestionIndex.value < totalQuestions.value - 1) {
         transitionDirection.value = 'next';
@@ -403,7 +395,7 @@ watch(currentQuestion, (newQuestion) => {
                         'animate-slide-in-prev': transitionDirection === 'prev' && isAnimating
                     }">
                     <h6 class="text-[#9A9A9A] text-sm">Pertanyaan {{ currentQuestionIndex + 1 }} dari {{ totalQuestions
-                        }}
+                    }}
                     </h6>
                     <h2 class="text-[#3A225D] text-xl font-bold">{{ currentQuestion.question }}</h2>
                 </div>
@@ -447,19 +439,31 @@ watch(currentQuestion, (newQuestion) => {
                                     :fill="isPrevDisabled ? '#9A9A9A' : 'white'" />
                             </svg>
                         </button>
-                        <NewButton @click="nextQuestion"
-                            :text="currentQuestionIndex === totalQuestions - 1 ? 'Selesai' : 'Selanjutnya'"
-                            class="font-semibold transition-all duration-500" text-size="text-sm" :class="{
-                                'w-[calc(100%-4.5rem)]': !isPrevDisabled,
-                                '!w-[100%]': isPrevDisabled
-                            }" :bg-color="isNextDisabled ? 'bg-gray-300' : 'bg-primary'"
-                            :text-color="isNextDisabled ? 'text-white' : 'text-white'"
-                            :border-color="isNextDisabled ? 'border-gray-400/10' : 'border-[#8383FB]'"
-                            :disabled="isNextDisabled" />
+                        <div class="relative flex-1">
+                            <NewButton @click="nextQuestion"
+                                :text="currentQuestionIndex === totalQuestions - 1 ? 'Selesai' : 'Selanjutnya'"
+                                class="font-semibold transition-all duration-500 w-full" text-size="text-sm" 
+                                :bg-color="(isNextDisabled || isSubmitting) ? 'bg-gray-300' : 'bg-primary'"
+                                :text-color="(isNextDisabled || isSubmitting) ? 'text-white' : 'text-white'"
+                                :border-color="(isNextDisabled || isSubmitting) ? 'border-gray-400/10' : 'border-[#8383FB]'"
+                                :disabled="isNextDisabled || isSubmitting" />
+                            
+                            <div v-if="isSubmitting" class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <CustomModal
+            :show="showSuccessModal"
+            title="Test Selesai!"
+            message="Terima kasih telah menyelesaikan tes jatidiri karir. Anda akan diarahkan ke halaman hasil."
+            confirm-text="Lihat Hasil"
+            @confirm="handleSuccessModalConfirm"
+        />
     </div>
 </template>
 

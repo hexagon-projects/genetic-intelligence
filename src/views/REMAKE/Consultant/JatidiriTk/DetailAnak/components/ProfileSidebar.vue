@@ -1,16 +1,43 @@
 <script setup>
-defineProps({
-  userData: Object,
-  activeTab: String
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+    userData: Object,
+    activeTab: String
 })
 
-defineEmits(['update:activeTab'])
+const emit = defineEmits(['update:activeTab', 'imageUpload'])
+
+const handleFileSelect = (event) => {
+    emit('imageUpload', event);
+};
+
+const imageUrl = ref('')
+
+watch(() => props.userData, (newUserData) => {
+    if (newUserData && newUserData.image) {
+        imageUrl.value = 'https://api.jatidiri.app/api/open/customers/' + newUserData.image;
+    } else {
+        imageUrl.value = 'https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png';
+    }
+}, { immediate: true, deep: true });
 </script>
 
 <template>
     <div class="w-full md:w-[25%] p-3 md:p-6 rounded-3xl bg-white space-y-3 md:space-y-8 shadow-md shadow-black/5">
-        <div class="w-full flex items-center">
-            <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="" class="w-36 h-36 rounded-full mx-auto border border-[#CBCBFD]">
+        <div class="w-full flex items-center relative">
+            <img :src="imageUrl || 'https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png'" alt=""
+                class="w-36 h-36 rounded-full mx-auto border border-[#CBCBFD]">
+
+            <label for="profile-upload"
+                class="absolute -bottom-4 right-1/2 transform translate-x-1/2 bg-primary p-2 rounded-full cursor-pointer hover:bg-blue-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+                <input id="profile-upload" type="file" accept="image/*" class="hidden" @change="handleFileSelect">
+            </label>
         </div>
 
         <div class="space-y-2 text-center">
@@ -25,8 +52,8 @@ defineEmits(['update:activeTab'])
                 @click="$emit('update:activeTab', 'informasi')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <g clip-path="url(#clip0_3752_841)">
-                        <mask id="mask0_3752_841" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0"
-                            y="0" width="24" height="24">
+                        <mask id="mask0_3752_841" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
                             <path d="M24 0H0V24H24V0Z" fill="white" />
                         </mask>
                         <g mask="url(#mask0_3752_841)">
@@ -39,13 +66,13 @@ defineEmits(['update:activeTab'])
                         </g>
                     </g>
                     <defs>
-                        <linearGradient id="paint0_linear_3752_841" x1="11.9996" y1="1.25" x2="11.9996"
-                            y2="11.62" gradientUnits="userSpaceOnUse">
+                        <linearGradient id="paint0_linear_3752_841" x1="11.9996" y1="1.25" x2="11.9996" y2="11.62"
+                            gradientUnits="userSpaceOnUse">
                             <stop stop-color="#6464FA" />
                             <stop offset="1" stop-color="#3B3B94" />
                         </linearGradient>
-                        <linearGradient id="paint1_linear_3752_841" x1="12.1696" y1="12.4375" x2="12.1696"
-                            y2="22.55" gradientUnits="userSpaceOnUse">
+                        <linearGradient id="paint1_linear_3752_841" x1="12.1696" y1="12.4375" x2="12.1696" y2="22.55"
+                            gradientUnits="userSpaceOnUse">
                             <stop stop-color="#6464FA" />
                             <stop offset="1" stop-color="#3B3B94" />
                         </linearGradient>
@@ -65,8 +92,7 @@ defineEmits(['update:activeTab'])
                 :class="activeTab === 'report' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'"
                 @click="$emit('update:activeTab', 'report')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
+                    <path d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
                         :fill="activeTab === 'report' ? '#6464FA' : '#8E8E8E'" />
                     <path
                         d="M18.75 3.75H16.5V3C16.5 2.60218 16.342 2.22064 16.0607 1.93934C15.3978 1.5 15 1.5H9C8.60218 1.5 8.22064 1.65804 7.93934 1.93934C7.65804 2.22064 7.5 2.60218 7.5 3V3.75H5.25C4.85218 3.75 4.47064 3.90804 4.18934 4.18934C3.90804 4.47064 3.75 4.85218 3.75 5.25V21C3.75 21.3978 3.90804 21.7794 4.18934 22.0607C4.47064 22.342 4.85218 22.5 5.25 22.5H18.75C19.1478 22.5 19.5294 22.342 19.8107 22.0607C20.092 21.7794 20.25 21.3978 20.25 21V5.25C20.25 4.85218 20.092 4.47064 19.8107 4.18934C19.5294 3.90804 19.1478 3.75 18.75 3.75ZM9 3H15V6H9V3ZM18.75 21H5.25V5.25H7.5V7.5H16.5V5.25H18.75V21Z"
@@ -83,8 +109,7 @@ defineEmits(['update:activeTab'])
                 :class="activeTab === 'report-home' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'"
                 @click="$emit('update:activeTab', 'report-home')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
+                    <path d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
                         :fill="activeTab === 'report-home' ? '#6464FA' : '#8E8E8E'" />
                     <path
                         d="M18.75 3.75H16.5V3C16.5 2.60218 16.342 2.22064 16.0607 1.93934C15.3978 1.5 15 1.5H9C8.60218 1.5 8.22064 1.65804 7.93934 1.93934C7.65804 2.22064 7.5 2.60218 7.5 3V3.75H5.25C4.85218 3.75 4.47064 3.90804 4.18934 4.18934C3.90804 4.47064 3.75 4.85218 3.75 5.25V21C3.75 21.3978 3.90804 21.7794 4.18934 22.0607C4.47064 22.342 4.85218 22.5 5.25 22.5H18.75C19.1478 22.5 19.5294 22.342 19.8107 22.0607C20.092 21.7794 20.25 21.3978 20.25 21V5.25C20.25 4.85218 20.092 4.47064 19.8107 4.18934C19.5294 3.90804 19.1478 3.75 18.75 3.75ZM9 3H15V6H9V3ZM18.75 21H5.25V5.25H7.5V7.5H16.5V5.25H18.75V21Z"
@@ -101,8 +126,7 @@ defineEmits(['update:activeTab'])
                 :class="activeTab === 'report-child' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'"
                 @click="$emit('update:activeTab', 'report-child')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
+                    <path d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
                         :fill="activeTab === 'report-child' ? '#6464FA' : '#8E8E8E'" />
                     <path
                         d="M18.75 3.75H16.5V3C16.5 2.60218 16.342 2.22064 16.0607 1.93934C15.3978 1.5 15 1.5H9C8.60218 1.5 8.22064 1.65804 7.93934 1.93934C7.65804 2.22064 7.5 2.60218 7.5 3V3.75H5.25C4.85218 3.75 4.47064 3.90804 4.18934 4.18934C3.90804 4.47064 3.75 4.85218 3.75 5.25V21C3.75 21.3978 3.90804 21.7794 4.18934 22.0607C4.47064 22.342 4.85218 22.5 5.25 22.5H18.75C19.1478 22.5 19.5294 22.342 19.8107 22.0607C20.092 21.7794 20.25 21.3978 20.25 21V5.25C20.25 4.85218 20.092 4.47064 19.8107 4.18934C19.5294 3.90804 19.1478 3.75 18.75 3.75ZM9 3H15V6H9V3ZM18.75 21H5.25V5.25H7.5V7.5H16.5V5.25H18.75V21Z"
@@ -119,8 +143,7 @@ defineEmits(['update:activeTab'])
                 :class="activeTab === 'check-report' ? 'bg-[#D8D8FE]' : 'hover:bg-[#D8D8FE]'"
                 @click="$emit('update:activeTab', 'check-report')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
+                    <path d="M7.5 13.5H13.5V15H7.5V13.5ZM7.5 9.75H16.5V11.25H7.5V9.75ZM7.5 17.25H11.25V18.75H7.5V17.25Z"
                         :fill="activeTab === 'check-report' ? '#6464FA' : '#8E8E8E'" />
                     <path
                         d="M18.75 3.75H16.5V3C16.5 2.60218 16.342 2.22064 16.0607 1.93934C15.3978 1.5 15 1.5H9C8.60218 1.5 8.22064 1.65804 7.93934 1.93934C7.65804 2.22064 7.5 2.60218 7.5 3V3.75H5.25C4.85218 3.75 4.47064 3.90804 4.18934 4.18934C3.90804 4.47064 3.75 4.85218 3.75 5.25V21C3.75 21.3978 3.90804 21.7794 4.18934 22.0607C4.47064 22.342 4.85218 22.5 5.25 22.5H18.75C19.1478 22.5 19.5294 22.342 19.8107 22.0607C20.092 21.7794 20.25 21.3978 20.25 21V5.25C20.25 4.85218 20.092 4.47064 19.8107 4.18934C19.5294 3.90804 19.1478 3.75 18.75 3.75ZM9 3H15V6H9V3ZM18.75 21H5.25V5.25H7.5V7.5H16.5V5.25H18.75V21Z"

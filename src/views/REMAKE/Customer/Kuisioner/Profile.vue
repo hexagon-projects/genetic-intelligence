@@ -49,7 +49,6 @@ const isLoadingParents = ref(false);
 const note = ref("Data tidak tersedia");
 const report = ref("laporan.pdf");
 
-
 const assessmentResults = ref({
     kesimpulan: {
         title: "Kesimpulan",
@@ -581,38 +580,66 @@ const saveParentData = async (type) => {
 
     try {
         const dataToSave = parentData.value[type];
+        const formData = new FormData();
 
-        const response = await initAPI(
-            'post',
-            'customers/parents',
-            {
-                customer_id: userData.value.id,
-                type: DOMPurify.sanitize(dataToSave.type),
-                name: DOMPurify.sanitize(dataToSave.name),
-                birth_date: DOMPurify.sanitize(dataToSave.birth_date),
-                kewarganegaraan: DOMPurify.sanitize(dataToSave.kewarganegaraan),
-                religion: DOMPurify.sanitize(dataToSave.religion),
-                anak_ke: DOMPurify.sanitize(dataToSave.anak_ke),
-                jumlah_sodara: DOMPurify.sanitize(dataToSave.jumlah_sodara),
-                pernikahan_ke: DOMPurify.sanitize(dataToSave.pernikahan_ke),
-                umur_saat_menikah: DOMPurify.sanitize(dataToSave.umur_saat_menikah),
-                pendidikan: DOMPurify.sanitize(dataToSave.pendidikan),
-                pekerjaan: DOMPurify.sanitize(dataToSave.pekerjaan)
-            },
-            token
-        );
+        formData.append('customer_id', userData.value.id);
+        formData.append('type', DOMPurify.sanitize(dataToSave.type));
+        formData.append('name', DOMPurify.sanitize(dataToSave.name));
+        formData.append('birth_date', DOMPurify.sanitize(dataToSave.birth_date));
+        formData.append('kewarganegaraan', DOMPurify.sanitize(dataToSave.kewarganegaraan));
+        formData.append('religion', DOMPurify.sanitize(dataToSave.religion));
+        formData.append('anak_ke', DOMPurify.sanitize(dataToSave.anak_ke));
+        formData.append('jumlah_sodara', DOMPurify.sanitize(dataToSave.jumlah_sodara));
+        formData.append('pernikahan_ke', DOMPurify.sanitize(dataToSave.pernikahan_ke));
+        formData.append('umur_saat_menikah', DOMPurify.sanitize(dataToSave.umur_saat_menikah));
+        formData.append('pendidikan', DOMPurify.sanitize(dataToSave.pendidikan));
+        formData.append('pekerjaan', DOMPurify.sanitize(dataToSave.pekerjaan));
 
-        if (response.status === 200 || response.status === 201) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: `Data ${type} berhasil disimpan`,
-                showConfirmButton: false,
-                timer: 2000
-            });
+        if (dataToSave.id) {
+            formData.append('_method', 'PUT');
+            const response = await initAPI(
+                'post',
+                `customers/parents/${dataToSave.id}`,
+                formData,
+                token,
+                {
+                    'Content-Type': 'multipart/form-data'
+                }
+            );
 
-            await fetchParentData();
+            if (response.status === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: `Data ${type} berhasil diupdate`,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        } else {
+            const response = await initAPI(
+                'post',
+                'customers/parents',
+                formData,
+                token,
+                {
+                    'Content-Type': 'multipart/form-data'
+                }
+            );
+
+            if (response.status === 200 || response.status === 201) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: `Data ${type} berhasil disimpan`,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
         }
+
+        await fetchParentData();
+
     } catch (error) {
         console.error(`Error saving ${type} data:`, error);
         Swal.fire({
@@ -624,6 +651,59 @@ const saveParentData = async (type) => {
         });
     } finally {
         isLoadingParents.value = false;
+    }
+};
+
+const handleImageUpload = async (event) => {
+    const token = Cookies.get('token')
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('_method', 'PUT');
+    formData.append('image', file);
+
+    try {
+        const response = await initAPI(
+            'post',
+            `customers/${userData.value.id}`,
+            formData,
+            token,
+            {
+                'Content-Type': 'multipart/form-data'
+            }
+        );
+
+        if (response.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Foto profil berhasil diupdate',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            
+            try {
+                const refreshFormData = new FormData()
+                refreshFormData.append('refresh_user', 'true')
+                const updatedCustomer = await initAPI('post', 'login', refreshFormData, token)
+                
+                store.commit('user', updatedCustomer.data.customer)
+                localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
+                
+            } catch (refreshError) {
+                console.error('Error refreshing user data:', refreshError)
+            }
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Gagal mengupload foto profil',
+            showConfirmButton: false,
+            timer: 2000
+        });
     }
 };
 
@@ -642,7 +722,7 @@ const navigateToQuiz = () => {
     <Layout>
         <div
             class="w-full mb-16 md:mb-0 p-4 md:px-12 md:py-6 lg:px-16 lg:py-8 xl:px-20 xl:py-10 flex flex-col md:flex-row md:items-start gap-4 md:gap-6 font-sora bg-[#F6F6F6] min-h-screen relative">
-            <ProfileSidebar :userData="userData" :activeTab="activeTab" @update:activeTab="handleTabChange" />
+            <ProfileSidebar :userData="userData" :activeTab="activeTab" @update:activeTab="handleTabChange" @imageUpload="handleImageUpload"/>
 
             <!-- Result Tab -->
             <div class="w-full md:w-[75%]">

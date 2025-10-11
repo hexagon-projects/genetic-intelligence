@@ -48,7 +48,15 @@
                     <label for="grade" class="block text-sm font-myFont font-medium text-dark">
                         {{ jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas:' : 'Semester' }}
                     </label>
-                    <input v-model="kelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" :placeholder="jenjangPendidikan !== 'perguruan_tinggi' ? 'Contoh: 1' : 'Contoh: 1'" />
+                    <!-- Mengubah input kelas menjadi dropdown dengan opsi romawi -->
+                    <select v-if="!showCustomKelasInput" v-model="kelas" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru">
+                        <option v-for="n in (jenjangPendidikan === 'SD' ? 6 : (jenjangPendidikan === 'SMP' ? 3 : (jenjangPendidikan === 'SMA' || jenjangPendidikan === 'SMK' ? 3 : 8)))" 
+                                :key="n" :value="n">
+                            {{ convertToRoman(n) }}
+                        </option>
+                        <option value="other">Lainnya</option>
+                    </select>
+                    <input v-else v-model="customKelas" type="text" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" :placeholder="jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas' : 'Semester'" />
                 </div>
             </div>
 
@@ -60,7 +68,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import initAPI from '../../../../api/api'
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css'
@@ -81,6 +89,14 @@ export default {
         const idSekolah = ref('')
         const searched = ref(false)
         const pilihanSekolah = ref([])
+        const showCustomKelasInput = ref(false)
+        const customKelas = ref('')
+        
+        // Deklarasi semua variabel reactive di awal
+        const jenjangPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.type : '-- Pilih Opsi --')
+        const namaPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.name : '')
+        const kelas = ref('')
+        const jurusan = ref(props.dataCustomer.majoring ? props.dataCustomer.majoring : '')
 
         const dataJenjangPendidikan = ref([])
 
@@ -92,8 +108,56 @@ export default {
                 {id:4, text:'SMA', value: 'SMA'},
                 {id:5, text:'SMK', value: 'SMK'},
                 {id:6, text:'Perguruan Tinggi', value: 'perguruan_tinggi'},
+                {id:6, text:'Corporate', value: 'corporate'},
             ]
+            
+            // Inisialisasi nilai kelas berdasarkan data yang ada
+            if (props.dataCustomer.grade) {
+                // Jika nilai kelas adalah angka, gunakan langsung
+                if (!isNaN(props.dataCustomer.grade)) {
+                    kelas.value = props.dataCustomer.grade;
+                } else {
+                    // Jika bukan angka, tampilkan input custom
+                    showCustomKelasInput.value = true;
+                    customKelas.value = props.dataCustomer.grade;
+                }
+            }
         })
+
+        // Fungsi untuk mengkonversi angka ke romawi
+        const convertToRoman = (num) => {
+            const romanNumerals = [
+                { value: 10, symbol: 'X' },
+                { value: 9, symbol: 'IX' },
+                { value: 5, symbol: 'V' },
+                { value: 4, symbol: 'IV' },
+                { value: 1, symbol: 'I' }
+            ];
+            
+            let result = '';
+            for (const { value, symbol } of romanNumerals) {
+                while (num >= value) {
+                    result += symbol;
+                    num -= value;
+                }
+            }
+            return result;
+        }
+
+        // Watch perubahan pada dropdown kelas
+        watch(kelas, (newValue) => {
+            if (newValue === 'other') {
+                showCustomKelasInput.value = true;
+                customKelas.value = '';
+            }
+        });
+
+        // Watch perubahan pada input custom kelas
+        watch(customKelas, (newValue) => {
+            if (newValue !== '') {
+                kelas.value = newValue;
+            }
+        });
 
         const pilihSekolah = (id, name) => {
             idSekolah.value = id
@@ -117,17 +181,15 @@ export default {
             pilihanSekolah.value = response.data.data
         }
 
-        const jenjangPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.type : '-- Pilih Opsi --')
-        const namaPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.name : '')
-        const kelas = ref(props.dataCustomer.grade ? props.dataCustomer.grade : '')
-        const jurusan = ref(props.dataCustomer.majoring ? props.dataCustomer.majoring : '')
-
         const ubahData = async() => {
+            // Gunakan customKelas jika showCustomKelasInput true,否则 gunakan kelas value
+            const nilaiKelas = showCustomKelasInput.value ? DOMPurify.sanitize(customKelas.value) : DOMPurify.sanitize(kelas.value);
+            
             const data = new FormData
             data.append('_method', 'PUT')
             data.append('type', DOMPurify.sanitize(jenjangPendidikan.value))
             data.append('institution_id', DOMPurify.sanitize(idSekolah.value))
-            data.append('grade', DOMPurify.sanitize(kelas.value))
+            data.append('grade', nilaiKelas)
             data.append('majoring', DOMPurify.sanitize(jurusan.value))
             const token = Cookies.get('token')
             if(token){
@@ -177,7 +239,10 @@ export default {
             kelas,
             jurusan,
             props,
-            ubahData
+            ubahData,
+            convertToRoman,
+            showCustomKelasInput,
+            customKelas
         }
     }
 }

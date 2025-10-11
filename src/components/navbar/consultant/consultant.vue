@@ -28,7 +28,7 @@
         List Booking
     </RouterLink>
 
-    <div class="relative">
+    <!-- <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
                 hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
@@ -45,7 +45,6 @@
             class="transition duration-150 ease-in-out absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="py-1" role="none">
-                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <RouterLink :to="{ name: 'consultant.views.review' }"
                     class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm"
                     role="menuitem" tabindex="-1">
@@ -58,9 +57,9 @@
                 </RouterLink>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="relative">
+    <!-- <div class="relative">
         <button class="
                 flex justify-center items-center px-4 py-2 gap-1 font-myFont text-dark
                 hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm
@@ -77,7 +76,6 @@
             class="transition duration-150 ease-in-out absolute left-22 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="py-1" role="none">
-                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <RouterLink :to="{ name: 'consultant.views.permintaan' }"
                     class="cursor-pointer font-myFont hover:bg-neutral-200 text-gray-700 block px-4 py-2 text-sm"
                     role="menuitem" tabindex="-1">
@@ -90,7 +88,7 @@
                 </RouterLink>
             </div>
         </div>
-    </div>
+    </div> -->
     <RouterLink :to="{ name: 'consultant.views.assessments' }" class="
             flex justify-center items-end px-4 py-2 gap-1 font-myFont
             hover:bg-biru hover:text-light hover:rounded-lg hover:shadow-sm

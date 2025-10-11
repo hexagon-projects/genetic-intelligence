@@ -1,18 +1,44 @@
 <script setup>
-import { computed, ref } from 'vue';
-import InfoTabs from '../../../../Customer/Kuisioner/components/InfoTabs.vue';
+import { computed, onMounted, ref } from 'vue';
 import SaudaraTable from './SaudaraTable.vue';
+import Cookies from 'js-cookie'
+import { watch } from 'vue';
+import InfoTabs from '../../../../Customer/Kuisioner/components/InfoTabs.vue';
+import initAPI from '../../../../../../api/api';
 
 const props = defineProps({
+    customerId: [String, Number],
+    namaDepan: String,
+    namaBelakang: String,
+    tempatLahir: String,
+    tanggalLahir: String,
+    jenisKelamin: [String, Number],
+    golonganDarah: String,
+    alamatRumah: String,
+    suku: String,
+    anak: String,
+    jumlahSaudara: Number,
+
+    parentType: String,
+    parentName: String,
+    parentBirthDate: String,
+    parentKewarganegaraan: String,
+    parentReligion: String,
+    parentAnakKe: String,
+    parentJumlahSodara: String,
+    parentPernikahanKe: String,
+    parentUmurMenikah: String,
+    parentPendidikan: String,
+    parentPekerjaan: String,
+
     ayahData: Object,
-    ibuData: Object,
-    userData: Object
-})
+    ibuData: Object
+});
 
 const usia = computed(() => {
-    if (!props.userData?.birth_date) return '';
+    if (!props.tanggalLahir) return '';
 
-    const birthDate = new Date(props.userData?.birth_date);
+    const birthDate = new Date(props.tanggalLahir);
     const today = new Date();
 
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -25,30 +51,105 @@ const usia = computed(() => {
     return age.toString();
 });
 
-const ayahDataLocal = ref(props.ayahData || {
-    name: '',
-    birth_date: '',
-    religion: '',
-    kewarganegaraan: '',
-    anak_ke: '',
-    jumlah_sodara: '',
-    pernikahan_ke: '',
-    umur_saat_menikah: '',
-    pendidikan: '',
-    pekerjaan: ''
+const emit = defineEmits([
+    'update:namaDepan',
+    'update:namaBelakang',
+    'update:tempatLahir',
+    'update:tanggalLahir',
+    'update:jenisKelamin',
+    'update:golonganDarah',
+    'update:alamatRumah',
+    'update:suku',
+    'update:anak',
+    'update:jumlahSaudara',
+    'submit',
+
+    'update:parentType',
+    'update:parentName',
+    'update:parentBirthDate',
+    'update:parentKewarganegaraan',
+    'update:parentReligion',
+    'update:parentAnakKe',
+    'update:parentJumlahSodara',
+    'update:parentPernikahanKe',
+    'update:parentUmurMenikah',
+    'update:parentPendidikan',
+    'update:parentPekerjaan',
+    'saveParentData',
+
+    'saveAyahData',
+    'saveIbuData',
+    'update:ayahData',
+    'update:ibuData'
+]);
+
+const parentsData = ref({
+    ayah: props.ayahData || {
+        type: 'Ayah',
+        name: '',
+        birth_date: '',
+        kewarganegaraan: '',
+        religion: '',
+        anak_ke: '',
+        jumlah_sodara: '',
+        pernikahan_ke: '',
+        umur_saat_menikah: '',
+        pendidikan: '',
+        pekerjaan: ''
+    },
+    ibu: props.ibuData || {
+        type: 'Ibu',
+        name: '',
+        birth_date: '',
+        kewarganegaraan: '',
+        religion: '',
+        anak_ke: '',
+        jumlah_sodara: '',
+        pernikahan_ke: '',
+        umur_saat_menikah: '',
+        pendidikan: '',
+        pekerjaan: ''
+    }
 });
 
-const ibuDataLocal = ref(props.ibuData || {
-    name: '',
-    birth_date: '',
-    religion: '',
-    kewarganegaraan: '',
-    anak_ke: '',
-    jumlah_sodara: '',
-    pernikahan_ke: '',
-    umur_saat_menikah: '',
-    pendidikan: '',
-    pekerjaan: ''
+watch(() => parentsData.value.ayah, (newVal) => {
+    emit('update:ayahData', newVal);
+}, { deep: true });
+
+watch(() => parentsData.value.ibu, (newVal) => {
+    emit('update:ibuData', newVal);
+}, { deep: true });
+
+const fetchParentsData = async () => {
+    try {
+        const token = Cookies.get('token');
+        const response = await initAPI(
+            'get',
+            `customers/parents?customer_id=${props.customerId}`,
+            null,
+            token
+        );
+
+        if (response.data && response.data.data) {
+            const ayahData = response.data.data.find(item => item.type === "Ayah");
+            const ibuData = response.data.data.find(item => item.type === "Ibu");
+
+            if (ayahData) {
+                parentsData.value.ayah = { ...ayahData };
+            }
+            if (ibuData) {
+                parentsData.value.ibu = { ...ibuData };
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching parents data:', error);
+    }
+};
+
+onMounted(() => {
+    if (props.customerId) {
+        fetchParentsData();
+    }
 });
 
 const activeContentTab = ref('anak');
@@ -62,6 +163,7 @@ const handleTabChange = (tab) => {
     <div class="w-full bg-white shadow-md shadow-black/5 p-6 rounded-3xl">
         <InfoTabs @tabChange="handleTabChange" />
 
+        <!-- Data Anak -->
         <div v-if="activeContentTab === 'anak'"
             class="space-y-4 md:space-y-6 p-4 bg-gray-100 rounded-xl rounded-tr-xl md:rounded-tl-none">
             <div class="flex justify-between items-center">
@@ -69,72 +171,90 @@ const handleTabChange = (tab) => {
                     <div class="flex items-center gap-4">
                         <div class="flex items-center gap-1">
                             <input type="radio" id="male" name="gender" value="Laki-laki"
-                                :checked="userData?.gender === 'Laki-laki'" @click.prevent>
+                                :checked="jenisKelamin === 'Laki-laki'"
+                                @change="$emit('update:jenisKelamin', 'Laki-laki')">
                             <label for="male">Laki Laki</label>
                         </div>
                         <div class="flex items-center gap-1">
                             <input type="radio" id="female" name="gender" value="Perempuan"
-                                :checked="userData?.gender === 'Perempuan'" @click.prevent>
+                                :checked="jenisKelamin === 'Perempuan'"
+                                @change="$emit('update:jenisKelamin', 'Perempuan')">
                             <label for="female">Perempuan</label>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+                <!-- Gunakan v-model dengan computed properties untuk two-way binding -->
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Nama Depan</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.first_name }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Nama Depan</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="namaDepan"
+                        @input="$emit('update:namaDepan', $event.target.value)" placeholder="Nama Depan">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Nama Belakang</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.last_name }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Nama Belakang</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="namaBelakang"
+                        @input="$emit('update:namaBelakang', $event.target.value)" placeholder="Nama Belakang">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Tempat Lahir</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.birth_place }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Tempat Lahir</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="tempatLahir"
+                        @input="$emit('update:tempatLahir', $event.target.value)" placeholder="Tempat Lahir">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Tanggal Lahir</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.birth_date }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Tanggal Lahir</label>
+                    <input type="date" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="tanggalLahir"
+                        @input="$emit('update:tanggalLahir', $event.target.value)">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Usia</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ usia }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Usia</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="usia" disabled
+                        placeholder="Usia">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Suku</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.ethnic }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Suku</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="suku"
+                        @input="$emit('update:suku', $event.target.value)" placeholder="Suku">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Alamat Rumah</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.address }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Alamat Rumah</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="alamatRumah"
+                        @input="$emit('update:alamatRumah', $event.target.value)" placeholder="Alamat Rumah">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Anak Ke</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.child_number }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Anak Ke</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="anak"
+                        @input="$emit('update:anak', $event.target.value)" placeholder="Anak Ke">
                 </div>
+
                 <div class="space-y-2 flex flex-col">
-                    <label for="" class="text-[#8E8E8E] text-sm">Jumlah Saudara</label>
-                    <div type="text" class="p-3 rounded-lg bg-white">
-                        <p class="text-base">{{ userData?.from_child_number }}</p>
-                    </div>
+                    <label class="text-[#8E8E8E] text-xs md:text-sm">Jumlah Saudara</label>
+                    <input type="text" class="p-3 rounded-lg bg-white text-sm md:text-base" :value="jumlahSaudara"
+                        @input="$emit('update:jumlahSaudara', $event.target.value)" placeholder="Jumlah Saudara">
                 </div>
+            </div>
+
+            <div>
+                <button @click="$emit('submit')"
+                    class="py-3 px-6 rounded-full text-white flex items-center gap-2 ml-auto text-sm md:text-base bg-primary">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-6 md:h-6" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M21 11.9999C20.7348 11.9999 20.4804 12.1053 20.2929 12.2928C20.1054 12.4804 20 12.7347 20 12.9999V18.9999C20 19.2652 19.8946 19.5195 19.7071 19.707C19.5196 19.8946 19.2652 19.9999 19 19.9999H5C4.73478 19.9999 4.48043 19.8946 4.29289 19.707C4.10536 19.5195 4 19.2652 4 18.9999V4.99994C4 4.73472 4.10536 4.48037 4.29289 4.29283C4.48043 4.1053 4.73478 3.99994 5 3.99994H11C11.2652 3.99994 11.5196 3.89458 11.7071 3.70705C11.8946 3.51951 12 3.26516 12 2.99994C12 2.73472 11.8946 2.48037 11.7071 2.29283C11.5196 2.1053 11.2652 1.99994 11 1.99994H5C4.20435 1.99994 3.44129 2.31601 2.87868 2.87862C2.31607 3.44123 2 4.20429 2 4.99994V18.9999C2 19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 21.9999 5 21.9999H19C19.7956 21.9999 20.5587 21.6839 21.1213 21.1213C21.6839 20.5587 22 19.7956 22 18.9999V12.9999C22 12.7347 21.8946 12.4804 21.7071 12.2928C21.5196 12.1053 21.2652 11.9999 21 11.9999ZM6 12.7599V16.9999C6 17.2652 6.10536 17.5195 6.29289 17.707C6.48043 17.8946 6.73478 17.9999 7 17.9999H11.24C11.3716 18.0007 11.5021 17.9755 11.6239 17.9257C11.7457 17.8759 11.8566 17.8026 11.95 17.7099L18.87 10.7799L21.71 7.99994C21.8037 7.90698 21.8781 7.79637 21.9289 7.67452C21.9797 7.55266 22.0058 7.42195 22.0058 7.28994C22.0058 7.15793 21.9797 7.02722 21.9289 6.90536C21.8781 6.7835 21.8037 6.6729 21.71 6.57994L17.47 2.28994C17.377 2.19621 17.2664 2.12182 17.1446 2.07105C17.0227 2.02028 16.892 1.99414 16.76 1.99414C16.628 1.99414 16.4973 2.02028 16.3754 2.07105C16.2536 2.12182 16.143 2.19621 16.05 2.28994L13.23 5.11994L6.29 12.0499C6.19732 12.1434 6.12399 12.2542 6.07423 12.376C6.02446 12.4979 5.99924 12.6283 6 12.7599ZM16.76 4.40994L19.59 7.23994L18.17 8.65994L15.34 5.82994L16.76 4.40994ZM8 13.1699L13.93 7.23994L16.76 10.0699L10.83 15.9999H8V13.1699Z"
+                                fill="#E6E6E6" />
+                        </svg>
+                    </span>
+                    Simpan
+                </button>
             </div>
         </div>
 
@@ -146,63 +266,86 @@ const handleTabChange = (tab) => {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-name" class="text-[#8E8E8E] text-xs md:text-sm">Nama</label>
-                        <div id="ayah-name" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.name }}
-                        </div>
+                        <input id="ayah-name" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.name" placeholder="Nama Lengkap">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-birth-date" class="text-[#8E8E8E] text-xs md:text-sm">Tanggal Lahir</label>
-                        <div id="ayah-birth-date" type="date" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.birth_date }}
-                        </div>
+                        <input id="ayah-birth-date" type="date" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.birth_date">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-religion" class="text-[#8E8E8E] text-xs md:text-sm">Agama</label>
-                        <div id="ayah-religion" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.religion }}
-                        </div>
+                        <input id="ayah-religion" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.religion" placeholder="Agama">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-kewarganegaraan"
                             class="text-[#8E8E8E] text-xs md:text-sm">Kewarganegaraan</label>
-                        <div id="ayah-kewarganegaraan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.kewarganegaraan }}
-                        </div>
+                        <input id="ayah-kewarganegaraan" type="text"
+                            class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.kewarganegaraan" placeholder="Kewarganegaraan">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-anak-ke" class="text-[#8E8E8E] text-xs md:text-sm">Anak Ke</label>
-                        <div id="ayah-anak-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.anak_ke }}
-                        </div>
+                        <input id="ayah-anak-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.anak_ke" placeholder="Anak Ke">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-jumlah-sodara" class="text-[#8E8E8E] text-xs md:text-sm">Jumlah Saudara</label>
-                        <div id="ayah-jumlah-sodara" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.jumlah_sodara }}
-                        </div>
+                        <input id="ayah-jumlah-sodara" type="number"
+                            class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.jumlah_sodara" placeholder="Jumlah Saudara">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-pernikahan-ke" class="text-[#8E8E8E] text-xs md:text-sm">Pernikahan Ke</label>
-                        <div id="ayah-pernikahan-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.pernikahan_ke }}</div>
+                        <input id="ayah-pernikahan-ke" type="number"
+                            class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.pernikahan_ke" placeholder="Pernikahan Ke">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-umur-menikah" class="text-[#8E8E8E] text-xs md:text-sm">Umur Saat
                             Menikah</label>
-                        <div id="ayah-umur-menikah" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ayahDataLocal.umur_saat_menikah }}</div>
+                        <input id="ayah-umur-menikah" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.umur_saat_menikah" placeholder="Umur Saat Menikah">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-pendidikan" class="text-[#8E8E8E] text-xs md:text-sm">Pendidikan
                             Terakhir</label>
-                        <div id="ayah-pekerjaan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">{{
-                            ayahDataLocal.pendidikan }}</div>
+                        <select id="ayah-pendidikan" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.pendidikan">
+                            <option value="">Pilih Pendidikan</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SMA">SMA</option>
+                            <option value="D1">D1</option>
+                            <option value="D2">D2</option>
+                            <option value="D3">D3</option>
+                            <option value="D4">D4</option>
+                            <option value="S1">S1</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                        </select>
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ayah-pekerjaan" class="text-[#8E8E8E] text-xs md:text-sm">Pekerjaan</label>
-                        <div id="ayah-pekerjaan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">{{
-                            ayahDataLocal.pekerjaan }}</div>
+                        <input id="ayah-pekerjaan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ayah.pekerjaan" placeholder="Pekerjaan">
                     </div>
+                </div>
+                <div>
+                    <button @click="emit('saveAyahData')"
+                        class="py-3 px-6 rounded-full text-white flex items-center gap-2 ml-auto text-sm md:text-base bg-primary">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-6 md:h-6" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M21 11.9999C20.7348 11.9999 20.4804 12.1053 20.2929 12.2928C20.1054 12.4804 20 12.7347 20 12.9999V18.9999C20 19.2652 19.8946 19.5195 19.7071 19.707C19.5196 19.8946 19.2652 19.9999 19 19.9999H5C4.73478 19.9999 4.48043 19.8946 4.29289 19.707C4.10536 19.5195 4 19.2652 4 18.9999V4.99994C4 4.73472 4.10536 4.48037 4.29289 4.29283C4.48043 4.1053 4.73478 3.99994 5 3.99994H11C11.2652 3.99994 11.5196 3.89458 11.7071 3.70705C11.8946 3.51951 12 3.26516 12 2.99994C12 2.73472 11.8946 2.48037 11.7071 2.29283C11.5196 2.1053 11.2652 1.99994 11 1.99994H5C4.20435 1.99994 3.44129 2.31601 2.87868 2.87862C2.31607 3.44123 2 4.20429 2 4.99994V18.9999C2 19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 21.9999 5 21.9999H19C19.7956 21.9999 20.5587 21.6839 21.1213 21.1213C21.6839 20.5587 22 19.7956 22 18.9999V12.9999C22 12.7347 21.8946 12.4804 21.7071 12.2928C21.5196 12.1053 21.2652 11.9999 21 11.9999ZM6 12.7599V16.9999C6 17.2652 6.10536 17.5195 6.29289 17.707C6.48043 17.8946 6.73478 17.9999 7 17.9999H11.24C11.3716 18.0007 11.5021 17.9755 11.6239 17.9257C11.7457 17.8759 11.8566 17.8026 11.95 17.7099L18.87 10.7799L21.71 7.99994C21.8037 7.90698 21.8781 7.79637 21.9289 7.67452C21.9797 7.55266 22.0058 7.42195 22.0058 7.28994C22.0058 7.15793 21.9797 7.02722 21.9289 6.90536C21.8781 6.7835 21.8037 6.6729 21.71 6.57994L17.47 2.28994C17.377 2.19621 17.2664 2.12182 17.1446 2.07105C17.0227 2.02028 16.892 1.99414 16.76 1.99414C16.628 1.99414 16.4973 2.02028 16.3754 2.07105C16.2536 2.12182 16.143 2.19621 16.05 2.28994L13.23 5.11994L6.29 12.0499C6.19732 12.1434 6.12399 12.2542 6.07423 12.376C6.02446 12.4979 5.99924 12.6283 6 12.7599ZM16.76 4.40994L19.59 7.23994L18.17 8.65994L15.34 5.82994L16.76 4.40994ZM8 13.1699L13.93 7.23994L16.76 10.0699L10.83 15.9999H8V13.1699Z"
+                                    fill="#E6E6E6" />
+                            </svg>
+                        </span>
+                        Simpan Data Ayah
+                    </button>
                 </div>
             </div>
 
@@ -211,68 +354,89 @@ const handleTabChange = (tab) => {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-name" class="text-[#8E8E8E] text-xs md:text-sm">Nama</label>
-                        <div id="ibu-name" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.name }}
-                        </div>
+                        <input id="ibu-name" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.name" placeholder="Nama Lengkap">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-birth-date" class="text-[#8E8E8E] text-xs md:text-sm">Tanggal Lahir</label>
-                        <div id="ibu-birth-date" type="date" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.birth_date }}
-                        </div>
+                        <input id="ibu-birth-date" type="date" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.birth_date">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-religion" class="text-[#8E8E8E] text-xs md:text-sm">Agama</label>
-                        <div id="ibu-religion" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.religion }}
-                        </div>
+                        <input id="ibu-religion" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.religion" placeholder="Agama">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-kewarganegaraan"
                             class="text-[#8E8E8E] text-xs md:text-sm">Kewarganegaraan</label>
-                        <div id="ibu-kewarganegaraan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.kewarganegaraan }}
-                        </div>
+                        <input id="ibu-kewarganegaraan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.kewarganegaraan" placeholder="Kewarganegaraan">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-anak-ke" class="text-[#8E8E8E] text-xs md:text-sm">Anak Ke</label>
-                        <div id="ibu-anak-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.anak_ke }}
-                        </div>
+                        <input id="ibu-anak-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.anak_ke" placeholder="Anak Ke">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-jumlah-sodara" class="text-[#8E8E8E] text-xs md:text-sm">Jumlah Saudara</label>
-                        <div id="ibu-jumlah-sodara" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.jumlah_sodara }}
-                        </div>
+                        <input id="ibu-jumlah-sodara" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.jumlah_sodara" placeholder="Jumlah Saudara">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-pernikahan-ke" class="text-[#8E8E8E] text-xs md:text-sm">Pernikahan Ke</label>
-                        <div id="ibu-pernikahan-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.pernikahan_ke }}</div>
+                        <input id="ibu-pernikahan-ke" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.pernikahan_ke" placeholder="Pernikahan Ke">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-umur-menikah" class="text-[#8E8E8E] text-xs md:text-sm">Umur Saat
                             Menikah</label>
-                        <div id="ibu-umur-menikah" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base">
-                            {{ ibuDataLocal.umur_saat_menikah }}</div>
+                        <input id="ibu-umur-menikah" type="number" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.umur_saat_menikah" placeholder="Umur Saat Menikah">
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-pendidikan" class="text-[#8E8E8E] text-xs md:text-sm">Pendidikan
                             Terakhir</label>
-                        <div id="ibu-pekerjaan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">{{
-                            ibuDataLocal.pendidikan }}</div>
+                        <select id="ibu-pendidikan" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.pendidikan">
+                            <option value="">Pilih Pendidikan</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SMA">SMA</option>
+                            <option value="D1">D1</option>
+                            <option value="D2">D2</option>
+                            <option value="D3">D3</option>
+                            <option value="D4">D4</option>
+                            <option value="S1">S1</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                        </select>
                     </div>
                     <div class="space-y-2 flex flex-col">
                         <label for="ibu-pekerjaan" class="text-[#8E8E8E] text-xs md:text-sm">Pekerjaan</label>
-                        <div id="ibu-pekerjaan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base">{{
-                            ibuDataLocal.pekerjaan }}</div>
+                        <input id="ibu-pekerjaan" type="text" class="p-3 rounded-lg bg-white text-sm md:text-base"
+                            v-model="parentsData.ibu.pekerjaan" placeholder="Pekerjaan">
                     </div>
+                </div>
+                <div>
+                    <button @click="emit('saveIbuData')"
+                        class="py-3 px-6 rounded-full text-white flex items-center gap-2 ml-auto text-sm md:text-base bg-primary">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-6 md:h-6" viewBox="0 0 24 24"
+                                fill="none">
+                                <path
+                                    d="M21 11.9999C20.7348 11.9999 20.4804 12.1053 20.2929 12.2928C20.1054 12.4804 20 12.7347 20 12.9999V18.9999C20 19.2652 19.8946 19.5195 19.7071 19.707C19.5196 19.8946 19.2652 19.9999 19 19.9999H5C4.73478 19.9999 4.48043 19.8946 4.29289 19.707C4.10536 19.5195 4 19.2652 4 18.9999V4.99994C4 4.73472 4.10536 4.48037 4.29289 4.29283C4.48043 4.1053 4.73478 3.99994 5 3.99994H11C11.2652 3.99994 11.5196 3.89458 11.7071 3.70705C11.8946 3.51951 12 3.26516 12 2.99994C12 2.73472 11.8946 2.48037 11.7071 2.29283C11.5196 2.1053 11.2652 1.99994 11 1.99994H5C4.20435 1.99994 3.44129 2.31601 2.87868 2.87862C2.31607 3.44123 2 4.20429 2 4.99994V18.9999C2 19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 21.9999 5 21.9999H19C19.7956 21.9999 20.5587 21.6839 21.1213 21.1213C21.6839 20.5587 22 19.7956 22 18.9999V12.9999C22 12.7347 21.8946 12.4804 21.7071 12.2928C21.5196 12.1053 21.2652 11.9999 21 11.9999ZM6 12.7599V16.9999C6 17.2652 6.10536 17.5195 6.29289 17.707C6.48043 17.8946 6.73478 17.9999 7 17.9999H11.24C11.3716 18.0007 11.5021 17.9755 11.6239 17.9257C11.7457 17.8759 11.8566 17.8026 11.95 17.7099L18.87 10.7799L21.71 7.99994C21.8037 7.90698 21.8781 7.79637 21.9289 7.67452C21.9797 7.55266 22.0058 7.42195 22.0058 7.28994C22.0058 7.15793 21.9797 7.02722 21.9289 6.90536C21.8781 6.7835 21.8037 6.6729 21.71 6.57994L17.47 2.28994C17.377 2.19621 17.2664 2.12182 17.1446 2.07105C17.0227 2.02028 16.892 1.99414 16.76 1.99414C16.628 1.99414 16.4973 2.02028 16.3754 2.07105C16.2536 2.12182 16.143 2.19621 16.05 2.28994L13.23 5.11994L6.29 12.0499C6.19732 12.1434 6.12399 12.2542 6.07423 12.376C6.02446 12.4979 5.99924 12.6283 6 12.7599ZM16.76 4.40994L19.59 7.23994L18.17 8.65994L15.34 5.82994L16.76 4.40994ZM8 13.1699L13.93 7.23994L16.76 10.0699L10.83 15.9999H8V13.1699Z"
+                                    fill="#E6E6E6" />
+                            </svg>
+                        </span>
+                        Simpan Data Ibu
+                    </button>
                 </div>
             </div>
         </div>
+
         <div v-if="activeContentTab === 'saudara'">
-            <SaudaraTable :idUser="userData?.id" />
+            <SaudaraTable :customerId="customerId"/>
         </div>
     </div>
 </template>

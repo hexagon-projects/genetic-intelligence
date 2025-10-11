@@ -17,6 +17,7 @@ export default {
       loading: true,
       activeDropdown2: null,
       activeDropdown3: null,
+      downloadLoading: false,
       chartData: {
         labels: [],
         values: []
@@ -166,7 +167,7 @@ export default {
       try {
         this.downloadLoading = true;
         const userId = this.userData?.id;
-        
+
         if (!userId) {
           console.error('User ID tidak ditemukan');
           return;
@@ -186,24 +187,24 @@ export default {
 
         // Mengubah response menjadi blob
         const blob = await response.blob();
-        
+
         // Membuat URL objek dari blob
         const url = window.URL.createObjectURL(blob);
-        
+
         // Membuat elemen anchor untuk download
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
         a.download = `hasil-ist-${userId}.pdf`;
-        
+
         // Menambahkan ke DOM dan melakukan klik
         document.body.appendChild(a);
         a.click();
-        
+
         // Membersihkan
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-        
+
       } catch (error) {
         console.error('Error downloading PDF:', error);
         alert('Gagal mengunduh PDF. Silakan coba lagi.');
@@ -623,10 +624,10 @@ export default {
         </div>
       </template>
 
-      <div
-        class="fixed bottom-4 left-4 right-4 md:max-w-[50%] lg:max-w-[35%] xl:max-w-[30%] mx-auto space-y-4">
-        <NewButton v-if="currentStep === 3" @click="downloadPDF" :text="'Download PDF'" class="font-semibold" text-size="text-sm" bg-color="bg-white"
-          text-color="text-primary" border-color="border-primary" />
+      <div class="fixed bottom-4 left-4 right-4 md:max-w-[50%] lg:max-w-[35%] xl:max-w-[30%] mx-auto space-y-4">
+        <NewButton v-if="currentStep === 3" @click="downloadPDF"
+          :text="downloadLoading ? 'Mengunduh...' : 'Download PDF'" class="font-semibold" text-size="text-sm"
+          bg-color="bg-white" text-color="text-primary" border-color="border-primary" :disabled="downloadLoading" />
         <div class="flex items-center gap-2">
           <div class="w-fit">
             <button @click="goBack" :disabled="isPrevDisabled" class="rounded-full flex justify-center items-center relative z-10 border-4 border-[#7474FB]
