@@ -89,7 +89,7 @@ const persentaseJawaban = ref([])
 
 
 if(props.propsAssessment){
-  props.propsAssessment[0].total_answer.forEach(element => {
+  props.propsAssessment[0]?.total_answer.forEach(element => {
       persentaseJawaban.value.push(element.percentage) 
   });
 }

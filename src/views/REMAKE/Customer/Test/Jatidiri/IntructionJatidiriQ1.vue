@@ -161,7 +161,7 @@
           for="setuju"
           class="text-black text-base font-normal font-['Roboto'] leading-normal"
         >
-          Saya telah memahami intruksi dari vidio diatas sampai selesai.
+          Saya telah memahami intruksi sampai selesai.
         </label>
       </div>
 

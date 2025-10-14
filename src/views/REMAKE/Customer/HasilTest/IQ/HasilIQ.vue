@@ -27,7 +27,7 @@
                             <div class="text-[#3030f8] text-base font-medium font-['Roboto'] leading-normal">Skor IQ</div>
                         </div>
     
-                        <img v-if="imageIQIcon" class="w-[240px] md:w-[340px] lg:w-[240px]" :src="baseUrl+'open/iq-icons/'+imageIQIcon" alt="grade">
+                        <img v-if="imageIQIcon" class="w-[240px] md:w-[340px] lg:w-[240px]" :src="Image" alt="grade">
                     </div>
     
                     <div class="w-auto h-auto lg:w-[498px] lg:h-[265px] flex-col justify-start items-start gap-6 inline-flex">
@@ -143,6 +143,7 @@ import Cookies from 'js-cookie';
 import initAPI from '@/api/api';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import Image from '../../../../../assets/img/IQ.png'
 
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL

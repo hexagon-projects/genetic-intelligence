@@ -151,6 +151,15 @@ export default {
             }
         });
 
+        watch(jenjangPendidikan, (newValue) => {
+            if (newValue && newValue !== '-- Pilih Opsi --') {
+                namaPendidikan.value = '';
+                idSekolah.value = '';
+                searched.value = true;
+                getSearchData();
+            }
+        });
+
         const pilihSekolah = (id, name) => {
             idSekolah.value = id
             searched.value = false
