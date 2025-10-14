@@ -3,7 +3,7 @@
          <div class="container mx-auto">
              <div class="flex justify-center container mx-auto w-full">
                 <p class="font-medium font-myFont text-xs lg:text-sm text-neutral-400 text-center">
-                    © 2023 Jatidiri.App All Rights Reserved.
+                    © 2025 Jatidiri.App All Rights Reserved.
                 </p>
                 <!-- <p class="font-bold text-sm text-black text-center">
                     Made By <span><a href="https://www.instagram.com/fauzanmi18/" class="hover:text-white">Fauzan Muhammad Iqbal</a></span>, Bandung 2023

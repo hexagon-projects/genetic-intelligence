@@ -5,9 +5,7 @@
             <div class="flex justify-center items-center w-full gap-2">
                 <div class="w-full mb-4">
                     <label for="jenjangPendidikan" class="block text-sm font-myFont font-medium text-dark">Jenjang Instansi:</label>
-                    <!-- <input v-model="jenjangPendidikan" type="text" name="jenjangPendidikan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Password anda saat ini" /> -->
                     <select v-model="jenjangPendidikan" id="jenjang_pendidikan" name="jenjang_pendidikan" class="text-xs md:text-sm lg:text-base mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru bg-white">
-                        <!-- <option value="" disabled selected>-- Pilih Opsi --</option> -->
                         <option selected disabled>-- Pilih Opsi --</option>
                         <option v-for="(option, index) in dataJenjangPendidikan" :key="index" :value="option.value">
                         {{ option.text }}
@@ -44,11 +42,10 @@
                     <label for="jurusan" class="block text-sm font-myFont font-medium text-dark">Divisi:</label>
                     <input v-model="jurusan" type="text" name="jurusan" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru" placeholder="Jurusan" />
                 </div>
-                <div v-if="jenjangPendidikan !== 'corporate'" class="w-full mb-4">
+                <div v-if="jenjangPendidikan !== 'Instansi'" class="w-full mb-4">
                     <label for="grade" class="block text-sm font-myFont font-medium text-dark">
                         {{ jenjangPendidikan !== 'perguruan_tinggi' ? 'Kelas:' : 'Semester' }}
                     </label>
-                    <!-- Mengubah input kelas menjadi dropdown dengan opsi romawi -->
                     <select v-if="!showCustomKelasInput" v-model="kelas" name="grade" class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring-biru focus:ring-2 focus:border-biru">
                         <option v-for="n in (jenjangPendidikan === 'SD' ? 6 : (jenjangPendidikan === 'SMP' ? 3 : (jenjangPendidikan === 'SMA' || jenjangPendidikan === 'SMK' ? 3 : 8)))" 
                                 :key="n" :value="n">
@@ -82,8 +79,6 @@ export default {
     name: 'InformasiSekolah',
     props: ['dataCustomer'],
     setup(props){
-        // console.log('data props is sekolah', props)
-
         const store = useStore()
         const router = useRouter()
         const idSekolah = ref('')
@@ -92,7 +87,6 @@ export default {
         const showCustomKelasInput = ref(false)
         const customKelas = ref('')
         
-        // Deklarasi semua variabel reactive di awal
         const jenjangPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.type : '-- Pilih Opsi --')
         const namaPendidikan = ref(props.dataCustomer.institutions ? props.dataCustomer.institutions.name : '')
         const kelas = ref('')
@@ -108,23 +102,23 @@ export default {
                 {id:4, text:'SMA', value: 'SMA'},
                 {id:5, text:'SMK', value: 'SMK'},
                 {id:6, text:'Perguruan Tinggi', value: 'perguruan_tinggi'},
-                {id:6, text:'Corporate', value: 'corporate'},
+                {id:6, text:'Corporate', value: 'Instansi'},
             ]
             
-            // Inisialisasi nilai kelas berdasarkan data yang ada
+            if (props.dataCustomer.institutions && props.dataCustomer.institutions.id) {
+                idSekolah.value = props.dataCustomer.institutions.id;
+            }
+            
             if (props.dataCustomer.grade) {
-                // Jika nilai kelas adalah angka, gunakan langsung
                 if (!isNaN(props.dataCustomer.grade)) {
                     kelas.value = props.dataCustomer.grade;
                 } else {
-                    // Jika bukan angka, tampilkan input custom
                     showCustomKelasInput.value = true;
                     customKelas.value = props.dataCustomer.grade;
                 }
             }
         })
 
-        // Fungsi untuk mengkonversi angka ke romawi
         const convertToRoman = (num) => {
             const romanNumerals = [
                 { value: 10, symbol: 'X' },
@@ -144,7 +138,6 @@ export default {
             return result;
         }
 
-        // Watch perubahan pada dropdown kelas
         watch(kelas, (newValue) => {
             if (newValue === 'other') {
                 showCustomKelasInput.value = true;
@@ -152,7 +145,6 @@ export default {
             }
         });
 
-        // Watch perubahan pada input custom kelas
         watch(customKelas, (newValue) => {
             if (newValue !== '') {
                 kelas.value = newValue;
@@ -175,16 +167,47 @@ export default {
         }, 500)
 
         const getSearchData = async() => {
-            // console.log(`nyari`)
-            const response = await initAPI('get', `institutions?search=${namaPendidikan.value}`, null, null)
-            // console.log(response.data)
+            let url = `institutions?type=${jenjangPendidikan.value}&search=${namaPendidikan.value}`
+            const response = await initAPI('get', url, null, null)
             pilihanSekolah.value = response.data.data
         }
 
         const ubahData = async() => {
-            // Gunakan customKelas jika showCustomKelasInput true,否则 gunakan kelas value
+            if (!idSekolah.value) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Nama instansi harus dipilih.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                return;
+            }
+
             const nilaiKelas = showCustomKelasInput.value ? DOMPurify.sanitize(customKelas.value) : DOMPurify.sanitize(kelas.value);
             
+            if (jenjangPendidikan.value !== 'Instansi' && !nilaiKelas) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: jenjangPendidikan.value !== 'perguruan_tinggi' ? 'Kelas harus diisi.' : 'Semester harus diisi.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                return;
+            }
+
+            if ((jenjangPendidikan.value === 'SMA' || jenjangPendidikan.value === 'SMK' || jenjangPendidikan.value === 'perguruan_tinggi') && !jurusan.value) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: 'Divisi harus diisi.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                return;
+            }
+
             const data = new FormData
             data.append('_method', 'PUT')
             data.append('type', DOMPurify.sanitize(jenjangPendidikan.value))
@@ -207,13 +230,10 @@ export default {
                     
                     const formData = new FormData()
                     formData.append('refresh_user', 'true')
-                    // const updatedCustomer = await initAPI('get', 'customers?id='+customerId, null, token)
                     const updatedCustomer = await initAPI('post', 'login', formData, token)
-                    // console.log(updatedCustomer.data.customer)
                     store.commit('user', updatedCustomer.data.customer)
                     localStorage.setItem('userData', JSON.stringify(updatedCustomer.data.customer))
                 } catch (error) {
-                    // console.log(`gagal ajig`, error)
                     Swal.fire({
                         icon: 'error',
                         title: 'Failed',

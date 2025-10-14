@@ -228,12 +228,12 @@ const assesments = ref([
     link: "user.views.test_gadget",
     image: new URL("@/assets/icons/jatidiri-kendali.svg", import.meta.url).href,
   },
-  {
-    name: "Jatidiri Bakat",
-    desc: "Tes yang dirancang untuk mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai panduan karier.",
-    link: "user.views.rmib",
-    image: new URL("@/assets/icons/jatidiri-bakat.svg", import.meta.url).href,
-  },
+  // {
+  //   name: "Jatidiri Bakat",
+  //   desc: "Tes yang dirancang untuk mengidentifikasi minat kamu terhadap berbagai jenis pekerjaan dan profesi kerja sebagai panduan karier.",
+  //   link: "user.views.rmib",
+  //   image: new URL("@/assets/icons/jatidiri-bakat.svg", import.meta.url).href,
+  // },
   {
     name: "Jatidiri Bahagia",
     desc: "Tes ini dirancang untuk mengukur tingkat kebahagiaan individu berbagai berdasarkan berbagai aspek kehidupan dan keseimbangan hidup",

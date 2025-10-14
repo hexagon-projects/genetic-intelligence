@@ -5,10 +5,10 @@
                 <img class="w-[121px] h-[48px]" src="@/assets/img/logo-new.png">
 
                 <p class="font-normal font-roboto text-xs lg:text-sm text-[#6D758F] text-center">
-                   Copyright © {{ currentYear }} Jatidiri. All Rights Reserved.
+                   Copyright © 2025 Jatidiri. All Rights Reserved.
                 </p>
                 
-                <div class="group cursor-pointer flex justify-center items-center gap-2">
+                <div @click="openInstagram" class="group cursor-pointer flex justify-center items-center gap-2">
                     <a class="p-1 border border-[#3030f8] rounded-[50%] text-[#3030f8] group-hover:bg-[#3030f8] group-hover:text-white">
                         <PhInstagramLogo :size="18"/>
                     </a>
@@ -22,6 +22,11 @@
 
 <script setup>
 import { PhInstagramLogo } from '@phosphor-icons/vue';
+
+const openInstagram = () => {
+    const url = 'https://www.instagram.com/jatidiri.app?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==';
+    window.open(url, '_blank');
+};
 </script>
 
 <!-- src="@/assets/img/logo-new.png" -->

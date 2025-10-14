@@ -82,16 +82,21 @@
         <!-- Card SMKN 2 Cimahi -->
         <div v-else-if="sekolahId === 215402" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-[16px]">
           <DataCard bgColor="bg-[#6366f1]" :image="Users" :number="data_test_counts[0]" :title="'Total Pengguna'" />
-          <DataCard bgColor="bg-[#ec4899]" :image="Karir" :number="smkn64Data ? smkn64Data.karierCustomer : 0"
-            :title="'Total Test Jatidiri Karir'" />
-          <DataCard bgColor="bg-[#10b981]" :image="Belajar" :number="smkn64Data ? smkn64Data.belajarCustomer : 0"
+          <DataCard bgColor="bg-[#ec4899]" :image="Karir"
+            :number="statistik ? statistik.karierStatistik.karierTotal : 0" :title="'Total Test Jatidiri Karir'" />
+          <DataCard bgColor="bg-[#10b981]" :image="Belajar" :number="statistik ? statistik.jatidiriKendali.total : 0"
             :title="'Total Test Jatidiri Kendali'" />
-          <DataCard bgColor="bg-[#10b981]" :image="Potensi" :number="smkn64Data ? smkn64Data.belajarCustomer : 0"
+          <DataCard bgColor="bg-[#10b981]" :image="Potensi" :number="statistik ? statistik.jatidiriMental.total : 0"
             :title="'Total Test Jatidiri Kendali Mental'" />
           <DataCard bgColor="bg-[#06b6d4]" :image="Ist" :number="smkn64Data ? smkn64Data.istCustomer : 0"
             :title="'Total Test Jatidiri Cerdas'" />
           <DataCard bgColor="bg-[#06b6d4]" :image="Ist" :number="smkn64Data ? smkn64Data.istCustomer : 0"
             :title="'Total Test Jatidiri Cerdas Dewasa'" />
+        </div>
+
+        <!-- Card Hexagon -->
+        <div v-else-if="sekolahId === 215396" class="max-h-0 max-w-0">
+          
         </div>
 
         <!-- Card -->
@@ -218,32 +223,52 @@
       </div>
 
       <!-- Dashboard SMKN 2 Cimahi -->
-      <!-- <div v-else-if="sekolahId === 215402" class="pt-6">
-        <JatidiriIstChart :iqData="smkn64Data?.averageIq?.sw_counts || {}" />
-        <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6 pt-6">
-          <div class="w-full h-full md:w-[50%]">
-            <JatidiriKarirChart :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
-          </div>
-
-          <div class="w-full min-h-full md:w-[50%]">
-            <JatidiriCerdasChart />
-          </div>
-        </div>
-        <div class="w-full min-h-full flex flex-col md:flex-row gap-4 md:gap-6 pt-6">
-          <div class="w-full h-full md:w-[50%]">
-            <JatidiriMentalChart />
-          </div>
-
-          <div class="w-full min-h-full md:w-[50%]">
-            <JatidiriKendaliChart class="w-full h-full" />
-          </div>
-        </div>
-      </div> -->
-
-      <div v-else class="">
+      <div v-else-if="sekolahId === 215402">
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
-          <JatidiriIstChart :iq-data="statistik?.iqpotensi || []" />
-          <GenderChart :gender-data="demografi?.gender" :age-data="demografi?.age"/>
+          <GenderChart :gender-data="demografi?.gender" :age-data="demografi?.age" />
+
+          <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full">
+              <JatidiriKarirChart class="w-full" :karier-data="statistik?.karierStatistik.grouped || []" />
+            </div>
+          </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full md:w-[40%]">
+              <JatidiriKendaliChart class="h-full" :kendali-data="statistik?.jatidiriKendali" />
+            </div>
+
+            <div class="w-full md:w-[60%]">
+              <JatidiriMentalChart :mental-data="statistik?.jatidiriMental" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Hexagon -->
+      <div v-else-if="sekolahId === 215396" class="">
+        <GenderChart :sekolah-id="sekolahId" class="pt-6" :gender-data="demografi?.gender" :age-data="demografi?.age" />
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
+          <JatidiriGIM :options="data_bar.chartOptions" :series="data_bar.series" />
+
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full h-full md:w-[60%]">
+              <JatidiriIstChart class="h-full" :iq-data="statistik?.iqpotensi || []" />
+            </div>
+
+            <div class="w-full md:w-[40%]">
+              <JatidiriCerdasChart />
+            </div>
+          </div>
+
+          <!-- <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full md:w-[50%]">
+              <JatidiriBakatChart/>
+            </div>
+
+            <div class="w-full md:w-[50%]">
+              <JatidiriPotensiChart />
+            </div>
+          </div> -->
 
           <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
             <div class="w-full md:w-[70%]">
@@ -275,47 +300,99 @@
             <div class="w-full min-h-full md:w-[50%]">
               <JatidiriQ1Chart :data="statistik?.jatidiriQ1" />
             </div>
-            
+
             <div class="w-full md:w-[50%]">
               <JatidiriQ2Chart :data="statistik?.jatidiriQ2" />
             </div>
           </div>
         </div>
-        <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 pt-6">
-          <JatidiriPotensiChart />
-          <JatidiriBakatChart />
-          <ProgressChart />
-        </div>
+      </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pt-6">
-          <JatidiriSejatiChart :data="data_bar.series[0].data" />
+      <div v-else-if="sekolahId === 3795" class="">
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
+          <JatidiriGIM :options="data_bar.chartOptions" :series="data_bar.series" />
+          <JatidiriIstChart :iq-data="statistik?.iqpotensi || []" />
+          <GenderChart :gender-data="demografi?.gender" :age-data="demografi?.age" />
 
-          <JatidiriCerdasChart :data="data_pie_2.series[0].data" :loading="loading" />
-        </div>
+          <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full md:w-[70%]">
+              <JatidiriKarirChart :karier-data="statistik?.karierStatistik.grouped || []" />
+            </div>
 
-        <JatidiriBelajarChart :data="data_pie_1.series[0].data" :loading="loading" class="mt-6" />
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pt-6">
-          <JatidiriQ1Chart />
-
-          <JatidiriMentalChart />
-
-          <JatidiriStressChart />
-
-          <JatidiriKendaliChart />
-        </div>
-
-        <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6 pt-6">
-          <div class="w-full md:w-[70%]">
-            <JatidiriKarirChart :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
+            <div class="w-full md:w-[30%]">
+              <JatidiriBahagiaChart :bahagia-data="statistik?.jatidiriBahagia || []" />
+            </div>
           </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full md:w-[40%]">
+              <JatidiriKendaliChart class="h-full" :kendali-data="statistik?.jatidiriKendali" />
+            </div>
 
-          <div class="w-full md:w-[30%]">
-            <JatidiriBahagiaChart />
+            <div class="w-full md:w-[60%]">
+              <JatidiriMentalChart :mental-data="statistik?.jatidiriMental" />
+            </div>
+          </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full md:w-[60%]">
+              <JatidiriAnxietyChart :anxiety-data="statistik?.jatidiriAnxiety" />
+            </div>
+            <div class="w-full min-h-full md:w-[40%]">
+              <JatidiriStressChart class="h-full" :data="statistik?.jatidiriStres" />
+            </div>
+          </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full md:w-[50%]">
+              <JatidiriQ1Chart :data="statistik?.jatidiriQ1" />
+            </div>
+
+            <div class="w-full md:w-[50%]">
+              <JatidiriQ2Chart :data="statistik?.jatidiriQ2" />
+            </div>
           </div>
         </div>
+      </div>
 
-        <JatidiriAnxietyChart class="mt-6" /> -->
+      <div v-else class="">
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
+          <JatidiriIstChart :iq-data="statistik?.iqpotensi || []" />
+          <GenderChart :gender-data="demografi?.gender" :age-data="demografi?.age" />
+
+          <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full md:w-[70%]">
+              <JatidiriKarirChart :karier-data="statistik?.karierStatistik.grouped || []" />
+            </div>
+
+            <div class="w-full md:w-[30%]">
+              <JatidiriBahagiaChart :bahagia-data="statistik?.jatidiriBahagia || []" />
+            </div>
+          </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full md:w-[40%]">
+              <JatidiriKendaliChart class="h-full" :kendali-data="statistik?.jatidiriKendali" />
+            </div>
+
+            <div class="w-full md:w-[60%]">
+              <JatidiriMentalChart :mental-data="statistik?.jatidiriMental" />
+            </div>
+          </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full md:w-[60%]">
+              <JatidiriAnxietyChart :anxiety-data="statistik?.jatidiriAnxiety" />
+            </div>
+            <div class="w-full min-h-full md:w-[40%]">
+              <JatidiriStressChart class="h-full" :data="statistik?.jatidiriStres" />
+            </div>
+          </div>
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full md:w-[50%]">
+              <JatidiriQ1Chart :data="statistik?.jatidiriQ1" />
+            </div>
+
+            <div class="w-full md:w-[50%]">
+              <JatidiriQ2Chart :data="statistik?.jatidiriQ2" />
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- <div v-if="sekolahId !== 215397" class="bg-white p-4 flex flex-col rounded-xl mt-10">
@@ -464,6 +541,7 @@ import MMSChart from "./components/MMSChart.vue";
 import BRIChart from "./components/BRIChart.vue";
 import JatidiriQ2Chart from "./components/jatidiriQ2Chart.vue";
 import GenderChart from "./components/GenderChart.vue";
+import JatidiriGIM from "./components/JatidiriGIM.vue";
 
 const staffName = ref(JSON.parse(localStorage.getItem('userData')).staff?.name)
 const sekolahId = ref(JSON.parse(localStorage.getItem('userData')).staff?.institution_id)

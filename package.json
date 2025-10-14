@@ -35,7 +35,7 @@
     "pdfmake": "^0.2.20",
     "pkce-challenge": "^5.0.0",
     "qs": "^6.11.2",
-    "sweetalert2": "^11.22.2",
+    "sweetalert2": "^11.26.2",
     "swiper": "^11.2.10",
     "videojs-contrib-hls": "^5.15.0",
     "vue": "^3.3.11",

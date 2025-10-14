@@ -239,7 +239,7 @@
           </div>
 
           <!-- Meeting Link -->
-          <div
+          <div v-if="booking.meet_link === null"
             class="bg-white rounded-3xl shadow-lg p-6 hover:shadow-xl transition-all duration-500 hover:-translate-y-1 group flex flex-col justify-between gap-6">
             <div>
               <div class="flex items-center justify-between mb-4">

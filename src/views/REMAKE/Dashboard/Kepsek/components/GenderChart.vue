@@ -1,6 +1,12 @@
 <template>
   <div class="font-sora">
     <div class="">
+      <div v-if="sekolahId === 215396" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <DataCard bgColor="bg-[#10b981]" :image="Users" :number="totalUsers?.toLocaleString()"
+          :title="'Total Pengguna'" />
+        <DataCard bgColor="bg-[#06b6d4]" :image="Users" :number="largestAgeGroup" :title="'Kelompok Terbesar'" />
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
           <div class="mb-6">
@@ -11,6 +17,18 @@
             <canvas ref="genderChart" class="w-full h-full"></canvas>
           </div>
           <div class="mt-4 flex justify-center space-x-6">
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+              <span class="text-sm text-slate-600">Laki-laki ({{ genderData?.[0]?.total.toLocaleString() }})</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-pink-500 rounded-full mr-2"></div>
+              <span class="text-sm text-slate-600">Perempuan ({{ genderData?.[1]?.total.toLocaleString() }})</span>
+            </div>
+            <div class="flex items-center">
+              <div class="w-3 h-3 bg-slate-400 rounded-full mr-2"></div>
+              <span class="text-sm text-slate-600">Data Kosong ({{ genderData?.[2]?.total.toLocaleString() }})</span>
+            </div>
           </div>
         </div>
 
@@ -29,8 +47,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, watch } from 'vue'
+import { ref, onMounted, defineProps, watch, computed } from 'vue'
 import Chart from 'chart.js/auto' 
+import DataCard from './DataCard.vue'
+import Users from '../../../../../assets/icons/users.png'
+import Karir from '../../../../../assets/icons/karir.png'
 
 interface GenderData {
   gender: number | null
@@ -44,6 +65,7 @@ interface AgeData {
 }
 
 const props = defineProps({
+  sekolahId: Number,
   genderData: {
     type: Array as () => GenderData[],
     required: true
@@ -77,6 +99,18 @@ watch(() => props.ageData, () => {
   }
   createAgeChart()
 }, { deep: true })
+
+const totalUsers = computed(() => {
+  return props.genderData?.reduce((sum, item) => sum + item.total, 0)
+})
+
+const largestAgeGroup = computed(() => {
+  if (!props.ageData?.length) return ''
+  const largest = props.ageData?.reduce((prev, current) =>
+    (prev.total > current.total) ? prev : current
+  )
+  return largest.range.replace(' Tahun', '')
+})
 
 const createGenderChart = () => {
   if (!genderChart.value) return
@@ -118,7 +152,7 @@ const createGenderChart = () => {
             label: function (context) {
               const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0)
               const percentage = ((context.parsed / total) * 100).toFixed(1)
-              return `${context.label}: ${context.parsed.toLocaleString()} (${percentage}%)`
+              return `${context.label}: ${context.parsed?.toLocaleString()} (${percentage}%)`
             }
           }
         }
