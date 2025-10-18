@@ -323,6 +323,8 @@ const onFileChange = async (event) => {
   const token = Cookies.get("token");
   try {
     const res = await initAPI("post", "bk/upload-profile", formData, token);
+    console.log(formData)
+    console.log(res)
 
     if (res.status === 200) {
       profilePreview.value = res.data.data; // URL profile terbaru

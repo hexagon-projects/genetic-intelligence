@@ -359,12 +359,11 @@ const getConselings = async () => {
       url += `/${selectedStatus.value}`;
     }
 
-    const params = {};
     if (searchQuery.value.trim()) {
-      params.search = searchQuery.value.trim();
+      url += `?search=${searchQuery.value.trim()}`;
     }
 
-    const response = await initAPI("get", url, params, token);
+    const response = await initAPI("get", url, null, token);
     conselings.value = response.data.data;
   } catch (error) {
     console.error("Gagal ambil data conselings", error);
@@ -373,6 +372,18 @@ const getConselings = async () => {
     loading.value = false;
   }
 };
+
+const debouncedSearch = debounce(() => {
+  getConselings();
+}, 500);
+
+watch([selectedStatus], () => {
+  getConselings();
+});
+
+watch(searchQuery, () => {
+  debouncedSearch();
+});
 
 // Auto update saat props.status berubah
 watch(

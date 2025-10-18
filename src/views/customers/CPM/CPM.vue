@@ -17,7 +17,7 @@
                 <div class="opacity-75 text-black text-sm font-normal font-roboto leading-tight">Test CPM</div>
             </div>
         
-            <modalCekProfile v-if="dataProfileInclomplete"/>
+            <!-- <modalCekProfile v-if="dataProfileInclomplete"/> -->
         
             <div v-if="!dataProfileInclomplete">
                 <div v-if="!isTestedCPM">

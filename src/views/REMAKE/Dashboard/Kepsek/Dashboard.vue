@@ -88,7 +88,7 @@
             :title="'Total Test Jatidiri Kendali'" />
           <DataCard bgColor="bg-[#10b981]" :image="Potensi" :number="statistik ? statistik.jatidiriMental.total : 0"
             :title="'Total Test Jatidiri Kendali Mental'" />
-          <DataCard bgColor="bg-[#06b6d4]" :image="Ist" :number="smkn64Data ? smkn64Data.istCustomer : 0"
+          <DataCard bgColor="bg-[#06b6d4]" :image="Ist" :number="data_test_counts[3]"
             :title="'Total Test Jatidiri Cerdas'" />
           <DataCard bgColor="bg-[#06b6d4]" :image="Ist" :number="smkn64Data ? smkn64Data.istCustomer : 0"
             :title="'Total Test Jatidiri Cerdas Dewasa'" />
@@ -96,7 +96,7 @@
 
         <!-- Card Hexagon -->
         <div v-else-if="sekolahId === 215396" class="max-h-0 max-w-0">
-          
+
         </div>
 
         <!-- Card -->
@@ -117,7 +117,7 @@
       <div v-if="sekolahId === 215397" class="pt-6">
         <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6 pt-6">
           <div class="w-full h-full md:w-[70%]">
-            <JatidiriKarirChart :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
+            <JatidiriKarirChart :sekolah-id="sekolahId" :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
           </div>
 
           <div class="w-full md:w-[30%]">
@@ -137,7 +137,7 @@
 
         <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6 pt-6">
           <div class="w-full md:w-[70%]">
-            <JatidiriKarirChart :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
+            <JatidiriKarirChart :sekolah-id="sekolahId" :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
           </div>
 
           <div class="w-full md:w-[30%]">
@@ -150,7 +150,7 @@
       <div v-else-if="sekolahId === 215399" class="pt-6">
         <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6 pt-6">
           <div class="w-full md:w-[60%]">
-            <JatidiriKarirChart :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
+            <JatidiriKarirChart :sekolah-id="sekolahId" :karierData="smkn64Data?.karierStatistik?.grouped || {}" />
           </div>
 
           <div class="w-full md:w-[40%]">
@@ -227,9 +227,12 @@
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
           <GenderChart :gender-data="demografi?.gender" :age-data="demografi?.age" />
 
+          <JatidiriCerdasChart :data="data_pie_2.series[0].data" :loading="loading" />
+
           <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
             <div class="w-full">
-              <JatidiriKarirChart class="w-full" :karier-data="statistik?.karierStatistik.grouped || []" />
+              <JatidiriKarirChart :sekolah-id="sekolahId" class="w-full"
+                :karier-data="statistik?.karierStatistik.grouped || []" />
             </div>
           </div>
           <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
@@ -272,7 +275,7 @@
 
           <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
             <div class="w-full md:w-[70%]">
-              <JatidiriKarirChart :karier-data="statistik?.karierStatistik.grouped || []" />
+              <JatidiriKarirChart :sekolah-id="sekolahId" :karier-data="statistik?.karierStatistik.grouped || []" />
             </div>
 
             <div class="w-full md:w-[30%]">
@@ -316,7 +319,7 @@
 
           <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
             <div class="w-full md:w-[70%]">
-              <JatidiriKarirChart :karier-data="statistik?.karierStatistik.grouped || []" />
+              <JatidiriKarirChart :sekolah-id="sekolahId" :karier-data="statistik?.karierStatistik.grouped || []" />
             </div>
 
             <div class="w-full md:w-[30%]">
@@ -352,6 +355,19 @@
         </div>
       </div>
 
+      <!-- Dashboard Stikes Budiluhur -->
+      <div v-else-if="sekolahId === 215387" class="">
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
+          <GenderChart :gender-data="demografi?.gender" :age-data="demografi?.age" />
+
+          <div class="w-full h-full flex flex-col md:flex-row gap-4 md:gap-6">
+            <div class="w-full min-h-full">
+              <JatidiriBelajarChart class="h-full" :data="data_pie_1.series[0].data" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div v-else class="">
         <div class="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6 pt-6">
           <JatidiriIstChart :iq-data="statistik?.iqpotensi || []" />
@@ -359,7 +375,7 @@
 
           <div class="w-full flex flex-col md:flex-row gap-4 md:gap-6">
             <div class="w-full md:w-[70%]">
-              <JatidiriKarirChart :karier-data="statistik?.karierStatistik.grouped || []" />
+              <JatidiriKarirChart :sekolah-id="sekolahId" :karier-data="statistik?.karierStatistik.grouped || []" />
             </div>
 
             <div class="w-full md:w-[30%]">
@@ -502,10 +518,8 @@
 import Layout from "@/Layout/Kepsek/Layout.vue";
 import initAPI from "../../../../api/api";
 import Cookies from "js-cookie";
-import { RouterLink } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 import Swal from "sweetalert2";
-import { useRouter } from "vue-router";
 import JatidiriIstChart from "./components/JatidiriIstChart.vue";
 import DataCard from "./components/DataCard.vue";
 import Ist from '../../../../assets/icons/ist2.png'
@@ -595,7 +609,6 @@ const fetchStatistik = async () => {
 const fetchStatistikTangguhData = async () => {
   try {
     const response = await initAPI("get", `statistik-admin/statistik-tangguh?institutId=${sekolahId.value}`, null, token);
-    // console.log('Statistik Tangguh', response.data)
     statistikTangguhData.value = response.data;
   } catch (error) {
     console.error("Error fetching SMKN64 data:", error);
@@ -605,7 +618,6 @@ const fetchStatistikTangguhData = async () => {
 const fetchPenggunaTangguhData = async () => {
   try {
     const response = await initAPI("get", `statistik-admin/pengguna-tangguh?institutId=${sekolahId.value}`, null, token);
-    // console.log('Pengguna Tangguh', response.data)
     tangguhData.value = response.data;
   } catch (error) {
     console.error("Error fetching SMKN64 data:", error);
@@ -823,6 +835,8 @@ const fetchDataStatusAPI = async () => {
         response.data.data_iq_result.desc,
       ]);
     }
+
+    console.log(response.data.data_iq_result)
   } catch (error) {
     Swal.fire({
       icon: "error",

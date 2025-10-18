@@ -4,9 +4,9 @@
             class="flex justify-center animate-[spin_2s_linear_infinite] border-8 border-[#f1f2f3] border-l-biru border-r-biru rounded-full w-14 h-14 m-auto"></span>
     </div>
 
-    <div v-if="dataProfileInclomplete">
+    <!-- <div v-if="dataProfileInclomplete">
         <modalCekProfile />
-    </div>
+    </div> -->
 
     <Layout v-if="!loading">
         <!-- Breadcrumb -->

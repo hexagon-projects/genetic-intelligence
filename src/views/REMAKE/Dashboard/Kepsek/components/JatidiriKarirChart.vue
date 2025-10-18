@@ -1,8 +1,12 @@
 <template>
     <div class="w-full h-full p-6 bg-white rounded-lg font-sora">
-        <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">
-            Statistik Jatidiri Karir
-        </h2>
+        <div class="w-full flex justify-between items-center gap-4">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+                Statistik Jatidiri Karir
+            </h2>
+            <NewButton v-if="sekolahId && hasValidKarierData" @click="handleDownload" class="px-6" textSize="text-sm md:text-base"
+                :text="downloading ? 'Mengunduh...' : 'Download PDF'" />
+        </div>
         <div class="relative flex flex-col lg:flex-row">
             <div class="relative mb-8 lg:mb-0 w-full md:w-fit">
                 <svg ref="svgElement" width="600" height="500" viewBox="100 100 400 400" class="w-full"
@@ -58,6 +62,12 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue'
+import NewButton from '../../../../../components/customer/NewButton.vue'
+import Swal from 'sweetalert2';
+import Cookies from 'js-cookie'
+import initAPI from '../../../../../api/api';
+
+const downloading = ref(false);
 
 interface Option {
     id: string
@@ -74,8 +84,8 @@ interface Segment {
     circumference: number
 }
 
-// Props untuk menerima data dari parent component
 const props = defineProps({
+    sekolahId: { type: Number },
     karierData: {
         type: Object,
         default: () => ({
@@ -91,7 +101,15 @@ const hoveredSegment = ref<string | null>(null)
 const tooltipPosition = ref<{ x: number; y: number } | null>(null)
 const svgElement = ref<SVGElement | null>(null)
 
-// Transform data dari API ke format options
+const hasValidKarierData = computed(() => {
+    if (!props.karierData) return false;
+    
+    const { sci, eri, wri } = props.karierData;
+    const totalCount = (sci?.count || 0) + (eri?.count || 0) + (wri?.count || 0);
+    
+    return totalCount > 0;
+});
+
 const options = computed<Option[]>(() => {
     const { sci, eri, wri } = props.karierData
 
@@ -184,6 +202,66 @@ const updateTooltipPosition = (event: MouseEvent) => {
     }
 }
 
+const handleDownload = async () => {
+    if (!props.sekolahId) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Data karir tidak tersedia untuk diunduh',
+            confirmButtonColor: '#3b82f6',
+        });
+        return;
+    }
+
+    try {
+        downloading.value = true;
+        const token = Cookies.get('token');
+        const response = await fetch(
+            `https://api.jatidiri.app/api/institutions-bmw/${props.sekolahId}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error('Gagal mengunduh file');
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `hasil-karir.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'File hasil karir berhasil diunduh',
+            confirmButtonColor: '#3b82f6',
+        });
+
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Gagal mengunduh file. Silakan coba lagi.',
+            confirmButtonColor: '#3b82f6',
+        });
+        console.error(err)
+    } finally {
+        downloading.value = false;
+    }
+};
+
 onMounted(async () => {
     await nextTick()
     setTimeout(() => {
@@ -191,3 +269,19 @@ onMounted(async () => {
     }, 100)
 })
 </script>
+
+<style>
+.swal2-confirm {
+    background-color: #0b40f4 !important;
+    color: white !important;
+}
+
+.swal2-cancel {
+    background-color: #3b3f5c !important;
+    color: white !important;
+}
+
+.swal2-styled:focus {
+    box-shadow: none !important;
+}
+</style>

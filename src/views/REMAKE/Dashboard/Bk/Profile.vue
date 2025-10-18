@@ -45,11 +45,11 @@
               </div>
             </div>
             <hr class="my-3" />
-            <button
+            <!-- <button
               class="bg-biru text-white py-2 px-7 rounded-full hover:bg-blue-600 inline-flex justify-center items-center w-full"
             >
               Download PDF
-            </button>
+            </button> -->
           </div>
         </div>
       </div>

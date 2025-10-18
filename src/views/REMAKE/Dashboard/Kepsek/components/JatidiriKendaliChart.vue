@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full p-6 md:p-8 bg-white rounded-lg font-sora" @click="">
-    <div class="w-full h-full flex flex-col lg:flex-row items-center justify-between gap-8">
+  <div class="w-full p-6 md:p-8 bg-white rounded-lg font-sora h-full flex flex-col justify-center" @click="">
+    <div class="w-full h-fit flex flex-col lg:flex-row items-center justify-between gap-8">
       <div class="flex-1 space-y-4">
         <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">
             Statistik Jatidiri Kendali
@@ -48,6 +48,13 @@
             <div class="text-4xl font-bold text-teal-500">{{ animatedCenterPercentage }}%</div>
           </div>
         </div>
+      </div>
+    </div>
+    
+    <div class="flex flex-wrap gap-4 justify-center lg:justify-center">
+      <div v-for="(item, index) in legendItems" :key="index" class="flex items-center gap-2">
+        <div class="w-4 h-4 rounded" :style="{ backgroundColor: item.color }"></div>
+        <span class="text-sm text-gray-700">{{ item.label }}</span>
       </div>
     </div>
   </div>
@@ -110,6 +117,15 @@ const rings = computed<Ring[]>(() => {
             }]
         }
     })
+})
+
+const legendItems = computed(() => {
+    if (!props.kendaliData || !props.kendaliData.statistics) return []
+    
+    return props.kendaliData.statistics.map((item: any, index: number) => ({
+        label: item.name,
+        color: index === 0 ? '#10b981' : index === 1 ? '#f59e0b' : '#ef4444'
+    }))
 })
 
 const animateNumbers = () => {

@@ -8,9 +8,7 @@
   <Layout v-if="!loading">
     <div class="bg-gray-100 p-5 min-h-screen">
       <div class="w-full md:w-4/5 mx-auto">
-        <!-- header -->
         <div class="md:flex items-end justify-between grid grid-cols-1 gap-2">
-          <!-- Welcome -->
           <div class="flex flex-col gap-2">
             <h1
               class="text-[#0c141c] text-3xl md:text-2xl font-semibold font-['Roboto'] leading-10"
@@ -23,7 +21,6 @@
               >Berikut ringkasan aktivitas pengujian siswa</span
             >
           </div>
-          <!-- pilih sekolah -->
           <div class="flex flex-col gap-2">
             <span
               class="self-stretch text-[#4c7099] text-sm font-['Roboto'] leading-tight"
@@ -162,7 +159,6 @@
             </div>
           </div>
 
-          <!-- Overview Data Siswa -->
           <div class="space-y-4">
             <div
               class="bg-transparent border border-gray-300 p-4 flex flex-col rounded-xl"
@@ -254,7 +250,6 @@
               </div>
 
               <div class="flex items-center gap-3">
-                <!-- Button Previous -->
                 <button
                   :class="{ 'opacity-40 cursor-not-allowed': currentPage == 1 }"
                   class="flex items-center gap-[6px]"
@@ -269,7 +264,6 @@
                   <span class="font-roboto text-black">Pertama</span>
                 </button>
 
-                <!-- Tampilkan halaman yang visible -->
                 <button
                   v-for="page in pagesToShow"
                   :key="page"
@@ -283,7 +277,6 @@
                   {{ page }}
                 </button>
 
-                <!-- Button Next -->
                 <button
                   :class="{
                     'opacity-40 cursor-not-allowed': currentPage == lastPage,
@@ -319,6 +312,7 @@ import { debounce } from "lodash";
 import { useRouter } from "vue-router";
 
 const userData = JSON.parse(localStorage.getItem("userData"));
+const loading = ref(true);
 const isLoading = ref(false);
 
 const currentPage = ref("");
@@ -416,7 +410,7 @@ const resetFilter = (filterType) => {
       break;
   }
 
-  currentPage.value = 1; // reset pagination saat filter direset
+  currentPage.value = 1;
   isFilter.value.show = false;
 };
 
@@ -464,7 +458,6 @@ const getSiswa = async (jumpEndpoint = null) => {
 
     if (jumpEndpoint !== null) {
       const formattedEndpoint = jumpEndpoint.split("api/")[1];
-      // console.log(`splited`, formattedEndpoint)
       const response = await initAPI("get", formattedEndpoint, null, token);
       listSiswa.value = response.data.data;
       totalSiswa.value = response.data.total;
@@ -521,7 +514,7 @@ const getKelas = async () => {
       label: item.grade,
     }));
 
-    kelasOptions.value = [...kelasOptions.value, ...arrFormattedData];
+    kelasOptions.value = [{ value: "", label: "Kelas" }, ...arrFormattedData];
   } catch (error) {
     Swal.fire({
       icon: "error",
@@ -549,13 +542,17 @@ const getPlacementData = async () => {
 watch(selectedInstitutionId, (newVal, oldVal) => {
   console.log("Institusi berubah:", oldVal, "=>", newVal);
   if (newVal) {
+    kelas.value = "";
+    currentPage.value = 1;
     getSiswa();
     getKelas();
   }
 });
 
 onMounted(async () => {
-  await getPlacementData(); // ini akan trigger watch → getSiswa & getKelas
+  loading.value = true;
+  await getPlacementData();
+  loading.value = false;
 });
 
 watch([kelas, tipeKecerdasan, skorIq, gayaBelajar, sortBy, perPage], () => {
@@ -563,20 +560,18 @@ watch([kelas, tipeKecerdasan, skorIq, gayaBelajar, sortBy, perPage], () => {
 });
 
 watch(searchQuery, () => {
-  debouncedSearch(); // Panggil yang di-debounce
+  debouncedSearch();
 });
 
 watch([currentPage, totalPages], () => {
-  // calculateVisiblePages();
   getSiswa();
 });
 
 const pagesToShow = computed(() => {
-  const pageCount = 5; // Jumlah halaman yang ingin ditampilkan
-  const current = currentPage.value ? Number(currentPage.value) : 1; // Pastikan currentPage adalah angka
-  const total = lastPage.value ? Number(lastPage.value) : 0; // Pastikan lastPage adalah angka
+  const pageCount = 5;
+  const current = currentPage.value ? Number(currentPage.value) : 1;
+  const total = lastPage.value ? Number(lastPage.value) : 0;
 
-  // Hitung halaman awal dan akhir
   const startPage = Math.max(
     1,
     Math.min(current - Math.floor(pageCount / 2), total - pageCount + 1)
@@ -595,21 +590,15 @@ const goToPage = (page) => {
 };
 
 const nextPage = () => {
-  if (lastPageUrl.value !== null) {
-    getSiswa(lastPageUrl.value);
+  if (currentPage.value < lastPage.value) {
+    currentPage.value++;
   }
-  // if (currentPage.value < totalPages.value) {
-  //   currentPage.value++;
-  // }
 };
 
 const prevPage = () => {
-  if (firstPageUrl.value !== null) {
-    getSiswa(firstPageUrl.value);
+  if (currentPage.value > 1) {
+    currentPage.value--;
   }
-  // if (currentPage.value > 1) {
-  //   currentPage.value--;
-  // }
 };
 
 const router = useRouter();

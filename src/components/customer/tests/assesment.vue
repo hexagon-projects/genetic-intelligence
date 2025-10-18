@@ -16,9 +16,9 @@
             </ol>
         </div>
 
-        <div v-if="dataProfileInclomplete">
+        <!-- <div v-if="dataProfileInclomplete">
             <modalCekProfile/>
-        </div>
+        </div> -->
 
         <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
             <div class="flex flex-col bg-white lg:h-[400px] w-full lg:w-full rounded-lg shadow-lg p-7"

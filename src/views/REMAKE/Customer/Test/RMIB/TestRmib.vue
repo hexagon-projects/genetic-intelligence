@@ -9,9 +9,9 @@
         </div>
     </transition>
 
-    <div v-if="dataProfileInclomplete">
+    <!-- <div v-if="dataProfileInclomplete">
         <modalCekProfile/>
-    </div>
+    </div> -->
 
     <Layout v-if="!loading">
         <div class="mx-0 lg:mx-[40px] mb-3 h-5 p-7 justify-center items-center gap-2 inline-flex">

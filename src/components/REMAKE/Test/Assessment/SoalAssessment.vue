@@ -251,3 +251,19 @@ onMounted(async() => {
     await getDataPertanyaan()
 })
 </script>
+
+<style>
+.swal2-confirm {
+    background-color: #0b40f4 !important;
+    color: white !important;
+}
+
+.swal2-cancel {
+    background-color: #3b3f5c !important;
+    color: white !important;
+}
+
+.swal2-styled:focus {
+    box-shadow: none !important;
+}
+</style>

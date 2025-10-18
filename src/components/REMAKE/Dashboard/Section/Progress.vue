@@ -210,12 +210,12 @@ const tangguhPackage = {
 };
 
 const assesments = ref([
-  // {
-  //   name: "Jatidiri Belajar",
-  //   desc: "Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.",
-  //   link: "user.views.assesment",
-  //   image: new URL("@/assets/icons/jatidiri-belajar.svg", import.meta.url).href,
-  // },
+  {
+    name: "Jatidiri Belajar",
+    desc: "Tes instrumen untuk mengetahui gaya belajar kamu agar guru dapat membuat metode pembelajaran yang sesuai dan efektif.",
+    link: "user.views.assesment",
+    image: new URL("@/assets/icons/jatidiri-belajar.svg", import.meta.url).href,
+  },
   {
     name: "Jatidiri Cerdas",
     desc: "Tes instrumen untuk mengetahui skor IQ kamu dengan cepat dan akurat, memberikan gambaran jelas tentang kemampuan kognitifmu.",
@@ -286,7 +286,7 @@ const assesments = ref([
     name: "Jatidiri Tangguh",
     desc: "Tes Jatidiri Tangguh mengukur berbagai aspek kecerdasan, termasuk kemampuan verbal, numerik, dan spasial, untuk memahami kekuatan intelektualmu.",
     link: "user.views.tangguh",
-    image: new URL("@/assets/icons/ist.png", import.meta.url).href,
+    image: new URL("@/assets/icons/jatidiri-bakat.svg", import.meta.url).href,
   },
 ]);
 

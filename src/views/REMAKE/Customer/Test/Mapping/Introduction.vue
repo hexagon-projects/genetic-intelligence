@@ -5,9 +5,9 @@
     ></span>
   </div>
 
-  <div v-if="dataProfileInclomplete">
+  <!-- <div v-if="dataProfileInclomplete">
     <modalCekProfile />
-  </div>
+  </div> -->
 
   <Layout v-if="!loading">
     <div

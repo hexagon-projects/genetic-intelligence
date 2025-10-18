@@ -138,6 +138,7 @@
       </button>
       <button
         class="bg-white text-red-500 hover:bg-red-500 hover:text-white border border-red-500 px-5 py-2 rounded-lg ml-3 items-center flex gap-2"
+        @click="rejectConseling(conseling.id)"
         v-if="conseling.status === 'pengajuan'"
       >
         <svg
@@ -179,7 +180,6 @@ const props = defineProps({
     required: true,
   },
 });
-// Buat salinan reaktif agar bisa diedit dengan v-model
 const conseling = reactive({ ...props.conseling });
 
 const nextStatusLabel = computed(() => {
@@ -238,10 +238,57 @@ const unduhReport = async (id) => {
   }
 };
 
+const rejectConseling = async (id) => {
+  const token = Cookies.get("token");
+
+  const confirm = await Swal.fire({
+    icon: "warning",
+    title: "Konfirmasi Penolakan",
+    text: "Apakah Anda yakin ingin menolak pengajuan konseling ini?",
+    showCancelButton: true,
+    confirmButtonText: "Ya, Tolak",
+    cancelButtonText: "Batal",
+    confirmButtonColor: "#ef4444",
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  try {
+    isloading.value = true;
+
+    const data = {
+      status: "ditolak",
+    };
+
+    const response = await initAPI("put", `conseling/${id}`, data, token);
+
+    Swal.fire({
+      icon: "success",
+      title: "Berhasil",
+      text: response.data.message || "Pengajuan konseling berhasil ditolak",
+      showConfirmButton: false,
+      timer: 1500,
+    }).then(() => {
+      window.location.reload();
+    });
+  } catch (error) {
+    console.log(error);
+    Swal.fire({
+      icon: "error",
+      title: "Gagal",
+      text: error.response?.data?.message || "Terjadi kesalahan",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  } finally {
+    isloading.value = false;
+  }
+};
+
 const approvelConseling = async (id) => {
   const token = Cookies.get("token");
 
-  const conseling = props.conseling; // Ambil dari props
+  const conseling = props.conseling;
   let nextStatus = "";
 
   if (conseling.status === "pengajuan") {
@@ -285,7 +332,7 @@ const approvelConseling = async (id) => {
       showConfirmButton: false,
       timer: 1500,
     }).then(() => {
-      window.location.reload(); // <--- ini yang kamu maksud
+      window.location.reload();
     });
   } catch (error) {
     console.log(error);

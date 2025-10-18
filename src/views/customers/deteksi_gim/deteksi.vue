@@ -20,9 +20,9 @@
                 </ol>
             </div>
 
-            <div v-if="dataNotComplete">
+            <!-- <div v-if="dataNotComplete">
                 <modalCekProfile/>
-            </div>
+            </div> -->
 
             <div class="flex flex-col lg:flex-row justify-center mx-7 pt-4 gap-4">
                 <div v-if="userData.is_detected == 'Belum'" class="bg-white w-full lg:w-full rounded-lg shadow-lg p-7">

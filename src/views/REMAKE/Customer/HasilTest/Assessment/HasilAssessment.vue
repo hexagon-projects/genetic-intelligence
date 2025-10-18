@@ -20,7 +20,7 @@
         subMessage="Tes ini membantu memahami gaya belajar kamu yang unik. dengan hasilnya, kamu bisa menemukan cara belajar yang paling efektif dan cocok untuk diri kamu."/>
     
         <div v-if="isTested">
-            <section class="bg-white pb-[52px]">
+            <!-- <section class="bg-white pb-[52px]">
                 <div class="mx-[30px] md:mx-[120px] bg-white grid grid-cols-1">
                     <div class="h-auto lg:max-h-[716px] p-9 bg-[#3030f8] rounded-3xl flex-col justify-center items-center">
                         <div class="flex flex-col items-center gap-9">
@@ -63,21 +63,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="max-h-[716px] p-9 bg-[#3030f8] rounded-3xl flex-col justify-center items-center gap-9">
-                        <div class="flex-col items-center gap-4 flex">
-                            <div class="self-stretch text-center text-white text-3xl font-semibold font-['Sora'] leading-9">Resume Assesment</div>
-                            <div class="self-stretch text-center text-white text-base font-normal font-['Roboto'] leading-normal">Berikut hasil evaluasi dari tes yang telah Kamu kerjakan. Bagian ini memberikan insight mendalam tentang performa pembelajaran yang efektif untuk kamu, serta rekomendasi gaya pembelajaran untuk pengembangan diri.</div>
-                        </div>
-
-                        <div class="mt-[36px] flex flex-row gap-4 items-start">
-                            <div class="flex flex-col items-center gap-6">
-                                <div class="text-center text-[#f0f7fd] text-2xl font-semibold font-['Sora'] leading-loose">Resume Assesment Kamu</div>
-                            </div>
-
-                        </div>
-                    </div> -->
                 </div>
-            </section>
+            </section> -->
 
             <section id="video" class="bg-[#f0f7fd] py-[52px]">
                 <div class="mx-[30px] md:mx-[60px] flex flex-col gap-[32px]">
