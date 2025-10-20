@@ -106,11 +106,13 @@ const processPayment = async () => {
     const bookingData = store.state.bookingProcess;
     const token = Cookies.get('token');
 
+    // 1️⃣ Buat booking dulu
     const bookingResponse = await initAPI('post', 'user/bookings', {
       consultants_id: bookingData.consultantId,
       slot_id: bookingData.selectedSlot.id,
       package_id: bookingData.selectedPackage.id,
       amount: bookingData.selectedPackage.price,
+      payment_method: selectedPaymentMethod.value.paymentMethod,
       medical_answers: Object.entries(bookingData.medicalAnswers)
         .map(([questionId, answer]) => ({
           question_id: parseInt(questionId),
@@ -123,22 +125,28 @@ const processPayment = async () => {
         }))
     }, token);
 
+    console.log('Booking response:', bookingResponse.data);
     const bookingId = bookingResponse.data.data.id;
 
+    // 2️⃣ Proses pembayaran
     const paymentResponse = await initAPI('post', `user/bookings/${bookingId}/pay`, {
       payment_method: selectedPaymentMethod.value.paymentMethod
     }, token);
 
+    console.log('Payment response:', paymentResponse.data);
+
+    // 3️⃣ Ambil URL pembayaran dan redirect
     if (paymentResponse.data.success) {
-      clearStorage('bookingTimeFilter2')
-      clearStorage('bookingData')
-      meetLink.value = paymentResponse.data.data.meet_link;
-      paymentSuccess.value = true;
-      ['bookingData', 'medicalAnswers', 'counselingAnswers', 'termsAccepted'].forEach(key => {
-        clearStorage(key);
-      });
+      const paymentUrl = paymentResponse.data.data.data.paymentUrl;
+
+      if (paymentUrl) {
+        console.log('Redirecting to:', paymentUrl);
+        window.location.href = paymentUrl; // 🚀 Redirect ke halaman Duitku
+      } else {
+        paymentError.value = 'Link pembayaran tidak ditemukan.';
+      }
     } else {
-      paymentError.value = paymentResponse.data.message || 'Payment processing failed';
+      paymentError.value = paymentResponse.data.message || 'Payment processing failed.';
     }
 
   } catch (err) {

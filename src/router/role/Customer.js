@@ -1933,4 +1933,14 @@ export default [
             }
         }
 },
+
+{
+        path: '/payment-status-hallopshy',
+        name: 'bk.views.payment_status_hallopshy',
+        component: () => import('@/components/customer/payment_status/paymentHallopshy.vue'),
+        meta: {
+            showNavbar: false,
+            showFooter: false
+        },
+    },
 ]

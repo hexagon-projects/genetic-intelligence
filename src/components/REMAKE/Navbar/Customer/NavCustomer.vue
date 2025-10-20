@@ -218,14 +218,14 @@
             <div v-if="$route.name == 'user.views.overview-test'" class="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#3030f8]"></div>
         </li>
 
-        <!-- <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
+        <li @click="goTo('user.views.reservasi')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
                 <img class="transition-all duration-100"
                     :class="{ 'grayscale group-hover:grayscale-0': $route.name !== 'user.views.hallopsy', 'grayscale-0': $route.name === 'user.views.hallopsy' }"
                     src="@/assets/icons/reservasi.svg" />
                 <span class="text-black font-roboto">HalloPsy</span>
             </div>
-        </li> -->
+        </li>
         
         <li v-if="cekTypeSekolah.institutions && (cekTypeSekolah.institutions.type == 'TK')" @click="goTo('user.views.tk')" class="relative group cursor-pointer">
             <div class="flex items-center gap-[6px]">
